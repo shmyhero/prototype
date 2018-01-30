@@ -26,8 +26,26 @@ var UIConstants = require('../UIConstants');
 var {height, width} = Dimensions.get('window');
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
+
+var mkData = [
+    {time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'},
+    {time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
+    {time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'},
+    {time:'16:29',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
+    {time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'},
+    {time:'16:27',userName:'王思聪',isTrade:true,isHero:true,text:'600糖果*5倍数',tradeid:'003',tradeName:'德国30'},
+    {time:'16:26',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续大，可以适当买涨黄金，倍数在10-20倍左右。'},
+    {time:'16:25',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续续加大，可以适当买涨黄金，倍数在10-20倍左右。'},
+    {time:'16:24',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
+    {time:'16:23',userName:'傻子',isTrade:false,isHero:false,text:'平仓盈利+200.12%'},
+    {time:'16:21',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
+    {time:'16:20',userName:'王思聪',isTrade:false,isHero:false,text:'2000糖果*10倍数'},
+    {time:'16:19',userName:'王思聪',isTrade:false,isHero:false,text:'600糖果*5倍数'},
+  ]
+
 //Tab0:动态
 export default class  TabMainScreen extends React.Component {
+ 
  
 
   static navigationOptions = {
@@ -79,39 +97,77 @@ export default class  TabMainScreen extends React.Component {
     render() {
         console.log('render scene')
         return (
-            <PullToRefreshListView
-                ref={ (component) => this._pullToRefreshListView = component }
-                viewType={PullToRefreshListView.constants.viewType.listView}
-                contentContainerStyle={{backgroundColor: 'transparent', }}
-                style={{marginTop: Platform.OS == 'ios' ? 0 : 0, }}
-                initialListSize={20}
-                enableEmptySections={true}
-                dataSource={this.state.dataSource}
-                pageSize={20}
-                renderRow={this._renderRow}
-                renderHeader={this._renderHeader}
-                renderFooter={this._renderFooter}
-                //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
-                onRefresh={this._onRefresh}
-                onLoadMore={this._onLoadMore}
-                pullUpDistance={35}
-                pullUpStayDistance={50}
-                pullDownDistance={35}
-                pullDownStayDistance={50}
-            />
-        )
-    }
-
-
-    _renderRow = (rowData, sectionID, rowID) => {
-        return (
-            <View style={styles.thumbnail}>
-                <View style={styles.textContainer}>
-                    <Text>{rowData.text}</Text>
-                </View>
+            <View style = {styles.mainContainer}>
+                <PullToRefreshListView
+                    ref={ (component) => this._pullToRefreshListView = component }
+                    viewType={PullToRefreshListView.constants.viewType.listView}
+                    contentContainerStyle={{backgroundColor: 'transparent', }}
+                    style={{marginTop: Platform.OS == 'ios' ? 0 : 0, }}
+                    initialListSize={20}
+                    enableEmptySections={true}
+                    dataSource={this.state.dataSource}
+                    pageSize={20}
+                    renderRow={this._renderRow}
+                    renderHeader={this._renderHeader}
+                    renderFooter={this._renderFooter}
+                    //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
+                    onRefresh={this._onRefresh}
+                    onLoadMore={this._onLoadMore}
+                    pullUpDistance={35}
+                    pullUpStayDistance={50}
+                    pullDownDistance={35}
+                    pullDownStayDistance={50}
+                />
             </View>
         )
     }
+
+    renderItemTrede(rowData){
+        if(rowData.data.isTrade ){
+            return (
+                <View style={{marginRight:5,alignItems:'flex-end',justifyContent:'center'}}>
+                            <Image source={require('../../images/icon_me_dynamic.png')} 
+                                style={{width:16,height:16}}>
+                            </Image>
+                            <Text style={{fontSize:10}}>{rowData.data.tradeName}</Text>
+                </View>
+            )
+        }else{
+            return null;
+        } 
+    }
+
+    _renderRow = (rowData, sectionID, rowID) => {
+
+        var viewHero = rowData.data.isHero ? <Text style={styles.textHero}>达人</Text> : null;
+        
+        return ( 
+               <View style={styles.thumbnailAll}> 
+                    <View>
+                        <View style={{marginLeft:20,width:1,flex:1,backgroundColor:'#11ffffff'}}></View>
+                        <View style={{width:40}}>
+                            <Text style={{}}>{rowData.data.time}</Text>
+                        </View>
+                        <View style={{marginLeft:20,width:1,flex:2,backgroundColor:'#11ffffff'}}></View>
+                    </View>
+                <View style={styles.thumbnail}> 
+                    <Image source={require('../../images/head_portrait.png')}
+                        style={{height:32,width:32,margin:10,}} >
+                    </Image>
+                    <View style={styles.textContainer}>
+                        <View style={{flexDirection:'row'}}>
+                            <Text style={styles.textUserName}>{rowData.data.userName}</Text>
+                            {viewHero}
+                        </View>
+                        <Text>{rowData.data.text}</Text>
+                    </View>
+                    {this.renderItemTrede(rowData)}
+                </View>
+              </View>  
+        )
+    }
+
+
 
     _renderHeader = (viewState) => {
         let {pullState, pullDistancePercent} = viewState
@@ -120,25 +176,25 @@ export default class  TabMainScreen extends React.Component {
         switch(pullState) {
             case refresh_none:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>下拉刷新</Text>
                     </View>
                 )
             case refresh_idle:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>下拉刷新...</Text>
                     </View>
                 )
             case will_refresh:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
-                        <Text>释放刷新{pullDistancePercent > 100 ? 100 : pullDistancePercent}%</Text>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
+                        <Text>释放刷新</Text>
                     </View>
                 )
             case refreshing:
                 return (
-                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}<Text>刷新中...</Text>
                     </View>
                 )
@@ -152,31 +208,31 @@ export default class  TabMainScreen extends React.Component {
         switch(pullState) {
             case load_more_none:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>加载更多</Text>
                     </View>
                 )
             case load_more_idle:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
-                        <Text>加载更多{pullDistancePercent}%</Text>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
+                        <Text>加载更多</Text>
                     </View>
                 )
             case will_load_more:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
-                        <Text>释放加载更多{pullDistancePercent > 100 ? 100 : pullDistancePercent}%</Text>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
+                        <Text>释放加载更多</Text>
                     </View>
                 )
             case loading_more:
                 return (
-                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}<Text>加载中...</Text>
                     </View>
                 )
             case loaded_all:
                 return (
-                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'white',}}>
+                    <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         <Text>没有更多</Text>
                     </View>
                 )
@@ -194,7 +250,7 @@ export default class  TabMainScreen extends React.Component {
             let refreshedDataList = []
             for(let i = 0; i < addNum; i++) {
                 refreshedDataList.push({
-                    text: `item-${i}`
+                    data:mkData[i%10]
                 })
             }
 
@@ -222,7 +278,7 @@ export default class  TabMainScreen extends React.Component {
                 }
                 for(let i = length; i < length + addNum; i++) {
                     addedDataList.push({
-                        text: `item-${i}`
+                        data:mkData[i%10]
                     })
                 }
                 let newDataList = this.state.dataList.concat(addedDataList)
@@ -292,8 +348,8 @@ const styles = StyleSheet.create({
 
     itemHeader: {
         height: 35,
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: '#ccc',
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        // borderBottomColor: '#ccc',
         backgroundColor: 'blue',
         overflow: 'hidden',
         justifyContent: 'center',
@@ -311,18 +367,42 @@ const styles = StyleSheet.create({
     },
 
     thumbnail: {
-        padding: 6,
+        margin: 5,
         flexDirection: 'row',
-        borderBottomWidth: StyleSheet.hairlineWidth,
-        borderBottomColor: '#ccc',
-        overflow: 'hidden',
+        width:width-60,
+        // borderBottomWidth: StyleSheet.hairlineWidth,
+        // borderBottomColor: '#ccc',
+        // overflow: 'hidden',
+        backgroundColor:'#efefef',
+        paddingTop:10,
+        paddingBottom:10,
+        borderRadius:10,
     },
-
+    thumbnailAll: {
+        marginLeft: 5,
+        marginRight:5,
+        flexDirection: 'row', 
+    }, 
     textContainer: {
-        padding: 20,
-        flex: 1,
+        paddingRight: 10,
+        flex:1,
         justifyContent: 'center',
-        alignItems: 'center',
+        alignItems: 'flex-start', 
+    },
+    textUserName:{
+        fontSize:12,
+        alignSelf:'flex-start',
+        marginTop:5,
+    },
+    textHero:{
+        fontSize:8,
+        alignSelf:'center',
+        marginTop:5,
+        marginLeft:2,
+        paddingTop:1,
+        paddingBottom:1,
+        backgroundColor:'#f9b82f',
+        borderRadius:2,
     }
 
 })
