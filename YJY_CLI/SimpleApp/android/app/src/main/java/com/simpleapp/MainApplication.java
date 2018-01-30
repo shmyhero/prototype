@@ -26,7 +26,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
           new RealmReactPackage(), // add this line
-          new RCTSwipeRefreshLayoutPackage()  //register Module
+          new RCTSwipeRefreshLayoutPackage(),  //register Module
+          new NativePackage()
       );
     }
 

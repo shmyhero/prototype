@@ -48,7 +48,7 @@ export default class  TabMarketScreen extends React.Component {
   }
 
   jump2Next(){
-    this.props.navigation.navigate('StockDetail',{name:'Lucy'})
+    this.props.navigation.navigate('StockDetail',{stockCode:34805})
   }
 
   startWebSocket(){
