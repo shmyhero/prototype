@@ -15,11 +15,12 @@ import {
     ActivityIndicator,
     ProgressBarAndroid,
     ActivityIndicatorIOS,
+    TouchableHighlight,
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
-
+import Swipeout from 'react-native-swipeout';
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
  
@@ -42,6 +43,8 @@ var mkData = [
     {time:'16:20',userName:'王思聪',isTrade:false,isHero:false,text:'2000糖果*10倍数'},
     {time:'16:19',userName:'王思聪',isTrade:false,isHero:false,text:'600糖果*5倍数'},
   ]
+
+
 
 //Tab0:动态
 export default class  TabMainScreen extends React.Component {
@@ -73,7 +76,24 @@ export default class  TabMainScreen extends React.Component {
             //sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
         });
 
-        let dataList = []
+   
+    let dataList = [
+        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    
+        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    
+        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    
+    ]
 
         this.state = {
             first: true,
@@ -125,44 +145,76 @@ export default class  TabMainScreen extends React.Component {
     renderItemTrede(rowData){
         if(rowData.data.isTrade ){
             return (
-                <View style={{marginRight:5,alignItems:'flex-end',justifyContent:'center'}}>
-                            <Image source={require('../../images/icon_me_dynamic.png')} 
-                                style={{width:16,height:16}}>
-                            </Image>
-                            <Text style={{fontSize:10}}>{rowData.data.tradeName}</Text>
-                </View>
+                <TouchableOpacity onPress={()=>this._onPressButton(rowData)} style={{marginRight:5,alignItems:'flex-end',justifyContent:'center'}}>
+                    <Image source={require('../../images/icon_me_dynamic.png')} 
+                        style={{width:16,height:16}}>
+                    </Image>
+                    <Text style={{fontSize:10}}>{rowData.data.tradeName}</Text>
+                </TouchableOpacity>
             )
         }else{
             return null;
         } 
     }
 
+    // onPressedDeleteItem(rowData){
+    //     Alert.alert(rowData.data.userName)
+    // }
+
+    // renderDeleteButton(rowData){
+    //     return(
+    //         <TouchableOpacity onPress={this.onPressedDeleteItem(rowData)} style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
+    //             <Text style={{color:'white',fontSize:13}}>删除</Text>
+    //         </TouchableOpacity>
+    //     )
+    // }
+
+    _onPressButton(rowData){
+        Alert.alert('onPressButton'+rowData.data.userName)
+    }
+
     _renderRow = (rowData, sectionID, rowID) => {
 
         var viewHero = rowData.data.isHero ? <Text style={styles.textHero}>达人</Text> : null;
-        
+        var swipeoutBtns = [
+            {
+              backgroundColor:'#ff4240', 
+              text:'删除',
+              onPress:()=>this._onPressButton(rowData)
+            }
+          ]
+
         return ( 
                <View style={styles.thumbnailAll}> 
                     <View>
-                        <View style={{marginLeft:20,width:1,flex:1,backgroundColor:'#11ffffff'}}></View>
+                        <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#ffffff'}}></View>
                         <View style={{width:40}}>
                             <Text style={{}}>{rowData.data.time}</Text>
                         </View>
-                        <View style={{marginLeft:20,width:1,flex:2,backgroundColor:'#11ffffff'}}></View>
+                        <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#ffffff'}}></View>
                     </View>
-                <View style={styles.thumbnail}> 
-                    <Image source={require('../../images/head_portrait.png')}
-                        style={{height:32,width:32,margin:10,}} >
-                    </Image>
-                    <View style={styles.textContainer}>
+                  
+                    <View style={styles.thumbnail}> 
+                     <Swipeout right={swipeoutBtns} autoClose={true} style={{backgroundColor:'transparent',flex:1}}>  
                         <View style={{flexDirection:'row'}}>
-                            <Text style={styles.textUserName}>{rowData.data.userName}</Text>
-                            {viewHero}
-                        </View>
-                        <Text>{rowData.data.text}</Text>
+                            <TouchableOpacity onPress={()=>this._onPressButton(rowData)}>
+                                <Image source={require('../../images/head_portrait.png')}
+                                    style={{height:32,width:32,margin:10,}} >
+                                </Image>
+                            </TouchableOpacity> 
+                            <View style={styles.textContainer}>
+                                <View style={{flexDirection:'row'}}>
+                                    <Text style={styles.textUserName}>{rowData.data.userName}</Text>
+                                    {viewHero}
+                                </View>
+                                <Text>{rowData.data.text}</Text>
+                            </View>
+                            {this.renderItemTrede(rowData)}
+                        </View>      
+                      </Swipeout>
+
                     </View>
-                    {this.renderItemTrede(rowData)}
-                </View>
+                
               </View>  
         )
     }
@@ -378,6 +430,7 @@ const styles = StyleSheet.create({
         paddingBottom:10,
         borderRadius:10,
     },
+     
     thumbnailAll: {
         marginLeft: 5,
         marginRight:5,

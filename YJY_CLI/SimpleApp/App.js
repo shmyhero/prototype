@@ -50,14 +50,19 @@ export const MainScreenNavigator = TabNavigator({
 }, {
    tabBarPosition: 'bottom',
    animationEnabled: false,
+   swipeEnabled: false,
+   backBehavior: 'none',
    tabBarOptions: {
      activeTintColor: '#1b9bec',
      style:{
-         backgroundColor: 'black',
+       backgroundColor: 'black',
+     }, 
+     labelStyle: {
+       fontSize: 12, 
      },
-     showIcon:true,
+     showIcon:true, 
      indicatorStyle:{height:0},//for android ,remove line on tab
-   },
+   }, 
 });
 
 const SimpleApp = StackNavigator({
