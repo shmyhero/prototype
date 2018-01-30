@@ -17,7 +17,6 @@ import PriceChartView from './component/PriceChartView';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 
-import { ButtonGroup } from 'react-native-elements';
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 export default class  StockDetailScreen extends React.Component {
