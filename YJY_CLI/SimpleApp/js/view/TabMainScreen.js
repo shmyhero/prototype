@@ -189,7 +189,7 @@ export default class  TabMainScreen extends React.Component {
                     <View>
                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#ffffff'}}></View>
                         <View style={{width:40}}>
-                            <Text style={{}}>{rowData.data.time}</Text>
+                            <Text style={{color:'white'}}>{rowData.data.time}</Text>
                         </View>
                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#ffffff'}}></View>
                     </View>
@@ -386,7 +386,7 @@ export default class  TabMainScreen extends React.Component {
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
-        backgroundColor:'#1b9bec'
+        backgroundColor:ColorConstants.BGBLUE
     },
      
     icon: {

@@ -4,7 +4,7 @@ var colorScheme = 1
 
 var colors = {
 	WHITE:'white',
-
+	BGBLUE:'#1b9bec',
 	COLOR_THEME_SIMULATOR: 1,
 	COLOR_THEME_LIVE: 2,
 	TITLE_BLUE_LIVE: '#425a85',
