@@ -10,6 +10,7 @@ import {
   Dimensions,
   ImageBackground,
   ListView,
+  Alert,
 } from 'react-native'; 
  
 var {height, width} = Dimensions.get('window');
@@ -56,9 +57,13 @@ export default class  RankHeroList extends React.Component {
     }
    
 
+    gotoUserProfile(){
+        this.props.navigation.navigate('UserProfileScreen',{userId:'001'})
+    }
+
     renderMe(){
         return(
-            <View>
+            <TouchableOpacity onPress={()=>this.gotoUserProfile()}>
                 <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:48,width:48,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
@@ -74,7 +79,7 @@ export default class  RankHeroList extends React.Component {
                         <Text style={{color:'red'}}>+52.13%</Text>
                     </View> 
                 </ImageBackground>
-            </View>
+            </TouchableOpacity>
         )
     }
 

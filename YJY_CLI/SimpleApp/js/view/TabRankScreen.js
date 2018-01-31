@@ -96,7 +96,7 @@ onPressedRankType(type){
 
   renderRanks(){
     if(this.state.rankType == RANKING_TYPE_0){
-      return(<RankHeroList>达人榜</RankHeroList>)
+      return(<RankHeroList navigation={this.props.navigation}>达人榜</RankHeroList>)
     }else if(this.state.rankType == RANKING_TYPE_1){
       return(
       <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>

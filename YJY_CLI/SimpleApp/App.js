@@ -23,7 +23,7 @@ var TabRankScreen = require('./js/view/TabRankScreen');
 var TabPositionScreen = require('./js/view/TabPositionScreen');
 var TabMeScreen = require('./js/view/TabMeScreen');
 var SplashScreen = require('./js/view/SplashScreen');
-
+var UserProfileScreen = require('./js/view/UserProfileScreen');
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
@@ -83,9 +83,15 @@ const SimpleApp = StackNavigator({
         header: null, 
       }, 
     }, 
-    StockDetail:{ screen: StockDetailScreen},
-    
-
+    StockDetail:{
+      screen:StockDetailScreen
+    },
+    UserProfileScreen:{
+      screen:UserProfileScreen ,
+      navigationOptions: { 
+      header: null, 
+      }, 
+    }, 
 });
 
 
