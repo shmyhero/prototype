@@ -9,6 +9,9 @@ import {
   Platform,
 } from 'react-native';
 
+
+require('./js/utils/dateUtils')
+
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
 var MyHomeScreen = require('./js/view/MyHomeScreen');
@@ -20,6 +23,7 @@ var TabRankScreen = require('./js/view/TabRankScreen');
 var TabPositionScreen = require('./js/view/TabPositionScreen');
 var TabMeScreen = require('./js/view/TabMeScreen');
 var SplashScreen = require('./js/view/SplashScreen');
+
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';

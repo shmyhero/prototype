@@ -19,6 +19,8 @@ import { TabNavigator } from "react-navigation";
 
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
+var StockOrderInfoModal = require("./StockOrderInfoModal");
+
 export default class  StockDetailScreen extends React.Component {
     static navigationOptions = {
         title: '详情',
@@ -253,7 +255,29 @@ export default class  StockDetailScreen extends React.Component {
 
     onSubmitButtonPressed(){
         //TODO: Submit data
-        alert("下单啦 " + this.state.Amount + " x " + this.state.Multiplier + ", " + this.state.Operation)
+        //alert("下单啦 " + this.state.Amount + " x " + this.state.Multiplier + ", " + this.state.Operation)
+        if(this.state.Amount != undefined
+        && this.state.Multiplier != undefined
+        && this.state.Operation != undefined){
+            this.refs["orderFinishedModal"].show(
+                {
+                    stockName: 'Test Stock',
+                    isCreate: true,
+                    isLong: true,
+                    invest: 0,
+                    leverage: 0,
+                    openPrice: 0,
+                    settlePrice: 0,
+                    time: new Date(),
+                    titleColor: ColorConstants.TITLE_BLUE,
+                    ccy: 'USD',
+                    pl: 0,
+                    plRate: 0,
+                },
+                ()=>{
+                    
+                });
+        }
     }
 
     renderButtonInGroup(parameters){
@@ -372,66 +396,15 @@ export default class  StockDetailScreen extends React.Component {
         )
     }
 
+    renderOrderFinishedModal(){
+        return (
+            <StockOrderInfoModal ref='orderFinishedModal'/>
+        );
+    }
+
     render() {
-        const buttons = ['50', '100', '200', '400'];        
         return (
             <View style={styles.container}>
-                {/* <ButtonGroup
-                    onPress={(value)=>this.updateIndex(value)}
-                    selectedIndex={this.state.selectedAmount}
-                    buttons={buttons}
-                    selectedTextStyle={{color:"red", }}
-                    selectedBackgroundColor={"blue"}  
-
-                    textStyle={{color: 'green',
-                    fontFamily: 'Dosis-Regular',
-                    fontSize: 13,}}
-                    selectedTextStyle={{color: 'white',}}
-                    selectedButtonStyle={{borderColor:"green"}}
-                    buttonStyle={{borderWidth:1, borderRightColor:"transparent", borderColor:'pink', borderRadius:20, margin:10}}
-                    containerStyle={{height: 100, borderRadius:20, padding:10, backgroundColor:"transparent"},
-                    {
-                        width: 200,
-                        height: 50,
-                        backgroundColor: 'white',
-                        alignSelf: "center",
-                        justifyContent: "center",
-                        borderRadius: 25,
-                        borderWidth: 4,
-                        borderColor: 'blue',
-                    }}
-                    //innerBorderStyle={{borderWidth:10, borderColor:"blue"}}
-                /> */}
-                {/* <CheckBox
-                title='Click Here'
-                checked={this.state.checked}
-                />
-
-                <CheckBox
-                center
-                title='Click Here'
-                checked={this.state.checked}
-                />
-
-                <CheckBox
-                center
-                title='Click Here'
-                checkedIcon='dot-circle-o'
-                uncheckedIcon='circle-o'
-                checked={this.state.checked}
-                />
-
-                <CheckBox
-                center
-                title='Click Here to Remove This Item'
-                iconRight
-                iconType='material'
-                checkedIcon='clear'
-                uncheckedIcon='add'
-                checkedColor='red'
-                checked={this.state.checked}
-                /> */}
-
                 <View style={styles.chartContainer}>
                     <PriceChartView style={{flex:1, height:300}}
                         lineChartGradient={['#33c1fc', ColorConstants.COLOR_MAIN_THEME_BLUE]}
@@ -466,13 +439,11 @@ export default class  StockDetailScreen extends React.Component {
                         </View>
                         <View style={[styles.buttonsContainer, 
                             {flex:1, justifyContent:'center', alignItems:'center'}]}>
-                            {this.renderSubmitButton()}
-                            {/* {this.renderButton("开始", 
-                                {height:100, width:100, borderRadius:50}
-                            )} */}
+                            {this.renderSubmitButton()}                            
                         </View>
                     </View>
                 </View>
+                {this.renderOrderFinishedModal()}
             </View>
         );
     }
