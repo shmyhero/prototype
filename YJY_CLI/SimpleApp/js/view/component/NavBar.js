@@ -52,7 +52,7 @@ export default class  NavBar extends React.Component {
 
 	onDidFocus(){
 		if(Platform.OS === 'android'){
-			var navBarColor = ColorConstants.title_blue();
+			var navBarColor = ColorConstants.BGBLUE;
 			if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
 				//Which means the background doesn't have an alpha channel
 				navBarColor = this.props.backgroundColor;
@@ -153,12 +153,12 @@ export default class  NavBar extends React.Component {
 	}
 
 	render() {
-		var backgroundColor = ColorConstants.title_blue();
+		var backgroundColor = ColorConstants.BGBLUE;
 		if(this.props.backgroundColor){
 			backgroundColor = this.props.backgroundColor;
 		}
 
-		var navBarColor = ColorConstants.title_blue();
+		var navBarColor = ColorConstants.BGBLUE;
 		if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
 			//Which means the background doesn't have an alpha channel
 			navBarColor = this.props.backgroundColor;
@@ -372,7 +372,7 @@ NavBar.defaultProps = {
 var styles = StyleSheet.create({
 	container: {
 		height: UIConstants.HEADER_HEIGHT,
-		backgroundColor: ColorConstants.TITLE_BLUE,
+		backgroundColor: ColorConstants.BGBLUE,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',

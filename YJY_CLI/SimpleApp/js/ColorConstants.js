@@ -71,7 +71,7 @@ var colors = {
 			this.COLOR_CUSTOM_BLUE = '#455e8b'
 		}
 		else {
-			this.TITLE_BLUE = '#1962dd'
+			this.TITLE_BLUE = '#1b9bec'
 			this.TITLE_DARK_BLUE = '#425a85'
 			this.DISABLED_GREY = '#dcdcdc'
 			this.BACKGROUND_GREY = '#f0f0f0'

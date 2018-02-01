@@ -18,13 +18,14 @@ export default class  MyHomeScreen extends React.Component {
 
   render() {
     return (
-      <Button
-        onPress={() => this.props.navigation.navigate('Profile', {name: 'Lucy'})}
-        title="MyHomeScreen1"
-      />
+       <Text>Test</Text>
     );
   }
 }
+
+const styles = StyleSheet.create({
+   
+})
 
 
 module.exports = MyHomeScreen;
