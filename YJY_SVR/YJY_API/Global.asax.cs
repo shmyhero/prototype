@@ -12,6 +12,8 @@ namespace YJY_API
         protected void Application_Start()
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
+
+            WebApiConfig.ConfigureDependencyResolver(GlobalConfiguration.Configuration);
         }
     }
 }
