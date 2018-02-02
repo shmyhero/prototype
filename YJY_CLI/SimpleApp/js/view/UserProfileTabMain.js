@@ -15,6 +15,7 @@ import { TabNavigator } from "react-navigation";
 var ColorConstants = require('../ColorConstants');
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
+var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var {height, width} = Dimensions.get('window');
 export default class  UserProfileTabMain extends React.Component {
   static navigationOptions = {
@@ -26,7 +27,9 @@ export default class  UserProfileTabMain extends React.Component {
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
-        <View style={{backgroundColor:'white', height:220,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}></View>
+        <View style={{backgroundColor:'white', height:220,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
+          <ProfitTrendCharts/>
+        </View>
         <View style={{backgroundColor:'white', marginTop:10,height:250,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
           <ProfitBlock/>
         </View>

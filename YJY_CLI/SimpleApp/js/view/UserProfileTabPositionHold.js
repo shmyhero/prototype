@@ -12,7 +12,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 var ColorConstants = require('../ColorConstants');
- 
+var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
 export default class  UserProfileTabPositionHold extends React.Component {
   static navigationOptions = {
@@ -24,8 +24,8 @@ export default class  UserProfileTabPositionHold extends React.Component {
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <View style={styles.content}>
-        </View> 
-         
+          <PositionBlock/>
+        </View>  
       </View> 
     );
   }
