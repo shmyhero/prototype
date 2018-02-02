@@ -54,7 +54,7 @@
     <DiagnosticsConfiguration Include="YJY_APIContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <ItemGroup>
-    <PublishProfile Include="Profiles\AyondoTradeProduction.azurePubxml" />
+    <PublishProfile Include="Profiles\Production.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
