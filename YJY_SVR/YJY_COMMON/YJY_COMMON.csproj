@@ -73,6 +73,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Localization\Translations.cs" />
+    <Compile Include="Localization\Translator.cs" />
     <Compile Include="Model\Cache\ProdDef.cs" />
     <Compile Include="Model\Cache\Quote.cs" />
     <Compile Include="Model\Context\YJYEntitiesFactory.cs" />

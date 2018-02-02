@@ -13,6 +13,8 @@ namespace YJY_COMMON
 {
     public class YJYGlobal
     {
+        public const string CULTURE_CN = "zh-CN";
+        public const string CULTURE_EN = "en";
         public const string DATETIME_MASK_MILLI_SECOND = "yyyy-MM-dd HH:mm:ss.fff";
         public const string DATETIME_MASK_SECOND = "yyyy-MM-dd HH:mm:ss";
 
