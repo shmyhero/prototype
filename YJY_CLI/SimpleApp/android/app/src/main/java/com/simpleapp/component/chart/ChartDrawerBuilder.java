@@ -1,10 +1,11 @@
 package com.simpleapp.component.chart;
 
 
+import com.simpleapp.component.chart.base.IChartDrawer;
 import com.simpleapp.component.chart.detail.StickTodayChartDrawer;
 
 /**
- * Created by Neko on 16/9/19.
+ * Created by Neko on 2018/1/29.
  */
 public class ChartDrawerBuilder {
     public static IChartDrawer createDrawer(ChartDrawerConstants.CHART_TYPE type){

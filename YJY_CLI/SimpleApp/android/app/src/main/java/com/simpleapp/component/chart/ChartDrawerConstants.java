@@ -3,10 +3,6 @@ package com.simpleapp.component.chart;
 /**
  * Created by Neko on 2018/1/29.
  */
-
-/**
- * Created by Neko on 16/9/19.
- */
 public class ChartDrawerConstants {
     public static int CHART_BORDER_COLOR = 0xff497bce;
     public static int CHART_LINE_COLOR = 0Xff759de2;

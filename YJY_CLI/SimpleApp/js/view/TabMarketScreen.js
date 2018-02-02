@@ -29,6 +29,26 @@ class RowComponent extends React.Component {
         onPress: ()=>{},
     }
 
+    renderStockStatus(rowData){
+		var strBS = "闭市";
+		var strZT = "暂停";
+		if(rowData!==undefined){
+            console.log('rowData.isOpen = '+rowData.isOpen+' rowData.status = ' + rowData.status);
+			if(rowData.isOpen || rowData.status == undefined){
+				return null;
+			}else{
+				console.log('rowData.isOpen = '+rowData.isOpen+' rowData.status = ' + rowData.status);
+                var statusTxt = rowData.status == 2 ? strZT:strBS;
+
+                return(
+					<View style={styles.statusLableContainer}>
+						<Text style={styles.statusLable}>{statusTxt}</Text>
+					</View>
+				)
+            }
+        }
+    }
+
     render() {
         var pl = ((this.props.data.last - this.props.data.open ) / this.props.data.open * 100).toFixed(2)
         var plStyleList = [styles.plStyle];
@@ -52,9 +72,12 @@ class RowComponent extends React.Component {
                 activeOpacity={0.7}
                 {...this.props.sortHandlers}>
                 <View style={styles.stockRowContainer}>
-                    <View style={styles.titleContainerStyle }>
+                    <View style={styles.titleContainerStyle}>
                         <Text style={styles.titleStyle}>{this.props.data.name}</Text>
-                        <Text style={styles.symbolStyle}>{this.props.data.symbol}</Text>
+                        <View style={{flexDirection:'row'}}>
+                            {this.renderStockStatus(this.props.data)}
+                            <Text style={styles.symbolStyle}>{this.props.data.symbol}</Text>
+                        </View>
                     </View>
                     <Text style={styles.priceStyle}>{this.props.data.last}</Text>
                     <Text style={plStyleList}>{plStr}</Text>
@@ -90,8 +113,8 @@ export default class  TabMarketScreen extends React.Component {
             preClose: 5482.8,
             open: 5470.5,
             last: 5480.4,
-            isOpen: true,
-            status: 1 },
+            isOpen: false,
+            status: 2 },
           { id: 34820,
             symbol: 'DAX',
             name: '德国30',
@@ -114,15 +137,15 @@ export default class  TabMarketScreen extends React.Component {
             preClose: 6940.5,
             open: 6931.13,
             last: 6940.5,
-            isOpen: true,
-            status: 1 },
+            isOpen: false,
+            status: 2 },
           { id: 34857,
             symbol: 'SPX',
             name: '美国标准500',
             preClose: 2826.43,
             open: 2821.93,
             last: 2826.18,
-            isOpen: true,
+            isOpen: false,
             status: 1 },
           { id: 34801,
             symbol: 'SX5E',
@@ -266,13 +289,29 @@ const styles = StyleSheet.create({
         color: ColorConstants.STOCK_RISE_RED,
     },
 
-    DownPLStyle:{
+    DownPLStyle: {
         color: ColorConstants.STOCK_DOWN_GREEN,
     },
     
-    SamePLStyle:{
+    SamePLStyle: {
         color: ColorConstants.STOCK_UNCHANGED_GRAY,
-    }
+    },
+
+    statusLableContainer: {
+		backgroundColor: '#999999',
+		borderRadius: 2,
+		paddingLeft: 1,
+		paddingRight: 1,
+        marginRight: 2,
+        alignSelf:'center',
+        alignItems: 'center',
+    },
+    
+	statusLable:{
+		fontSize: 10,
+		textAlign: 'center',
+		color: '#ffffff',
+	},
 })
 
 module.exports = TabMarketScreen;

@@ -1,15 +1,12 @@
-package com.simpleapp.component.chart;
-
-import android.graphics.Color;
+package com.simpleapp.component.chart.base;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
-import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.simpleapp.component.chart.ChartDrawerConstants;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -23,7 +20,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 
 /**
- * Created by Neko on 16/9/19.
+ * Created by Neko on 2018/1/31.
  */
 public abstract class BaseChartDrawer implements IChartDrawer {
     protected float minVal = Float.MAX_VALUE;

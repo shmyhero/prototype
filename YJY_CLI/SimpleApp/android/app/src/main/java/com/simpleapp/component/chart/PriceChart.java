@@ -1,15 +1,15 @@
 package com.simpleapp.component.chart;
 
 import android.content.Context;
+import android.graphics.Canvas;
 
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.renderer.CombinedChartRenderer;
+import com.simpleapp.component.chart.base.CustomCombinedChartRenderer;
+import com.simpleapp.component.chart.base.CustomXAxisRenderer;
 
 /**
  * Created by Neko on 2018/1/29.
- */
-
-/**
- * @author <a href="mailto:sam@tradehero.mobi"> Sam Yu </a>
  */
 public class PriceChart extends CombinedChart {
 //    public boolean isAcutal = false;
@@ -56,26 +56,28 @@ public class PriceChart extends CombinedChart {
 ////        this.isAcutal = isActual;
 ////    }
 //
-////    @Override
-////    protected void init() {
-////        super.init();
-//////
-//////        mAxisRendererLeft = new ReactYAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
-//////        ((ReactYAxisRenderer)mAxisRendererLeft).setBackgroundColor(Color.rgb(240, 240, 240)); // light
-//////        mAxisRendererRight = new ReactYAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
-//////        ((ReactYAxisRenderer)mAxisRendererRight).setBackgroundColor(Color.rgb(240, 240, 240)); // light
-////
-////        mXAxisRenderer = new ReactXAxisRenderer(mViewPortHandler, mXAxis, mLeftAxisTransformer);
-////        //((ReactXAxisRenderer)mXAxisRenderer).setBackgroundColor(Color.rgb(240, 240, 240)); // light
-////    }
+    @Override
+    protected void init() {
+        super.init();
 //
-//    @Override
-//    protected void onDraw(Canvas canvas) {
-//        super.onDraw(canvas);
-////        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
-////            mXAxisRenderer.renderLimitLines(canvas);
-//
-//    }
+//        mAxisRendererLeft = new ReactYAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
+//        ((ReactYAxisRenderer)mAxisRendererLeft).setBackgroundColor(Color.rgb(240, 240, 240)); // light
+//        mAxisRendererRight = new ReactYAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
+//        ((ReactYAxisRenderer)mAxisRendererRight).setBackgroundColor(Color.rgb(240, 240, 240)); // light
+
+        mXAxisRenderer = new CustomXAxisRenderer(getContext(), mViewPortHandler, mXAxis, mLeftAxisTransformer);
+        mRenderer = new CustomCombinedChartRenderer(this, mAnimator, mViewPortHandler);
+        //((ReactXAxisRenderer)mXAxisRenderer).setBackgroundColor(Color.rgb(240, 240, 240)); // light
+    }
+
+    @Override
+    protected void onDraw(Canvas canvas) {
+        super.onDraw(canvas);
+        mRenderer.drawExtras(canvas);
+//        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
+//            mXAxisRenderer.renderLimitLines(canvas);
+
+    }
 //
 ////    public void setGridBackgroundColor(int color) {
 ////        super.setGridBackgroundColor(color);

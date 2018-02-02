@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="transparent">#00000000</color>
+    <color name="line_chart_marker_text_blue">#b7e1f8</color>
+    <color name="line_chart_marker_background_blue">#43b9f9</color>
+    <color name="line_chart_x_asis_background_blue">#1394e6</color>
+    <color name="line_chart_last_price_blue">#66e3f3fe</color>
+</resources>

@@ -1,41 +1,47 @@
-package com.simpleapp.component.chart;
+package com.simpleapp.component.chart.base;
 
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
 
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
-import com.simpleapp.StringUtils;
+import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.simpleapp.R;
+import com.simpleapp.component.chart.PriceChart;
+import com.simpleapp.component.chart.linechart.LineChartMarkerView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
- * Created by Neko on 16/9/19.
+ * Created by Neko on 2018/1/31.
  */
 public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
     @Override
     protected void resetChart(CombinedChart chart) {
         super.resetChart(chart);
-//        chart.setDragEnabled(true);
-//        chart.setScaleEnabled(false);
-        //chart.setTouchEnabled(!((PriceChart)chart).isLandspace());
-//        chart.setTouchEnabled(!MainActivity.isLandscape());
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(false);
+        chart.setTouchEnabled(true);
+
+        LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker);
+        chart.setMarker(marker);
     }
 
     protected Drawable getGradientDrawable(int[] colors){
         GradientDrawable gradient = new GradientDrawable(GradientDrawable.Orientation.TOP_BOTTOM, colors);
         gradient.setShape(GradientDrawable.RECTANGLE);
-        //gradient.setShape(GradientDrawable.RECTANGLE);
-        //gradient.setCornerRadius(0);
         return gradient;
     }
 
@@ -58,8 +64,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
     }
 
     @Override
-    protected CombinedData generateData(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
-
+    protected CombinedData generateData(CombinedChart chart, final JSONObject stockInfoObject,final JSONArray chartDataList) throws JSONException{
         ArrayList<Entry> Vals = new ArrayList<Entry>();
 
         for (int i = 0; i < chartDataList.length(); i++) {
@@ -85,12 +90,13 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         formatRightAxisText(chart, maxVal, minVal);
 
         int[] circleColors = {Color.TRANSPARENT};
-        if (Vals.size() > 0 && stockInfoObject.getBoolean("isOpen")) {
+        //We don't care if it's open any more...
+        if (Vals.size() > 0 /*&& stockInfoObject.getBoolean("isOpen")*/) {
             circleColors = new int[Vals.size()];
             for (int i = 0; i < Vals.size(); i++) {
                 circleColors[i] = Color.TRANSPARENT;
             }
-            circleColors[Vals.size() - 1] = ((PriceChart)chart).getDataSetColor();
+            circleColors[Vals.size() - 1] = 0x66FFFFFF & ((PriceChart)chart).getDataSetColor();
         }
 
         // create a dataset and give it a type
@@ -105,8 +111,10 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         set1.setLineWidth(2);
         //set1.setLineWidth(ChartDrawerConstants.LINE_WIDTH_PRICE);
         set1.setDrawCircles(true);
-        set1.setCircleRadius(12);
-        set1.setDrawCircleHole(false);
+        set1.setCircleRadius(18);
+        set1.setDrawCircleHole(true);
+        set1.setCircleColorHole(((PriceChart)chart).getDataSetColor());
+        set1.setCircleHoleRadius(8);
         set1.setCircleColors(circleColors);
         //set1.setValueTextSize(0f);
 //        boolean isActual = false;
@@ -116,10 +124,36 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 //            Log.e("", e.toString());
 //        }
 
+        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                try {
+                    //String val = "2018-01-29T22:21:54.896Z";
+                    String xVal = (chartDataList.getJSONObject((int) value).getString("time"));
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    Date date = format.parse(xVal);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
+                    String outputString = outFormat.format(date);
+
+                    return outputString;
+
+                }catch(Exception e){
+                    return "error";
+                }
+            }
+        });
+
         Drawable drawable = getGradientDrawable(((PriceChart)chart).getGradientColors());
 
         set1.setFillDrawable(drawable);
         set1.setDrawFilled(true);
+
+
+        set1.setHighlightEnabled(true); // allow highlighting for DataSet
+
+        // set this to false to disable the drawing of highlight indicator (lines)
+        set1.setDrawHighlightIndicators(true);
+        set1.setHighLightColor(Color.WHITE);
 
         LineData d = new LineData();
         d.addDataSet(set1);
@@ -143,20 +177,31 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
     @Override
     protected void calculateZoom(CombinedChart chart, CombinedData data) {
-        chart.setVisibleXRangeMinimum(1);
-        if (needDrawDescription(chart) && preClose != 0) {
-            float maxPrice = data.getYMax();
-            float minPrice = data.getYMin();
-            float maxPercentage = (maxPrice - preClose) / preClose * 100;
-            float minPercentage = (minPrice - preClose) / preClose * 100;
-            setDescription(chart, StringUtils.formatNumber(maxPrice), StringUtils.formatNumber(minPrice), StringUtils.formatNumber(maxPercentage) + "%", StringUtils.formatNumber(minPercentage) + "%");
-        } else {
-            setDescription(chart, "", "", "", "");
-        }
+        //chart.setVisibleXRangeMinimum(10f);
+        //chart.setVisibleXRangeMaximum(10f);
 
-        if(!needDrawDescription(chart)){
-            setDescription(chart, "", "", "", "");
-        }
+        //chart.setVisibleYRangeMinimum(1, YAxis.AxisDependency.LEFT);
+        //chart.setVisibleYRangeMaximum(1, YAxis.AxisDependency.LEFT);
+
+        //We only have one dataset.
+        int totalSize = chart.getData().getDataSetByIndex(0).getEntryCount();
+        float scale = 2;
+        int xOffset = (int)(totalSize - totalSize / scale);
+        chart.zoom(scale, 1, totalSize, 0);
+        chart.moveViewToX(xOffset);
+//        if (needDrawDescription(chart) && preClose != 0) {
+//            float maxPrice = data.getYMax();
+//            float minPrice = data.getYMin();
+//            float maxPercentage = (maxPrice - preClose) / preClose * 100;
+//            float minPercentage = (minPrice - preClose) / preClose * 100;
+//            setDescription(chart, StringUtils.formatNumber(maxPrice), StringUtils.formatNumber(minPrice), StringUtils.formatNumber(maxPercentage) + "%", StringUtils.formatNumber(minPercentage) + "%");
+//        } else {
+//            setDescription(chart, "", "", "", "");
+//        }
+//
+//        if(!needDrawDescription(chart)){
+//            setDescription(chart, "", "", "", "");
+//        }
 
     }
 }

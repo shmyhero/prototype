@@ -33,9 +33,8 @@ var PriceChartPropTypes = {
     padding: PropTypes.number,
     xAxisPosition: PropTypes.oneOf(['TOP', 'BOTTOM', 'BOTH_SIDED', 'TOP_INSIDE', 'BOTTOM_INSIDE']),
     xAxisStep: PropTypes.number,
-    XAxisLabelCount: PropTypes.number,
-
-    // xAxisTextSize: PropTypes.number,
+    xAxisLabelCount: PropTypes.number,
+    xAxisTextSize: PropTypes.number,
 
     // leftAxisMaxValue: PropTypes.number,
 
@@ -65,11 +64,9 @@ var PriceChartPropTypes = {
 
     // rightAxisDrawLabel: PropTypes.bool,
 
-    // drawBorders: PropTypes.bool,
-
-    // borderColor: ColorPropType,
-
-    // textColor: ColorPropType,
+    drawBorders: PropTypes.bool,
+    borderColor: ColorPropType,
+    textColor: ColorPropType,
 
     // preCloseColor: ColorPropType,
 
@@ -117,16 +114,17 @@ class PriceChartView extends Component {
         leftAxisEnabled: true,
         rightAxisEnabled: true,
         XAxisGridColor: '#000000',
-        XAxisLabelCount: 4,
+        xAxisLabelCount: 4,
+        xAxisTextSize: 12,
         dataSetColor: '#000000',
         // leftAxisDrawLabel: false,
         // leftAxisLabelCount: 2 - 2,
         // rightAxisDrawLabel: false,
         // rightAxisLabelCount: 2 - 2,
-        // drawBorders: true,
-        // borderColor: 'white',
+        drawBorders: true,
+        borderColor: 'white',
         // preCloseColor: 'white',
-        // textColor: 'white',
+        textColor: 'white',
         // rightAxisDrawGridLines: false,
         chartPaddingTop: 0,
         chartPaddingBottom: 0,

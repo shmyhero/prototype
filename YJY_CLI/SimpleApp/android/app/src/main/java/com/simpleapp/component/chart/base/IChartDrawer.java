@@ -1,4 +1,4 @@
-package com.simpleapp.component.chart;
+package com.simpleapp.component.chart.base;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 
@@ -7,7 +7,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 /**
- * Created by Neko on 16/9/18.
+ * Created by Neko on 2018/1/31.
  */
 public interface IChartDrawer {
     void setBorderColor(int color);

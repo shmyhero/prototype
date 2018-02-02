@@ -1,7 +1,6 @@
 package com.simpleapp.component.chart;
 
 import android.graphics.Color;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.MotionEvent;
 
@@ -9,13 +8,11 @@ import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.uimanager.SimpleViewManager;
 import com.facebook.react.uimanager.ThemedReactContext;
 import com.facebook.react.uimanager.annotations.ReactProp;
-import com.facebook.react.views.image.ReactImageView;
 import com.github.mikephil.charting.components.Description;
-import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.XAxis;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
+import com.simpleapp.component.chart.base.IChartDrawer;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,10 +88,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         chart.getAxisRight().setSpaceBottom(10);
         chart.setDragDecelerationEnabled(false);//设置拖拽后放开,无惯性移动。
         chart.setDragEnabled(false);
-
         //chart.setExtraLeftOffset(15);
-        chart.setHighlightPerDragEnabled(false);
-        chart.setHighlightPerTapEnabled(false);
         chart.setOnChartGestureListener(new OnChartGestureListener() {
             @Override
             public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
@@ -317,14 +311,14 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 ////            chart.getXAxis().setLabelsToSkip(step - 1);
 ////        }
 ////    }
-//
-//    @ReactProp(name = "xAxisTextSize", defaultFloat = 10.0f)
-//    public void setXAxisTextSize(PriceChart chart, float size) {
-//        if (chart != null) {
-//            chart.getXAxis().setTextSize(size);
-//        }
-//    }
-//
+
+    @ReactProp(name = "xAxisTextSize", defaultFloat = 10.0f)
+    public void setXAxisTextSize(PriceChart chart, float size) {
+        if (chart != null) {
+            chart.getXAxis().setTextSize(size);
+        }
+    }
+
     @ReactProp(name = "xAxisDrawLabel")
     public void setXAxisDrawLabel(PriceChart chart, boolean drawEnabled) {
         if (chart != null) {
@@ -362,7 +356,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 //    }
 
 
-    @ReactProp(name = "XAxisLabelCount")
+    @ReactProp(name = "xAxisLabelCount")
     public void setXAxisLabelCount(PriceChart chart, int num) {
         if (chart != null) {
             chart.getXAxis().setLabelCount(num, true);
@@ -456,13 +450,13 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 ////            this.setChartPaddingRight(chart, chartOffsetRight);
 ////        }
 ////    }
-//
-//    @ReactProp(name = "drawBorders")
-//    public void setDrawBorders(PriceChart chart, boolean drawBorders) {
-//        if (chart != null) {
-//            chart.setDrawBorders(drawBorders);
-//        }
-//    }
+
+    @ReactProp(name = "drawBorders")
+    public void setDrawBorders(PriceChart chart, boolean drawBorders) {
+        if (chart != null) {
+            chart.setDrawBorders(drawBorders);
+        }
+    }
 //
 //    @ReactProp(name = "rightAxisDrawGridLines")
 //    public void setRightAxisDrawGridLines(PriceChart chart, boolean drawGridLines) {
@@ -472,31 +466,31 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 //        }
 //    }
 //
-//    @ReactProp(name = "textColor")
-//    public void setTextColor(PriceChart chart, String color) {
-//        if (chart != null) {
-//            int colorInt = getColor(color);
-//            chart.getAxisLeft().setTextColor(colorInt);
-//            chart.getAxisRight().setTextColor(colorInt);
-//            chart.getXAxis().setTextColor(colorInt);
-//            textColor = colorInt;
-//        }
-//    }
-//
-//    @ReactProp(name = "borderColor")
-//    public void setBorderColor(PriceChart chart, String color) {
-//        if (chart != null) {
-//            int colorInt = getColor(color);
-//            chart.setBorderColor(colorInt);
-//            chart.getAxisLeft().setAxisLineColor(colorInt);
-//            chart.getAxisLeft().setGridColor(colorInt);
-//            chart.getAxisRight().setAxisLineColor(colorInt);
-//            chart.getAxisRight().setGridColor(colorInt);
-//            chart.getXAxis().setAxisLineColor(colorInt);
-//            borderColor = colorInt;
-//        }
-//    }
-//
+    @ReactProp(name = "textColor")
+    public void setTextColor(PriceChart chart, String color) {
+        if (chart != null) {
+            int colorInt = getColor(color);
+            chart.getAxisLeft().setTextColor(colorInt);
+            chart.getAxisRight().setTextColor(colorInt);
+            chart.getXAxis().setTextColor(colorInt);
+            textColor = colorInt;
+        }
+    }
+
+    @ReactProp(name = "borderColor")
+    public void setBorderColor(PriceChart chart, String color) {
+        if (chart != null) {
+            int colorInt = getColor(color);
+            chart.setBorderColor(colorInt);
+            chart.getAxisLeft().setAxisLineColor(colorInt);
+            chart.getAxisLeft().setGridColor(colorInt);
+            chart.getAxisRight().setAxisLineColor(colorInt);
+            chart.getAxisRight().setGridColor(colorInt);
+            chart.getXAxis().setAxisLineColor(colorInt);
+            borderColor = colorInt;
+        }
+    }
+
 ////    @ReactProp(name = "preCloseColor")
 ////    public void setPreCloseColor(PriceChart chart, String color) {
 ////        if (chart != null) {
