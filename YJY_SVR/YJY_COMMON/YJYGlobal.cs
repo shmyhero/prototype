@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace YJY_COMMON
 {
     public class YJYGlobal
     {
+        public const string DATETIME_MASK_MILLI_SECOND = "yyyy-MM-dd HH:mm:ss.fff";
+        public const string DATETIME_MASK_SECOND = "yyyy-MM-dd HH:mm:ss";
+
         /// <summary>
         /// the default application-wide PooledRedisClientsManager
         /// </summary>
@@ -76,6 +80,107 @@ namespace YJY_COMMON
             {
                 return ConfigurationManager.ConnectionStrings[connectStringName].ConnectionString;
             }
+        }
+
+        public static void LogError(string message)
+        {
+            Trace.TraceError(GetLogDatetimePrefix() + message);
+        }
+        public static void LogWarning(string message)
+        {
+            Trace.TraceWarning(GetLogDatetimePrefix() + message);
+        }
+        public static void LogInformation(string message)
+        {
+            Trace.TraceInformation(GetLogDatetimePrefix() + message);
+        }
+
+        public static void LogLine(string message)
+        {
+            Trace.WriteLine(GetLogDatetimePrefix() + message);
+        }
+
+        public static void LogException(Exception exception)
+        {
+            var ex = exception;
+            while (ex != null)
+            {
+                Trace.WriteLine(GetLogDatetimePrefix() + ex.Message);
+                Trace.WriteLine(GetLogDatetimePrefix() + ex.StackTrace);
+
+                ex = ex.InnerException;
+            }
+
+            //if (exception is FaultException<ExceptionDetail>)
+            //{
+            //    var detail = ((FaultException<ExceptionDetail>)exception).Detail;
+
+            //    var d = detail;
+            //    while (d != null)
+            //    {
+            //        Trace.WriteLine(GetLogDatetimePrefix() + d.Message);
+            //        Trace.WriteLine(GetLogDatetimePrefix() + d.StackTrace);
+
+            //        d = d.InnerException;
+            //    }
+            //}
+        }
+
+        public static void LogExceptionAsInfo(Exception exception)
+        {
+            var ex = exception;
+            while (ex != null)
+            {
+                Trace.TraceInformation(GetLogDatetimePrefix() + ex.Message);
+                Trace.TraceInformation(GetLogDatetimePrefix() + ex.StackTrace);
+
+                ex = ex.InnerException;
+            }
+
+            //if (exception is FaultException<ExceptionDetail>)
+            //{
+            //    var detail = ((FaultException<ExceptionDetail>)exception).Detail;
+
+            //    var d = detail;
+            //    while (d != null)
+            //    {
+            //        Trace.TraceInformation(GetLogDatetimePrefix() + d.Message);
+            //        Trace.TraceInformation(GetLogDatetimePrefix() + d.StackTrace);
+
+            //        d = d.InnerException;
+            //    }
+            //}
+        }
+
+        public static void LogExceptionAsWarning(Exception exception)
+        {
+            var ex = exception;
+            while (ex != null)
+            {
+                Trace.TraceWarning(GetLogDatetimePrefix() + ex.Message);
+                Trace.TraceWarning(GetLogDatetimePrefix() + ex.StackTrace);
+
+                ex = ex.InnerException;
+            }
+
+            //if (exception is FaultException<ExceptionDetail>)
+            //{
+            //    var detail = ((FaultException<ExceptionDetail>)exception).Detail;
+
+            //    var d = detail;
+            //    while (d != null)
+            //    {
+            //        Trace.TraceWarning(GetLogDatetimePrefix() + d.Message);
+            //        Trace.TraceWarning(GetLogDatetimePrefix() + d.StackTrace);
+
+            //        d = d.InnerException;
+            //    }
+            //}
+        }
+
+        private static string GetLogDatetimePrefix()
+        {
+            return DateTime.Now.ToString(DATETIME_MASK_MILLI_SECOND) + " ";
         }
     }
 }
