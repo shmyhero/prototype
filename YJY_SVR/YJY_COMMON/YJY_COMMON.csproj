@@ -65,6 +65,7 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -83,8 +84,10 @@
     <Compile Include="Model\Entity\Position.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\UserService.cs" />
     <Compile Include="Util\Extension\StringExtension.cs" />
     <Compile Include="Util\Quotes.cs" />
+    <Compile Include="Util\Randoms.cs" />
     <Compile Include="YJYGlobal.cs" />
   </ItemGroup>
   <ItemGroup>

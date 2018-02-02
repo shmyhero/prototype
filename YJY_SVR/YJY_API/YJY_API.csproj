@@ -160,10 +160,15 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Caching\WebCache.cs" />
     <Compile Include="Caching\WebCacheInstance.cs" />
+    <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\YJYController.cs" />
+    <Compile Include="DTO\FormDTO\UserFormDTO.cs" />
+    <Compile Include="DTO\User.cs" />
     <Compile Include="DTO\SecurityDTO.cs" />
+    <Compile Include="DTO\Util.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
