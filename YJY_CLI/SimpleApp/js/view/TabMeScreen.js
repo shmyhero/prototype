@@ -17,10 +17,10 @@ import { TabNavigator } from "react-navigation";
 export default class  TabMeScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel:'我的',
-    tabBarIcon: ({ tintColor }) => (
+    tabBarIcon: ({ focused,tintColor }) => (
           <Image
-            source={require('../../images/tab4_sel.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+          source={focused?require('../../images/tab4_sel.png'):require('../../images/tab4_unsel.png')}
+            style={[styles.icon]}
           />
         ),
     tabBarOnPress: (scene,jumpToIndex) => {

@@ -22,10 +22,10 @@ var RANKING_TYPE_1 = 1;
 export default class  TabRankScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel:'榜单',
-    tabBarIcon: ({ tintColor }) => (
+    tabBarIcon: ({ focused,tintColor }) => (
           <Image
-            source={require('../../images/tab2_sel.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+          source={focused?require('../../images/tab2_sel.png'):require('../../images/tab2_unsel.png')}
+            style={[styles.icon ]}
           />
         ),
     tabBarOnPress: (scene,jumpToIndex) => {

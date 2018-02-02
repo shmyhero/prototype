@@ -58,8 +58,9 @@ export const MainScreenNavigator = TabNavigator({
    backBehavior: 'none',
    tabBarOptions: {
      activeTintColor: '#1b9bec',
+     inactiveTintColor:'grey',
      style:{
-       backgroundColor: 'black',
+       backgroundColor: 'white',
      }, 
      labelStyle: {
        fontSize: 12, 

@@ -53,10 +53,10 @@ export default class  TabMainScreen extends React.Component {
 
   static navigationOptions = {
     tabBarLabel:'动态',
-    tabBarIcon: ({ tintColor }) => (
+    tabBarIcon: ({focused,tintColor }) => (
           <Image
-            source={require('../../images/tab0_sel.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+            source={focused?require('../../images/tab0_sel.png'):require('../../images/tab0_unsel.png')}
+            style={[styles.icon ]}
           />
         ),
     tabBarOnPress: (scene,jumpToIndex) => {
@@ -421,11 +421,8 @@ const styles = StyleSheet.create({
     thumbnail: {
         margin: 5,
         flexDirection: 'row',
-        width:width-60,
-        // borderBottomWidth: StyleSheet.hairlineWidth,
-        // borderBottomColor: '#ccc',
-        // overflow: 'hidden',
-        backgroundColor:'#efefef',
+        width:width-60, 
+        backgroundColor:'white',
         paddingTop:10,
         paddingBottom:10,
         borderRadius:10,
@@ -434,7 +431,7 @@ const styles = StyleSheet.create({
     thumbnailAll: {
         marginLeft: 5,
         marginRight:5,
-        flexDirection: 'row', 
+        flexDirection: 'row',  
     }, 
     textContainer: {
         paddingRight: 10,

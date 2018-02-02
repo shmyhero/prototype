@@ -92,10 +92,10 @@ class RowComponent extends React.Component {
 export default class  TabMarketScreen extends React.Component {
     static navigationOptions = {
         tabBarLabel:'行情',
-        tabBarIcon: ({ tintColor }) => (
+        tabBarIcon: ({ focused,tintColor }) => (
             <Image
-            source={require('../../images/tab1_sel.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+            source={focused?require('../../images/tab1_sel.png'):require('../../images/tab1_unsel.png')}
+            style={[styles.icon]}
             />
         ),
         tabBarOnPress: (scene, jumpToIndex) => {

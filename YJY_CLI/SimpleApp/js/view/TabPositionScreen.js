@@ -17,10 +17,10 @@ var ColorConstants = require('../ColorConstants');
 export default class  TabPositionScreen extends React.Component {
   static navigationOptions = {
     tabBarLabel:'仓位',
-    tabBarIcon: ({ tintColor }) => (
+    tabBarIcon: ({ focused,tintColor }) => (
           <Image
-            source={require('../../images/tab3_sel.png')}
-            style={[styles.icon, {tintColor: tintColor}]}
+          source={focused?require('../../images/tab3_sel.png'):require('../../images/tab3_unsel.png')}
+            style={[styles.icon ]}
           />
         ),
     tabBarOnPress: (scene,jumpToIndex) => {
