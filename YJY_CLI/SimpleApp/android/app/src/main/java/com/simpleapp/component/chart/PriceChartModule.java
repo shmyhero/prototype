@@ -235,6 +235,13 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         }
     }
 
+    @ReactProp(name = "drawDataUnderYAxis")
+    public void setDrawDataUnderYAxis(PriceChart chart, boolean value){
+        if (chart != null){
+            chart.setDrawDataUnderYAxis(value);
+        }
+    }
+
 //
 //    @ReactProp(name = "colorType")
 //    public void setColorType(PriceChart chart, int type) {
@@ -297,13 +304,13 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         }
     }
 
-    @ReactProp(name = "XAxisGridColor")
-    public void setXAxisGridColor(PriceChart chart, String color) {
-        if (chart != null) {
-            int colorInt = getColor(color);
-            chart.getXAxis().setGridColor(colorInt);
-        }
-    }
+//    @ReactProp(name = "XAxisGridColor")
+//    public void setXAxisGridColor(PriceChart chart, String color) {
+//        if (chart != null) {
+//            int colorInt = getColor(color);
+//            chart.getXAxis().setGridColor(colorInt);
+//        }
+//    }
 //
 ////    @ReactProp(name = "xAxisStep", defaultInt = 1)
 ////    public void setXAxisStep(PriceChart chart, int step) {
@@ -428,28 +435,28 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 //            chart.getAxisRight().setPosition(YAxis.YAxisLabelPosition.valueOf(position));
 //        }
 //    }
-//
-//    @ReactProp(name = "rightAxisLabelCount")
-//    public void setRightAxisLabelCount(PriceChart chart, int num) {
-//        if (chart != null) {
-//            chart.getAxisRight().setLabelCount(num, true);
-//        }
-//    }
-//
-//    @ReactProp(name = "rightAxisTextSize", defaultFloat = 10.0f)
-//    public void setRightAxisTextSize(PriceChart chart, float size) {
-//        if (chart != null) {
-//            chart.getAxisRight().setTextSize(size);
-//        }
-//    }
-////
-////    @ReactProp(name = "rightAxisDrawLabel")
-////    public void setRightAxisDrawLabel(PriceChart chart, boolean drawEnabled) {
-////        if (chart != null) {
-////            chart.getAxisRight().setDrawLabels(drawEnabled);
-////            this.setChartPaddingRight(chart, chartOffsetRight);
-////        }
-////    }
+
+    @ReactProp(name = "rightAxisLabelCount")
+    public void setRightAxisLabelCount(PriceChart chart, int num) {
+        if (chart != null) {
+            chart.getAxisRight().setLabelCount(num, true);
+        }
+    }
+
+    @ReactProp(name = "rightAxisTextSize", defaultFloat = 10.0f)
+    public void setRightAxisTextSize(PriceChart chart, float size) {
+        if (chart != null) {
+            chart.getAxisRight().setTextSize(size);
+        }
+    }
+
+    @ReactProp(name = "rightAxisDrawLabel")
+    public void setRightAxisDrawLabel(PriceChart chart, boolean drawEnabled) {
+        if (chart != null) {
+            chart.getAxisRight().setDrawLabels(drawEnabled);
+            this.setRightAxisPadding(chart, chartOffsetRight);
+        }
+    }
 
     @ReactProp(name = "drawBorders")
     public void setDrawBorders(PriceChart chart, boolean drawBorders) {
@@ -529,8 +536,8 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         }
     }
 
-    @ReactProp(name = "chartPaddingRight")
-    public void setChartPaddingRight(PriceChart chart, int padding){
+    @ReactProp(name = "paddingRightAxis")
+    public void setRightAxisPadding(PriceChart chart, int padding){
         if (chart != null) {
             //chartOffsetRight = (int)Utils.convertPixelsToDp(padding);
             chartOffsetRight = padding;

@@ -4,9 +4,10 @@ import android.content.Context;
 import android.graphics.Canvas;
 
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.renderer.CombinedChartRenderer;
+import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.simpleapp.component.chart.base.CustomCombinedChartRenderer;
 import com.simpleapp.component.chart.base.CustomXAxisRenderer;
+import com.simpleapp.component.chart.base.CustomYAxisRenderer;
 
 /**
  * Created by Neko on 2018/1/29.
@@ -14,68 +15,149 @@ import com.simpleapp.component.chart.base.CustomXAxisRenderer;
 public class PriceChart extends CombinedChart {
 //    public boolean isAcutal = false;
 
+
+    boolean drawDataUnderYAxis = false;
     public PriceChart(Context context) {
         super(context);
     }
 
-//    public PriceChart(Context context, AttributeSet attrs) {
-//        super(context, attrs);
-//    }
-//
-//    public PriceChart(Context context, AttributeSet attrs, int defStyle) {
-//        super(context, attrs, defStyle);
-//    }
-//
-//    @Override
-//    protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-//        MeasureSpecAssertions.assertExplicitMeasureSpec(widthMeasureSpec, heightMeasureSpec);
-//
-//        setMeasuredDimension(
-//                MeasureSpec.getSize(widthMeasureSpec),
-//                MeasureSpec.getSize(heightMeasureSpec));
-//    }
-//
-//    @Override
-//    protected void onLayout(boolean changed, int left, int top, int right, int bottom) {
-//        // No-op since UIManagerModule handles actually laying out children.
-//    }
-//
-//    @Override
-//    public void requestLayout() {
-//        // No-op, terminate `requestLayout` here, UIManagerModule handles laying out children and
-//        // `layout` is called on all RN-managed views by `NativeViewHierarchyManager`
-//    }
-//
-////    @Override
-////    public void computeScroll(){
-////        return;
-////    }
-//
-//
-////    public void setIsActual(boolean isActual){
-////        this.isAcutal = isActual;
-////    }
-//
     @Override
     protected void init() {
+
+        mViewPortHandler = new ViewPortHandler() {
+            @Override
+            public boolean isInBoundsRight(float x) {
+                if(drawDataUnderYAxis) {
+                    x = (float) ((int) (x * 100.f)) / 100.f;
+                    return getWidth() >= x - 1;
+                } else {
+                    return super.isInBoundsRight(x);
+                }
+            }
+        };
+
         super.init();
-//
-//        mAxisRendererLeft = new ReactYAxisRenderer(mViewPortHandler, mAxisLeft, mLeftAxisTransformer);
-//        ((ReactYAxisRenderer)mAxisRendererLeft).setBackgroundColor(Color.rgb(240, 240, 240)); // light
-//        mAxisRendererRight = new ReactYAxisRenderer(mViewPortHandler, mAxisRight, mRightAxisTransformer);
-//        ((ReactYAxisRenderer)mAxisRendererRight).setBackgroundColor(Color.rgb(240, 240, 240)); // light
 
         mXAxisRenderer = new CustomXAxisRenderer(getContext(), mViewPortHandler, mXAxis, mLeftAxisTransformer);
+        mAxisRendererRight = new CustomYAxisRenderer(getContext(), mViewPortHandler, mAxisRight, mRightAxisTransformer);
         mRenderer = new CustomCombinedChartRenderer(this, mAnimator, mViewPortHandler);
         //((ReactXAxisRenderer)mXAxisRenderer).setBackgroundColor(Color.rgb(240, 240, 240)); // light
     }
 
+    public void setDrawDataUnderYAxis(boolean value){
+        this.drawDataUnderYAxis = value;
+        ((CustomCombinedChartRenderer)mRenderer).setDrawDataUnderYAxis(value);
+    }
+
     @Override
     protected void onDraw(Canvas canvas) {
-        super.onDraw(canvas);
+
+        if (mData == null)
+            return;
+
+        long starttime = System.currentTimeMillis();
+
+        // execute all drawing commands
+        drawGridBackground(canvas);
+
+        if (mAutoScaleMinMaxEnabled) {
+            autoScale();
+        }
+
+        if (mAxisLeft.isEnabled())
+            mAxisRendererLeft.computeAxis(mAxisLeft.mAxisMinimum, mAxisLeft.mAxisMaximum, mAxisLeft.isInverted());
+
+        if (mAxisRight.isEnabled())
+            mAxisRendererRight.computeAxis(mAxisRight.mAxisMinimum, mAxisRight.mAxisMaximum, mAxisRight.isInverted());
+
+        if (mXAxis.isEnabled())
+            mXAxisRenderer.computeAxis(mXAxis.mAxisMinimum, mXAxis.mAxisMaximum, false);
+
+        mXAxisRenderer.renderAxisLine(canvas);
+        mAxisRendererLeft.renderAxisLine(canvas);
+        mAxisRendererRight.renderAxisLine(canvas);
+
+        mXAxisRenderer.renderGridLines(canvas);
+        mAxisRendererLeft.renderGridLines(canvas);
+        mAxisRendererRight.renderGridLines(canvas);
+
+        if (mXAxis.isEnabled() && mXAxis.isDrawLimitLinesBehindDataEnabled())
+            mXAxisRenderer.renderLimitLines(canvas);
+
+        if (mAxisLeft.isEnabled() && mAxisLeft.isDrawLimitLinesBehindDataEnabled())
+            mAxisRendererLeft.renderLimitLines(canvas);
+
+        if (mAxisRight.isEnabled() && mAxisRight.isDrawLimitLinesBehindDataEnabled())
+            mAxisRendererRight.renderLimitLines(canvas);
+
+        int clipRestoreCount = 0;
+        if(!drawDataUnderYAxis){
+            // make sure the data cannot be drawn outside the content-rect
+            clipRestoreCount = canvas.save();
+            canvas.clipRect(mViewPortHandler.getContentRect());
+        }
+
+        mRenderer.drawData(canvas);
+
+        // if highlighting is enabled
+        if (valuesToHighlight())
+            mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
+
+        if(!drawDataUnderYAxis) {
+            // Removes clipping rectangle
+            canvas.restoreToCount(clipRestoreCount);
+        }
+
+
+        if (mXAxis.isEnabled() && !mXAxis.isDrawLimitLinesBehindDataEnabled())
+            mXAxisRenderer.renderLimitLines(canvas);
+
+        if (mAxisLeft.isEnabled() && !mAxisLeft.isDrawLimitLinesBehindDataEnabled())
+            mAxisRendererLeft.renderLimitLines(canvas);
+
+        if (mAxisRight.isEnabled() && !mAxisRight.isDrawLimitLinesBehindDataEnabled())
+            mAxisRendererRight.renderLimitLines(canvas);
+
+        mXAxisRenderer.renderAxisLabels(canvas);
+        mAxisRendererLeft.renderAxisLabels(canvas);
+        mAxisRendererRight.renderAxisLabels(canvas);
+
+        if (isClipValuesToContentEnabled()) {
+            if(!drawDataUnderYAxis){
+                clipRestoreCount = canvas.save();
+                canvas.clipRect(mViewPortHandler.getContentRect());
+            }
+
+            mRenderer.drawValues(canvas);
+
+            if(!drawDataUnderYAxis) {
+                canvas.restoreToCount(clipRestoreCount);
+            }
+        } else {
+            mRenderer.drawValues(canvas);
+        }
+
         mRenderer.drawExtras(canvas);
-//        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
-//            mXAxisRenderer.renderLimitLines(canvas);
+
+        mLegendRenderer.renderLegend(canvas);
+
+        drawDescription(canvas);
+
+        drawMarkers(canvas);
+
+
+//        if (mLogEnabled) {
+//            long drawtime = (System.currentTimeMillis() - starttime);
+//            totalTime += drawtime;
+//            drawCycles += 1;
+//            long average = totalTime / drawCycles;
+//            Log.i(LOG_TAG, "Drawtime: " + drawtime + " ms, average: " + average + " ms, cycles: "
+//                    + drawCycles);
+//        }
+//        super.onDraw(canvas);
+//        mRenderer.drawExtras(canvas);
+////        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
+////            mXAxisRenderer.renderLimitLines(canvas);
 
     }
 //

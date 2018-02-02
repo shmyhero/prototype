@@ -8,12 +8,18 @@ import android.graphics.Path;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
+import com.github.mikephil.charting.charts.BarLineChartBase;
 import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.DataSet;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.dataprovider.BarLineScatterCandleBubbleDataProvider;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.IBarLineScatterCandleBubbleDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.renderer.LineChartRenderer;
@@ -25,6 +31,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.simpleapp.component.chart.PriceChart;
 
 import java.lang.ref.WeakReference;
 import java.util.HashMap;
@@ -37,6 +44,9 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
     protected LineDataProvider mChart;
 
+    protected CustomXBounds mXBounds = new CustomXBounds();
+
+    protected boolean drawDataUnderYAxis = false;
     /**
      * paint for the inner circle of the value indicators
      */
@@ -291,6 +301,10 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         }
     }
 
+    public void setDrawDataUnderYAxis(boolean value){
+        this.drawDataUnderYAxis = value;
+    }
+
     private float[] mLineBuffer = new float[4];
 
     /**
@@ -322,6 +336,24 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         }
 
         mXBounds.set(mChart, dataSet);
+
+        //EDIT: Make the chart visible under right axis space..
+//        float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+//
+//        int high =  mXBounds.max;
+//        Entry entryTo = dataSet.getEntryForXValue(high, Float.NaN, DataSet.Rounding.UP);
+//
+//        dataSet.getEntryIndex(entryTo)
+//
+//        mXBounds.max = mXBounds.max + 30;
+//        mXBounds.range = (int) ((mXBounds.max - mXBounds.min) * phaseX);
+
+
+//
+//        getTransformer(YAxis.AxisDependency.LEFT).getValuesByTouchPoint(mViewPortHandler.getChartWidth(),
+//                mViewPortHandler.contentBottom(), posForGetHighestVisibleX);
+//        float result = (float) Math.min(mXAxis.mAxisMaximum, posForGetHighestVisibleX.x);
+//        return result;
 
         // if drawing filled is enabled
         if (dataSet.isDrawFilledEnabled() && entryCount > 0) {
@@ -478,6 +510,38 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
         } while (currentStartIndex <= currentEndIndex);
 
+    }
+
+    private boolean clipPathSupported() {
+        return Utils.getSDKInt() >= 18;
+    }
+
+    @Override
+    protected void drawFilledPath(Canvas c, Path filledPath, Drawable drawable) {
+
+        if (clipPathSupported()) {
+
+            int save = c.save();
+            c.clipPath(filledPath);
+
+            if(drawDataUnderYAxis){
+                drawable.setBounds((int) mViewPortHandler.contentLeft(),
+                        (int) mViewPortHandler.contentTop(),
+                        (int) mViewPortHandler.getChartWidth(),
+                        (int) mViewPortHandler.contentBottom());
+            }else{
+                drawable.setBounds((int) mViewPortHandler.contentLeft(),
+                        (int) mViewPortHandler.contentTop(),
+                        (int) mViewPortHandler.contentRight(),
+                        (int) mViewPortHandler.contentBottom());
+            }
+            drawable.draw(c);
+
+            c.restoreToCount(save);
+        } else {
+            throw new RuntimeException("Fill-drawables not (yet) supported below API level 18, " +
+                    "this code was run on API level " + Utils.getSDKInt() + ".");
+        }
     }
 
     /**
@@ -798,7 +862,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             for (int i = 0; i < colorCount; i++) {
 
                 Bitmap.Config conf = Bitmap.Config.ARGB_4444;
-                Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1), (int) (circleRadius * 2.1), conf);
+                Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + 100, (int) (circleRadius * 2.1), conf);
 
                 Canvas canvas = new Canvas(circleBitmap);
                 circleBitmaps[i] = circleBitmap;
@@ -839,6 +903,18 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
                                 circleHoleRadius,
                                 mCirclePaintInner);
                     }
+
+                    mValuePaint.setTextAlign(Paint.Align.LEFT);
+                    mValuePaint.setColor(set.getCircleHoleColor());
+                    String text = "" + ((LineDataSet) set).getValues().get(i).getY();
+//                    drawValue(canvas, new IValueFormatter() {
+//                        @Override
+//                        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
+//                            return ""+value;6
+//                        }
+//                    },text, ((LineDataSet) set).getValues().get(i), 0, circleRadius*2,
+//                      circleRadius, set.getCircleHoleColor());
+                    canvas.drawText(text, circleRadius*2, circleRadius, mValuePaint);
                 }
             }
         }
@@ -851,6 +927,39 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
          */
         protected Bitmap getBitmap(int index) {
             return circleBitmaps[index % circleBitmaps.length];
+        }
+    }
+
+    /**
+     * Class representing the bounds of the current viewport in terms of indices in the values array of a DataSet.
+     */
+    protected class CustomXBounds extends XBounds{
+
+        /**
+         * Calculates the minimum and maximum x values as well as the range between them.
+         *
+         * @param chart
+         * @param dataSet
+         */
+
+
+        @Override
+        public void set(BarLineScatterCandleBubbleDataProvider chart, IBarLineScatterCandleBubbleDataSet dataSet) {
+            float phaseX = Math.max(0.f, Math.min(1.f, mAnimator.getPhaseX()));
+
+            float low = chart.getLowestVisibleX();
+            float high = chart.getHighestVisibleX();
+            if(drawDataUnderYAxis) {
+                high = Math.min(((PriceChart) chart).getXAxis().mAxisMaximum, high + 30);
+            }
+            //high = Math.min(chart.getXAxis().mAxisMaximum, high + 30);
+
+            Entry entryFrom = dataSet.getEntryForXValue(low, Float.NaN, DataSet.Rounding.DOWN);
+            Entry entryTo = dataSet.getEntryForXValue(high, Float.NaN, DataSet.Rounding.UP);
+
+            min = entryFrom == null ? 0 : dataSet.getEntryIndex(entryFrom);
+            max = entryTo == null ? 0 : dataSet.getEntryIndex(entryTo);
+            range = (int) ((max - min) * phaseX);
         }
     }
 }

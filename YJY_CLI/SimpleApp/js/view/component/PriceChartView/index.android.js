@@ -18,7 +18,6 @@ var PriceChartPropTypes = {
     xAxisDrawLabel: PropTypes.bool,
     leftAxisEnabled: PropTypes.bool,
     rightAxisEnabled: PropTypes.bool,
-    XAxisGridColor: ColorPropType,
     dataSetColor: ColorPropType,
     // colorType: PropTypes.number,
 
@@ -31,6 +30,7 @@ var PriceChartPropTypes = {
     // descriptionColor: PropTypes.number,
 
     padding: PropTypes.number,
+
     xAxisPosition: PropTypes.oneOf(['TOP', 'BOTTOM', 'BOTH_SIDED', 'TOP_INSIDE', 'BOTTOM_INSIDE']),
     xAxisStep: PropTypes.number,
     xAxisLabelCount: PropTypes.number,
@@ -58,12 +58,11 @@ var PriceChartPropTypes = {
 
     // rightAxisPosition: PropTypes.oneOf(['OUTSIDE_CHART', 'INSIDE_CHART']),
 
-    // rightAxisLabelCount: PropTypes.number,
+    rightAxisLabelCount: PropTypes.number,
+    rightAxisTextSize: PropTypes.number,
+    rightAxisDrawLabel: PropTypes.bool,
 
-    // rightAxisTextSize: PropTypes.number,
-
-    // rightAxisDrawLabel: PropTypes.bool,
-
+    drawDataUnderYAxis: PropTypes.bool,
     drawBorders: PropTypes.bool,
     borderColor: ColorPropType,
     textColor: ColorPropType,
@@ -75,7 +74,7 @@ var PriceChartPropTypes = {
     chartPaddingTop: PropTypes.number,
     chartPaddingBottom: PropTypes.number,
     chartPaddingLeft: PropTypes.number,
-    chartPaddingRight: PropTypes.number,
+    paddingRightAxis: PropTypes.number,
 
   
 
@@ -113,14 +112,14 @@ class PriceChartView extends Component {
         xAxisDrawLabel: true,
         leftAxisEnabled: true,
         rightAxisEnabled: true,
-        XAxisGridColor: '#000000',
         xAxisLabelCount: 4,
         xAxisTextSize: 12,
         dataSetColor: '#000000',
         // leftAxisDrawLabel: false,
         // leftAxisLabelCount: 2 - 2,
-        // rightAxisDrawLabel: false,
-        // rightAxisLabelCount: 2 - 2,
+        rightAxisDrawLabel: true,
+        rightAxisLabelCount: 0,
+        drawDataUnderYAxis: false,
         drawBorders: true,
         borderColor: 'white',
         // preCloseColor: 'white',
@@ -129,7 +128,7 @@ class PriceChartView extends Component {
         chartPaddingTop: 0,
         chartPaddingBottom: 0,
         chartPaddingLeft: 0,
-        chartPaddingRight: 0,
+        paddingRightAxis: 0,
         lineChartGradient: [],
         // isLandspace:false,
         // chartIsPrivate:false,

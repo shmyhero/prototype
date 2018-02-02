@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.simpleapp.R;
+import com.simpleapp.component.chart.ChartDrawerConstants;
 import com.simpleapp.component.chart.PriceChart;
 import com.simpleapp.component.chart.linechart.LineChartMarkerView;
 
@@ -63,6 +64,10 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         return true;
     }
 
+    protected boolean needDrawLastCircle(CombinedChart chart){
+        return false;
+    }
+
     @Override
     protected CombinedData generateData(CombinedChart chart, final JSONObject stockInfoObject,final JSONArray chartDataList) throws JSONException{
         ArrayList<Entry> Vals = new ArrayList<Entry>();
@@ -89,33 +94,35 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         formatRightAxisText(chart, maxVal, minVal);
 
-        int[] circleColors = {Color.TRANSPARENT};
-        //We don't care if it's open any more...
-        if (Vals.size() > 0 /*&& stockInfoObject.getBoolean("isOpen")*/) {
-            circleColors = new int[Vals.size()];
-            for (int i = 0; i < Vals.size(); i++) {
-                circleColors[i] = Color.TRANSPARENT;
-            }
-            circleColors[Vals.size() - 1] = 0x66FFFFFF & ((PriceChart)chart).getDataSetColor();
-        }
 
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(Vals, "DataSet 1");
-        // set1.setFillAlpha(110);
-        // set1.setFillColor(Color.RED);
-
-        // set the line to be drawn like this "- - - - - -"
-        //set1.enableDashedLine(10f, 0f, 0f);
 
         set1.setColor(((PriceChart)chart).getDataSetColor());
-        set1.setLineWidth(2);
-        //set1.setLineWidth(ChartDrawerConstants.LINE_WIDTH_PRICE);
-        set1.setDrawCircles(true);
-        set1.setCircleRadius(18);
-        set1.setDrawCircleHole(true);
-        set1.setCircleColorHole(((PriceChart)chart).getDataSetColor());
-        set1.setCircleHoleRadius(8);
-        set1.setCircleColors(circleColors);
+        set1.setLineWidth(ChartDrawerConstants.LINE_WIDTH_PRICE);
+
+        if(needDrawLastCircle(chart)) {
+            int[] circleColors = {Color.TRANSPARENT};
+            //We don't care if it's open any more...
+
+            if (Vals.size() > 0 /*&& stockInfoObject.getBoolean("isOpen")*/) {
+                circleColors = new int[Vals.size()];
+                for (int i = 0; i < Vals.size(); i++) {
+                    circleColors[i] = Color.TRANSPARENT;
+                }
+                circleColors[Vals.size() - 1] = 0x66FFFFFF & ((PriceChart) chart).getDataSetColor();
+            }
+
+            set1.setDrawCircles(true);
+            set1.setCircleRadius(ChartDrawerConstants.CIRCLE_RADIUS_SHADOW);
+            set1.setDrawCircleHole(true);
+            set1.setCircleColorHole(((PriceChart)chart).getDataSetColor());
+            set1.setCircleHoleRadius(ChartDrawerConstants.CIRCLE_RADIUS);
+            set1.setCircleColors(circleColors);
+        }else{
+            set1.setDrawCircles(false);
+        }
+
         //set1.setValueTextSize(0f);
 //        boolean isActual = false;
 //        try {
@@ -147,7 +154,6 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         set1.setFillDrawable(drawable);
         set1.setDrawFilled(true);
-
 
         set1.setHighlightEnabled(true); // allow highlighting for DataSet
 

@@ -2,7 +2,7 @@ package com.simpleapp.component.chart;
 
 
 import com.simpleapp.component.chart.base.IChartDrawer;
-import com.simpleapp.component.chart.detail.StickTodayChartDrawer;
+import com.simpleapp.component.chart.detail.StockDetailChartDrawer;
 
 /**
  * Created by Neko on 2018/1/29.
@@ -11,7 +11,7 @@ public class ChartDrawerBuilder {
     public static IChartDrawer createDrawer(ChartDrawerConstants.CHART_TYPE type){
         switch (type){
             case today:
-                return new StickTodayChartDrawer();
+                return new StockDetailChartDrawer();
 //            case tenM:
 //                return new Stick10MinuteChartDrawer();
 //            case twoH:

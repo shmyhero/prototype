@@ -52,8 +52,11 @@ public class CustomCombinedChartRenderer extends CombinedChartRenderer {
                         mRenderers.add(new BubbleChartRenderer(chart, mAnimator, mViewPortHandler));
                     break;
                 case LINE:
-                    if (chart.getLineData() != null)
-                        mRenderers.add(new BigDotLineChartRenderer(chart, mAnimator, mViewPortHandler));
+                    if (chart.getLineData() != null) {
+                        BigDotLineChartRenderer renderer = new BigDotLineChartRenderer(chart, mAnimator, mViewPortHandler);
+                        renderer.setDrawDataUnderYAxis(drawDataUnderYAxis);
+                        mRenderers.add(renderer);
+                    }
                     break;
                 case CANDLE:
                     if (chart.getCandleData() != null)
@@ -105,6 +108,17 @@ public class CustomCombinedChartRenderer extends CombinedChartRenderer {
             }
 
             renderer.drawHighlighted(c, mHighlightBuffer.toArray(new Highlight[mHighlightBuffer.size()]));
+        }
+    }
+
+    boolean drawDataUnderYAxis = false;
+    public void setDrawDataUnderYAxis(boolean value) {
+        drawDataUnderYAxis = value;
+        for (DataRenderer renderer : mRenderers) {
+
+            if (renderer instanceof BigDotLineChartRenderer) {
+                ((BigDotLineChartRenderer) renderer).setDrawDataUnderYAxis(value);
+            }
         }
     }
 }
