@@ -3,10 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using AutoMapper;
 using ServiceStack.Redis;
+using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
+using YJY_COMMON.Model.Entity;
 
 namespace YJY_SVR.Controllers
 {
@@ -36,6 +39,27 @@ namespace YJY_SVR.Controllers
 
         protected YJYController()
         {
+        }
+
+        public int UserId
+        {
+            get
+            {
+                return Convert.ToInt32(HttpContext.Current.User.Identity.Name);
+            }
+
+            ////for unit testing
+            //get; set;
+        }
+
+        public User GetUser()
+        {
+            return db.Users.FirstOrDefault(o => o.Id == UserId);
+        }
+
+        public string __(TransKey transKey)
+        {
+            return Translator.Translate(transKey);
         }
     }
 }

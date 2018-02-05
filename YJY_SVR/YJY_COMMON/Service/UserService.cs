@@ -41,6 +41,8 @@ namespace YJY_COMMON.Service
                             CreatedAt = DateTime.UtcNow,
                             Phone = phone,
                             AuthToken = NewToken(),
+
+                            Balance = 100000,
                         };
                         dbIsolated.Users.Add(userIsolated);
 

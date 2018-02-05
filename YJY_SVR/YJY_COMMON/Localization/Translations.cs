@@ -8,6 +8,53 @@ namespace YJY_COMMON.Localization
 {
     public class Translations
     {
+        public static Dictionary<TransKey, string> Values = new Dictionary<TransKey, string>
+        {
+            {TransKey.NOT_ENOUGH_BALANCE, "账户余额不足"},
+            {TransKey.PROD_IS_CLOSED, "产品闭市中"},
+
+            //---------------------------------------------------------
+            {TransKey.INVALID_PHONE_NUMBER, "无效的手机号码"},
+            {TransKey.INVALID_VERIFY_CODE, "验证码错误"},
+            {TransKey.NICKNAME_EXISTS, "昵称已存在"},
+            {TransKey.NICKNAME_TOO_LONG, "昵称过长" },
+            {TransKey.PHONE_SIGNUP_FORBIDDEN, "手机验证过于频繁，请稍后再试"},
+
+            {TransKey.WECHAT_ALREADY_BOUND, "已绑定过微信号" },
+            {TransKey.WECHAT_OPENID_EXISTS, "微信号已被使用"},
+            {TransKey.PHONE_ALREADY_BOUND, "已绑定过手机" },
+            {TransKey.PHONE_EXISTS, "手机号已被使用"},
+
+            {TransKey.PHONE_NOT_BOUND, "未绑定手机" },
+
+            {TransKey.ORDER_REJECTED, "下单失败"},
+            {TransKey.NO_AYONDO_ACCOUNT, "交易功能未开通"},
+            {TransKey.EXCEPTION, "服务器繁忙，请稍后再试"},
+
+            { TransKey.OAUTH_LOGIN_REQUIRED, "需要OAuth授权" },
+
+            //{TransKey.USER_NOT_EXIST, "用户不存在"},
+            
+            { TransKey.USERNAME_UNAVAILABLE, "用户名已存在" },
+            { TransKey.USERNAME_INVALID, "用户名不符合要求" },
+
+            { TransKey.LIVE_ACC_EXISTS, "已注册过实盘账号" },
+            { TransKey.OCR_NO_TRANSACTION_ID, "请先上传身份证图片" },
+
+            { TransKey.LIVE_ACC_REJ_RejectedMifid, "实盘注册申请信息未达到欧盟金融工具市场法规(MiFID)的要求" },
+            { TransKey.LIVE_ACC_REJ_RejectedByDD, "实盘注册申请信息未达到KYC(充分了解你的客户)政策的要求" },
+            { TransKey.LIVE_ACC_REJ_RejectedDuplicate, "提交的实盘用户信息已存在" },
+            { TransKey.LIVE_ACC_REJ_AbortedByExpiry, "实盘注册申请已过期" },
+            { TransKey.LIVE_ACC_REJ_AbortedByPolicy, "实盘注册申请被中止" },
+
+            { TransKey.NO_APPROVED_BANK_CARD, "未绑定银行卡" },
+
+            { TransKey.PRICEDOWN, "当前价格中断,无法交易" },
+            {TransKey.Live_Acc_Not_Exist, "实盘账号不存在" },
+
+            {TransKey.PAYMENT_METHOD_DISABLED, "该入金方式暂不可用" },
+        };
+
         public static Dictionary<string, string> ProdCNames = new Dictionary<string, string>
         {
             {"gold", "黄金"},

@@ -162,10 +162,13 @@
     <Compile Include="Caching\WebCacheInstance.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\MiscController.cs" />
+    <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\YJYController.cs" />
+    <Compile Include="DTO\FormDTO\PositionFormDTO.cs" />
     <Compile Include="DTO\FormDTO\UserFormDTO.cs" />
+    <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\User.cs" />
     <Compile Include="DTO\SecurityDTO.cs" />
     <Compile Include="DTO\Util.cs" />
