@@ -13,6 +13,7 @@ namespace YJY_API
         {
             GlobalConfiguration.Configure(WebApiConfig.Register);
 
+            WebApiConfig.ConfigureJSONFormatter(GlobalConfiguration.Configuration);
             WebApiConfig.ConfigureDependencyResolver(GlobalConfiguration.Configuration);
         }
     }
