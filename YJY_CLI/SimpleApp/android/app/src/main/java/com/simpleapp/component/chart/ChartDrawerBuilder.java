@@ -3,6 +3,7 @@ package com.simpleapp.component.chart;
 
 import com.simpleapp.component.chart.base.IChartDrawer;
 import com.simpleapp.component.chart.detail.StockDetailChartDrawer;
+import com.simpleapp.component.chart.detail.UserPageChartDrawer;
 
 /**
  * Created by Neko on 2018/1/29.
@@ -10,10 +11,10 @@ import com.simpleapp.component.chart.detail.StockDetailChartDrawer;
 public class ChartDrawerBuilder {
     public static IChartDrawer createDrawer(ChartDrawerConstants.CHART_TYPE type){
         switch (type){
-            case today:
+            case stockDetailPage:
                 return new StockDetailChartDrawer();
-//            case tenM:
-//                return new Stick10MinuteChartDrawer();
+            case userHomePage:
+                return new UserPageChartDrawer();
 //            case twoH:
 //                return new Stick2HourChartDrawer();
 //            case week:

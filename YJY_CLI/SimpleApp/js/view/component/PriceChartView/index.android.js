@@ -14,14 +14,14 @@ var PriceChartPropTypes = {
     drawBackground: PropTypes.bool,
     backgroundColor: ColorPropType,
     lineChartGradient: PropTypes.array,
-
+    xAxisBackground: ColorPropType,
     xAxisDrawLabel: PropTypes.bool,
     leftAxisEnabled: PropTypes.bool,
     rightAxisEnabled: PropTypes.bool,
     dataSetColor: ColorPropType,
     // colorType: PropTypes.number,
 
-    // chartType: PropTypes.string,
+    chartType: PropTypes.string,
 
     // chartIsActual: PropTypes.bool,
 
@@ -35,6 +35,8 @@ var PriceChartPropTypes = {
     xAxisStep: PropTypes.number,
     xAxisLabelCount: PropTypes.number,
     xAxisTextSize: PropTypes.number,
+    xAxisPaddingTop: PropTypes.number,
+    xAxisPaddingBottom: PropTypes.number,
 
     // leftAxisMaxValue: PropTypes.number,
 
@@ -99,7 +101,7 @@ class PriceChartView extends Component {
     static defaultProps = {
         //data: '',
         // colorType: 0,
-        // chartType: 'today',	//today, week, month
+        chartType: 'stockDetailPage',	//stockDetailPage, userHomePage
         description: '',
         // chartIsActual: false,
         // descriptionColor: 0,
@@ -109,6 +111,7 @@ class PriceChartView extends Component {
         backgroundColor: 'transparent',
         padding: 2 - 2,
         xAxisPosition: LineChartXAxisPosition.BOTTOM,
+        xAxisBackground: "transparent",
         xAxisDrawLabel: true,
         leftAxisEnabled: true,
         rightAxisEnabled: true,
@@ -130,6 +133,8 @@ class PriceChartView extends Component {
         chartPaddingLeft: 0,
         paddingRightAxis: 0,
         lineChartGradient: [],
+        xAxisPaddingTop: 0,
+        xAxisPaddingBottom: 0,
         // isLandspace:false,
         // chartIsPrivate:false,
     }

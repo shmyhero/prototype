@@ -99,7 +99,7 @@ export default class StockOrderInfoBar extends Component {
         var extraTitleImageBackground = (<View/>);
 
         var headerHeight = this.props.width / 690 * 82
-        var longImageSrc = this.state.isLong ? require('../../images/order_direction_up_disabled.png') : require('../../images/order_direction_down_disabled.png');
+        var longImageSrc = this.state.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png');
         console.log("headerHeight " + headerHeight)
         console.log("{this.state.name} " + this.state.name)
         return (

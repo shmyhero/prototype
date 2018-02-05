@@ -21,21 +21,25 @@ import com.simpleapp.R;
  */
 
 public class CustomXAxisRenderer extends XAxisRenderer {
-    protected Paint mBackgroundPaint;
-    protected int horizontalPaddingLeft = 0;
-    protected int horizontalPaddingRight = 0;
+    protected Paint mBackgroundPaint = null;
     protected int paddingTop = 15;
     protected int paddingBottom = 15;
     public CustomXAxisRenderer(Context context, ViewPortHandler viewPortHandler, XAxis xAxis, Transformer trans) {
         super(viewPortHandler, xAxis, trans);
-
-        setBackgroundColor(context.getResources().getColor(R.color.line_chart_x_asis_background_blue));
     }
 
     public void setBackgroundColor(int color){
         mBackgroundPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBackgroundPaint.setColor(color);
         mBackgroundPaint.setStyle(Paint.Style.FILL);
+    }
+
+    public void setPaddingTop(int value){
+        paddingTop = value;
+    }
+
+    public void setPaddingBottom(int value){
+        paddingBottom = value;
     }
 
     @Override
@@ -68,12 +72,14 @@ public class CustomXAxisRenderer extends XAxisRenderer {
 
     @Override
     public void renderLimitLines(Canvas c) {
-        RectF rect = new RectF();
-        rect.left = mViewPortHandler.getContentRect().left;
-        rect.right = c.getWidth();
-        rect.top = mViewPortHandler.getContentRect().bottom;
-        rect.bottom = c.getHeight();
-        c.drawRect(rect, mBackgroundPaint);
+        if(mBackgroundPaint != null) {
+            RectF rect = new RectF();
+            rect.left = mViewPortHandler.getContentRect().left;
+            rect.right = c.getWidth();
+            rect.top = mViewPortHandler.getContentRect().bottom;
+            rect.bottom = c.getHeight();
+            c.drawRect(rect, mBackgroundPaint);
+        }
         super.renderLimitLines(c);
     }
 

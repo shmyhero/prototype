@@ -215,6 +215,17 @@ public class PriceChart extends CombinedChart {
         return dataSetColor;
     }
 
+    public void setxAxisBackground(int color){
+        ((CustomXAxisRenderer)mXAxisRenderer).setBackgroundColor(color);
+    }
+
+    public void setXAxisPaddingTop(int value){
+        ((CustomXAxisRenderer)mXAxisRenderer).setPaddingTop(value);
+    }
+
+    public void setXAxisPaddingBottom(int value){
+        ((CustomXAxisRenderer)mXAxisRenderer).setPaddingBottom(value);
+    }
 //
 //
 ////

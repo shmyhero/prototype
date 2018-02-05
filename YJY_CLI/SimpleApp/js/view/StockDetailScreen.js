@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   CheckBox,
+  Dimensions,
 } from 'react-native';
 
 import PriceChartView from './component/PriceChartView';
@@ -20,6 +21,17 @@ import { TabNavigator } from "react-navigation";
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var StockOrderInfoModal = require("./StockOrderInfoModal");
+
+var {height, width} = Dimensions.get('window')
+
+var containerHorizontalPadding = 15;
+var rowContainerWidth = width - containerHorizontalPadding * 2;
+var rowContainerHeight = rowContainerWidth / 700 * 150;
+var smallContainerWidth = (width - containerHorizontalPadding * 3) / 2;
+var smallContainerHeight = smallContainerWidth / 350 * 330;
+var buttonPadding = 10;
+var rowButtonWidth = (rowContainerWidth - buttonPadding * 4)/4;
+var rowButtonHeight =  rowButtonWidth / 144 * 99;
 
 export default class  StockDetailScreen extends React.Component {
     static navigationOptions = {
@@ -290,40 +302,54 @@ export default class  StockDetailScreen extends React.Component {
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
         var additionalContainerStyle = parameters.additionalContainerStyle;
-        var selectedTextViewStyle = parameters.selectedTextViewStyle;
-        var selectedContainerStyle = parameters.selectedContainerStyle;
+        var customTextViewStyle = parameters.customTextViewStyle;
+        // var selectedContainerStyle = parameters.selectedContainerStyle;
         var imageSource = parameters.imageSource;
         var selectedImageSource = parameters.selectedImageSource;
-        //label, value, groupName, additionalContainerStyle, additionalTextStyle
         var selected = this.state[groupName] == value;
         var containerStyleList = [styles.numberButton];
         var textViewStyleList = [styles.numberButtonLabel];
+        var backgroundImageSource = parameters.backgroundImageSource ? parameters.backgroundImageSource : require("../../images/stock_detail_action_unselected.png")
+        var selectedBackgroundImageSource = parameters.selectedBackgroundImageSource ? parameters.selectedBackgroundImageSource : require("../../images/stock_detail_action_selected_blue.png")
         if(selected){
-            if(selectedContainerStyle){
-                containerStyleList.push(selectedContainerStyle)
-            }
-            if(selectedTextViewStyle){
-                textViewStyleList.push(selectedTextViewStyle)
-            }
+            // if(selectedContainerStyle){
+            //     containerStyleList.push(selectedContainerStyle)
+            // }
             if(selectedImageSource){
                 imageSource = selectedImageSource;
             }
+            backgroundImageSource = selectedBackgroundImageSource;
         }
         
+        if(customTextViewStyle){
+            textViewStyleList.push(customTextViewStyle)
+        }
         if (additionalContainerStyle){
             containerStyleList.push(additionalContainerStyle)
         }
         if (additionalTextStyle){
             textViewStyleList.push(additionalTextStyle)
         }
+
+        var buttonWidth = parameters.buttonWidth ? parameters.buttonWidth : rowButtonWidth;
+        var buttonHeight = parameters.buttonHeight ? parameters.buttonHeight : rowButtonHeight;
+
         return (
             <TouchableOpacity style={containerStyleList} onPress={()=>{
                 var newState = {};
                 newState[groupName] = value
                 this.setState(newState);
             }}>
-                {this.renderImage(imageSource)}
-                <Text style={textViewStyleList}>{label}</Text>
+                <View style={{width: buttonWidth, height: buttonHeight, alignItems:'center', justifyContent:'center' }}>
+                    <Image style={{
+                            position:'absolute', 
+                            width: buttonWidth, height: buttonHeight
+                        }}
+                        resizeMode={'contain'}
+                        source={backgroundImageSource}/>
+                    {this.renderImage(imageSource)}
+                    <Text style={textViewStyleList}>{label}</Text>
+                </View>
             </TouchableOpacity>
         )
     }
@@ -341,7 +367,7 @@ export default class  StockDetailScreen extends React.Component {
 
     renderSectionTitle(title){
         return (
-            <View style={{position:'absolute', left:0, right: 0, top:-15, height:30, 
+            <View style={{position:'absolute', left:0, right: 0, top:0, height:30, 
                         justifyContent:'center',
                         alignItems:'center'}}>
                 <Text style={{backgroundColor:'white', paddingLeft:20, paddingRight:20, textAlign:'center',
@@ -360,16 +386,19 @@ export default class  StockDetailScreen extends React.Component {
         return this.renderButtonInGroup({
             value: value, 
             groupName: "Amount", 
-            selectedTextViewStyle: styles.SelectedAmountButton, 
-            selectedContainerStyle: styles.SelectedAmountButtonContainer});            
+            customTextViewStyle: styles.SelectedAmountButton,
+            backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
+            selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_blue.png")
+        });            
     }
 
     renderMultiplierButton(value){
         return this.renderButtonInGroup({
             value: value, 
             groupName: "Multiplier", 
-            selectedTextViewStyle: styles.SelectedMultiplierButton, 
-            selectedContainerStyle: styles.SelectedMultiplierButtonContainer});            
+            customTextViewStyle: styles.SelectedMultiplierButton,
+            backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
+            selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_green.png")});            
     }
 
     renderOperationButton(label, value, imageSource, selectedImageSource){
@@ -379,17 +408,16 @@ export default class  StockDetailScreen extends React.Component {
             groupName: "Operation",
             imageSource: imageSource,
             selectedImageSource: selectedImageSource,
-            selectedTextViewStyle: styles.SelectedAmountButton,
-            selectedContainerStyle: styles.SelectedAmountButtonContainer,
+            customTextViewStyle: styles.SelectedAmountButton,
         });            
     }
 
     renderSubmitButton(){
         var source = null;
         if(this.state.Amount != undefined && this.state.Multiplier != undefined && this.state.Operation != undefined){
-            source = require("../../images/order_button_enabled.png");
+            source = require("../../images/stock_detail_button_enabled.png");
         }else{
-            source = require("../../images/order_button_disabled.png")
+            source = require("../../images/stock_detail_button_disabled.png")
         }
         return (
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
@@ -406,49 +434,92 @@ export default class  StockDetailScreen extends React.Component {
         );
     }
 
+    renderPriceChart(){
+        return  (<View style={styles.chartContainer}>
+            <PriceChartView style={{flex:1}}
+                lineChartGradient={['#33c1fc', '#20b2f7']}
+                xAxisPosition="BOTTOM"
+                leftAxisEnabled={false}
+                rightAxisEnabled={true}
+                dataSetColor={"#b7e1f8"}
+                textColor={"#7abff0"}
+                drawBorders={false}
+                borderColor={'transparent'}
+                data={JSON.stringify(this.state.stockInfo)}
+                paddingRightAxis={20}
+                drawDataUnderYAxis={true}
+                xAxisBackground={"#1394e6"}
+                xAxisPaddingBottom={20}
+                xAxisPaddingTop={20}
+                /> 
+        </View>
+        )
+
+        /* <View style={[styles.chartContainer, {backgroundColor: 'white'}]}>
+        <PriceChartView style={{flex:1, height:300}}
+            chartType={"userHomePage"}
+            lineChartGradient={['#dbf1fd', '#feffff']}
+            dataSetColor={"#0f98eb"}
+            textColor={"#9e9e9e"}
+            borderColor={'#666666'}
+            xAxisPosition="BOTTOM"
+            leftAxisEnabled={false}
+            rightAxisEnabled={true}
+            rightAxisDrawLabel={true}
+            rightAxisLabelCount={5}
+            chartPaddingLeft={24}
+            chartPaddingTop={20}
+            xAxisPaddingBottom={5}
+            xAxisPaddingTop={20}
+            paddingRightAxis={10}
+            drawBorders={true}
+            data={JSON.stringify(this.state.stockInfo)}
+            drawDataUnderYAxis={true}
+        
+            />
+    </View> */
+    }
+
     render() {
+       
+
         return (
             <View style={styles.container}>
-                <View style={styles.chartContainer}>
-                    <PriceChartView style={{flex:1, height:300}}
-                        lineChartGradient={['#33c1fc', '#20b2f7']}
-						xAxisPosition="BOTTOM"
-                        leftAxisEnabled={false}
-                        rightAxisEnabled={true}
-                        dataSetColor={"#b7e1f8"}
-                        textColor={"#7abff0"}
-                        drawBorders={false}
-                        borderColor={'transparent'}
-                        data={JSON.stringify(this.state.stockInfo)}
-                        paddingRightAxis={20}
-                        drawDataUnderYAxis={true}
-                        />
-                </View>
-
-                <View style={styles.actionsContainer}>
-                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer, {flex:1,}]}>
-                        {this.renderSectionTitle("糖果")}
+                {this.renderPriceChart()}
+                <View style={styles.actionsContainer}>                      
+                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer,]}>
+                        <Image style={styles.buttonsRowContainerBackground}
+                            resizeMode={"contain"}
+                            source={require('../../images/stock_detail_multiple_container.png')}/>
                         {this.renderAmountButton(50)}
                         {this.renderAmountButton(100)}
                         {this.renderAmountButton(200)}
-                        {this.renderAmountButton(400)}                        
+                        {this.renderAmountButton(400)}
                     </View>
 
-                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer, {flex:1,}]}>
-                        {this.renderSectionTitle("杠杆")}
+                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer]}>
+                        <Image style={styles.buttonsRowContainerBackground}
+                            resizeMode={"contain"}
+                            source={require('../../images/stock_detail_multiple_container.png')}/>
                         {this.renderMultiplierButton(10)}
                         {this.renderMultiplierButton(30)}
                         {this.renderMultiplierButton(50)}
                         {this.renderMultiplierButton(100)}
                     </View>
 
-                    <View style={{flex:3, flexDirection:'row'}}>
-                        <View style={[styles.buttonsContainer, {flex:1}]}>
-                            {this.renderOperationButton("上升", 1, require("../../images/order_direction_up_disabled.png"), require("../../images/order_direction_up_enabled.png"))}
-                            {this.renderOperationButton("下降", 0, require("../../images/order_direction_down_disabled.png"), require("../../images/order_direction_down_enabled.png"))}
+                    <View style={{flexDirection:'row'}}>
+                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer, {flex:1}]}>
+                            <Image style={styles.buttonsSmallContainerBackground}
+                                resizeMode={"contain"}
+                                source={require('../../images/stock_detail_trading_container.png')}/>
+                            {this.renderOperationButton("上升", 1, require("../../images/stock_detail_direction_up_disabled.png"), require("../../images/stock_detail_direction_up_enabled.png"))}
+                            {this.renderOperationButton("下降", 0, require("../../images/stock_detail_direction_down_disabled.png"), require("../../images/stock_detail_direction_down_enabled.png"))}
                         </View>
-                        <View style={[styles.buttonsContainer, 
-                            {flex:1, justifyContent:'center', alignItems:'center'}]}>
+                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer, 
+                            {flex:1, justifyContent:'center', alignItems:'center', padding:15}]}>
+                            <Image style={styles.buttonsSmallContainerBackground}
+                                resizeMode={"contain"}
+                                source={require('../../images/stock_detail_trading_container.png')}/>
                             {this.renderSubmitButton()}                            
                         </View>
                     </View>
@@ -464,10 +535,7 @@ const styles = StyleSheet.create({
         flex:1,
         backgroundColor:'black', 
     },
-    icon: {
-      width: 26,
-      height: 26,
-    },
+    
     container: {
         flex: 1,
         alignSelf:'stretch',
@@ -482,57 +550,64 @@ const styles = StyleSheet.create({
         backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE
     },
 
-    actionsContainer:{
-        flex:1, 
+    actionsContainer:{       
         justifyContent:'flex-start', 
         alignSelf:'stretch'
     },
 
-    buttonsContainer:{       
-        margin:10,
+    buttonsContainer:{
+        marginLeft:containerHorizontalPadding,
+        marginRight:containerHorizontalPadding,
         justifyContent: 'space-between',
         alignSelf:'center',
-        borderWidth:1,
-        borderColor:'#f2f2f2',
-        borderRadius:25,
-        padding: 3
+        padding: 5,
     },
 
     buttonsRowContainer:{
-        alignSelf:'stretch',
+        alignSelf:'stretch',       
         flexDirection: 'row',
+        width: rowContainerWidth, 
+        height:rowContainerHeight,
+    },
+
+    buttonsSmallContainer:{
+        alignSelf:'stretch',
+        flexDirection: 'column',
+        width: smallContainerWidth, 
+        height: smallContainerHeight,
+    },
+
+    buttonsRowContainerBackground:{
+        position:'absolute',
+        width: rowContainerWidth,
+        height:rowContainerHeight
+    },
+
+    buttonsSmallContainerBackground:{
+        position:'absolute',
+        width: smallContainerWidth,
+        height: smallContainerHeight,
     },
 
     numberButton:{
         flex:1,
-        margin:3,
-        borderWidth:1,
-        borderColor:'#f2f2f2',
-        borderRadius:20,
-        padding: 10,
+        marginTop:4,
         alignSelf:'center',
         justifyContent:'center',
         flexDirection:'row',
     },
 
     numberButtonLabel:{
-        textAlign: 'center'
+        textAlign: 'center',
+        fontSize:20,
     },
 
     SelectedAmountButton:{
-        color:'#0f96ea'
+        color:'#0f96ea',
     },
 
-    SelectedAmountButtonContainer:{
-        borderColor:'#0f96ea'
-    },
-    
     SelectedMultiplierButton:{
-        color:'#2ab848'
-    },
-
-    SelectedMultiplierButtonContainer:{
-        borderColor:'#2ab848'
+        color:'#2ab848',
     },
 })
 

@@ -248,7 +248,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      *
      * @return
      */
-    protected boolean needDrawDataLimitLines() {
+    protected boolean needXDrawDataLimitLines() {
         return false;
     }
 
@@ -362,11 +362,11 @@ public abstract class BaseChartDrawer implements IChartDrawer {
             drawPreCloseLine(chart, stockInfoObject);
         }
 
-        if (needDrawLastPriceLine()){
+        if (needDrawLastPriceLine()) {
             drawLastPriceLine(chart, stockInfoObject);
         }
 
-        if (needDrawDataLimitLines()){
+        if (needXDrawDataLimitLines()){
             // Set the yAxis lines with 1 hour in between.
             Calendar startUpLine = getStartUpTimeLine(stockInfoObject, chartDataList);
 

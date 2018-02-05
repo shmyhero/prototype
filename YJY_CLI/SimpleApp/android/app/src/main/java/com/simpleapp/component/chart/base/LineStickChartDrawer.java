@@ -32,12 +32,6 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
     @Override
     protected void resetChart(CombinedChart chart) {
         super.resetChart(chart);
-        chart.setDragEnabled(true);
-        chart.setScaleEnabled(false);
-        chart.setTouchEnabled(true);
-
-        LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker);
-        chart.setMarker(marker);
     }
 
     protected Drawable getGradientDrawable(int[] colors){
@@ -123,32 +117,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
             set1.setDrawCircles(false);
         }
 
-        //set1.setValueTextSize(0f);
-//        boolean isActual = false;
-//        try {
-//            isActual = ((ReactChart) chart).isAcutal;
-//        } catch (Exception e) {
-//            Log.e("", e.toString());
-//        }
-
-        chart.getXAxis().setValueFormatter(new IAxisValueFormatter() {
-            @Override
-            public String getFormattedValue(float value, AxisBase axis) {
-                try {
-                    //String val = "2018-01-29T22:21:54.896Z";
-                    String xVal = (chartDataList.getJSONObject((int) value).getString("time"));
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-                    Date date = format.parse(xVal);
-                    SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
-                    String outputString = outFormat.format(date);
-
-                    return outputString;
-
-                }catch(Exception e){
-                    return "error";
-                }
-            }
-        });
+        chart.getXAxis().setValueFormatter(getXAxisLabelFormatter(chartDataList));
 
         Drawable drawable = getGradientDrawable(((PriceChart)chart).getGradientColors());
 
@@ -169,6 +138,26 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         return data;
     }
 
+    public IAxisValueFormatter getXAxisLabelFormatter(final JSONArray chartDataList){
+        return new IAxisValueFormatter() {
+            @Override
+            public String getFormattedValue(float value, AxisBase axis) {
+                try {
+                    //String val = "2018-01-29T22:21:54.896Z";
+                    String xVal = (chartDataList.getJSONObject((int) value).getString("time"));
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    Date date = format.parse(xVal);
+                    SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
+                    String outputString = outFormat.format(date);
+
+                    return outputString;
+
+                }catch(Exception e){
+                    return "error";
+                }
+            }
+        };
+    }
 
     @Override
     public String getLableBlank() {

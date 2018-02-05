@@ -32,23 +32,25 @@ public class ChartDrawerConstants {
     }
 
     public enum CHART_TYPE {
-        todayK("todayK"),
-        oneM("1m"),
-        fiveM("5m"),
-        tenM("10m"),
-        fifteenM("15m"),
-        twoH("2h"),
-        day("day"),
-
-        today("today"),
-        hour("60m"),
-        week("week"),
-        month("month"),
-        threeMonth("3month"),
-        sixMonth("6month"),
-
-        towWeekYield("2WeekYield"),//2周收益曲线
-        allYield("allYield");//全部收益曲线
+        stockDetailPage("stockDetailPage"),
+        userHomePage("userHomePage");
+//        todayK("todayK"),
+//        oneM("1m"),
+//        fiveM("5m"),
+//        tenM("10m"),
+//        fifteenM("15m"),
+//        twoH("2h"),
+//        day("day"),
+//
+//        today("today"),
+//        hour("60m"),
+//        week("week"),
+//        month("month"),
+//        threeMonth("3month"),
+//        sixMonth("6month"),
+//
+//        towWeekYield("2WeekYield"),//2周收益曲线
+//        allYield("allYield");//全部收益曲线
 
         private String name;
 

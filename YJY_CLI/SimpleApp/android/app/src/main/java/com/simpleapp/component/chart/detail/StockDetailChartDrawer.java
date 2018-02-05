@@ -7,6 +7,7 @@ import com.github.mikephil.charting.components.LimitLine;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
 import com.simpleapp.component.chart.PriceChart;
+import com.simpleapp.component.chart.base.CustomXAxisRenderer;
 import com.simpleapp.component.chart.base.LineStickChartDrawer;
 import com.simpleapp.component.chart.linechart.LineChartMarkerView;
 
@@ -24,6 +25,13 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     protected void resetChart(CombinedChart chart) {
         super.resetChart(chart);
         ((PriceChart)chart).setDrawDataUnderYAxis(true);
+
+        chart.setDragEnabled(true);
+        chart.setScaleEnabled(false);
+        chart.setTouchEnabled(true);
+
+        LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker);
+        chart.setMarker(marker);
     }
 
     @Override

@@ -26,7 +26,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 
     private static final String REACT_CLASS = "RCTPriceChart";
 
-    private ChartDrawerConstants.CHART_TYPE mChartType = ChartDrawerConstants.CHART_TYPE.today;
+    private ChartDrawerConstants.CHART_TYPE mChartType = ChartDrawerConstants.CHART_TYPE.stockDetailPage;
 
     int textColor = ChartDrawerConstants.CHART_TEXT_COLOR;
     int borderColor = ChartDrawerConstants.CHART_BORDER_COLOR;
@@ -139,23 +139,23 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 
     @ReactProp(name = "data")
     public void setData(PriceChart chart, String stockInfoData) {
-        if(mChartType!=null&&(mChartType.equals(ChartDrawerConstants.CHART_TYPE.towWeekYield)||mChartType.equals(ChartDrawerConstants.CHART_TYPE.allYield))){
-            Log.d("","stockInfoData = " + stockInfoData);
-            try{
-//                JSONObject plData = new JSONObject(stockInfoData);
-                JSONArray plDataArray = new JSONArray(stockInfoData);
-                IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
-                drawer.setTextColor(textColor);
-                drawer.setBorderColor(borderColor);
-                drawer.setPreCloseColor(preCloseColor);
-                if(drawer != null){
-                    drawer.draw(chart, null, plDataArray);
-                    return;
-                }
-            }catch (Exception e){
-
-            }
-        }else if (chart != null && stockInfoData != null && stockInfoData.length() > 0) {
+//        if(mChartType!=null&&(mChartType.equals(ChartDrawerConstants.CHART_TYPE.towWeekYield)||mChartType.equals(ChartDrawerConstants.CHART_TYPE.allYield))){
+//            Log.d("","stockInfoData = " + stockInfoData);
+//            try{
+////                JSONObject plData = new JSONObject(stockInfoData);
+//                JSONArray plDataArray = new JSONArray(stockInfoData);
+//                IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
+//                drawer.setTextColor(textColor);
+//                drawer.setBorderColor(borderColor);
+//                drawer.setPreCloseColor(preCloseColor);
+//                if(drawer != null){
+//                    drawer.draw(chart, null, plDataArray);
+//                    return;
+//                }
+//            }catch (Exception e){
+//
+//            }
+//        }else if (chart != null && stockInfoData != null && stockInfoData.length() > 0) {
             try {
                 JSONObject stockInfoObject = new JSONObject(stockInfoData);
                 if (!stockInfoObject.has("priceData")) {
@@ -181,7 +181,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-        }
+//        }
     }
 
     @ReactProp(name = "noDataText")
@@ -250,18 +250,18 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 //            ChartDrawerConstants.CHART_LINE_COLOR = Color.WHITE;
 //        }
 //    }
-//
-//    @ReactProp(name = "chartType")
-//    public void setChartType(PriceChart chart, String type) {
-//        ChartDrawerConstants.CHART_TYPE[] allType = ChartDrawerConstants.CHART_TYPE.values();
-//        for (int i = 0; i < allType.length; i++) {
-//            if (allType[i].getName().equals(type)) {
-//                mChartType = allType[i];
-//                break;
-//            }
-//        }
-//    }
-//
+
+    @ReactProp(name = "chartType")
+    public void setChartType(PriceChart chart, String type) {
+        ChartDrawerConstants.CHART_TYPE[] allType = ChartDrawerConstants.CHART_TYPE.values();
+        for (int i = 0; i < allType.length; i++) {
+            if (allType[i].getName().equals(type)) {
+                mChartType = allType[i];
+                break;
+            }
+        }
+    }
+
 ////    @ReactProp(name = "chartIsActual")
 ////    public void setChartIsActual(PriceChart chart, boolean chartIsActual){
 ////        chart.setIsActual(chartIsActual);
@@ -337,7 +337,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
     public void setLeftAxisEnabled(PriceChart chart, boolean enabled) {
         if (chart != null) {
             chart.getAxisLeft().setEnabled(enabled);
-            //this.setChartPaddingLeft(chart, chartOffsetLeft);
+            this.setChartPaddingLeft(chart, chartOffsetLeft);
         }
     }
 //
@@ -369,6 +369,15 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
             chart.getXAxis().setLabelCount(num, true);
         }
     }
+
+    @ReactProp(name = "xAxisBackground")
+    public void setxAxisBackground(PriceChart chart, String color) {
+        if (chart != null) {
+            int colorInt = getColor(color);
+            chart.setxAxisBackground(colorInt);
+        }
+    }
+
 //
 //    @ReactProp(name = "leftAxisLabelCount")
 //    public void setLeftAxisLabelCount(PriceChart chart, int num) {
@@ -435,6 +444,20 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 //            chart.getAxisRight().setPosition(YAxis.YAxisLabelPosition.valueOf(position));
 //        }
 //    }
+
+    @ReactProp(name = "xAxisPaddingTop")
+    public void setXAxisPaddingTop(PriceChart chart, int num) {
+        if (chart != null) {
+            chart.setXAxisPaddingTop(num);
+        }
+    }
+
+    @ReactProp(name = "xAxisPaddingBottom")
+    public void setXAxisPaddingBottom(PriceChart chart, int num) {
+        if (chart != null) {
+            chart.setXAxisPaddingBottom(num);
+        }
+    }
 
     @ReactProp(name = "rightAxisLabelCount")
     public void setRightAxisLabelCount(PriceChart chart, int num) {
