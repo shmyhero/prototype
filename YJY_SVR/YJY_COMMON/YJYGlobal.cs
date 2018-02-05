@@ -18,6 +18,13 @@ namespace YJY_COMMON
         public const string DATETIME_MASK_MILLI_SECOND = "yyyy-MM-dd HH:mm:ss.fff";
         public const string DATETIME_MASK_SECOND = "yyyy-MM-dd HH:mm:ss";
 
+        public static TimeSpan PROD_DEF_ACTIVE_IF_TIME_NOT_OLDER_THAN_TS = TimeSpan.FromDays(14);
+        public static string ASSET_CLASS_STOCK = "Single Stocks";
+        public static string ASSET_CLASS_FX = "Currencies";
+        public static string ASSET_CLASS_CRYPTO_FX = "Cryptocurrencies";
+        public static string ASSET_CLASS_INDEX = "Stock Indices";
+        public static string ASSET_CLASS_COMMODITY = "Commodities";
+
         /// <summary>
         /// the default application-wide PooledRedisClientsManager
         /// </summary>

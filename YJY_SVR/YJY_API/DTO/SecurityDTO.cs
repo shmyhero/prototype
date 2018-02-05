@@ -17,4 +17,44 @@ namespace YJY_SVR.DTO
         public decimal? maxValueLong { get; set; }
         public decimal? maxValueShort { get; set; }
     }
+
+    public class SecurityLiteDTO
+    {
+        public int id { get; set; }
+        public string symbol { get; set; }
+        public string name { get; set; }
+        //public string picUrl { get; set; }
+        public string tag { get; set; }
+
+        public decimal? preClose { get; set; }
+        public decimal? open { get; set; }
+        public decimal? last { get; set; }
+
+        public bool? isOpen { get; set; }
+        public int? status { get; set; }
+
+        public string eName { get; set; }
+    }
+
+    public class SecurityDTO : SecurityLiteDTO
+    {
+        public int? dcmCount { get; set; }
+
+        public decimal? bid { get; set; }
+        public decimal? ask { get; set; }
+    }
+
+    public class SecurityDetailDTO : SecurityDTO
+    {
+        public DateTime? lastOpen { get; set; }
+        public DateTime? lastClose { get; set; }
+
+        public decimal? maxLeverage { get; set; }
+
+        public decimal? gsmd { get; set; }
+
+        public List<int> levList { get; set; }
+
+        public string assetClass { get; set; }
+    }
 }
