@@ -88,6 +88,7 @@
     <Compile Include="Service\PositionService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="Util\Extension\StringExtension.cs" />
+    <Compile Include="Util\Trades.cs" />
     <Compile Include="Util\Products.cs" />
     <Compile Include="Util\Quotes.cs" />
     <Compile Include="Util\Randoms.cs" />

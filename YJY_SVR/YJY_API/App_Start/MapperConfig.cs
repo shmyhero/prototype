@@ -35,6 +35,10 @@ namespace YJY_API
                     .ForMember(dest => dest.status, opt => opt.MapFrom(src => src.QuoteType))
                     .ForMember(dest => dest.tag, opt => opt.MapFrom(src => Products.GetStockTag(src.Symbol)))
                     .ForMember(dest => dest.dcmCount, opt => opt.MapFrom(src => src.Prec));
+
+                cfg.CreateMap<Position, PositionDTO>()
+                .ForMember(dest => dest.isLong, opt => opt.MapFrom(src => src.Side))
+                .ForMember(dest=>dest.createAt,opt=>opt.MapFrom(src=>src.CreateTime));
             });
         }
     }

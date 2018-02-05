@@ -8,6 +8,7 @@ using AutoMapper;
 using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
+using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
 using YJY_COMMON.Util;
 using YJY_SVR.Caching;
@@ -56,6 +57,48 @@ namespace YJY_SVR.Controllers
             };
 
             return posDTO;
+        }
+
+        [HttpGet]
+        [Route("open")]
+        [BasicAuth]
+        public List<PositionDTO> GetOpenPositions(bool ignoreCache = false)
+        {
+            var user = GetUser();
+
+            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null)
+                .OrderByDescending(o => o.CreateTime)
+                .ToList();
+
+           var cache = WebCache.Instance;
+
+            var positionDtos = positions.Select(delegate (Position p)
+            {
+                var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == Convert.ToInt32(p.SecurityId));
+
+                var quote = cache.Quotes.FirstOrDefault(o => o.Id == Convert.ToInt32(p.SecurityId));
+
+                var security = Mapper.Map<SecurityDetailDTO>(prodDef);
+
+                if (quote != null)
+                {
+                    security.last = Quotes.GetLastPrice(quote);
+                    security.ask = quote.Ask;
+                    security.bid = quote.Bid;
+                }
+
+                var posDTO = Mapper.Map<PositionDTO>(p);
+
+                //security
+                posDTO.security = security;
+
+                //calculate UPL
+                posDTO.upl = Trades.CalculatePL(p, quote);
+
+                return posDTO;
+            }).Where(o => o != null).ToList();
+
+            return positionDtos;
         }
     }
 }
