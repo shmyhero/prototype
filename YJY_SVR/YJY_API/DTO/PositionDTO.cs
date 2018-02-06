@@ -25,5 +25,8 @@ namespace YJY_SVR.DTO
 
         public decimal? stopPx { get; set; }
         public decimal? takePx { get; set; }
+
+        public DateTime? closedAt { get; set; }
+        public decimal? closePrice { get; set; }
     }
 }

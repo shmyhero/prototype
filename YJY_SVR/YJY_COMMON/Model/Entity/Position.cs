@@ -29,10 +29,13 @@ namespace YJY_COMMON.Model.Entity
 
         public decimal? PL { get; set; }
 
-        public decimal? ClosedPrice { get; set; }
+        public decimal? ClosePrice { get; set; }
 
         public decimal? StopPx { get; set; }
 
         public decimal? TakePx { get; set; }
+
+        [StringLength(20)]
+        public string CloseType { get; set; }
     }
 }

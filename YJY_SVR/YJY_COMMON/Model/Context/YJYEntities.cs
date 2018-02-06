@@ -36,7 +36,7 @@ namespace YJY_COMMON.Model.Context
                 .HasPrecision(18, 8);
 
             modelBuilder.Entity<Position>()
-                .Property(e => e.ClosedPrice)
+                .Property(e => e.ClosePrice)
                 .HasPrecision(18, 8);
 
             modelBuilder.Entity<Position>()

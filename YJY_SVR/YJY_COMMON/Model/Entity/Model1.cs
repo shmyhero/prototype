@@ -13,7 +13,6 @@ namespace YJY_COMMON.Model.Entity
         }
 
         public virtual DbSet<Position> Positions { get; set; }
-        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -34,7 +33,7 @@ namespace YJY_COMMON.Model.Entity
                 .HasPrecision(18, 8);
 
             modelBuilder.Entity<Position>()
-                .Property(e => e.ClosedPrice)
+                .Property(e => e.ClosePrice)
                 .HasPrecision(18, 8);
 
             modelBuilder.Entity<Position>()
@@ -43,10 +42,6 @@ namespace YJY_COMMON.Model.Entity
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.TakePx)
-                .HasPrecision(18, 8);
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Balance)
                 .HasPrecision(18, 8);
         }
     }

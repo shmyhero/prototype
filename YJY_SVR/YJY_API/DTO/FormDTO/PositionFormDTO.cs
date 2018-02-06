@@ -12,4 +12,10 @@ namespace YJY_SVR.DTO.FormDTO
         public decimal invest { get; set; }
         public decimal leverage { get; set; }
     }
+
+    public class NetPositionFormDTO
+    {
+        public int posId { get; set; }
+        public int securityId { get; set; }
+    }
 }

@@ -5,6 +5,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
+using YJY_COMMON;
 using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
@@ -59,18 +60,40 @@ namespace YJY_SVR.Controllers
             return posDTO;
         }
 
+        [HttpPost]
+        [Route("net")]
+        [BasicAuth]
+        public PositionDTO NetPosition(NetPositionFormDTO form)
+        {
+            var cache = WebCache.Instance;
+            
+            var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == form.securityId);
+            if (prodDef.QuoteType == enmQuoteType.Closed || prodDef.QuoteType == enmQuoteType.Inactive)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, __(TransKey.PROD_IS_CLOSED)));
+
+            var quote = cache.Quotes.FirstOrDefault(o => o.Id == form.securityId);
+
+            var positionService = new PositionService();
+            var closedPosition = positionService.DoClosePosition(UserId, form.posId,form.securityId, Quotes.GetLastPrice(quote));
+
+            var result = Mapper.Map<PositionDTO>(closedPosition);
+
+           return result;
+        }
+
         [HttpGet]
         [Route("open")]
         [BasicAuth]
-        public List<PositionDTO> GetOpenPositions(bool ignoreCache = false)
+        public List<PositionDTO> GetOpenPositions(int pageNum = 1, int pageSize = YJYGlobal.PAGE_SIZE)
         {
-            var user = GetUser();
+            //var user = GetUser();
 
             var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null)
                 .OrderByDescending(o => o.CreateTime)
+                .Skip((pageNum-1)*pageSize).Take(pageSize)
                 .ToList();
 
-           var cache = WebCache.Instance;
+            var cache = WebCache.Instance;
 
             var positionDtos = positions.Select(delegate (Position p)
             {
@@ -94,6 +117,35 @@ namespace YJY_SVR.Controllers
 
                 //calculate UPL
                 posDTO.upl = Trades.CalculatePL(p, quote);
+
+                return posDTO;
+            }).Where(o => o != null).ToList();
+
+            return positionDtos;
+        }
+
+        [HttpGet]
+        [Route("closed")]
+        [BasicAuth]
+        public List<PositionDTO> GetClosedPositions(int pageNum = 1, int pageSize = YJYGlobal.PAGE_SIZE)
+        {
+            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt != null)
+                .OrderByDescending(o => o.ClosedAt)
+                .Skip((pageNum - 1) * pageSize).Take(pageSize)
+                .ToList();
+
+            var cache = WebCache.Instance;
+
+            var positionDtos = positions.Select(delegate (Position p)
+            {
+                var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == Convert.ToInt32(p.SecurityId));
+
+                var security = Mapper.Map<SecurityDetailDTO>(prodDef);
+
+                var posDTO = Mapper.Map<PositionDTO>(p);
+
+                //security
+                posDTO.security = security;
 
                 return posDTO;
             }).Where(o => o != null).ToList();

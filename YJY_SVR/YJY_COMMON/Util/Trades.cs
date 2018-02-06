@@ -12,7 +12,20 @@ namespace YJY_COMMON.Util
     {
         public static decimal CalculatePL(Position p, Quote q)
         {
-            decimal upl = p.Side.Value ? p.Invest.Value * (Quotes.GetLastPrice(q) / p.SettlePrice.Value - 1) : p.Invest.Value * (1 - Quotes.GetLastPrice(q) / p.SettlePrice.Value);
+            return CalculatePL(p, Quotes.GetLastPrice(q));
+        }
+
+        public static decimal CalculatePL(Position p, decimal quotePrice)
+        {
+            decimal upl = p.Side.Value
+                ? p.Invest.Value*(quotePrice/p.SettlePrice.Value - 1)
+                : p.Invest.Value*(1 - quotePrice/p.SettlePrice.Value);
+            upl = upl*p.Leverage.Value;
+
+            //max loss will NOT be greater than invest
+            if (upl + p.Invest < 0)
+                upl = -p.Invest.Value;
+
             return upl;
         }
     }
