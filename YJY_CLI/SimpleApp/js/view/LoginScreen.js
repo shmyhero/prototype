@@ -62,7 +62,7 @@ export default class  LoginScreen extends React.Component {
                         </TouchableOpacity>  
                     </View>
 
-                    <View style={{backgroundColor:'#46bef5',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:'#46bef5',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
                             maxLength={6} 
@@ -82,10 +82,13 @@ export default class  LoginScreen extends React.Component {
                     </TouchableOpacity>
                     
                 </View>
-                <TouchableOpacity onPress={()=>this.onWechatLogin()} style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Text style={{color:'#6ac1f5'}}>快速登录</Text>
-                    <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
-                </TouchableOpacity>    
+                    <TouchableOpacity onPress={()=>this.onWechatLogin()}>
+                     <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
+                    </TouchableOpacity>    
+                    
+                </View>    
             </View>
         );
     } 

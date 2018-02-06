@@ -55,19 +55,20 @@ export default class ProfitStatisticsBlock extends Component {
     var selectorRightBgColor = this.state.chartType == TYPE_MONTH ? 'transparent':ColorConstants.BGBLUE
     var textColorLeft = this.state.chartType == TYPE_MONTH ? 'white':'grey'
     var textColorRight = this.state.chartType == TYPE_MONTH ? 'grey':'white'
-    return (
-       
-         
-
+    return (  
           <ImageBackground style={styles.gifBg} source={require('../../../../images/statistics.gif')}>
-            <Text style={{marginTop:15,color:'grey'}}>总糖果</Text>
-            <Text style={{marginTop:0,fontSize:48,color:ColorConstants.BGBLUE}}>99999.00</Text>
-            <Text style={{marginTop:40}}>剩余糖果</Text>
-            <Text style={{marginTop:0,fontSize:34}}>50000.00</Text>
-          </ImageBackground>
+            <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+              <Text style={{marginTop:15,color:'grey'}}>总糖果</Text>
+              <Text style={{marginTop:0,fontSize:48,color:ColorConstants.BGBLUE}}>99999.00</Text>
+            </View>  
+
+            <View style={{flex:1,justifyContent:'flex-end',alignItems:'center'}}>
+              <Text style={{color:'#c8e7fb'}}>剩余糖果</Text>
+              <Text style={{color:'#c8e7fb',fontSize:34,marginBottom:10}}>50000.00</Text>
+            </View>
            
-        
-    
+          
+          </ImageBackground>
     );
   }
 }
@@ -105,7 +106,8 @@ const styles = StyleSheet.create({
   gifBg:{
     width:width-40,
     height:(width-40)*215/350,
-    margin:0,alignItems:'center'
+    margin:0,alignItems:'center',
+    justifyContent:'space-between'
   }
 });
 
