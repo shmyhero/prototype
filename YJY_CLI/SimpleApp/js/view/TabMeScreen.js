@@ -12,6 +12,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 
+var LoginScreen = require('./LoginScreen')
 
 //Tab4:我的
 export default class  TabMeScreen extends React.Component {
@@ -32,7 +33,7 @@ export default class  TabMeScreen extends React.Component {
   render() {
     return (
     <View style={styles.mainContainer}>
-      <Text>我的</Text>
+      <LoginScreen />
     </View>
     );
   }
