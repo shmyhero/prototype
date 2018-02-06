@@ -17,6 +17,8 @@ import { NavigationActions } from 'react-navigation'
 var imgSplash = require('../../images/splash.jpg')
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
+var NetworkModule = require('../module/NetworkModule')
+var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
 export default class  LoginScreen extends React.Component {
     componentDidMount() {
@@ -28,15 +30,42 @@ export default class  LoginScreen extends React.Component {
 
 
     getValidationCode(){
-        Alert.alert('getValidationCode')
+        
+
+    }
+
+    loginSuccess(responseJson){
+        Alert.alert("login success , token:"+responseJson.token)
     }
 
     onLoginClicked(){
-        Alert.alert('login')
+        if(NetConstants.CFD_API.POST_USER_SIGNUP_BY_PHONE == undefined){
+            Alert.alert(
+                'undefined')
+        } 
+        NetworkModule.fetchTHUrl(
+			NetConstants.CFD_API.POST_USER_SIGNUP_BY_PHONE,
+			{
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json; charset=UTF-8'
+				},
+				body: JSON.stringify({
+					phone: '13601751330',
+					verifyCode: '2222'
+				}),
+			},
+			(responseJson) => {
+				this.loginSuccess(responseJson);
+			},
+			(result) => {
+				Alert.alert('提示', result.errorMessage);
+			}
+		) 
     }
 
     onWechatLogin(){
-        Alert.alert('weChat Login')
+        
     }
 
     render() {

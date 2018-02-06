@@ -7,6 +7,7 @@ import {
 } from 'react-native';
 
 export const API_ERROR = 'apiError';
+
 export function fetchTHUrl(url, params, successCallback, errorCallback, notShowResponseLog) {
 	var requestSuccess = true;
 
