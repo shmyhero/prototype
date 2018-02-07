@@ -30,7 +30,7 @@ var rowContainerHeight = rowContainerWidth / 700 * 150;
 var smallContainerWidth = (width - containerHorizontalPadding * 3) / 2;
 var smallContainerHeight = smallContainerWidth / 350 * 330;
 var buttonPadding = 10;
-var rowButtonWidth = (rowContainerWidth - buttonPadding * 4)/4;
+var rowButtonWidth = (rowContainerWidth - buttonPadding * 3)/4;
 var rowButtonHeight =  rowButtonWidth / 144 * 99;
 
 export default class  StockDetailScreen extends React.Component {
@@ -46,8 +46,7 @@ export default class  StockDetailScreen extends React.Component {
         var state = {
             chartType: "today",
             data: null,
-            selectedAmount: null,
-            selectedMultiplier: null,
+            Multiplier: 0,
             stockInfo: {},
         }
         //Parse Navigation Props
@@ -298,7 +297,7 @@ export default class  StockDetailScreen extends React.Component {
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
-        var label = parameters.label ? parameters.label : value;
+        var label = parameters.label;
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
         var additionalContainerStyle = parameters.additionalContainerStyle;
@@ -309,8 +308,11 @@ export default class  StockDetailScreen extends React.Component {
         var selected = this.state[groupName] == value;
         var containerStyleList = [styles.numberButton];
         var textViewStyleList = [styles.numberButtonLabel];
-        var backgroundImageSource = parameters.backgroundImageSource ? parameters.backgroundImageSource : require("../../images/stock_detail_action_unselected.png")
-        var selectedBackgroundImageSource = parameters.selectedBackgroundImageSource ? parameters.selectedBackgroundImageSource : require("../../images/stock_detail_action_selected_blue.png")
+        var backgroundImageSource = parameters.backgroundImageSource ? parameters.backgroundImageSource : require("../../images/stock_detail_action_unselected.png");
+        var selectedBackgroundImageSource = parameters.selectedBackgroundImageSource ? parameters.selectedBackgroundImageSource : require("../../images/stock_detail_action_selected_blue.png");
+        var buttonWidth = parameters.buttonWidth ? parameters.buttonWidth : rowButtonWidth;
+        var buttonHeight = parameters.buttonHeight ? parameters.buttonHeight : rowButtonHeight;
+
         if(selected){
             // if(selectedContainerStyle){
             //     containerStyleList.push(selectedContainerStyle)
@@ -331,9 +333,6 @@ export default class  StockDetailScreen extends React.Component {
             textViewStyleList.push(additionalTextStyle)
         }
 
-        var buttonWidth = parameters.buttonWidth ? parameters.buttonWidth : rowButtonWidth;
-        var buttonHeight = parameters.buttonHeight ? parameters.buttonHeight : rowButtonHeight;
-
         return (
             <TouchableOpacity style={containerStyleList} onPress={()=>{
                 var newState = {};
@@ -343,26 +342,15 @@ export default class  StockDetailScreen extends React.Component {
                 <View style={{width: buttonWidth, height: buttonHeight, alignItems:'center', justifyContent:'center' }}>
                     <Image style={{
                             position:'absolute', 
-                            width: buttonWidth, height: buttonHeight
+                            width: buttonWidth, 
+                            height: buttonHeight,
                         }}
                         resizeMode={'contain'}
                         source={backgroundImageSource}/>
-                    {this.renderImage(imageSource)}
                     <Text style={textViewStyleList}>{label}</Text>
                 </View>
             </TouchableOpacity>
         )
-    }
-
-    renderImage(imageSource){
-        if(imageSource){
-            return (
-                <Image 
-                    source={imageSource} style={{height:20, width:20, marginRight:10, marginLeft:10}}
-                    resizeMode={"contain"}
-                />)
-        }
-        return <View/>
     }
 
     renderSectionTitle(title){
@@ -378,13 +366,10 @@ export default class  StockDetailScreen extends React.Component {
         )
     }
 
-    updateIndex (value) {
-        this.setState({selectedAmount: value})
-    }
-
     renderAmountButton(value){
         return this.renderButtonInGroup({
-            value: value, 
+            value: value,
+            label: value,
             groupName: "Amount", 
             customTextViewStyle: styles.SelectedAmountButton,
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
@@ -395,20 +380,36 @@ export default class  StockDetailScreen extends React.Component {
     renderMultiplierButton(value){
         return this.renderButtonInGroup({
             value: value, 
+            label: value,
             groupName: "Multiplier", 
             customTextViewStyle: styles.SelectedMultiplierButton,
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
             selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_green.png")});            
     }
 
-    renderOperationButton(label, value, imageSource, selectedImageSource){
+    renderOperationButton(value){
+        var imageSource = require("../../images/stock_detail_option_up_unselected.png")
+        var selectedImageSource = require("../../images/stock_detail_option_up_selected.png")
+        if (value == 0){
+            //Down
+            imageSource = require("../../images/stock_detail_option_down_unselected.png")
+            selectedImageSource = require("../../images/stock_detail_option_down_selected.png")
+        }else{
+            //Up
+            imageSource = require("../../images/stock_detail_option_up_unselected.png")
+            selectedImageSource = require("../../images/stock_detail_option_up_selected.png")
+        }
+
+        var buttonWidth = smallContainerWidth - 40;
+        var buttonHeight = buttonWidth / 276 * 120;
+
         return this.renderButtonInGroup({
-            value: value, 
-            label: label,
+            value: value,
             groupName: "Operation",
-            imageSource: imageSource,
-            selectedImageSource: selectedImageSource,
-            customTextViewStyle: styles.SelectedAmountButton,
+            backgroundImageSource:imageSource,
+            selectedBackgroundImageSource:selectedImageSource,
+            buttonWidth: buttonWidth,
+            buttonHeight: buttonHeight,
         });            
     }
 
@@ -421,7 +422,7 @@ export default class  StockDetailScreen extends React.Component {
         }
         return (
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
-                <Image style={{flex:1}} source={source}
+                <Image style={{flex:1, width:100,height:100}} source={source}
                     resizeMode={"contain"}
                 />
             </TouchableOpacity>
@@ -454,43 +455,17 @@ export default class  StockDetailScreen extends React.Component {
                 /> 
         </View>
         )
-
-        /* <View style={[styles.chartContainer, {backgroundColor: 'white'}]}>
-        <PriceChartView style={{flex:1, height:300}}
-            chartType={"userHomePage"}
-            lineChartGradient={['#dbf1fd', '#feffff']}
-            dataSetColor={"#0f98eb"}
-            textColor={"#9e9e9e"}
-            borderColor={'#666666'}
-            xAxisPosition="BOTTOM"
-            leftAxisEnabled={false}
-            rightAxisEnabled={true}
-            rightAxisDrawLabel={true}
-            rightAxisLabelCount={5}
-            chartPaddingLeft={24}
-            chartPaddingTop={20}
-            xAxisPaddingBottom={5}
-            xAxisPaddingTop={20}
-            paddingRightAxis={10}
-            drawBorders={true}
-            data={JSON.stringify(this.state.stockInfo)}
-            drawDataUnderYAxis={true}
-        
-            />
-    </View> */
     }
 
     render() {
-       
-
         return (
             <View style={styles.container}>
                 {this.renderPriceChart()}
                 <View style={styles.actionsContainer}>                      
-                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer,]}>
+                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer]}>
                         <Image style={styles.buttonsRowContainerBackground}
                             resizeMode={"contain"}
-                            source={require('../../images/stock_detail_multiple_container.png')}/>
+                            source={require('../../images/stock_detail_amount_container.png')}/>
                         {this.renderAmountButton(50)}
                         {this.renderAmountButton(100)}
                         {this.renderAmountButton(200)}
@@ -508,15 +483,17 @@ export default class  StockDetailScreen extends React.Component {
                     </View>
 
                     <View style={{flexDirection:'row'}}>
-                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer, {flex:1}]}>
+                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer,
+                            {flex:1, marginRight: containerHorizontalPadding/2}]}>
                             <Image style={styles.buttonsSmallContainerBackground}
                                 resizeMode={"contain"}
-                                source={require('../../images/stock_detail_trading_container.png')}/>
-                            {this.renderOperationButton("上升", 1, require("../../images/stock_detail_direction_up_disabled.png"), require("../../images/stock_detail_direction_up_enabled.png"))}
-                            {this.renderOperationButton("下降", 0, require("../../images/stock_detail_direction_down_disabled.png"), require("../../images/stock_detail_direction_down_enabled.png"))}
+                                source={require('../../images/stock_detail_direction_container.png')}/>
+                            {this.renderOperationButton(1)}
+                            {this.renderOperationButton(0)}
                         </View>
                         <View style={[styles.buttonsContainer, styles.buttonsSmallContainer, 
-                            {flex:1, justifyContent:'center', alignItems:'center', padding:15}]}>
+                            {flex:1, marginLeft: containerHorizontalPadding/2, 
+                                justifyContent:'center', alignItems:'center'}]}>
                             <Image style={styles.buttonsSmallContainerBackground}
                                 resizeMode={"contain"}
                                 source={require('../../images/stock_detail_trading_container.png')}/>
@@ -552,7 +529,8 @@ const styles = StyleSheet.create({
 
     actionsContainer:{       
         justifyContent:'flex-start', 
-        alignSelf:'stretch'
+        alignSelf:'stretch',
+        marginTop:10,
     },
 
     buttonsContainer:{

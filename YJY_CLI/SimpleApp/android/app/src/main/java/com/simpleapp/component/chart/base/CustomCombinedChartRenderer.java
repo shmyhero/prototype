@@ -53,7 +53,7 @@ public class CustomCombinedChartRenderer extends CombinedChartRenderer {
                     break;
                 case LINE:
                     if (chart.getLineData() != null) {
-                        BigDotLineChartRenderer renderer = new BigDotLineChartRenderer(chart, mAnimator, mViewPortHandler);
+                        BigDotLineChartRenderer renderer = new BigDotLineChartRenderer(chart.getContext(), chart, mAnimator, mViewPortHandler);
                         renderer.setDrawDataUnderYAxis(drawDataUnderYAxis);
                         mRenderers.add(renderer);
                     }

@@ -6,6 +6,7 @@ import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.PriceChart;
@@ -81,4 +82,7 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
         };
     }
 
+    @Override
+    protected void calculateZoom(CombinedChart chart, CombinedData data) {
+    }
 }

@@ -1,10 +1,14 @@
 package com.simpleapp.component.chart.linechart;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
@@ -31,6 +35,7 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Transformer;
 import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
+import com.simpleapp.R;
 import com.simpleapp.component.chart.PriceChart;
 
 import java.lang.ref.WeakReference;
@@ -59,6 +64,16 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
     protected WeakReference<Bitmap> mDrawBitmap;
 
     /**
+     * Bitmap object used for drawing last price array
+     */
+    protected WeakReference<Bitmap> mArrowBitmap;
+
+    /**
+     * Bitmap object used for drawing shadowed circle
+     */
+    protected WeakReference<Bitmap> mShadowedCircle;
+
+    /**
      * on this canvas, the paths are rendered, it is initialized with the
      * pathBitmap
      */
@@ -72,9 +87,12 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
     protected Path cubicPath = new Path();
     protected Path cubicFillPath = new Path();
 
-    public BigDotLineChartRenderer(LineDataProvider chart, ChartAnimator animator,
-                             ViewPortHandler viewPortHandler) {
+    private Context mContext;
+
+    public BigDotLineChartRenderer(Context context, LineDataProvider chart, ChartAnimator animator,
+                                   ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
+        mContext = context;
         mChart = chart;
 
         mCirclePaintInner = new Paint(Paint.ANTI_ALIAS_FLAG);
@@ -816,6 +834,16 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             mDrawBitmap.clear();
             mDrawBitmap = null;
         }
+        if (mArrowBitmap != null) {
+            mArrowBitmap.get().recycle();
+            mArrowBitmap.clear();
+            mArrowBitmap = null;
+        }
+        if (mShadowedCircle != null){
+            mShadowedCircle.get().recycle();
+            mShadowedCircle.clear();
+            mShadowedCircle = null;
+        }
     }
 
     private class DataSetImageCache {
@@ -859,10 +887,14 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             float circleRadius = set.getCircleRadius();
             float circleHoleRadius = set.getCircleHoleRadius();
 
+
+            int arrowWidth = (int)Utils.convertDpToPixel(53);
+            int arrowHeight = (int)Utils.convertDpToPixel(15);
+
             for (int i = 0; i < colorCount; i++) {
 
                 Bitmap.Config conf = Bitmap.Config.ARGB_4444;
-                Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + 100, (int) (circleRadius * 2.1), conf);
+                Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + arrowWidth, (int) (circleRadius * 2.1), conf);
 
                 Canvas canvas = new Canvas(circleBitmap);
                 circleBitmaps[i] = circleBitmap;
@@ -889,32 +921,38 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
                     canvas.drawPath(mCirclePathBuffer, mRenderPaint);
                 }else if(mRenderPaint.getColor() != 0) {
 
-                    canvas.drawCircle(
-                            circleRadius,
-                            circleRadius,
-                            circleRadius,
-                            mRenderPaint);
+//                    canvas.drawCircle(
+//                            circleRadius,
+//                            circleRadius,
+//                            circleRadius,
+//                            mRenderPaint);
+//
+//                    //Makes sure the transparent circle doesn't draw the circle hole
+//                    if (drawCircleHole) {
+//                        canvas.drawCircle(
+//                                circleRadius,
+//                                circleRadius,
+//                                circleHoleRadius,
+//                                mCirclePaintInner);
+//                    }
 
-                    //Makes sure the transparent circle doesn't draw the circle hole
-                    if (drawCircleHole) {
-                        canvas.drawCircle(
-                                circleRadius,
-                                circleRadius,
-                                circleHoleRadius,
-                                mCirclePaintInner);
-                    }
+
+                    mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
+                    Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
+                    canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
+
+                    int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(3);
+                    int top = (int)(circleRadius - arrowHeight / 2);
+                    Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
+                    mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
+
+                    canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
+
 
                     mValuePaint.setTextAlign(Paint.Align.LEFT);
                     mValuePaint.setColor(set.getCircleHoleColor());
                     String text = "" + ((LineDataSet) set).getValues().get(i).getY();
-//                    drawValue(canvas, new IValueFormatter() {
-//                        @Override
-//                        public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-//                            return ""+value;6
-//                        }
-//                    },text, ((LineDataSet) set).getValues().get(i), 0, circleRadius*2,
-//                      circleRadius, set.getCircleHoleColor());
-                    canvas.drawText(text, circleRadius*2, circleRadius, mValuePaint);
+                    canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(10), circleRadius + (int)Utils.convertDpToPixel(2), mValuePaint);
                 }
             }
         }

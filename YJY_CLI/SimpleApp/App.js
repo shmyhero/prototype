@@ -11,6 +11,7 @@ import {
 
 
 require('./js/utils/dateUtils')
+require('./js/utils/numberUtils')
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
