@@ -6,16 +6,16 @@ import {
     View,
     StyleSheet,
     Platform,
-    ListView,
+    FlatList,
     Switch,
     Slider,
     TextInput,
-    TouchableHighlight,
     TouchableOpacity,
     Image,
     LayoutAnimation,
     ImageBackground,
-    Dimensions
+    Dimensions,
+	ListView
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -25,19 +25,6 @@ var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
 
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
-    if(r1.security && r2.security){
-        if(r1.security.last !== r2.security.last || r1.security.bid !== r2.security.bid || r1.security.ask !== r2.security.ask){
-            return true;
-        }
-    }
-    return r1.id !== r2.id || r1.profitPercentage!==r2.profitPercentage || r1.hasSelected!==r2.hasSelected
-}});
-
-var DEFAULT_EXTENDED_HEIGHT = 222;
-var extendHeight = DEFAULT_EXTENDED_HEIGHT
-var rowHeight = 0
-var stockNameFontSize = Math.round(17*width/375.0)
 var DEFAULT_PERCENT = -1
 var stopProfitPercent = DEFAULT_PERCENT
 var MAX_LOSS_PERCENT = -90
@@ -46,9 +33,13 @@ var stopProfitUpdated = false
 var stopLossUpdated = false
 var isWaiting = false
 
-const ROW_PADDING = 15
 var stockNameFontSize = Math.round(17*width/375.0)
 
+const ROW_PADDING = 15;
+const ROW_SIMPLE_CONTENT_PADDING = 10;
+const ROW_SIMPLE_CONTENT_HEIGHT = 40 + ROW_SIMPLE_CONTENT_PADDING * 2;
+const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
+const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 
 export default class  MyPositionTabHold extends React.Component {
     static navigationOptions = {
@@ -65,8 +56,7 @@ export default class  MyPositionTabHold extends React.Component {
 	constructor(props){
         super(props)
 
-        this.state = {
-			stockInfo: ds.cloneWithRows([]),
+        this.state = {			
 			stockInfoRowData: [],
 			selectedRow: -1,
 			selectedSubItem: 0,
@@ -91,12 +81,8 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	clearViews(){
-		extendHeight = DEFAULT_EXTENDED_HEIGHT;
-
 		this.setState({
 			isClear:true,
-
-			stockInfo: ds.cloneWithRows([]),
 			stockInfoRowData: [],
 			selectedRow: -1,
 			selectedSubItem: 0,
@@ -486,11 +472,12 @@ export default class  MyPositionTabHold extends React.Component {
             financingSum: -325.0635,
             fxOutright: { bid: 1.23141, ask: 1.24382, id: 10876, symbol: 'EURUSD' },
             score: 0 }
-        ];
+		];
+		
+		stockInfo = stockInfo.concat(stockInfo)
         
         this.setState({
             stockInfoRowData: stockInfo,
-			stockInfo: ds.cloneWithRows(stockInfo),
         });
 	}
 
@@ -540,46 +527,26 @@ export default class  MyPositionTabHold extends React.Component {
 				}
 			}
 		}
-
-		if (hasUpdate) {
-			this.setState({
-				stockInfo: ds.cloneWithRows(this.state.stockInfoRowData)
-			},this.refreshFooterBar(this.state.stockInfoRowData))
-		}
     }
     
-	stockPressed(rowData, sectionID, rowID, highlightRow) {
-		if (rowHeight === 0) {	// to get the row height, should have better method.
-			rowHeight = this.refs['listview'].getMetrics().contentLength/this.state.stockInfoRowData.length
-		}
-
+	stockPressed(rowData, rowID) {
 		this.setState({
 			showExchangeDoubleCheck: false,
 		})
 		var newData = []
 		$.extend(true, newData, this.state.stockInfoRowData)	// deep copy
 
-		extendHeight = DEFAULT_EXTENDED_HEIGHT
+		var state = {};
+		var viewPosition = 0;
 		if (this.state.selectedRow == rowID) {
 			LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 			newData[rowID].hasSelected = false
-			this.setState({
-				stockInfo: this.state.stockInfo.cloneWithRows(newData),
+			state = {
 				selectedRow: -1,
 				selectedSubItem: 0,
 				stockInfoRowData: newData,
-			})
-			if (Platform.OS === 'android') {
-				var currentY = rowHeight*(parseInt(rowID))
-				setTimeout(
-					() => {
-						if (currentY > 300 && currentY + 3 * rowHeight > this.refs['listview'].getMetrics().contentLength) {
-							this.refs['listview'].scrollTo({x:0, y:Math.floor(currentY), animated:true})
-						}
-					 },
-					500
-				);
-			}
+			};
+			this.setState(state)	
 		} else {
 			isWaiting = false
 			if (this.state.selectedRow >=0) {
@@ -596,8 +563,7 @@ export default class  MyPositionTabHold extends React.Component {
 			stopProfitUpdated = false
 			stopLossUpdated = false
 
-			this.setState({
-				stockInfo: this.state.stockInfo.cloneWithRows(newData),
+			state = {
 				selectedRow: rowID,
 				selectedSubItem: 0,
 				stockInfoRowData: newData,
@@ -605,26 +571,35 @@ export default class  MyPositionTabHold extends React.Component {
 				stopLossSwitchIsOn: stopLoss,
 				profitLossUpdated: false,
 				profitLossConfirmed: false,
-			}, ()=>{
-				//this.doScrollAnimation();
-			});
+			};
+			this.setState(state, ()=>{
+				console.log("scrollToIndex: " + rowID)
+				this.scrollToCurrentSelectedItem(rowID, 0);
+			})		
 		}
+		
 	}
 
-	subItemPress(item, rowData) {
+	scrollToCurrentSelectedItem(selectedRow, viewPosition){
+		setTimeout(()=>{
+			this.flatListRef.scrollToIndex({
+				index: selectedRow, 
+				animated: true, 
+				viewPosition:viewPosition,
+				viewOffset:0,
+			});
+		}, 100);
+	}
+
+	subItemPress(rowData) {
 		var detalY = 0
 
 		var state = {
-			selectedSubItem: this.state.selectedSubItem === item ? 0 : item,
-			stockInfo: ds.cloneWithRows(this.state.stockInfoRowData)
+			selectedSubItem: 2,
 		};
-
-		if (item === 1) {
-			var stockid = rowData.security.id
-			state.stockDetailInfo = rowData.security;
-		}
-		this.setState(state, ()=>{			
-			//this.doScrollAnimation()
+		this.setState(state, ()=>{
+			console.log("this.state.selectedRow " + this.state.selectedRow)
+			this.scrollToCurrentSelectedItem(this.state.selectedRow, 1)
 		});
 	}
 
@@ -636,7 +611,7 @@ export default class  MyPositionTabHold extends React.Component {
 			this.setState({
 				showExchangeDoubleCheck: true,
 			}, ()=>{
-				//this.doScrollAnimation()
+				this.scrollToCurrentSelectedItem(this.state.selectedRow, 1)
 			});
 			return
 		}
@@ -646,27 +621,12 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 		isWaiting = true
 
-        alert("OKPress")
-	}
-
-	currentExtendHeight(subItem) {
-		var showNetIncome = false
-		var newHeight = DEFAULT_EXTENDED_HEIGHT
-		if (showNetIncome) {
-			newHeight += 20
-		}
-		if (subItem === 1) {
-			newHeight += 170
-		}
-		if (subItem === 2) {
-			newHeight += 170 - 70
-			newHeight += this.state.stopLossSwitchIsOn ? 55 : 0
-			newHeight += this.state.stopProfitSwitchIsOn ? 55 : 0
-		}
-		if (this.state.showExchangeDoubleCheck) {
-			newHeight += 28
-		}
-		return newHeight
+		alert("OKPress")
+		
+		this.setState ({
+			selectedRow: -1,
+			selectedSubItem: 0,
+		})
 	}
 
 	onSwitchPressed(type, value) {
@@ -681,7 +641,7 @@ export default class  MyPositionTabHold extends React.Component {
 
 		state.profitLossUpdated = true;
 		this.setState(state,()=>{
-			//this.doScrollAnimation();
+			this.scrollToCurrentSelectedItem(this.state.selectedRow, 1);
 		});
 	}
 
@@ -721,21 +681,6 @@ export default class  MyPositionTabHold extends React.Component {
 					</View>
 				</View>
 			);
-	}
-
-	renderFootBar() {
-		var strCCYK = "CCYK"
-			return (
-				<View style={styles.headerBar}>
-					<View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
-						<Text style={styles.headerTextLeft}>{strCCYK}</Text>
-					</View>
-					<View style={[styles.rowCenterPart, {	paddingRight:width/3,}]}>
-						<Text style={[styles.headerTextLeft, {paddingRight: 0,}]}>{this.state.totalCount.toFixed(2)}</Text>
-					</View>
-				</View>
-			);
-
 	}
 
 	renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
@@ -1050,7 +995,8 @@ export default class  MyPositionTabHold extends React.Component {
 			        </View>
 				</View>
 				{ switchIsOn ? this.renderSlider(rowData, type, startPercent, endPercent, percent) : null}
-				<View style={styles.darkSeparator} />
+				{ type == 1 ? (<View style={styles.darkSeparator} />) : null}
+				
 			</View>)
 	}
 
@@ -1192,22 +1138,18 @@ export default class  MyPositionTabHold extends React.Component {
 
 		this.updateCurrentStopLossProfitMinMaxValue(rowData, type);
 
-		MainPage.showKeyboard({
-			value: currentValue,
-			checkError: (value)=>{
-				return this.getError(value, rowData, type);
-			},
-			hasDot: true,
-			dcmCount: rowData.security.dcmCount,
-			onInputConfirmed: (newValue)=>{
-				var newPercent = this.priceToPercentWithRow(newValue, rowData, type)
-
-				this.setState({
-					stockInfo: ds.cloneWithRows(this.state.stockInfoRowData),
-				})
-				this.setSliderValue(type, newPercent, rowData)
-			}
-		})
+		// MainPage.showKeyboard({
+		// 	value: currentValue,
+		// 	checkError: (value)=>{
+		// 		return this.getError(value, rowData, type);
+		// 	},
+		// 	hasDot: true,
+		// 	dcmCount: rowData.security.dcmCount,
+		// 	onInputConfirmed: (newValue)=>{
+		// 		var newPercent = this.priceToPercentWithRow(newValue, rowData, type)
+		// 		this.setSliderValue(type, newPercent, rowData)
+		// 	}
+		// })
 	}
 
 	_renderActivityIndicator() {
@@ -1234,83 +1176,16 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderSubDetail(rowData) {
-		if (this.state.selectedSubItem === 1) {
-			// // market view
-			// var priceData = this.state.stockDetailInfo.priceData
-			// var maxPrice = undefined
-			// var minPrice = undefined
-			// var maxPercentage = undefined
-			// var minPercentage = undefined
-
-			// if (priceData != undefined) {
-			// 	//todo
-			// 	var lastClose = rowData.security.preClose
-			// 	maxPrice = Number.MIN_VALUE
-			// 	minPrice = Number.MAX_VALUE
-
-			// 	for (var i = 0; i < priceData.length; i ++) {
-			// 		var price = 0
-
-			// 		if(this.state.chartType == NetConstants.PARAMETER_CHARTTYPE_5_MINUTE||
-			// 		  this.state.chartType == NetConstants.PARAMETER_CHARTTYPE_DAY){
-			// 			price = priceData[i].close
-			// 		}else{
-			// 			price = priceData[i].p
-			// 		}
-
-			// 		if (price > maxPrice) {
-			// 			maxPrice = price
-			// 		}
-			// 		if (price < minPrice) {
-			// 			minPrice = price
-			// 		}
-			// 	}
-			// 	var maxPercentage = (maxPrice - lastClose) / lastClose * 100
-			// 	var minPercentage = (minPrice - lastClose) / lastClose * 100
-			// 	maxPercentage = maxPercentage.toFixed(2)
-			// 	minPercentage = minPercentage.toFixed(2)
-			// }
-			// // market detail
-			// return (
-			// 	<View style={{height: 170}}>
-			// 		{this.renderChartHeader(rowData)}
-			// 		{this.renderChart()}
-			// 		{this.renderDataStatus()}
-			// 		<View style={{marginBottom:5}}>
-			// 			<Text style={styles.tipsLine}>行情可能存在细微偏差</Text>
-			// 		</View>
-			// 	</View>
-			// );
-		}
-		else {
-			var thisPartHeight = 100 //170
-			thisPartHeight += this.state.stopLossSwitchIsOn ? 55 : 0
-			thisPartHeight += this.state.stopProfitSwitchIsOn ? 55 : 0
-
-			return (
-				<View style={{height:thisPartHeight}}>
-					{this.renderStopProfitLoss(rowData, 1)}
-					{this.renderStopProfitLoss(rowData, 2)}
-				</View>
-				);
-		}
-	}
-
-	renderProfitOKViw(rowData){
-		var confirmText = '确认'
-		if (!this.state.profitLossUpdated && this.state.profitLossConfirmed) {
-			confirmText = '已设置'
-		}
+		var thisPartHeight = STOP_PROFIT_LOSS_SMALL_HEIGHT //170
+		thisPartHeight += this.state.stopLossSwitchIsOn ? 55 : 0
+		thisPartHeight += this.state.stopProfitSwitchIsOn ? 55 : 0
 
 		return (
-			<TouchableHighlight
-				underlayColor={this.state.profitLossUpdated ? ColorConstants.COLOR_MAIN_THEME_BLUE:'#dfdee4'}
-				onPress={() => this.switchConfrim(rowData)} style={[styles.okView, this.state.profitLossUpdated && {backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE} ]}>
-				<Text style={[styles.okButton, this.state.profitLossUpdated && {backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}]}>
-					{confirmText}
-				</Text>
-			</TouchableHighlight>
-		)
+			<View style={{height:thisPartHeight}}>
+				{this.renderStopProfitLoss(rowData, 1)}
+				{this.renderStopProfitLoss(rowData, 2)}
+			</View>
+		);
 	}
 
 	renderOKView(rowData) {
@@ -1324,21 +1199,7 @@ export default class  MyPositionTabHold extends React.Component {
 			profitPercentage *= (rowData.isLong ? 1 : -1)
 			profitAmount = profitPercentage * rowData.invest
 
-			//Only use the fxdata for non-usd
-			// if (rowData.security.ccy != UIConstants.USD_CURRENCY) {
-			// 	if (rowData.fxData && rowData.fxData.ask) {
-			// 		//This fxData returned by socket instead of the API response!
-			// 		profitAmount = this.calculateProfitWithOutright(profitAmount, rowData.fxData)
-			// 	}
-			// 	else if(rowData.fxOutright && rowData.fxOutright.ask){
-			// 		//Only use this value when there's no fxData returned from socket.
-			// 		//rowData.fxOutright won't change once it's fetched from the api!
-			// 		profitAmount = this.calculateProfitWithOutright(profitAmount, rowData.fxOutright)
-			// 	} else {
-			// 		//Error below! Use the upl will make the percentage and price not synchronized...
-			 		profitAmount = rowData.upl
-			// 	}
-			// }
+			profitAmount = rowData.upl;
 		}
 
 		var buttonText = (profitAmount < 0 ? "亏损":"获利") + ': $' + profitAmount.toFixed(2)
@@ -1346,7 +1207,6 @@ export default class  MyPositionTabHold extends React.Component {
 			buttonText = "确认"+':' + profitAmount.toFixed(2)
 		}
 
-		var underlayColor = rowData.security.isOpen ? ColorConstants.COLOR_MAIN_THEME_BLUE : '#dfdee4';
 		var separatorStyle = styles.darkSeparator;
         var buttonStyle = [styles.okView];
 		var buttonTextStyle = [styles.okButton];
@@ -1356,7 +1216,6 @@ export default class  MyPositionTabHold extends React.Component {
 				buttonText = "已设置"
 			}
 			//separatorStyle = {backgroundColor: 'pink'};
-			underlayColor = this.state.profitLossUpdated ? ColorConstants.COLOR_MAIN_THEME_BLUE:'#dfdee4';
 			buttonStyle = [styles.okView]
 			buttonTextStyle = [styles.okButton];
 			if(rowData.isSettingProfitLoss){
@@ -1370,8 +1229,7 @@ export default class  MyPositionTabHold extends React.Component {
 				<View style={separatorStyle}/>
 				{showNetIncome ? <Text style={styles.netIncomeText}>净收益:9.26</Text> : null}
 
-				<TouchableHighlight
-					underlayColor={underlayColor}
+				<TouchableOpacity
 					onPress={()=>this.state.selectedSubItem === 2 ? this.switchConfrim(rowData) : this.okPress(rowData)}
 					style={buttonStyle}
 					>
@@ -1381,7 +1239,7 @@ export default class  MyPositionTabHold extends React.Component {
                             {buttonText}
                         </Text>
                     </ImageBackground>
-				</TouchableHighlight>
+				</TouchableOpacity>
 			</View>)
 	}
 
@@ -1390,7 +1248,6 @@ export default class  MyPositionTabHold extends React.Component {
         var lastPrice = this.getLastPrice(rowData)
         
 		// console.log('RAMBO rowData.id = ' + rowData.security.id)
-		var newExtendHeight = this.currentExtendHeight(this.state.selectedSubItem)
 		var stopLossImage = require('../../images/position_stop_profit_loss.png')
 		var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
 		var stopProfit = rowData.takePx !== undefined
@@ -1407,7 +1264,7 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 
 		return (
-			<View style={[{height: newExtendHeight}, styles.extendWrapper]} >
+			<View style={[styles.extendWrapper]} >
 				<View style={[styles.darkSeparator, styles.firstSeparator]} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
@@ -1439,12 +1296,9 @@ export default class  MyPositionTabHold extends React.Component {
 					</View>
 				</View>
                 <View style={styles.darkSeparator} />
-                    <View style={styles.extendRowWrapper}>
-                        <View style={[styles.extendLeft, this.state.selectedSubItem==2 && styles.bottomBorder]}>
-                                
-                        </View>
-
-					<TouchableOpacity onPress={()=>this.subItemPress(2, rowData)}
+				<View style={styles.extendRowWrapper}>
+					<View style={[styles.extendLeft, this.state.selectedSubItem==2 && styles.bottomBorder]}/>
+					<TouchableOpacity onPress={()=>this.subItemPress(rowData)}
 						style={[styles.extendMiddle, (this.state.selectedSubItem===1)&&styles.bottomBorder,
 								(this.state.selectedSubItem===2)&&styles.leftTopRightBorder,
 								{borderTopColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
@@ -1459,7 +1313,6 @@ export default class  MyPositionTabHold extends React.Component {
 					<View style={[styles.extendRight, this.state.selectedSubItem==2 && styles.bottomBorder, ]}/>
 				</View>
 
-
 				{this.state.selectedSubItem !== 0 ? this.renderSubDetail(rowData): null}
 
 				{this.renderOKView(rowData)}
@@ -1467,7 +1320,39 @@ export default class  MyPositionTabHold extends React.Component {
 		);
 	}
 
-	renderRow(rowData, sectionID, rowID, highlightRow) {
+	getItemLayout(data, index){
+		var smallItemHeight = SIMPLE_ROW_HEIGHT;
+		var bigItemHeight = 277 + ROW_PADDING;
+		var itemHeight = smallItemHeight;
+		if(this.state.selectedSubItem === 2){
+			bigItemHeight += STOP_PROFIT_LOSS_SMALL_HEIGHT;
+		}
+		if(this.state.stopLossSwitchIsOn){
+			bigItemHeight += 55;
+		}
+		if(this.state.stopProfitSwitchIsOn){
+			bigItemHeight += 55;
+		}
+
+		if (index == this.state.selectedRow){
+			itemHeight = bigItemHeight;
+		}
+		
+		var offset = smallItemHeight * index;
+		// if (index >= this.state.selectedRow){
+		// 	offset += bigItemHeight - smallItemHeight;
+		// }
+		console.log("index " + index + ", height: " + itemHeight);
+		return {
+			length: itemHeight, 
+			offset: offset - 4,
+			index: index};
+	}
+
+	renderItem(data){
+		var rowData = data.item;
+		var rowID = data.index;
+
 		var profitPercentage = 0
 		var profitAmount = rowData.upl
 		if (rowData.settlePrice !== 0) {
@@ -1480,7 +1365,7 @@ export default class  MyPositionTabHold extends React.Component {
         		
 		return (
 			<View style={styles.rowContainer}>
-				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, sectionID, rowID, highlightRow)}>
+				<TouchableOpacity style={styles.rowTouchable} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
 					<View style={[styles.rowWrapper]} key={rowData.key}>
 						<View style={styles.rowLeftPart}>
 							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
@@ -1537,14 +1422,14 @@ export default class  MyPositionTabHold extends React.Component {
 				<View style={{flex:1}}>
 					{this.renderOrClear()}
 					{this.renderLoadingText()}
-					<ListView
+					<FlatList
 						style={styles.list}
-						ref="listview"
-						initialListSize={11}
-						dataSource={this.state.stockInfo}
-						enableEmptySections={true}
-						renderRow={(data, sectionID, rowID, highlightRow)=>this.renderRow(data, sectionID, rowID, highlightRow)}
-						renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>this.renderSeparator(sectionID, rowID, adjacentRowHighlighted)}/>
+						ref={(ref) => { this.flatListRef = ref; }}
+						data={this.state.stockInfoRowData}
+						getItemLayout={(data, index) => this.getItemLayout(data, index)}
+						keyExtractor={(item, index) => index}
+						renderItem={(data)=>this.renderItem(data)}
+					/>
 					{/* <StockTransactionInfoModal ref='confirmPage'/> */}
 				</View>
 			)
@@ -1571,6 +1456,9 @@ export default class  MyPositionTabHold extends React.Component {
 const styles = StyleSheet.create({
 	list: {
 		alignSelf: 'stretch',
+		flex:1,
+		padding:0,
+		margin:0
 	},
 
 	line: {
@@ -1587,13 +1475,17 @@ const styles = StyleSheet.create({
     rowContainer: {
         borderWidth:1,
         borderColor:"#cccccc",
-        borderRadius:10,
-        paddingTop:10,
-        paddingBottom:10,
+        borderRadius:10,      
         margin:ROW_PADDING,
         marginTop: 5,
-        marginBottom: ROW_PADDING-5,
-    },
+		marginBottom: ROW_PADDING-5,
+	},
+	
+	rowTouchable: {
+		paddingTop:ROW_SIMPLE_CONTENT_PADDING,
+		paddingBottom:ROW_SIMPLE_CONTENT_PADDING,
+		height: ROW_SIMPLE_CONTENT_HEIGHT,
+	},
 
 	rowWrapper: {
 		flexDirection: 'row',
@@ -1655,7 +1547,7 @@ const styles = StyleSheet.create({
     firstSeparator: {
         marginLeft: ROW_PADDING,
         marginRight: ROW_PADDING, 
-        marginTop:10
+        marginTop:0
     },
 
 	darkSeparator: {

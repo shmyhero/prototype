@@ -11,10 +11,9 @@ import {
     Image,
     Platform,
     Alert,
-    LayoutAnimation,
+	LayoutAnimation,
+	FlatList,
 } from 'react-native';
-
-import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
@@ -29,8 +28,6 @@ var UIConstants = require('../UIConstants');
 // var MainPage = require('./MainPage')
 // var WaitingRing = require('./component/WaitingRing');
 // var {EventCenter, EventConst} = require('../EventCenter');
-
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 
 var extendHeight = 204
 var rowHeight = 56
@@ -54,7 +51,6 @@ export default class  MyPositionTabClosed extends React.Component {
         super(props)
         this.state = {
 			stockInfoRowData: [],
-			stockInfo: ds.cloneWithRows([]),
 			selectedRow: -1,
 			isClear:false,
 			contentLoaded: false,
@@ -126,7 +122,6 @@ export default class  MyPositionTabClosed extends React.Component {
 			contentLoaded: false,
 			isRefreshing: false,
 			stockInfoRowData: [],
-			stockInfo: ds.cloneWithRows([]),
 			selectedRow: -1,
 		})
 	}
@@ -251,7 +246,6 @@ export default class  MyPositionTabClosed extends React.Component {
 		
 		this.setState({
 			stockInfoRowData: stockInfo,
-			stockInfo: ds.cloneWithRows(stockInfo),
 		})
 	}
 
@@ -376,7 +370,6 @@ export default class  MyPositionTabClosed extends React.Component {
 		var stockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
 		this.setState({
 			stockInfoRowData: stockInfoRowData,
-			stockInfo: ds.cloneWithRows(stockInfoRowData),
 		}, ()=>{
 			this.endNextPageLoadingState(responseJson.length < count);
 		})
@@ -400,8 +393,8 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
-	stockPressed(rowData, sectionID, rowID, highlightRow) {
-		var contentLength = this._pullToRefreshListView._scrollView.getMetrics().contentLength;
+	stockPressed(rowData, rowID) {
+		//var contentLength = this._pullToRefreshListView._scrollView.getMetrics().contentLength;
 		// if (rowHeight === 0) {
 		// 	rowHeight = contentLength/this.state.stockInfoRowData.length
 		// }
@@ -413,42 +406,11 @@ export default class  MyPositionTabClosed extends React.Component {
 			LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
 			newData[rowID].hasSelected = false
 			this.setState({
-				stockInfo: this.state.stockInfo.cloneWithRows(newData),
 				stockInfoRowData: newData,
 				selectedRow: -1,
-			},()=>{
-				if (Platform.OS === 'android') {
-					var currentY = contentLength/newData.length*(parseInt(rowID)) + UIConstants.LIST_HEADER_BAR_HEIGHT
-					setTimeout(
-						() => {
-							if (currentY > 300 && currentY + 3 * rowHeight > contentLength) {
-								this._pullToRefreshListView._scrollView.scrollTo({x:0, y:Math.floor(currentY), animated:true})
-							}
-						 },
-						500
-					);
-				}
+			},()=>{				
 			});
 		} else {
-			var maxY = Platform.OS === 'android' ?
-			(height - UIConstants.ANDROID_LIST_VIEW_HEIGHT_MAGIC_NUMBER - UIConstants.HEADER_HEIGHT
-				- UIConstants.SCROLL_TAB_HEIGHT - UIConstants.LIST_HEADER_BAR_HEIGHT - UIConstants.TAB_BAR_HEIGHT)*20/21
-				- extendHeight
-			: (height- 114 - UIConstants.LIST_HEADER_BAR_HEIGHT)*20/21 - extendHeight
-
-			var currentY = (rowHeight+0.5)*(parseInt(rowID)+1)
-			var previousSelectedRow = this.state.selectedRow
-			setTimeout(
-				() => {
-					if (currentY > maxY && parseInt(previousSelectedRow) < parseInt(rowID)) {
-						this._pullToRefreshListView._scrollView.scrollTo({x:0, y:Math.floor(currentY-maxY), animated:true})
-					}
-				},
-				Platform.OS === 'android' ? 1000 : 0
-			);
-
-			//RN 3.3 Android list view has a bug when the spring animation shows up... Disable it for now
-
 			if(Platform.OS === 'ios'){
 				//Do not set delete animation, or the some row will be removed if clicked quickly.
 				var animation = {
@@ -467,15 +429,23 @@ export default class  MyPositionTabClosed extends React.Component {
 			}
 			newData[rowID].hasSelected = true
 			this.setState({
-				stockInfo: this.state.stockInfo.cloneWithRows(newData),
 				stockInfoRowData: newData,
 				selectedRow: rowID,
+			}, ()=>{
+				this.scrollToCurrentSelectedItem(rowID, 1)
 			})
 		}
 	}
 
-	renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-		return null;
+	scrollToCurrentSelectedItem(selectedRow, viewPosition){
+		setTimeout(()=>{
+			this._pullToRefreshListView.scrollToIndex({
+				index: selectedRow, 
+				animated: true, 
+				viewPosition:viewPosition,
+				viewOffset:0,
+			});
+		}, 100);
 	}
 
 	renderFooter(viewState) {
@@ -631,8 +601,10 @@ export default class  MyPositionTabClosed extends React.Component {
 		);
 	}
 
-	renderRow(rowData, sectionID, rowID, highlightRow) {
-		console.log("BUG FIX - renderRow rowID " + rowID + ", rowData " + JSON.stringify(rowData))
+	renderItem(data) {
+		var rowData = data.item;
+		var rowID = data.index;
+
 		var plPercent = (rowData.closePrice - rowData.openPrice) / rowData.openPrice * rowData.leverage * 100
 		plPercent = plPercent * (rowData.isLong ? 1 : -1)
 		var topLine = rowData.security.name
@@ -640,7 +612,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 		return (
 			<View style={styles.rowContainer}>
-				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, sectionID, rowID, highlightRow)}>
+				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
 					<View style={[styles.rowWrapper]} key={rowData.key}>
 						<View style={styles.rowLeftPart}>
 							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
@@ -698,17 +670,15 @@ export default class  MyPositionTabClosed extends React.Component {
 			return (<View style={{flex:1}}>
 				{this.renderOrClear()}
 				{this.renderLoadingText()}
-				<PullToRefreshListView
+				<FlatList
 					style={styles.list}
 					ref={ (component) => this._pullToRefreshListView = component }
-					initialListSize={20}
-					viewType={PullToRefreshListView.constants.viewType.listView}
-					dataSource={this.state.stockInfo}
+					keyExtractor={(item, index) => index}
+					data={this.state.stockInfoRowData}
 					enableEmptySections={true}
-					renderFooter={(viewState)=>this.renderFooter(viewState)}
+					// renderFooter={(viewState)=>this.renderFooter(viewState)}
 					pageSize={20}
-					renderRow={(rowData, sectionID, rowID, highlightRow)=>this.renderRow(rowData, sectionID, rowID, highlightRow)}
-					renderSeparator={(sectionID, rowID, adjacentRowHighlighted)=>this.renderSeparator(sectionID, rowID, adjacentRowHighlighted)}
+					renderItem={(data)=>this.renderItem(data)}
 					autoLoadMore={false}
 					enabledPullDown={false}
 					onEndReachedThreshold={30}
