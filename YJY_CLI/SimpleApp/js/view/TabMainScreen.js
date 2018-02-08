@@ -146,10 +146,10 @@ export default class  TabMainScreen extends React.Component {
         if(rowData.data.isTrade ){
             return (
                 <TouchableOpacity onPress={()=>this._onPressButton(rowData)} style={{marginRight:5,alignItems:'flex-end',justifyContent:'center'}}>
-                    <Image source={require('../../images/icon_me_dynamic.png')} 
-                        style={{width:16,height:16}}>
+                    <Image source={require('../../images/stock_detail_direction_up_enabled.png')} 
+                        style={{width:16,height:16,marginBottom:-3}}>
                     </Image>
-                    <Text style={{fontSize:10}}>{rowData.data.tradeName}</Text>
+                    <Text style={{fontSize:9,color:'#a9a9a9'}}>{rowData.data.tradeName}</Text>
                 </TouchableOpacity>
             )
         }else{
@@ -187,11 +187,11 @@ export default class  TabMainScreen extends React.Component {
         return ( 
                <View style={styles.thumbnailAll}> 
                     <View>
-                        <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#ffffff'}}></View>
+                        <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
                         <View style={{width:40}}>
-                            <Text style={{color:'white'}}>{rowData.data.time}</Text>
+                            <Text style={{color:'#b0dcfe',fontSize:10,alignSelf:'center'}}>{rowData.data.time}</Text>
                         </View>
-                        <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#ffffff'}}></View>
+                        <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                     </View>
                   
                     <View style={styles.thumbnail}> 
@@ -199,7 +199,7 @@ export default class  TabMainScreen extends React.Component {
                         <View style={{flexDirection:'row'}}>
                             <TouchableOpacity onPress={()=>this._onPressButton(rowData)}>
                                 <Image source={require('../../images/head_portrait.png')}
-                                    style={{height:32,width:32,margin:10,}} >
+                                    style={{height:34,width:34,margin:10,}} >
                                 </Image>
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
@@ -207,7 +207,7 @@ export default class  TabMainScreen extends React.Component {
                                     <Text style={styles.textUserName}>{rowData.data.userName}</Text>
                                     {viewHero}
                                 </View>
-                                <Text>{rowData.data.text}</Text>
+                                <Text style={{fontSize:15,color:'#666666'}}>{rowData.data.text}</Text>
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -443,6 +443,7 @@ const styles = StyleSheet.create({
         fontSize:12,
         alignSelf:'flex-start',
         marginTop:5,
+        color:'#999999'
     },
     textHero:{
         fontSize:8,

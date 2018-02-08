@@ -99,7 +99,7 @@ export default class ProfitTrendCharts extends Component {
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/>
-            <Text style={{fontSize:12}}>TA的收益走势</Text>
+            <Text style={{fontSize:12,color:'#666666'}}>TA的收益走势</Text>
           </View>
         </View>
         <View style={[styles.chartContainer, {backgroundColor: 'white'}]}>
@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
   } ,
   textChartSelector:{
     fontSize:12,
-    color:'white'
+    color:'#999999'
   },
   chartContainer:{
     flex:1, 

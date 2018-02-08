@@ -66,17 +66,17 @@ export default class  RankHeroList extends React.Component {
             <TouchableOpacity onPress={()=>this.gotoUserProfile()}>
                 <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:48,width:48,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
+                        <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
                         <View style={{marginLeft:10}}>
-                            <Text style={{color:'white'}}>我的</Text>
-                            <View style={{flexDirection:'row',marginBottom:5}}>
-                                <Text style={{color:'white'}}>胜率：</Text>
-                                <Text style={{color:'white'}}>76%</Text>
+                            <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
+                            <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
+                                <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
+                                <Text style={{fontSize:16,color:'#d8effc'}}>76%</Text>
                             </View>
                         </View>
                     </View>     
                     <View style={{marginRight:30}}>
-                        <Text style={{color:'red'}}>+52.13%</Text>
+                        <Text style={{color:'#ff9999'}}>+52.13%</Text>
                     </View> 
                 </ImageBackground>
             </TouchableOpacity>
@@ -91,7 +91,11 @@ export default class  RankHeroList extends React.Component {
                     <View style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{listData[1].userName}</Text>
-                        <Text style={styles.textTopUserScore}>胜率:{listData[1].winRate}</Text>
+                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                            <Text style={styles.textWinRate}>胜率: </Text>
+                            <Text style={styles.textTopUserScore}>{listData[1].winRate}</Text>
+                        </View>    
+                        
                         <ImageBackground style={{height:85*rate,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_ag.png')}>
                             <Text style={styles.textProfit}>+{listData[1].ProfitRate}</Text>
                         </ImageBackground>
@@ -99,7 +103,10 @@ export default class  RankHeroList extends React.Component {
                     <View style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{listData[0].userName}</Text>
-                        <Text style={styles.textTopUserScore}>胜率:{listData[0].winRate}</Text>
+                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                            <Text style={styles.textWinRate}>胜率: </Text>
+                            <Text style={styles.textTopUserScore}>{listData[0].winRate}</Text>
+                        </View>    
                         <ImageBackground style={{height:99*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_gd.png')}>
                             <Text style={styles.textProfit}>+{listData[0].ProfitRate}</Text>
                         </ImageBackground>  
@@ -107,7 +114,10 @@ export default class  RankHeroList extends React.Component {
                     <View style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{listData[2].userName}</Text>
-                        <Text style={styles.textTopUserScore}>胜率:{listData[2].winRate}</Text>
+                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                            <Text style={styles.textWinRate}>胜率: </Text>
+                            <Text style={styles.textTopUserScore}>{listData[2].winRate}</Text>
+                        </View>    
                         <ImageBackground style={{height:85*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_cu.png')}>
                             <Text style={styles.textProfit}>+{listData[2].ProfitRate}</Text>
                         </ImageBackground>  
@@ -123,17 +133,17 @@ export default class  RankHeroList extends React.Component {
             return( 
                 <View style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:48,width:48,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
+                        <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
                         <View style={{marginLeft:10}}>
-                            <Text style={{color:'grey'}}>{rowData.userName}</Text>
+                            <Text style={{fontSize:15,color:'#999999'}}>{rowData.userName}</Text>
                             <View style={{flexDirection:'row',marginBottom:5}}>
-                                <Text style={{color:'grey'}}>胜率：</Text>
-                                <Text style={{color:'grey'}}>{rowData.winRate}</Text>
+                                <Text style={{fontSize:12, color:'#999999'}}>胜率：</Text>
+                                <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{color:'red'}}>{rowData.ProfitRate}</Text>
+                        <Text style={{fontSize:17, color:'#ca3538'}}>{rowData.ProfitRate}</Text>
                     </View> 
                 </View>
             )
@@ -194,17 +204,22 @@ const styles = StyleSheet.create({
     textTopUserName:{
         alignSelf:'center',
         marginTop:2,
-        color:'white',
-        fontSize:12,
+        color:'#0278c1',
+        fontSize:15,
     },
     textTopUserScore:{
         alignSelf:'center',
         marginBottom:2,
-        color:'white',
-        fontSize:12,
+        color:'#d8effc',
+        fontSize:15,
     },
     textProfit:{
-        color:'white'
+        color:'#ffffff',
+        fontSize:15
+    },
+    textWinRate:{
+        fontSize:12,
+        color:'#0278c1'
     }
 })
 

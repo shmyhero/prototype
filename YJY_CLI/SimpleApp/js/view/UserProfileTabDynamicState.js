@@ -117,7 +117,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 			<View style={styles.itemLine}>
 			  <View style={{width:width-20,paddingRight:24}}>
 					<Text style={styles.timeStyle}>{rowData.createdAt}</Text>
-					<Text>{rowData.message}</Text>
+					<Text style={{fontSize:15,color:'#999999'}}>{rowData.message}</Text>
  
 					<View style = {styles.itemOperator}>
 						<View style={styles.separator}></View>
@@ -229,7 +229,7 @@ const styles = StyleSheet.create({
 	},
 	timeStyle:{
 		fontSize:12,
-		color:'#8f8f8f',
+		color:'#474747',
 		marginTop:15,
 		marginBottom:5,
 	},

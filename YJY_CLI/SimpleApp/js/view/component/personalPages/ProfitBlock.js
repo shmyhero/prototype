@@ -194,10 +194,7 @@ export default class ProfitBlock extends Component {
 						    <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                 <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                                     {topLine}
-                                </Text>
-                                {/* <Text style={styles.textCount}>
-                                    {LS.str("CLOSED_NUMBERS").replace("{1}", rowData.count)}
-                                </Text> */}
+                                </Text> 
                             </View>
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 								<Text style={styles.stockSymbolText}>

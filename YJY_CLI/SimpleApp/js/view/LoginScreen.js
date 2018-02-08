@@ -76,8 +76,8 @@ export default class  LoginScreen extends React.Component {
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     
-                    <Text style={{marginBottom:5,color:'#33b5f4',fontSize:10}}>您正在登录糖果市场</Text>
-                    <View style={{backgroundColor:'#46bef5',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{marginBottom:5,color:'#60cafa',fontSize:11}}>您正在登录糖果市场</Text>
+                    <View style={{backgroundColor:'#3ebdf8',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                         underlineColorAndroid='transparent'
                         maxLength={11} 
@@ -91,7 +91,7 @@ export default class  LoginScreen extends React.Component {
                         </TouchableOpacity>  
                     </View>
 
-                    <View style={{backgroundColor:'#46bef5',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:'#3ebdf8',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
                             maxLength={6} 
@@ -99,20 +99,19 @@ export default class  LoginScreen extends React.Component {
                             placeholder='验证码'
                             keyboardType='numeric' 
                             style={{width:width,marginLeft:10,color:'white'}}/> 
-                    </View>
-
+                    </View> 
+                    
                     <TouchableOpacity 
                         onPress={()=>this.onLoginClicked()}
                         style={{
                         alignItems:'center',
                         justifyContent:'center',
-                        width:width-50,height:40,backgroundColor:'#30abf0',marginTop:20,borderRadius:15,}}>
-                        <Text style={{color:'white'}}>登录</Text>
+                        width:width-50,height:40,backgroundColor:'#25aaf3',marginTop:20,borderRadius:15,}}>
+                        <Text style={{fontSize:17, color:'#40b7f8'}}>登录</Text>
                     </TouchableOpacity>
-                    
                 </View>
                 <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{color:'#6ac1f5'}}>快速登录</Text>
+                    <Text style={{fontSize:17, color:'#40b7f8'}}>快速登录</Text>
                     <TouchableOpacity onPress={()=>this.onWechatLogin()}>
                      <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
                     </TouchableOpacity>    

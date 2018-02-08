@@ -75,7 +75,7 @@ export default class  UserProfileScreen extends React.Component {
     return (
       <View style={styles.mainContainer}>
           <NavBar title={'盈利8888'} showBackButton={true} navigation={this.props.navigation}/>
-          <Image style={{width:72,height:72,alignSelf:'center',marginTop:24}} source={require('../../images/head_portrait.png')}></Image>
+          <Image style={{width:80,height:80,alignSelf:'center',marginTop:20}} source={require('../../images/head_portrait.png')}></Image>
 
           {this.renderContent()}
       </View>
