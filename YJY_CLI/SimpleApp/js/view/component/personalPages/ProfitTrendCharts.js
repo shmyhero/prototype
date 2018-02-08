@@ -122,6 +122,7 @@ export default class ProfitTrendCharts extends Component {
                 drawBorders={true}
                 data={JSON.stringify(this.state.stockInfo)}
                 drawDataUnderYAxis={false}
+                xAxisTextSize={10}
             />
           </View>
       </View>

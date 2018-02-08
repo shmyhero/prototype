@@ -34,7 +34,6 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setTouchEnabled(false);
-
     }
 
     @Override

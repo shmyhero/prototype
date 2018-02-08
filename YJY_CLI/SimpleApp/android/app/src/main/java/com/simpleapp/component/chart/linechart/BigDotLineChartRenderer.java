@@ -936,18 +936,20 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 //                                mCirclePaintInner);
 //                    }
 
-
-                    mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
+                    if (mShadowedCircle == null) {
+                        mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
+                    }
                     Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
                     canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
 
                     int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(3);
                     int top = (int)(circleRadius - arrowHeight / 2);
                     Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
-                    mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
 
+                    if (mArrowBitmap == null) {
+                        mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
+                    }
                     canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
-
 
                     mValuePaint.setTextAlign(Paint.Align.LEFT);
                     mValuePaint.setColor(set.getCircleHoleColor());

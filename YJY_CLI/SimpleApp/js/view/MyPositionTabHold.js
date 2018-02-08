@@ -41,6 +41,10 @@ const ROW_SIMPLE_CONTENT_HEIGHT = 40 + ROW_SIMPLE_CONTENT_PADDING * 2;
 const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 
+
+const SUB_ACTION_NONE = 0;
+const SUB_ACTION_STOP_LOSS_PROFIT = 2;
+
 export default class  MyPositionTabHold extends React.Component {
     static navigationOptions = {
         title: 'Home',
@@ -59,7 +63,7 @@ export default class  MyPositionTabHold extends React.Component {
         this.state = {			
 			stockInfoRowData: [],
 			selectedRow: -1,
-			selectedSubItem: 0,
+			selectedSubItem: SUB_ACTION_NONE,
 			stockDetailInfo: [],
 			showExchangeDoubleCheck: false,
 			stopProfitSwitchIsOn: false,
@@ -85,7 +89,7 @@ export default class  MyPositionTabHold extends React.Component {
 			isClear:true,
 			stockInfoRowData: [],
 			selectedRow: -1,
-			selectedSubItem: 0,
+			selectedSubItem: SUB_ACTION_NONE,
 			stockDetailInfo: [],
 			showExchangeDoubleCheck: false,
 			stopProfitSwitchIsOn: false,
@@ -543,10 +547,10 @@ export default class  MyPositionTabHold extends React.Component {
 			newData[rowID].hasSelected = false
 			state = {
 				selectedRow: -1,
-				selectedSubItem: 0,
+				selectedSubItem: SUB_ACTION_NONE,
 				stockInfoRowData: newData,
 			};
-			this.setState(state)	
+			this.setState(state)
 		} else {
 			isWaiting = false
 			if (this.state.selectedRow >=0) {
@@ -565,7 +569,7 @@ export default class  MyPositionTabHold extends React.Component {
 
 			state = {
 				selectedRow: rowID,
-				selectedSubItem: 0,
+				selectedSubItem: SUB_ACTION_NONE,
 				stockInfoRowData: newData,
 				stopProfitSwitchIsOn: stopProfit,
 				stopLossSwitchIsOn: stopLoss,
@@ -595,7 +599,7 @@ export default class  MyPositionTabHold extends React.Component {
 		var detalY = 0
 
 		var state = {
-			selectedSubItem: 2,
+			selectedSubItem: SUB_ACTION_STOP_LOSS_PROFIT,
 		};
 		this.setState(state, ()=>{
 			console.log("this.state.selectedRow " + this.state.selectedRow)
@@ -625,7 +629,7 @@ export default class  MyPositionTabHold extends React.Component {
 		
 		this.setState ({
 			selectedRow: -1,
-			selectedSubItem: 0,
+			selectedSubItem: SUB_ACTION_NONE,
 		})
 	}
 
@@ -646,7 +650,40 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	switchConfrim(rowData) {
-		alert("switch confirm")
+		//alert("switch confirm")
+
+		var result = {
+			stopPx: 10,
+			takeOID:1,
+			takePx: -2,
+		}
+
+		var lastSelectedRow = this.state.selectedRow;
+		var newState = {
+			profitLossUpdated: false,
+			profitLossConfirmed: true,
+		};
+
+
+		if(result){
+			var tempStockInfo = this.state.stockInfoRowData;
+			if ('stopPx' in result){
+				tempStockInfo[lastSelectedRow].stopPx = result.stopPx;
+				console.log("update stopPx: " + result.stopPx)
+			}
+			if ('takeOID' in result){
+				tempStockInfo[lastSelectedRow].takeOID = result.takeOID;
+				console.log("update takeOID: " + result.takeOID)
+			}
+			if ('takePx' in result){
+				tempStockInfo[lastSelectedRow].takePx = result.takePx;
+				console.log("update takePx: " + result.takePx)
+			}
+			//tempStockInfo[lastSelectedRow].isSettingProfitLoss = false;
+			newState.stockInfoRowData = tempStockInfo;
+		}
+		console.log("stop profit/loss finsished. Update state")
+		this.setState(newState);
 	}
 
 	sendStopLossRequest(rowData, lastSelectedRow, stopLossSwitchIsOn, stopLossPercent, stopLossUpdated){
@@ -1210,7 +1247,7 @@ export default class  MyPositionTabHold extends React.Component {
 		var separatorStyle = styles.darkSeparator;
         var buttonStyle = [styles.okView];
 		var buttonTextStyle = [styles.okButton];
-		if(this.state.selectedSubItem === 2){
+		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			var buttonText = "确认"
 			if (!this.state.profitLossUpdated && this.state.profitLossConfirmed) {
 				buttonText = "已设置"
@@ -1230,7 +1267,7 @@ export default class  MyPositionTabHold extends React.Component {
 				{showNetIncome ? <Text style={styles.netIncomeText}>净收益:9.26</Text> : null}
 
 				<TouchableOpacity
-					onPress={()=>this.state.selectedSubItem === 2 ? this.switchConfrim(rowData) : this.okPress(rowData)}
+					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
 					style={buttonStyle}
 					>
                     <ImageBackground source={require("../../images/position_confirm_button.png")}
@@ -1297,10 +1334,10 @@ export default class  MyPositionTabHold extends React.Component {
 				</View>
                 <View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
-					<View style={[styles.extendLeft, this.state.selectedSubItem==2 && styles.bottomBorder]}/>
+					<View style={[styles.extendLeft, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder]}/>
 					<TouchableOpacity onPress={()=>this.subItemPress(rowData)}
-						style={[styles.extendMiddle, (this.state.selectedSubItem===1)&&styles.bottomBorder,
-								(this.state.selectedSubItem===2)&&styles.leftTopRightBorder,
+						style={[styles.extendMiddle, 
+								(this.state.selectedSubItem===SUB_ACTION_STOP_LOSS_PROFIT)&&styles.leftTopRightBorder,
 								{borderTopColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 								{borderBottomColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 								{borderLeftColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
@@ -1310,10 +1347,10 @@ export default class  MyPositionTabHold extends React.Component {
 						<Image style={styles.extendImageBottom} source={stopLossImage}/>
 					</TouchableOpacity>
 
-					<View style={[styles.extendRight, this.state.selectedSubItem==2 && styles.bottomBorder, ]}/>
+					<View style={[styles.extendRight, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder, ]}/>
 				</View>
 
-				{this.state.selectedSubItem !== 0 ? this.renderSubDetail(rowData): null}
+				{this.state.selectedSubItem !== SUB_ACTION_NONE ? this.renderSubDetail(rowData): null}
 
 				{this.renderOKView(rowData)}
 			</View>
@@ -1324,7 +1361,7 @@ export default class  MyPositionTabHold extends React.Component {
 		var smallItemHeight = SIMPLE_ROW_HEIGHT;
 		var bigItemHeight = 277 + ROW_PADDING;
 		var itemHeight = smallItemHeight;
-		if(this.state.selectedSubItem === 2){
+		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			bigItemHeight += STOP_PROFIT_LOSS_SMALL_HEIGHT;
 		}
 		if(this.state.stopLossSwitchIsOn){
@@ -1347,6 +1384,21 @@ export default class  MyPositionTabHold extends React.Component {
 			length: itemHeight, 
 			offset: offset - 4,
 			index: index};
+	}
+
+	onRefresh(){
+		this.setState({
+			isRefreshing: true,
+		}, ()=>{
+			setTimeout(()=>{
+				var stockInfo = this.state.stockInfoRowData.concat(this.state.stockInfoRowData)
+				this.setState({
+					isRefreshing: false,
+					stockInfoRowData: stockInfo,
+				})
+			}, 1000);
+		})
+		
 	}
 
 	renderItem(data){
@@ -1426,6 +1478,8 @@ export default class  MyPositionTabHold extends React.Component {
 						style={styles.list}
 						ref={(ref) => { this.flatListRef = ref; }}
 						data={this.state.stockInfoRowData}
+						refreshing={this.state.isRefreshing}
+						onRefresh={()=>this.onRefresh()}
 						getItemLayout={(data, index) => this.getItemLayout(data, index)}
 						keyExtractor={(item, index) => index}
 						renderItem={(data)=>this.renderItem(data)}

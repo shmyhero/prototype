@@ -88,6 +88,8 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         chart.getAxisRight().setSpaceBottom(10);
         chart.setDragDecelerationEnabled(false);//设置拖拽后放开,无惯性移动。
         chart.setDragEnabled(false);
+
+        chart.getXAxis().setAvoidFirstLastClipping(true);
         //chart.setExtraLeftOffset(15);
         chart.setOnChartGestureListener(new OnChartGestureListener() {
             @Override

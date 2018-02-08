@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Image,
   CheckBox,
+  ImageBackground,
   Dimensions,
 } from 'react-native';
 
@@ -25,13 +26,12 @@ var StockOrderInfoModal = require("./StockOrderInfoModal");
 var {height, width} = Dimensions.get('window')
 
 var containerHorizontalPadding = 15;
-var rowContainerWidth = width - containerHorizontalPadding * 2;
-var rowContainerHeight = rowContainerWidth / 700 * 150;
-var smallContainerWidth = (width - containerHorizontalPadding * 3) / 2;
-var smallContainerHeight = smallContainerWidth / 350 * 330;
-var buttonPadding = 10;
-var rowButtonWidth = (rowContainerWidth - buttonPadding * 3)/4;
-var rowButtonHeight =  rowButtonWidth / 144 * 99;
+
+var SMALL_BUTTON_ROW_CONTAINER_WIDTH = width - containerHorizontalPadding * 2;
+var SMALL_BUTTON_ROW_CONTAINER_HEIGHT = SMALL_BUTTON_ROW_CONTAINER_WIDTH / 700 * 150;
+
+var BIG_BUTTON_ROW_CONTAINER_WIDTH = (width - containerHorizontalPadding * 3)/2;
+var BIG_BUTTON_ROW_CONTAINER_HEIGHT = BIG_BUTTON_ROW_CONTAINER_WIDTH / 350 * 330;
 
 export default class  StockDetailScreen extends React.Component {
     static navigationOptions = {
@@ -44,7 +44,7 @@ export default class  StockDetailScreen extends React.Component {
         super(props)
 
         var state = {
-            chartType: "today",
+            chartType: "stockDetailPage",
             data: null,
             Multiplier: 0,
             stockInfo: {},
@@ -97,8 +97,6 @@ export default class  StockDetailScreen extends React.Component {
     }
 
     loadStockInfo() {
-
-        console.log('StockDetailPage loadStockInfo');
         loadStockInfoSuccess = false
         
         //TODO: Replace with real url
@@ -295,6 +293,12 @@ export default class  StockDetailScreen extends React.Component {
         }
     }
 
+    onOptionSelected(groupName, value){
+        var newState = {};
+        newState[groupName] = value
+        this.setState(newState);
+    }
+
     renderButtonInGroup(parameters){
         var value = parameters.value;
         var label = parameters.label;
@@ -302,7 +306,6 @@ export default class  StockDetailScreen extends React.Component {
         var additionalTextStyle = parameters.additionalTextStyle;
         var additionalContainerStyle = parameters.additionalContainerStyle;
         var customTextViewStyle = parameters.customTextViewStyle;
-        // var selectedContainerStyle = parameters.selectedContainerStyle;
         var imageSource = parameters.imageSource;
         var selectedImageSource = parameters.selectedImageSource;
         var selected = this.state[groupName] == value;
@@ -310,19 +313,13 @@ export default class  StockDetailScreen extends React.Component {
         var textViewStyleList = [styles.numberButtonLabel];
         var backgroundImageSource = parameters.backgroundImageSource ? parameters.backgroundImageSource : require("../../images/stock_detail_action_unselected.png");
         var selectedBackgroundImageSource = parameters.selectedBackgroundImageSource ? parameters.selectedBackgroundImageSource : require("../../images/stock_detail_action_selected_blue.png");
-        var buttonWidth = parameters.buttonWidth ? parameters.buttonWidth : rowButtonWidth;
-        var buttonHeight = parameters.buttonHeight ? parameters.buttonHeight : rowButtonHeight;
-
+       
         if(selected){
-            // if(selectedContainerStyle){
-            //     containerStyleList.push(selectedContainerStyle)
-            // }
             if(selectedImageSource){
                 imageSource = selectedImageSource;
             }
             backgroundImageSource = selectedBackgroundImageSource;
         }
-        
         if(customTextViewStyle){
             textViewStyleList.push(customTextViewStyle)
         }
@@ -334,21 +331,25 @@ export default class  StockDetailScreen extends React.Component {
         }
 
         return (
-            <TouchableOpacity style={containerStyleList} onPress={()=>{
-                var newState = {};
-                newState[groupName] = value
-                this.setState(newState);
-            }}>
-                <View style={{width: buttonWidth, height: buttonHeight, alignItems:'center', justifyContent:'center' }}>
-                    <Image style={{
-                            position:'absolute', 
-                            width: buttonWidth, 
-                            height: buttonHeight,
-                        }}
-                        resizeMode={'contain'}
-                        source={backgroundImageSource}/>
-                    <Text style={textViewStyleList}>{label}</Text>
-                </View>
+            <TouchableOpacity style={containerStyleList}
+                onPress={()=>this.onOptionSelected(groupName, value)}>
+                <ImageBackground source={backgroundImageSource}
+                    resizeMode={'contain'}
+                    style={{
+                        width: '100%',
+                        height: '100%',
+                        alignItems:'center',
+                        justifyContent:'center',
+                        flexDirection:'column',
+                    }}>
+                    <View style={{
+                        flex:1,
+                        alignItems:'center',
+                        flexDirection:'row',
+                        }}>
+                        <Text style={textViewStyleList}>{label}</Text>
+                    </View>
+                </ImageBackground>
             </TouchableOpacity>
         )
     }
@@ -400,16 +401,11 @@ export default class  StockDetailScreen extends React.Component {
             selectedImageSource = require("../../images/stock_detail_option_up_selected.png")
         }
 
-        var buttonWidth = smallContainerWidth - 40;
-        var buttonHeight = buttonWidth / 276 * 120;
-
         return this.renderButtonInGroup({
             value: value,
             groupName: "Operation",
             backgroundImageSource:imageSource,
             selectedBackgroundImageSource:selectedImageSource,
-            buttonWidth: buttonWidth,
-            buttonHeight: buttonHeight,
         });            
     }
 
@@ -461,44 +457,42 @@ export default class  StockDetailScreen extends React.Component {
         return (
             <View style={styles.container}>
                 {this.renderPriceChart()}
-                <View style={styles.actionsContainer}>                      
-                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer]}>
-                        <Image style={styles.buttonsRowContainerBackground}
-                            resizeMode={"contain"}
-                            source={require('../../images/stock_detail_amount_container.png')}/>
-                        {this.renderAmountButton(50)}
-                        {this.renderAmountButton(100)}
-                        {this.renderAmountButton(200)}
-                        {this.renderAmountButton(400)}
-                    </View>
-
-                    <View style={[styles.buttonsContainer, styles.buttonsRowContainer]}>
-                        <Image style={styles.buttonsRowContainerBackground}
-                            resizeMode={"contain"}
-                            source={require('../../images/stock_detail_multiple_container.png')}/>
-                        {this.renderMultiplierButton(10)}
-                        {this.renderMultiplierButton(30)}
-                        {this.renderMultiplierButton(50)}
-                        {this.renderMultiplierButton(100)}
-                    </View>
-
-                    <View style={{flexDirection:'row'}}>
-                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer,
-                            {flex:1, marginRight: containerHorizontalPadding/2}]}>
-                            <Image style={styles.buttonsSmallContainerBackground}
-                                resizeMode={"contain"}
-                                source={require('../../images/stock_detail_direction_container.png')}/>
-                            {this.renderOperationButton(1)}
-                            {this.renderOperationButton(0)}
+                <View style={styles.actionsContainer}>
+                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
+                        source={require('../../images/stock_detail_amount_container.png')}>
+                        <View style={[styles.buttonsRowContainer]}>                               
+                            {this.renderAmountButton(50)}
+                            {this.renderAmountButton(100)}
+                            {this.renderAmountButton(200)}
+                            {this.renderAmountButton(400)}
                         </View>
-                        <View style={[styles.buttonsContainer, styles.buttonsSmallContainer, 
-                            {flex:1, marginLeft: containerHorizontalPadding/2, 
-                                justifyContent:'center', alignItems:'center'}]}>
-                            <Image style={styles.buttonsSmallContainerBackground}
-                                resizeMode={"contain"}
-                                source={require('../../images/stock_detail_trading_container.png')}/>
-                            {this.renderSubmitButton()}                            
+                    </ImageBackground>
+                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
+                        source={require('../../images/stock_detail_multiple_container.png')}>
+                        <View style={[styles.buttonsRowContainer]}>
+                            {this.renderMultiplierButton(10)}
+                            {this.renderMultiplierButton(30)}
+                            {this.renderMultiplierButton(50)}
+                            {this.renderMultiplierButton(100)}
                         </View>
+                    </ImageBackground>
+
+                    <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
+                        <ImageBackground style={{flex:1, marginRight: containerHorizontalPadding/2}}
+                            source={require('../../images/stock_detail_direction_container.png')}>
+                            <View style={[styles.buttonsContainer, styles.bigButtonsContainer,
+                                {justifyContent:'center', alignItems:'center'}]}>
+                                {this.renderOperationButton(1)}
+                                {this.renderOperationButton(0)}
+                            </View>
+                        </ImageBackground>
+                        <ImageBackground style={{flex:1, marginLeft: containerHorizontalPadding/2}}
+                            source={require('../../images/stock_detail_trading_container.png')}>
+                            <View style={[styles.buttonsContainer, styles.bigButtonsContainer, 
+                                {justifyContent:'center', alignItems:'center'}]}>                               
+                                {this.renderSubmitButton()}                            
+                            </View>
+                        </ImageBackground>
                     </View>
                 </View>
                 {this.renderOrderFinishedModal()}
@@ -534,43 +528,49 @@ const styles = StyleSheet.create({
     },
 
     buttonsContainer:{
+        justifyContent: 'space-between',
+        alignSelf:'center', 
         marginLeft:containerHorizontalPadding,
         marginRight:containerHorizontalPadding,
-        justifyContent: 'space-between',
-        alignSelf:'center',
-        padding: 5,
+    },
+
+    bigButtonsRowWrapper:{
+        marginTop: 5,
+        marginBottom:5,
+        flexDirection:'row',
+        width:SMALL_BUTTON_ROW_CONTAINER_WIDTH,
+        height:BIG_BUTTON_ROW_CONTAINER_HEIGHT,
+    },
+
+    buttonsRowWrapper:{
+        paddingTop: 5,      
+        width:SMALL_BUTTON_ROW_CONTAINER_WIDTH,
+        height:SMALL_BUTTON_ROW_CONTAINER_HEIGHT,
     },
 
     buttonsRowContainer:{
-        alignSelf:'stretch',       
+        alignSelf:'stretch',
+        alignItems:'stretch',
         flexDirection: 'row',
-        width: rowContainerWidth, 
-        height:rowContainerHeight,
+        flex:1,
+        paddingTop:5,
+        paddingBottom:2,
+        paddingLeft:10,
+        paddingRight:10,
     },
 
-    buttonsSmallContainer:{
+    bigButtonsContainer:{
         alignSelf:'stretch',
         flexDirection: 'column',
-        width: smallContainerWidth, 
-        height: smallContainerHeight,
-    },
-
-    buttonsRowContainerBackground:{
-        position:'absolute',
-        width: rowContainerWidth,
-        height:rowContainerHeight
-    },
-
-    buttonsSmallContainerBackground:{
-        position:'absolute',
-        width: smallContainerWidth,
-        height: smallContainerHeight,
+        flex:1,
+        paddingTop:10,
+        paddingBottom:15,
     },
 
     numberButton:{
         flex:1,
-        marginTop:4,
         alignSelf:'center',
+        alignItems:'stretch',
         justifyContent:'center',
         flexDirection:'row',
     },
@@ -578,6 +578,7 @@ const styles = StyleSheet.create({
     numberButtonLabel:{
         textAlign: 'center',
         fontSize:20,
+        flex:1,
     },
 
     SelectedAmountButton:{
