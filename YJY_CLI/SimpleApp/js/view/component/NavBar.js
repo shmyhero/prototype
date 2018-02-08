@@ -213,7 +213,7 @@ export default class  NavBar extends React.Component {
 					{this.renderSearchButton()}
 					{this.renderRightText()}
 					{this.renderRightImage()}
-					{/* {this.renderRightCustomContent()} */}
+					{this.renderRightCustomContent()}
 				</View>);
 		}
 	}

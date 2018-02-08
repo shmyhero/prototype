@@ -136,14 +136,14 @@ export default class  RankHeroList extends React.Component {
                         <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.userName}</Text>
-                            <View style={{flexDirection:'row',marginBottom:5}}>
+                            <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>胜率：</Text>
                                 <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate}</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, color:'#ca3538'}}>{rowData.ProfitRate}</Text>
+                        <Text style={{fontSize:17, color:'#ca3538'}}>+{rowData.ProfitRate}</Text>
                     </View> 
                 </View>
             )

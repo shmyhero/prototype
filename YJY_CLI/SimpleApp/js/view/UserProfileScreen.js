@@ -8,7 +8,8 @@ import {
   Platform,
   Alert,
   Image,
-  Dimensions
+  Dimensions,
+  TouchableOpacity
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -70,11 +71,22 @@ export default class  UserProfileScreen extends React.Component {
         )
   }
 
+  rightCustomContent(){
+    var text = '+关注' 
+    // text = '取消关注'
+    return(
+      <TouchableOpacity>
+      <Text style={{backgroundColor:'#43b9f9', textAlign:'center', fontSize:12,width:72, color:'white',borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}}>{text}</Text>
+      </TouchableOpacity>
+      )
+    
+    return(null)
+  }
 
   render() {
     return (
       <View style={styles.mainContainer}>
-          <NavBar title={'盈利8888'} showBackButton={true} navigation={this.props.navigation}/>
+          <NavBar title={'盈利8888'} rightCustomContent={this.rightCustomContent} showBackButton={true} navigation={this.props.navigation}/>
           <Image style={{width:80,height:80,alignSelf:'center',marginTop:20}} source={require('../../images/head_portrait.png')}></Image>
 
           {this.renderContent()}
