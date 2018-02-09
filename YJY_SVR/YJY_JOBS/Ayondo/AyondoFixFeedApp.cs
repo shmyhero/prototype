@@ -39,8 +39,9 @@ namespace YJY_JOBS.Ayondo
 
         public ConcurrentQueue<ProdDef> QueueProdDefs = new ConcurrentQueue<ProdDef>();
         public ConcurrentQueue<Quote> QueueQuotes = new ConcurrentQueue<Quote>();
-        public ConcurrentQueue<Quote> QueueQuotes2 = new ConcurrentQueue<Quote>();
-        public ConcurrentQueue<Quote> QueueQuotes3 = new ConcurrentQueue<Quote>();
+        public ConcurrentQueue<Quote> QueueQuotesForRawTick = new ConcurrentQueue<Quote>();
+        public ConcurrentQueue<Quote> QueueQuotesForTick = new ConcurrentQueue<Quote>();
+        public ConcurrentQueue<Quote> QueueQuotesForKLine = new ConcurrentQueue<Quote>();
 
         public IDictionary<int, ProdDef> ProdDefs = new Dictionary<int, ProdDef>();
 
@@ -335,7 +336,7 @@ namespace YJY_JOBS.Ayondo
                 Time = time
             });
 
-            QueueQuotes2.Enqueue(new Quote
+            QueueQuotesForRawTick.Enqueue(new Quote
             {
                 Bid = bid,
                 Id = secId,
@@ -343,7 +344,15 @@ namespace YJY_JOBS.Ayondo
                 Time = time
             });
 
-            QueueQuotes3.Enqueue(new Quote
+            QueueQuotesForTick.Enqueue(new Quote
+            {
+                Bid = bid,
+                Id = secId,
+                Ask = offer,
+                Time = time
+            });
+
+            QueueQuotesForKLine.Enqueue(new Quote
             {
                 Bid = bid,
                 Id = secId,

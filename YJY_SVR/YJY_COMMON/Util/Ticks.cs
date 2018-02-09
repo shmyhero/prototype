@@ -27,7 +27,16 @@ namespace YJY_COMMON.Util
                 case TickSize.Raw:
                     return "tick:";
                     break;
-                
+                case TickSize.OneMinute:
+                    return "tick1m:";
+                    break;
+                case TickSize.TenMinute:
+                    return "tick10m:";
+                    break;
+                case TickSize.OneHour:
+                    return "tick1h:";
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException("tickSize", tickSize, null);
             }
@@ -37,7 +46,16 @@ namespace YJY_COMMON.Util
         {
             switch (tickSize)
             {
-                
+                case TickSize.OneMinute:
+                    return DateTimes.IsEqualDownToMinute(t1, t2);
+                    break;
+                case TickSize.TenMinute:
+                    return DateTimes.IsEqualDownTo10Minute(t1, t2);
+                    break;
+                case TickSize.OneHour:
+                    return DateTimes.IsEqualDownToHour(t1, t2);
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException("tickSize", tickSize, null);
             }
@@ -50,7 +68,16 @@ namespace YJY_COMMON.Util
                 case TickSize.Raw:
                     return CLEAR_HISTORY_WHEN_SIZE_RawTick;
                     break;
-                
+                case TickSize.OneMinute:
+                    return CLEAR_HISTORY_WHEN_SIZE_1mTick;
+                    break;
+                case TickSize.TenMinute:
+                    return CLEAR_HISTORY_WHEN_SIZE_10mTick;
+                    break;
+                case TickSize.OneHour:
+                    return CLEAR_HISTORY_WHEN_SIZE_1hTick;
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException("tickSize", tickSize, null);
             }
@@ -63,7 +90,16 @@ namespace YJY_COMMON.Util
                 case TickSize.Raw:
                     return CLEAR_HISTORY_TO_SIZE_RawTick;
                     break;
-               
+                case TickSize.OneMinute:
+                    return CLEAR_HISTORY_TO_SIZE_1mTick;
+                    break;
+                case TickSize.TenMinute:
+                    return CLEAR_HISTORY_TO_SIZE_10mTick;
+                    break;
+                case TickSize.OneHour:
+                    return CLEAR_HISTORY_TO_SIZE_1hTick;
+                    break;
+
                 default:
                     throw new ArgumentOutOfRangeException("tickSize", tickSize, null);
             }
@@ -73,5 +109,8 @@ namespace YJY_COMMON.Util
     public enum TickSize
     {
         Raw,
+        OneMinute,
+        TenMinute,
+        OneHour,
     }
 }

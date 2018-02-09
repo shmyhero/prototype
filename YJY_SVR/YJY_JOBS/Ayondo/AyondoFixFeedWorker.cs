@@ -16,6 +16,7 @@ namespace YJY_JOBS.Ayondo
         private static Timer _timerQuotes;
         private static Timer _timerProdDefs;
         private static Timer _timerProdDefRequest;
+        private static Timer _timerRawTicks;
         private static Timer _timerTicks;
         private static Timer _timerKLines;
 
@@ -24,7 +25,8 @@ namespace YJY_JOBS.Ayondo
         private static readonly TimeSpan _intervalProdDefRequest = TimeSpan.FromMinutes(60);
         private static readonly TimeSpan _intervalProdDefs = TimeSpan.FromMilliseconds(500);
         private static readonly TimeSpan _intervalQuotes = TimeSpan.FromMilliseconds(500);
-        private static readonly TimeSpan _intervalTicks = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan _intervalRawTicks = TimeSpan.FromMilliseconds(500);
+        private static readonly TimeSpan _intervalTicks = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan _intervalKLine = TimeSpan.FromSeconds(10);
 
         public static void Run(bool isLive = false)
@@ -50,6 +52,7 @@ namespace YJY_JOBS.Ayondo
             _timerProdDefRequest = new Timer(SendProdDefRequest, null, _intervalProdDefRequest,
                 TimeSpan.FromMilliseconds(-1));
             _timerQuotes = new Timer(SaveQuotes, null, _intervalQuotes, TimeSpan.FromMilliseconds(-1));
+            _timerRawTicks = new Timer(SaveRawTicks, null, _intervalRawTicks, TimeSpan.FromMilliseconds(-1));
             _timerTicks = new Timer(SaveTicks, null, _intervalTicks, TimeSpan.FromMilliseconds(-1));
             _timerKLines = new Timer(SaveKLine, null, _intervalKLine, TimeSpan.FromMilliseconds(-1));
 
@@ -246,17 +249,17 @@ namespace YJY_JOBS.Ayondo
             }
         }
 
-        private static void SaveTicks(object state)
+        private static void SaveRawTicks(object state)
         {
             while (true)
             {
                 try
                 {
                     IList<Quote> quotes = new List<Quote>();
-                    while (!myApp.QueueQuotes2.IsEmpty)
+                    while (!myApp.QueueQuotesForRawTick.IsEmpty)
                     {
                         Quote obj;
-                        var tryDequeue = myApp.QueueQuotes2.TryDequeue(out obj);
+                        var tryDequeue = myApp.QueueQuotesForRawTick.TryDequeue(out obj);
                         quotes.Add(obj);
                     }
 
@@ -276,7 +279,7 @@ namespace YJY_JOBS.Ayondo
                             {
                                 if (!myApp.ProdDefs.ContainsKey(quoteGroup.Key)) //no product definition
                                 {
-                                    YJYGlobal.LogLine("no prodDef. tick ignored " + quoteGroup.Key);
+                                    YJYGlobal.LogLine("SaveRawTicks: no prodDef. tick ignored " + quoteGroup.Key);
                                     continue;
                                 }
 
@@ -284,7 +287,7 @@ namespace YJY_JOBS.Ayondo
                                 if (prodDef.QuoteType != enmQuoteType.Open &&
                                     prodDef.QuoteType != enmQuoteType.PhoneOnly) //not open not phoneOnly
                                 {
-                                    YJYGlobal.LogLine("prod not opening. tick ignored. " + prodDef.Id + " " +
+                                    YJYGlobal.LogLine("SaveRawTicks: prod not opening. tick ignored. " + prodDef.Id + " " +
                                                       prodDef.Name);
                                     continue;
                                 }
@@ -327,7 +330,141 @@ namespace YJY_JOBS.Ayondo
                     YJYGlobal.LogException(e);
                 }
 
+                Thread.Sleep(_intervalRawTicks);
+            }
+        }
+
+        private static void SaveTicks(object state)
+        {
+            while (true)
+            {
+                try
+                {
+                    IList<Quote> quotes = new List<Quote>();
+                    while (!myApp.QueueQuotesForTick.IsEmpty)
+                    {
+                        Quote obj;
+                        var tryDequeue = myApp.QueueQuotesForTick.TryDequeue(out obj);
+                        quotes.Add(obj);
+                    }
+
+                    using (var redisClient = YJYGlobal.PooledRedisClientsManager.GetClient())
+                    {
+                        var redisTickClient = redisClient.As<Tick>();
+                        var redisProdDefClient = redisClient.As<ProdDef>();
+
+                        var prodDefs = redisProdDefClient.GetAll();
+
+                        if (quotes.Count > 0)
+                        {
+                            //the time of the last message received from Ayondo
+                            var dtAyondoNow = quotes.Max(o => o.Time);
+
+                            var openingProds =
+                                prodDefs.Where(
+                                    o => o.QuoteType == enmQuoteType.Open || o.QuoteType == enmQuoteType.PhoneOnly).ToList();
+
+                            var dtBeginSave = DateTime.Now;
+
+                            foreach (var prodDef in openingProds)
+                            {
+                                var quotesByProd = quotes.Where(o => o.Id == prodDef.Id).ToList();
+
+                                UpdateRedisTick(redisTickClient, prodDef.Id, dtAyondoNow, quotesByProd, TickSize.OneMinute);
+                                UpdateRedisTick(redisTickClient, prodDef.Id, dtAyondoNow, quotesByProd, TickSize.TenMinute);
+                                UpdateRedisTick(redisTickClient, prodDef.Id, dtAyondoNow, quotesByProd, TickSize.OneHour);
+                            }
+
+                            YJYGlobal.LogLine("\t" + " Ticks " + openingProds.Count + "/" +
+                                             quotes.Count + " " + " Time: " +
+                                             quotes.Min(o => o.Time).ToString(YJYGlobal.DATETIME_MASK_MILLI_SECOND) +
+                                             " ~ " +
+                                             quotes.Max(o => o.Time).ToString(YJYGlobal.DATETIME_MASK_MILLI_SECOND) +
+                                             " Saved to Redis " + (DateTime.Now - dtBeginSave).TotalMilliseconds);
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    YJYGlobal.LogException(e);
+                }
+
                 Thread.Sleep(_intervalTicks);
+            }
+        }
+
+        private static void UpdateRedisTick(IRedisTypedClient<Tick> redisTickClient, int secId, DateTime dtAyondoNow, IList<Quote> quotes, TickSize tickSize)
+        {
+            //redis tick list
+            var list = redisTickClient.Lists[Ticks.GetTickListNamePrefix(tickSize) + secId];
+
+            if (quotes.Count == 0) //fill in non-changing ticks
+            {
+                if (list.Count > 0)
+                {
+                    var last = list[list.Count - 1];
+
+                    //redis last tick is newer
+                    if (last.T >= dtAyondoNow)
+                    {
+                        return;//impossible
+                    }
+
+                    //update last tick in redis
+                    if (Ticks.IsTickEqual(last.T, dtAyondoNow, tickSize))
+                    {
+                        //do nothing
+                    }
+                    else //append new tick with the same price as redis last
+                    {
+                        list.Add(new Tick() {P = last.P,T=dtAyondoNow});
+                    }
+                }
+            }
+            else
+            {
+                var lastQuote = quotes.OrderByDescending(o => o.Time).First();
+                var newTick = new Tick { P = Quotes.GetLastPrice(lastQuote), T = dtAyondoNow };
+
+                if (list.Count == 0) //new products coming
+                {
+                    list.Add(newTick);
+                    return;
+                }
+
+                var last = list[list.Count - 1];
+
+                //redis last tick is newer
+                if (last.T >= dtAyondoNow)
+                {
+                    return;//impossible
+                }
+
+                //update last tick in redis
+                if (Ticks.IsTickEqual(last.T, dtAyondoNow, tickSize))
+                {
+                    ////last price dominate
+                    //list[list.Count - 1] = newTick;
+
+                    //first price dominate
+                    //do nothing
+                }
+                else //append new last tick
+                {
+                    list.Add(newTick);
+                }
+            }
+
+            //clear history/prevent data increasing for good
+            var clearWhenSize = Ticks.GetClearWhenSize(tickSize);
+            var clearToSize = Ticks.GetClearToSize(tickSize);
+            if (list.Count > clearWhenSize) //data count at most possible size (in x days )
+            {
+                YJYGlobal.LogLine("Tick " + tickSize + " " + secId + " Clearing data from " + list.Count + " to " + clearToSize);
+                var ticks = list.GetAll();
+                var newTicks = ticks.Skip(ticks.Count - clearToSize);
+                list.RemoveAll();
+                list.AddRange(newTicks);
             }
         }
 
@@ -338,10 +475,10 @@ namespace YJY_JOBS.Ayondo
                 try
                 {
                     IList<Quote> newQuotes = new List<Quote>();
-                    while (!myApp.QueueQuotes3.IsEmpty)
+                    while (!myApp.QueueQuotesForKLine.IsEmpty)
                     {
                         Quote obj;
-                        var tryDequeue = myApp.QueueQuotes3.TryDequeue(out obj);
+                        var tryDequeue = myApp.QueueQuotesForKLine.TryDequeue(out obj);
                         newQuotes.Add(obj);
                     }
 
@@ -349,16 +486,12 @@ namespace YJY_JOBS.Ayondo
                     {
                         var redisProdDefClient = redisClient.As<ProdDef>();
                         var redisKLineClient = redisClient.As<KLine>();
-                        var redisQuoteClient = redisClient.As<Quote>();
 
-                        var prodDefs = redisProdDefClient.GetAll();
-                            //need to get prod def from redis because we need to get o.LastClose, which does not always have value in myApp.ProdDefs
-                        var allQuotes = redisQuoteClient.GetAll();
+                        var prodDefs = redisProdDefClient.GetAll(); //need to get prod def from redis because we need to get o.LastClose, which does not always have value in myApp.ProdDefs
 
-                        if (allQuotes.Count > 0)
+                        if (newQuotes.Count > 0)
                         {
-                            var dtAyondoNow = allQuotes.Max(o => o.Time);
-                                //the time of the last message received from Ayondo
+                            var dtAyondoNow = newQuotes.Max(o => o.Time); //the time of the last message received from Ayondo
 
                             var dtNow = DateTime.UtcNow;
                             var oneMinuteAgo = dtNow.AddMinutes(-1);
@@ -376,7 +509,7 @@ namespace YJY_JOBS.Ayondo
                                 var quotesByProd = newQuotes.Where(o => o.Id == prodDef.Id).ToList();
 
                                 if (prodDef.QuoteType == enmQuoteType.Closed) //recently closed
-                                    quotesByProd = quotesByProd.Where(o => o.Time <= prodDef.LastClose.Value).ToList();
+                                    quotesByProd = quotesByProd.Where(o => o.Time <= prodDef.LastClose.Value).ToList(); //make sure that quotes' time is within prods' opening time
 
                                 UpdateKLine(quotesByProd, redisKLineClient, prodDef, dtAyondoNow, KLineSize.OneMinute);
                                 UpdateKLine(quotesByProd, redisKLineClient, prodDef, dtAyondoNow, KLineSize.FiveMinutes);
