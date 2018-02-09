@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YJY_COMMON.Localization;
+using YJY_COMMON.Model.Cache;
 
 namespace YJY_COMMON.Util
 {
@@ -335,6 +336,60 @@ namespace YJY_COMMON.Util
         public static bool HasChineseTranslation(string name)
         {
             return Translations.ProdCNames.ContainsKey(Translator.RemoveENameSuffix(name).ToLower());
+        }
+
+        public static DateTime GetLocalDateRegardingSessionRefreshTime(DateTime dt, ProdDef prodDef)
+        {
+            var offset = GetTimeZoneOffset(prodDef.SessionZone);
+            var localTime = dt.AddHours(offset);
+            var localSessionTime = DateTime.ParseExact(prodDef.SessionTime, "HH:mm:ss", null);
+
+            //compare local quote time to local session refresh time
+            var sQuote = localTime.Hour * 3600 + localTime.Minute * 60 + localTime.Second;
+            var sSession = localSessionTime.Hour * 3600 + localSessionTime.Minute * 60 + localSessionTime.Second;
+
+            if (sQuote < sSession)
+                return localTime.Date;
+            else
+                return localTime.Date.AddDays(1);
+        }
+
+        public static int GetTimeZoneOffset(string sessionZone)
+        {
+            switch (sessionZone)
+            {
+                case "Europe/London":
+                    return 0;
+                case "Europe/Berlin":
+                    return 1;
+                case "Europe/Zurich":
+                    return 1;
+                case "Europe/Madrid":
+                    return 1;
+                case "Europe/Paris":
+                    return 1;
+                case "Europe/Brussels":
+                    return 1;
+                case "Europe/Rome":
+                    return 1;
+                case "Europe/Amsterdam":
+                    return 1;
+                case "Europe/Stockholm":
+                    return 1;
+
+                case "Asia/Hong_Kong":
+                    return 8;
+                case "Asia/Singapore":
+                    return 8;
+
+                case "America/New_York":
+                    return -5;
+                case "America/Chicago":
+                    return -6;
+
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
     }
 }

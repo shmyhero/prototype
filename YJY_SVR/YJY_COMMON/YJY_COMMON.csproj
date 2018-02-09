@@ -77,8 +77,10 @@
     <Compile Include="Localization\TransKey.cs" />
     <Compile Include="Localization\Translations.cs" />
     <Compile Include="Localization\Translator.cs" />
+    <Compile Include="Model\Cache\KLine.cs" />
     <Compile Include="Model\Cache\ProdDef.cs" />
     <Compile Include="Model\Cache\Quote.cs" />
+    <Compile Include="Model\Cache\Tick.cs" />
     <Compile Include="Model\Context\YJYEntitiesFactory.cs" />
     <Compile Include="Model\Context\YJYEntities.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
@@ -87,7 +89,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\PositionService.cs" />
     <Compile Include="Service\UserService.cs" />
+    <Compile Include="Util\DateTimes.cs" />
     <Compile Include="Util\Extension\StringExtension.cs" />
+    <Compile Include="Util\KLines.cs" />
+    <Compile Include="Util\Ticks.cs" />
     <Compile Include="Util\Trades.cs" />
     <Compile Include="Util\Products.cs" />
     <Compile Include="Util\Quotes.cs" />
