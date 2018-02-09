@@ -169,34 +169,4 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         if(((PriceChart)chart).isLandspace())return false;
         return true;
     }
-
-    @Override
-    protected void calculateZoom(CombinedChart chart, CombinedData data) {
-        //chart.setVisibleXRangeMinimum(10f);
-        //chart.setVisibleXRangeMaximum(10f);
-
-        //chart.setVisibleYRangeMinimum(1, YAxis.AxisDependency.LEFT);
-        //chart.setVisibleYRangeMaximum(1, YAxis.AxisDependency.LEFT);
-
-        //We only have one dataset.
-        int totalSize = chart.getData().getDataSetByIndex(0).getEntryCount();
-        float scale = 2;
-        int xOffset = (int)(totalSize - totalSize / scale);
-        chart.zoom(scale, 1, totalSize, 0);
-        chart.moveViewToX(xOffset);
-//        if (needDrawDescription(chart) && preClose != 0) {
-//            float maxPrice = data.getYMax();
-//            float minPrice = data.getYMin();
-//            float maxPercentage = (maxPrice - preClose) / preClose * 100;
-//            float minPercentage = (minPrice - preClose) / preClose * 100;
-//            setDescription(chart, StringUtils.formatNumber(maxPrice), StringUtils.formatNumber(minPrice), StringUtils.formatNumber(maxPercentage) + "%", StringUtils.formatNumber(minPercentage) + "%");
-//        } else {
-//            setDescription(chart, "", "", "", "");
-//        }
-//
-//        if(!needDrawDescription(chart)){
-//            setDescription(chart, "", "", "", "");
-//        }
-
-    }
 }

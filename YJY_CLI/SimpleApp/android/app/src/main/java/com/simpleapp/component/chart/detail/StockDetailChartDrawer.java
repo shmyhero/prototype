@@ -4,6 +4,7 @@ import android.graphics.Color;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.data.CombinedData;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
 import com.simpleapp.component.chart.PriceChart;
@@ -62,6 +63,16 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     @Override
     public boolean needDrawEndLine(JSONObject stockInfoObject) throws JSONException {
         return false;//!stockInfoObject.getBoolean("isOpen");
+    }
+
+    @Override
+    protected void calculateZoom(CombinedChart chart, CombinedData data) {
+        int totalSize = chart.getData().getDataSetByIndex(0).getEntryCount();
+        float scale = 2;
+        int xOffset = (int)(totalSize - totalSize / scale);
+        //int xOffset2 = (int)(totalSize * scale);
+        chart.zoom(scale, 1, xOffset, 0);
+        chart.moveViewToX(xOffset);
     }
 }
 

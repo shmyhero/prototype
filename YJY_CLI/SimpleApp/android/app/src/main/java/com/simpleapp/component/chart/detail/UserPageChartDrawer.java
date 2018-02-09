@@ -80,8 +80,4 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
             }
         };
     }
-
-    @Override
-    protected void calculateZoom(CombinedChart chart, CombinedData data) {
-    }
 }
