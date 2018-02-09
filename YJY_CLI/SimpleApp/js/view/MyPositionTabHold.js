@@ -1379,7 +1379,7 @@ export default class  MyPositionTabHold extends React.Component {
 		// if (index >= this.state.selectedRow){
 		// 	offset += bigItemHeight - smallItemHeight;
 		// }
-		console.log("index " + index + ", height: " + itemHeight);
+		//console.log("index " + index + ", height: " + itemHeight);
 		return {
 			length: itemHeight, 
 			offset: offset - 4,

@@ -17,6 +17,8 @@ import { TabNavigator } from "react-navigation";
 var WebSocketModule = require('../module/WebSocketModule');
 var AppStateModule = require('../module/AppStateModule');
 var ColorConstants = require('../ColorConstants');
+var NetConstants = require('../NetConstants');
+var NetworkModule = require('../module/NetworkModule');
 
 import SortableListView from 'react-native-sortable-listview'
 
@@ -107,68 +109,33 @@ export default class  TabMarketScreen extends React.Component {
     constructor(props){
         super(props)
 
-        var sampledata = [ { id: 34811,
-            symbol: 'CAC',
-            name: '法国40',
-            preClose: 5482.8,
-            open: 5470.5,
-            last: 5480.4,
-            isOpen: false,
-            status: 2 },
-          { id: 34820,
-            symbol: 'DAX',
-            name: '德国30',
-            preClose: 13210,
-            open: 13196.4,
-            last: 13224,
-            isOpen: true,
-            status: 1 },
-          { id: 34864,
-            symbol: 'INDU',
-            name: '华尔街',
-            preClose: 26108,
-            open: 26067,
-            last: 26107,
-            isOpen: true,
-            status: 1 },
-          { id: 34858,
-            symbol: 'NDX',
-            name: '美国科技股100',
-            preClose: 6940.5,
-            open: 6931.13,
-            last: 6940.5,
-            isOpen: false,
-            status: 2 },
-          { id: 34857,
-            symbol: 'SPX',
-            name: '美国标准500',
-            preClose: 2826.43,
-            open: 2821.93,
-            last: 2826.18,
-            isOpen: false,
-            status: 1 },
-          { id: 34801,
-            symbol: 'SX5E',
-            name: '欧洲50',
-            preClose: 3613,
-            open: 3604,
-            last: 3613,
-            isOpen: true,
-            status: 1 },
-          { id: 34854,
-            symbol: 'UKX',
-            name: '英国100',
-            preClose: 7596.1,
-            open: 7574,
-            last: 7582.5,
-            isOpen: true,
-            status: 1 } ];
-        
-        var data = this.parseServerData(sampledata)
         this.state = {
-            listData: data.listData,
-            listDataOrder: data.listDataOrder,
+            listData: {},
+            listDataOrder: [],
         };
+    }
+
+    loadStockList(){
+        console.log("loadStockList")
+        NetworkModule.fetchTHUrl(
+			NetConstants.CFD_API.GET_STOCK_LIST,
+			{
+				method: 'GET',				
+			},
+			(responseJson) => {
+                var data = this.parseServerData(responseJson)
+                console.log("data: ")
+                console.log(data)
+
+                this.setState({
+                    listData: data.listData,
+                    listDataOrder: data.listDataOrder,
+                });
+			},
+			(result) => {
+				Alert.alert('提示', result.errorMessage);
+			}
+		)
     }
 
     parseServerData(data){
@@ -180,10 +147,6 @@ export default class  TabMarketScreen extends React.Component {
         return {listData: listData, listDataOrder: listDataOrder};
     }
 
-    componentWillMount(){
-
-    }
-        
     render() {        
         return (
             <View style={styles.mainContainer}>                             
@@ -198,7 +161,7 @@ export default class  TabMarketScreen extends React.Component {
                     sortRowStyle={{opacity:1}}
                     renderRow={row => <RowComponent data={row}
                         onPress={(row)=>{
-                            this.jump2Next(row.id);
+                            this.jump2Next(row.id, row.name);
                         }}
                     />}
                 />
@@ -206,8 +169,8 @@ export default class  TabMarketScreen extends React.Component {
         );
     }   
 
-    jump2Next(stockId){
-        this.props.navigation.navigate('StockDetail',{stockCode:stockId})
+    jump2Next(stockId, stockName){
+        this.props.navigation.navigate('StockDetail',{stockCode: stockId, stockName: stockName})
     }
 
     startWebSocket(){
@@ -217,6 +180,10 @@ export default class  TabMarketScreen extends React.Component {
 
         // var isConnected = WebSocketModule.isConnected();
         // console.log("isConnected = " + isConnected)
+    }
+
+    componentWillMount(){
+        this.loadStockList();
     }
 
     componentDidMount(){

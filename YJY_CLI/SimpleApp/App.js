@@ -17,6 +17,7 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var StockDetailScreen = require('./js/view/StockDetailScreen');
+var LoginScreen = require('./js/view/LoginScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
 var TabMainScreen = require('./js/view/TabMainScreen');
 var TabMarketScreen = require('./js/view/TabMarketScreen');
@@ -86,7 +87,10 @@ const SimpleApp = StackNavigator({
       }, 
     }, 
     StockDetail:{
-      screen:StockDetailScreen
+      screen:StockDetailScreen,      
+    },
+    LoginScreen:{
+      screen: LoginScreen
     },
     UserProfileScreen:{
       screen:UserProfileScreen ,
@@ -94,6 +98,17 @@ const SimpleApp = StackNavigator({
       header: null, 
       }, 
     }, 
+},  
+{
+  cardStyle: {
+    shadowColor: 'transparent',
+  },
+  navigationOptions: {
+    headerStyle: {
+      elevation: 0,
+    },
+    header: null,
+  }
 });
 
 
