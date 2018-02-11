@@ -795,8 +795,9 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
             high.setDraw((float) pix.x, (float) pix.y);
 
-            // draw the lines
-            drawHighlightLines(c, (float) pix.x, (float) pix.y, set);
+            //Let's draw the customized highlight in marker view.
+//            // draw the lines
+//            drawHighlightLines(c, (float) pix.x, (float) pix.y, set);
         }
     }
 
@@ -888,8 +889,8 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             float circleHoleRadius = set.getCircleHoleRadius();
 
 
-            int arrowWidth = (int)Utils.convertDpToPixel(53);
-            int arrowHeight = (int)Utils.convertDpToPixel(15);
+            int arrowWidth = (int)Utils.convertDpToPixel(56);
+            int arrowHeight = (int)Utils.convertDpToPixel(18);
 
             for (int i = 0; i < colorCount; i++) {
 
@@ -942,7 +943,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
                     Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
                     canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
 
-                    int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(3);
+                    int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(5);
                     int top = (int)(circleRadius - arrowHeight / 2);
                     Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
 
@@ -954,7 +955,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
                     mValuePaint.setTextAlign(Paint.Align.LEFT);
                     mValuePaint.setColor(set.getCircleHoleColor());
                     String text = "" + ((LineDataSet) set).getValues().get(i).getY();
-                    canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(10), circleRadius + (int)Utils.convertDpToPixel(2), mValuePaint);
+                    canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(8), circleRadius + (int)Utils.convertDpToPixel(4), mValuePaint);
                 }
             }
         }

@@ -204,9 +204,10 @@ export default class  StockDetailScreen extends React.Component {
             };
 
             if(LogicData.isLoggedIn()){
-                var userData = LogicData.getUserData();                       
+                var userData = LogicData.getUserData();  
+               
                 NetworkModule.fetchTHUrl(
-                    NetConstants.CFD_API.ORDER,
+                    NetConstants.CFD_API.OPEM_POSITION,
                     {
                         method: 'POST',
                         headers: {
@@ -217,6 +218,9 @@ export default class  StockDetailScreen extends React.Component {
                         body: JSON.stringify(body),
                     }, (responseJson) => {
                         this.refs["orderFinishedModal"].show(responseJson);
+                    },
+                    (exception) => {
+                        alert(exception.errorMessage)
                     }
                 );
             }else{

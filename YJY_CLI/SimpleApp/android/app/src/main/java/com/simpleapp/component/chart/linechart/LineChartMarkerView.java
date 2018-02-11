@@ -4,12 +4,14 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.Path;
 import android.graphics.RectF;
 import android.widget.TextView;
 
 import com.github.mikephil.charting.components.MarkerView;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.ILineScatterCandleRadarDataSet;
 import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
@@ -21,12 +23,30 @@ import com.simpleapp.R;
 public class LineChartMarkerView extends MarkerView {
     private String XVal;
     private String YVal;
+    protected Paint mHighlightPaint;
+    protected Paint mValuePaint;
+    protected Paint mRectFillPaint;
+    protected Paint mRectBorderPaint;
+    private Path mHighlightLinePath = new Path();
 
     public LineChartMarkerView(Context context, int layoutResource) {
         super(context, layoutResource);
+        mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mHighlightPaint.setStyle(Paint.Style.STROKE);
+        mHighlightPaint.setStrokeWidth(2f);
+        mHighlightPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_border_blue));
 
-        // find your layout components
-        //tvContent = (TextView) findViewById(R.id.textView);
+        mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mValuePaint.setTextAlign(Paint.Align.CENTER);
+        mValuePaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_text_blue));
+
+        mRectBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mRectBorderPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_border_blue));
+        mRectBorderPaint.setStyle(Paint.Style.FILL);
+
+        mRectFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mRectFillPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_background_blue));
+        mRectFillPaint.setStyle(Paint.Style.FILL);
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -35,61 +55,74 @@ public class LineChartMarkerView extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
         XVal = "" +e.getX();
         YVal = "" +e.getY();
+    }
+
+    protected void drawHighlightLines(Canvas c,
+                                      float x, float y,
+                                      float horizontalLineStart, float horizontalLineEnd,
+                                      float verticalLineStart, float verticalLineEnd) {
+        // create vertical path
+        mHighlightLinePath.reset();
+        mHighlightLinePath.moveTo(x, verticalLineStart);
+        mHighlightLinePath.lineTo(x, verticalLineEnd);
+
+        c.drawPath(mHighlightLinePath, mHighlightPaint);
+
+        // create horizontal path
+        mHighlightLinePath.reset();
+        mHighlightLinePath.moveTo(horizontalLineStart, y);
+        mHighlightLinePath.lineTo(horizontalLineEnd, y);
+
+        c.drawPath(mHighlightLinePath, mHighlightPaint);
 
     }
+
 
     @Override
     public void draw(Canvas canvas, float posX, float posY) {
 
         float valueBoxWidth = Utils.convertDpToPixel(50);
         float valueBoxHeight = Utils.convertDpToPixel(16);
-        float borderThickness = Utils.convertDpToPixel(2);
+        float borderThickness = Utils.convertDpToPixel(1);
         float bottomPadding = Utils.convertDpToPixel(30);
         float rightPadding = Utils.convertDpToPixel(80);
         float textSize = Utils.convertDpToPixel(10);
+        float xValueYOffset = Utils.convertDpToPixel(80);
 
-        Paint rectBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        rectBorderPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_border_blue));
-        rectBorderPaint.setStyle(Paint.Style.FILL);
+        float verticalValueX = posX;
+        float verticalValueY = Math.min(posY + xValueYOffset, canvas.getHeight() - bottomPadding);
 
-        Paint rectFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        rectFillPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_background_blue));
-        rectFillPaint.setStyle(Paint.Style.FILL);
+        float horizontalValueX = Math.max(posX + valueBoxWidth/2, canvas.getWidth() - borderThickness - rightPadding);
+        float horizontalValueY = posY;
 
-        float valueX_x = posX;
-        float valueX_y = canvas.getHeight() - bottomPadding;
+        drawHighlightLines(canvas, posX, posY, 0, horizontalValueX, 0, verticalValueY);
 
-        RectF xValueBorderRect = new RectF(valueX_x - (valueBoxWidth/2) - borderThickness,
-                valueX_y - (valueBoxHeight/2) - borderThickness,
-                valueX_x + (valueBoxWidth/2) + borderThickness,
-                valueX_y + (valueBoxHeight/2) + borderThickness);
-        RectF xValueFillRect = new RectF(valueX_x - (valueBoxWidth/2),
-                valueX_y - (valueBoxHeight/2),
-                valueX_x + (valueBoxWidth/2),
-                valueX_y + (valueBoxHeight/2));
-        canvas.drawRoundRect(xValueBorderRect, 10, 10, rectBorderPaint);
-        canvas.drawRoundRect(xValueFillRect, 6, 6, rectFillPaint);
+        RectF xValueBorderRect = new RectF(verticalValueX - (valueBoxWidth/2) - borderThickness,
+                verticalValueY - (valueBoxHeight/2) - borderThickness,
+                verticalValueX + (valueBoxWidth/2) + borderThickness,
+                verticalValueY + (valueBoxHeight/2) + borderThickness);
+        RectF xValueFillRect = new RectF(verticalValueX - (valueBoxWidth/2),
+                verticalValueY - (valueBoxHeight/2),
+                verticalValueX + (valueBoxWidth/2),
+                verticalValueY + (valueBoxHeight/2));
+        canvas.drawRoundRect(xValueBorderRect, 10, 10, mRectBorderPaint);
+        canvas.drawRoundRect(xValueFillRect, 6, 6, mRectFillPaint);
 
-        float valueY_x = Math.max(posX + valueBoxWidth/2, canvas.getWidth() - borderThickness - rightPadding);
-        float valueY_y = posY;
-        RectF yValueBorderRect = new RectF(valueY_x - (valueBoxWidth/2) - borderThickness,
-                valueY_y - (valueBoxHeight/2) - borderThickness,
-                valueY_x + (valueBoxWidth/2) + borderThickness,
-                valueY_y + (valueBoxHeight/2) + borderThickness);
-        RectF yValueFillRect = new RectF(valueY_x - (valueBoxWidth/2),
-                valueY_y - (valueBoxHeight/2),
-                valueY_x + (valueBoxWidth/2),
-                valueY_y + (valueBoxHeight/2));
+        RectF yValueBorderRect = new RectF(horizontalValueX - (valueBoxWidth/2) - borderThickness,
+                horizontalValueY - (valueBoxHeight/2) - borderThickness,
+                horizontalValueX + (valueBoxWidth/2) + borderThickness,
+                horizontalValueY + (valueBoxHeight/2) + borderThickness);
+        RectF yValueFillRect = new RectF(horizontalValueX - (valueBoxWidth/2),
+                horizontalValueY - (valueBoxHeight/2),
+                horizontalValueX + (valueBoxWidth/2),
+                horizontalValueY + (valueBoxHeight/2));
 
-        canvas.drawRoundRect(yValueBorderRect, 10, 10, rectBorderPaint);
-        canvas.drawRoundRect(yValueFillRect, 6, 6, rectFillPaint);
+        canvas.drawRoundRect(yValueBorderRect, 10, 10, mRectBorderPaint);
+        canvas.drawRoundRect(yValueFillRect, 6, 6, mRectFillPaint);
 
-        Paint valuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        valuePaint.setTextAlign(Paint.Align.CENTER);
-        valuePaint.setTextSize(textSize);
-        valuePaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_text_blue));
-        canvas.drawText(YVal, valueY_x, valueY_y + textSize / 2, valuePaint);
-        canvas.drawText(XVal, valueX_x, valueX_y + textSize / 2, valuePaint);
+        mValuePaint.setTextSize(textSize);
+        canvas.drawText(YVal, horizontalValueX, horizontalValueY + textSize / 2 - 3, mValuePaint);
+        canvas.drawText(XVal, verticalValueX, verticalValueY + textSize / 2 - 3, mValuePaint);
 
 
         //It's a trick, We don't need to draw the original control:)

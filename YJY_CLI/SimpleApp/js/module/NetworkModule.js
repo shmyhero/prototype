@@ -8,6 +8,7 @@ import {
 
 var LogicData = require('../LogicData');
 export const API_ERROR = 'apiError';
+export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
 
 var loginOutsideAlertShown = false
 export function fetchTHUrl(url, params, successCallback, errorCallback, notShowResponseLog) {
