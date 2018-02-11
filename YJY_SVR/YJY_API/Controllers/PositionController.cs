@@ -84,7 +84,7 @@ namespace YJY_SVR.Controllers
         [HttpGet]
         [Route("open")]
         [BasicAuth]
-        public List<PositionDTO> GetOpenPositions(int pageNum = 1, int pageSize = YJYGlobal.PAGE_SIZE)
+        public List<PositionDTO> GetOpenPositions(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
             //var user = GetUser();
 
@@ -127,7 +127,7 @@ namespace YJY_SVR.Controllers
         [HttpGet]
         [Route("closed")]
         [BasicAuth]
-        public List<PositionDTO> GetClosedPositions(int pageNum = 1, int pageSize = YJYGlobal.PAGE_SIZE)
+        public List<PositionDTO> GetClosedPositions(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
             var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt != null)
                 .OrderByDescending(o => o.ClosedAt)

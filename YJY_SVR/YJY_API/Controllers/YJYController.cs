@@ -26,6 +26,12 @@ namespace YJY_SVR.Controllers
             this.RedisClient = redisClient;
         }
 
+        public YJYController(IMapper mapper, IRedisClient redisClient)
+        {
+            this.Mapper = mapper;
+            this.RedisClient = redisClient;
+        }
+
         public YJYController(YJYEntities db, IMapper mapper)
         {
             this.db = db;
@@ -35,6 +41,11 @@ namespace YJY_SVR.Controllers
         protected YJYController(YJYEntities db)
         {
             this.db = db;
+        }
+
+        protected YJYController(IMapper mapper)
+        {
+            this.Mapper = mapper;
         }
 
         protected YJYController()

@@ -18,7 +18,7 @@ namespace YJY_COMMON
         public const string DATETIME_MASK_MILLI_SECOND = "yyyy-MM-dd HH:mm:ss.fff";
         public const string DATETIME_MASK_SECOND = "yyyy-MM-dd HH:mm:ss";
 
-        public const int PAGE_SIZE = 50;
+        public const int DEFAULT_PAGE_SIZE = 50;
 
         public static TimeSpan PROD_DEF_ACTIVE_IF_TIME_NOT_OLDER_THAN_TS = TimeSpan.FromDays(14);
         public const string ASSET_CLASS_STOCK = "Single Stocks";
