@@ -25,12 +25,24 @@ namespace YJY_SVR.Controllers
         [Route("{securityId}/tick/1m")]
         public List<TickDTO> GetTodayTicks(int securityId)
         {
+            List<Tick> ticks;
             using (var redisTypedClient = RedisClient.As<Tick>())
             {
-                var list = redisTypedClient.Lists[Ticks.GetTickListNamePrefix(TickSize.OneMinute)+securityId];
-                var ticks = list.GetAll();
-                return ticks.Select(o => Mapper.Map<TickDTO>(o)).ToList();
+                var list = redisTypedClient.Lists[Ticks.GetTickListNamePrefix(TickSize.OneMinute) + securityId];
+                ticks = list.GetAll();
             }
+
+            List<TickDTO> result;
+            if (ticks.Count == 0)
+                result = new List<TickDTO>();
+            else
+            {
+                var lastTickTime = ticks.Last().T;
+
+                result = ticks.Where(o => lastTickTime - o.T <= TimeSpan.FromHours(48)).Select(o => Mapper.Map<TickDTO>(o)).ToList();
+            }
+
+            return result;
         }
     }
 }
