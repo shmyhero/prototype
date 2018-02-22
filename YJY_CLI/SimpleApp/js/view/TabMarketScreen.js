@@ -8,12 +8,15 @@ import {
     Platform,
     Image,
     TouchableOpacity,
+    StatusBar,
     Alert
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
 import PropTypes from "prop-types";
 import { TabNavigator } from "react-navigation";
+import NavBar from './NavBar';
+
 var WebSocketModule = require('../module/WebSocketModule');
 var AppStateModule = require('../module/AppStateModule');
 var ColorConstants = require('../ColorConstants');
@@ -103,6 +106,8 @@ export default class  TabMarketScreen extends React.Component {
         tabBarOnPress: (scene, jumpToIndex) => {
             console.log(scene)
             jumpToIndex(scene.index)
+
+            StatusBar.setBarStyle("dark-content")
         },
     }
 
@@ -147,9 +152,10 @@ export default class  TabMarketScreen extends React.Component {
         return {listData: listData, listDataOrder: listDataOrder};
     }
 
-    render() {        
+    render() {
         return (
-            <View style={styles.mainContainer}>                             
+            <View style={styles.mainContainer}>
+                <NavBar onlyShowStatusBar={true}/>
                 <SortableListView
                     style={{ flex: 1,}}
                     data={this.state.listData}

@@ -24,6 +24,9 @@ var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
+var LogicData = require('../LogicData');
 
 var DEFAULT_PERCENT = -1
 var stopProfitPercent = DEFAULT_PERCENT
@@ -625,12 +628,40 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 		isWaiting = true
 
-		alert("OKPress")
+		var userData = LogicData.getUserData();  
 		
-		this.setState ({
-			selectedRow: -1,
-			selectedSubItem: SUB_ACTION_NONE,
-		})
+		console.log(this.state.stockInfoRowData[this.state.selectedRow])
+
+		var body = {
+			posId: this.state.stockInfoRowData[this.state.selectedRow].id,
+			securityId: this.state.stockInfoRowData[this.state.selectedRow].security.id,
+		}
+		
+		console.log("NetConstants.CFD_API.STOP_POSITION")
+		NetworkModule.fetchTHUrl(
+			NetConstants.CFD_API.STOP_POSITION,
+			{
+				method: 'POST',
+				headers: {
+					'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+					'Content-Type': 'application/json; charset=utf-8',
+				},
+				showLoading: true,
+				body: JSON.stringify(body),
+			}, (responseJson) => {
+				this.state.stockInfoRowData.splice(this.state.selectedRow, 1);
+
+				this.setState ({
+					selectedRow: -1,
+					selectedSubItem: SUB_ACTION_NONE,
+					stockInfoRowData: this.state.stockInfoRowData,
+				})
+			},
+			(exception) => {
+				alert(exception.errorMessage)
+			}
+		);
+
 	}
 
 	onSwitchPressed(type, value) {

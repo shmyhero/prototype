@@ -12,6 +12,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import NavBar from "./NavBar";
 var ColorConstants = require('../ColorConstants');
 var ScrollTabView = require('./component/ScrollTabView')
 var MyPositionTabHold = require('./MyPositionTabHold')  
@@ -79,7 +80,8 @@ export default class  TabPositionScreen extends React.Component {
   render() {
     return (
     <View style={styles.mainContainer}>
-       {this.renderContent()}
+        <NavBar onlyShowStatusBar={true}/>
+        {this.renderContent()}
     </View>
     );
   }

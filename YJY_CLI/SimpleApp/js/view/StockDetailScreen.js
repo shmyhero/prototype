@@ -207,7 +207,7 @@ export default class  StockDetailScreen extends React.Component {
                 var userData = LogicData.getUserData();  
                
                 NetworkModule.fetchTHUrl(
-                    NetConstants.CFD_API.OPEM_POSITION,
+                    NetConstants.CFD_API.OPEN_POSITION,
                     {
                         method: 'POST',
                         headers: {

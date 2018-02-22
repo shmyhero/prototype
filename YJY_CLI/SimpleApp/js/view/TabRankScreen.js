@@ -13,6 +13,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import NavBar from "./NavBar";
 var ColorConstants = require('../ColorConstants');
 var RankHeroList = require('./RankHeroList');
 var {height, width} = Dimensions.get('window');
@@ -109,6 +110,7 @@ onPressedRankType(type){
   render() {
     return (
     <View style={styles.mainContainer}>
+        <NavBar onlyShowStatusBar={true}/>
         {this.renderRankTypeButton()}
         {this.renderRanks()}
     </View>

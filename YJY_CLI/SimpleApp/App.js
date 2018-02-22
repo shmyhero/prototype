@@ -7,6 +7,7 @@ import {
   View,
   StyleSheet,
   Platform,
+  StatusBar,
 } from 'react-native';
 
 
@@ -30,16 +31,40 @@ var UserProfileScreen = require('./js/view/UserProfileScreen');
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
 
+function getCurrentRouteName(navigationState) {
+  if (!navigationState) {
+    return null;
+  }
+  const route = navigationState.routes[navigationState.index];
+  // dive into nested navigators
+  if (route.routes) {
+    return getCurrentRouteName(route);
+  }
+  console.log("getCurrentRouteName")
+  console.log(route)
+  return route.routeName;
+}
+
 export default class App extends React.Component {
   render() {
-    return <SimpleApp uriPrefix={prefix}/>;
+    return <SimpleApp uriPrefix={prefix}
+      onNavigationStateChange={(prevState, currentState) => {
+        
+        var routeName = getCurrentRouteName(currentState);
+        if(routeName == "TabPosition"){
+          StatusBar.setBarStyle("dark-content")
+        }else{
+          StatusBar.setBarStyle("light-content")
+        }
+      }}
+    />;
   }
 } 
 
 export const MainScreenNavigator = TabNavigator({
     TabMain: {
         screen: TabMainScreen,
-        title:'首页'
+        title:'首页',
     },
     TabMarket: {
         screen: TabMarketScreen
@@ -48,7 +73,7 @@ export const MainScreenNavigator = TabNavigator({
         screen: TabRankScreen
     },
     TabPosition: {
-      screen: TabPositionScreen
+      screen: TabPositionScreen,
     },
     TabMe: {
       screen: TabMeScreen

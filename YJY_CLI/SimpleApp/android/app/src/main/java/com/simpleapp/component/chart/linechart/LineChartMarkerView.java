@@ -121,8 +121,8 @@ public class LineChartMarkerView extends MarkerView {
         canvas.drawRoundRect(yValueFillRect, 6, 6, mRectFillPaint);
 
         mValuePaint.setTextSize(textSize);
-        canvas.drawText(YVal, horizontalValueX, horizontalValueY + textSize / 2 - 3, mValuePaint);
-        canvas.drawText(XVal, verticalValueX, verticalValueY + textSize / 2 - 3, mValuePaint);
+        canvas.drawText(YVal, horizontalValueX, horizontalValueY + textSize / 2 - Utils.convertDpToPixel(3), mValuePaint);
+        canvas.drawText(XVal, verticalValueX, verticalValueY + textSize / 2 - Utils.convertDpToPixel(3), mValuePaint);
 
 
         //It's a trick, We don't need to draw the original control:)

@@ -88,20 +88,24 @@ class NavBar extends Component {
 			navBarColor = this.props.backgroundColor;
 		}
 
-        console.log("backgroundColor " + backgroundColor)
-        return (
-            <View style={[
-                styles.container, 
-                {
-                    backgroundColor: backgroundColor,
-                    width: width,
-                },]}>
-                {this.renderStatusBar(navBarColor)}
-				{this.renderLeftPart()}
-				{this.renderTitle()}
-				{this.renderRightPart()}
-            </View>
-        );
+		console.log("backgroundColor " + backgroundColor)
+		if(this.props.onlyShowStatusBar){
+			return this.renderStatusBar(navBarColor);
+		}else{
+			return (
+				<View style={[
+					styles.container, 
+					{
+						backgroundColor: backgroundColor,
+						width: width,
+					},]}>
+					{this.renderStatusBar(navBarColor)}
+					{this.renderLeftPart()}
+					{this.renderTitle()}
+					{this.renderRightPart()}
+				</View>
+			);
+		}        
     }
 
     renderStatusBar(navBarColor){
@@ -109,11 +113,17 @@ class NavBar extends Component {
 			var bgColor = Platform.Version >= 21 ? "transparent" : navBarColor;
 			var translucent = Platform.OS === "android";
 			// StatusBar.setBackgroundColor(bgColor);
-			// StatusBar.setBackgroundColor(bgColor);
-            return (<StatusBar 
-                barStyle="light-content"
-                backgroundColor={bgColor}
-				translucent={translucent}/>)
+			StatusBar.setTranslucent(true)
+			//StatusBar.setBackgroundColor(bgColor);
+			StatusBar.setBarStyle('dark-content');
+            return (
+				<View style={{height:24}}>
+					{/* <StatusBar
+						barStyle={'dark-content'}
+						translucent={false}/> */}
+				</View>)
+		}else{
+			return (<View style={{height:20}}/>);
 		}
     }
     

@@ -132,7 +132,7 @@ export default class  ScrollTabView extends React.Component {
 						contentContainerStyle={{width: width * this.props.tabNames.length, flex:1}}
 						pagingEnabled={true}
 						horizontal={true}
-						onScroll={this.onScroll}
+						onScroll={(event)=>this.onScroll(event)}
 						scrollEventThrottle={10}
 						directionalLockEnabled={true} >
 					{this.props.viewPages}
