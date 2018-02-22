@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, PropTypes} from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -10,9 +11,9 @@ import {
 var ColorConstants = require('../../../ColorConstants');  
  
 export default class TradeStyleBlock extends Component {
-  // static propTypes = {
-  //   userId: PropTypes.number,
-  // }
+  static propTypes = {
+    userId: PropTypes.number,
+  }
 
   static defaultProps = {
     userId: 0,

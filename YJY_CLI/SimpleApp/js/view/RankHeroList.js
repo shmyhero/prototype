@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
   StyleSheet,
-  PropTypes,
   Image,
   TouchableOpacity,
   Dimensions,
@@ -35,6 +35,9 @@ var listData = [
     {userName:'匿名16',winRate:'45%',ProfitRate:'24.1%'}
 ]
 export default class  RankHeroList extends React.Component {
+    static propTypes = {
+       
+    }
 
     static defaultProps = {
          

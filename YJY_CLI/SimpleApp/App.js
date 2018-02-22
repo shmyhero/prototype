@@ -47,9 +47,12 @@ function getCurrentRouteName(navigationState) {
 
 export default class App extends React.Component {
   render() {
+    if(Platform.OS == "android"){
+      StatusBar.setBarStyle("light-content");
+    }
+    StatusBar.setTranslucent(true);
     return <SimpleApp uriPrefix={prefix}
-      onNavigationStateChange={(prevState, currentState) => {
-        
+      onNavigationStateChange={(prevState, currentState) => {        
         var routeName = getCurrentRouteName(currentState);
         if(routeName == "TabPosition"){
           StatusBar.setBarStyle("dark-content")

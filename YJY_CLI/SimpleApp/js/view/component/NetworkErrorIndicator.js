@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, PropTypes } from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -13,10 +14,10 @@ var ColorConstants = require('../../ColorConstants')
 
 export default class NetworkErrorIndicator extends Component {
 
-  // static propTypes = {
-  //   onRefresh: PropTypes.func,
-  //   refreshing: PropTypes.bool,
-  // }
+  static propTypes = {
+    onRefresh: PropTypes.func,
+    refreshing: PropTypes.bool,
+  }
 
   static defaultProps = {
     onRefresh: null,

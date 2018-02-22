@@ -21,7 +21,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
-import NavBar from './NavBar';
+import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
  

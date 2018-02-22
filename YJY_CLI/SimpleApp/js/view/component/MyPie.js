@@ -1,17 +1,23 @@
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
   StyleSheet,
-  PropTypes,
 } from 'react-native';
 import Pie from 'react-native-pie'
 
 
 export default class  MyPie extends React.Component {
 
-
+    static propTypes={
+        radius: PropTypes.number,
+        innerRadius: PropTypes.number,
+        series: PropTypes.array,
+        colors:  PropTypes.array,
+        innerText:  PropTypes.string,
+    }
 
     static defaultProps = {
         radius:100,

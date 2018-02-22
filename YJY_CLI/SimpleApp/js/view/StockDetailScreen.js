@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import PriceChartView from './component/PriceChartView';
-import NavBar from './NavBar';
+import NavBar from './component/NavBar';
 //var PriceChart = require('./components/PriceChart');
 
 import { StackNavigator, TabNavigator } from 'react-navigation';
