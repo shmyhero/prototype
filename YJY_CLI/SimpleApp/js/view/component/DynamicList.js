@@ -17,7 +17,9 @@ import {
 
 export default class DynamicList extends React.Component {
 
-
+    static propTypes={
+       
+    }
 
     static defaultProps = {
 

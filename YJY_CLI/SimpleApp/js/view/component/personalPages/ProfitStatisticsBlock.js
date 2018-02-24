@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, PropTypes} from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -18,7 +19,9 @@ var TYPE_MONTH = 0;
 var TYPE_ALL = 1;
 var {height, width} = Dimensions.get('window');
 export default class ProfitStatisticsBlock extends Component {
- 
+  static propTypes = {
+    userId: PropTypes.number,
+  }
 
   static defaultProps = {
     userId: 0,

@@ -21,6 +21,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
+import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
  
@@ -118,6 +119,7 @@ export default class  TabMainScreen extends React.Component {
         console.log('render scene')
         return (
             <View style = {styles.mainContainer}>
+                <NavBar onlyShowStatusBar={true}/>
                 <PullToRefreshListView
                     ref={ (component) => this._pullToRefreshListView = component }
                     viewType={PullToRefreshListView.constants.viewType.listView}

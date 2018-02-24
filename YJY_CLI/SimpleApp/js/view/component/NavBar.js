@@ -1,143 +1,136 @@
+//import liraries
 import React, { Component } from 'react';
-import {
-	AppRegistry,
-	StyleSheet,
-	Navigator,
-	Platform,
-	View,
-	Text,
-	Image,Alert,
-	TouchableHighlight,
-	TouchableOpacity,
-	StatusBar,
-} from 'react-native';
-
+import PropTypes from 'prop-types';
 var ColorPropType = require('ColorPropType');
-var ColorConstants = require('../../ColorConstants')
+import {
+    View, 
+    Text,
+	StyleSheet,
+	ViewPropTypes,
+    Platform,
+    TouchableOpacity,
+    StatusBar,
+    Dimensions,
+    Image
+} from 'react-native';
+var ColorConstants = require('../../ColorConstants');
 var UIConstants = require('../../UIConstants');
-// var MainPage = require('./MainPage')
-// var WebSocketModule = require('../module/WebSocketModule'); 
-// var NavBar = React.createClass({
-export default class  NavBar extends React.Component {
- 
 
-	// static propTypes={
-	// 	showBackButton: React.PropTypes.bool,
-	// 	showSearchButton: React.PropTypes.bool,
-	// 	imageOnLeft: React.PropTypes.number,
-	// 	textOnLeft: React.PropTypes.string,
-	// 	textOnRight: React.PropTypes.string,
-	// 	imageOnRight: React.PropTypes.number,
-	// 	rightImageStyle: React.PropTypes.object,
-	// 	viewOnRight: React.PropTypes.element,
-	// 	viewOnLeft: React.PropTypes.element,
-	// 	leftTextOnClick: React.PropTypes.func,
-	// 	leftButtonOnClick: React.PropTypes.func,
-	// 	rightTextOnClick: React.PropTypes.func,
-	// 	rightImageOnClick: React.PropTypes.func,
-	// 	backButtonOnClick: React.PropTypes.func,
-	// 	subTitle: React.PropTypes.string,
-	// 	subTitleStyle: Text.propTypes.style,
-	// 	backgroundColor: ColorPropType,
-	// 	rightCustomContent: React.PropTypes.func,
-	// 	barStyle: View.propTypes.style,
-	// 	titleStyle: Text.propTypes.style,
-	// 	enableRightText: React.PropTypes.bool,
-	// 	hideStatusBar: React.PropTypes.bool,
-	// 	onlyShowStatusBar: React.PropTypes.bool,
-	// 	titleOpacity: React.PropTypes.number,
-	// }
+// create a component
+class NavBar extends Component {
 
+    static propTypes = {
+		showBackButton: PropTypes.bool,
+		showSearchButton: PropTypes.bool,
+		imageOnLeft: PropTypes.number,
+		textOnLeft: PropTypes.string,
+		textOnRight: PropTypes.string,
+		imageOnRight: PropTypes.number,
+		rightImageStyle: ViewPropTypes.style,
+		viewOnRight: PropTypes.element,
+		viewOnLeft: PropTypes.element,
+		leftTextOnClick: PropTypes.func,
+		leftButtonOnClick: PropTypes.func,
+		rightTextOnClick: PropTypes.func,
+		rightImageOnClick: PropTypes.func,
+        backButtonOnClick: PropTypes.func,
+        title: PropTypes.string,
+		subTitle: PropTypes.string,
+		subTitleStyle: ViewPropTypes.style,
+		backgroundColor: ColorPropType,
+		rightCustomContent: PropTypes.func,
+		barStyle: ViewPropTypes.style,
+		titleStyle: ViewPropTypes.style,
+		enableRightText: PropTypes.bool,
+		hideStatusBar: PropTypes.bool,
+		onlyShowStatusBar: PropTypes.bool,
+		titleOpacity: PropTypes.number,
+    }
+    
+    static defaultProps = {
+        showBackButton: true,
+        showSearchButton: false,
+        imageOnLeft: null,
+        textOnLeft: null,
+        textOnRight: null,
+        imageOnRight: null,
+        rightImageStyle: null,
+        viewOnRight: null,
+        viewOnLeft: null,
+        leftTextOnClick: null,
+        leftButtonOnClick: null,
+        rightTextOnClick: null,
+        rightImageOnClick: null,
+        backButtonOnClick: null,
+        title: "详情",
+        subTitle: null,
+        backgroundColor: null,
+        rightCustomContent: null,
+        enableRightText: true,
+        hideStatusBar: false,
+        onlyShowStatusBar: false,
+        titleOpacity: 1,
+    }
 
-
-	onDidFocus(){
-		if(Platform.OS === 'android'){
-			var navBarColor = ColorConstants.BGBLUE;
-			if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
-				//Which means the background doesn't have an alpha channel
-				navBarColor = this.props.backgroundColor;
-			}
-			var bgColor = Platform.Version >= 21 ? "transparent" : navBarColor;
-			var translucent = Platform.OS === "android";
-			StatusBar.setBackgroundColor(bgColor);
-			StatusBar.setTranslucent(translucent);
+    backOnClick(){
+		if(this.props.navigation &&  this.props.navigation.goBack){
+			this.props.navigation.goBack(null);
 		}
-	}
+    }
 
-	backOnClick() { 
-		if(this.props.navigation ==undefined){
-			Alert.alert('this.props.navigation is undefined')
-			return
+    render() {
+        var {height,width} = Dimensions.get('window');
+
+        var backgroundColor = ColorConstants.COLOR_MAIN_THEME_BLUE;
+		if(this.props.backgroundColor){
+			backgroundColor = this.props.backgroundColor;
+        }
+        var navBarColor = ColorConstants.COLOR_MAIN_THEME_BLUE;
+		if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
+			//Which means the background doesn't have an alpha channel
+			navBarColor = this.props.backgroundColor;
 		}
-		 
-		if(this.props.leftButtonOnClick){
-			this.props.leftButtonOnClick();
+
+		console.log("backgroundColor " + backgroundColor)
+		if(this.props.onlyShowStatusBar){
+			return this.renderStatusBar(navBarColor);
 		}else{
-			this.props.navigation.goBack();
-		}
+			return (
+				<View style={[
+					styles.container, 
+					{
+						backgroundColor: backgroundColor,
+						width: width,
+					},]}>
+					{this.renderStatusBar(navBarColor)}
+					{this.renderLeftPart()}
+					{this.renderTitle()}
+					{this.renderRightPart()}
+				</View>
+			);
+		}        
+    }
 
-		// WebSocketModule.cleanRegisteredCallbacks()
-		if (this.props.backButtonOnClick) {
-			this.props.backButtonOnClick()
-		}
-	}
-
-	leftTextOnClick() {
-		if (this.props.leftTextOnClick) {
-			this.props.leftTextOnClick()
-		}
-	}
-
-	rightTextOnClick() {
-		if (this.props.rightTextOnClick) {
-			this.props.rightTextOnClick()
-		}
-	}
-
-	rightImageOnClick() {
-		if (this.props.rightImageOnClick) {
-			this.props.rightImageOnClick()
-		}
-	}
-
-	searchButtonClicked() {
-		// this.props.navigator.push({
-		// 	name: MainPage.STOCK_SEARCH_ROUTE,
-		// });
-	}
-
-	hexToRgb(hex) {
-	    var result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-	    return result ? {
-	        r: parseInt(result[1], 16),
-	        g: parseInt(result[2], 16),
-	        b: parseInt(result[3], 16)
-	    } : null;
-	}
-
-	renderPlaceholder(navBarColor){
-		if(Platform.OS === "android"){
-			if(Platform.Version >= 21){
-				return (<View style={{height: StatusBar.currentHeight, backgroundColor: navBarColor}}/>);
-			}else{
-				StatusBar.setBackgroundColor(navBarColor);
-			}
-		}
-		return null;
-	}
-
-	renderStatusBar(navBarColor){
+    renderStatusBar(navBarColor){
 		if (Platform.OS === "android"){
 			var bgColor = Platform.Version >= 21 ? "transparent" : navBarColor;
 			var translucent = Platform.OS === "android";
 			// StatusBar.setBackgroundColor(bgColor);
-			// StatusBar.setBackgroundColor(bgColor);
-			return (<StatusBar barStyle="light-content" backgroundColor={bgColor}
-				translucent={translucent}/>)
+			//StatusBar.setTranslucent(true)
+			//StatusBar.setBackgroundColor(bgColor);
+			//StatusBar.setBarStyle('light-content');
+            return (
+				<View style={{height:24}}>
+					<StatusBar
+						backgroundColor={bgColor}
+						translucent={true}/>
+				</View>)
+		}else{
+			return (<View style={{height:20}}/>);
 		}
-	}
-
-	renderTitle(){
+    }
+    
+    renderTitle(){
 		if(this.props.titleOpacity > 0){
 			return(
 				<View style={styles.centerContainer}>
@@ -150,45 +143,7 @@ export default class  NavBar extends React.Component {
 		}else{
 			return ( <View style={styles.centerContainer}/>)
 		}
-	}
-
-	render() {
-		var backgroundColor = ColorConstants.BGBLUE;
-		if(this.props.backgroundColor){
-			backgroundColor = this.props.backgroundColor;
-		}
-
-		var navBarColor = ColorConstants.BGBLUE;
-		if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
-			//Which means the background doesn't have an alpha channel
-			navBarColor = this.props.backgroundColor;
-		}
-
-		if(this.props.titleOpacity < 1){
-			var rgb = this.hexToRgb(navBarColor)
-			var alpha = this.props.titleOpacity;
-			navBarColor = 'rgba('+rgb.r+','+rgb.g+','+rgb.b+','+alpha+')'
-			backgroundColor = navBarColor
-		}
-
-		if(this.props.onlyShowStatusBar){
-			//StatusBar.setBackgroundColor(navBarColor)
-			return this.renderPlaceholder(navBarColor);
-		}
-		var h = Platform.OS === 'android' ? (Platform.Version >= 21 ? StatusBar.currentHeight : 0) : 0
-		console.log("STATUS_BAR_ACTUAL_HEIGHT " + UIConstants.STATUS_BAR_ACTUAL_HEIGHT + ", " + h)
-
-		return (
-			<View style={[styles.container, {backgroundColor: backgroundColor}, this.props.barStyle]} >
-				{this.renderStatusBar(navBarColor)}
-				{this.renderLeftPart()}
-				{this.renderTitle()}
-
-				{this.renderRightPart()}
-
-			</View>
-		);
-	}
+    }
 
 	renderLeftPart(){
 		//viewOnRight
@@ -219,7 +174,7 @@ export default class  NavBar extends React.Component {
 	}
 
 	renderBackButton() {
-		if (this.props.showBackButton) {
+		if(this.props.navigation &&  this.props.navigation.goBack && this.props.showBackButton) {
 			var imageOnLeft = require('../../../images/back.png');
 			if(this.props.imageOnLeft){
 				imageOnLeft = this.props.imageOnLeft;
@@ -292,7 +247,7 @@ export default class  NavBar extends React.Component {
 			}
 			else {
 				return (
-					<Text style={[styles.disabledTextOnRight,{color:'#3e86ff'}]}>
+					<Text style={[styles.disabledTextOnRight,{color:LogicData.getAccountState()?'#6a9bee':'#3e86ff'}]}>
 						{this.props.textOnRight}
 					</Text>
 					)
@@ -343,42 +298,16 @@ export default class  NavBar extends React.Component {
 	}
 }
 
-NavBar.defaultProps = { 
-	showBackButton: false,
-	showSearchButton: false,
-	imageOnLeft: null,
-	textOnLeft: null,
-	textOnRight: null,
-	imageOnRight: null,
-	rightImageStyle: null,
-	viewOnRight: null,
-	viewOnLeft: null,
-	leftTextOnClick: null,
-	leftButtonOnClick: null,
-	rightTextOnClick: null,
-	rightImageOnClick: null,
-	backButtonOnClick: null,
-	subTitle: null,
-	backgroundColor: null,
-	rightCustomContent: null,
-	enableRightText: true,
-	hideStatusBar: false,
-	onlyShowStatusBar: false,
-	titleOpacity: 1, 
-}
-
-
-
-var styles = StyleSheet.create({
-	container: {
-		height: UIConstants.HEADER_HEIGHT,
-		backgroundColor: ColorConstants.BGBLUE,
+// define your styles
+const styles = StyleSheet.create({
+    container: {
+        height: UIConstants.HEADER_HEIGHT,
 		flexDirection: 'row',
 		alignItems: 'center',
 		justifyContent: 'space-between',
 		paddingTop: (Platform.OS === 'ios') ? 15 : UIConstants.STATUS_BAR_ACTUAL_HEIGHT,
-	},
-	leftContainer: {
+    },
+    leftContainer: {
 		flex: 1,
 		flexDirection: 'row',
 		alignItems: 'center',
@@ -412,7 +341,7 @@ var styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		textAlign: 'center',
-		color: '#ffffff',
+		color: '#b7e1f8',
 	},
 	textOnLeft: {
 		fontSize: 15,
@@ -434,4 +363,5 @@ var styles = StyleSheet.create({
 	},
 });
 
-module.exports = NavBar;
+//make this component available to the app
+export default NavBar;

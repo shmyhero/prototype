@@ -1,10 +1,10 @@
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
   StyleSheet,
-  PropTypes,
   Image,
   TouchableOpacity,
 } from 'react-native';
@@ -13,6 +13,13 @@ import Pie from 'react-native-pie'
 /*<Image source={require('../../../images/bannerIntro.jpg')}/>  <Text style={{padding:15,fontSize:10,backgroundColor: 'blue', flex:1}}>NEW TOPIC</Text>*/
 
 export default class  BannerIntro extends React.Component {
+    static propTypes={
+        imgUrl: PropTypes.string,
+        title: PropTypes.string,
+        category: PropTypes.string,
+        buttonText: PropTypes.string,
+        buttonClicked: PropTypes.func,
+    }
 
     static defaultProps = {
         imgUrl:'',

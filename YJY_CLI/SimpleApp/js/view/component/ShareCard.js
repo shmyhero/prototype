@@ -1,15 +1,20 @@
 
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Text,
   View,
   StyleSheet,
-  PropTypes,
   Image,
   TouchableOpacity,
 } from 'react-native';
 
 export default class ShareCard extends React.Component {
+    static propTypes = {
+        cardWidth: PropTypes.number,
+        cardHeight: PropTypes.number,
+        cardId: PropTypes.string,
+    }
 
     static defaultProps = {
         cardWidth:20,

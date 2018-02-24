@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
 	StyleSheet,
 	View,
@@ -20,11 +21,11 @@ var {height, width} = Dimensions.get('window');
  
 export default class  ScrollTabView extends React.Component {
 
-	// propTypes: {
-	// 	tabNames: React.PropTypes.array,
-	// 	viewPages: React.PropTypes.any,
-	// 	onPageSelected: React.PropTypes.func,
-	// } 
+	static propTypes = {
+		tabNames: PropTypes.array,
+		viewPages: PropTypes.any,
+		onPageSelected: PropTypes.func,
+	} 
 
 	state = {
 		currentSelectedTab : 0,
@@ -132,7 +133,7 @@ export default class  ScrollTabView extends React.Component {
 						contentContainerStyle={{width: width * this.props.tabNames.length, flex:1}}
 						pagingEnabled={true}
 						horizontal={true}
-						onScroll={this.onScroll}
+						onScroll={(event)=>this.onScroll(event)}
 						scrollEventThrottle={10}
 						directionalLockEnabled={true} >
 					{this.props.viewPages}

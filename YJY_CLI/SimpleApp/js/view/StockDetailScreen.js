@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import PriceChartView from './component/PriceChartView';
-import NavBar from './NavBar';
+import NavBar from './component/NavBar';
 //var PriceChart = require('./components/PriceChart');
 
 import { StackNavigator, TabNavigator } from 'react-navigation';
@@ -207,7 +207,7 @@ export default class  StockDetailScreen extends React.Component {
                 var userData = LogicData.getUserData();  
                
                 NetworkModule.fetchTHUrl(
-                    NetConstants.CFD_API.OPEM_POSITION,
+                    NetConstants.CFD_API.OPEN_POSITION,
                     {
                         method: 'POST',
                         headers: {
@@ -224,7 +224,11 @@ export default class  StockDetailScreen extends React.Component {
                     }
                 );
             }else{
-                this.props.navigation.navigate('LoginScreen')
+                this.props.navigation.navigate('LoginScreen', {
+                    onLoginFinished: ()=>{
+                        this.props.navigation.goBack(null);
+                    }
+                })
             }
         
         }

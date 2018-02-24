@@ -8,12 +8,15 @@ import {
     Platform,
     Image,
     TouchableOpacity,
+    StatusBar,
     Alert
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
 import PropTypes from "prop-types";
 import { TabNavigator } from "react-navigation";
+import NavBar from './component/NavBar';
+
 var WebSocketModule = require('../module/WebSocketModule');
 var AppStateModule = require('../module/AppStateModule');
 var ColorConstants = require('../ColorConstants');
@@ -88,7 +91,6 @@ class RowComponent extends React.Component {
         )
     }
 }
-  
 
 //Tab1:行情
 export default class  TabMarketScreen extends React.Component {
@@ -100,10 +102,6 @@ export default class  TabMarketScreen extends React.Component {
             style={[styles.icon]}
             />
         ),
-        tabBarOnPress: (scene, jumpToIndex) => {
-            console.log(scene)
-            jumpToIndex(scene.index)
-        },
     }
 
     constructor(props){
@@ -112,30 +110,36 @@ export default class  TabMarketScreen extends React.Component {
         this.state = {
             listData: {},
             listDataOrder: [],
+            isLoading: true,
         };
     }
 
     loadStockList(){
-        console.log("loadStockList")
-        NetworkModule.fetchTHUrl(
-			NetConstants.CFD_API.GET_STOCK_LIST,
-			{
-				method: 'GET',				
-			},
-			(responseJson) => {
-                var data = this.parseServerData(responseJson)
-                console.log("data: ")
-                console.log(data)
-
-                this.setState({
-                    listData: data.listData,
-                    listDataOrder: data.listDataOrder,
-                });
-			},
-			(result) => {
-				Alert.alert('提示', result.errorMessage);
-			}
-		)
+        this.setState({
+            isLoading: true,
+        }, ()=>{
+            console.log("loadStockList")
+            NetworkModule.fetchTHUrl(
+                NetConstants.CFD_API.GET_STOCK_LIST,
+                {
+                    method: 'GET',				
+                },
+                (responseJson) => {
+                    var data = this.parseServerData(responseJson)
+                    console.log("data: ")
+                    console.log(data)
+    
+                    this.setState({
+                        isLoading: false,
+                        listData: data.listData,
+                        listDataOrder: data.listDataOrder,
+                    });
+                },
+                (result) => {
+                    Alert.alert('提示', result.errorMessage);
+                }
+            )
+        });
     }
 
     parseServerData(data){
@@ -147,26 +151,41 @@ export default class  TabMarketScreen extends React.Component {
         return {listData: listData, listDataOrder: listDataOrder};
     }
 
-    render() {        
-        return (
-            <View style={styles.mainContainer}>                             
-                <SortableListView
-                    style={{ flex: 1,}}
-                    data={this.state.listData}
-                    order={this.state.listDataOrder}                    
-                    onRowMoved={e => {
-                        this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0])
-                        this.forceUpdate()
-                    }}
-                    sortRowStyle={{opacity:1}}
-                    renderRow={row => <RowComponent data={row}
-                        onPress={(row)=>{
-                            this.jump2Next(row.id, row.name);
+    renderContent(){
+        if(this.state.isLoading){
+            return (<View style={{ flex: 1, justifyContent:'center'}}>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+            </View>);
+        }else{
+            return (
+                    <SortableListView
+                        style={{ flex: 1,}}
+                        data={this.state.listData}
+                        order={this.state.listDataOrder}                    
+                        onRowMoved={e => {
+                            this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0])
+                            this.forceUpdate()
                         }}
-                    />}
-                />
+                        sortRowStyle={{opacity:1}}
+                        renderRow={row => <RowComponent data={row}
+                            onPress={(row)=>{
+                                this.jump2Next(row.id, row.name);
+                            }}
+                        />}
+                    />
+            );
+        }
+    }
+
+    render() {
+        
+        return (
+            <View style={styles.mainContainer}>
+                <NavBar onlyShowStatusBar={true}/>
+                {this.renderContent()}
             </View>
-        );
+        )
+        
     }   
 
     jump2Next(stockId, stockName){

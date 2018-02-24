@@ -41,6 +41,11 @@
 	<dict>
 		<key>NSExceptionDomains</key>
 		<dict>
+			<key>yjy-webapi.chinacloudapp.cn</key>
+			<dict>
+				<key>NSExceptionAllowsInsecureHTTPLoads</key>
+				<true/>
+			</dict>
 			<key>localhost</key>
 			<dict>
 				<key>NSExceptionAllowsInsecureHTTPLoads</key>

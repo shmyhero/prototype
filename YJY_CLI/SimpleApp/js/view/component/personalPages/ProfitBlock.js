@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, PropTypes} from 'react';
+import React, { Component} from 'react';
+import PropTypes from 'prop-types';
 import {
   View,
   Text,
@@ -30,12 +31,12 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 	}});
 
 export default class ProfitBlock extends Component {
-  // static propTypes = {
-  //   userId: PropTypes.number.isRequired,
-  //   type: PropTypes.string.isRequired,
-  //   isPrivate: PropTypes.bool.isRequired,
-  //   style: PropTypes.object,
-  // }
+  static propTypes = {
+    userId: PropTypes.number.isRequired,
+    type: PropTypes.string.isRequired,
+    isPrivate: PropTypes.bool.isRequired,
+    style: PropTypes.object,
+  }
 
   static defaultProps = {
     userId: 0,
