@@ -91,7 +91,6 @@ class RowComponent extends React.Component {
         )
     }
 }
-  
 
 //Tab1:行情
 export default class  TabMarketScreen extends React.Component {
@@ -154,7 +153,9 @@ export default class  TabMarketScreen extends React.Component {
 
     renderContent(){
         if(this.state.isLoading){
-            return <Text> 数据读取中... </Text>
+            return (<View style={{ flex: 1, justifyContent:'center'}}>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+            </View>);
         }else{
             return (
                     <SortableListView

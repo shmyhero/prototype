@@ -28,6 +28,9 @@ var TabMeScreen = require('./js/view/TabMeScreen');
 var SplashScreen = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
 
+var StorageModule = require('./js/module/StorageModule');
+var LogicData = require('./js/LogicData');
+
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
 
@@ -46,11 +49,24 @@ function getCurrentRouteName(navigationState) {
 }
 
 export default class App extends React.Component {
+  componentWillMount(){
+    this.loadDataOnStartup()
+  }
+
+  loadDataOnStartup(){
+    StorageModule.loadUserData().then((data)=>{
+      if(data!=undefined){
+        var obj = JSON.parse(data)
+        LogicData.setUserData(obj);
+      }
+    });
+  }
+
   render() {
     if(Platform.OS == "android"){
       StatusBar.setBarStyle("light-content");
+      StatusBar.setTranslucent(true);
     }
-    StatusBar.setTranslucent(true);
     return <SimpleApp uriPrefix={prefix}
       onNavigationStateChange={(prevState, currentState) => {        
         var routeName = getCurrentRouteName(currentState);
@@ -66,53 +82,53 @@ export default class App extends React.Component {
 
 export const MainScreenNavigator = TabNavigator({
     TabMain: {
-        screen: TabMainScreen,
-        title:'首页',
+      screen: TabMainScreen,
+      title:'首页',
     },
     TabMarket: {
-        screen: TabMarketScreen
+      screen: TabMarketScreen
     },
     TabRank: {
         screen: TabRankScreen
     },
     TabPosition: {
-      screen: TabPositionScreen,
+      screen: TabPositionScreen,      
     },
     TabMe: {
       screen: TabMeScreen
     },
-}, {
-   tabBarPosition: 'bottom',
-   animationEnabled: false,
-   swipeEnabled: false,
-   backBehavior: 'none',
-   tabBarOptions: {
-     activeTintColor: '#1b9bec',
-     inactiveTintColor:'grey',
-     style:{
-       backgroundColor: 'white',
-     }, 
-     labelStyle: {
-       fontSize: 12, 
-     },
-     showIcon:true, 
-     indicatorStyle:{height:0},//for android ,remove line on tab
-   }, 
+  }, {
+    lazy: false, //Only render tab content when it is active
+    tabBarPosition: 'bottom',
+    animationEnabled: false,
+    swipeEnabled: false,
+    backBehavior: 'none',
+    tabBarOptions: {
+      activeTintColor: '#1b9bec',
+      inactiveTintColor:'grey',
+      style:{
+        backgroundColor: 'white',
+      }, 
+      labelStyle: {
+        fontSize: 12, 
+      },
+      showIcon:true, 
+      indicatorStyle:{height:0},//for android ,remove line on tab
+    }, 
+    navigationOptions: (navigation) => ({     
+      headerStyle: {
+        elevation: 0,
+      },
+      header: null,
+    })
 });
 
 const SimpleApp = StackNavigator({
     SplashScreen:{ 
       screen: SplashScreen,
-      navigationOptions:{
-        header:null,
-      }
     },
     Home: {
       screen: MainScreenNavigator,
-      navigationOptions: {
-        // title: '首页',
-        header: null, 
-      }, 
     }, 
     StockDetail:{
       screen:StockDetailScreen,      
@@ -122,9 +138,6 @@ const SimpleApp = StackNavigator({
     },
     UserProfileScreen:{
       screen:UserProfileScreen ,
-      navigationOptions: { 
-      header: null, 
-      }, 
     }, 
 },  
 {
@@ -148,4 +161,9 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
   }, 
+  icon: {
+    width: 26,
+    height: 26,
+  },
 });
+

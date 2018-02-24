@@ -3,6 +3,7 @@ import {
 	Platform,
 } from 'react-native';
 
+var StorageModule = require('./module/StorageModule');
 var userData = {};
 
 var LogicData = {
@@ -17,6 +18,13 @@ var LogicData = {
 
 	getUserData: function() {
 		return userData;
+	},
+
+	logout: function(callback) {
+		userData = {};
+		StorageModule.removeUserData().then(()=>{
+			callback && callback();
+		})			
 	},
 }
 

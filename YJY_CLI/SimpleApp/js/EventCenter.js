@@ -8,7 +8,7 @@ var eventEmitter = new EventEmitter()
 const EventConst = {
 	HOME_TAB_RESS_EVENT: 'homeTabPress',
 	STOCK_TAB_PRESS_EVENT : 'stockTabEvent',
-	EXCHANGE_TAB_PRESS_EVENT : 'exchangeTabEvent',
+	POSITON_TAB_PRESS_EVENT : 'exchangeTabEvent',
 	RANKING_TAB_PRESS_EVENT : 'rankingTabEvent',
 	ME_TAB_PRESS_EVENT : 'meTabEvent',
 	ACCOUNT_STATE_CHANGE : 'account_state_change',
@@ -35,9 +35,9 @@ var EventCenter = {
 		eventEmitter.emit(EventConst.STOCK_TAB_PRESS_EVENT)
 	},
 
-	emitExchangeTabPressEvent: function() {
+	emitPositionTabPressEvent: function() {
 		// this.eventEmitter.emit('eventname', { someArg: 'argValue' });
-		eventEmitter.emit(EventConst.EXCHANGE_TAB_PRESS_EVENT)
+		eventEmitter.emit(EventConst.POSITON_TAB_PRESS_EVENT)
 	},
 
 	emitRankingTabPressEvent: function() {

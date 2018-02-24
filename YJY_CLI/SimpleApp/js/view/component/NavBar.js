@@ -73,7 +73,9 @@ class NavBar extends Component {
     }
 
     backOnClick(){
-        this.props.navigation.goBack(null);
+		if(this.props.navigation &&  this.props.navigation.goBack){
+			this.props.navigation.goBack(null);
+		}
     }
 
     render() {
@@ -172,7 +174,7 @@ class NavBar extends Component {
 	}
 
 	renderBackButton() {
-		if (this.props.showBackButton) {
+		if(this.props.navigation &&  this.props.navigation.goBack && this.props.showBackButton) {
 			var imageOnLeft = require('../../../images/back.png');
 			if(this.props.imageOnLeft){
 				imageOnLeft = this.props.imageOnLeft;

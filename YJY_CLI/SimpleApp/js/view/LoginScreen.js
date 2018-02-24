@@ -13,14 +13,43 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
+import NavBar from './component/NavBar';
 
 var imgSplash = require('../../images/splash.jpg')
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
-var NetworkModule = require('../module/NetworkModule')
+var NetworkModule = require('../module/NetworkModule');
+var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
+var LogicData = require('../LogicData');
+
 export default class  LoginScreen extends React.Component {
+    constructor(props){
+        super(props);
+
+        var state = {hideBackButton:false};
+        if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
+            var params = this.props.navigation.state.params;
+            state = this.convertParametersToState(params, state);
+        }
+
+        this.state = state;
+    }
+
+    convertParametersToState(params, state){
+        if(state == undefined){
+            state = {};
+        }
+        if(params.hideBackButton != undefined){
+            state.hideBackButton = params.hideBackButton;
+        }
+        if(params.onLoginFinished != undefined){
+            state.onLoginFinished = params.onLoginFinished;
+        }
+        return state;
+    }
+
     componentDidMount() {
         
     }
@@ -28,6 +57,11 @@ export default class  LoginScreen extends React.Component {
     componentWillUnmount() { 
     }
 
+    componentWillReceiveProps(nextProps){
+        var state = {}
+        state = this.convertParametersToState(nextProps, state);
+        this.setState(state);
+    }
 
     getValidationCode(){
         
@@ -35,7 +69,13 @@ export default class  LoginScreen extends React.Component {
     }
 
     loginSuccess(responseJson){
-        Alert.alert("login success , token:"+responseJson.token)
+        LogicData.setUserData(responseJson);
+		StorageModule.setUserData(JSON.stringify(responseJson)).then(()=>{
+            //Alert.alert("login success , token:"+responseJson.token)
+            if(this.state.onLoginFinished){
+                this.state.onLoginFinished();
+            }
+        });
     }
 
     onLoginClicked(){
@@ -71,7 +111,8 @@ export default class  LoginScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={{flex:1,justifyContent:'center',alignItems:'center',marginTop:48}}>
+                <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
+                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Image style={{width:120,height:72}} source={require('../../images/icon_candy.png')}/>
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>

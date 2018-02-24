@@ -224,7 +224,11 @@ export default class  StockDetailScreen extends React.Component {
                     }
                 );
             }else{
-                this.props.navigation.navigate('LoginScreen')
+                this.props.navigation.navigate('LoginScreen', {
+                    onLoginFinished: ()=>{
+                        this.props.navigation.goBack(null);
+                    }
+                })
             }
         
         }
