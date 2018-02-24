@@ -10,10 +10,13 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2019-01-29T23:59:59.0000000+08:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
 
-      <Setting name="redisConnectionString" value="Password77__@10.0.1.4:6379"/>
+      <Setting name="redisConnectionString" value="Password77__@139.219.234.113:6379"/>
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="AADA5F765191CBF65324541B6E588E61BFBDBF2D" thumbprintAlgorithm="sha1" />
     </Certificates>
   </Role>
+  <!--<NetworkConfiguration>
+    <VirtualNetworkSite name="yjy-vnet"/>
+  </NetworkConfiguration>-->
 </ServiceConfiguration>

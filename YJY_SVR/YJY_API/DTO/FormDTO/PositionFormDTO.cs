@@ -18,4 +18,11 @@ namespace YJY_SVR.DTO.FormDTO
         public int posId { get; set; }
         public int securityId { get; set; }
     }
+
+    public class StopTakeFormDTO
+    {
+        public int posId { get; set; }
+        public decimal? stopPx { get; set; }
+        public decimal? takePx { get; set; }
+    }
 }

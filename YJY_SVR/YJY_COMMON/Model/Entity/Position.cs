@@ -33,7 +33,11 @@ namespace YJY_COMMON.Model.Entity
 
         public decimal? StopPx { get; set; }
 
+        public DateTime? StopSetAt { get; set; }
+
         public decimal? TakePx { get; set; }
+
+        public DateTime? TakeSetAt { get; set; }
 
         [StringLength(20)]
         public string CloseType { get; set; }

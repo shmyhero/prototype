@@ -152,5 +152,50 @@ namespace YJY_SVR.Controllers
 
             return positionDtos;
         }
+
+        [HttpPut]
+        [Route("stopTake")]
+        [BasicAuth]
+        public PositionDTO SetStopTake(StopTakeFormDTO form)
+        {
+            var position = db.Positions.FirstOrDefault(o => o.Id == form.posId && o.UserId == UserId);
+
+            if (position == null)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "no such position"));
+
+            if (position.ClosedAt != null)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "position closed"));
+            
+            //var quote = WebCache.Instance.Quotes.FirstOrDefault(o => o.Id == position.SecurityId);
+            //var lastPrice = Quotes.GetLastPrice(quote);
+
+            if (position.StopPx != null)
+            {
+                if (Trades.CalculatePL(position, form.stopPx.Value) + position.Invest <= 0)
+                    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                        "stop <= 0%"));
+
+                //if(position.Side.Value && form.stopPx>=lastPrice || !position.Side.Value && form.stopPx<=lastPrice)
+                //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                //       "invalid stopPx against current price"));
+            }
+
+            if (position.StopPx != form.stopPx)
+            {
+                position.StopPx = form.stopPx;
+                position.StopSetAt = DateTime.UtcNow;
+            }
+            if (position.TakePx != form.takePx)
+            {
+                position.TakePx = form.takePx;
+                position.TakeSetAt = DateTime.UtcNow;
+            }
+
+            db.SaveChanges();
+
+            return Mapper.Map<PositionDTO>(position);
+        }
     }
 }

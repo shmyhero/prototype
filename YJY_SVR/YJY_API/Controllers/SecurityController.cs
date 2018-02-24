@@ -18,7 +18,7 @@ namespace YJY_SVR.Controllers
     [RoutePrefix("api/security")]
     public class SecurityController : YJYController
     {
-        public SecurityController(YJYEntities db, IMapper mapper) : base(db, mapper)
+        public SecurityController(IMapper mapper) : base(mapper)
         {
         }
 
