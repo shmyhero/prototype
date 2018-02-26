@@ -21,14 +21,14 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 
-var LogicData = require('../LogicData');
-var LoginScreen = require('./LoginScreen')
+import LogicData from "../LogicData";
+import LoginScreen from './LoginScreen';
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
 
 var layoutSizeChangedSubscription = null;
 //Tab4:我的
-export default class  TabMeScreen extends React.Component {
+class  TabMeScreen extends React.Component {
   static navigationOptions = (navigation) => ({
     tabBarOnPress: (scene, jumpToIndex) => {
       jumpToIndex(scene.index);
@@ -54,7 +54,9 @@ export default class  TabMeScreen extends React.Component {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.ME_TAB_PRESS_EVENT, () => {
       console.log("ME_TAB_PRESS_EVENT")
 			this.refresh();
-		});
+    });
+        
+    this.refresh();
   } 
 
   componentWillUnmount(){
@@ -62,6 +64,7 @@ export default class  TabMeScreen extends React.Component {
   }
 
   refresh(){
+    console.log("refresh ", LogicData.isLoggedIn())
     if(!LogicData.isLoggedIn()){
       this.setState({
         userLoggedin: false,
@@ -75,15 +78,6 @@ export default class  TabMeScreen extends React.Component {
       });
     }
   }
-
-  // showLogin(){
-  //   this.props.navigation.navigate('MeLoginScreen',{      
-  //     hideBackButton: true,
-  //     onLoginFinished: ()=>{
-  //       this.props.navigation.goBack(null);
-  //     }
-  //   });
-  // }
 
   onExitButtonPressed(){
     LogicData.logout(()=>{
@@ -111,9 +105,25 @@ export default class  TabMeScreen extends React.Component {
     </TouchableOpacity>);
   }
 
-  renderButton(title, icon){
+  showHelp(){
+    this.props.navigation.navigate("HelpScreen");
+  }
+
+  showAbout(){
+    this.props.navigation.navigate("AboutScreen");
+  }
+
+  showWithdraw(){
+    
+  }
+
+  showMessage(){
+    this.props.navigation.navigate("MessageScreen");
+  }
+
+  renderButton(title, icon, onPress){
     return (
-      <TouchableOpacity style={styles.smallButtonContainer}>
+      <TouchableOpacity style={styles.smallButtonContainer} onPress={()=>onPress()}>
         <ImageBackground source={require('../../images/me_entry_button.png')}
           resizeMode={'contain'}
           style={styles.buttonBackground}>
@@ -150,7 +160,7 @@ export default class  TabMeScreen extends React.Component {
           <View style={styles.buttonTextContainer}>
               <Text style={{fontSize:12, color:'#999999'}}>糖果数</Text>
               <Text style={{fontSize:34, color:'#999999', marginTop:10}}>0</Text>
-              <TouchableOpacity >
+              <TouchableOpacity onPress={()=>this.showWithdraw()}>
                 <Image source={require('../../images/me_deposit_line.png')} 
                       style={{width:300, height:34, marginTop:10}} resizeMode="contain"/>
               </TouchableOpacity>
@@ -164,11 +174,12 @@ export default class  TabMeScreen extends React.Component {
     if(this.state.userLoggedin){
       return (<View style={styles.mainContainer}>
         <View style={styles.backgroundContainer}/>
-        <NavBar title="" imageOnRight={require('../../images/me_messages.png')}/>
+        <NavBar title="" imageOnRight={require('../../images/me_messages.png')} 
+                rightImageOnClick={()=>this.showMessage()}/>
         {this.renderPortrait()}
         {this.renderBalance()}
-        {this.renderButton("帮助中心", require("../../images/me_icon_help.png"))}
-        {this.renderButton("关于我们", require("../../images/me_icon_about.png"))}
+        {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
+        {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
         {this.renderExitButton()}
       </View>);
     }else{
@@ -180,36 +191,6 @@ export default class  TabMeScreen extends React.Component {
       return this.renderContent();
   }
 }
-
-
-// const TAB_ME = "TabMe";
-// const LOGIN_PAGE = "MeLoginScreen";
-
-// const routeConfigMap = {}
-// routeConfigMap[TAB_ME] = { screen: TabMeScreenView }
-// routeConfigMap[LOGIN_PAGE] = { screen: LoginScreen }
-
-// const TabMeScreen = StackNavigator(routeConfigMap,
-//   {
-//     navigationOptions: (navigation) => ({
-//       tabBarOnPress: (scene, jumpToIndex) => {
-//         jumpToIndex(scene.index);
-//         if(navigation.navigation.state.routeName == TAB_ME){
-//           EventCenter.emitMeTabPressEvent();
-//         }else if(navigation.navigation.state.routeName == LOGIN_PAGE){
-//           if(LogicData.isLoggedIn()){
-//             navigation.navigation.goBack(null);
-//           }
-//         }
-//       },
-//       tabBarLabel:'我的',
-//       tabBarIcon: ({ focused,tintColor }) => (
-//         <Image
-//         source={focused?require('../../images/tab4_sel.png'):require('../../images/tab4_unsel.png')}
-//           style={[styles.icon]}
-//         />     
-//     )})
-// });
 
 const styles = StyleSheet.create({
     mainContainer:{
@@ -259,5 +240,5 @@ const styles = StyleSheet.create({
     },
 })
 
-module.exports = TabMeScreen;
+export default TabMeScreen;
 

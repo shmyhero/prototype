@@ -6,7 +6,7 @@ import {
 	Alert
 } from 'react-native';
 
-var LogicData = require('../LogicData');
+import LogicData from "../LogicData";
 export const API_ERROR = 'apiError';
 export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
 

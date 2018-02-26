@@ -22,13 +22,18 @@ var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
-var LogicData = require('../LogicData');
+import LogicData from "../LogicData";
 
-export default class  LoginScreen extends React.Component {
+class LoginScreen extends Component {
     constructor(props){
         super(props);
 
         var state = {hideBackButton:false};
+
+        if(props){
+            state = this.convertParametersToState(props, state);
+        }
+        
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
             var params = this.props.navigation.state.params;
             state = this.convertParametersToState(params, state);
@@ -58,6 +63,7 @@ export default class  LoginScreen extends React.Component {
     }
 
     componentWillReceiveProps(nextProps){
+        console.log("componentWillReceiveProps", nextProps)
         var state = {}
         state = this.convertParametersToState(nextProps, state);
         this.setState(state);
@@ -170,6 +176,5 @@ const styles = StyleSheet.create({
     }
 })
 
-
-module.exports = LoginScreen;
+export default LoginScreen;
 

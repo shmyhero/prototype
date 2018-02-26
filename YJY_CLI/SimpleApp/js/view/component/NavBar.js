@@ -247,7 +247,7 @@ class NavBar extends Component {
 			}
 			else {
 				return (
-					<Text style={[styles.disabledTextOnRight,{color:LogicData.getAccountState()?'#6a9bee':'#3e86ff'}]}>
+					<Text style={[styles.disabledTextOnRight,{color:'#6a9bee'}]}>
 						{this.props.textOnRight}
 					</Text>
 					)
@@ -264,7 +264,7 @@ class NavBar extends Component {
 
 			return (
 				<TouchableOpacity
-					onPress={this.rightImageOnClick}
+					onPress={()=> this.props.rightImageOnClick && this.props.rightImageOnClick()}
 					// underlayColor={ColorConstants.title_blue()}
 					>
 

@@ -16,20 +16,26 @@ require('./js/utils/numberUtils')
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
+
+var StorageModule = require('./js/module/StorageModule');
+import LogicData from './js/LogicData';
+
+import LoginScreen from './js/view/LoginScreen';
+import HelpScreen from "./js/view/HelpScreen"
+import AboutScreen from "./js/view/AboutScreen"
+import StockDetailScreen from './js/view/StockDetailScreen';
+import MessageScreen from './js/view/MessageScreen';
+
 var MyHomeScreen = require('./js/view/MyHomeScreen');
-var StockDetailScreen = require('./js/view/StockDetailScreen');
-var LoginScreen = require('./js/view/LoginScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
 var TabMainScreen = require('./js/view/TabMainScreen');
-var TabMarketScreen = require('./js/view/TabMarketScreen');
+import TabMarketScreen from './js/view/TabMarketScreen';
 var TabRankScreen = require('./js/view/TabRankScreen');
-var TabPositionScreen = require('./js/view/TabPositionScreen');
-var TabMeScreen = require('./js/view/TabMeScreen');
+import TabPositionScreen from './js/view/TabPositionScreen';
+import TabMeScreen from './js/view/TabMeScreen';
 var SplashScreen = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
 
-var StorageModule = require('./js/module/StorageModule');
-var LogicData = require('./js/LogicData');
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
@@ -98,7 +104,7 @@ export const MainScreenNavigator = TabNavigator({
       screen: TabMeScreen
     },
   }, {
-    lazy: false, //Only render tab content when it is active
+    lazy: true, //Only render tab content when it is active
     tabBarPosition: 'bottom',
     animationEnabled: false,
     swipeEnabled: false,
@@ -139,6 +145,15 @@ const SimpleApp = StackNavigator({
     UserProfileScreen:{
       screen:UserProfileScreen ,
     }, 
+    HelpScreen:{
+      screen: HelpScreen,
+    },
+    AboutScreen:{
+      screen: AboutScreen,
+    },
+    MessageScreen: {
+      screen: MessageScreen,
+    }
 },  
 {
   cardStyle: {

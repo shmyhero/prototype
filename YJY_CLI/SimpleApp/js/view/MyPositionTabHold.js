@@ -26,7 +26,7 @@ var PositionBlock = require('./component/personalPages/PositionBlock')
 var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
-var LogicData = require('../LogicData');
+import LogicData from "../LogicData";
 
 var DEFAULT_PERCENT = -1
 var stopProfitPercent = DEFAULT_PERCENT

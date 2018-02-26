@@ -18,13 +18,12 @@ import NavBar from './component/NavBar';
 //var PriceChart = require('./components/PriceChart');
 
 import { StackNavigator, TabNavigator } from 'react-navigation';
-
+import LogicData from "../LogicData";
 
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var StockOrderInfoModal = require("./StockOrderInfoModal");
-var LogicData = require("../LogicData");
 
 var {height, width} = Dimensions.get('window')
 
@@ -40,7 +39,7 @@ var DATA_STATUS_FAILED = 0;
 var DATA_STATUS_LOADED = 1;
 var DATA_STATUS_LOADING = 2;
 
-export default class  StockDetailScreen extends React.Component {
+class StockDetailScreen extends Component {
     constructor(props){
         super(props)
 
@@ -582,6 +581,5 @@ const styles = StyleSheet.create({
     },
 })
 
-
-module.exports = StockDetailScreen;
+export default StockDetailScreen;
 

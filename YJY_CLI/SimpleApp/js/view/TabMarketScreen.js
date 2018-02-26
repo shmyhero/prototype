@@ -25,7 +25,7 @@ var NetworkModule = require('../module/NetworkModule');
 
 import SortableListView from 'react-native-sortable-listview'
 
-class RowComponent extends React.Component {
+class RowComponent extends Component {
     static propTypes = {
         onPress: PropTypes.func,
     }
@@ -93,7 +93,7 @@ class RowComponent extends React.Component {
 }
 
 //Tab1:行情
-export default class  TabMarketScreen extends React.Component {
+class TabMarketScreen extends Component {
     static navigationOptions = {
         tabBarLabel:'行情',
         tabBarIcon: ({ focused,tintColor }) => (
@@ -300,5 +300,5 @@ const styles = StyleSheet.create({
 	},
 })
 
-module.exports = TabMarketScreen;
+export default TabMarketScreen;
 
