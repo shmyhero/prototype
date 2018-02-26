@@ -10,8 +10,9 @@ import {
 	Platform,
 } from 'react-native';
 
+import LogicData from '../LogicData';
+
 var AppStateModule = require('./AppStateModule');
-//var LogicData = require('../LogicData')
 var StorageModule = require('./StorageModule')
 var CacheModule = require('./CacheModule')
 var {EventCenter, EventConst} = require('../EventCenter');
@@ -198,10 +199,10 @@ function startWebSocket(webSocketConnection){
 			console.log('WebSocket now connected, connection ID=' + webSocketConnection.id);
 			registerInterestedStocks(previousInterestedStocks)
 
-//			var userData = LogicData.getUserData()
-//			if (userData != null) {
-//				alertServiceLogin(userData.userId + '_' + userData.token)
-//			}
+			var userData = LogicData.getUserData()
+			if (userData != null) {
+				alertServiceLogin(userData.userId + '_' + userData.token)
+			}
 		})
 		.fail((error) => {
 			wsErrorCallback(error.message)

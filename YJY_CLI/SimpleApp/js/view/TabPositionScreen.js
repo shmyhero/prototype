@@ -20,13 +20,14 @@ var MyPositionTabHold = require('./MyPositionTabHold')
 var MyPositionTabClosed = require('./MyPositionTabClosed')  
 var MyPositionTabStatistics = require('./MyPositionTabStatistics')  
 var {height,width} = Dimensions.get('window')
-var LoginScreen = require('./LoginScreen');
-var LogicData = require('../LogicData');
+
+import LoginScreen from './LoginScreen';
+import LogicData from "../LogicData";
 var {EventCenter, EventConst} = require('../EventCenter');
 
 var layoutSizeChangedSubscription = null;
 //Tab3:仓位
-export default class  TabPositionScreen extends Component {
+class  TabPositionScreen extends Component {
 
   static navigationOptions = (navigation) => ({
     tabBarOnPress: (scene, jumpToIndex) => {
@@ -54,7 +55,9 @@ export default class  TabPositionScreen extends Component {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.POSITON_TAB_PRESS_EVENT, () => {
       console.log("POSITON_TAB_PRESS_EVENT")
       this.refresh();
-		});
+    });
+    
+    this.refresh();
   }
 
   componentWillUnmount(){
@@ -133,42 +136,6 @@ export default class  TabPositionScreen extends Component {
   }
 }
 
-// const TAB_POSITION = "TabPosition";
-// const LOGIN_PAGE = "PositionLoginScreen";
-
-// const routeConfigMap = {}
-// routeConfigMap[TAB_POSITION] = { screen: TabPositionScreenView }
-// routeConfigMap[LOGIN_PAGE] = { screen: LoginScreen }
-
-// const TabPositionScreen = StackNavigator(routeConfigMap,
-//   {
-//     cardStyle: {
-//       shadowColor: 'transparent',
-//     },
-//     navigationOptions: (navigation) => ({
-//       tabBarOnPress: (scene, jumpToIndex) => {
-//         jumpToIndex(scene.index);
-//         if(navigation.navigation.state.routeName == TAB_POSITION){
-//           EventCenter.emitPositionTabPressEvent();
-//         }else if(navigation.navigation.state.routeName == LOGIN_PAGE){
-//           if(LogicData.isLoggedIn()){
-//             navigation.navigation.goBack(null);
-//           }
-//         }
-//       },
-//       headerStyle: {
-//         elevation: 0,
-//       },
-//       header: null,
-//       tabBarLabel:'仓位',
-//       tabBarIcon: ({ focused,tintColor }) => (
-//         <Image
-//           source={focused?require('../../images/tab3_sel.png'):require('../../images/tab3_unsel.png')}
-//           style={[styles.icon ]}
-//         />
-//     )})
-// });
-
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
@@ -180,5 +147,5 @@ const styles = StyleSheet.create({
     },
 })
 
-module.exports = TabPositionScreen;
+export default TabPositionScreen;
 

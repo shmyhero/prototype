@@ -1,13 +1,21 @@
 //import liraries
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import NavBar from './component/NavBar';
 
 // create a component
-class PriceChartView extends Component {
+class MessageScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>PriceChartView TODO</Text>
+                <NavBar title="消息" showBackButton={true} navigation={this.props.navigation}/>
+                <View style={{
+                    flex:1,
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    }}>
+                    <Text>MessageScreen</Text>
+                </View>
             </View>
         );
     }
@@ -23,4 +31,4 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default PriceChartView;
+export default MessageScreen;

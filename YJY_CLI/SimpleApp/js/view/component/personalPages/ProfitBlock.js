@@ -20,6 +20,8 @@ var UIConstants = require('../../../UIConstants');
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(14*width/375.0);
 
+import LogicData from "../../../LogicData";
+
 var {height, width} = Dimensions.get('window');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 		if(r1.security && r2.security){
