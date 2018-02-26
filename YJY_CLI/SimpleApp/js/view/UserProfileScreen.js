@@ -13,8 +13,8 @@ import {
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
-var NavBar = require('./component/NavBar')
+import { TabNavigator } from "react-navigation"; 
+import NavBar from "./component/NavBar"
 var ScrollTabView = require('./component/ScrollTabView')
 var UserProfileTabMain = require('./UserProfileTabMain')
 var UserProfileTabDynamicState = require('./UserProfileTabDynamicState')
