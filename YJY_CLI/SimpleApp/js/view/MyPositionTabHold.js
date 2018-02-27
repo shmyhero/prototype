@@ -15,7 +15,8 @@ import {
     LayoutAnimation,
     ImageBackground,
     Dimensions,
-	ListView
+	ListView,
+	Alert
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -26,15 +27,12 @@ var PositionBlock = require('./component/personalPages/PositionBlock')
 var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
+var WebSocketModule = require('../module/WebSocketModule');
+
 import LogicData from "../LogicData";
 
 var DEFAULT_PERCENT = -1
-var stopProfitPercent = DEFAULT_PERCENT
 var MAX_LOSS_PERCENT = -90
-var stopLossPercent = MAX_LOSS_PERCENT
-var stopProfitUpdated = false
-var stopLossUpdated = false
-var isWaiting = false
 
 var stockNameFontSize = Math.round(17*width/375.0)
 
@@ -47,6 +45,9 @@ const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 
 const SUB_ACTION_NONE = 0;
 const SUB_ACTION_STOP_LOSS_PROFIT = 2;
+const TYPE_STOP_PROFIT = 1;
+const TYPE_STOP_LOSS = 2;
+
 
 export default class  MyPositionTabHold extends React.Component {
     static navigationOptions = {
@@ -60,10 +61,31 @@ export default class  MyPositionTabHold extends React.Component {
 	stopLossMinValue = 0
 	stopLossMaxValue = 0
 
+	stopProfitPercent = DEFAULT_PERCENT
+	stopLossPercent = MAX_LOSS_PERCENT
+	stopProfitUpdated = false
+	stopLossUpdated = false
+	isWaiting = false
+
+
 	constructor(props){
         super(props)
 
-        this.state = {			
+		var state = this.getInitialState()
+        this.state = state;
+    }
+
+	componentDidMount() {
+		this.loadOpenPositionInfo();
+	}
+
+	getInitialState(){
+		this.stopProfitUpdated = false
+		this.stopLossUpdated = false
+		this.stopProfitPercent = DEFAULT_PERCENT
+		this.stopLossPercent = MAX_LOSS_PERCENT
+
+		var state = {
 			stockInfoRowData: [],
 			selectedRow: -1,
 			selectedSubItem: SUB_ACTION_NONE,
@@ -80,11 +102,8 @@ export default class  MyPositionTabHold extends React.Component {
 			// height: UIConstants.getVisibleHeight(),
 			totalCount:0,
 			isFocused: false,
-		};
-    }
-
-	componentDidMount() {
-		this.loadOpenPositionInfo();
+		}
+		return state;
 	}
 
 	clearViews(){
@@ -115,16 +134,7 @@ export default class  MyPositionTabHold extends React.Component {
 				profitPercentage *= (rowData.isLong ? 1 : -1)
 				profitAmount = profitPercentage * rowData.invest
 
-				//Only use the fxdata for non-usd
-				
-                if (rowData.fxData && rowData.fxData.ask) {
-                    profitAmount = this.calculateProfitWithOutright(profitAmount, rowData.fxData)
-                }	else if(rowData.fxOutright && rowData.fxOutright.ask){
-                    profitAmount = this.calculateProfitWithOutright(profitAmount, rowData.fxOutright)
-                } else {
-                    profitAmount = rowData.upl
-                }
-				
+				profitAmount = rowData.upl
 			}
 			totalCount += profitAmount;
 
@@ -136,356 +146,54 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	loadOpenPositionInfo() {
-		var stockInfo = [{ id: '143179255888',
-            security: 
-            { lastOpen: '2018-02-05T23:00:00.405Z',
-            lastClose: '2018-02-05T22:00:00.252Z',
-            minInvestUSD: 50,
-            maxLeverage: 50,
-            smd: 0.001,
-            gsmd: 0.006,
-            ccy: 'USD',
-            isPriceDown: false,
-            assetClass: 'Commodities',
-            dcmCount: 1,
-            bid: 1343.9,
-            ask: 1344.7,
-            id: 34821,
-            symbol: 'GOLDS',
-            name: '黄金',
-            preClose: 1333.4,
-            open: 1339.6,
-            last: 1344.3,
-            isOpen: true,
-            status: 1 },
-            invest: 99.99999761866664,
-            isLong: true,
-            leverage: 15,
-            settlePrice: 1277.8,
-            quantity: 0.11738926,
-            upl: 77.59430086000035,
-            createAt: '2017-11-16T06:46:15.975Z',
-            stopPx: 1192.7,
-            stopOID: '143179255889',
-            financingSum: -11.875,
-            score: 0 },
-        { id: '142489407298',
-            security: 
-            { lastOpen: '2018-02-05T22:05:00.461Z',
-            lastClose: '2018-02-05T22:00:00.234Z',
-            minInvestUSD: 50,
-            maxLeverage: 100,
-            smd: 0.0005,
-            gsmd: 0.003,
-            ccy: 'USD',
-            isPriceDown: false,
-            assetClass: 'Currencies',
-            dcmCount: 5,
-            bid: 1.39607,
-            ask: 1.39637,
-            id: 34817,
-            symbol: 'GBPUSD',
-            name: '英镑/美元',
-            preClose: 1.40014,
-            open: 1.396,
-            last: 1.39622,
-            isOpen: true,
-            status: 1 },
-            invest: 99.99999963332,
-            isLong: true,
-            leverage: 100,
-            settlePrice: 1.29578,
-            quantity: 0.77173594,
-            upl: 773.973974226,
-            createAt: '2017-09-04T06:13:35.868Z',
-            stopPx: 1.28283,
-            stopOID: '142489407299',
-            financingSum: -138.2558,
-            score: 0 },
-        { id: '142431927313',
-            security: 
-            { lastOpen: '2018-02-05T23:00:00.417Z',
-            lastClose: '2018-02-05T22:00:00.261Z',
-            minInvestUSD: 50,
-            maxLeverage: 100,
-            smd: 0.0005,
-            gsmd: 0.003,
-            ccy: 'USD',
-            isPriceDown: false,
-            assetClass: 'Stock Indices',
-            dcmCount: 2,
-            bid: 2559,
-            ask: 2559.75,
-            id: 34857,
-            symbol: 'SPX',
-            name: '华尔街',
-            preClose: 2639.93,
-            open: 2618.68,
-            last: 2559.38,
-            isOpen: true,
-            status: 1 },
-            invest: 99.9999991781,
-            isLong: true,
-            leverage: 100,
-            settlePrice: 2433.95,
-            quantity: 0.41085478,
-            upl: 513.77390239,
-            createAt: '2017-08-29T06:25:23.342Z',
-            stopPx: 2409.62,
-            stopOID: '142431927314',
-            financingSum: -174.4583,
-            dividendSum: 65.3438,
-            score: 0 },
-        { id: '142431927304',
-            security: 
-            { lastOpen: '2018-02-05T23:00:00.417Z',
-            lastClose: '2018-02-05T22:00:00.261Z',
-            minInvestUSD: 50,
-            maxLeverage: 100,
-            smd: 0.0005,
-            gsmd: 0.003,
-            ccy: 'USD',
-            isPriceDown: false,
-            assetClass: 'Stock Indices',
-            dcmCount: 2,
-            bid: 2559,
-            ask: 2559.75,
-            id: 34857,
-            symbol: 'SPX',
-            name: '华尔街',
-            preClose: 2639.93,
-            open: 2618.68,
-            last: 2559.38,
-            isOpen: true,
-            status: 1 },
-            invest: 99.9999982236,
-            isLong: true,
-            leverage: 100,
-            settlePrice: 2434.2,
-            quantity: 0.41081258,
-            upl: 512.69409984,
-            createAt: '2017-08-29T06:25:17.42Z',
-            stopPx: 2409.86,
-            stopOID: '142431927305',
-            financingSum: -174.4398,
-            dividendSum: 65.3373,
-            score: 0 },
-        { id: '142241411873',
-            security: 
-            { lastOpen: '2018-02-05T23:00:00.405Z',
-            lastClose: '2018-02-05T22:00:00.252Z',
-            minInvestUSD: 50,
-            maxLeverage: 50,
-            smd: 0.001,
-            gsmd: 0.006,
-            ccy: 'USD',
-            isPriceDown: false,
-            assetClass: 'Commodities',
-            dcmCount: 1,
-            bid: 1343.9,
-            ask: 1344.7,
-            id: 34821,
-            symbol: 'GOLDS',
-            name: '黄金',
-            preClose: 1333.4,
-            open: 1339.6,
-            last: 1344.3,
-            isOpen: true,
-            status: 1 },
-            invest: 49.999997803333336,
-            isLong: true,
-            leverage: 30,
-            settlePrice: 1265.5,
-            quantity: 0.11853022,
-            upl: 92.92769248,
-            createAt: '2017-08-09T02:59:30.605Z',
-            stopPx: 1223.4,
-            stopOID: '142241411874',
-            financingSum: -27.3291,
-            score: 0 },
-        { id: '142070468047',
-            security: 
-            { lastOpen: '2018-02-06T01:30:00.221Z',
-            lastClose: '2018-02-05T07:59:00.513Z',
-            minInvestUSD: 50,
-            maxLeverage: 4,
-            smd: 0.0125,
-            gsmd: 0.25,
-            ccy: 'HKD',
-            isPriceDown: false,
-            assetClass: 'Single Stocks',
-            dcmCount: 2,
-            bid: 38.58,
-            ask: 38.87,
-            id: 38241,
-            symbol: '2601 HK',
-            name: 'China Pacific Insurance Group Co',
-            tag: 'HK',
-            preClose: 41.03,
-            open: 41.03,
-            last: 38.73,
-            isOpen: true,
-            status: 1 },
-            invest: 3902.999999976,
-            isLong: true,
-            leverage: 1,
-            settlePrice: 34.65,
-            quantity: 112.64069264,
-            upl: 56.32751267021249,
-            createAt: '2017-07-24T05:42:01.995Z',
-            stopPx: 0.000001,
-            stopOID: '142070468048',
-            takePx: 63.21954518508912,
-            takeOID: '143076673694',
-            financingSum: 0,
-            fxOutright: { bid: 7.781, ask: 7.859, id: 29528, symbol: 'USDHKD' },
-            score: 0 },
-        { id: '142070468010',
-            security: 
-            { lastOpen: '2018-02-06T01:30:00.237Z',
-            lastClose: '2018-02-05T07:59:00.518Z',
-            minInvestUSD: 50,
-            maxLeverage: 4,
-            smd: 0.0125,
-            gsmd: 0.25,
-            ccy: 'HKD',
-            isPriceDown: true,
-            assetClass: 'Single Stocks',
-            dcmCount: 4,
-            bid: 23.4295,
-            ask: 23.6207,
-            id: 38263,
-            symbol: '3333 HK',
-            name: 'Evergrande Real Estate Group',
-            tag: 'HK',
-            preClose: 25.3251,
-            open: 25.3251,
-            last: 23.5251,
-            isOpen: true,
-            status: 1 },
-            invest: 3902.99999995546,
-            isLong: true,
-            leverage: 1,
-            settlePrice: 17.5124,
-            quantity: 222.87065165,
-            upl: 167.80098395192962,
-            createAt: '2017-07-24T05:37:09.038Z',
-            stopPx: 0.000001,
-            stopOID: '142070468011',
-            financingSum: 0,
-            fxOutright: { bid: 7.781, ask: 7.859, id: 29528, symbol: 'USDHKD' },
-            score: 0 },
-        { id: '142070409327',
-            security: 
-            { lastOpen: '2018-02-06T01:30:00.237Z',
-            lastClose: '2018-02-05T07:59:00.518Z',
-            minInvestUSD: 50,
-            maxLeverage: 4,
-            smd: 0.0125,
-            gsmd: 0.25,
-            ccy: 'HKD',
-            isPriceDown: true,
-            assetClass: 'Single Stocks',
-            dcmCount: 4,
-            bid: 23.4295,
-            ask: 23.6207,
-            id: 38263,
-            symbol: '3333 HK',
-            name: 'Evergrande Real Estate Group',
-            tag: 'HK',
-            preClose: 25.3251,
-            open: 25.3251,
-            last: 23.5251,
-            isOpen: true,
-            status: 1 },
-            invest: 3902.999999871637,
-            isLong: true,
-            leverage: 1,
-            settlePrice: 17.4923,
-            quantity: 223.12674719,
-            upl: 168.56446410694338,
-            createAt: '2017-07-24T05:28:15.668Z',
-            stopPx: 0.000001,
-            stopOID: '142070409328',
-            financingSum: 0,
-            fxOutright: { bid: 7.781, ask: 7.859, id: 29528, symbol: 'USDHKD' },
-            score: 0 },
-        { id: '142070387950',
-            security: 
-            { lastOpen: '2018-02-06T01:30:00.221Z',
-            lastClose: '2018-02-05T07:59:00.513Z',
-            minInvestUSD: 50,
-            maxLeverage: 4,
-            smd: 0.0125,
-            gsmd: 0.25,
-            ccy: 'HKD',
-            isPriceDown: false,
-            assetClass: 'Single Stocks',
-            dcmCount: 2,
-            bid: 38.58,
-            ask: 38.87,
-            id: 38241,
-            symbol: '2601 HK',
-            name: 'China Pacific Insurance Group Co',
-            tag: 'HK',
-            preClose: 41.03,
-            open: 41.03,
-            last: 38.73,
-            isOpen: true,
-            status: 1 },
-            invest: 3902.99999996775,
-            isLong: true,
-            leverage: 2,
-            settlePrice: 34.55,
-            quantity: 225.93342981,
-            upl: 115.85592596186538,
-            createAt: '2017-07-24T05:17:03.997Z',
-            stopPx: 17.28,
-            stopOID: '142070387951',
-            financingSum: -13.3639,
-            fxOutright: { bid: 7.781, ask: 7.859, id: 29528, symbol: 'USDHKD' },
-            score: 0 },
-        { id: '140369135160',
-            security: 
-            { lastOpen: '2018-02-05T23:00:00.444Z',
-            lastClose: '2018-02-05T22:00:00.275Z',
-            minInvestUSD: 50,
-            maxLeverage: 100,
-            smd: 0.0005,
-            gsmd: 0.003,
-            ccy: 'EUR',
-            isPriceDown: false,
-            assetClass: 'Stock Indices',
-            dcmCount: 1,
-            bid: 11851.2,
-            ask: 11853.2,
-            id: 34820,
-            symbol: 'DAX',
-            name: 'Germany 30 Rolling (1 EUR Contract)',
-            preClose: 12691.5,
-            open: 12174.5,
-            last: 11852.2,
-            isOpen: true,
-            status: 1 },
-            invest: 92.83758039713,
-            isLong: true,
-            leverage: 100,
-            settlePrice: 11044.1,
-            quantity: 0.84060793,
-            upl: 835.4558532437172,
-            createAt: '2016-12-08T02:57:42.505Z',
-            stopPx: 10933.7,
-            stopOID: '140369135161',
-            financingSum: -325.0635,
-            fxOutright: { bid: 1.23141, ask: 1.24382, id: 10876, symbol: 'EURUSD' },
-            score: 0 }
-		];
-		
-		stockInfo = stockInfo.concat(stockInfo)
-        
-        this.setState({
-            stockInfoRowData: stockInfo,
-        });
+		if(LogicData.isLoggedIn()){
+			var userData = LogicData.getUserData();
+
+			NetworkModule.fetchTHUrl(
+				NetConstants.CFD_API.OPEN_POSITION_LIST,
+				{
+					method: 'GET',
+					headers: {
+						'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+					showLoading: true,
+				}, (responseJson) => {
+	
+					this.setState({
+						stockInfoRowData: responseJson,
+					});
+
+					var interestedStockIds = [];
+					for (var i = 0; i < responseJson.length; i++) {
+						var stockId = responseJson[i].security.id
+						if (interestedStockIds.indexOf(stockId) < 0) {
+							interestedStockIds.push(stockId)
+						}
+					};
+
+					WebSocketModule.registerInterestedStocks(interestedStockIds.join(','))
+					WebSocketModule.registerCallbacks(
+					(realtimeStockInfo) => {
+						this.handleStockInfo(realtimeStockInfo)
+					},
+					(alertInfo) => {
+						this.loadOpenPositionInfo()
+					}
+				)
+				},
+				(exception) => {
+					alert(exception.errorMessage)
+				}
+			);
+		}
+	}
+
+	refresh(){
+		var state = this.getInitialState();
+		this.setState(state, ()=>{
+			this.loadOpenPositionInfo();
+		});
 	}
 
 	handleStockInfo(realtimeStockInfo) {
@@ -505,17 +213,7 @@ export default class  MyPositionTabHold extends React.Component {
 					if(this.stopProfitLossStockId == this.state.stockInfoRowData[i].security.id ){
 						this.updateStopProfitLossMinMaxValue(this.state.stockInfoRowData[i])
 					}
-				}
-				if (this.state.stockInfoRowData[i].fxData) {
-					var fxData = this.state.stockInfoRowData[i].fxData
-					if (fxData.id == realtimeStockInfo[j].id &&
-								fxData.last !== realtimeStockInfo[j].last) {
-						fxData.last = realtimeStockInfo[j].last
-						fxData.ask = realtimeStockInfo[j].ask// * 1.005	//Server has already calculated with 0.005, no need to calculate it again!
-						fxData.bid = realtimeStockInfo[j].bid// * 0.995
-						hasUpdate = true;
-					}
-				}
+				}				
 			};
 		};
 
@@ -555,7 +253,7 @@ export default class  MyPositionTabHold extends React.Component {
 			};
 			this.setState(state)
 		} else {
-			isWaiting = false
+			this.isWaiting = false
 			if (this.state.selectedRow >=0) {
 				newData[this.state.selectedRow].hasSelected = false
 			}
@@ -565,10 +263,10 @@ export default class  MyPositionTabHold extends React.Component {
 			// var stopLoss = rowData.stopPx !== undefined
 			var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
 
-			stopProfitPercent = DEFAULT_PERCENT
-			stopLossPercent = MAX_LOSS_PERCENT
-			stopProfitUpdated = false
-			stopLossUpdated = false
+			this.stopProfitPercent = DEFAULT_PERCENT
+			this.stopLossPercent = MAX_LOSS_PERCENT
+			this.stopProfitUpdated = false
+			this.stopLossUpdated = false
 
 			state = {
 				selectedRow: rowID,
@@ -580,7 +278,6 @@ export default class  MyPositionTabHold extends React.Component {
 				profitLossConfirmed: false,
 			};
 			this.setState(state, ()=>{
-				console.log("scrollToIndex: " + rowID)
 				this.scrollToCurrentSelectedItem(rowID, 0);
 			})		
 		}
@@ -600,9 +297,8 @@ export default class  MyPositionTabHold extends React.Component {
 
 	subItemPress(rowData) {
 		var detalY = 0
-
 		var state = {
-			selectedSubItem: SUB_ACTION_STOP_LOSS_PROFIT,
+			selectedSubItem: this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? SUB_ACTION_NONE : SUB_ACTION_STOP_LOSS_PROFIT,
 		};
 		this.setState(state, ()=>{
 			console.log("this.state.selectedRow " + this.state.selectedRow)
@@ -623,10 +319,10 @@ export default class  MyPositionTabHold extends React.Component {
 			return
 		}
 
-		if (isWaiting) {
+		if (this.isWaiting) {
 			return
 		}
-		isWaiting = true
+		this.isWaiting = true
 
 		var userData = LogicData.getUserData();  
 		
@@ -668,10 +364,10 @@ export default class  MyPositionTabHold extends React.Component {
 		var state = {};
 		if (type===1) {
 			state.stopProfitSwitchIsOn = value;
-			stopProfitUpdated = true
+			this.stopProfitUpdated = true
 		} else{
 			state.stopLossSwitchIsOn = value;
-			stopLossUpdated = true
+			this.stopLossUpdated = true
 		};
 
 		state.profitLossUpdated = true;
@@ -681,54 +377,113 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	switchConfrim(rowData) {
-		//alert("switch confirm")
-
-		var result = {
-			stopPx: 10,
-			takeOID:1,
-			takePx: -2,
-		}
+		var currentStopProfitUpdated = this.stopProfitUpdated;
+		var currentStopLossUpdated = this.stopLossUpdated;
+		var currentStopLossPercent = this.stopLossPercent;
+		var currentStopProfitPercent = this.stopProfitPercent;
+		var currentStopProfitSwitchIsOn = this.state.stopProfitSwitchIsOn;
+		var currentStopLossSwitchIsOn = this.state.stopLossSwitchIsOn;
 
 		var lastSelectedRow = this.state.selectedRow;
-		var newState = {
-			profitLossUpdated: false,
-			profitLossConfirmed: true,
-		};
+		
+		this.sendStopProfitLossRequest(rowData)
+		.then((info)=>{		
+			var newState = {
+				profitLossUpdated: false,
+				profitLossConfirmed: true,
+			};
 
-
-		if(result){
-			var tempStockInfo = this.state.stockInfoRowData;
-			if ('stopPx' in result){
-				tempStockInfo[lastSelectedRow].stopPx = result.stopPx;
-				console.log("update stopPx: " + result.stopPx)
+			if(info){
+				var tempStockInfo = this.state.stockInfoRowData;
+				if ('stopPx' in info){
+					tempStockInfo[lastSelectedRow].stopPx = info.stopPx;
+				}
+				if ('takePx' in info){
+					tempStockInfo[lastSelectedRow].takePx = info.takePx;
+				}
+				//tempStockInfo[lastSelectedRow].isSettingProfitLoss = false;
+				newState.stockInfoRowData = tempStockInfo;
 			}
-			if ('takeOID' in result){
-				tempStockInfo[lastSelectedRow].takeOID = result.takeOID;
-				console.log("update takeOID: " + result.takeOID)
-			}
-			if ('takePx' in result){
-				tempStockInfo[lastSelectedRow].takePx = result.takePx;
-				console.log("update takePx: " + result.takePx)
-			}
-			//tempStockInfo[lastSelectedRow].isSettingProfitLoss = false;
-			newState.stockInfoRowData = tempStockInfo;
-		}
-		console.log("stop profit/loss finsished. Update state")
-		this.setState(newState);
+			console.log("stop profit/loss finsished. Update state")
+			this.setState(newState);
+		})
+		.catch((error)=>{
+			console.log("Met error! " + error);
+			//var tempStockInfo = this.state.stockInfoRowData;
+			var newState = {
+				profitLossUpdated: false,
+				profitLossConfirmed: true,
+			};
+			this.setState(newState);
+		});
 	}
 
-	sendStopLossRequest(rowData, lastSelectedRow, stopLossSwitchIsOn, stopLossPercent, stopLossUpdated){
-		alert("sendStopLossRequest")
-	}
+	sendStopProfitLossRequest(rowData){
+		
+		var lastSelectedRow = this.state.selectedRow;
+		var stopLossSwitchIsOn = this.stopLossSwitchIsOn;
+		var stopLossPercent = this.stopLossPercent;
+		var stopLossUpdated = this.stopLossUpdated;
+		var stopProfitPercent = this.stopProfitPercent;
+		var stopProfitUpdated = this.stopProfitUpdated;
 
-	sendStopProfitRequest(rowData, lastSelectedRow, resolveData, stopProfitSwitchIsOn, stopProfitPercent, stopProfitUpdated){
-		alert("sendStopProfitRequest")
+		return new Promise((resolve, reject)=>{
+			try{
+				if (stopLossSwitchIsOn && stopLossPercent < MAX_LOSS_PERCENT) {
+					Alert.alert('', '暂时超出' + MAX_LOSS_PERCENT + '，无法设置');
+					reject();
+					return
+				}
+
+				var body = {
+					posId: rowData.id,
+				};
+
+				if(this.state.stopLossSwitchIsOn){
+					var stopLossPrice = this.percentToPriceWithRow(stopLossPercent, rowData, TYPE_STOP_LOSS);
+					body.stopPx = stopLossPrice;
+				}
+				if(this.state.stopProfitSwitchIsOn){
+					var stopProfitPrice = this.percentToPriceWithRow(stopProfitPercent, rowData, TYPE_STOP_PROFIT);
+					body.takePx = stopProfitPrice;
+				}
+
+				var url = NetConstants.CFD_API.STOP_PROFIT_LOSS_API
+				var userData = LogicData.getUserData()
+				NetworkModule.fetchTHUrl(
+					url,
+					{
+						method: 'PUT',
+						headers: {
+							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+							'Content-Type': 'application/json; charset=utf-8',
+						},
+						body: JSON.stringify(body),
+						showLoading: true,
+					},
+					(responseJson) => {
+						console.log("set stop loss returned");
+						this.stopLossUpdated = false							
+
+						var stockInfo = {};
+						stockInfo.stopPx = responseJson.stopPx;
+						stockInfo.takePx = responseJson.takePx;
+
+						resolve(stockInfo);
+					},
+					(result) => {
+						Alert.alert('', result.errorMessage);
+						resolve(null);
+					}
+				);				
+			}catch(error){
+				console.log("stop loss has ERROR:" + error);
+			}
+		});
 	}
 
 	getLastPrice(rowData) {
-		var lastPrice = rowData.isLong ? rowData.security.bid : rowData.security.ask
-		// console.log(rowData.security.bid, rowData.security.ask)
-		return lastPrice === undefined ? rowData.security.last : lastPrice
+		return rowData.security.last 
 	}
 
 	renderHeaderBar() {
@@ -816,20 +571,20 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	setSliderValue(type, value, rowData) {
-		// console.log('Rambo:stopLossPercent' + value)
-		if (type === 1) {
-			stopProfitPercent = value
-			stopProfitUpdated = true
+		// console.log('Rambo:this.stopLossPercent' + value)
+		if (type === TYPE_STOP_PROFIT) {
+			this.stopProfitPercent = value
+			this.stopProfitUpdated = true
 		}
 		else {
-			stopLossPercent = value
-			stopLossUpdated = true
+			this.stopLossPercent = value
+			this.stopLossUpdated = true
 		}
 		this.useNativePropsToUpdate(type, value, rowData)
 	}
 
 	percentToPrice(percent, basePrice, leverage, type, isLong) {
-		//if (type === 1) {
+		//if (type === TYPE_STOP_PROFIT) {
 			// 止盈
 		return isLong ? basePrice * (1+percent/100/leverage) : basePrice * (1-percent/100/leverage)
 		// }
@@ -845,12 +600,12 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	priceToPercent(price, basePrice, leverage, type, isLong) {
-		//if (type === 1) {
+		//if (type === TYPE_STOP_PROFIT) {
 			return (price-basePrice)/basePrice*100*leverage * (isLong?1:-1)
-		//}
-		//else {
-		//	return (basePrice-price)/basePrice*100*leverage * (isLong?1:-1)
-		//}
+		// }
+		// else {
+		// 	return (basePrice-price)/basePrice*100*leverage * (isLong?1:-1)
+		// }
 	}
 
 	priceToPercentWithRow(price, rowData, type) {
@@ -858,33 +613,9 @@ export default class  MyPositionTabHold extends React.Component {
 		return this.priceToPercent(price, rowData.settlePrice, leverage, type, rowData.isLong)
 	}
 
-	calculateProfitWithOutright(profitAmount, fxData) {
-		if (profitAmount > 0) {//want to sell XXX and buy USD
-			var fxPrice
-			//if (fxData.symbol.substring(UIConstants.USD_CURRENCY.length) != UIConstants.USD_CURRENCY) {//USD/XXX
-				fxPrice = 1 / fxData.ask
-			// } else {// XXX/USD
-			// 	fxPrice = fxData.bid
-			// }
-			profitAmount *= fxPrice
-		} else {// Want to buy XXX and sell USD
-			var fxPrice
-			//if (fxData.symbol.substring(UIConstants.USD_CURRENCY.length) != UIConstants.USD_CURRENCY) { // USD/XXX
-				fxPrice = 1 / fxData.bid
-			// } else { // XXX/USD
-			// 	fxPrice = fxData.ask
-			// }
-			console.log("fxData" + JSON.stringify(fxData))
-			profitAmount *= fxPrice
-		}
-		return profitAmount
-	}
-
 	renderSlider(rowData, type, startPercent, endPercent, percent) {
-		//1, stop profit
-		//2, stop loss
 		var disabled = false
-		if (type === 2) {
+		if (type === TYPE_STOP_PROFIT) {
 			if (endPercent < MAX_LOSS_PERCENT) {
 				// max visible percent should be not less than MAX_LOSS_PERCENT(-90)
 				endPercent = MAX_LOSS_PERCENT
@@ -916,11 +647,11 @@ export default class  MyPositionTabHold extends React.Component {
 
 	useNativePropsToUpdate(type, value, rowData){
 		var price = this.percentToPriceWithRow(value, rowData, type)
-		if (type === 1){
+		if (type === TYPE_STOP_PROFIT){
 			this._text1.setNativeProps({text: value.toFixed(2)+'%'});
 			this._text3.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
 		}
-		else if (type === 2) {
+		else if (type === TYPE_STOP_LOSS) {
 			var props = {text: value.toFixed(2)+'%'};
 			if(Platform.OS === "ios"){
 				props.color = value >= 0
@@ -935,80 +666,77 @@ export default class  MyPositionTabHold extends React.Component {
 
 	bindRef(type, component, mode){
 		if (mode === 1) {
-			if (type === 1){
+			if (type === TYPE_STOP_PROFIT){
 				this._text1 = component
 			}
-			else if (type === 2) {
+			else if (type === TYPE_STOP_LOSS) {
 				this._text2 = component
 			}
 		}
 		else {
-			if (type === 1){
+			if (type === TYPE_STOP_PROFIT){
 				this._text3 = component
 			}
-			else if (type === 2) {
+			else if (type === TYPE_STOP_LOSS) {
 				this._text4 = component
 			}
 		}
 	}
 
 	bindSliderRef(type, component){
-		if (type === 1){
+		if (type === TYPE_STOP_PROFIT){
 			this._slider1 = component
 		}
-		else if (type === 2) {
+		else if (type === TYPE_STOP_LOSS) {
 			this._slider2 = component
 		}
 	}
 
 	renderStopProfitLoss(rowData, type) {
-
-		var titleText = type===1 ?  "止盈":"止损"
-		var switchIsOn = type===1 ? this.state.stopProfitSwitchIsOn : this.state.stopLossSwitchIsOn
+		var titleText = type === TYPE_STOP_PROFIT ?  "止盈":"止损"
+		var switchIsOn = type === TYPE_STOP_PROFIT ? this.state.stopProfitSwitchIsOn : this.state.stopLossSwitchIsOn
 		var price = rowData.settlePrice
-		var percent = type===1 ? stopProfitPercent : stopLossPercent
+		var percent = type === TYPE_STOP_PROFIT ? this.stopProfitPercent : this.stopLossPercent
 		var startPercent = 0
 		var endPercent = MAX_LOSS_PERCENT
 
-		if (type === 1) {
+		if (type === TYPE_STOP_PROFIT) {
 			// stop profit
 			startPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
-			// use gsmd to make sure this order is guaranteed.
-			startPercent += rowData.security.smd*100*rowData.leverage
 
-			if (startPercent < 0)
-				startPercent = 0
+			// if (startPercent < 0)
+			// 	startPercent = 0
 			endPercent = startPercent + 100
 			if (percent === DEFAULT_PERCENT) {
 				percent = rowData.takePx === undefined ? startPercent
 					: this.priceToPercentWithRow(rowData.takePx, rowData, type)
-				stopProfitPercent = percent
+				this.stopProfitPercent = percent
 			}
 		} else{
 			// stop loss
 			startPercent = MAX_LOSS_PERCENT
 			endPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
 			// use smd to make sure this order is guaranteed.
-			endPercent -= rowData.security.gsmd*100*rowData.leverage
+			//endPercent -= rowData.security.gsmd*100*rowData.leverage
 
 			if(endPercent - startPercent > 100){
 				startPercent = endPercent - 100
 			}
 
-			if (!stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
+			if (!this.stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
 
-				percent = this.priceToPercentWithRow(rowData.stopPx, rowData, type)
+				percent = rowData.takePx === undefined ? endPercent : this.priceToPercentWithRow(rowData.stopPx, rowData, type)
 				if (percent < startPercent) {
 					percent = startPercent
 				}
-				stopLossPercent = percent
+				this.stopLossPercent = percent
 			}
 		};
 
-		var color = type===1 ? ColorConstants.STOCK_RISE_RED : ( percent >= 0 ? ColorConstants.STOCK_RISE_RED : ColorConstants.STOCK_DOWN_GREEN);
+		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE_RED : ColorConstants.STOCK_DOWN_GREEN);
 
 		var disabled = false
-		if (type === 2) {
+		if (type === TYPE_STOP_LOSS) {
 			if (startPercent < MAX_LOSS_PERCENT) {
 				disabled = true
 			}
@@ -1036,7 +764,6 @@ export default class  MyPositionTabHold extends React.Component {
 							<TouchableOpacity
 								style={{flex:3, alignSelf:'stretch', flexDirection:'column', alignItems:'center', justifyContent:'center'}}
 								onPress={()=>{
-									//this.setState({isFocused: true});
 									this.onChangeStopProfitValuePressed(
 										rowData,
 										type,
@@ -1101,11 +828,10 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	getStopProfitLossMinMaxValue(rowData, type){
-		var percent = type===1 ? stopProfitPercent : stopLossPercent
+		var percent = type===1 ? this.stopProfitPercent : this.stopLossPercent
 		var startPercent = 0
 		var endPercent = MAX_LOSS_PERCENT
-
-		if (type === 1) {
+		if (type === TYPE_STOP_PROFIT) {
 			// stop profit
 			startPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
 			// use gsmd to make sure this order is guaranteed.
@@ -1117,26 +843,24 @@ export default class  MyPositionTabHold extends React.Component {
 			if (percent === DEFAULT_PERCENT) {
 				percent = rowData.takePx === undefined ? startPercent
 					: this.priceToPercentWithRow(rowData.takePx, rowData, type)
-				stopProfitPercent = percent
+				this.stopProfitPercent = percent
 			}
 		} else{
 			// stop loss
 			startPercent = MAX_LOSS_PERCENT
 			endPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
 			// use smd to make sure this order is guaranteed.
-			endPercent -= rowData.security.gsmd*100*rowData.leverage
-
 			if(endPercent - startPercent > 100){
 				startPercent = endPercent - 100
 			}
 
-			if (!stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
-
-				percent = this.priceToPercentWithRow(rowData.stopPx, rowData, type)
+			if (!this.stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
+				percent = rowData.stopPx === undefined ? endPercent
+					: this.priceToPercentWithRow(rowData.stopPx, rowData, type)
 				if (percent < startPercent) {
 					percent = startPercent
 				}
-				stopLossPercent = percent
+				this.stopLossPercent = percent
 			}
 		};
 
@@ -1156,10 +880,10 @@ export default class  MyPositionTabHold extends React.Component {
 		var minValue = values.minValue;
 		var maxValue = values.maxValue;
 
-		if(type === 1){
+		if(type === TYPE_STOP_PROFIT){
 			this.stopProfitMinValue = minValue
 			this.stopProfitMaxValue = maxValue
-		}else if (type === 2){
+		}else if (type === TYPE_STOP_LOSS){
 			this.stopLossMinValue = minValue
 			this.stopLossMaxValue = maxValue
 		}
@@ -1174,20 +898,20 @@ export default class  MyPositionTabHold extends React.Component {
 
         var minValue, maxValue = 0;
 
-        if(type === 1){
+        if(type === TYPE_STOP_PROFIT){
             previousMinValue = this.stopProfitMinValue;
             previousMaxValue = this.stopProfitMaxValue;
-        }else if (type === 2){
+        }else if (type === TYPE_STOP_LOSS){
             previousMinValue = this.stopLossMinValue;
             previousMaxValue = this.stopLossMaxValue;
         }
 
         console.log("updateStopProfitLossMinMaxValue 3")
         this.updateCurrentStopLossProfitMinMaxValue(rowData, type);
-        if(type === 1){
+        if(type === TYPE_STOP_PROFIT){
             minValue = this.stopProfitMinValue;
             maxValue = this.stopProfitMaxValue;
-        }else if (type === 2){
+        }else if (type === TYPE_STOP_LOSS){
             minValue = this.stopLossMinValue;
             maxValue = this.stopLossMaxValue;
         }
@@ -1250,15 +974,13 @@ export default class  MyPositionTabHold extends React.Component {
 
 		return (
 			<View style={{height:thisPartHeight}}>
-				{this.renderStopProfitLoss(rowData, 1)}
-				{this.renderStopProfitLoss(rowData, 2)}
+				{this.renderStopProfitLoss(rowData, TYPE_STOP_PROFIT)}
+				{this.renderStopProfitLoss(rowData, TYPE_STOP_LOSS)}
 			</View>
 		);
 	}
 
 	renderOKView(rowData) {
-		var showNetIncome = false
-
 		var profitAmount = rowData.upl
 		if (rowData.settlePrice !== 0) {
 			var lastPrice = this.getLastPrice(rowData)
@@ -1295,8 +1017,6 @@ export default class  MyPositionTabHold extends React.Component {
 		return(
 			<View>
 				<View style={separatorStyle}/>
-				{showNetIncome ? <Text style={styles.netIncomeText}>净收益:9.26</Text> : null}
-
 				<TouchableOpacity
 					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
 					style={buttonStyle}
@@ -1417,21 +1137,6 @@ export default class  MyPositionTabHold extends React.Component {
 			index: index};
 	}
 
-	onRefresh(){
-		this.setState({
-			isRefreshing: true,
-		}, ()=>{
-			setTimeout(()=>{
-				var stockInfo = this.state.stockInfoRowData.concat(this.state.stockInfoRowData)
-				this.setState({
-					isRefreshing: false,
-					stockInfoRowData: stockInfo,
-				})
-			}, 1000);
-		})
-		
-	}
-
 	renderItem(data){
 		var rowData = data.item;
 		var rowID = data.index;
@@ -1479,13 +1184,20 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderLoadingText() {
-		var strZWCCJL = "暂无持仓记录"
 		if(this.state.stockInfoRowData.length === 0) {
-			return (
-				<View style={styles.loadingTextView}>
-					<Text style={styles.loadingText}>{strZWCCJL}</Text>
-				</View>
+			if(this.state.isDataLoading){
+				return (
+					<View style={styles.loadingTextView}>
+						<Text style={styles.loadingText}>数据读取中，请稍等</Text>
+					</View>
 				)
+			}else{
+				return (
+					<View style={styles.loadingTextView}>
+						<Text style={styles.loadingText}>暂无持仓记录</Text>
+					</View>
+					)
+			}
 		}
 	}
 
@@ -1510,7 +1222,7 @@ export default class  MyPositionTabHold extends React.Component {
 						ref={(ref) => { this.flatListRef = ref; }}
 						data={this.state.stockInfoRowData}
 						refreshing={this.state.isRefreshing}
-						onRefresh={()=>this.onRefresh()}
+						onRefresh={()=>this.refresh()}
 						getItemLayout={(data, index) => this.getItemLayout(data, index)}
 						keyExtractor={(item, index) => index}
 						renderItem={(data)=>this.renderItem(data)}
