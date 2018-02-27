@@ -45,6 +45,10 @@ namespace YJY_SVR.Controllers
             if (prodDef.QuoteType== enmQuoteType.Closed || prodDef.QuoteType== enmQuoteType.Inactive)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, __(TransKey.PROD_IS_CLOSED)));
 
+            if (form.leverage > prodDef.MaxLeverage)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "exceeded max leverage"));
+
             var quote = cache.Quotes.FirstOrDefault(o => o.Id == form.securityId);
 
             var positionService = new PositionService();
