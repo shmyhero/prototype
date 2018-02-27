@@ -32,6 +32,9 @@ namespace YJY_SVR.Controllers
         [BasicAuth]
         public PositionDTO NewPosition(NewPositionFormDTO form)
         {
+            if(form.leverage < 1)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid leverage"));
+
             var user = GetUser();
             if(user.Balance<form.invest)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,__(TransKey.NOT_ENOUGH_BALANCE)));
@@ -171,11 +174,11 @@ namespace YJY_SVR.Controllers
             //var quote = WebCache.Instance.Quotes.FirstOrDefault(o => o.Id == position.SecurityId);
             //var lastPrice = Quotes.GetLastPrice(quote);
 
-            if (position.StopPx != null)
+            if (form.stopPx != null)
             {
                 if (Trades.CalculatePL(position, form.stopPx.Value) + position.Invest <= 0)
                     throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
-                        "stop <= 0%"));
+                        "stop cannot be <= 0%"));
 
                 //if(position.Side.Value && form.stopPx>=lastPrice || !position.Side.Value && form.stopPx<=lastPrice)
                 //    throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
