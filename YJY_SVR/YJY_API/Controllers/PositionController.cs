@@ -106,8 +106,8 @@ namespace YJY_SVR.Controllers
                 if (quote != null)
                 {
                     security.last = Quotes.GetLastPrice(quote);
-                    security.ask = quote.Ask;
-                    security.bid = quote.Bid;
+                    //security.ask = quote.Ask;
+                    //security.bid = quote.Bid;
                 }
 
                 var posDTO = Mapper.Map<PositionDTO>(p);

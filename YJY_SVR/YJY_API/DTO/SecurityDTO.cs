@@ -40,8 +40,8 @@ namespace YJY_SVR.DTO
     {
         public int? dcmCount { get; set; }
 
-        public decimal? bid { get; set; }
-        public decimal? ask { get; set; }
+        //public decimal? bid { get; set; }
+        //public decimal? ask { get; set; }
     }
 
     public class SecurityDetailDTO : SecurityDTO

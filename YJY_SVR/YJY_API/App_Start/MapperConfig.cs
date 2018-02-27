@@ -26,7 +26,7 @@ namespace YJY_API
                     .ForMember(dest => dest.tag, opt => opt.MapFrom(src => Products.GetStockTag(src.Symbol)));
                 cfg.CreateMap<ProdDef, SecurityDetailDTO>()
                     .ForMember(dest => dest.last, opt => opt.MapFrom(src => Quotes.GetLastPrice(src)))
-                    .ForMember(dest => dest.ask, opt => opt.MapFrom(src => src.Offer))
+                    //.ForMember(dest => dest.ask, opt => opt.MapFrom(src => src.Offer))
                     .ForMember(dest => dest.name,
                         opt => opt.MapFrom(src => Translator.GetProductNameByThreadCulture(src.Name)))
                     .ForMember(dest => dest.open, opt => opt.MapFrom(src => Quotes.GetOpenPrice(src)))

@@ -148,8 +148,8 @@ namespace YJY_SVR.Controllers
             var quote = cache.Quotes.FirstOrDefault(o => o.Id == securityId);
 
             result.last = Quotes.GetLastPrice(quote);
-            result.ask = quote.Ask;
-            result.bid = quote.Bid;
+            //result.ask = quote.Ask;
+            //result.bid = quote.Bid;
            
             //lev to int
             result.maxLeverage = Math.Floor(prodDef.MaxLeverage);
