@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Web.Http;
+using System.Web.Http.Cors;
 using Autofac;
 using Autofac.Integration.WebApi;
 using AutoMapper;
@@ -17,6 +18,10 @@ namespace YJY_API
     {
         public static void Register(HttpConfiguration config)
         {
+            //enable CORS
+            var cors = new EnableCorsAttribute("*", "*", "GET,POST,DELETE,PUT");
+            config.EnableCors(cors);
+
             // Web API configuration and services
 
             // Web API routes
