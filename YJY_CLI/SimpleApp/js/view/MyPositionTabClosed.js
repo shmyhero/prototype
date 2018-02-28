@@ -17,6 +17,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import LogicData from "../LogicData";
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
@@ -24,10 +25,8 @@ var {height, width} = Dimensions.get('window');
 
 var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
-// var NetworkErrorIndicator = require('./NetworkErrorIndicator');
-// var MainPage = require('./MainPage')
-// var WaitingRing = require('./component/WaitingRing');
-// var {EventCenter, EventConst} = require('../EventCenter');
+var NetConstants = require('../NetConstants');
+var NetworkModule = require('../module/NetworkModule');
 
 var extendHeight = 204
 var rowHeight = 56
@@ -128,252 +127,64 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	loadClosedPositionInfo() {
 		//TODO: real data
-		var stockInfo = [ { id: '141276020020',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'GBP',
-		   isPriceDown: false,
-		   dcmCount: 1,
-		   id: 34854,
-		   symbol: 'UKX',
-		   name: 'UK 100 Rolling' },
-		invest: 77.90612401152,
-		isLong: true,
-		leverage: 100,
-		openPrice: 7148.8,
-		closePrice: 7077.4,
-		pl: -109.2950384,
-		financingSum: -255.3176,
-		dividendSum: 330.5088,
-		hasCard: false,
-		openAt: '2017-04-19T10:02:45.02',
-		closeAt: '2018-02-05T21:10:53.863' },
-	  { id: '143647788227',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 34857,
-		   symbol: 'SPX',
-		   name: 'US 500 Rolling' },
-		invest: 49.99999879125,
-		isLong: true,
-		leverage: 100,
-		openPrice: 2750.25,
-		closePrice: 2722.75,
-		pl: -50,
-		financingSum: -13.3646,
-		dividendSum: 2.9052,
-		hasCard: false,
-		openAt: '2018-01-10T02:22:24.09',
-		closeAt: '2018-02-05T18:09:18.783' },
-	  { id: '143179490158',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 1,
-		   id: 34821,
-		   symbol: 'GOLDS',
-		   name: 'Gold' },
-		invest: 72933.99995175,
-		isLong: true,
-		leverage: 1,
-		openPrice: 1277.5,
-		closePrice: 1244.3,
-		pl: -1895.43,
-		financingSum: -0.18,
-		hasCard: false,
-		openAt: '2017-11-16T07:49:42.813',
-		closeAt: '2017-12-12T03:28:17.59' },
-	  { id: '143179255908',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 3,
-		   id: 34847,
-		   symbol: 'SILV',
-		   name: 'Silver' },
-		invest: 73265.99996232,
-		isLong: true,
-		leverage: 1,
-		openPrice: 17.028,
-		closePrice: 16.951,
-		pl: -331.31,
-		hasCard: false,
-		openAt: '2017-11-16T06:51:10.777',
-		closeAt: '2017-11-16T07:03:06.44' },
-	  { id: '143063920735',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 38289,
-		   symbol: 'XBTUSD',
-		   name: 'Bitcoin/USD' },
-		invest: 30105.930056332,
-		isLong: true,
-		leverage: 3,
-		openPrice: 7254.78,
-		closePrice: 5836.04,
-		pl: -17662.49,
-		financingSum: -475.4723,
-		hasCard: false,
-		openAt: '2017-11-03T06:40:02.533',
-		closeAt: '2017-11-13T05:07:36.417' },
-	  { id: '142489407317',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'HKD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 34812,
-		   symbol: '27 HK',
-		   name: 'Galaxy Entertainment Group L' },
-		invest: 1564.99999990612,
-		isLong: true,
-		leverage: 5,
-		openPrice: 51.43,
-		closePrice: 54.84,
-		pl: 66.11274072,
-		financingSum: -6.7036,
-		hasCard: false,
-		openAt: '2017-09-04T06:17:13.193',
-		closeAt: '2017-11-07T01:30:49.25' } ];
-		
-		this.setState({
-			stockInfoRowData: stockInfo,
-		})
+		if(LogicData.isLoggedIn()){
+			var userData = LogicData.getUserData();
+
+			this.setState({
+				isDataLoading: true,
+			}, ()=>{
+				NetworkModule.fetchTHUrl(
+					NetConstants.CFD_API.CLOSED_POSITION_LIST,
+					{
+						method: 'GET',
+						headers: {
+							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+							'Content-Type': 'application/json; charset=utf-8',
+						},
+						showLoading: true,
+					}, (responseJson) => {
+						this.setState({
+							stockInfoRowData: responseJson,
+						})
+					},
+					(exception) => {
+						alert(exception.errorMessage)
+					}
+				);
+			});
+		}
+	}
+	
+	refresh(){
+		this.loadClosedPositionInfo()
 	}
 
 	loadClosedPositionInfoWithLastDateTime(dateTime, count) {
-		//TODO: real data
-		var responseJson = [ { id: '141276020020',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'GBP',
-		   isPriceDown: false,
-		   dcmCount: 1,
-		   id: 34854,
-		   symbol: 'UKX',
-		   name: 'UK 100 Rolling' },
-		invest: 77.90612401152,
-		isLong: true,
-		leverage: 100,
-		openPrice: 7148.8,
-		closePrice: 7077.4,
-		pl: -109.2950384,
-		financingSum: -255.3176,
-		dividendSum: 330.5088,
-		hasCard: false,
-		openAt: '2017-04-19T10:02:45.02',
-		closeAt: '2018-02-05T21:10:53.863' },
-	  { id: '143647788227',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 34857,
-		   symbol: 'SPX',
-		   name: 'US 500 Rolling' },
-		invest: 49.99999879125,
-		isLong: true,
-		leverage: 100,
-		openPrice: 2750.25,
-		closePrice: 2722.75,
-		pl: -50,
-		financingSum: -13.3646,
-		dividendSum: 2.9052,
-		hasCard: false,
-		openAt: '2018-01-10T02:22:24.09',
-		closeAt: '2018-02-05T18:09:18.783' },
-	  { id: '143179490158',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 1,
-		   id: 34821,
-		   symbol: 'GOLDS',
-		   name: 'Gold' },
-		invest: 72933.99995175,
-		isLong: true,
-		leverage: 1,
-		openPrice: 1277.5,
-		closePrice: 1244.3,
-		pl: -1895.43,
-		financingSum: -0.18,
-		hasCard: false,
-		openAt: '2017-11-16T07:49:42.813',
-		closeAt: '2017-12-12T03:28:17.59' },
-	  { id: '143179255908',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 3,
-		   id: 34847,
-		   symbol: 'SILV',
-		   name: 'Silver' },
-		invest: 73265.99996232,
-		isLong: true,
-		leverage: 1,
-		openPrice: 17.028,
-		closePrice: 16.951,
-		pl: -331.31,
-		hasCard: false,
-		openAt: '2017-11-16T06:51:10.777',
-		closeAt: '2017-11-16T07:03:06.44' },
-	  { id: '143063920735',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'USD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 38289,
-		   symbol: 'XBTUSD',
-		   name: 'Bitcoin/USD' },
-		invest: 30105.930056332,
-		isLong: true,
-		leverage: 3,
-		openPrice: 7254.78,
-		closePrice: 5836.04,
-		pl: -17662.49,
-		financingSum: -475.4723,
-		hasCard: false,
-		openAt: '2017-11-03T06:40:02.533',
-		closeAt: '2017-11-13T05:07:36.417' },
-	  { id: '142489407317',
-		security: 
-		 { minInvestUSD: 50,
-		   ccy: 'HKD',
-		   isPriceDown: false,
-		   dcmCount: 2,
-		   id: 34812,
-		   symbol: '27 HK',
-		   name: 'Galaxy Entertainment Group L' },
-		invest: 1564.99999990612,
-		isLong: true,
-		leverage: 5,
-		openPrice: 51.43,
-		closePrice: 54.84,
-		pl: 66.11274072,
-		financingSum: -6.7036,
-		hasCard: false,
-		openAt: '2017-09-04T06:17:13.193',
-		closeAt: '2017-11-07T01:30:49.25' } ]
+		var url = NetConstants.CFD_API.CLOSED_POSITION_LIST		
+		url = url + "?closedBefore=" + dateTime + "&count=" + count
 
-		var stockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
-		this.setState({
-			stockInfoRowData: stockInfoRowData,
-		}, ()=>{
-			this.endNextPageLoadingState(responseJson.length < count);
-		})
-		
+
+		NetworkModule.fetchTHUrl(
+			url,
+			{
+				method: 'GET',
+				headers: {
+					'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+					'Content-Type': 'application/json; charset=utf-8',
+				},
+				showLoading: true,
+			}, (responseJson) => {
+				var stockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
+				this.setState({
+					stockInfoRowData: stockInfoRowData,
+				}, ()=>{
+					this.endNextPageLoadingState(responseJson.length < count);
+				})		
+			},
+			(exception) => {
+				alert(exception.errorMessage)
+			}
+		);
 	}
 
 	endNextPageLoadingState(endLoadMore){
@@ -387,7 +198,7 @@ export default class  MyPositionTabClosed extends React.Component {
 	onLoadMore() {
 		if(this.state.stockInfoRowData && this.state.stockInfoRowData.length>0){
 			var lastItem = this.state.stockInfoRowData[this.state.stockInfoRowData.length-1];
-			var dateTime = lastItem.closeAt;
+			var dateTime = lastItem.closedAt;
 
 			this.loadClosedPositionInfoWithLastDateTime(dateTime, perPageCount);
 		}
@@ -550,8 +361,11 @@ export default class  MyPositionTabClosed extends React.Component {
 		if (rowData.pl === 0) {
 			profitColor = 'black'
 		}
-		var openDate = new Date(rowData.openAt)
-		var closeDate = new Date(rowData.closeAt)
+		var openDate = new Date(rowData.createAt)
+		console.log("rowData.createAt ", rowData.createAt);
+		console.log("openDate ", openDate);
+		var closeDate = new Date(rowData.closedAt)
+		console.log("closeDate ", closeDate);
 
 		return (
 			<View style={[{height: extendHeight}, styles.extendWrapper]} >
@@ -574,7 +388,7 @@ export default class  MyPositionTabClosed extends React.Component {
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
 						<Text style={styles.extendTextTop}>开仓价格</Text>
-						<Text style={styles.extendTextBottom}>{rowData.openPrice.maxDecimal(5)}</Text>
+						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
 					</View>
 					<View style={styles.extendMiddle}>
 						
@@ -605,7 +419,7 @@ export default class  MyPositionTabClosed extends React.Component {
 		var rowData = data.item;
 		var rowID = data.index;
 
-		var plPercent = (rowData.closePrice - rowData.openPrice) / rowData.openPrice * rowData.leverage * 100
+		var plPercent = (rowData.closePrice - rowData.settlePrice) / rowData.settlePrice * rowData.leverage * 100
 		plPercent = plPercent * (rowData.isLong ? 1 : -1)
 		var topLine = rowData.security.name
         var bottomLine = rowData.security.symbol
@@ -644,11 +458,19 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	renderLoadingText() {
 		if(this.state.stockInfoRowData.length === 0) {
-			return (
-				<View style={styles.loadingTextView}>
-					<Text style={styles.loadingText}>ZWPCJL</Text>
-				</View>
-				)
+			if(this.state.isDataLoading){
+				return (
+					<View style={styles.loadingTextView}>
+						<Text style={styles.loadingText}>数据读取中，请稍等</Text>
+					</View>
+				);
+			}else{
+				return (
+					<View style={styles.loadingTextView}>
+						<Text style={styles.loadingText}>暂无平仓记录</Text>
+					</View>
+					)
+			}
 		}
 	}
 

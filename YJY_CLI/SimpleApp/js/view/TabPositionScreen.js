@@ -47,7 +47,8 @@ class  TabPositionScreen extends Component {
     super(props)
 
     this.state = {
-      userLoggedin: false
+      userLoggedin: false,
+      currentSelectedTab: 0,
     }
   }
 
@@ -74,17 +75,24 @@ class  TabPositionScreen extends Component {
       this.setState({
         userLoggedin: true,
       }, ()=>{
-        if(this.refs["page"+this.state.currentSelectedTab] && this.refs["page"+this.state.currentSelectedTab].refresh){
-          this.refs["page"+this.state.currentSelectedTab].refresh();
-      }});
+        this.updateSubPage();
+      });
     }
   }
 
   onPageSelected(index) {
 		this.setState({
 			currentSelectedTab: index,
-		})
-	}
+		}, ()=>{
+      this.updateSubPage();
+    })
+  }
+  
+  updateSubPage(){
+    if(this.refs["page"+this.state.currentSelectedTab] && this.refs["page"+this.state.currentSelectedTab].refresh){
+      this.refs["page"+this.state.currentSelectedTab].refresh();
+    }
+  }
   
   renderLogin(){
     return <LoginScreen 

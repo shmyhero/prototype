@@ -16,11 +16,13 @@ var AppStateModule = require('./AppStateModule');
 var StorageModule = require('./StorageModule')
 var CacheModule = require('./CacheModule')
 var {EventCenter, EventConst} = require('../EventCenter');
+var NetConstants = require('../NetConstants');
 
-var serverURL = 'http://cfd-webapi.chinacloudapp.cn'
+var serverURL = NetConstants.SOCKET_API;
 var stockPriceServerName = 'Q'
 var alertServerName = 'A'
 var serverListenerName = 'p'
+var subscribeStock = 'S';
 var previousInterestedStocks = null
 var webSocketConnection = null
 var stockPriceWebSocketProxy = null
@@ -238,8 +240,7 @@ export function registerInterestedStocks(stockList) {
 		) {
 		console.log('Send stockList to websocket server: ' + stockList)
 		previousInterestedStocks = stockList
-		var invokeS = 'S';//LogicData.getAccountState()?'SL':'S';
-	    var messagePromise = stockPriceWebSocketProxy.invoke(invokeS, stockList);
+	    var messagePromise = stockPriceWebSocketProxy.invoke(subscribeStock, stockList);
 
 	    messagePromise
 	    	.done(() => {

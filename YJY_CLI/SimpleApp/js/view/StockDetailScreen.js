@@ -46,7 +46,7 @@ class StockDetailScreen extends Component {
         var state = {
             chartType: "stockDetailPage",
             data: null,
-            Multiplier: 0,
+            Multiplier: 1,
             isLoading: true,
             stockInfo: {},
         }
@@ -216,7 +216,12 @@ class StockDetailScreen extends Component {
                         showLoading: true,
                         body: JSON.stringify(body),
                     }, (responseJson) => {
-                        this.refs["orderFinishedModal"].show(responseJson);
+                        var showData = responseJson;
+                        const { params } = this.props.navigation.state;
+                        showData.stockName = params.stockName;
+                        showData.isCreate = true;
+                        showData.time = new Date(responseJson.createAt);
+                        this.refs["orderFinishedModal"].show(showData);
                     },
                     (exception) => {
                         alert(exception.errorMessage)
@@ -231,27 +236,6 @@ class StockDetailScreen extends Component {
             }
         
         }
-
-      
-        //     this.refs["orderFinishedModal"].show(
-        //         {
-        //             stockName: 'Test Stock',
-        //             isCreate: true,
-        //             isLong: true,
-        //             invest: 0,
-        //             leverage: 0,
-        //             openPrice: 0,
-        //             settlePrice: 0,
-        //             time: new Date(),
-        //             titleColor: ColorConstants.TITLE_BLUE,
-        //             ccy: 'USD',
-        //             pl: 0,
-        //             plRate: 0,
-        //         },
-        //         ()=>{
-                    
-        //         });
-        // }
     }
 
     onOptionSelected(groupName, value){
