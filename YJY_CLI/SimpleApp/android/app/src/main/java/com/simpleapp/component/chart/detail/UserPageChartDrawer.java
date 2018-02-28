@@ -66,7 +66,7 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
             public String getFormattedValue(float value, AxisBase axis) {
                 try {
                     //String val = "2018-01-29T22:21:54.896Z";
-                    String xVal = (chartDataList.getJSONObject((int) value).getString("time"));
+                    String xVal = (chartDataList.getJSONObject((int) value).getString("t"));
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     Date date = format.parse(xVal);
                     SimpleDateFormat outFormat = new SimpleDateFormat("yy-MM-dd");

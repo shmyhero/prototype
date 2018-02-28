@@ -91,7 +91,6 @@ class NavBar extends Component {
 			navBarColor = this.props.backgroundColor;
 		}
 
-		console.log("backgroundColor " + backgroundColor)
 		if(this.props.onlyShowStatusBar){
 			return this.renderStatusBar(navBarColor);
 		}else{

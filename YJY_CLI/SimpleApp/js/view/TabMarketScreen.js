@@ -22,8 +22,11 @@ var AppStateModule = require('../module/AppStateModule');
 var ColorConstants = require('../ColorConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
+var {EventCenter,EventConst} = require('../EventCenter');
 
 import SortableListView from 'react-native-sortable-listview'
+
+var tabSwitchedSubscription = null;
 
 class RowComponent extends Component {
     static propTypes = {
@@ -38,11 +41,9 @@ class RowComponent extends Component {
 		var strBS = "闭市";
 		var strZT = "暂停";
 		if(rowData!==undefined){
-            console.log('rowData.isOpen = '+rowData.isOpen+' rowData.status = ' + rowData.status);
 			if(rowData.isOpen || rowData.status == undefined){
 				return null;
 			}else{
-				console.log('rowData.isOpen = '+rowData.isOpen+' rowData.status = ' + rowData.status);
                 var statusTxt = rowData.status == 2 ? strZT:strBS;
 
                 return(
@@ -94,15 +95,19 @@ class RowComponent extends Component {
 
 //Tab1:行情
 class TabMarketScreen extends Component {
-    static navigationOptions = {
+    static navigationOptions = (navigation) => ({
+        tabBarOnPress: (scene, jumpToIndex) => {
+          jumpToIndex(scene.index);
+          EventCenter.emitStockTabPressEvent();
+        },
         tabBarLabel:'行情',
         tabBarIcon: ({ focused,tintColor }) => (
             <Image
             source={focused?require('../../images/tab1_sel.png'):require('../../images/tab1_unsel.png')}
             style={[styles.icon]}
             />
-        ),
-    }
+        ), 
+    });
 
     constructor(props){
         super(props)
@@ -112,6 +117,19 @@ class TabMarketScreen extends Component {
             listDataOrder: [],
             isLoading: true,
         };
+    }
+
+    componentWillMount(){
+        tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.STOCK_TAB_PRESS_EVENT, () => {
+            console.log("STOCK_TAB_PRESS_EVENT")
+            this.loadStockList();
+        });
+        
+        this.loadStockList();    
+    }
+
+    componentWillUnmount(){
+        tabSwitchedSubscription && tabSwitchedSubscription.remove();
     }
 
     loadStockList(){
@@ -128,11 +146,13 @@ class TabMarketScreen extends Component {
                     var data = this.parseServerData(responseJson)
                     console.log("data: ")
                     console.log(data)
-    
+                    
                     this.setState({
                         isLoading: false,
                         listData: data.listData,
                         listDataOrder: data.listDataOrder,
+                    }, ()=>{
+                        this.webSocketRegisterInsterestedStocks();
                     });
                 },
                 (result) => {
@@ -140,6 +160,52 @@ class TabMarketScreen extends Component {
                 }
             )
         });
+    }
+
+    deepCopy(obj) {
+        if (Object.prototype.toString.call(obj) === '[object Array]') {
+            var out = [], i = 0, len = obj.length;
+            for ( ; i < len; i++ ) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        if (typeof obj === 'object') {
+            var out = {}, i;
+            for ( i in obj ) {
+                out[i] = arguments.callee(obj[i]);
+            }
+            return out;
+        }
+        return obj;
+    }
+
+    webSocketRegisterInsterestedStocks(){
+        var result = ''
+		for (var i = 0; i < this.state.listDataOrder.length; i++) {
+			result += ( this.state.listDataOrder[i] + ',')
+		};
+
+        result = result.substring(0, result.length - 1);
+        WebSocketModule.registerInterestedStocks(result)
+        WebSocketModule.registerInterestedStocksCallbacks(
+			(realtimeStockInfo) => {
+                var updated = false;
+				for (var i = 0; i < realtimeStockInfo.length; i++) {
+                    var stockID = ""+realtimeStockInfo[i].id;                   
+                    if (stockID in this.state.listData){
+                        this.state.listData[stockID].last = realtimeStockInfo[i].last
+                        updated = true;
+					}
+                }
+             
+                if(updated){
+                    this.setState({
+                        //only a new object will trigger the list view update.
+                        listData: this.deepCopy(this.state.listData)
+                    })
+                }
+			})
     }
 
     parseServerData(data){
@@ -158,27 +224,28 @@ class TabMarketScreen extends Component {
             </View>);
         }else{
             return (
-                    <SortableListView
-                        style={{ flex: 1,}}
-                        data={this.state.listData}
-                        order={this.state.listDataOrder}                    
-                        onRowMoved={e => {
-                            this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0])
-                            this.forceUpdate()
-                        }}
-                        sortRowStyle={{opacity:1}}
-                        renderRow={row => <RowComponent data={row}
+                <SortableListView 
+                    ref="sortableListView"
+                    style={{ flex: 1,}}
+                    data={this.state.listData}
+                    order={this.state.listDataOrder}                    
+                    onRowMoved={e => {
+                        this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0])
+                        this.forceUpdate()
+                    }}
+                    sortRowStyle={{opacity:1}}
+                    renderRow={row => {
+                        return <RowComponent data={row}
                             onPress={(row)=>{
                                 this.jump2Next(row.id, row.name);
                             }}
-                        />}
-                    />
+                        />}}
+                />
             );
         }
     }
 
     render() {
-        
         return (
             <View style={styles.mainContainer}>
                 <NavBar onlyShowStatusBar={true}/>
@@ -190,29 +257,6 @@ class TabMarketScreen extends Component {
 
     jump2Next(stockId, stockName){
         this.props.navigation.navigate('StockDetail',{stockCode: stockId, stockName: stockName})
-    }
-
-    startWebSocket(){
-        // WebSocketModule.cleanRegisteredCallbacks()
-        // var stockData = '34821,34847'//黄金，白银
-        // WebSocketModule.registerInterestedStocks(stockData)
-
-        // var isConnected = WebSocketModule.isConnected();
-        // console.log("isConnected = " + isConnected)
-    }
-
-    componentWillMount(){
-        this.loadStockList();
-    }
-
-    componentDidMount(){
-        WebSocketModule.start();
-        AppStateModule.registerTurnToActiveListener(()=>{console.log('SimpleApp registerTurnToActiveListener')});
-    }
-
-    componentWillUnmount(){
-        AppStateModule.unregisterTurnToActiveListener(()=>{console.log('SimpleApp componentWillUnmount')});
-        WebSocketModule.stop()
     }
 }
 

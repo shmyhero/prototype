@@ -26,6 +26,8 @@ var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
  
 var {height, width} = Dimensions.get('window');
+var {EventCenter, EventConst} = require('../EventCenter');
+var WebSocketModule = require('../module/WebSocketModule')
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 
@@ -48,23 +50,23 @@ var mkData = [
 
 
 //Tab0:动态
-export default class  TabMainScreen extends React.Component {
- 
- 
+export default class TabMainScreen extends React.Component {
+    static navigationOptions = {
+        tabBarLabel:'动态',
+        tabBarIcon: ({focused,tintColor }) => (
+            <Image
+                source={focused?require('../../images/tab0_sel.png'):require('../../images/tab0_unsel.png')}
+                style={[styles.icon ]}
+            />
+            ),
+        tabBarOnPress: (scene,jumpToIndex) => {
+            console.log(scene)
+            jumpToIndex(scene.index);
+            EventCenter.emitHomeTabPressEvent();
+        },
+    } 
 
-  static navigationOptions = {
-    tabBarLabel:'动态',
-    tabBarIcon: ({focused,tintColor }) => (
-          <Image
-            source={focused?require('../../images/tab0_sel.png'):require('../../images/tab0_unsel.png')}
-            style={[styles.icon ]}
-          />
-        ),
-    tabBarOnPress: (scene,jumpToIndex) => {
-                         console.log(scene)
-                         jumpToIndex(scene.index)
-                },
-  } 
+    tabSwitchedSubscription = null;
 
     constructor(props){
         super()
@@ -105,11 +107,16 @@ export default class  TabMainScreen extends React.Component {
  
     componentDidMount () {
         // this._pullToRefreshListView.beginRefresh()
+        this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
+            console.log("HOME_TAB_RESS_EVENT")
+            WebSocketModule.cleanRegisteredCallbacks();
+        });
     }
 
     componentWillUnmount() {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+        this.tabSwitchedSubscription && this.tabSwitchedSubscription.remove();
         this.timer && clearTimeout(this.timer);
     }
 
