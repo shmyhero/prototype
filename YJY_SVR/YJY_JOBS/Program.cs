@@ -44,6 +44,12 @@ namespace YJY_JOBS
                     AyondoFixFeedWorker.Run();
                 }
 
+
+                if (args.Contains("-PositionCheck"))
+                {
+                    PositionCheck.Run();
+                }
+
                 return 0;
             }
             catch (Exception ex)
