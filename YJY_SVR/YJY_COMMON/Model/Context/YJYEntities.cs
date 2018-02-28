@@ -16,6 +16,7 @@ namespace YJY_COMMON.Model.Context
 
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserFollow> UserFollows { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

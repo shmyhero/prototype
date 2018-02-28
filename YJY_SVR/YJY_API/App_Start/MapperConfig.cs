@@ -18,7 +18,7 @@ namespace YJY_API
             return new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<ProdDef, ProdDefDTO>();
-                cfg.CreateMap<ProdDef, SecurityLiteDTO>()
+                cfg.CreateMap<ProdDef, SecurityDTO>()
                     .ForMember(dest => dest.name, opt => opt.MapFrom(src => Translator.GetProductNameByThreadCulture(src.Name)))
                     .ForMember(dest => dest.open, opt => opt.MapFrom(src => Quotes.GetOpenPrice(src)))
                     .ForMember(dest => dest.isOpen, opt => opt.MapFrom(src => src.QuoteType == enmQuoteType.Open))

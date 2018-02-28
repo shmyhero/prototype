@@ -18,11 +18,15 @@ namespace YJY_SVR.DTO
         public decimal? maxValueShort { get; set; }
     }
 
-    public class SecurityLiteDTO
+    public class SecurityBaseDTO
     {
         public int id { get; set; }
-        public string symbol { get; set; }
         public string name { get; set; }
+    }
+
+    public class SecurityDTO: SecurityBaseDTO
+    {
+        public string symbol { get; set; }
         //public string picUrl { get; set; }
         public string tag { get; set; }
 
@@ -36,16 +40,10 @@ namespace YJY_SVR.DTO
         public string eName { get; set; }
     }
 
-    public class SecurityDTO : SecurityLiteDTO
+    public class SecurityDetailDTO : SecurityDTO
     {
         public int? dcmCount { get; set; }
 
-        //public decimal? bid { get; set; }
-        //public decimal? ask { get; set; }
-    }
-
-    public class SecurityDetailDTO : SecurityDTO
-    {
         public DateTime? lastOpen { get; set; }
         public DateTime? lastClose { get; set; }
 

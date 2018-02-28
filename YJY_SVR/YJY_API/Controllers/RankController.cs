@@ -4,6 +4,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Util;
 using YJY_SVR.Controllers.Attributes;
@@ -37,7 +38,7 @@ namespace YJY_SVR.Controllers
                     posCount = g.Count(),
                     winRate = (decimal)g.Count(p => p.PL > 0) / g.Count(),
                     roi = g.Sum(p => p.PL.Value) /g.Sum(p => p.Invest.Value),
-                }).OrderByDescending(o => o.roi).ToList();
+                }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
 
             return userDTOs;
         }

@@ -70,11 +70,11 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("default")]
-        public List<SecurityLiteDTO> GetDefaultList()
+        public List<SecurityDTO> GetDefaultList()
         {
             var prodDefs = GetActiveProdsByIdsKeepOrder(new[]{ 34821 , 34847 , 34858 , 34864 , 34857 , 34854 , 34811 , 34801 , 34820 , 34805 , 34860 , 38289, 34816, 34859 , 34817 , 34804 , 34781 , 37540 , 34815 , 34802 });
 
-            var securityDtos = prodDefs.Select(o => Mapper.Map<SecurityLiteDTO>(o)).ToList();
+            var securityDtos = prodDefs.Select(o => Mapper.Map<SecurityDTO>(o)).ToList();
 
             UpdateLastPrice(securityDtos);
 
@@ -83,13 +83,13 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("index")]
-        public List<SecurityLiteDTO> GetIndexList()
+        public List<SecurityDTO> GetIndexList()
         {
             var activeProds = GetActiveProds();
 
             var prodDefs = activeProds.Where(o => o.AssetClass == YJYGlobal.ASSET_CLASS_INDEX).ToList();
 
-            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityLiteDTO>(o)).ToList();
+            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityDTO>(o)).ToList();
 
             UpdateLastPrice(securityDtos);
 
@@ -98,7 +98,7 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("fx")]
-        public List<SecurityLiteDTO> GetFxList()
+        public List<SecurityDTO> GetFxList()
         {
             var activeProds = GetActiveProds();
 
@@ -108,7 +108,7 @@ namespace YJY_SVR.Controllers
                         o.AssetClass == YJYGlobal.ASSET_CLASS_FX && !o.Name.EndsWith(" Outright") ||
                         o.AssetClass == YJYGlobal.ASSET_CLASS_CRYPTO_FX).ToList();
 
-            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityLiteDTO>(o)).ToList();
+            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityDTO>(o)).ToList();
 
             UpdateLastPrice(securityDtos);
 
@@ -117,13 +117,13 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("futures")]
-        public List<SecurityLiteDTO> GetFuturesList()
+        public List<SecurityDTO> GetFuturesList()
         {
             var activeProds = GetActiveProds();
 
             var prodDefs = activeProds.Where(o => o.AssetClass == YJYGlobal.ASSET_CLASS_COMMODITY).ToList();
 
-            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityLiteDTO>(o)).ToList();
+            var securityDtos = prodDefs.OrderBy(o => o.Symbol).Select(o => Mapper.Map<SecurityDTO>(o)).ToList();
 
             UpdateLastPrice(securityDtos);
 
@@ -168,7 +168,7 @@ namespace YJY_SVR.Controllers
                 .ToList();
         }
 
-        public void UpdateLastPrice(IList<SecurityLiteDTO> list)
+        public void UpdateLastPrice(IList<SecurityDTO> list)
         {
             if (list.Count == 0) return;
 
