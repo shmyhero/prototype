@@ -12,12 +12,12 @@ namespace YJY_SVR.Controllers
     [RoutePrefix("api/misc")]
     public class MiscController : YJYController
     {
-        public MiscController(YJYEntities db, IMapper mapper) : base(db, mapper)
+        public MiscController(YJYEntities db) : base(db)
         {
         }
 
         [HttpGet]
-        [ActionName("version")]
+        [Route("version")]
         public HttpResponseMessage GetVersion()
         {
             string dbName = db.Database.Connection.Database;

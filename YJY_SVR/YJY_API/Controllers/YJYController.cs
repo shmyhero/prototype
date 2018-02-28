@@ -68,6 +68,43 @@ namespace YJY_SVR.Controllers
             return db.Users.FirstOrDefault(o => o.Id == UserId);
         }
 
+        /// <summary>
+        /// for api without BasicAuth, use this function to get auth user
+        /// </summary>
+        /// <returns></returns>
+        public User TryGetAuthUser()
+        {
+            int? authUserId=null;
+            string authToken = null;
+
+            if (authUserId == null)
+            {
+                var authorization = Request.Headers.Authorization;
+
+                if (authorization != null)
+                {
+                    try
+                    {
+                        var split = authorization.Parameter.Split('_');
+                        authUserId = Convert.ToInt32(split[0]);
+                        authToken = split[1];
+                    }
+                    catch (Exception)
+                    {
+                    }
+                }
+            }
+
+            if (authUserId != null && authToken!=null)
+            {
+                var user= db.Users.FirstOrDefault(o => o.Id == authUserId && o.AuthToken==authToken);
+                if (user != null)
+                    return user;
+            }
+
+            return null;
+        }
+
         public string __(TransKey transKey)
         {
             return Translator.Translate(transKey);

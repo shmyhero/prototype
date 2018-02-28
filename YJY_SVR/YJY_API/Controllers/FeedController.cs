@@ -20,7 +20,7 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("default")]
-        public List<FeedDTO> GetUserRankPL2w()
+        public List<FeedDTO> GetDefaultFeeds()
         {
             return null;
         }
