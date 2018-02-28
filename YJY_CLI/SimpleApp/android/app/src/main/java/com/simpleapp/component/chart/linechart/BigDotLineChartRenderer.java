@@ -892,72 +892,37 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             int arrowWidth = (int)Utils.convertDpToPixel(56);
             int arrowHeight = (int)Utils.convertDpToPixel(18);
 
-            for (int i = 0; i < colorCount; i++) {
+            Bitmap.Config conf = Bitmap.Config.ARGB_4444;
 
-                Bitmap.Config conf = Bitmap.Config.ARGB_4444;
-                Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + arrowWidth, (int) (circleRadius * 2.1), conf);
+            //Only draw the last circle.
+            int i = colorCount - 1;
+            Canvas canvas;
+            Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + arrowWidth, (int) (circleRadius * 2.1), conf);
+            canvas = new Canvas(circleBitmap);
+            circleBitmaps[i] = circleBitmap;
 
-                Canvas canvas = new Canvas(circleBitmap);
-                circleBitmaps[i] = circleBitmap;
-                mRenderPaint.setColor(set.getCircleColor(i));
+            mRenderPaint.setColor(set.getCircleColor(i));
 
-                if (drawTransparentCircleHole) {
-                    // Begin path for circle with hole
-                    mCirclePathBuffer.reset();
 
-                    mCirclePathBuffer.addCircle(
-                            circleRadius,
-                            circleRadius,
-                            circleRadius,
-                            Path.Direction.CW);
-
-                    // Cut hole in path
-                    mCirclePathBuffer.addCircle(
-                            circleRadius,
-                            circleRadius,
-                            circleHoleRadius,
-                            Path.Direction.CCW);
-
-                    // Fill in-between
-                    canvas.drawPath(mCirclePathBuffer, mRenderPaint);
-                }else if(mRenderPaint.getColor() != 0) {
-
-//                    canvas.drawCircle(
-//                            circleRadius,
-//                            circleRadius,
-//                            circleRadius,
-//                            mRenderPaint);
-//
-//                    //Makes sure the transparent circle doesn't draw the circle hole
-//                    if (drawCircleHole) {
-//                        canvas.drawCircle(
-//                                circleRadius,
-//                                circleRadius,
-//                                circleHoleRadius,
-//                                mCirclePaintInner);
-//                    }
-
-                    if (mShadowedCircle == null) {
-                        mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
-                    }
-                    Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
-                    canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
-
-                    int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(5);
-                    int top = (int)(circleRadius - arrowHeight / 2);
-                    Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
-
-                    if (mArrowBitmap == null) {
-                        mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
-                    }
-                    canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
-
-                    mValuePaint.setTextAlign(Paint.Align.LEFT);
-                    mValuePaint.setColor(set.getCircleHoleColor());
-                    String text = "" + ((LineDataSet) set).getValues().get(i).getY();
-                    canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(8), circleRadius + (int)Utils.convertDpToPixel(4), mValuePaint);
-                }
+            if (mShadowedCircle == null) {
+                mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
             }
+            Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
+            canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
+
+            int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(5);
+            int top = (int)(circleRadius - arrowHeight / 2);
+            Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
+
+            if (mArrowBitmap == null) {
+                mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
+            }
+            canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
+
+            mValuePaint.setTextAlign(Paint.Align.LEFT);
+            mValuePaint.setColor(set.getCircleHoleColor());
+            String text = "" + ((LineDataSet) set).getValues().get(i).getY();
+            canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(8), circleRadius + (int)Utils.convertDpToPixel(3), mValuePaint);
         }
 
         /**

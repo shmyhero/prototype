@@ -14,6 +14,8 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
+var {EventCenter, EventConst} = require('../EventCenter');
+var WebSocketModule = require('../module/WebSocketModule');
 var ColorConstants = require('../ColorConstants');
 var RankHeroList = require('./RankHeroList');
 var {height, width} = Dimensions.get('window');
@@ -30,9 +32,10 @@ export default class  TabRankScreen extends React.Component {
           />
         ),
     tabBarOnPress: (scene,jumpToIndex) => {
-                     console.log(scene)
-                     jumpToIndex(scene.index)
-            },
+      console.log(scene)
+      jumpToIndex(scene.index);
+      EventCenter.emitRankingTabPressEvent();
+    },
   }
 
   constructor(props){
@@ -43,16 +46,26 @@ export default class  TabRankScreen extends React.Component {
         rankType: RANKING_TYPE_0, 
        
     } 
-
+  }
   
+  componentWillMount(){
+    
+    tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.RANKING_TAB_PRESS_EVENT, () => {
+      console.log("STOCK_TAB_PRESS_EVENT")
+      WebSocketModule.cleanRegisteredCallbacks();
+    });
   }
 
-onPressedRankType(type){
-  if(type==this.state.rankType)return;
-  this.setState({
-    rankType:this.state.rankType===RANKING_TYPE_0?RANKING_TYPE_1:RANKING_TYPE_0
-  }) 
-}
+  componentWillUnmount(){
+
+  }
+
+  onPressedRankType(type){
+    if(type==this.state.rankType)return;
+    this.setState({
+      rankType:this.state.rankType===RANKING_TYPE_0?RANKING_TYPE_1:RANKING_TYPE_0
+    }) 
+  }
 
   renderRankTypeButton(){
     var isLeftSelected = this.state.rankType == RANKING_TYPE_0;

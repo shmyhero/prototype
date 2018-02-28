@@ -72,6 +72,8 @@ export default class  MyPositionTabHold extends React.Component {
         super(props)
 
 		var state = this.getInitialState()
+		state.isDataLoading = false;
+		state.stockInfoRowData = [];
         this.state = state;
     }
 
@@ -86,7 +88,6 @@ export default class  MyPositionTabHold extends React.Component {
 		this.stopLossPercent = MAX_LOSS_PERCENT
 
 		var state = {
-			stockInfoRowData: [],
 			selectedRow: -1,
 			selectedSubItem: SUB_ACTION_NONE,
 			stockDetailInfo: [],
@@ -148,44 +149,45 @@ export default class  MyPositionTabHold extends React.Component {
 	loadOpenPositionInfo() {
 		if(LogicData.isLoggedIn()){
 			var userData = LogicData.getUserData();
-
-			NetworkModule.fetchTHUrl(
-				NetConstants.CFD_API.OPEN_POSITION_LIST,
-				{
-					method: 'GET',
-					headers: {
-						'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-						'Content-Type': 'application/json; charset=utf-8',
-					},
-					showLoading: true,
-				}, (responseJson) => {
+			this.setState({
+				isDataLoading: true,
+			}, ()=>{
+				NetworkModule.fetchTHUrl(
+					NetConstants.CFD_API.OPEN_POSITION_LIST,
+					{
+						method: 'GET',
+						headers: {
+							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+							'Content-Type': 'application/json; charset=utf-8',
+						},
+						showLoading: true,
+					}, (responseJson) => {
+		
+						this.setState({
+							stockInfoRowData: responseJson,
+							isDataLoading: false,
+						});
 	
-					this.setState({
-						stockInfoRowData: responseJson,
-					});
-
-					var interestedStockIds = [];
-					for (var i = 0; i < responseJson.length; i++) {
-						var stockId = responseJson[i].security.id
-						if (interestedStockIds.indexOf(stockId) < 0) {
-							interestedStockIds.push(stockId)
+						var interestedStockIds = [];
+						for (var i = 0; i < responseJson.length; i++) {
+							var stockId = responseJson[i].security.id
+							if (interestedStockIds.indexOf(stockId) < 0) {
+								interestedStockIds.push(stockId)
+							}
+						};
+	
+						WebSocketModule.registerInterestedStocks(interestedStockIds.join(','))
+						WebSocketModule.registerInterestedStocksCallbacks(
+						(realtimeStockInfo) => {
+							this.handleStockInfo(realtimeStockInfo)
 						}
-					};
-
-					WebSocketModule.registerInterestedStocks(interestedStockIds.join(','))
-					WebSocketModule.registerCallbacks(
-					(realtimeStockInfo) => {
-						this.handleStockInfo(realtimeStockInfo)
+					)
 					},
-					(alertInfo) => {
-						this.loadOpenPositionInfo()
+					(exception) => {
+						alert(exception.errorMessage)
 					}
-				)
-				},
-				(exception) => {
-					alert(exception.errorMessage)
-				}
-			);
+				);
+			})			
 		}
 	}
 
@@ -204,10 +206,7 @@ export default class  MyPositionTabHold extends React.Component {
 			for (var j = 0; j < realtimeStockInfo.length; j++) {
 				if (this.state.stockInfoRowData[i].security.id == realtimeStockInfo[j].id &&
 							this.state.stockInfoRowData[i].security.last !== realtimeStockInfo[j].last) {
-
-					this.state.stockInfoRowData[i].security.ask = realtimeStockInfo[j].ask
-					this.state.stockInfoRowData[i].security.bid = realtimeStockInfo[j].bid
-					this.state.stockInfoRowData[i].security.last = (realtimeStockInfo[j].ask + realtimeStockInfo[j].bid) / 2;
+					this.state.stockInfoRowData[i].security.last = realtimeStockInfo[j].last;
 					hasUpdate = true;
 
 					if(this.stopProfitLossStockId == this.state.stockInfoRowData[i].security.id ){
@@ -224,14 +223,16 @@ export default class  MyPositionTabHold extends React.Component {
 					if (this.dataToStore[i].security.id == realtimeStockInfo[j].id &&
 								this.dataToStore[i].security.last !== realtimeStockInfo[j].last) {
 
-						this.dataToStore[i].security.ask = realtimeStockInfo[j].ask
-						this.dataToStore[i].security.bid = realtimeStockInfo[j].bid
-						this.dataToStore[i].security.last = (realtimeStockInfo[j].ask + realtimeStockInfo[j].bid) / 2;
+						this.dataToStore[i].security.last = realtimeStockInfo[j].last;
 						needToUpdateCache = true;
 					}
 				}
 			}
 		}
+
+		this.setState({
+			stockInfoRowData: this.state.stockInfoRowData,
+		})
     }
     
 	stockPressed(rowData, rowID) {
@@ -828,17 +829,16 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	getStopProfitLossMinMaxValue(rowData, type){
-		var percent = type===1 ? this.stopProfitPercent : this.stopLossPercent
+		var percent = type === TYPE_STOP_PROFIT ? this.stopProfitPercent : this.stopLossPercent
 		var startPercent = 0
 		var endPercent = MAX_LOSS_PERCENT
+
 		if (type === TYPE_STOP_PROFIT) {
 			// stop profit
 			startPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
-			// use gsmd to make sure this order is guaranteed.
-			startPercent += rowData.security.smd*100*rowData.leverage
 
-			if (startPercent < 0)
-				startPercent = 0
+			// if (startPercent < 0)
+			// 	startPercent = 0
 			endPercent = startPercent + 100
 			if (percent === DEFAULT_PERCENT) {
 				percent = rowData.takePx === undefined ? startPercent
@@ -850,13 +850,15 @@ export default class  MyPositionTabHold extends React.Component {
 			startPercent = MAX_LOSS_PERCENT
 			endPercent = this.priceToPercentWithRow(rowData.security.last, rowData, type)
 			// use smd to make sure this order is guaranteed.
+			//endPercent -= rowData.security.gsmd*100*rowData.leverage
+
 			if(endPercent - startPercent > 100){
 				startPercent = endPercent - 100
 			}
 
 			if (!this.stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
-				percent = rowData.stopPx === undefined ? endPercent
-					: this.priceToPercentWithRow(rowData.stopPx, rowData, type)
+
+				percent = rowData.takePx === undefined ? endPercent : this.priceToPercentWithRow(rowData.stopPx, rowData, type)
 				if (percent < startPercent) {
 					percent = startPercent
 				}

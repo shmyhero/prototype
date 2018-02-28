@@ -18,11 +18,11 @@ var CacheModule = require('./CacheModule')
 var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require('../NetConstants');
 
-var serverURL = NetConstants.SOCKET_API;
+var serverURL = NetConstants.CFD_API_SERVER;
 var stockPriceServerName = 'Q'
+var subscribeStock = 'S';
 var alertServerName = 'A'
 var serverListenerName = 'p'
-var subscribeStock = 'S';
 var previousInterestedStocks = null
 var webSocketConnection = null
 var stockPriceWebSocketProxy = null
@@ -38,7 +38,6 @@ const DISCONNECTED = "disconnected";
 
 var wsErrorCallback = (errorMessage) =>
 {
-	console.log('web socket error: ' + errorMessage);
 	if (AppStateModule.getAppState() === AppStateModule.STATE_ACTIVE && webSocketConnection && webSocketConnection.state == 4) {
 		var previousSocketConnected = socketConnected;
 		socketConnected = false;
@@ -83,29 +82,39 @@ export function start() {
 	  handleConnectivityChange
 	);
 
-	webSocketConnection = $.hubConnection(serverURL);
-	/*webSocketConnection.reconnecting(function() {
-    //tryingToReconnect = true;
-		//alert("tryingToReconnect")
-	});
+	// var connection = $.hubConnection('http://yjy-webapi.chinacloudapp.cn');
+	// var hub = connection.createHubProxy('Q');
 
-	webSocketConnection.reconnected(function() {
-    //tryingToReconnect = false;
-		//alert("reconnected")
-	});*/
+	// connection.start().done(()=>{
+	// 	console.log("socket ok")
+	// }).fail(()=>{
+	// 	console.log("socket failed")
+	// });
 
+	// return;
+
+	webSocketConnection = $.hubConnection('http://yjy-webapi.chinacloudapp.cn');
 	webSocketConnection.disconnected(function() {
 		wsErrorCallback('网络已断开。')
 	});
 
 	webSocketConnection.logging = false;
 
+	//connection-handling
+	webSocketConnection.connectionSlow(function () {
+		wsErrorCallback('网络不稳定。webSocketConnection.state: ' + webSocketConnection.state)
+	});
+
+	webSocketConnection.error(function (error) {
+		wsErrorCallback('网络错误。' + error)
+	});
+
 	stockPriceWebSocketProxy = webSocketConnection.createHubProxy(stockPriceServerName);
 
 	//receives broadcast messages from a hub function, called "broadcastMessage"
 	// StockInfo data structure: {"Symbol":"MSFT","Price":31.97,"DayOpen":30.31,"Change":1.66,"PercentChange":0.0519}
 	stockPriceWebSocketProxy.on(serverListenerName, (stockInfo) => {
-		  console.log("socketUpdate! " + JSON.stringify(stockInfo))
+		console.log("socketUpdate! " + JSON.stringify(stockInfo))
 
 		//Stock Price is changed.
 		stockInfo.forEach((data)=>{
@@ -124,30 +133,21 @@ export function start() {
 		}
 	});
 
-	alertWebSocketProxy = webSocketConnection.createHubProxy(alertServerName);
-	alertWebSocketProxy.on(serverListenerName, (alertInfoArr) => {
-		console.log('alert comes.')
-		for (var i = 0; i < alertInfoArr.length; i++) {
-			Alert.alert('', alertInfoArr[i])
-		}
+	// // Currently no alert service.
+	// alertWebSocketProxy = webSocketConnection.createHubProxy(alertServerName);
+	// alertWebSocketProxy.on(serverListenerName, (alertInfoArr) => {
+	// 	console.log('alert comes.')
+	// 	for (var i = 0; i < alertInfoArr.length; i++) {
+	// 		Alert.alert('', alertInfoArr[i])
+	// 	}
 
-		if (wsAlertCallback) {
-			wsAlertCallback(alertInfoArr)
-		}
-	});
+	// 	if (wsAlertCallback) {
+	// 		wsAlertCallback(alertInfoArr)
+	// 	}
+	// });
 
 	// atempt connection, and handle errors
 	startWebSocket(webSocketConnection);
-
-	//connection-handling
-	webSocketConnection.connectionSlow(function () {
-		wsErrorCallback('网络不稳定。webSocketConnection.state: ' + webSocketConnection.state)
-	});
-
-	webSocketConnection.error(function (error) {
-		wsErrorCallback('网络错误。' + error)
-	});
-
 }
 
 function handleConnectivityChange(reach){
@@ -207,6 +207,7 @@ function startWebSocket(webSocketConnection){
 			}
 		})
 		.fail((error) => {
+			console.log("webSocketConnection.start error", error)
 			wsErrorCallback(error.message)
 	});
 }
@@ -224,9 +225,12 @@ export function stop() {
 	);
 }
 
-export function registerCallbacks(stockInfoCallback, alertCallback) {
+export function registerInterestedStocksCallbacks(stockInfoCallback) {
 	// console.log("register call backs")
 	wsStockInfoCallback = stockInfoCallback
+}
+
+export function registerAlertCallbacks(alertCallback) {
 	wsAlertCallback = alertCallback
 }
 
@@ -260,7 +264,7 @@ export function registerInterestedStocks(stockList) {
 export function cleanRegisteredCallbacks() {
 	// console.log("clean registerCallbacks")
 	registerInterestedStocks("");
-	registerCallbacks(null, null);
+	registerInterestedStocksCallbacks(null);
 }
 
 export function alertServiceLogin(token) {

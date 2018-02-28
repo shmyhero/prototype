@@ -4,6 +4,7 @@ import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
@@ -164,10 +165,10 @@ public abstract class BaseChartDrawer implements IChartDrawer {
 
         int firstLine = 0;
         limitLineAt.add(firstLine);
-        limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(firstLine).getString("time")));
+        limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(firstLine).getString("t")));
 
         for (int i = 0; i < chartDataList.length(); i++) {
-            Calendar calendar = timeStringToCalendar(chartDataList.getJSONObject(i).getString("time"));
+            Calendar calendar = timeStringToCalendar(chartDataList.getJSONObject(i).getString("t"));
 
             if (nextLineAt == null) {
                 calendar.add(getGapLineUnit(), getGapLineUnitAddMount());
@@ -186,7 +187,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         if (needDrawEndLine(stockInfoObject)) {
             int lastLine = chartDataList.length() - 1;
             limitLineAt.add(lastLine);
-            limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(lastLine).getString("time")));
+            limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(lastLine).getString("t")));
         }
 
         LimitLineInfo info = new LimitLineInfo();
@@ -327,8 +328,13 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      * @param stockInfoObject
      * @throws JSONException
      */
-    private void drawLastPriceLine(CombinedChart chart, JSONObject stockInfoObject) throws JSONException {
-        LimitLine line = new LimitLine((float) stockInfoObject.getDouble("last"));
+    private void drawLastPriceLine(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
+        double last = chartDataList.getJSONObject(chartDataList.length()-1).getDouble("p");
+        LimitLine line = new LimitLine((float)last);
+
+//        int lastLine = cchartDataList.getJSONObject(chartDataList.length()-1).getDouble("p");
+//        limitLineAt.add(lastLine);
+
         line.setLineColor(chart.getContext().getResources().getColor(R.color.line_chart_last_price_blue));
 
         line.setLineWidth(ChartDrawerConstants.LINE_WIDTH * 2);
@@ -363,7 +369,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         }
 
         if (needDrawLastPriceLine()) {
-            drawLastPriceLine(chart, stockInfoObject);
+            drawLastPriceLine(chart, stockInfoObject, chartDataList);
         }
 
         if (needXDrawDataLimitLines()){

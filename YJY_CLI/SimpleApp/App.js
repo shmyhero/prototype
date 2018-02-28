@@ -25,6 +25,7 @@ import HelpScreen from "./js/view/HelpScreen"
 import AboutScreen from "./js/view/AboutScreen"
 import StockDetailScreen from './js/view/StockDetailScreen';
 import MessageScreen from './js/view/MessageScreen';
+import DepositScreen from './js/view/DepositScreen'
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -35,7 +36,7 @@ import TabPositionScreen from './js/view/TabPositionScreen';
 import TabMeScreen from './js/view/TabMeScreen';
 var SplashScreen = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
-
+var WebSocketModule = require('./js/module/WebSocketModule');
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
@@ -66,6 +67,7 @@ export default class App extends React.Component {
         LogicData.setUserData(obj);
       }
     });
+    WebSocketModule.start();
   }
 
   render() {
@@ -153,6 +155,9 @@ const SimpleApp = StackNavigator({
     },
     MessageScreen: {
       screen: MessageScreen,
+    },
+    DepositScreen:{
+      screen: DepositScreen,
     }
 },  
 {

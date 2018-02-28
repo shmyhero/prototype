@@ -25,6 +25,7 @@ import LogicData from "../LogicData";
 import LoginScreen from './LoginScreen';
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
+var WebSocketModule = require('../module/WebSocketModule');
 
 var layoutSizeChangedSubscription = null;
 //Tab4:我的
@@ -53,6 +54,7 @@ class  TabMeScreen extends React.Component {
   componentWillMount() {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.ME_TAB_PRESS_EVENT, () => {
       console.log("ME_TAB_PRESS_EVENT")
+      WebSocketModule.cleanRegisteredCallbacks();
 			this.refresh();
     });
         
@@ -114,7 +116,7 @@ class  TabMeScreen extends React.Component {
   }
 
   showWithdraw(){
-    
+    this.props.navigation.navigate("DepositScreen");
   }
 
   showMessage(){

@@ -6,6 +6,7 @@ import android.graphics.drawable.GradientDrawable;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
@@ -92,6 +93,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         // create a dataset and give it a type
         LineDataSet set1 = new LineDataSet(Vals, "DataSet 1");
 
+        set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
         set1.setLineWidth(ChartDrawerConstants.LINE_WIDTH_PRICE);
 
@@ -144,7 +146,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
             public String getFormattedValue(float value, AxisBase axis) {
                 try {
                     //String val = "2018-01-29T22:21:54.896Z";
-                    String xVal = (chartDataList.getJSONObject((int) value).getString("time"));
+                    String xVal = (chartDataList.getJSONObject((int) value).getString("t"));
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     Date date = format.parse(xVal);
                     SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
