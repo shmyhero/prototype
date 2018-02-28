@@ -12,6 +12,7 @@ import {
   ListView,
   Alert,
 } from 'react-native'; 
+import LogicData from '../LogicData';
  
 var {height, width} = Dimensions.get('window');
  
@@ -36,11 +37,11 @@ var listData = [
 ]
 export default class  RankHeroList extends React.Component {
     static propTypes = {
-       
+        showMeBlock: PropTypes.bool,
     }
 
     static defaultProps = {
-         
+        showMeBlock: false,
     }
 
     constructor(props){
@@ -58,32 +59,35 @@ export default class  RankHeroList extends React.Component {
     componentWillUnmount() {
         
     }
-   
 
     gotoUserProfile(){
         this.props.navigation.navigate('UserProfileScreen',{userId:'001'})
     }
 
     renderMe(){
-        return(
-            <TouchableOpacity onPress={()=>this.gotoUserProfile()}>
-                <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
-                        <View style={{marginLeft:10}}>
-                            <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
-                            <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
-                                <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
-                                <Text style={{fontSize:16,color:'#d8effc'}}>76%</Text>
+        if(this.props.showMeBlock){
+            return(
+                <TouchableOpacity onPress={()=>this.gotoUserProfile()}>
+                    <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
+                        <View style={{flexDirection:'row',alignItems:'center'}}>
+                            <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
+                            <View style={{marginLeft:10}}>
+                                <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
+                                <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
+                                    <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
+                                    <Text style={{fontSize:16,color:'#d8effc'}}>76%</Text>
+                                </View>
                             </View>
-                        </View>
-                    </View>     
-                    <View style={{marginRight:30}}>
-                        <Text style={{color:'#ff9999'}}>+52.13%</Text>
-                    </View> 
-                </ImageBackground>
-            </TouchableOpacity>
-        )
+                        </View>     
+                        <View style={{marginRight:30}}>
+                            <Text style={{color:'#ff9999'}}>+52.13%</Text>
+                        </View> 
+                    </ImageBackground>
+                </TouchableOpacity>
+            )
+        }else{
+            return null;
+        }
     }
 
     renderThreeHero(){

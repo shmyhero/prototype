@@ -119,7 +119,7 @@ class LoginScreen extends Component {
             <View style={styles.container}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Image style={{width:120,height:72}} source={require('../../images/icon_candy.png')}/>
+                    <Image style={{width:120,height:128}} source={require('../../images/app_icon.png')}/>
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     

@@ -14,6 +14,8 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
+import LogicData from '../LogicData';
+import LoginScreen from './LoginScreen';
 var {EventCenter, EventConst} = require('../EventCenter');
 var WebSocketModule = require('../module/WebSocketModule');
 var ColorConstants = require('../ColorConstants');
@@ -38,26 +40,34 @@ export default class  TabRankScreen extends React.Component {
     },
   }
 
+  tabSwitchedSubscription = null;
+
   constructor(props){
     super(props);
     this.state = {
-        contentLoaded: false,
-        isRefreshing: true,
-        rankType: RANKING_TYPE_0, 
-       
+      contentLoaded: false,
+      isRefreshing: true,
+      rankType: RANKING_TYPE_0, 
+      isLoggedIn: LogicData.isLoggedIn()
     } 
   }
   
   componentWillMount(){
-    
-    tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.RANKING_TAB_PRESS_EVENT, () => {
-      console.log("STOCK_TAB_PRESS_EVENT")
+    this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.RANKING_TAB_PRESS_EVENT, () => {
+      console.log("RANKING_TAB_PRESS_EVENT")
       WebSocketModule.cleanRegisteredCallbacks();
+      this.refresh();
     });
   }
 
   componentWillUnmount(){
+    this.tabSwitchedSubscription && this.tabSwitchedSubscription.remove();
+  }
 
+  refresh(){
+    this.setState({
+      isLoggedIn: LogicData.isLoggedIn()
+    })
   }
 
   onPressedRankType(type){
@@ -110,13 +120,22 @@ export default class  TabRankScreen extends React.Component {
 
   renderRanks(){
     if(this.state.rankType == RANKING_TYPE_0){
-      return(<RankHeroList navigation={this.props.navigation}>达人榜</RankHeroList>)
+      return(<RankHeroList showMeBlock={this.state.isLoggedIn} navigation={this.props.navigation}>达人榜</RankHeroList>)
     }else if(this.state.rankType == RANKING_TYPE_1){
-      return(
-      <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
-         <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image>
-      </View>
-      )
+      if(this.state.isLoggedIn){
+        return(
+        <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
+          <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image>
+        </View>
+        )
+      }else{
+        return (<LoginScreen hideBackButton={true}
+          onLoginFinished={()=>{
+            this.setState({
+              isLoggedIn:true,
+            })}
+        }/>)
+      }
     }
   }
 
