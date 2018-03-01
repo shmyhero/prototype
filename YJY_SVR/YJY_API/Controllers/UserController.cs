@@ -26,7 +26,7 @@ namespace YJY_SVR.Controllers
         }
 
         [HttpPost]
-        [ActionName("signupByPhone")]
+        [Route("signupByPhone")]
         public SignupResultDTO SignupByPhone(SignupByPhoneFormDTO form)
         {
             var result = new SignupResultDTO();

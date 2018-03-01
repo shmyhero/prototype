@@ -7,7 +7,7 @@ namespace YJY_SVR.DTO
 {
     public class FeedDTO
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public DateTime time { get; set; }
         public string type { get; set; }
 

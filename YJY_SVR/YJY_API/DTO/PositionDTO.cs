@@ -9,8 +9,8 @@ namespace YJY_SVR.DTO
     {
         public int id { get; set; }
 
-        public decimal invest { get; set; }
-        public decimal leverage { get; set; }
+        public decimal? invest { get; set; }
+        public decimal? leverage { get; set; }
 
         public decimal? roi { get; set; }
     }
