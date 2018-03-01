@@ -21,21 +21,21 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("user/plClosed/2w")]
-        public List<UserDTO> GetUserRankPL2w()
+        public List<UserRankDTO> GetUserRankPL2w()
         {
             var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
             var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
 
             var userDTOs = db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
                 .GroupBy(o => o.UserId)
-                .Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserDTO()
+                .Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                 {
                     id = g.Key.Value,
 
                     nickname = u.Nickname,
                     picUrl = u.PicUrl,
 
-                    posCount = g.Count(),
+                    //posCount = g.Count(),
                     winRate = (decimal) g.Count(p => p.PL > 0)/g.Count(),
                     roi = g.Sum(p => p.PL.Value)/g.Sum(p => p.Invest.Value),
                 }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
@@ -57,13 +57,13 @@ namespace YJY_SVR.Controllers
                 }
                 else
                 {
-                    userDTOs.Insert(0, new UserDTO()
+                    userDTOs.Insert(0, new UserRankDTO()
                     {
                         id = tryGetAuthUser.Id,
                         nickname = tryGetAuthUser.Nickname,
                         picUrl = tryGetAuthUser.PicUrl,
 
-                        posCount = 0,
+                        //posCount = 0,
                         roi = 0,
                         winRate = 0,
                     });
@@ -76,13 +76,13 @@ namespace YJY_SVR.Controllers
         [HttpGet]
         [Route("user/following")]
         [BasicAuth]
-        public List<UserDTO> GetFollowingUserRank()
+        public List<UserRankDTO> GetFollowingUserRank()
         {
             var result =
                 db.UserFollows
                     .Where(o => o.UserId == UserId)
                     .OrderByDescending(o => o.FollowAt)
-                    .Join(db.Users, f => f.FollowingId, u => u.Id, (f, u) => new UserDTO()
+                    .Join(db.Users, f => f.FollowingId, u => u.Id, (f, u) => new UserRankDTO()
                     {
                         id = u.Id,
                         nickname = u.Nickname,
@@ -101,14 +101,14 @@ namespace YJY_SVR.Controllers
                 var datas =
                     db.Positions.Where(
                         o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
-                        .GroupBy(o => o.UserId).Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserDTO()
+                        .GroupBy(o => o.UserId).Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                         {
                             id = g.Key.Value,
 
                             nickname = u.Nickname,
                             picUrl = u.PicUrl,
 
-                            posCount = g.Count(),
+                            //posCount = g.Count(),
                             winRate = (decimal)g.Count(p => p.PL > 0) / g.Count(),
                             roi = g.Sum(p => p.PL.Value) / g.Sum(p => p.Invest.Value),
                         }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
@@ -120,13 +120,13 @@ namespace YJY_SVR.Controllers
                     if (data == null) //this guy has no data
                     {
                         userDto.roi = 0;
-                        userDto.posCount = 0;
+                        //userDto.posCount = 0;
                         userDto.winRate = 0;
                     }
                     else
                     {
                         userDto.roi = data.roi;
-                        userDto.posCount = data.posCount;
+                        //userDto.posCount = data.posCount;
                         userDto.winRate = data.winRate;
                     }
                 }

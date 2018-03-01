@@ -39,6 +39,8 @@ namespace YJY_API
                 cfg.CreateMap<Position, PositionDTO>()
                 .ForMember(dest => dest.isLong, opt => opt.MapFrom(src => src.Side))
                 .ForMember(dest=>dest.createAt,opt=>opt.MapFrom(src=>src.CreateTime));
+
+                cfg.CreateMap<User, UserDTO>();
             });
         }
     }

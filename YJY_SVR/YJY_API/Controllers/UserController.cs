@@ -82,7 +82,6 @@ namespace YJY_SVR.Controllers
         }
 
         [HttpGet]
-        //[RequireHttps]
         [Route("me")]
         [BasicAuth]
         public UserBaseDTO GetMe()
@@ -90,6 +89,23 @@ namespace YJY_SVR.Controllers
             var user = GetUser();
 
             var userDto = Mapper.Map<UserBaseDTO>(user);
+
+            return userDto;
+        }
+
+        [HttpGet]
+        [Route("{userId}")]
+        public UserDTO GetUser(int userId)
+        {
+            var user = db.Users.FirstOrDefault(o => o.Id == userId);
+
+            var userDto = Mapper.Map<UserDTO>(user);
+
+            var tryGetAuthUser = TryGetAuthUser();
+            if (tryGetAuthUser != null)
+            {
+                userDto.isFollowing = db.UserFollows.Any(o => o.UserId == tryGetAuthUser.Id && o.FollowingId == userId);
+            }
 
             return userDto;
         }
