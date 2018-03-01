@@ -212,6 +212,7 @@
     <Compile Include="Caching\WebCacheInstance.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\FeedController.cs" />
+    <Compile Include="Controllers\FundController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
     <Compile Include="Controllers\PositionController.cs" />
     <Compile Include="Controllers\QuoteController.cs" />
@@ -222,12 +223,13 @@
     <Compile Include="DTO\FeedDTO.cs" />
     <Compile Include="DTO\FormDTO\PositionFormDTO.cs" />
     <Compile Include="DTO\FormDTO\UserFormDTO.cs" />
+    <Compile Include="DTO\FundDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\SignalRDTO\QuoteFeed.cs" />
     <Compile Include="DTO\TickDTO.cs" />
-    <Compile Include="DTO\User.cs" />
+    <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\SecurityDTO.cs" />
-    <Compile Include="DTO\Util.cs" />
+    <Compile Include="DTO\UtilDTO.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

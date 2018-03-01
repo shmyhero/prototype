@@ -81,6 +81,19 @@ namespace YJY_SVR.Controllers
             return result;
         }
 
+        [HttpGet]
+        //[RequireHttps]
+        [Route("me")]
+        [BasicAuth]
+        public UserBaseDTO GetMe()
+        {
+            var user = GetUser();
+
+            var userDto = Mapper.Map<UserBaseDTO>(user);
+
+            return userDto;
+        }
+
         [HttpPut]
         [Route("follow/{followingId}")]
         [BasicAuth]
