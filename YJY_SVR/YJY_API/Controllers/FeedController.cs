@@ -40,20 +40,25 @@ namespace YJY_SVR.Controllers
                     .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                     .ToList();
 
+            //ranked user ids
             var feedUserIds = rankedUsers.Select(o => o.id).ToList();
 
             var tryGetAuthUser = TryGetAuthUser();
             if (tryGetAuthUser != null)
             {
+                //remove me from ranked user ids
                 if (feedUserIds.Contains(tryGetAuthUser.Id))
                     feedUserIds.Remove(tryGetAuthUser.Id);
 
+                //following user ids
                 var followingUserIds = db.UserFollows.Where(o => o.UserId == tryGetAuthUser.Id).Select(o=>o.FollowingId).ToList();
 
                 feedUserIds = feedUserIds.Concat(followingUserIds).ToList();
             }
 
+            //get open feeds
             var openFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value))
+                .OrderByDescending(o=>o.CreateTime).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .Select(o => new FeedDTO()
                 {
                     user = new UserBaseDTO() { id = o.UserId.Value },
@@ -62,10 +67,11 @@ namespace YJY_SVR.Controllers
                     position = new PositionBaseDTO(){id=o.Id,invest=o.Invest,leverage=o.Leverage},
                     security = new SecurityBaseDTO() { id = o.SecurityId.Value },
                 })
-                .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .ToList();
 
+            //get close feeds
             var closeFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt!=null)
+                .OrderByDescending(o => o.ClosedAt).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .Select(o => new FeedDTO()
                 {
                     user = new UserBaseDTO() { id = o.UserId.Value },
@@ -74,11 +80,23 @@ namespace YJY_SVR.Controllers
                     position = new PositionBaseDTO() { id = o.Id, roi = o.PL/o.Invest},
                     security = new SecurityBaseDTO() { id = o.SecurityId.Value },
                 })
-                .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .ToList();
-            
-            var result = openFeeds.Concat(closeFeeds).OrderByDescending(o => o.time).ToList();
 
+            //get status feeds
+            var statusFeed= db.Status.Where(o => feedUserIds.Contains(o.UserId.Value))
+                .OrderByDescending(o => o.Time).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
+                 .Select(o=>new FeedDTO()
+                 {
+                     user = new UserBaseDTO() { id = o.UserId.Value },
+                     type = "status",
+                     time = o.Time.Value,
+                     status = o.Text,
+                 })
+                 .ToList();
+
+            var result = openFeeds.Concat(closeFeeds).Concat(statusFeed).OrderByDescending(o => o.time).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
+
+            //populate user/security info
             var users = db.Users.Where(o => feedUserIds.Contains(o.Id)).ToList();
             var prods = WebCache.Instance.ProdDefs;
             foreach (var feedDto in result)
