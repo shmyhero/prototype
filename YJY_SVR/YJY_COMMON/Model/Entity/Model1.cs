@@ -12,7 +12,8 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<UserFollow> UserFollows { get; set; }
+        public virtual DbSet<Status> Status { get; set; }
+        public virtual DbSet<StatusLike> StatusLikes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

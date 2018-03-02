@@ -33,4 +33,14 @@ namespace YJY_SVR.DTO
         //public int followerCount { get; set; }
         public bool? isFollowing { get; set; }
     }
+
+    public class StatusDTO
+    {
+        public int id { get; set; }
+        public int userId { get; set; }
+        public DateTime time { get; set; }
+        public string text { get; set; }
+        public int likeCount { get; set; }
+        public bool? isLiked { get; set; }
+    }
 }

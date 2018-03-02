@@ -85,6 +85,8 @@
     <Compile Include="Model\Context\YJYEntities.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
     <Compile Include="Model\Entity\Position.cs" />
+    <Compile Include="Model\Entity\Status.cs" />
+    <Compile Include="Model\Entity\StatusLike.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Model\Entity\UserFollow.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
