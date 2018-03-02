@@ -17,6 +17,8 @@ import NavBar from './component/NavBar';
 import LogicData from '../LogicData';
 import LoginScreen from './LoginScreen';
 var {EventCenter, EventConst} = require('../EventCenter');
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 var ColorConstants = require('../ColorConstants');
 var RankHeroList = require('./RankHeroList');
@@ -75,7 +77,41 @@ export default class  TabRankScreen extends React.Component {
     this.setState({
       rankType:this.state.rankType===RANKING_TYPE_0?RANKING_TYPE_1:RANKING_TYPE_0
     }) 
+
+
+    this.loadRankData(type);
   }
+
+  loadRankData(rankType){
+    var api = (rankType == RANKING_TYPE_0)?NetConstants.CFD_API.RANK_TWO_WEEKS:NetConstants.CFD_API.RANK_FOLLOWING;
+
+    if(LogicData.isLoggedIn()){
+			var userData = LogicData.getUserData();
+			this.setState({
+				isDataLoading: true,
+			}, ()=>{
+				NetworkModule.fetchTHUrl(
+					api,
+					{
+						method: 'GET',
+						headers: {
+							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+							'Content-Type': 'application/json; charset=utf-8',
+						},
+						showLoading: true,
+					}, (responseJson) => { 
+						this.setState({
+							rankListData: responseJson,
+							isDataLoading: false,
+						});  
+					},
+					(exception) => {
+						alert(exception.errorMessage)
+					}
+				);
+			})			
+		}
+	} 
 
   renderRankTypeButton(){
     var isLeftSelected = this.state.rankType == RANKING_TYPE_0;
