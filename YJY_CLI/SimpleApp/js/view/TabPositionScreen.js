@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
+  StatusBar,
   Text,
   Button,
   View,
@@ -19,7 +20,7 @@ var ScrollTabView = require('./component/ScrollTabView')
 var MyPositionTabHold = require('./MyPositionTabHold')  
 var MyPositionTabClosed = require('./MyPositionTabClosed')  
 var MyPositionTabStatistics = require('./MyPositionTabStatistics')  
-var {height,width} = Dimensions.get('window')
+var {height,width} = Dimensions.get('window');
 
 import LoginScreen from './LoginScreen';
 import LogicData from "../LogicData";
@@ -27,22 +28,7 @@ var {EventCenter, EventConst} = require('../EventCenter');
 
 var layoutSizeChangedSubscription = null;
 //Tab3:仓位
-class  TabPositionScreen extends Component {
-
-  static navigationOptions = (navigation) => ({
-    tabBarOnPress: (scene, jumpToIndex) => {
-      jumpToIndex(scene.index);
-      EventCenter.emitPositionTabPressEvent();
-    },
-    tabBarLabel:'仓位',
-    tabBarIcon: ({ focused,tintColor }) => (
-      <Image
-        source={focused?require('../../images/tab3_sel.png'):require('../../images/tab3_unsel.png')}
-        style={[styles.icon ]}
-      />
-    )
-  })
-
+class TabPositionScreen extends Component {
   constructor(props){
     super(props)
 
@@ -56,9 +42,7 @@ class  TabPositionScreen extends Component {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.POSITON_TAB_PRESS_EVENT, () => {
       console.log("POSITON_TAB_PRESS_EVENT")
       this.refresh();
-    });
-    
-    this.refresh();
+    });    
   }
 
   componentWillUnmount(){
@@ -67,10 +51,12 @@ class  TabPositionScreen extends Component {
 
   refresh(){
     if(!LogicData.isLoggedIn()){
+      StatusBar.setBarStyle("light-content");
       this.setState({
         userLoggedin: false,
       })
     }else{
+      StatusBar.setBarStyle("dark-content");
       //TODO: the refresh jobs
       this.setState({
         userLoggedin: true,

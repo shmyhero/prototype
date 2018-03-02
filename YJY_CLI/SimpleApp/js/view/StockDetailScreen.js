@@ -15,6 +15,7 @@ import {
 
 import PriceChartView from './component/PriceChartView';
 import NavBar from './component/NavBar';
+import {ViewKeys} from '../../AppNavigatorConfiguration';
 
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import LogicData from "../LogicData";
@@ -42,6 +43,8 @@ var CHART_STATUS_FAILED = 0;
 var CHART_STATUS_LOADED = 1;
 var CHART_STATUS_LOADING = 2;
 
+const DEFAULT_MULTIPLIER = 1;
+
 class StockDetailScreen extends Component {
     constructor(props){
         super(props)
@@ -49,7 +52,7 @@ class StockDetailScreen extends Component {
         var state = {
             chartType: "stockDetailPage",
             data: null,
-            Multiplier: 1,
+            Multiplier: DEFAULT_MULTIPLIER,
             isLoading: true,
             dataStatus: DATA_STATUS_LOADING,
             chartStatus: CHART_STATUS_LOADING,
@@ -266,7 +269,7 @@ class StockDetailScreen extends Component {
                     }
                 );
             }else{
-                this.props.navigation.navigate('LoginScreen', {
+                this.props.navigation.navigate(ViewKeys.SCREEN_LOGIN, {
                     onLoginFinished: ()=>{
                         this.props.navigation.goBack(null);
                     }
@@ -278,13 +281,19 @@ class StockDetailScreen extends Component {
 
     onOptionSelected(groupName, value){
         var newState = {};
-        newState[groupName] = value
+
+        if(groupName == "Multiplier" && value == this.state[groupName]){
+            newState[groupName] = DEFAULT_MULTIPLIER
+        }else{
+            newState[groupName] = value
+        }
+
         this.setState(newState);
     }
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
-        var label = parameters.label;
+        var label = parameters.label;       
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
         var additionalContainerStyle = parameters.additionalContainerStyle;

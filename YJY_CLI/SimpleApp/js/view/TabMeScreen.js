@@ -30,19 +30,6 @@ var WebSocketModule = require('../module/WebSocketModule');
 var layoutSizeChangedSubscription = null;
 //Tab4:我的
 class  TabMeScreen extends React.Component {
-  static navigationOptions = (navigation) => ({
-    tabBarOnPress: (scene, jumpToIndex) => {
-      jumpToIndex(scene.index);
-      EventCenter.emitMeTabPressEvent();
-    },
-    tabBarLabel:'我的',
-    tabBarIcon: ({ focused,tintColor }) => (
-      <Image
-      source={focused?require('../../images/tab4_sel.png'):require('../../images/tab4_unsel.png')}
-        style={[styles.icon]}
-      />     
-  )});
-
   constructor(props){
     super(props)
 

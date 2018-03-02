@@ -27,21 +27,6 @@ var RANKING_TYPE_0 = 0;
 var RANKING_TYPE_1 = 1;
 //Tab2:榜单
 export default class  TabRankScreen extends React.Component {
-  static navigationOptions = {
-    tabBarLabel:'榜单',
-    tabBarIcon: ({ focused,tintColor }) => (
-          <Image
-          source={focused?require('../../images/tab2_sel.png'):require('../../images/tab2_unsel.png')}
-            style={[styles.icon ]}
-          />
-        ),
-    tabBarOnPress: (scene,jumpToIndex) => {
-      console.log(scene)
-      jumpToIndex(scene.index);
-      EventCenter.emitRankingTabPressEvent();
-    },
-  }
-
   tabSwitchedSubscription = null;
 
   constructor(props){

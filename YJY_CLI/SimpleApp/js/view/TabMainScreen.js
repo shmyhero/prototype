@@ -51,21 +51,7 @@ var mkData = [
 
 //Tab0:动态
 export default class TabMainScreen extends React.Component {
-    static navigationOptions = {
-        tabBarLabel:'动态',
-        tabBarIcon: ({focused,tintColor }) => (
-            <Image
-                source={focused?require('../../images/tab0_sel.png'):require('../../images/tab0_unsel.png')}
-                style={[styles.icon ]}
-            />
-            ),
-        tabBarOnPress: (scene,jumpToIndex) => {
-            console.log(scene)
-            jumpToIndex(scene.index);
-            EventCenter.emitHomeTabPressEvent();
-        },
-    } 
-
+    
     tabSwitchedSubscription = null;
 
     constructor(props){
