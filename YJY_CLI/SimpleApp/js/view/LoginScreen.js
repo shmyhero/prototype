@@ -97,8 +97,8 @@ class LoginScreen extends Component {
 					'Content-Type': 'application/json; charset=UTF-8'
 				},
 				body: JSON.stringify({
-					phone: '13601751330',
-					verifyCode: '2222'
+					phone: this.state.phoneNumber,
+					verifyCode: this.state.verifyCode,
 				}),
 			},
 			(responseJson) => {
@@ -107,7 +107,7 @@ class LoginScreen extends Component {
 			(result) => {
 				Alert.alert('提示', result.errorMessage);
 			}
-		) 
+		)
     }
 
     onWechatLogin(){
@@ -131,6 +131,9 @@ class LoginScreen extends Component {
                         placeholderTextColor='white'
                         placeholder='手机号'
                         keyboardType='numeric' 
+                        onChangeText={(text) => this.setState({
+                            phoneNumber:text
+                        })}
                         style={{marginLeft:10,color:'white',flex:1}}/>
                         <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <View style={{marginRight:10,width:1,height:40,backgroundColor:'#50c2f7'}}></View>
@@ -145,6 +148,9 @@ class LoginScreen extends Component {
                             placeholderTextColor='white'
                             placeholder='验证码'
                             keyboardType='numeric' 
+                            onChangeText={(text) => this.setState({
+                                verifyCode:text
+                            })}
                             style={{width:width,marginLeft:10,color:'white'}}/> 
                     </View> 
                     
