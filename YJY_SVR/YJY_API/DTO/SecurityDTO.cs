@@ -22,11 +22,11 @@ namespace YJY_SVR.DTO
     {
         public int id { get; set; }
         public string name { get; set; }
+        public string symbol { get; set; }
     }
 
     public class SecurityDTO: SecurityBaseDTO
     {
-        public string symbol { get; set; }
         //public string picUrl { get; set; }
         public string tag { get; set; }
 

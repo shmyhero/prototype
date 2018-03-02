@@ -13,6 +13,10 @@ namespace YJY_SVR.DTO
         public decimal? leverage { get; set; }
 
         public decimal? roi { get; set; }
+        public decimal? pl { get; set; }
+        public decimal? upl { get; set; }
+
+        public SecurityBaseDTO security { get; set; }
     }
 
     public class PositionDTO: PositionBaseDTO
@@ -26,8 +30,6 @@ namespace YJY_SVR.DTO
         public bool isLong { get; set; }
         public decimal settlePrice { get; set; }
 
-        public decimal? pl { get; set; }
-        public decimal? upl { get; set; }
         public DateTime createAt { get; set; }
 
         public decimal? stopPx { get; set; }

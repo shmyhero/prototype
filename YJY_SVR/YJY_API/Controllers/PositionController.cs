@@ -204,5 +204,83 @@ namespace YJY_SVR.Controllers
 
             return Mapper.Map<PositionDTO>(position);
         }
+
+        [HttpGet]
+        [Route("~/api/user/{userId}/position/open")]
+        public List<PositionBaseDTO> GetUserOpenPositions(int userId)
+        {
+            var positions =
+                db.Positions.Where(p => p.UserId == userId && p.ClosedAt == null)
+                    .OrderByDescending(p => p.CreateTime)
+                    .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
+                    .ToList();
+
+            var prods = WebCache.Instance.ProdDefs;
+            var quotes = WebCache.Instance.Quotes;
+
+            var result = new List<PositionBaseDTO>();
+            positions.ForEach(p =>
+            {
+                var dto = new PositionBaseDTO();
+                dto.id = p.Id;
+
+                var prodDef = prods.FirstOrDefault(pd => pd.Id == p.SecurityId);
+                var quote = quotes.FirstOrDefault(o => o.Id == p.SecurityId);
+                if (prodDef != null)
+                {
+                    //dto.invest = p.Invest;
+                    dto.upl = Trades.CalculatePL(p, quote);
+                    dto.roi = dto.upl/p.Invest;
+                    dto.security = new SecurityBaseDTO()
+                    {
+                        id = p.SecurityId.Value,
+                        name = Translator.GetProductNameByThreadCulture(prodDef.Name),
+                        symbol = prodDef.Symbol,
+                    };
+                }
+
+                result.Add(dto);
+            });
+
+            return result;
+        }
+
+        [HttpGet]
+        [Route("~/api/user/{userId}/position/closed")]
+        public List<PositionBaseDTO> GetUserClosedPositions(int userId)
+        {
+            var positions =
+                db.Positions.Where(p => p.UserId == userId && p.ClosedAt != null)
+                    .OrderByDescending(p => p.ClosedAt)
+                    .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
+                    .ToList();
+
+            var prods = WebCache.Instance.ProdDefs;
+
+            var result = new List<PositionBaseDTO>();
+            positions.ForEach(p =>
+            {
+                var dto = new PositionBaseDTO();
+                dto.id = p.Id;
+
+                var prodDef = prods.FirstOrDefault(pd => pd.Id == p.SecurityId);
+                if (prodDef != null)
+                {
+                    //dto.invest = p.Invest;
+                    dto.pl = p.PL;
+                    dto.roi = p.PL / p.Invest;
+                    dto.security = new SecurityBaseDTO()
+                    {
+                        id = p.SecurityId.Value,
+                        name = Translator.GetProductNameByThreadCulture(prodDef.Name),
+                        symbol = prodDef.Symbol,
+                    };
+                }
+
+                result.Add(dto);
+            });
+
+            return result;
+        }
     }
 }
