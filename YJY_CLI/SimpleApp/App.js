@@ -52,13 +52,20 @@ export default class App extends React.Component {
     });
     WebSocketModule.start();
     
+    const backAction = NavigationActions.back({});
+
+    const navigateAction = NavigationActions.navigate({
+      routeName: ViewKeys.SCREEN_LOGIN,
+      params: {
+        onLoginFinished: ()=>{
+          this.appNavigator.dispatch(backAction);
+        }
+      }
+    });
+
     this.logOutOutsideAppSubscription = EventCenter.getEventEmitter().addListener(EventConst.ACCOUNT_LOGIN_OUT_SIDE, () => {
       console.log("ACCOUNT_LOGIN_OUT_SIDE")
-      LogicData.logout(()=>{
-        const navigateAction = NavigationActions.navigate({
-          routeName: ViewKeys.SCREEN_LOGIN,
-        });
-          
+      LogicData.logout(()=>{          
         this.appNavigator.dispatch(navigateAction)
       });
     });

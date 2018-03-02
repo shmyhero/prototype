@@ -23,6 +23,9 @@ import NavBar from './component/NavBar';
 
 import LogicData from "../LogicData";
 import LoginScreen from './LoginScreen';
+
+var NetConstants = require('../NetConstants')
+var NetworkModule = require('../module/NetworkModule');
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
 var WebSocketModule = require('../module/WebSocketModule');
@@ -33,9 +36,14 @@ class  TabMeScreen extends React.Component {
   constructor(props){
     super(props)
 
-    this.state = {
+    this.state = this.getInitialState()
+  }
+
+  getInitialState(){
+    return {
       userLoggedin: false,
-    }
+      nickname: "",
+    };
   }
 
   componentWillMount() {
@@ -53,19 +61,36 @@ class  TabMeScreen extends React.Component {
   }
 
   refresh(){
+    var state = this.getInitialState();
     console.log("refresh ", LogicData.isLoggedIn())
     if(!LogicData.isLoggedIn()){
-      this.setState({
-        userLoggedin: false,
-      })
+      this.setState(state)
     }else{
       //TODO: the refresh jobs
-      this.setState({
-        userLoggedin: true,
-      }, ()=>{
-       
+      state.userLoggedin = true;
+      this.setState(state, ()=>{
+        this.fetchMeData();
       });
     }
+  }
+
+  fetchMeData(){
+    var userData = LogicData.getUserData();
+    NetworkModule.fetchTHUrl(
+      NetConstants.CFD_API.ME_DATA,
+      {
+        method: 'GET',
+        headers: {
+          'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+          'Content-Type': 'application/json; charset=utf-8',
+        },
+        showLoading: true,
+      }, (responseJson) => {					
+        LogicData.setMeData(responseJson);
+        this.setState({
+          nickname: responseJson.nickname,
+        })
+      });
   }
 
   onExitButtonPressed(){
@@ -130,7 +155,7 @@ class  TabMeScreen extends React.Component {
     return(
       <View style={{justifyContent:'center'}}>
         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
-        <Text style={{textAlign:'center', marginTop:10, fontSize: 12, color: '#44c1fc'}}>一位不知姓名的用户</Text>
+        <Text style={{textAlign:'center', marginTop:10, fontSize: 12, color: '#44c1fc'}}>{this.state.nickname}</Text>
       </View>
     )
   }

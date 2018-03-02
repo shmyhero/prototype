@@ -103,7 +103,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
     tabBarPosition: 'bottom',
     lazy: false, //Only render tab content when it is active
     animationEnabled: false, //If lazy load is true, make sure no tab animation is enabled.
-    swipeEnabled: true,
+    swipeEnabled: false,
     backBehavior: 'none',
     tabBarOptions: {
         activeTintColor: '#1b9bec',

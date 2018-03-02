@@ -124,6 +124,7 @@ export default class  MyPositionTabHold extends React.Component {
 
 	loadOpenPositionInfo(onFinished, onFailed) {
 		var userData = LogicData.getUserData();
+		console.log("userData:", userData)
 		this.setState({
 			isDataLoading: true,
 		}, ()=>{
