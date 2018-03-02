@@ -8,7 +8,8 @@ var StorageModule = require('./module/StorageModule');
 
 class LogicData {
 	static userData = {};
-
+	static meData = {};
+	
 	static isLoggedIn(){
 		console.log("isLoggedIn", this.userData)
 		var loggined = Object.keys(this.userData).length !== 0
@@ -28,6 +29,14 @@ class LogicData {
 		StorageModule.removeUserData().then(()=>{
 			callback && callback();
 		})			
+	}
+
+	static setMeData(data){
+		this.meData = data;
+	}
+
+	static getMeData(data){
+		return this.meData;
 	}
 }
 

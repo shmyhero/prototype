@@ -95,20 +95,6 @@ class RowComponent extends Component {
 
 //Tab1:行情
 class TabMarketScreen extends Component {
-    static navigationOptions = (navigation) => ({
-        tabBarOnPress: (scene, jumpToIndex) => {
-          jumpToIndex(scene.index);
-          EventCenter.emitStockTabPressEvent();
-        },
-        tabBarLabel:'行情',
-        tabBarIcon: ({ focused,tintColor }) => (
-            <Image
-            source={focused?require('../../images/tab1_sel.png'):require('../../images/tab1_unsel.png')}
-            style={[styles.icon]}
-            />
-        ), 
-    });
-
     constructor(props){
         super(props)
 
@@ -144,8 +130,6 @@ class TabMarketScreen extends Component {
                 },
                 (responseJson) => {
                     var data = this.parseServerData(responseJson)
-                    console.log("data: ")
-                    console.log(data)
                     
                     this.setState({
                         isLoading: false,
@@ -210,10 +194,12 @@ class TabMarketScreen extends Component {
 
     parseServerData(data){
         var listData = {};
+        var listDataOrder = [];
         for(var i in data){
-            listData[""+data[i].id] = data[i];
+            var id = ""+data[i].id;
+            listData[id] = data[i];
+            listDataOrder.push(id)
         }
-        var listDataOrder = Object.keys(listData)
         return {listData: listData, listDataOrder: listDataOrder};
     }
 

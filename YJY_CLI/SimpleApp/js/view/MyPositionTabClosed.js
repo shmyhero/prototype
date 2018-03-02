@@ -18,6 +18,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from "../LogicData";
+import RefreshableFlatList from 'react-native-refreshable-flatlist';
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
@@ -33,8 +34,9 @@ var rowHeight = 56
 var perPageCount = 20;
 var stockNameFontSize = Math.round(17*width/375.0)
 
-
 const ROW_PADDING = 15
+
+const PAGE_SIZE = 5;
 
 export default class  MyPositionTabClosed extends React.Component {
     static navigationOptions = {
@@ -44,18 +46,24 @@ export default class  MyPositionTabClosed extends React.Component {
 	isLoadedAll = false
 	currentTicks = 0
 	isResetScroll = false
-    scrollViewYOffset = 0
+	scrollViewYOffset = 0
+	
+	pageNum = 1;
     
     constructor(props){
         super(props)
-        this.state = {
+        this.state = this.getInitialState();
+    }
+
+	getInitialState(){
+		return {
 			stockInfoRowData: [],
 			selectedRow: -1,
-			isClear:false,
 			contentLoaded: false,
 			isRefreshing: false,
-		};
-    }
+			errorMessage: "",
+		}
+	}
 
 	componentDidMount() {
 		this.loadClosedPositionInfo();
@@ -104,59 +112,57 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
-	clearViews(){
-		if(this._pullToRefreshListView && this._pullToRefreshListView._scrollView){
-			try{
-				this.endNextPageLoadingState(false);
-				if(this.scrollViewYOffset != 0){
-					this._pullToRefreshListView._scrollView.scrollTo({x:0, y:0, animated:false})
-				}
-			}catch(e){
-				console.log("Met error when clear closed position page!" + e)
-			}
-		}
+	loadClosedPositionInfo(onFinished) {
+		var userData = LogicData.getUserData();
 
 		this.setState({
-			isClear:true,
-			contentLoaded: false,
-			isRefreshing: false,
-			stockInfoRowData: [],
-			selectedRow: -1,
-		})
-	}
-
-	loadClosedPositionInfo() {
-		//TODO: real data
-		if(LogicData.isLoggedIn()){
-			var userData = LogicData.getUserData();
-
-			this.setState({
-				isDataLoading: true,
-			}, ()=>{
-				NetworkModule.fetchTHUrl(
-					NetConstants.CFD_API.CLOSED_POSITION_LIST,
-					{
-						method: 'GET',
-						headers: {
-							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-							'Content-Type': 'application/json; charset=utf-8',
-						},
-						showLoading: true,
-					}, (responseJson) => {
-						this.setState({
-							stockInfoRowData: responseJson,
-						})
+			isDataLoading: true,
+		}, ()=>{
+			var url = NetConstants.CFD_API.CLOSED_POSITION_LIST + "?pageSize=" + PAGE_SIZE + "&pageNum=" + this.pageNum
+			NetworkModule.fetchTHUrl(
+				url,
+				{
+					method: 'GET',
+					headers: {
+						'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+						'Content-Type': 'application/json; charset=utf-8',
 					},
-					(exception) => {
-						alert(exception.errorMessage)
+					showLoading: true,
+				}, (responseJson) => {
+					var newStockInfoRowData;
+					if(this.pageNum == 1){
+						newStockInfoRowData = responseJson;
+					}else{
+						newStockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
 					}
-				);
-			});
-		}
+
+					this.setState({
+						stockInfoRowData: newStockInfoRowData,
+						isDataLoading: false,
+						hasMore: !(responseJson.length < PAGE_SIZE)
+					}, ()=>{
+						this.pageNum++;
+						onFinished && onFinished();
+					})
+				},
+				(exception) => {
+					this.setState({
+						errorMessage: exception.errorMessage,
+						isDataLoading: false,
+					})
+				}
+			);
+		});
 	}
 	
 	refresh(){
-		this.loadClosedPositionInfo()
+		this.pageNum = 1;
+
+		if(LogicData.isLoggedIn()){
+			this.loadClosedPositionInfo()
+		}else{
+			this.setState(this.getInitialState());
+		}
 	}
 
 	loadClosedPositionInfoWithLastDateTime(dateTime, count) {
@@ -250,7 +256,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	scrollToCurrentSelectedItem(selectedRow, viewPosition){
 		setTimeout(()=>{
-			this._pullToRefreshListView.scrollToIndex({
+			this._pullToRefreshListView.flatList.scrollToIndex({
 				index: selectedRow, 
 				animated: true, 
 				viewPosition:viewPosition,
@@ -474,12 +480,6 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
-	renderOrClear(){
-		if(this.state.isClear){
-			return(<View style={{height:10000}}></View>)
-		}
-	}
-
 	renderContent(){
 		// if(!this.state.contentLoaded){
 		// 	return (
@@ -490,9 +490,8 @@ export default class  MyPositionTabClosed extends React.Component {
 			var pullUpStayDistance = 35;
 
 			return (<View style={{flex:1}}>
-				{this.renderOrClear()}
 				{this.renderLoadingText()}
-				<FlatList
+				<RefreshableFlatList
 					style={styles.list}
 					ref={ (component) => this._pullToRefreshListView = component }
 					keyExtractor={(item, index) => index}
@@ -501,14 +500,28 @@ export default class  MyPositionTabClosed extends React.Component {
 					// renderFooter={(viewState)=>this.renderFooter(viewState)}
 					pageSize={20}
 					renderItem={(data)=>this.renderItem(data)}
-					autoLoadMore={false}
-					enabledPullDown={false}
+					autoLoadMore={true}
+					enabledPullDown={true}
 					onEndReachedThreshold={30}
 					onScroll={(event)=>this.onScroll(event)}
-					//onRefresh={this._onRefresh.bind(this)}
+					//onRefresh={()=>this.refresh()}
 					onLoadMore={()=>this.onLoadMore()}
 					pullUpDistance={pullUpDistance}
 					pullUpStayDistance={pullUpStayDistance}
+
+					//RefreshableFlatList configuration
+					onRefreshing={()=>this.refresh()}
+					onLoadMore={() => new Promise((resolve) => {							
+						this.loadClosedPositionInfo(resolve);
+					})}
+					showBottomIndicator={!this.state.isRefreshing}
+					showBottomIndicator={this.state.hasMore}
+					topPullingPrompt="下拉刷新数据"
+					topHoldingPrompt="下拉刷新数据"
+					topRefreshingPrompt="刷新数据中..."
+					bottomPullingPrompt="下拉载入更多"
+					bottomHoldingPrompt="下拉载入更多"
+					bottomRefreshingPrompt="载入数据中..."
 				/>
 			</View>);
 		// }
@@ -670,9 +683,13 @@ var styles = StyleSheet.create({
 	},
 
 	loadingTextView: {
+		position: 'absolute',
+		top:0,
+		left:0,
+		right:0,
+		bottom:0,
 		alignItems: 'center',
-		paddingTop: 180,
-		backgroundColor: 'transparent'
+		justifyContent: 'center',
 	},
 
 	loadingText: {

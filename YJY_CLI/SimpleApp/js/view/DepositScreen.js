@@ -80,8 +80,13 @@ class DepositScreen extends Component {
                 <NavBar title="在线充值"
                         showBackButton={true}
                         backgroundColor="transparent"
-                        titleStyle={{color: '#666666'}}
-                        navigation={this.props.navigation}/>
+                        titleStyle={{color: '#0066cc'}}
+                        navigation={this.props.navigation}
+                        viewOnRight={
+                            <TouchableOpacity style={{flex:1, alignItems:'flex-end'}}>
+                                <Text style={{marginRight:30, color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>明细</Text>
+                            </TouchableOpacity>
+                        }/>
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
                         <Image style={{height:15, width:15}} source={require('../../images/deposit_balance.png')}/>

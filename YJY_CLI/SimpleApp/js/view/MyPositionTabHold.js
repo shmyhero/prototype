@@ -16,7 +16,7 @@ import {
     ImageBackground,
     Dimensions,
 	ListView,
-	Alert
+	Alert,
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -42,12 +42,10 @@ const ROW_SIMPLE_CONTENT_HEIGHT = 40 + ROW_SIMPLE_CONTENT_PADDING * 2;
 const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 
-
 const SUB_ACTION_NONE = 0;
 const SUB_ACTION_STOP_LOSS_PROFIT = 2;
 const TYPE_STOP_PROFIT = 1;
 const TYPE_STOP_LOSS = 2;
-
 
 export default class  MyPositionTabHold extends React.Component {
     static navigationOptions = {
@@ -67,7 +65,6 @@ export default class  MyPositionTabHold extends React.Component {
 	stopLossUpdated = false
 	isWaiting = false
 
-
 	constructor(props){
         super(props)
 
@@ -75,12 +72,8 @@ export default class  MyPositionTabHold extends React.Component {
 		state.isDataLoading = false;
 		state.stockInfoRowData = [];
         this.state = state;
-    }
-
-	componentDidMount() {
-		this.loadOpenPositionInfo();
 	}
-
+	
 	getInitialState(){
 		this.stopProfitUpdated = false
 		this.stopLossUpdated = false
@@ -96,32 +89,15 @@ export default class  MyPositionTabHold extends React.Component {
 			stopLossSwitchIsOn: false,
 			profitLossUpdated: false,
 			profitLossConfirmed: false,
-			isClear:false,
 			contentLoaded: false,
 			isRefreshing: false,
 			dataStatus:0,//0正常 1等待刷新 2加载中
 			// height: UIConstants.getVisibleHeight(),
 			totalCount:0,
 			isFocused: false,
+			errorMessage: "",
 		}
 		return state;
-	}
-
-	clearViews(){
-		this.setState({
-			isClear:true,
-			stockInfoRowData: [],
-			selectedRow: -1,
-			selectedSubItem: SUB_ACTION_NONE,
-			stockDetailInfo: [],
-			showExchangeDoubleCheck: false,
-			stopProfitSwitchIsOn: false,
-			stopLossSwitchIsOn: false,
-			profitLossUpdated: false,
-			profitLossConfirmed: false,
-			contentLoaded: false,
-			isRefreshing: false,
-        });
 	}
 
 	refreshFooterBar(responseJson){
@@ -146,31 +122,32 @@ export default class  MyPositionTabHold extends React.Component {
 		})
 	}
 
-	loadOpenPositionInfo() {
-		if(LogicData.isLoggedIn()){
-			var userData = LogicData.getUserData();
-			this.setState({
-				isDataLoading: true,
-			}, ()=>{
-				NetworkModule.fetchTHUrl(
-					NetConstants.CFD_API.OPEN_POSITION_LIST,
-					{
-						method: 'GET',
-						headers: {
-							'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-							'Content-Type': 'application/json; charset=utf-8',
-						},
-						showLoading: true,
-					}, (responseJson) => {
-		
-						this.setState({
-							stockInfoRowData: responseJson,
-							isDataLoading: false,
-						});
-	
+	loadOpenPositionInfo(onFinished, onFailed) {
+		var userData = LogicData.getUserData();
+		console.log("userData:", userData)
+		this.setState({
+			isDataLoading: true,
+		}, ()=>{
+			var url = NetConstants.CFD_API.OPEN_POSITION_LIST;
+			NetworkModule.fetchTHUrl(
+				url,
+				{
+					method: 'GET',
+					headers: {
+						'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+					showLoading: true,
+				}, (responseJson) => {					
+					this.setState({
+						stockInfoRowData: responseJson,
+						isDataLoading: false,
+						isRefreshing: false,
+						
+					}, ()=>{
 						var interestedStockIds = [];
-						for (var i = 0; i < responseJson.length; i++) {
-							var stockId = responseJson[i].security.id
+						for (var i = 0; i < this.state.stockInfoRowData.length; i++) {
+							var stockId = this.state.stockInfoRowData[i].security.id
 							if (interestedStockIds.indexOf(stockId) < 0) {
 								interestedStockIds.push(stockId)
 							}
@@ -178,24 +155,40 @@ export default class  MyPositionTabHold extends React.Component {
 	
 						WebSocketModule.registerInterestedStocks(interestedStockIds.join(','))
 						WebSocketModule.registerInterestedStocksCallbacks(
-						(realtimeStockInfo) => {
-							this.handleStockInfo(realtimeStockInfo)
-						}
-					)
-					},
-					(exception) => {
-						alert(exception.errorMessage)
-					}
-				);
-			})			
-		}
+							(realtimeStockInfo) => {
+								this.handleStockInfo(realtimeStockInfo)
+							}
+						)
+						
+						onFinished && onFinished();
+					});
+				},
+				(exception) => {
+					this.setState({
+						errorMessage: exception.errorMessage,
+						isDataLoading: false,
+						isRefreshing: false,
+					}, ()=>{
+						onFailed && onFailed();
+					});
+				}
+			);
+		})
 	}
 
 	refresh(){
 		var state = this.getInitialState();
-		this.setState(state, ()=>{
-			this.loadOpenPositionInfo();
-		});
+
+		if(LogicData.isLoggedIn()){
+			state.isRefreshing = true;
+			this.setState(state, ()=>{
+				this.loadOpenPositionInfo();
+			});
+		}else{
+			state.isDataLoading = false;
+			state.stockInfoRowData = [];
+			this.setState(state);
+		}
 	}
 
 	handleStockInfo(realtimeStockInfo) {
@@ -279,10 +272,9 @@ export default class  MyPositionTabHold extends React.Component {
 				profitLossConfirmed: false,
 			};
 			this.setState(state, ()=>{
-				this.scrollToCurrentSelectedItem(rowID, 0);
+				this.scrollToCurrentSelectedItem(rowID, 1);
 			})		
 		}
-		
 	}
 
 	scrollToCurrentSelectedItem(selectedRow, viewPosition){
@@ -1186,27 +1178,25 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderLoadingText() {
-		if(this.state.stockInfoRowData.length === 0) {
-			if(this.state.isDataLoading){
+		if(this.state.stockInfoRowData.length === 0){
+			if(this.state.isDataLoading) {
 				return (
 					<View style={styles.loadingTextView}>
 						<Text style={styles.loadingText}>数据读取中，请稍等</Text>
 					</View>
-				)
+				);
 			}else{
-				return (
-					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>暂无持仓记录</Text>
-					</View>
-					)
+				return this.renderEmpty();
 			}
 		}
 	}
 
-	renderOrClear(){
-		if(this.state.isClear){
-			return(<View style={{height:10000}}></View>)
-		}
+	renderEmpty(){
+		return (
+			<View style={styles.loadingTextView}>
+				<Text style={styles.loadingText}>暂无持仓记录</Text>
+			</View>
+		);
 	}
 
 	renderContent(){
@@ -1217,17 +1207,31 @@ export default class  MyPositionTabHold extends React.Component {
 		// }else{
 			return(
 				<View style={{flex:1}}>
-					{this.renderOrClear()}
 					{this.renderLoadingText()}
+					{/* <RefreshableFlatList */}
 					<FlatList
-						style={styles.list}
-						ref={(ref) => { this.flatListRef = ref; }}
+						style={{flex:1}}
+						ref={(ref) => { this.flatListRef = ref;}}
 						data={this.state.stockInfoRowData}
+						//FlatList configuration
 						refreshing={this.state.isRefreshing}
 						onRefresh={()=>this.refresh()}
 						getItemLayout={(data, index) => this.getItemLayout(data, index)}
 						keyExtractor={(item, index) => index}
 						renderItem={(data)=>this.renderItem(data)}
+						//RefreshableFlatList configuration
+						// onRefreshing={()=>this.refresh()}
+						// onLoadMore={() => new Promise((resolve) => {							
+						// 	this.loadOpenPositionInfo(resolve);
+						// })}
+						// showBottomIndicator={!this.state.isRefreshing}
+						// showBottomIndicator={this.state.hasMore}
+						// topPullingPrompt="下拉刷新数据"
+						// topHoldingPrompt="下拉刷新数据"
+						// topRefreshingPrompt="刷新数据中..."
+						// bottomPullingPrompt="下拉载入更多"
+						// bottomHoldingPrompt="下拉载入更多"
+						// bottomRefreshingPrompt="载入数据中..."
 					/>
 					{/* <StockTransactionInfoModal ref='confirmPage'/> */}
 				</View>
@@ -1236,18 +1240,8 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	render() {
-		// var viewStyle = Platform.OS === 'android' ?
-		// 	{	width: width,
-		// 		height: this.state.height
-		// 		- UIConstants.HEADER_HEIGHT
-		// 		- UIConstants.SCROLL_TAB_HEIGHT
-		// 		- UIConstants.TAB_BAR_HEIGHT,
-		// 	}:
-		// 	{width: width, flex: 1}
 		return (
-			// <View style={viewStyle}>
-				this.renderContent()
-			// </View>
+			this.renderContent()
 		)
     }
 }
@@ -1502,9 +1496,13 @@ const styles = StyleSheet.create({
 	},
 
 	loadingTextView: {
+		position: 'absolute',
+		top:0,
+		left:0,
+		right:0,
+		bottom:0,
 		alignItems: 'center',
-		paddingTop: 180,
-		backgroundColor: 'transparent'
+		justifyContent: 'center',
 	},
 	loadingText: {
 		fontSize: 13,

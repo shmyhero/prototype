@@ -10,33 +10,15 @@ import {
   StatusBar,
 } from 'react-native';
 
-
 require('./js/utils/dateUtils')
 require('./js/utils/numberUtils')
-
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from 'react-navigation';
-
+import { NavigationActions } from 'react-navigation';
 var StorageModule = require('./js/module/StorageModule');
 import LogicData from './js/LogicData';
+import {SimpleApp, ViewKeys} from './AppNavigatorConfiguration';
 
-import LoginScreen from './js/view/LoginScreen';
-import HelpScreen from "./js/view/HelpScreen"
-import AboutScreen from "./js/view/AboutScreen"
-import StockDetailScreen from './js/view/StockDetailScreen';
-import MessageScreen from './js/view/MessageScreen';
-import DepositScreen from './js/view/DepositScreen'
-
-var MyHomeScreen = require('./js/view/MyHomeScreen');
-var MyHomeScreen3 = require('./js/view/MyHome3Screen');
-var TabMainScreen = require('./js/view/TabMainScreen');
-import TabMarketScreen from './js/view/TabMarketScreen';
-var TabRankScreen = require('./js/view/TabRankScreen');
-import TabPositionScreen from './js/view/TabPositionScreen';
-import TabMeScreen from './js/view/TabMeScreen';
-var SplashScreen = require('./js/view/SplashScreen');
-var UserProfileScreen = require('./js/view/UserProfileScreen');
 var WebSocketModule = require('./js/module/WebSocketModule');
+var {EventCenter, EventConst} = require('./js/EventCenter');
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
@@ -56,11 +38,12 @@ function getCurrentRouteName(navigationState) {
 }
 
 export default class App extends React.Component {
+  logOutOutsideAppSubscription = null;
   componentWillMount(){
-    this.loadDataOnStartup()
+    this.startupJobs()
   }
 
-  loadDataOnStartup(){
+  startupJobs(){
     StorageModule.loadUserData().then((data)=>{
       if(data!=undefined){
         var obj = JSON.parse(data)
@@ -68,6 +51,24 @@ export default class App extends React.Component {
       }
     });
     WebSocketModule.start();
+    
+    const backAction = NavigationActions.back({});
+
+    const navigateAction = NavigationActions.navigate({
+      routeName: ViewKeys.SCREEN_LOGIN,
+      params: {
+        onLoginFinished: ()=>{
+          this.appNavigator.dispatch(backAction);
+        }
+      }
+    });
+
+    this.logOutOutsideAppSubscription = EventCenter.getEventEmitter().addListener(EventConst.ACCOUNT_LOGIN_OUT_SIDE, () => {
+      console.log("ACCOUNT_LOGIN_OUT_SIDE")
+      LogicData.logout(()=>{          
+        this.appNavigator.dispatch(navigateAction)
+      });
+    });
   }
 
   render() {
@@ -75,104 +76,36 @@ export default class App extends React.Component {
       StatusBar.setBarStyle("light-content");
       StatusBar.setTranslucent(true);
     }
-    return <SimpleApp uriPrefix={prefix}
+    return <SimpleApp 
+      ref={(ref)=>this.appNavigator = ref}
+      uriPrefix={prefix}
       onNavigationStateChange={(prevState, currentState) => {        
+        StatusBar.setBarStyle("light-content");
         var routeName = getCurrentRouteName(currentState);
-        if(routeName == "TabPosition"){
-          StatusBar.setBarStyle("dark-content")
-        }else{
-          StatusBar.setBarStyle("light-content")
-        }
+        console.log("routeName ", routeName)
+        switch(routeName){
+          case ViewKeys.TAB_MAIN:
+            EventCenter.emitHomeTabPressEvent();
+            break;
+          case ViewKeys.TAB_MARKET:
+            EventCenter.emitStockTabPressEvent();
+            break;
+          case ViewKeys.TAB_RANK:
+            EventCenter.emitRankingTabPressEvent();
+            break;
+          case ViewKeys.TAB_POSITION:
+            EventCenter.emitPositionTabPressEvent();
+            break;
+          case ViewKeys.TAB_ME:
+            EventCenter.emitMeTabPressEvent();
+            break;
+          default:
+            break;
+        }        
       }}
     />;
   }
 } 
-
-export const MainScreenNavigator = TabNavigator({
-    TabMain: {
-      screen: TabMainScreen,
-      title:'首页',
-    },
-    TabMarket: {
-      screen: TabMarketScreen
-    },
-    TabRank: {
-        screen: TabRankScreen
-    },
-    TabPosition: {
-      screen: TabPositionScreen,      
-    },
-    TabMe: {
-      screen: TabMeScreen
-    },
-  }, {
-    lazy: true, //Only render tab content when it is active
-    tabBarPosition: 'bottom',
-    animationEnabled: false,
-    swipeEnabled: false,
-    backBehavior: 'none',
-    tabBarOptions: {
-      activeTintColor: '#1b9bec',
-      inactiveTintColor:'grey',
-      style:{
-        backgroundColor: 'white',
-      }, 
-      labelStyle: {
-        fontSize: 12, 
-      },
-      showIcon:true, 
-      indicatorStyle:{height:0},//for android ,remove line on tab
-    }, 
-    navigationOptions: (navigation) => ({     
-      headerStyle: {
-        elevation: 0,
-      },
-      header: null,
-    })
-});
-
-const SimpleApp = StackNavigator({
-    SplashScreen:{ 
-      screen: SplashScreen,
-    },
-    Home: {
-      screen: MainScreenNavigator,
-    }, 
-    StockDetail:{
-      screen:StockDetailScreen,      
-    },
-    LoginScreen:{
-      screen: LoginScreen
-    },
-    UserProfileScreen:{
-      screen:UserProfileScreen ,
-    }, 
-    HelpScreen:{
-      screen: HelpScreen,
-    },
-    AboutScreen:{
-      screen: AboutScreen,
-    },
-    MessageScreen: {
-      screen: MessageScreen,
-    },
-    DepositScreen:{
-      screen: DepositScreen,
-    }
-},  
-{
-  cardStyle: {
-    shadowColor: 'transparent',
-  },
-  navigationOptions: {
-    headerStyle: {
-      elevation: 0,
-    },
-    header: null,
-  }
-});
-
-
 
 const styles = StyleSheet.create({
   container: {
