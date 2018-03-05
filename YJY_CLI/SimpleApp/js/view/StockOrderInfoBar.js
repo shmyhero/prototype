@@ -51,7 +51,7 @@ export default class StockOrderInfoBar extends Component {
                 isLong: orderData.isLong,
                 invest: orderData.invest,
                 leverage: orderData.leverage,
-                openPrice: orderData.openPrice,
+                closePrice: orderData.closePrice,
                 settlePrice: orderData.settlePrice,
                 time: orderData.time,
                 titleColor: ColorConstants.TITLE_BLUE,
@@ -78,10 +78,13 @@ export default class StockOrderInfoBar extends Component {
 
     render(){       
         var plRate = this.state.plRate;
+        console.log("plRate: ", plRate, this.state.isCreate)
+            
         if ((plRate === '' || plRate === undefined) && !this.state.isCreate) {
-            //console.log("this.state.settlePrice: " + this.state.settlePrice + ", this.state.openPrice: " + this.state.openPrice + ", this.state.leverage: " + this.state.leverage)
-            plRate = (this.state.settlePrice - this.state.openPrice) / this.state.openPrice * this.state.leverage * 100
+            console.log("this.state.settlePrice: " + this.state.settlePrice + ", this.state.closePrice: " + this.state.closePrice + ", this.state.leverage: " + this.state.leverage)
+            plRate = (this.state.closePrice - this.state.settlePrice) / this.state.settlePrice * this.state.leverage * 100
             plRate *= (this.state.isLong ? 1 : -1)
+            console.log("plRate", plRate)
         }
 
         var plColor = 'black'
@@ -154,7 +157,7 @@ export default class StockOrderInfoBar extends Component {
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            最大风险（糖果）
+                            {this.state.isCreate?"最大风险（糖果）":"盈亏（糖果）"}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle, {color: plColor}]}>
                         {this.state.isCreate ? this.state.invest.toFixed(2) : this.state.pl.toFixed(2)}

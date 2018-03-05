@@ -23,28 +23,28 @@ class NavBar extends Component {
 		showBackButton: PropTypes.bool,
 		showSearchButton: PropTypes.bool,
 		imageOnLeft: PropTypes.number,
+		imageOnRight: PropTypes.number,
 		textOnLeft: PropTypes.string,
 		textOnRight: PropTypes.string,
-		imageOnRight: PropTypes.number,
+		rightTextColor: ColorPropType,
+		leftPartOnClick: PropTypes.func,
 		rightImageStyle: ViewPropTypes.style,
+		rightPartOnClick: PropTypes.func,
+		rightCustomContent: PropTypes.func,
+		enableRightText: PropTypes.bool,
 		viewOnRight: PropTypes.element,
 		viewOnLeft: PropTypes.element,
-		leftTextOnClick: PropTypes.func,
-		leftButtonOnClick: PropTypes.func,
-		rightTextOnClick: PropTypes.func,
-		rightImageOnClick: PropTypes.func,
         backButtonOnClick: PropTypes.func,
         title: PropTypes.string,
+        titleColor: ColorPropType,
+		titleStyle: Text.propTypes.style,
+		titleOpacity: PropTypes.number,
 		subTitle: PropTypes.string,
-		subTitleStyle: ViewPropTypes.style,
+		subTitleStyle: Text.propTypes.style,
 		backgroundColor: ColorPropType,
-		rightCustomContent: PropTypes.func,
-		barStyle: ViewPropTypes.style,
-		titleStyle: ViewPropTypes.style,
-		enableRightText: PropTypes.bool,
+		barStyle: ViewPropTypes.style,		
 		hideStatusBar: PropTypes.bool,
 		onlyShowStatusBar: PropTypes.bool,
-		titleOpacity: PropTypes.number,
     }
     
     static defaultProps = {
@@ -57,10 +57,8 @@ class NavBar extends Component {
         rightImageStyle: null,
         viewOnRight: null,
         viewOnLeft: null,
-        leftTextOnClick: null,
-        leftButtonOnClick: null,
-        rightTextOnClick: null,
-        rightImageOnClick: null,
+        leftPartOnClick: null,
+        rightPartOnClick: null,
         backButtonOnClick: null,
         title: "详情",
         subTitle: null,
@@ -131,9 +129,13 @@ class NavBar extends Component {
     
     renderTitle(){
 		if(this.props.titleOpacity > 0){
+			var titleStyle={}
+			if(this.props.titleColor){
+				titleStyle.color = this.props.titleColor;
+			}
 			return(
 				<View style={styles.centerContainer}>
-					<Text style={[styles.title, this.props.titleStyle, {opacity: this.props.titleOpacity}]}>
+					<Text style={[styles.title, titleStyle, this.props.titleStyle, {opacity: this.props.titleOpacity}]}>
 						{this.props.title}
 					</Text>
 					{this.renderSubTitle()}
@@ -198,9 +200,7 @@ class NavBar extends Component {
 		if (this.props.textOnLeft !== null) {
 			return (
 				<TouchableOpacity
-					onPress={this.leftTextOnClick}
-					// underlayColor={ColorConstants.title_blue()}
-					>
+					onPress={()=> this.leftPartOnClick && this.leftPartOnClick()}>
 
 					<Text style={styles.textOnLeft}>
 						{this.props.textOnLeft}
@@ -215,9 +215,7 @@ class NavBar extends Component {
 		if (this.props.showSearchButton) {
 			return (
 				<TouchableOpacity
-					onPress={this.searchButtonClicked}
-					// underlayColor={ColorConstants.title_blue()}
-					>
+					onPress={this.searchButtonClicked}>
 
 					<Image
 						style={styles.rightImage}
@@ -230,14 +228,15 @@ class NavBar extends Component {
 
 	renderRightText() {
 		if (this.props.textOnRight !== null) {
+			var textOnRightStyle = {}
+			if(this.props.rightTextColor){
+				textOnRightStyle.color = this.props.rightTextColor;
+			}
 			if(this.props.enableRightText) {
 				return (
 					<TouchableOpacity
-						onPress={this.rightTextOnClick}
-						// underlayColor={ColorConstants.title_blue()}
-						>
-
-						<Text style={styles.textOnRight}>
+						onPress={()=> this.props.rightPartOnClick && this.props.rightPartOnClick()}>
+						<Text style={[styles.textOnRight, textOnRightStyle]}>
 							{this.props.textOnRight}
 						</Text>
 
@@ -246,7 +245,7 @@ class NavBar extends Component {
 			}
 			else {
 				return (
-					<Text style={[styles.disabledTextOnRight,{color:'#6a9bee'}]}>
+					<Text style={[styles.disabledTextOnRight,{color: textOnRightStyle}]}>
 						{this.props.textOnRight}
 					</Text>
 					)
@@ -261,9 +260,10 @@ class NavBar extends Component {
 				imageStyles.push(this.props.rightImageStyle);
 			}
 
+			console.log("this.props.rightPartOnClick ", this.props.rightPartOnClick)
 			return (
 				<TouchableOpacity
-					onPress={()=> this.props.rightImageOnClick && this.props.rightImageOnClick()}
+					onPress={()=> this.props.rightPartOnClick && this.props.rightPartOnClick()}
 					// underlayColor={ColorConstants.title_blue()}
 					>
 
@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		textAlign: 'center',
 		color: '#ffffff',
-		marginRight: 10,
+		marginRight: 30,
 	},
 	disabledTextOnRight: {
 		fontSize: 15,

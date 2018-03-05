@@ -114,4 +114,4 @@ var styles = StyleSheet.create({
 });
 
 
-module.exports = StockOrderInfoModal;
+export default StockOrderInfoModal;

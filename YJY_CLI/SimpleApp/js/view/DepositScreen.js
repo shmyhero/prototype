@@ -19,14 +19,31 @@ class DepositScreen extends Component {
 
         this.state = {
             balance: 100,
+            displayText: "",
             value: 0,
             paymentType: PAYMENT_TYPE_WECHAT,
             isAgreementRead: false,
         }
     }
 
-    onPaymentSelected(type){
-        PAYMENT_TYPE_ALIPAY
+    updatePaymentAmount(value){
+        var state = {
+            displayText: value
+        };
+        if(value){
+            state.value = parseInt(value);
+        }else{
+            state.value = 0;
+        }
+        this.setState(state)
+    }
+
+    isReadyToPay(){
+        if(this.state.value > 0 && this.state.isAgreementRead){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     renderAgreement(){
@@ -74,19 +91,41 @@ class DepositScreen extends Component {
         );
     }
 
+    renderConfirmButton(){
+        var buttonEnabled = this.isReadyToPay();
+        var buttonImage = buttonEnabled ? require("../../images/position_confirm_button_enabled.png") : require("../../images/position_confirm_button_disabled.png")
+        return (
+            <TouchableOpacity
+                onPress={()=>{alert("支付" + this.state.paymentType + ", " + this.state.value)}}
+                style={styles.okView}
+                >
+                <ImageBackground source={buttonImage}
+                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
+                    <Text style={styles.okButton}>
+                        确认支付
+                    </Text>
+                </ImageBackground>
+            </TouchableOpacity>
+        );
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <NavBar title="在线充值"
                         showBackButton={true}
                         backgroundColor="transparent"
-                        titleStyle={{color: '#0066cc'}}
+                        titleColor={'#0066cc'}
                         navigation={this.props.navigation}
-                        viewOnRight={
-                            <TouchableOpacity style={{flex:1, alignItems:'flex-end'}}>
-                                <Text style={{marginRight:30, color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>明细</Text>
-                            </TouchableOpacity>
-                        }/>
+                        // viewOnRight={
+                        //     <TouchableOpacity style={{flex:1, alignItems:'flex-end'}}>
+                        //         <Text style={{marginRight:30, color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>明细</Text>
+                        //     </TouchableOpacity>
+                        // }
+                        textOnRight={"明细"}
+                        rightTextColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
+                        rightPartOnClick={()=>alert("!!")}
+                        />
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
                         <Image style={{height:15, width:15}} source={require('../../images/deposit_balance.png')}/>
@@ -99,8 +138,8 @@ class DepositScreen extends Component {
                                             source={require("../../images/deposit_block_background.png")}>
                             <View style={styles.rowContainer}>
                                 <Text style={styles.rowHeader}>糖果数量: </Text>
-                                <TextInput style={styles.rowValue} defaultValue={this.state.value.toString()}
-                                onValueChange={(value)=>this.setState({value: value.toInt()})}/>
+                                <TextInput style={styles.rowValue} defaultValue={this.state.displayText}
+                                    onChangeText={(value)=>this.updatePaymentAmount(value)}/>
                             </View>
                             <View style={styles.darkSeparator}/>
                             <View style={styles.rowContainer}>
@@ -118,17 +157,7 @@ class DepositScreen extends Component {
                         </ImageBackground>
                     </View>
                     {this.renderAgreement()}
-                    <TouchableOpacity
-                        onPress={()=>{alert("支付")}}
-                        style={styles.okView}
-                        >
-                        <ImageBackground source={require("../../images/position_confirm_button.png")}
-                            style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                            <Text style={styles.okButton}>
-                                确认支付
-                            </Text>
-                        </ImageBackground>
-                    </TouchableOpacity>
+                    {this.renderConfirmButton()}
                 </View>
                
             </View>

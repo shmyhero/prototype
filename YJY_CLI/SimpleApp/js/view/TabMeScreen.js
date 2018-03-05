@@ -17,6 +17,7 @@ var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
 var BIG_BUTTON_HEIGHT = BUTTON_WIDTH / 722 * 380;
 
+import { ViewKeys } from '../../AppNavigatorConfiguration';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
@@ -120,19 +121,19 @@ class  TabMeScreen extends React.Component {
   }
 
   showHelp(){
-    this.props.navigation.navigate("HelpScreen");
+    this.props.navigation.navigate(ViewKeys.SCREEN_HELP);
   }
 
   showAbout(){
-    this.props.navigation.navigate("AboutScreen");
+    this.props.navigation.navigate(ViewKeys.SCREEN_ABOUT);
   }
 
   showWithdraw(){
-    this.props.navigation.navigate("DepositScreen");
+    this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
   }
 
   showMessage(){
-    this.props.navigation.navigate("MessageScreen");
+    this.props.navigation.navigate(ViewKeys.SCREEN_MESSAGE);
   }
 
   renderButton(title, icon, onPress){
@@ -189,7 +190,7 @@ class  TabMeScreen extends React.Component {
       return (<View style={styles.mainContainer}>
         <View style={styles.backgroundContainer}/>
         <NavBar title="" imageOnRight={require('../../images/me_messages.png')} 
-                rightImageOnClick={()=>this.showMessage()}/>
+                rightPartOnClick={()=>this.showMessage()}/>
         {this.renderPortrait()}
         {this.renderBalance()}
         {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
