@@ -22,15 +22,21 @@ var {height, width} = Dimensions.get('window');
 export default class  MyPositionTabStatistics extends React.Component {
   static navigationOptions = {
     title: 'Home',
-  }
+  } 
 
+
+  refresh(){
+    // this.refs['profitStatisticBlock'].refresh();
+    console.log('onREFESH:'+this.refs['profitStatisticBlock'].refresh);
+  }
+  
   render() {
     return (
       <View style={styles.container}> 
         <View style={styles.content}>
           <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
             {/* <View style={{backgroundColor:'white', height:220,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}> */}
-              <ProfitStatisticsBlock/>
+              <ProfitStatisticsBlock ref={'profitStatisticBlock'}/>
             {/* </View> */}
             <View style={{backgroundColor:'white', marginTop:10,height:220,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
               <ProfitTrendCharts/>

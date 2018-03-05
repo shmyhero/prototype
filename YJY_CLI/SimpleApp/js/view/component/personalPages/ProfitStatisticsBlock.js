@@ -13,10 +13,12 @@ import {
   ImageBackground
 } from 'react-native';
 
+import LogicData from '../../../LogicData';
+var NetworkModule = require('../../../module/NetworkModule');
+var NetConstants = require('../../../NetConstants');
 var ColorConstants = require('../../../ColorConstants');  
 
-var TYPE_MONTH = 0;
-var TYPE_ALL = 1;
+ 
 var {height, width} = Dimensions.get('window');
 export default class ProfitStatisticsBlock extends Component {
   static propTypes = {
@@ -30,47 +32,62 @@ export default class ProfitStatisticsBlock extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      chartType:TYPE_MONTH
+      balance:0,
+      total:0,
     }
   }
 
   componentDidMount(){
-
+    this.refresh()
   }
 
-  refresh(tradeStyle){ 
-     
+  refresh(){
+    this.loadBalance()
   }
 
-  clear(){ 
-  }
 
-  selectorPressed(type){
-    if(type !== this.state.chartType){
+  loadBalance(){ 
+    //{ balance: 98249.97026353, total: 99494.27291035505 }
+ 
+    if(LogicData.isLoggedIn()){
+      var userData = LogicData.getUserData();
       this.setState({
-        chartType:type
-      })
+          isDataLoading: true,
+      }, ()=>{
+          NetworkModule.fetchTHUrl(
+              NetConstants.CFD_API.USER_FUND_BALANCE,
+              {
+                  method: 'GET',
+                  headers: {
+                      'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                      'Content-Type': 'application/json; charset=utf-8',
+                  },
+                  showLoading: true,
+              }, (responseJson) => { 
+                   this.setState({
+                     balance:responseJson.balance,
+                     total:responseJson.total,
+                   })
+              },
+              (exception) => {
+                  alert(exception.errorMessage)
+              }
+          );
+      })			
     }
-  }
+  } 
 
-  render() { 
-    var selectorLeftBgColor = this.state.chartType == TYPE_MONTH ? ColorConstants.BGBLUE:'transparent'
-    var selectorRightBgColor = this.state.chartType == TYPE_MONTH ? 'transparent':ColorConstants.BGBLUE
-    var textColorLeft = this.state.chartType == TYPE_MONTH ? 'white':'grey'
-    var textColorRight = this.state.chartType == TYPE_MONTH ? 'grey':'white'
+  render() {  
     return (  
           <ImageBackground style={styles.gifBg} source={require('../../../../images/statistics.gif')}>
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
               <Text style={{marginTop:30,color:'#666666'}}>总糖果</Text>
-              <Text style={{marginTop:0,fontSize:50,color:ColorConstants.BGBLUE}}>99999.00</Text>
+              <Text style={{marginTop:0,fontSize:50,color:ColorConstants.BGBLUE}}>{this.state.total.toFixed(2)}</Text>
             </View>  
-
             <View style={{flex:1,justifyContent:'flex-end',alignItems:'center'}}>
               <Text style={{fontSize:15, color:'#89cff7'}}>剩余糖果</Text>
-              <Text style={{color:'#c1e5fc',fontSize:20,marginBottom:10}}>50000.00</Text>
+              <Text style={{color:'#c1e5fc',fontSize:20,marginBottom:10}}>{this.state.balance.toFixed(2)}</Text>
             </View>
-           
-          
           </ImageBackground>
     );
   }
@@ -84,28 +101,7 @@ const styles = StyleSheet.create({
     height: 0.5,
     backgroundColor: ColorConstants.SEPARATOR_GRAY,
   },
-  selectorLeft:{
-    alignItems:'center',
-    borderWidth:0.5,
-    padding:5,
-    width:72,
-    borderTopLeftRadius:10,
-    borderBottomLeftRadius:10,
-    borderColor:'#EEEEEE'
-  },
-  selectorRight:{
-    alignItems:'center',
-    borderWidth:0.5,
-    padding:5,
-    width:72,
-    borderTopRightRadius:10,
-    borderBottomRightRadius:10,
-    borderColor:'#EEEEEE'
-  } ,
-  textChartSelector:{
-    fontSize:12,
-    color:'white'
-  },
+  
   gifBg:{
     width:width-40,
     height:(width-40)*215/350,

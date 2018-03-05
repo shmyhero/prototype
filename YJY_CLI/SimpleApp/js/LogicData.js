@@ -30,13 +30,17 @@ class LogicData {
 			callback && callback();
 		})			
 	}
-
+ 
 	static setMeData(data){
 		this.meData = data;
 	}
 
 	static getMeData(data){
 		return this.meData;
+	}
+	
+	static isUserSelf(id){
+		return id == this.userData.userId
 	}
 }
 
