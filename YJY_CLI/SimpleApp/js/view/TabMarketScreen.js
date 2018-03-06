@@ -16,6 +16,7 @@ import { StackNavigator } from 'react-navigation';
 import PropTypes from "prop-types";
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
+import LogicData from '../LogicData';
 
 var WebSocketModule = require('../module/WebSocketModule');
 var AppStateModule = require('../module/AppStateModule');
@@ -110,8 +111,6 @@ class TabMarketScreen extends Component {
             console.log("STOCK_TAB_PRESS_EVENT")
             this.loadStockList();
         });
-        
-        this.loadStockList();    
     }
 
     componentWillUnmount(){
@@ -122,22 +121,22 @@ class TabMarketScreen extends Component {
         this.setState({
             isLoading: true,
         }, ()=>{
-            console.log("loadStockList")
             NetworkModule.fetchTHUrl(
                 NetConstants.CFD_API.GET_STOCK_LIST,
                 {
                     method: 'GET',				
                 },
-                (responseJson) => {
-                    var data = this.parseServerData(responseJson)
-                    
-                    this.setState({
-                        isLoading: false,
-                        listData: data.listData,
-                        listDataOrder: data.listDataOrder,
-                    }, ()=>{
-                        this.webSocketRegisterInsterestedStocks();
-                    });
+                (responseJson) => {                    
+                    //Currently the order is stored in app locally.
+                    this.generateDataAndOrder(responseJson).then((data)=>{
+                        this.setState({
+                            listDataOrder: data.listDataOrder,
+                            listData: data.listData,
+                            isLoading: false,
+                        }, ()=>{
+                            this.webSocketRegisterInsterestedStocks();
+                        });
+                    }); 
                 },
                 (result) => {
                     Alert.alert('提示', result.errorMessage);
@@ -192,15 +191,63 @@ class TabMarketScreen extends Component {
 			})
     }
 
-    parseServerData(data){
-        var listData = {};
+    updateStockDataOrder(localData, responseData){
+        var changes = false;
         var listDataOrder = [];
-        for(var i in data){
-            var id = ""+data[i].id;
-            listData[id] = data[i];
-            listDataOrder.push(id)
+        for(var index in localData){
+            var id = localData[index]
+            if(id in responseData && listDataOrder.indexOf(id) < 0){
+                listDataOrder.push(id);
+            }else{
+                changes = true;
+            }
         }
-        return {listData: listData, listDataOrder: listDataOrder};
+        for(var id in responseData){
+            if(listDataOrder.indexOf(id) < 0){
+                listDataOrder.push(id);
+                changes = true;
+            }
+        }
+
+        if(changes){
+            LogicData.setMarketListOrder(listDataOrder);
+        }
+        return listDataOrder;
+    }
+
+    generateDataAndOrder(responseData){                
+        return new Promise((resolve)=>{
+            var retData = {
+                listData: {},
+                listDataOrder: [],
+            };
+            for(var i in responseData){
+                var id = ""+responseData[i].id;
+                retData.listData[id] = responseData[i];
+            }
+            
+            if(this.state.listDataOrder == undefined || this.state.listDataOrder.length == 0){
+                LogicData.loadMarketListOrder().then((localData)=>{
+                    retData.listDataOrder = localData;
+
+                    var listDataOrder = this.updateStockDataOrder(localData, retData.listData)        
+
+                    resolve(retData)
+                }).catch(()=>{
+                    //No data stored yet.
+                    //First time run this piece of code. Save it into the database.
+                    for(var i in responseData){
+                        retData.listDataOrder.push(id)
+                    }
+                    LogicData.setMarketListOrder(retData.listDataOrder).then(()=>{
+                        resolve(retData)
+                    })
+                });
+            }else{
+                retData.listDataOrder = this.updateStockDataOrder(this.state.listDataOrder, retData.listData);
+                resolve(retData)
+            }
+        });
     }
 
     renderContent(){
@@ -216,8 +263,13 @@ class TabMarketScreen extends Component {
                     data={this.state.listData}
                     order={this.state.listDataOrder}                    
                     onRowMoved={e => {
-                        this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0])
-                        this.forceUpdate()
+                        this.state.listDataOrder.splice(e.to, 0, this.state.listDataOrder.splice(e.from, 1)[0]);
+                        LogicData.setMarketListOrder(this.state.listDataOrder);
+                        this.setState({
+                            listDataOrder: this.state.listDataOrder
+                        }, ()=>{
+                            this.forceUpdate()
+                        })
                     }}
                     sortRowStyle={{opacity:1}}
                     renderRow={row => {

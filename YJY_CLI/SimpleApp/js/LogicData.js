@@ -42,30 +42,36 @@ class LogicData {
 	static isUserSelf(id){
 		return id == this.userData.userId
 	}
+
+	static async setMarketListOrder(value){
+		return new Promise((resolve)=>{
+			this.marketListOrder = value
+			var data = JSON.stringify(value)
+			console.log("MarketListOrder value", value)
+			console.log("MarketListOrder", data)
+			StorageModule.setMarketListOrder(data).catch(()=>{
+				resolve();
+			})
+		});
+	}
+
+	static async loadMarketListOrder(){
+		
+		return new Promise((resolve, reject)=>{
+			if(this.marketListOrder){
+				resolve(this.marketListOrder);
+			}else{
+				StorageModule.loadMarketListOrder().then(value=>{
+					if(value){
+						this.marketListOrder = JSON.parse(value)
+						resolve(this.marketListOrder);
+					}else{
+						reject();
+					}
+				});
+			}			
+		});
+	}
 }
 
 export default LogicData;
-
-// var LogicData = {
-// 	isLoggedIn: function(){
-// 		var loggined = Object.keys(userData).length !== 0
-// 		return loggined;
-// 	},
-
-// 	setUserData: function(data) {
-// 		userData = data;
-// 	},
-
-// 	getUserData: function() {
-// 		return userData;
-// 	},
-
-// 	logout: function(callback) {
-// 		userData = {};
-// 		StorageModule.removeUserData().then(()=>{
-// 			callback && callback();
-// 		})			
-// 	},
-// }
-
-// module.exports = LogicData;

@@ -27,6 +27,7 @@ var FIRSTDAYWITHDRAW = '@TH_CFD:firstDayWithDraw'
 var DEBUG_SETTINGS = '@TH_CFD:debugSettings'
 var LAST_ACTIVITY_DATA = '@TH_CFD:lastActivityData'
 var MIFID_TEST_VERIFIED = '@TH_CFD:MIFIDTestVerified'
+var MARKET_LIST_ORDER = '@TH_CFD:MarketListOrder'
 
 export async function loadUserData() {
 	try {
@@ -457,3 +458,20 @@ export async function loadMIFIDTestVerified(){
 		console.log('AsyncStorage error: ' + error.message);
 	}
 }
+
+export async function setMarketListOrder(value){
+	try {
+		  await AsyncStorage.setItem(MARKET_LIST_ORDER, value);
+	  } catch (error) {
+		  console.log('AsyncStorage error: ' + error.message);
+	  }
+  }
+  
+  export async function loadMarketListOrder(){
+	try {
+			var value = await AsyncStorage.getItem(MARKET_LIST_ORDER);
+		return value;
+	  } catch (error) {
+		  console.log('AsyncStorage error: ' + error.message);
+	  }
+  }
