@@ -218,6 +218,7 @@
     <Compile Include="Controllers\QuoteController.cs" />
     <Compile Include="Controllers\RankController.cs" />
     <Compile Include="Controllers\SecurityController.cs" />
+    <Compile Include="Controllers\StatController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\YJYController.cs" />
@@ -227,6 +228,7 @@
     <Compile Include="DTO\FundDTO.cs" />
     <Compile Include="DTO\PositionDTO.cs" />
     <Compile Include="DTO\SignalRDTO\QuoteFeed.cs" />
+    <Compile Include="DTO\StatDTO.cs" />
     <Compile Include="DTO\TickDTO.cs" />
     <Compile Include="DTO\UserDTO.cs" />
     <Compile Include="DTO\SecurityDTO.cs" />
