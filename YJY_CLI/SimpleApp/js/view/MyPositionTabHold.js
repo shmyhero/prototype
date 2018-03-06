@@ -19,8 +19,6 @@ import {
 	Alert,
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
 var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
@@ -29,6 +27,7 @@ var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 
+import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 
 var DEFAULT_PERCENT = -1
@@ -321,6 +320,7 @@ export default class  MyPositionTabHold extends React.Component {
 		
 		console.log(this.state.stockInfoRowData[this.state.selectedRow])
 
+		var selectedRowData = this.state.stockInfoRowData[this.state.selectedRow];
 		var body = {
 			posId: this.state.stockInfoRowData[this.state.selectedRow].id,
 			securityId: this.state.stockInfoRowData[this.state.selectedRow].security.id,
@@ -344,6 +344,25 @@ export default class  MyPositionTabHold extends React.Component {
 					selectedRow: -1,
 					selectedSubItem: SUB_ACTION_NONE,
 					stockInfoRowData: this.state.stockInfoRowData,
+				}, ()=>{
+					var showData = responseJson;
+					console.log("selectedRowData", selectedRowData)
+					console.log("responseJson", responseJson)
+					showData.stockName = selectedRowData.security.name;
+					showData.isCreate = false;
+
+					// { isLong: true,
+					// 	settlePrice: 1317.7,
+					// 	createAt: '2018-03-02T07:15:53.063',
+					// 	closedAt: '2018-03-02T07:41:49.1643988Z',
+					// 	closePrice: 1317.1,
+					// 	id: 39,
+					// 	invest: 200,
+					// 	leverage: 1,
+					// 	pl: -0.09106776959854292 }
+
+					showData.time = new Date(responseJson.createAt);
+					this.refs["orderFinishedModal"].show(showData);
 				})
 			},
 			(exception) => {
@@ -982,8 +1001,6 @@ export default class  MyPositionTabHold extends React.Component {
 
 			profitPercentage *= (rowData.isLong ? 1 : -1)
 			profitAmount = profitPercentage * rowData.invest
-
-			profitAmount = rowData.upl;
 		}
 
 		var buttonText = (profitAmount < 0 ? "亏损":"获利") + ': $' + profitAmount.toFixed(2)
@@ -1015,7 +1032,7 @@ export default class  MyPositionTabHold extends React.Component {
 					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
 					style={buttonStyle}
 					>
-                    <ImageBackground source={require("../../images/position_confirm_button.png")}
+                    <ImageBackground source={require("../../images/position_confirm_button_enabled.png")}
                         style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
                         <Text style={buttonTextStyle}>
                             {buttonText}
@@ -1233,11 +1250,17 @@ export default class  MyPositionTabHold extends React.Component {
 						// bottomHoldingPrompt="下拉载入更多"
 						// bottomRefreshingPrompt="载入数据中..."
 					/>
-					{/* <StockTransactionInfoModal ref='confirmPage'/> */}
+					{this.renderOrderFinishedModal()}
 				</View>
 			)
 		//}
 	}
+
+	renderOrderFinishedModal(){
+        return (
+            <StockOrderInfoModal ref='orderFinishedModal'/>
+        );
+    }
 
 	render() {
 		return (

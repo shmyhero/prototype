@@ -65,39 +65,6 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
-	componentDidMount() {
-		this.loadClosedPositionInfo();
-	}
-
-	tabPressed(index) {
-		var d = new Date();
-		this.currentTicks = d.getTime();
-		console.log("tabpressed ")
-
-		this.onLayoutSizeChanged()
-		this.setState({
-			selectedRow: -1,
-		})
-		if(this._pullToRefreshListView && this._pullToRefreshListView._scrollView){
-			try{
-				this.endNextPageLoadingState(false);
-			}catch(e){
-				console.log("Met error when clear closed position page!" + e)
-			}
-		}
-
-		if(this.scrollViewYOffset != 0){
-			//If current scrollview offset isn't 0, scroll to 0.
-			if(this._pullToRefreshListView && this._pullToRefreshListView._scrollView){
-				console.log("tabPressed - scroll to top")
-				this.isResetScroll = true;
-				this._pullToRefreshListView._scrollView.scrollTo({x:0, y:0, animated:false})
-			}
-		}else{
-			this.loadClosedPositionInfo();
-		}
-	}
-
 	onScroll(event){
 		this.scrollViewYOffset = event.nativeEvent.contentOffset.y;
 		if(this.isResetScroll && this.scrollViewYOffset == 0){

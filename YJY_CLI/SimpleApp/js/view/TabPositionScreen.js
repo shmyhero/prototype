@@ -12,8 +12,6 @@ import {
   InteractionManager
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
 var ScrollTabView = require('./component/ScrollTabView')

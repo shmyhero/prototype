@@ -15,28 +15,82 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation"; 
 import NavBar from "./component/NavBar"
+import LogicData from '../LogicData';
+
 var ScrollTabView = require('./component/ScrollTabView')
 var UserProfileTabMain = require('./UserProfileTabMain')
 var UserProfileTabDynamicState = require('./UserProfileTabDynamicState')
 var UserProfileTabPositionHold = require('./UserProfileTabPositionHold')
 var UserProfileTabPositionClosed = require('./UserProfileTabPositionClosed')
 var ColorConstants = require('../ColorConstants');
-var {height,width} = Dimensions.get('window')
+var {height,width} = Dimensions.get('window') 
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
 
+ 
 
 export default class  UserProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'UserProfileScreen',
+
+  }
+
+  constructor(props) {
+    super(props); 
+    staticData = this.props.navigation.state.params.userData; 
+    this.state = {
+      isFollowing:false,
+      nickName:this.props.navigation.state.params.userData.nickName,
+      userId:this.props.navigation.state.params.userData.userId,
+    };  
+
   }
 
   onPageSelected(index) {
 		this.setState({
-			currentSelectedTab: index,
+      currentSelectedTab: index, 
 		}) 
 		// if (this.refs['page' + index]) {
 		// 	this.refs['page' + index].tabPressed()
-		// } 
-	}
+		// }
+  }
+  
+  componentDidMount(){ 
+    this.loadUserInfo();
+  }
+
+  loadUserInfo(){ 
+    var api = NetConstants.CFD_API.USER_INFO.replace('<id>',this.state.userId);
+    
+    if(LogicData.isLoggedIn()){
+      var userData = LogicData.getUserData();
+      this.setState({
+          isDataLoading: true,
+      }, ()=>{
+          NetworkModule.fetchTHUrl(
+              api,
+              {
+                  method: 'GET',
+                  headers: {
+                      'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                      'Content-Type': 'application/json; charset=utf-8',
+                  },
+                  showLoading: true,
+              }, (responseJson) => { 
+                   
+                  this.setState({
+                    isFollowing: responseJson.isFollowing,
+                      
+                  });  
+              },
+              (exception) => {
+                  alert(exception.errorMessage)
+              }
+          );
+      })			
+  }
+}  
+
   
   renderContent(){ 
  
@@ -72,21 +126,86 @@ export default class  UserProfileScreen extends React.Component {
   }
 
   rightCustomContent(){
-    var text = '+关注' 
-    // text = '取消关注'
+ 
+    var text = this.state.isFollowing?'取消关注':'+关注';
+
+    if(LogicData.isUserSelf(this.state.userId)){
+      return (null)
+    } 
+
     return(
-      <TouchableOpacity>
-      <Text style={{backgroundColor:'#43b9f9', textAlign:'center', fontSize:12,width:72, color:'white',borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}}>{text}</Text>
+      <TouchableOpacity onPress={()=>this.followUser()}>
+       <Text style={{backgroundColor:'#43b9f9', textAlign:'center', fontSize:12,width:72, color:'white',borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}}>{text}</Text>
       </TouchableOpacity>
-      )
+      ) 
+  }
+
+  followUser(){
+
+    var api = NetConstants.CFD_API.USER_FOLLOW.replace('<id>',staticData.userId);
+    if(this.state.isFollowing){
+      api = NetConstants.CFD_API.USER_DEL_FOLLOW.replace('<id>',staticData.userId);
+    } 
     
-    return(null)
+    if(LogicData.isLoggedIn()){
+      var userData = LogicData.getUserData();
+
+      if(this.state.isFollowing){
+          this.setState({
+            isDataLoading: true,
+            }, ()=>{
+            NetworkModule.fetchTHUrl(
+                api,
+                {
+                    method: 'DELETE',
+                    headers: {
+                        'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                        'Content-Type': 'application/json; charset=utf-8',
+                    },
+                    showLoading: true,
+                }, (responseJson) => {  
+                    this.setState({
+                        isFollowing:false
+                    });  
+                },
+                (exception) => {
+                    // alert(exception.errorMessage)
+                }
+            );
+        })		
+      }else{
+          this.setState({
+            isDataLoading: true,
+           }, ()=>{
+            NetworkModule.fetchTHUrl(
+                api,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                        'Content-Type': 'application/json; charset=utf-8',
+                    },
+                    showLoading: true,
+                }, (responseJson) => { 
+                    
+                    this.setState({
+                      isFollowing:true,
+                        
+                    });  
+                },
+                (exception) => {
+                    // alert(exception.errorMessage)
+                }
+            );
+        })		
+      } 
+    }
   }
 
   render() {
     return (
       <View style={styles.mainContainer}>
-          <NavBar title={'盈利8888'} rightCustomContent={this.rightCustomContent} showBackButton={true} navigation={this.props.navigation}/>
+          <NavBar title={this.state.nickName} rightCustomContent={this.rightCustomContent.bind(this)} showBackButton={true} navigation={this.props.navigation}/>
           <Image style={{width:80,height:80,alignSelf:'center',marginTop:20}} source={require('../../images/head_portrait.png')}></Image>
 
           {this.renderContent()}

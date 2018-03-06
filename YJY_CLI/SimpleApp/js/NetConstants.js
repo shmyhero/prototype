@@ -22,6 +22,10 @@ export let CFD_API = {
 
   ME_DATA: CFD_API_SERVER + "/api/user/me",
 
+  USER_INFO:CFD_API_SERVER+"/api/user/<id>",
+  USER_FOLLOW:CFD_API_SERVER+"/api/user/follow/<id>",
+  USER_DEL_FOLLOW:CFD_API_SERVER+"/api/user/follow/<id>",
+  USER_FUND_BALANCE:CFD_API_SERVER+"/api/fund/balance",
 }
     
  

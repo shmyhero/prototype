@@ -13,28 +13,13 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
- 
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
+
 var {height, width} = Dimensions.get('window');
  
-var listData = [ 
-    {userName:'复兴一号',winRate:'90%',ProfitRate:'197.25%'},
-    {userName:'Golden',winRate:'83%',ProfitRate:'84.72%'},
-    {userName:'精准出击',winRate:'64%',ProfitRate:'67.89%'},
-    {userName:'随心',winRate:'58%',ProfitRate:'50.1%'},
-    {userName:'你若努力',winRate:'57%',ProfitRate:'48.1%'},
-    {userName:'晴天',winRate:'56%',ProfitRate:'46.1%'},
-    {userName:'一缕阳光',winRate:'55%',ProfitRate:'44.1%'},
-    {userName:'匿名7',winRate:'54%',ProfitRate:'42.1%'},
-    {userName:'匿名8',winRate:'53%',ProfitRate:'40.1%'},
-    {userName:'匿名9',winRate:'52%',ProfitRate:'38.1%'},
-    {userName:'匿名10',winRate:'51%',ProfitRate:'36.1%'},
-    {userName:'匿名11',winRate:'50%',ProfitRate:'34.1%'},
-    {userName:'匿名12',winRate:'49%',ProfitRate:'32.1%'},
-    {userName:'匿名13',winRate:'48%',ProfitRate:'30.1%'},
-    {userName:'匿名14',winRate:'47%',ProfitRate:'28.1%'},
-    {userName:'匿名15',winRate:'46%',ProfitRate:'26.1%'},
-    {userName:'匿名16',winRate:'45%',ProfitRate:'24.1%'}
-]
+var listData = []
+
 export default class  RankHeroList extends React.Component {
     static propTypes = {
         showMeBlock: PropTypes.bool,
@@ -49,25 +34,69 @@ export default class  RankHeroList extends React.Component {
         const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
             dataSource: ds.cloneWithRows(listData),
+            rankListData:[
+                {   roi: 0,winRate: 0,id: 7,nickname: '--' },
+                {   roi: 0, winRate: 0, id: 1, nickname: '--' },
+                {   roi: 0,winRate: 0,id: 2,nickname: '--'}
+            ],
         };
     }
 
     componentDidMount () {
-         
+         this.onRefresh()
     }
 
     componentWillUnmount() {
         
     }
 
-    gotoUserProfile(){
-        this.props.navigation.navigate('UserProfileScreen',{userId:'001'})
+    gotoUserProfile(uid,name){ 
+        var userData = {
+            userId:uid,
+            nickName:name,
+        }
+        this.props.navigation.navigate('UserProfileScreen',{userData:userData})
     }
+
+    onRefresh(){
+        this.loadRankData()
+    }
+
+    loadRankData(){  
+        if(LogicData.isLoggedIn()){
+                var userData = LogicData.getUserData();
+                this.setState({
+                    isDataLoading: true,
+                }, ()=>{
+                    NetworkModule.fetchTHUrl(
+                        NetConstants.CFD_API.RANK_TWO_WEEKS,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                                'Content-Type': 'application/json; charset=utf-8',
+                            },
+                            showLoading: true,
+                        }, (responseJson) => { 
+                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                            this.setState({
+                                rankListData: responseJson,
+                                isDataLoading: false,
+                                dataSource: ds.cloneWithRows(responseJson),
+                            });  
+                        },
+                        (exception) => {
+                            alert(exception.errorMessage)
+                        }
+                    );
+                })			
+            }
+        } 
 
     renderMe(){
         if(this.props.showMeBlock){
             return(
-                <TouchableOpacity onPress={()=>this.gotoUserProfile()}>
+                <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
                     <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
                             <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
@@ -75,12 +104,12 @@ export default class  RankHeroList extends React.Component {
                                 <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
                                     <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
-                                    <Text style={{fontSize:16,color:'#d8effc'}}>76%</Text>
+                                    <Text style={{fontSize:16,color:'#d8effc'}}>{this.state.rankListData[0].winRate.toFixed(2)}%</Text>
                                 </View>
                             </View>
                         </View>     
                         <View style={{marginRight:30}}>
-                            <Text style={{color:'#ff9999'}}>+52.13%</Text>
+                            <Text style={{color:'#ff9999'}}>{this.state.rankListData[0].roi.toFixed(2)}%</Text>
                         </View> 
                     </ImageBackground>
                 </TouchableOpacity>
@@ -95,64 +124,67 @@ export default class  RankHeroList extends React.Component {
         return(
             <View>
                 <ImageBackground style={styles.containerAll} source={require('../../images/rank_bg_all.png')}>
-                    <View style={{flex:1}}>
+                    <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[1].id,this.state.rankListData[1].nickname)} activeOpacity={0.9} style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
-                        <Text style={styles.textTopUserName}>{listData[1].userName}</Text>
+                        <Text style={styles.textTopUserName}>{this.state.rankListData[1].nickname}</Text>
                         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{listData[1].winRate}</Text>
+                            <Text style={styles.textTopUserScore}>{this.state.rankListData[1].winRate.toFixed(2)}%</Text>
                         </View>    
                         
                         <ImageBackground style={{height:85*rate,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_ag.png')}>
-                            <Text style={styles.textProfit}>+{listData[1].ProfitRate}</Text>
+                            <Text style={styles.textProfit}>{this.state.rankListData[1].roi.toFixed(2)}%</Text>
                         </ImageBackground>
-                    </View>
-                    <View style={{flex:1}}>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)} activeOpacity={0.9}  style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
-                        <Text style={styles.textTopUserName}>{listData[0].userName}</Text>
+                        <Text style={styles.textTopUserName}>{this.state.rankListData[0].nickname}</Text>
                         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{listData[0].winRate}</Text>
+                            <Text style={styles.textTopUserScore}>{this.state.rankListData[0].winRate.toFixed(2)}%</Text>
                         </View>    
                         <ImageBackground style={{height:99*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_gd.png')}>
-                            <Text style={styles.textProfit}>+{listData[0].ProfitRate}</Text>
-                        </ImageBackground>  
-                    </View>
-                    <View style={{flex:1}}>
+                            <Text style={styles.textProfit}>{this.state.rankListData[0].roi.toFixed(2)}%</Text>
+                        </ImageBackground>
+                    </TouchableOpacity>
+                    <TouchableOpacity  onPress={()=>this.gotoUserProfile(this.state.rankListData[2].id,this.state.rankListData[2].nickname)} activeOpacity={0.9}  style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
-                        <Text style={styles.textTopUserName}>{listData[2].userName}</Text>
+                        <Text style={styles.textTopUserName}>{this.state.rankListData[2].nickname}</Text>
                         <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{listData[2].winRate}</Text>
+                            <Text style={styles.textTopUserScore}>{this.state.rankListData[2].winRate.toFixed(2)}%</Text>
                         </View>    
                         <ImageBackground style={{height:85*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_cu.png')}>
-                            <Text style={styles.textProfit}>+{listData[2].ProfitRate}</Text>
+                            <Text style={styles.textProfit}>{this.state.rankListData[2].roi.toFixed(2)}%</Text>
                         </ImageBackground>  
-                    </View> 
+                    </TouchableOpacity> 
                 </ImageBackground>
             </View>
         )
     }
 
+    onPressItem(rowData){
+       this.gotoUserProfile(rowData.id,rowData.nickname)
+    }
 
     _renderRow = (rowData, sectionID, rowID) => {
-        if(rowID>=3){
+        if(rowID>=0){
             return( 
-                <View style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:34,width:34,marginLeft:28,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
                         <View style={{marginLeft:10}}>
-                            <Text style={{fontSize:15,color:'#999999'}}>{rowData.userName}</Text>
+                            <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>胜率：</Text>
-                                <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate}</Text>
+                                <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, color:'#ca3538'}}>+{rowData.ProfitRate}</Text>
+                        <Text style={{fontSize:17, color:'#ca3538'}}>{rowData.roi.toFixed(2)}%</Text>
                     </View> 
-                </View>
+                </TouchableOpacity>
             )
         }else{
             return null
@@ -172,6 +204,7 @@ export default class  RankHeroList extends React.Component {
         return(
             <View style={{flex:1,width:width,backgroundColor:'white'}}>
                 <ListView
+                    enableEmptySections={true}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow}
                 />
