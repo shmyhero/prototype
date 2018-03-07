@@ -180,7 +180,7 @@ namespace YJY_SVR.Controllers
 
             if (form.stopPx != null)
             {
-                if (Trades.CalculatePL(position, form.stopPx.Value) + position.Invest <= 0)
+                if (Trades.CalculatePL(position, form.stopPx.Value, false) + position.Invest <= 0)
                     throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                         "stop cannot be <= 0%"));
 

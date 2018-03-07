@@ -91,11 +91,11 @@ namespace YJY_JOBS
                                 foreach (var p in group) //foreach alert belong to a security
                                 {
                                     //position goes to 0%
-                                    var upl = Trades.CalculatePL(p, last);
+                                    var upl = Trades.CalculatePL(p, last, false);
 
                                     if (upl + p.Invest <= 0)
                                     {
-                                        YJYGlobal.LogLine($"position { p.Id} (openAt {p.SettlePrice} isLong {p.Side}) CLOSED at {last} PL {upl}");
+                                        YJYGlobal.LogLine($"position { p.Id} ({(p.Side.Value? "↗": "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) CLOSED at {last} PL {upl.ToString("0.00")}");
                                         continue;
                                     }
 
@@ -104,7 +104,7 @@ namespace YJY_JOBS
                                     {
                                         if (p.Side.Value && last <= p.StopPx || !p.Side.Value && last >= p.StopPx)
                                         {
-                                            YJYGlobal.LogLine($"position {p.Id} (openAt {p.SettlePrice} isLong {p.Side}) STOPPED at {last} PL {upl}");
+                                            YJYGlobal.LogLine($"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) STOPPED at {last} PL {upl.ToString("0.00")}");
                                             continue;
                                         }
                                     }
@@ -114,7 +114,7 @@ namespace YJY_JOBS
                                     {
                                         if (p.Side.Value && last >= p.TakePx || !p.Side.Value && last <= p.TakePx)
                                         {
-                                            YJYGlobal.LogLine($"position {p.Id} (openAt {p.SettlePrice} isLong {p.Side}) TAKEN at {last} PL {upl}");
+                                            YJYGlobal.LogLine($"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) TAKEN at {last} PL {upl.ToString("0.00")}");
                                             continue;
                                         }
                                     }

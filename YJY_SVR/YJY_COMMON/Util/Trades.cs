@@ -10,12 +10,12 @@ namespace YJY_COMMON.Util
 {
     public class Trades
     {
-        public static decimal CalculatePL(Position p, Quote q)
+        public static decimal CalculatePL(Position p, Quote q, bool capPlByInvest = true)
         {
-            return CalculatePL(p, Quotes.GetLastPrice(q));
+            return CalculatePL(p, Quotes.GetLastPrice(q), capPlByInvest);
         }
 
-        public static decimal CalculatePL(Position p, decimal quotePrice)
+        public static decimal CalculatePL(Position p, decimal quotePrice, bool capPlByInvest = true)
         {
             decimal upl = p.Side.Value
                 ? p.Invest.Value*(quotePrice/p.SettlePrice.Value - 1)
@@ -23,7 +23,7 @@ namespace YJY_COMMON.Util
             upl = upl*p.Leverage.Value;
 
             //max loss will NOT be greater than invest
-            if (upl + p.Invest < 0)
+            if (capPlByInvest && upl + p.Invest < 0)
                 upl = -p.Invest.Value;
 
             return upl;
