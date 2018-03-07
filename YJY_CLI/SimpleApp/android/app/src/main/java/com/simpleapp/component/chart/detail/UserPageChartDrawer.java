@@ -59,6 +59,16 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
         }
     }
 
+    @Override
+    public String getDateTimeKey() {
+        return "date";
+    }
+
+    @Override
+    public String getPriceKey() {
+        return "pl";
+    }
+
 
     public IAxisValueFormatter getXAxisLabelFormatter(final JSONArray chartDataList){
         return new IAxisValueFormatter() {
@@ -66,10 +76,10 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
             public String getFormattedValue(float value, AxisBase axis) {
                 try {
                     //String val = "2018-01-29T22:21:54.896Z";
-                    String xVal = (chartDataList.getJSONObject((int) value).getString("t"));
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    String xVal = (chartDataList.getJSONObject((int) value).getString(getDateTimeKey()));
+                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");
                     Date date = format.parse(xVal);
-                    SimpleDateFormat outFormat = new SimpleDateFormat("yy-MM-dd");
+                    SimpleDateFormat outFormat = new SimpleDateFormat("MM-dd");
                     String outputString = outFormat.format(date);
 
                     return outputString;

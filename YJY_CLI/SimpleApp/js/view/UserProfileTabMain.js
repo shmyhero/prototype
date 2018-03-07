@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Platform,
   Dimensions,
-  ScrollView
+  ScrollView,
+  ImageBackground
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -22,20 +23,31 @@ export default class  UserProfileTabMain extends React.Component {
     title: 'Home',
   }
 
+  componentDidMount(){
+    this.refresh();
+  }  
+
+  refresh(){
+    this.refs['profitTrendCharts'].refresh();
+  }
+
   render() {
+
+    var bgWidth = width-20; 
+
     return (
       <View style={styles.container}>
         <View style={styles.topHead}/>
-        <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>
-        <View style={{backgroundColor:'white', height:220,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-          <ProfitTrendCharts/>
-        </View>
-        <View style={{backgroundColor:'white', marginTop:10,height:250,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-          <ProfitBlock/>
-        </View>
-        <View style={{backgroundColor:'white', marginTop:10,marginBottom:20,height:200,width:width-20,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-          <TradeStyleBlock/>
-        </View> 
+        <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>  
+          <ImageBackground style={{height:240,width:bgWidth,padding:5}} resizeMode='stretch'  source={require('../../images/bg_block.png')}>  
+            <ProfitTrendCharts ref={'profitTrendCharts'}/>
+          </ImageBackground>
+          <ImageBackground style={{marginTop:10,height:240,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
+            <ProfitBlock/>
+          </ImageBackground>
+          <ImageBackground style={{marginTop:10,marginBottom:10,height:180,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+            <TradeStyleBlock/>
+          </ImageBackground>
         </ScrollView>  
       </View> 
     );

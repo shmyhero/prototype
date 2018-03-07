@@ -54,6 +54,14 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         return borderColor;
     }
 
+    public String getPriceKey(){
+        return "p";
+    }
+
+    public String getDateTimeKey(){
+        return "t";
+    }
+
     @Override
     public void draw(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
 
@@ -165,10 +173,10 @@ public abstract class BaseChartDrawer implements IChartDrawer {
 
         int firstLine = 0;
         limitLineAt.add(firstLine);
-        limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(firstLine).getString("t")));
+        limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(firstLine).getString(this.getDateTimeKey())));
 
         for (int i = 0; i < chartDataList.length(); i++) {
-            Calendar calendar = timeStringToCalendar(chartDataList.getJSONObject(i).getString("t"));
+            Calendar calendar = timeStringToCalendar(chartDataList.getJSONObject(i).getString(this.getDateTimeKey()));
 
             if (nextLineAt == null) {
                 calendar.add(getGapLineUnit(), getGapLineUnitAddMount());
@@ -187,7 +195,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         if (needDrawEndLine(stockInfoObject)) {
             int lastLine = chartDataList.length() - 1;
             limitLineAt.add(lastLine);
-            limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(lastLine).getString("t")));
+            limitLineCalender.add(timeStringToCalendar(chartDataList.getJSONObject(lastLine).getString(this.getDateTimeKey())));
         }
 
         LimitLineInfo info = new LimitLineInfo();
@@ -329,10 +337,10 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      * @throws JSONException
      */
     private void drawLastPriceLine(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
-        double last = chartDataList.getJSONObject(chartDataList.length()-1).getDouble("p");
+        double last = chartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
         LimitLine line = new LimitLine((float)last);
 
-//        int lastLine = cchartDataList.getJSONObject(chartDataList.length()-1).getDouble("p");
+//        int lastLine = cchartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
 //        limitLineAt.add(lastLine);
 
         line.setLineColor(chart.getContext().getResources().getColor(R.color.line_chart_last_price_blue));

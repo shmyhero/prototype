@@ -18,7 +18,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from "../LogicData";
-import RefreshableFlatList from 'react-native-refreshable-flatlist';
+//import RefreshableFlatList from 'react-native-refreshable-flatlist';
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
@@ -36,7 +36,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 
 const ROW_PADDING = 15
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 20;
 
 export default class  MyPositionTabClosed extends React.Component {
     static navigationOptions = {
@@ -223,7 +223,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	scrollToCurrentSelectedItem(selectedRow, viewPosition){
 		setTimeout(()=>{
-			this._pullToRefreshListView.flatList.scrollToIndex({
+			this._pullToRefreshListView.scrollToIndex({
 				index: selectedRow, 
 				animated: true, 
 				viewPosition:viewPosition,
@@ -458,7 +458,8 @@ export default class  MyPositionTabClosed extends React.Component {
 
 			return (<View style={{flex:1}}>
 				{this.renderLoadingText()}
-				<RefreshableFlatList
+				{/* <RefreshableFlatList */}
+				<FlatList
 					style={styles.list}
 					ref={ (component) => this._pullToRefreshListView = component }
 					keyExtractor={(item, index) => index}
@@ -471,24 +472,20 @@ export default class  MyPositionTabClosed extends React.Component {
 					enabledPullDown={true}
 					onEndReachedThreshold={30}
 					onScroll={(event)=>this.onScroll(event)}
-					//onRefresh={()=>this.refresh()}
+					onRefresh={()=>this.refresh()}
+					refreshing={this.state.isRefreshing}
 					onLoadMore={()=>this.onLoadMore()}
 					pullUpDistance={pullUpDistance}
-					pullUpStayDistance={pullUpStayDistance}
-
-					//RefreshableFlatList configuration
-					onRefreshing={()=>this.refresh()}
-					onLoadMore={() => new Promise((resolve) => {							
-						this.loadClosedPositionInfo(resolve);
-					})}
-					showBottomIndicator={!this.state.isRefreshing}
-					showBottomIndicator={this.state.hasMore}
-					topPullingPrompt="下拉刷新数据"
-					topHoldingPrompt="下拉刷新数据"
-					topRefreshingPrompt="刷新数据中..."
-					bottomPullingPrompt="下拉载入更多"
-					bottomHoldingPrompt="下拉载入更多"
-					bottomRefreshingPrompt="载入数据中..."
+					pullUpStayDistance={pullUpStayDistance}					
+					onEndReached={()=>{this.loadClosedPositionInfo();}}
+					// showBottomIndicator={!this.state.isRefreshing}
+					// showBottomIndicator={this.state.hasMore}
+					// topPullingPrompt="下拉刷新数据"
+					// topHoldingPrompt="下拉刷新数据"
+					// topRefreshingPrompt="刷新数据中..."
+					// bottomPullingPrompt="下拉载入更多"
+					// bottomHoldingPrompt="下拉载入更多"
+					// bottomRefreshingPrompt="载入数据中..."
 				/>
 			</View>);
 		// }

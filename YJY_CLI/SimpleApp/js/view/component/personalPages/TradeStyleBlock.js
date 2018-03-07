@@ -124,7 +124,7 @@ export default class TradeStyleBlock extends Component {
 const styles = StyleSheet.create({
   container: {
     height: 181,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
   },
   separator: {
     height: 0.5,

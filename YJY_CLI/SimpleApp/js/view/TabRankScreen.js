@@ -56,7 +56,11 @@ export default class  TabRankScreen extends React.Component {
   refresh(){
     this.setState({
       isLoggedIn: LogicData.isLoggedIn()
-    })
+    }) 
+    // this.onPressedRankType(RANKING_TYPE_0)
+    if(this.refs[RANK_LIST]){
+      this.refs[RANK_LIST].onRefresh()
+    }
   }
 
   onPressedRankType(type){
@@ -105,12 +109,12 @@ export default class  TabRankScreen extends React.Component {
 
   renderRankTypeButton(){
     var isLeftSelected = this.state.rankType == RANKING_TYPE_0;
-    var leftbg = isLeftSelected ? '#1b9beb':'#41bafc';
+    var leftbg = isLeftSelected ? '#41bafc':'#1b9beb';
     var leftbd = isLeftSelected ? '#41bafc':'#41bafc';
-    var rightbg = isLeftSelected ? '#41bafc':'#1b9beb';
+    var rightbg = isLeftSelected ? '#1b9beb':'#41bafc';
     var rightbd = isLeftSelected ? '#41bafc':'#41bafc'
-    var leftTextColor = isLeftSelected ? 'white':'#1b9beb';
-    var rightTextColor = isLeftSelected ? '#1b9beb':'white';
+    var leftTextColor = isLeftSelected ? 'white':'#41bafc';
+    var rightTextColor = isLeftSelected ? '#41bafc':'white';
     return(
         <View style={styles.headContainer}>
           <TouchableOpacity 
@@ -186,7 +190,7 @@ const styles = StyleSheet.create({
       height: 26,
     },
     headContainer:{
-      margin:10,
+      marginBottom:5,
       height:32,
       width:128,
       alignSelf:'center',

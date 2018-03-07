@@ -1047,7 +1047,9 @@ export default class  MyPositionTabHold extends React.Component {
         var lastPrice = this.getLastPrice(rowData)
         
 		// console.log('RAMBO rowData.id = ' + rowData.security.id)
-		var stopLossImage = require('../../images/position_stop_profit_loss.png')
+		var stopLossImage = (rowData.takePx !== undefined || rowData.stopPx !== undefined) ? 
+							require('../../images/position_stop_profit_loss_enabled.png') : 
+							require('../../images/position_stop_profit_loss_disabled.png');
 		var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
 		var stopProfit = rowData.takePx !== undefined
 
