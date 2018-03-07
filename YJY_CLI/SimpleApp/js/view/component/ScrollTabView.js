@@ -95,8 +95,8 @@ export default class  ScrollTabView extends React.Component {
 			]} key={i}
 					underlayColor={'#00000000'}
 					onPress={() => this.tabClicked(i)}>
-				<ImageBackground style={{width:69,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png')}>
-					<Text style={this.state.currentSelectedTab == i ? styles.tabItemTextSelected : [styles.tabItemTextUnSelected, {color: '#2caef2'}]}>
+				<ImageBackground style={{width:69,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')}>
+					<Text style={this.state.currentSelectedTab == i ? styles.tabItemTextSelected : [styles.tabItemTextUnSelected]}>
 						{tabName}
 					</Text>
 				</ImageBackground> 
@@ -183,15 +183,17 @@ var styles = StyleSheet.create({
 
 	tabItemTextSelected: {
 		textAlign: 'center',
-		color: 'white',
+		color: '#279fe8',
 		fontSize: 13,
 		// fontWeight: 'bold',
+		marginBottom:2
 	},
 
 	tabItemTextUnSelected: {
 		textAlign: 'center',
 		fontSize: 13,
-		color: '#434343',
+		color: 'white',
+		marginBottom:2
 	},
 
 	lineContainer: {

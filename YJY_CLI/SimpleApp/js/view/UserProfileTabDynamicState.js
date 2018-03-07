@@ -15,6 +15,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import LogicData from '../LogicData';
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
 
@@ -58,11 +59,15 @@ export default class  UserProfileTabDynamicState extends React.Component {
   }
 
   renderEditView(){ 
-			return(
-					<TouchableOpacity style={styles.editView} onPress={()=>this.onPressedEditView()}>
-							<Image style={{width:48,height:48}} source={require('../../images/icon_edit.png')}/>
-  				</TouchableOpacity>
-			) 
+		  if(LogicData.isUserSelf(this.props.userId)){
+				return(
+						<TouchableOpacity style={styles.editView} onPress={()=>this.onPressedEditView()}>
+								<Image style={{width:48,height:48}} source={require('../../images/icon_edit.png')}/>
+						</TouchableOpacity>
+				) 
+			}else{
+				return null
+			} 
   }
 
   renderList(){

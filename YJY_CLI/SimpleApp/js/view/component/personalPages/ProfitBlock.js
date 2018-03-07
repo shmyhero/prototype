@@ -186,7 +186,7 @@ export default class ProfitBlock extends Component {
   renderRow(rowData, sectionID, rowID, highlightRow) {
 		var profitPercentage = rowData.rate
 		var profitAmount = rowData.pl
-		var bgcolor = 'white'
+		var bgcolor = 'transparent'
     var topLine = rowData.name
     var bottomLine = rowData.symbol 
 		return (
@@ -276,18 +276,14 @@ export default class ProfitBlock extends Component {
                 dataSource={this.state.stockInfo}
                 enableEmptySections={true}
                 renderRow={(rowData, sectionID, rowID, highlightRow)=>this.renderRow(rowData, sectionID, rowID, highlightRow)}
-                renderSeparator={this.renderSeparator}/>
-
+                renderSeparator={this.renderSeparator}/> 
               <View style={{position:'absolute',width:width,marginTop:-this.state.height,height:this.state.height,backgroundColor:'transparent'}} />
             </View>
           );
         }
     }
-  }
-
-
-//
-
+  } 
+// 
 
   renderContent(){
     if(this.props.isPrivate){
@@ -301,7 +297,7 @@ export default class ProfitBlock extends Component {
   render() {
     var strYKFB = '盈亏分布'
       return (
-        <View style={{backgroundColor:'white'}}>
+        <View style={{backgroundColor:'transparent'}}>
             <View>
                 <View style={styles.titleRow}>
                     <Text style={styles.titleText}>{strYKFB}</Text>
@@ -325,7 +321,8 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
   },
   separator: {
-    marginLeft: 0,
+    marginLeft: 20,
+    marginRight:20,
     height: 0.5,
     backgroundColor: ColorConstants.SEPARATOR_GRAY,
   },
@@ -372,7 +369,7 @@ const styles = StyleSheet.create({
 	},
 	headerBar: {
 		flexDirection: 'row',
-		backgroundColor: 'white',
+		backgroundColor: 'transparent',
 		height: UIConstants.LIST_HEADER_BAR_HEIGHT,
 		paddingLeft: 15,
 		paddingRight: 15,

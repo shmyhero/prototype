@@ -114,7 +114,17 @@ class LoginScreen extends Component {
         
     }
 
+
+    isLoginable(){
+        if((this.state.phoneNumber&&this.state.phoneNumber.length==11) && (this.state.verifyCode&&this.state.verifyCode.length==4)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
     render() {
+        var textLogin = this.isLoginable()?'white':'#40b7f8'
         return (
             <View style={styles.container}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
@@ -131,9 +141,11 @@ class LoginScreen extends Component {
                         placeholderTextColor='white'
                         placeholder='手机号'
                         keyboardType='numeric' 
-                        onChangeText={(text) => this.setState({
-                            phoneNumber:text
-                        })}
+                        onChangeText={(text) => {
+                            this.setState({
+                                phoneNumber:text
+                            })}
+                        }
                         style={{marginLeft:10,color:'white',flex:1}}/>
                         <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <View style={{marginRight:10,width:1,height:40,backgroundColor:'#50c2f7'}}></View>
@@ -144,13 +156,15 @@ class LoginScreen extends Component {
                     <View style={{backgroundColor:'#3ebdf8',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
-                            maxLength={6} 
+                            maxLength={4} 
                             placeholderTextColor='white'
                             placeholder='验证码'
                             keyboardType='numeric' 
-                            onChangeText={(text) => this.setState({
-                                verifyCode:text
-                            })}
+                            onChangeText={(text) => {
+                                this.setState({
+                                    verifyCode:text
+                                }) 
+                            }}
                             style={{width:width,marginLeft:10,color:'white'}}/> 
                     </View> 
                     
@@ -160,7 +174,7 @@ class LoginScreen extends Component {
                         alignItems:'center',
                         justifyContent:'center',
                         width:width-50,height:40,backgroundColor:'#25aaf3',marginTop:20,borderRadius:15,}}>
-                        <Text style={{fontSize:17, color:'#40b7f8'}}>登录</Text>
+                        <Text style={{fontSize:17, color:textLogin}}>登录</Text>
                     </TouchableOpacity>
                 </View>
                 <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>

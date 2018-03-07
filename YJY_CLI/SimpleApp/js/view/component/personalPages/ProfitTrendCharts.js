@@ -132,10 +132,10 @@ export default class ProfitTrendCharts extends Component {
             <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/>
             <Text style={{fontSize:12,color:'#666666'}}>TA的收益走势</Text>
           </View>
-        </View>
-        <View style={[styles.chartContainer, {backgroundColor: 'white'}]}>
+        </View> 
+        <View style={[styles.chartContainer, {backgroundColor: 'transparent'}]}>
           {this.renderChart()}
-        </View>
+        </View> 
       </View>
     );
   }

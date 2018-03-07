@@ -95,10 +95,10 @@ export default class  UserProfileScreen extends React.Component {
   renderContent(){ 
  
         var tabPages = [
-          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'}/>,
-          <UserProfileTabDynamicState navigation={this.props.navigation} ref={'page1'}/>,
-          <UserProfileTabPositionHold navigation={this.props.navigation} ref={'page2'}/>,
-          <UserProfileTabPositionClosed navigation={this.props.navigation} ref={'page3'}/>,
+          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'} userId={staticData.userId}/>,
+          <UserProfileTabDynamicState navigation={this.props.navigation} ref={'page1'}  userId={staticData.userId}/>,
+          <UserProfileTabPositionHold navigation={this.props.navigation} ref={'page2'}  userId={staticData.userId}/>,
+          <UserProfileTabPositionClosed navigation={this.props.navigation} ref={'page3'}  userId={staticData.userId}/>,
         ]
     
         var tabNameShow = ['首页','动态','持仓','平仓']
@@ -128,14 +128,14 @@ export default class  UserProfileScreen extends React.Component {
   rightCustomContent(){
  
     var text = this.state.isFollowing?'取消关注':'+关注';
-
+    var widthBtn = this.state.isFollowing?72:58;
     if(LogicData.isUserSelf(this.state.userId)){
       return (null)
     } 
 
     return(
       <TouchableOpacity onPress={()=>this.followUser()}>
-       <Text style={{backgroundColor:'#43b9f9', textAlign:'center', fontSize:12,width:72, color:'white',borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}}>{text}</Text>
+       <Text style={{borderRadius:12,backgroundColor:'#43b9f9', textAlign:'center', fontSize:12,width:widthBtn, color:'white',borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}}>{text}</Text>
       </TouchableOpacity>
       ) 
   }

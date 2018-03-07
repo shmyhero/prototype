@@ -56,7 +56,11 @@ export default class  TabRankScreen extends React.Component {
   refresh(){
     this.setState({
       isLoggedIn: LogicData.isLoggedIn()
-    })
+    }) 
+    // this.onPressedRankType(RANKING_TYPE_0)
+    if(this.refs[RANK_LIST]){
+      this.refs[RANK_LIST].onRefresh()
+    }
   }
 
   onPressedRankType(type){
