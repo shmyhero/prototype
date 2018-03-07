@@ -278,6 +278,7 @@ class TabMarketScreen extends Component {
                                 this.jump2Next(row.id, row.name);
                             }}
                         />}}
+                    renderFooter={()=> (<View style={{height:5}}></View>)}
                 />
             );
         }
@@ -317,10 +318,10 @@ const styles = StyleSheet.create({
     stockTouchableContainerStyle:{
         borderRadius: 10,
         backgroundColor: "white",
-        marginTop: 8,
+        marginTop: 5,
         marginRight: 15,
         marginLeft:15,
-        marginBottom: 7,
+        marginBottom: 5,
         height:70,
     },
 

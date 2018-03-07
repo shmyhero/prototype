@@ -223,7 +223,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	scrollToCurrentSelectedItem(selectedRow, viewPosition){
 		setTimeout(()=>{
-			this._pullToRefreshListView.flatList.scrollToIndex({
+			this._pullToRefreshListView.scrollToIndex({
 				index: selectedRow, 
 				animated: true, 
 				viewPosition:viewPosition,
