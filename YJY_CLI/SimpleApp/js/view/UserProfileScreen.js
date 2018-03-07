@@ -50,9 +50,9 @@ export default class  UserProfileScreen extends React.Component {
 		this.setState({
       currentSelectedTab: index, 
 		}) 
-		// if (this.refs['page' + index]) {
-		// 	this.refs['page' + index].tabPressed()
-		// }
+		if (this.refs['page' + index]) {
+			this.refs['page' + index].tabPressed(index);
+		}
   }
   
   componentDidMount(){ 

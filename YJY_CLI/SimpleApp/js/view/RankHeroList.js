@@ -15,7 +15,7 @@ import {
 import LogicData from '../LogicData';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
-
+var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
  
 var listData = []
@@ -198,9 +198,15 @@ export default class  RankHeroList extends React.Component {
 
     }
 
-    renderSeparator(){
-
+    renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
+		return (
+			<View style={styles.line} key={rowID}>
+				<View style={styles.separator}/>
+			</View>
+		);
     }
+    
+    
 
     renderListAll(){
         return(
@@ -209,6 +215,7 @@ export default class  RankHeroList extends React.Component {
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow}
+                    renderSeparator={this.renderSeparator}
                 />
             </View>
         )
@@ -262,7 +269,13 @@ const styles = StyleSheet.create({
     textWinRate:{
         fontSize:12,
         color:'#0278c1'
-    }
+    },
+    separator: {
+        marginLeft: 20,
+        marginRight:20,
+        height: 0.5,
+        backgroundColor: ColorConstants.SEPARATOR_GRAY,
+    },
 })
 
 

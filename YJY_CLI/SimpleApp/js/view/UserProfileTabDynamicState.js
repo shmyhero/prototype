@@ -56,6 +56,10 @@ export default class  UserProfileTabDynamicState extends React.Component {
   
   onPressedEditView(){
     Alert.alert('发动态')
+	}
+	
+	tabPressed(index){
+    console.log('UserProfileTabDynamicState tabPressed')
   }
 
   renderEditView(){ 

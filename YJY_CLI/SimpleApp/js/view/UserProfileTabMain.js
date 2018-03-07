@@ -27,6 +27,11 @@ export default class  UserProfileTabMain extends React.Component {
     this.refresh();
   }  
 
+
+  tabPressed(index){
+    console.log('UserProfileTabMain tabPressed')
+  }
+
   refresh(){
     this.refs['profitTrendCharts'].refresh();
   }
