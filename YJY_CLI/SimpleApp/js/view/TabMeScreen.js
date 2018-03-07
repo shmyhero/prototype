@@ -10,6 +10,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  ScrollView,
 } from 'react-native';
 
 var {height,width} = Dimensions.get('window');
@@ -187,16 +188,18 @@ class  TabMeScreen extends React.Component {
 
   renderContent(){
     if(this.state.userLoggedin){
-      return (<View style={styles.mainContainer}>
-        <View style={styles.backgroundContainer}/>
-        <NavBar title="" imageOnRight={require('../../images/me_messages.png')} 
-                rightPartOnClick={()=>this.showMessage()}/>
-        {this.renderPortrait()}
-        {this.renderBalance()}
-        {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
-        {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
-        {this.renderExitButton()}
-      </View>);
+      return (
+        <ScrollView style={styles.mainContainer}>
+          <View style={styles.backgroundContainer}/>
+          <NavBar title="" imageOnRight={require('../../images/me_messages.png')} 
+                  rightPartOnClick={()=>this.showMessage()}/>
+          {this.renderPortrait()}
+          {this.renderBalance()}
+          {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
+          {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
+          {this.renderExitButton()}
+          <View style={{height:10}}></View>
+        </ScrollView>);
     }else{
       return this.renderLogin();
     }
