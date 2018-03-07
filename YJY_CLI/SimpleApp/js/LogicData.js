@@ -47,9 +47,7 @@ class LogicData {
 		return new Promise((resolve)=>{
 			this.marketListOrder = value
 			var data = JSON.stringify(value)
-			console.log("MarketListOrder value", value)
-			console.log("MarketListOrder", data)
-			StorageModule.setMarketListOrder(data).catch(()=>{
+			StorageModule.setMarketListOrder(data).then(()=>{
 				resolve();
 			})
 		});
