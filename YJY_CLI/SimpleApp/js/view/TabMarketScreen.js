@@ -228,6 +228,7 @@ class TabMarketScreen extends Component {
             
             if(this.state.listDataOrder == undefined || this.state.listDataOrder.length == 0){
                 LogicData.loadMarketListOrder().then((localData)=>{
+                    //There's local order data. Read it instead of use the online one.
                     retData.listDataOrder = localData;
 
                     var listDataOrder = this.updateStockDataOrder(localData, retData.listData)        
@@ -237,6 +238,7 @@ class TabMarketScreen extends Component {
                     //No data stored yet.
                     //First time run this piece of code. Save it into the database.
                     for(var i in responseData){
+                        var id = ""+responseData[i].id;
                         retData.listDataOrder.push(id)
                     }
                     LogicData.setMarketListOrder(retData.listDataOrder).then(()=>{
