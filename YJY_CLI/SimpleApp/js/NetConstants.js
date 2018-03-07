@@ -26,6 +26,7 @@ export let CFD_API = {
   USER_FOLLOW:CFD_API_SERVER+"/api/user/follow/<id>",
   USER_DEL_FOLLOW:CFD_API_SERVER+"/api/user/follow/<id>",
   USER_FUND_BALANCE:CFD_API_SERVER+"/api/fund/balance",
+  MAIN_FEED_DEFAULT:CFD_API_SERVER+"/api/feed/default",//首页动态
 }
     
  

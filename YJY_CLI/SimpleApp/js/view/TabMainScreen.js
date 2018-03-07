@@ -24,29 +24,63 @@ import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
- 
+require('../utils/dateUtils')
 var {height, width} = Dimensions.get('window');
 var {EventCenter, EventConst} = require('../EventCenter');
 var WebSocketModule = require('../module/WebSocketModule')
+var NetConstants = require('../NetConstants')
+var NetworkModule = require('../module/NetworkModule');
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 
-var mkData = [
-    {time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'},
-    {time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
-    {time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'},
-    {time:'16:29',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
-    {time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'},
-    {time:'16:27',userName:'王思聪',isTrade:true,isHero:true,text:'600糖果*5倍数',tradeid:'003',tradeName:'德国30'},
-    {time:'16:26',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续大，可以适当买涨黄金，倍数在10-20倍左右。'},
-    {time:'16:25',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续续加大，可以适当买涨黄金，倍数在10-20倍左右。'},
-    {time:'16:24',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
-    {time:'16:23',userName:'傻子',isTrade:false,isHero:false,text:'平仓盈利+200.12%'},
-    {time:'16:21',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
-    {time:'16:20',userName:'王思聪',isTrade:false,isHero:false,text:'2000糖果*10倍数'},
-    {time:'16:19',userName:'王思聪',isTrade:false,isHero:false,text:'600糖果*5倍数'},
-  ]
+// var mkData = [
+//     {time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'},
+//     {time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
+//     {time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'},
+//     {time:'16:29',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
+//     {time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'},
+//     {time:'16:27',userName:'王思聪',isTrade:true,isHero:true,text:'600糖果*5倍数',tradeid:'003',tradeName:'德国30'},
+//     {time:'16:26',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续大，可以适当买涨黄金，倍数在10-20倍左右。'},
+//     {time:'16:25',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续续加大，可以适当买涨黄金，倍数在10-20倍左右。'},
+//     {time:'16:24',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
+//     {time:'16:23',userName:'傻子',isTrade:false,isHero:false,text:'平仓盈利+200.12%'},
+//     {time:'16:21',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
+//     {time:'16:20',userName:'王思聪',isTrade:false,isHero:false,text:'2000糖果*10倍数'},
+//     {time:'16:19',userName:'王思聪',isTrade:false,isHero:false,text:'600糖果*5倍数'},
+//   ]
 
+  /*
+  { time: '2018-03-05T01:58:31.263',
+                                                                 type: 'close',
+                                                                 user: { id: 7, nickname: 'u000007' },
+                                                                 isRankedUser: true,
+                                                                 security: { id: 34854, name: '英国100' },
+                                                                 position: { id: 45, roi: -0.06526041005 } },
+                                                               { time: '2018-03-02T07:52:30.857',
+                                                                 type: 'close',
+                                                                 user: { id: 7, nickname: 'u000007' },
+                                                                 isRankedUser: true,
+                                                                 security: { id: 34854, name: '英国100' },
+                                                                 position: { id: 48, roi: 0.0035087719 } },
+                                                               { time: '2018-03-02T07:51:49.377',
+                                                                 type: 'close',
+                                                                 user: { id: 7, nickname: 'u000007' },
+                                                                 isRankedUser: true,
+                                                                 security: { id: 34854, name: '英国100' },
+                                                                 position: { id: 47, roi: 0.00701754385 } },
+                                                               { time: '2018-03-02T07:51:05.24',
+                                                                 type: 'close',
+                                                                 user: { id: 7, nickname: 'u000007' },
+                                                                 isRankedUser: true,
+                                                                 security: { id: 34854, name: '英国100' },
+                                                                 position: { id: 46, roi: 0.00842069805 } },
+                                                               { time: '2018-03-02T07:50:17.643',
+                                                                 type: 'open',
+                                                                 user: { id: 7, nickname: 'u000007' },
+                                                                 isRankedUser: true,
+                                                                 security: { id: 34854, name: '英国100' },
+                                                                 position: { id: 50, invest: 200, leverage: 50 } },
+  */
 
 
 //Tab0:动态
@@ -56,39 +90,39 @@ export default class TabMainScreen extends React.Component {
 
     constructor(props){
         super()
-        this.state = {
-            
-        }
+         
 
         this._dataSource = new ListView.DataSource({
-            rowHasChanged: (r1, r2) => r1 !== r2,
-            //sectionHeaderHasChanged: (s1, s2) => s1 !== s2,
+            rowHasChanged: (r1, r2) => r1 !== r2, 
         });
 
    
-    let dataList = [
-        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    // let dataList = [
+    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
     
-        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
     
-        {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-        {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-        {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-        {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
+    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
+    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
+    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
+    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
     
-    ]
+    // ]
 
         this.state = {
             first: true,
-            dataList: dataList,
-            dataSource: this._dataSource.cloneWithRows(dataList),
+            // dataList: dataList,
+            // dataSource: this._dataSource.cloneWithRows(dataList),
         }
+
+
+        this.loadData()
     }
  
     componentDidMount () {
@@ -138,13 +172,13 @@ export default class TabMainScreen extends React.Component {
     }
 
     renderItemTrede(rowData){
-        if(rowData.data.isTrade ){
+        if(rowData.data.type=='open' || rowData.data.type=='close' ){
             return (
-                <TouchableOpacity onPress={()=>this._onPressButton(rowData)} style={{marginRight:5,alignItems:'flex-end',justifyContent:'center'}}>
+                <TouchableOpacity onPress={()=>this._onPressToSecurity(rowData)} style={{marginRight:10,alignItems:'flex-end',justifyContent:'center'}}>
                     <Image source={require('../../images/stock_detail_direction_up_enabled.png')} 
-                        style={{width:16,height:16,marginBottom:-3}}>
+                        style={{width:22,height:22,marginBottom:-3}}>
                     </Image>
-                    <Text style={{fontSize:9,color:'#a9a9a9'}}>{rowData.data.tradeName}</Text>
+                    <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.data.security.name}</Text>
                 </TouchableOpacity>
             )
         }else{
@@ -168,9 +202,21 @@ export default class TabMainScreen extends React.Component {
         Alert.alert('onPressButton'+rowData.data.userName)
     }
 
+    _onPressToSecurity(rowData){
+        this.props.navigation.navigate('StockDetail',{stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
+    }
+
+    _onPressToUser(rowData){
+        var userData = {
+            userId:rowData.data.user.id,
+            nickName:rowData.data.user.nickname,
+        }
+        this.props.navigation.navigate('UserProfileScreen',{userData:userData})
+    }
+
     _renderRow = (rowData, sectionID, rowID) => {
 
-        var viewHero = rowData.data.isHero ? <Text style={styles.textHero}>达人</Text> : null;
+        var viewHero = rowData.data.isRankedUser ? <Text style={styles.textHero}>达人</Text> : null;
         var swipeoutBtns = [
             {
               backgroundColor:'#ff4240', 
@@ -178,31 +224,46 @@ export default class TabMainScreen extends React.Component {
               onPress:()=>this._onPressButton(rowData)
             }
           ]
+ 
+        var d = new Date(rowData.data.time);
+        var timeText = d.getDateSimpleString()
+         
+        var text = '';
+
+        if(rowData.data.type == 'status'){
+            text = rowData.data.status
+        }else if(rowData.data.type == 'open'){ 
+            text = rowData.data.position.invest + '糖果x'+rowData.data.position.leverage+'倍数'
+        }else if(rowData.data.type == 'close'){
+            winOrLoss = rowData.data.position.roi>=0?'盈利+':'亏损'
+            text = '平仓'+winOrLoss+(rowData.data.position.roi*100).toFixed(2)+'%'
+        }
 
         return ( 
                <View style={styles.thumbnailAll}> 
                     <View>
                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
                         <View style={{width:40}}>
-                            <Text style={{color:'#b0dcfe',fontSize:10,alignSelf:'center'}}>{rowData.data.time}</Text>
+                            <Text style={{color:'#b0dcfe',fontSize:10,alignSelf:'center'}}>{timeText}</Text>
                         </View>
                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                     </View>
-                  
+ 
+                    <Image style={{marginTop:25,marginRight:-6, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
                     <View style={styles.thumbnail}> 
                      <Swipeout right={swipeoutBtns} autoClose={true} style={{backgroundColor:'transparent',flex:1}}>  
                         <View style={{flexDirection:'row'}}>
-                            <TouchableOpacity onPress={()=>this._onPressButton(rowData)}>
+                            <TouchableOpacity onPress={()=>this._onPressToUser(rowData)}>
                                 <Image source={require('../../images/head_portrait.png')}
                                     style={{height:34,width:34,margin:10,}} >
                                 </Image>
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
-                                <View style={{flexDirection:'row'}}>
-                                    <Text style={styles.textUserName}>{rowData.data.userName}</Text>
+                                <View style={{flexDirection:'row',marginTop:-5}}>
+                                    <Text style={styles.textUserName}>{rowData.data.user.nickname}</Text>
                                     {viewHero}
                                 </View>
-                                <Text style={{fontSize:15,color:'#666666'}}>{rowData.data.text}</Text>
+                                <Text style={{fontSize:15,color:'#666666'}}>{text}</Text>
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -290,61 +351,99 @@ export default class TabMainScreen extends React.Component {
         //console.log('outside _onRefresh start...')
 
         //simulate request data
-        this.timer = setTimeout( () => {
+        // this.timer = setTimeout( () => {
 
-            //console.log('outside _onRefresh end...')
-            let addNum = 20
-            let refreshedDataList = []
-            for(let i = 0; i < addNum; i++) {
-                refreshedDataList.push({
-                    data:mkData[i%10]
-                })
-            }
+        //     //console.log('outside _onRefresh end...')
+        //     let addNum = 20
+        //     let refreshedDataList = []
+        //     for(let i = 0; i < addNum; i++) {
+        //         refreshedDataList.push({
+        //             data:mkData[i%10]
+        //         })
+        //     }
 
-            this.setState({
-                dataList: refreshedDataList,
-                dataSource: this._dataSource.cloneWithRows(refreshedDataList),
-            })
-            this._pullToRefreshListView.endRefresh()
+        //     this.setState({
+        //         dataList: refreshedDataList,
+        //         dataSource: this._dataSource.cloneWithRows(refreshedDataList),
+        //     })
+        //     this._pullToRefreshListView.endRefresh()
 
-        }, 1500)
+        // }, 1500)
+
+        
+        this.loadData()
+
+    }
+
+    loadData(){
+        NetworkModule.fetchTHUrl(
+			NetConstants.CFD_API.MAIN_FEED_DEFAULT,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json; charset=UTF-8'
+				}, 
+			},
+			(responseJson) => {
+                let arr = Array.from(responseJson);
+                let length = arr.length;
+                let refreshedDataList = []
+                for(let i = 0;i < length;i++){
+                    refreshedDataList.push({
+                       data:responseJson[i]
+                    })
+                } 
+                this.setState({
+                            dataList: refreshedDataList,
+                            dataSource: this._dataSource.cloneWithRows(refreshedDataList),
+                        })
+                this._pullToRefreshListView.endRefresh()
+			},
+			(result) => {
+				Alert.alert('提示', result.errorMessage);
+			}
+		)
     }
 
     _onLoadMore = () => {
-        //console.log('outside _onLoadMore start...')
-        this.timer = setTimeout(
-            () => {
 
-                //console.log('outside _onLoadMore end...')
+        this.loadData()
+
+
+        //console.log('outside _onLoadMore start...')
+        // this.timer = setTimeout(
+        //     () => {
+
+        //         //console.log('outside _onLoadMore end...')
     
-                let length = this.state.dataList.length
-                let addNum = 20
-                let addedDataList = []
-                if(length >= 100) {
-                    addNum = 3
-                }
-                for(let i = length; i < length + addNum; i++) {
-                    addedDataList.push({
-                        data:mkData[i%10]
-                    })
-                }
-                let newDataList = this.state.dataList.concat(addedDataList)
-                this.setState({
-                    dataList: newDataList,
-                    dataSource: this._dataSource.cloneWithRows(newDataList),
-                })
+        //         let length = this.state.dataList.length
+        //         let addNum = 20
+        //         let addedDataList = []
+        //         if(length >= 100) {
+        //             addNum = 3
+        //         }
+        //         for(let i = length; i < length + addNum; i++) {
+        //             addedDataList.push({
+        //                 data:mkData[i%10]
+        //             })
+        //         }
+        //         let newDataList = this.state.dataList.concat(addedDataList)
+        //         this.setState({
+        //             dataList: newDataList,
+        //             dataSource: this._dataSource.cloneWithRows(newDataList),
+        //         })
     
-                let loadedAll
-                if(length >= 100) {
-                    loadedAll = true
-                    this._pullToRefreshListView.endLoadMore(loadedAll)
-                }
-                else {
-                    loadedAll = false
-                    this._pullToRefreshListView.endLoadMore(loadedAll)
-                }
+        //         let loadedAll
+        //         if(length >= 100) {
+        //             loadedAll = true
+        //             this._pullToRefreshListView.endLoadMore(loadedAll)
+        //         }
+        //         else {
+        //             loadedAll = false
+        //             this._pullToRefreshListView.endLoadMore(loadedAll)
+        //         }
     
-            }, 1500) 
+        //     }, 1500) 
          
     }
 
@@ -432,7 +531,7 @@ const styles = StyleSheet.create({
         paddingRight: 10,
         flex:1,
         justifyContent: 'center',
-        alignItems: 'flex-start', 
+        alignItems: 'flex-start',  
     },
     textUserName:{
         fontSize:12,

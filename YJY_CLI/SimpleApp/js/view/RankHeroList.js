@@ -119,42 +119,44 @@ export default class  RankHeroList extends React.Component {
         }
     }
 
-    renderThreeHero(){
-        rate = width/345*0.75;
+    renderThreeHero(){ 
+        var bgWidth = (width-39.5)/3;
+        var bgHeight = bgWidth;
+        var bgHeightLR = bgHeight*201/230;
         return(
             <View>
                 <ImageBackground style={styles.containerAll} source={require('../../images/rank_bg_all.png')}>
                     <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[1].id,this.state.rankListData[1].nickname)} activeOpacity={0.9} style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{this.state.rankListData[1].nickname}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{marginBottom:-10, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
                             <Text style={styles.textTopUserScore}>{this.state.rankListData[1].winRate.toFixed(2)}%</Text>
                         </View>    
                         
-                        <ImageBackground style={{height:85*rate,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_ag.png')}>
+                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_ag.png')}>
                             <Text style={styles.textProfit}>{this.state.rankListData[1].roi.toFixed(2)}%</Text>
                         </ImageBackground>
                     </TouchableOpacity>
                     <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)} activeOpacity={0.9}  style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{this.state.rankListData[0].nickname}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{marginBottom:-10,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
                             <Text style={styles.textTopUserScore}>{this.state.rankListData[0].winRate.toFixed(2)}%</Text>
                         </View>    
-                        <ImageBackground style={{height:99*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_gd.png')}>
+                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeight ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_gd.png')}>
                             <Text style={styles.textProfit}>{this.state.rankListData[0].roi.toFixed(2)}%</Text>
                         </ImageBackground>
                     </TouchableOpacity>
                     <TouchableOpacity  onPress={()=>this.gotoUserProfile(this.state.rankListData[2].id,this.state.rankListData[2].nickname)} activeOpacity={0.9}  style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                         <Text style={styles.textTopUserName}>{this.state.rankListData[2].nickname}</Text>
-                        <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <View style={{marginBottom:-10,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <Text style={styles.textWinRate}>胜率: </Text>
                             <Text style={styles.textTopUserScore}>{this.state.rankListData[2].winRate.toFixed(2)}%</Text>
                         </View>    
-                        <ImageBackground style={{height:85*rate ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_cu.png')}>
+                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_cu.png')}>
                             <Text style={styles.textProfit}>{this.state.rankListData[2].roi.toFixed(2)}%</Text>
                         </ImageBackground>  
                     </TouchableOpacity> 
@@ -231,7 +233,7 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'flex-end', 
-        height:188,
+        height:198,
         width:width,
         paddingLeft:20,
         paddingRight:20,

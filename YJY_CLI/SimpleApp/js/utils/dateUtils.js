@@ -15,15 +15,30 @@ Date.prototype.Format = function (fmt) { //author: meizz
 }
 
 Date.prototype.getDateString = function(){
-  var dd = this.getDate();
-  var mm = this.getMonth()+1; //January is 0!
-  var yyyy = this.getFullYear();
-  if(dd<10) {
-      dd='0'+dd
+    var dd = this.getDate();
+    var mm = this.getMonth()+1; //January is 0!
+    var yyyy = this.getFullYear();
+    if(dd<10) {
+        dd='0'+dd
+    }
+    if(mm<10) {
+        mm='0'+mm
+    }
+    today = mm+'/'+dd+'/'+yyyy;
+    return today;
   }
-  if(mm<10) {
-      mm='0'+mm
-  }
-  today = mm+'/'+dd+'/'+yyyy;
-  return today;
-}
+
+
+    Date.prototype.getDateSimpleString = function(){
+        var hour = this.getHours();
+        var minute = this.getMinutes(); 
+            
+        if(hour<10) {
+            hour='0'+hour
+        }
+        if(minute<10) {
+            minute='0'+minute
+        }
+        today = hour+':'+minute
+        return today;
+    }
