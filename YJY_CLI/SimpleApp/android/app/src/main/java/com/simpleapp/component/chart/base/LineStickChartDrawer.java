@@ -12,6 +12,7 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
 import com.simpleapp.component.chart.PriceChart;
@@ -46,7 +47,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
     protected boolean isDataAcceptable(JSONArray chartDataList){
         try {
             for (int i = 0; i < chartDataList.length(); i++) {
-                if(chartDataList.getJSONObject(i).has("p")) {
+                if(chartDataList.getJSONObject(i).has(getPriceKey())) {
                     return true;
                 }
                 else{
@@ -69,7 +70,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         for (int i = 0; i < chartDataList.length(); i++) {
             float xVal = (float) (i);
-            float yVal = (float) (chartDataList.getJSONObject(i).getDouble("p"));
+            float yVal = (float) (chartDataList.getJSONObject(i).getDouble(getPriceKey()));
             if (yVal > maxVal) {
                 maxVal = yVal;
             }
@@ -95,7 +96,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
-        set1.setLineWidth(ChartDrawerConstants.LINE_WIDTH_PRICE);
+        set1.setLineWidth(Utils.convertPixelsToDp(ChartDrawerConstants.LINE_WIDTH_PRICE));
 
         if(needDrawLastCircle(chart)) {
             int[] circleColors = {Color.TRANSPARENT};
@@ -146,7 +147,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
             public String getFormattedValue(float value, AxisBase axis) {
                 try {
                     //String val = "2018-01-29T22:21:54.896Z";
-                    String xVal = (chartDataList.getJSONObject((int) value).getString("t"));
+                    String xVal = (chartDataList.getJSONObject((int) value).getString(getDateTimeKey()));
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
                     Date date = format.parse(xVal);
                     SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");

@@ -74,5 +74,15 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
         chart.zoom(scale, 1, xOffset, 0);
         chart.moveViewToX(xOffset);
     }
+
+    @Override
+    public String getPriceKey(){
+        return "p";
+    }
+
+    @Override
+    public String getDateTimeKey(){
+        return "t";
+    }
 }
 
