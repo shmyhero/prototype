@@ -9,14 +9,16 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../../ColorConstants');  
- 
+var NetworkModule = require('../../../module/NetworkModule');
+var NetConstants = require('../../../NetConstants');
+
 export default class TradeStyleBlock extends Component {
   static propTypes = {
-    userId: PropTypes.number,
+    // userId: PropTypes.number,
   }
 
   static defaultProps = {
-    userId: 0,
+    // userId: 0,
   }
 
   constructor(props) {
@@ -29,7 +31,53 @@ export default class TradeStyleBlock extends Component {
       averageLeverage: '50',//平均倍数
       averageInvestUSD: '100',//平均糖果
     }
+
+    
   }
+
+  componentDidMount(){
+    this.loadData();
+  }
+
+
+  /*
+  { winRate: 0,
+    posCount: 12,
+    avgInv: 158.33333333333334,
+    avgLev: 27.583333333333332,
+    avgPl: -4.1691446975,
+    avgDur: 0.174804940200617 }
+  */
+  loadData(){   
+      var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
+      url = url.replace('<id>',this.props.userId)
+      console.log('url='+url);
+      this.setState({
+          isDataLoading: true,
+      }, ()=>{
+          NetworkModule.fetchTHUrl(
+            url,
+              {
+                  method: 'GET', 
+                  showLoading: true,
+              }, (responseJson) => { 
+                   this.setState({
+                    totalWinRate:(responseJson.winRate*100).toFixed(2), //总胜率
+                    averageProfile:responseJson.avgPl.toFixed(2),//平均每笔获利
+                    totalTradeCount: responseJson.posCount,//累积下单
+                    averageOpenTime: responseJson.avgDur.toFixed(2),//平均持仓
+                    averageLeverage: responseJson.avgLev.toFixed(2),//平均倍数
+                    averageInvestUSD: responseJson.avgInv.toFixed(2),//平均糖果
+                   }) 
+                   console.log('responseJson is ='+responseJson)
+              },
+              (exception) => {
+                  alert(exception.errorMessage)
+              }
+          );
+      })  
+  }
+
 
   refresh(tradeStyle){
     console.log("tradeStyle isPrivate = " + tradeStyle.isPrivate);
@@ -86,7 +134,7 @@ export default class TradeStyleBlock extends Component {
         <View style={styles.contentRow}>
             <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strZSL}</Text>
-            <Text style={styles.contentValueBlock}>{this.state.totalWinRate}</Text>
+            <Text style={styles.contentValueBlock}>{this.state.totalWinRate}%</Text>
            </View>
 
            <View style={styles.contentBlock}>

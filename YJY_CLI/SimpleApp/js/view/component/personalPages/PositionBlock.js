@@ -342,7 +342,7 @@ const styles = StyleSheet.create({
 
 	emptyView: {
 		flex: 2,
-		backgroundColor: 'white',
+		backgroundColor: 'transparent',
 		alignItems: 'center',
 		justifyContent: 'space-around',
   },

@@ -48,10 +48,10 @@ export default class  UserProfileTabMain extends React.Component {
             <ProfitTrendCharts ref={'profitTrendCharts'}/>
           </ImageBackground>
           <ImageBackground style={{marginTop:10,height:240,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
-            <ProfitBlock/>
+            <ProfitBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
           <ImageBackground style={{marginTop:10,marginBottom:10,height:180,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
-            <TradeStyleBlock/>
+            <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
         </ScrollView>  
       </View> 

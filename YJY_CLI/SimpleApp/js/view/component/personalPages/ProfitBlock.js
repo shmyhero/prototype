@@ -11,11 +11,10 @@ import {
   Dimensions,
 } from 'react-native';
 
-var ColorConstants = require('../../../ColorConstants'); 
-// var NetConstants = require('../../NetConstants');
+var ColorConstants = require('../../../ColorConstants');  
 var UIConstants = require('../../../UIConstants');
-// var NetworkModule = require('../../module/NetworkModule');
-// var NetworkErrorIndicator = require('../../view/NetworkErrorIndicator');
+var NetworkModule = require('../../../module/NetworkModule');
+var NetConstants = require('../../../NetConstants');
  
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(14*width/375.0);
@@ -75,50 +74,38 @@ export default class ProfitBlock extends Component {
 	}
 
   refresh(){
-    // if(this.props.isPrivate){
-    //   return;
-    // }
-
-    // this.loadData();
-
-         var moke = [
-           { id: 36003,symbol: 'USDCAD',name: '美元/加元',pl: 0.5872,rate: 0.7801 ,count:7},
-           { id: 36003,symbol: 'GOLDS',name: '黄金',pl: 0.3310,rate: 0.4402 ,count:7},
-           { id: 36003,symbol: 'USDJPY',name: '美元/日元',pl: 0.0898,rate: 0.1604 ,count:12}
-         ]
-         this.setState({
-                     contentLoaded: true,
-                     isRefreshing: false,
-                     stockInfoRowData: moke,
-                     stockInfo: this.state.stockInfo.cloneWithRows(moke),
-                     height:0+UIConstants.LIST_HEADER_BAR_HEIGHT+moke.length*46
-                   });
-      
-
+    if(this.props.isPrivate){
+      return;
+    } 
+    this.loadData(); 
+    // var moke = [
+    //   { id: 36003,symbol: 'USDCAD',name: '美元/加元',pl: 0.5872,rate: 0.7801 ,count:7},
+    //   { id: 36003,symbol: 'GOLDS',name: '黄金',pl: 0.3310,rate: 0.4402 ,count:7},
+    //   { id: 36003,symbol: 'USDJPY',name: '美元/日元',pl: 0.0898,rate: 0.1604 ,count:12}
+    // ]
+    // this.setState({
+    //   contentLoaded: true,
+    //   isRefreshing: false,
+    //   stockInfoRowData: moke,
+    //   stockInfo: this.state.stockInfo.cloneWithRows(moke),
+    //   height:0+UIConstants.LIST_HEADER_BAR_HEIGHT+moke.length*46
+    // }); 
 
   }
 
   loadData(){
     this.setState({
         isRefreshing: true,
-    }, ()=>{
-
-      var url = NetConstants.CFD_API.GET_USER_LIVE_PROFILE;
-
-      if(url == ''){
-        return;
-      }
-
-      url = url.replace("<userID>", this.props.userId);
-      var userData = LogicData.getUserData()
+    }, ()=>{ 
+      var url = NetConstants.CFD_API.PERSONAL_PAGE_PLDIST;
+ 
+      url = url.replace("<id>", this.props.userId);
+       
 
       NetworkModule.fetchTHUrl(
         url,
         {
-          method: 'GET',
-          headers: {
-            'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-          },
+          method: 'GET', 
           cache: 'none',
         },
         (responseJson) => {

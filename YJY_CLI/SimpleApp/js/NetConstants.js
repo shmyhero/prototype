@@ -29,9 +29,10 @@ export let CFD_API = {
   MAIN_FEED_DEFAULT:CFD_API_SERVER+"/api/feed/default",//首页动态
   USER_PROFIT_ONE_MONTH: CFD_API_SERVER+"/api/user/<id>/stat/chart/plclosed/1month",
   USER_PROFIT_TOTAL: CFD_API_SERVER+"/api/user/<id>/stat/chart/plclosed",
-
   PERSONAL_PAGE_POSITION_OPEN:CFD_API_SERVER+"/api/user/<id>/position/open",
   PERSONAL_PAGE_POSITION_CLOSED:CFD_API_SERVER+"/api/user/<id>/position/closed",
+  PERSONAL_PAGE_TRADESTYLE:CFD_API_SERVER+"/api/user/<id>/stat/tradeStyle",//交易风格
+  PERSONAL_PAGE_PLDIST:CFD_API_SERVER+"/api/user/<id>/stat/plDist",//盈亏分布
    
 }
     
