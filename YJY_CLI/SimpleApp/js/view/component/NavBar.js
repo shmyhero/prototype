@@ -245,7 +245,7 @@ class NavBar extends Component {
 			}
 			else {
 				return (
-					<Text style={[styles.disabledTextOnRight,{color: textOnRightStyle}]}>
+					<Text style={[styles.disabledTextOnRight,textOnRightStyle]}>
 						{this.props.textOnRight}
 					</Text>
 					)

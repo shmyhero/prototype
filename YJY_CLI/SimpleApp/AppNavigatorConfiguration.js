@@ -8,7 +8,9 @@ import HelpScreen from "./js/view/HelpScreen"
 import AboutScreen from "./js/view/AboutScreen"
 import StockDetailScreen from './js/view/StockDetailScreen';
 import MessageScreen from './js/view/MessageScreen';
-import DepositScreen from './js/view/DepositScreen'
+import DepositScreen from './js/view/DepositScreen';
+import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
+import StockSearchScreen from './js/view/StockSearchScreen';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -36,6 +38,8 @@ const ViewKeys = {
     SCREEN_ABOUT: "AboutScreen",
     SCREEN_MESSAGE: "MessageScreen",
     SCREEN_DEPOSIT: "DepositScreen",
+    SCREEN_TWEET: "TweetScreen",
+    SCREEN_STOCK_SEARCH: "StockSearchScreen",
 }
 
 var mainTabNavigatorConfiguration = {}
@@ -130,15 +134,17 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
 });
 
 var mainAppStackNavigatorConfiguration = {}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = {screen: SplashScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HOME] = {screen: MainScreenNavigator,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {screen: StockDetailScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {screen: LoginScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {screen: UserProfileScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {screen: HelpScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen,}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositScreen,}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = {screen: SplashScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HOME] = {screen: MainScreenNavigator}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {screen: StockDetailScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {screen: LoginScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {screen: UserProfileScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {screen: HelpScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  
 {

@@ -16,6 +16,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
+import {ViewKeys} from '../../AppNavigatorConfiguration'
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
 
@@ -52,10 +53,16 @@ export default class  UserProfileTabDynamicState extends React.Component {
 			isRefreshing: false,
 			trendId:undefined,
 		}
-  }
+	}
+	
+	refresh(){
+		alert("动态已经发布！刷新页面！")
+	}
   
   onPressedEditView(){
-    Alert.alert('发动态')
+    this.props.navigation.navigate(ViewKeys.SCREEN_TWEET, {
+			onPopOut:()=>this.refresh()
+		})
 	}
 	
 	tabPressed(index){

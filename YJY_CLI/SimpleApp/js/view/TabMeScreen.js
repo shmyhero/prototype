@@ -53,9 +53,7 @@ class  TabMeScreen extends React.Component {
       console.log("ME_TAB_PRESS_EVENT")
       WebSocketModule.cleanRegisteredCallbacks();
 			this.refresh();
-    });
-        
-    this.refresh();
+    });     
   } 
 
   componentWillUnmount(){
