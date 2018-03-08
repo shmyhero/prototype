@@ -94,6 +94,9 @@ export default class ProfitBlock extends Component {
   }
 
   loadData(){
+
+    console.log('ProfitBlock loadData userId = ' + this.props.userId)
+
     this.setState({
         isRefreshing: true,
     }, ()=>{ 

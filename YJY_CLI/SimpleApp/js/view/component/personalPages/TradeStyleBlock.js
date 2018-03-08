@@ -134,7 +134,7 @@ export default class TradeStyleBlock extends Component {
         <View style={styles.contentRow}>
             <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strZSL}</Text>
-            <Text style={styles.contentValueBlock}>{this.state.totalWinRate}%</Text>
+            <Text style={styles.contentValueBlock}>{this.state.totalWinRate}</Text>
            </View>
 
            <View style={styles.contentBlock}>
