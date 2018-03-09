@@ -34,6 +34,8 @@ export let CFD_API = {
   PERSONAL_PAGE_TRADESTYLE:CFD_API_SERVER+"/api/user/<id>/stat/tradeStyle",//交易风格
   PERSONAL_PAGE_PLDIST:CFD_API_SERVER+"/api/user/<id>/stat/plDist",//盈亏分布
   PUBLISH_TWEET: CFD_API_SERVER+"/api/status",
+  USER_DYNAMIC_LIST:CFD_API_SERVER+'/api/user/<id>/status',
+  DO_DYNAMIC_LIKE:CFD_API_SERVER+'/api/status/<id>/like',
 }
     
  
