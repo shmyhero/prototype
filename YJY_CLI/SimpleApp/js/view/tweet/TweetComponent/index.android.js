@@ -31,6 +31,18 @@ class TweetComponent extends Component {
 
     constructor(props) {
         super(props);
+
+        //props.text
+        var textNodes = TweetParser.parseTextNodes(this.props.value);
+        //console.log("textNodes" + JSON.stringify(textNodes))
+        var displayText = this.getDisplayText(textNodes);
+        this.state = {
+            text: this.props.value,
+            displayText: displayText,
+            selection:{ start: 0, end: 0},
+            textNodes: textNodes,
+            textInputHeight:38
+        };
     }
 
     insertItem(item){
