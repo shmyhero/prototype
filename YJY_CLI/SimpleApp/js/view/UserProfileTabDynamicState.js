@@ -17,6 +17,7 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
 import {ViewKeys} from '../../AppNavigatorConfiguration'
+import TweetBlock from './tweet/TweetBlock';
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
 
@@ -24,7 +25,7 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var listRawData = [
 ]
 var listResponse = [ 
-  {Liked:false,likes:9,rewardCount:10,createdAt:'2017.10.12 20.20',message:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预计增长20%收益。'},
+  {Liked:false,likes:9,rewardCount:10,createdAt:'2017.10.12 20.20',message:'<a href="cfd://page/stock/34781">加元/日元</a>，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预计增长20%收益。'},
   {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
   {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
   {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
@@ -62,7 +63,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
   onPressedEditView(){
     this.props.navigation.navigate(ViewKeys.SCREEN_TWEET, {
 			onPopOut:()=>this.refresh()
-		})
+		});
 	}
 	
 	tabPressed(index){
@@ -120,7 +121,12 @@ export default class  UserProfileTabDynamicState extends React.Component {
 
   onPressedShare(){
 
-  }
+	}
+	
+	jump2Detail(name, id){ 
+		this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
+				{stockCode: id, stockName: name});
+	}
   
 
   renderRow(rowData,sectionID,rowID){
@@ -133,8 +139,10 @@ export default class  UserProfileTabDynamicState extends React.Component {
 			<View style={styles.itemLine}>
 			  <View style={{width:width-20,paddingRight:24}}>
 					<Text style={styles.timeStyle}>{rowData.createdAt}</Text>
-					<Text style={{fontSize:15,color:'#999999'}}>{rowData.message}</Text>
- 
+					<TweetBlock
+							style={{fontSize:15,color:'#999999'}}
+							value={rowData.message}
+							onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
 					<View style = {styles.itemOperator}>
 						<View style={styles.separator}></View>
 							<View style={{flexDirection:'row'}}>
