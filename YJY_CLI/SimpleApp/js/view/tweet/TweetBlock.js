@@ -3,20 +3,19 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 var TweetParser = require("./TweetParser")
-var MainPage = require("../MainPage")
 
 // create a component
 class TweetBlock extends Component {
     static propTypes = {
         value: PropTypes.string,
-        style: View.propTypes.style,
+        style: Text.propTypes.style,
         onBlockPressed: PropTypes.func,
     }
     
     static defaultProps = {
         value:'',
         style: {},
-        onBlockPressed: (stockID)=>{}
+        onBlockPressed: (name, stockID)=>{}
     }
 
     constructor(props){
@@ -44,21 +43,16 @@ class TweetBlock extends Component {
         }
         var parsedListView = this.state.textNodes.map((node, index, array)=>{
             if(node.type == "text"){
-                return (
-                    <Text key={index}
-                          style={[styles.textPart, {fontSize:fontSize}]}>
+                return (<Text key={index}
+                        style={[styles.textPart, {fontSize:fontSize}]}>
                         {node.text}
-                    </Text>)
+                    </Text>);
             }else if(node.type == "link"){
-                return (
-                    <Text key={index}
+                return (<Text key={index}
                         onPress={()=>{
-                            MainPage.gotoStockDetail({
-                                CName: node.text.substring(1), //Remove the first @
-                                StockID: node.id,
-                            });
-                            console.log("node.link " + node.link)
-                            this.props.onBlockPressed(node.link);
+                            var name = node.text.substring(1);
+                            var stockID = node.id;
+                            this.props.onBlockPressed(name, stockID);
                         }}
                         style={[styles.linkedPart, {fontSize:fontSize}]}>
                         {node.text}

@@ -233,7 +233,7 @@ class TabMarketScreen extends Component {
     }   
 
     jump2Next(stockId, stockName){
-        this.props.navigation.navigate('StockDetail',{stockCode: stockId, stockName: stockName})
+        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL,{stockCode: stockId, stockName: stockName})
     }
 }
 

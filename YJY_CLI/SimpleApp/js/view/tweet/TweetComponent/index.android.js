@@ -11,16 +11,11 @@ import { View,
     ScrollView,
     Platform
 } from 'react-native';
-var TweetParser = require('./TweetParser');
+var TweetParser = require('../TweetParser');
 var {height, width} = Dimensions.get('window');
 
 //var TweetBlock = require('./TweetBlock')
 class TweetComponent extends Component {
-
-    /////////this.lastSelection////////
-    //在ios中通过键盘输入的字符，onTextChanged在调用之前会先调用onSelectionChanged,
-    //所以此时的this.state.selection指向的是错误的位置。需要手动把输入之前的selection位置记下来。
-
     lastSelection = {start:0, end:0}
     lastPressedKey = "";
 
@@ -36,17 +31,6 @@ class TweetComponent extends Component {
 
     constructor(props) {
         super(props);
-        //props.text
-        var textNodes = TweetParser.parseTextNodes(this.props.value);
-        //console.log("textNodes" + JSON.stringify(textNodes))
-        var displayText = this.getDisplayText(textNodes);
-        this.state = {
-            text: this.props.value,
-            displayText: displayText,
-            selection:{ start: 0, end: 0},
-            textNodes: textNodes,
-            textInputHeight:38
-        };
     }
 
     insertItem(item){

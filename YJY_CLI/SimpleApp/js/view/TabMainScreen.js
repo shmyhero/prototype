@@ -22,6 +22,9 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
+import TweetBlock from './tweet/TweetBlock';
+import { ViewKeys } from '../../AppNavigatorConfiguration';
+
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
 require('../utils/dateUtils')
@@ -203,7 +206,7 @@ export default class TabMainScreen extends React.Component {
     }
 
     _onPressToSecurity(rowData){
-        this.props.navigation.navigate('StockDetail',{stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
+        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, {stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
     }
 
     _onPressToUser(rowData){
@@ -211,7 +214,7 @@ export default class TabMainScreen extends React.Component {
             userId:rowData.data.user.id,
             nickName:rowData.data.user.nickname,
         }
-        this.props.navigation.navigate('UserProfileScreen',{userData:userData})
+        this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE, {userData:userData})
     }
 
     _renderRow = (rowData, sectionID, rowID) => {
@@ -263,7 +266,10 @@ export default class TabMainScreen extends React.Component {
                                     <Text style={styles.textUserName}>{rowData.data.user.nickname}</Text>
                                     {viewHero}
                                 </View>
-                                <Text style={{fontSize:15,color:'#666666'}}>{text}</Text>
+                                <TweetBlock
+                                    style={{fontSize:15,color:'#666666'}}
+                                    value={text}
+                                    onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -471,9 +477,10 @@ export default class TabMainScreen extends React.Component {
     }
  
  
-  jump2Detail(){ 
-    this.props.navigation.navigate('StockDetail', { user: 'Lucy' })
-  }
+    jump2Detail(name, id){ 
+        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
+            {stockCode: id, stockName: name});
+    }
 
 }
 
