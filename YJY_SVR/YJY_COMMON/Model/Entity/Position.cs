@@ -41,5 +41,7 @@ namespace YJY_COMMON.Model.Entity
 
         [StringLength(20)]
         public string CloseType { get; set; }
+
+        public DateTime? ClosePriceTime { get; set; }
     }
 }

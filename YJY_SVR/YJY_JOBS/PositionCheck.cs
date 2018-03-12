@@ -1,27 +1,52 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading;
-using System.Threading.Tasks;
-using QuickFix.Fields;
+using Microsoft.Azure.ServiceBus;
 using YJY_COMMON;
-using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Util;
 
 namespace YJY_JOBS
 {
+    [Serializable]
+    class PosToClose
+    {
+        public int Id { get; set; }
+        public CloseType closeType { get; set; }
+        public decimal closePx { get; set; }
+        public DateTime closePxTime { get; set; }
+    }
+
+    internal enum CloseType
+    {
+        Liquidate,
+        Stop,
+        Take,
+    }
+
     class PositionCheck
     {
-        private static readonly TimeSpan _sleepInterval = TimeSpan.FromSeconds(3);
+        // Connection String for the namespace can be obtained from the Azure portal under the 
+        // 'Shared Access policies' section.
+        const string ServiceBusConnectionString =
+            "Endpoint=sb://yjy-bus.servicebus.chinacloudapi.cn/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=0EMgUSnzVWcytHwATt+nmSFJVy5l+iOjpfr/i+u3WqM=";
+
+        const string QueueName = "positiontoclose";
+        static QueueClient _queueClient;
+
+        private static readonly TimeSpan _sleepInterval = TimeSpan.FromSeconds(1);
+
+        private static IDictionary<int, DateTime> _sentPosIds = new Dictionary<int, DateTime>();
 
         public static void Run()
         {
             YJYGlobal.LogLine("Starting...");
 
             //var mapper = MapperConfig.GetAutoMapperConfiguration().CreateMapper();
+
+            _queueClient = new QueueClient(ServiceBusConnectionString, QueueName);
 
             while (true)
             {
@@ -40,9 +65,15 @@ namespace YJY_JOBS
                             var prodDefs = redisProdDefClient.GetAll();
                             var quotes = redisQuoteClient.GetAll();
 
-                            YJYGlobal.LogLine("Got " + openPositions.Count + " positions.");
+                            var openPositionsNotSent = openPositions.Where(o => !_sentPosIds.ContainsKey(o.Id)).ToList();
 
-                            var groups = openPositions.GroupBy(o => o.SecurityId).ToList();
+                            YJYGlobal.LogLine(openPositionsNotSent.Count + "/" + openPositions.Count +
+                                              " (notSent/all) open positions.");
+
+                            var messages = new List<Message>();
+                            var posIds = new List<int>();
+
+                            var groups = openPositionsNotSent.GroupBy(o => o.SecurityId).ToList();
 
                             foreach (var group in groups) //foreach security
                             {
@@ -93,9 +124,24 @@ namespace YJY_JOBS
                                     //position goes to 0%
                                     var upl = Trades.CalculatePL(p, last, false);
 
+                                    var inv = p.Invest.Value.ToString("0");
+                                    var lev = p.Leverage.Value.ToString("0");
+                                    var setPx = p.SettlePrice.Value.ToString("F" + prodDef.Prec);
+
                                     if (upl + p.Invest <= 0)
                                     {
-                                        YJYGlobal.LogLine($"position { p.Id} ({(p.Side.Value? "↗": "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) CLOSED at {last} PL {upl.ToString("0.00")}");
+                                        YJYGlobal.LogLine(
+                                            $"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {inv}x{lev} at {setPx}) CLOSED at {last} PL {upl.ToString("0.00")}");
+
+                                        posIds.Add(p.Id);
+                                        messages.Add(new Message(Serialization.ObjectToByteArray(
+                                            new PosToClose()
+                                            {
+                                                Id = p.Id,
+                                                closeType = CloseType.Liquidate,
+                                                closePx = last,
+                                                closePxTime = quote.Time,
+                                            })));
                                         continue;
                                     }
 
@@ -104,7 +150,18 @@ namespace YJY_JOBS
                                     {
                                         if (p.Side.Value && last <= p.StopPx || !p.Side.Value && last >= p.StopPx)
                                         {
-                                            YJYGlobal.LogLine($"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) STOPPED at {last} PL {upl.ToString("0.00")}");
+                                            YJYGlobal.LogLine(
+                                                $"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {inv}x{lev} at {setPx}) STOPPED at {last} PL {upl.ToString("0.00")}");
+
+                                            posIds.Add(p.Id);
+                                            messages.Add(new Message(Serialization.ObjectToByteArray(
+                                                new PosToClose()
+                                                {
+                                                    Id = p.Id,
+                                                    closeType = CloseType.Stop,
+                                                    closePx = last,
+                                                    closePxTime = quote.Time,
+                                                })));
                                             continue;
                                         }
                                     }
@@ -114,13 +171,33 @@ namespace YJY_JOBS
                                     {
                                         if (p.Side.Value && last >= p.TakePx || !p.Side.Value && last <= p.TakePx)
                                         {
-                                            YJYGlobal.LogLine($"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {p.Invest.Value.ToString("0")}x{p.Leverage.Value.ToString("0")} at {p.SettlePrice.Value.ToString("F" + prodDef.Prec)}) TAKEN at {last} PL {upl.ToString("0.00")}");
+                                            YJYGlobal.LogLine(
+                                                $"position {p.Id} ({(p.Side.Value ? "↗" : "↘")} {inv}x{lev} at {setPx}) TAKEN at {last} PL {upl.ToString("0.00")}");
+
+                                            posIds.Add(p.Id);
+                                            messages.Add(new Message(Serialization.ObjectToByteArray(
+                                                new PosToClose()
+                                                {
+                                                    Id = p.Id,
+                                                    closeType = CloseType.Take,
+                                                    closePx = last,
+                                                    closePxTime = quote.Time,
+                                                })));
                                             continue;
                                         }
                                     }
                                 }
 
                                 //db.SaveChanges();
+                            }
+
+                            if (messages.Count > 0)
+                            {
+                                _queueClient.SendAsync(messages);
+                                foreach (var posId in posIds)
+                                {
+                                    _sentPosIds.Add(posId, DateTime.UtcNow);
+                                }
                             }
                         }
                     }

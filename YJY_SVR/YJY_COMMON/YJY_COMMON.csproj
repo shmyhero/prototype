@@ -95,6 +95,7 @@
     <Compile Include="Util\DateTimes.cs" />
     <Compile Include="Util\Extension\StringExtension.cs" />
     <Compile Include="Util\KLines.cs" />
+    <Compile Include="Util\Serialization.cs" />
     <Compile Include="Util\Ticks.cs" />
     <Compile Include="Util\Trades.cs" />
     <Compile Include="Util\Products.cs" />
