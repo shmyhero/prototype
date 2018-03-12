@@ -216,13 +216,13 @@ export default class TabMainScreen extends React.Component {
                <View style={styles.thumbnailAll}> 
                     <View>
                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
-                        <View style={{width:40}}>
-                            <Text style={{color:'#b0dcfe',fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                        <View style={{width:40,flexDirection:'row'}}>
+                            <Text style={{width:30,color:'#b0dcfe',marginLeft:5,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                            <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
                         </View>
                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                     </View>
- 
-                    <Image style={{marginTop:25,marginRight:-6, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
+                    
                     <View style={styles.thumbnail}> 
                      <Swipeout right={swipeoutBtns} autoClose={true} style={{backgroundColor:'transparent',flex:1}}>  
                         <View style={{flexDirection:'row'}}>
@@ -240,7 +240,6 @@ export default class TabMainScreen extends React.Component {
                                     style={{fontSize:15,color:'#666666'}}
                                     value={text}
                                     onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
-
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -508,8 +507,8 @@ const styles = StyleSheet.create({
     textContainer: {
         paddingRight: 10,
         flex:1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',  
+        justifyContent: 'center', 
+        alignItems: 'flex-start',   
     },
     textUserName:{
         fontSize:12,

@@ -90,8 +90,30 @@ export default class  RankHeroList extends React.Component {
                         }
                     );
                 })			
+            }else {
+                this.setState({
+                    isDataLoading: true,
+                }, ()=>{
+                    NetworkModule.fetchTHUrl(
+                        NetConstants.CFD_API.RANK_TWO_WEEKS,
+                        {
+                            method: 'GET', 
+                            showLoading: true,
+                        }, (responseJson) => { 
+                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
+                            this.setState({
+                                rankListData: responseJson,
+                                isDataLoading: false,
+                                dataSource: ds.cloneWithRows(responseJson),
+                            });  
+                        },
+                        (exception) => {
+                            alert(exception.errorMessage)
+                        }
+                    );
+                })			
             }
-        } 
+     } 
 
     renderMe(){
         if(this.props.showMeBlock){
@@ -124,7 +146,7 @@ export default class  RankHeroList extends React.Component {
         var bgHeight = bgWidth;
         var bgHeightLR = bgHeight*201/230;
         return(
-            <View>
+            <View style={{marginTop:10}}>
                 <ImageBackground style={styles.containerAll} source={require('../../images/rank_bg_all.png')}>
                     <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[1].id,this.state.rankListData[1].nickname)} activeOpacity={0.9} style={{flex:1}}>
                         <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>

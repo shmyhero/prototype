@@ -1,5 +1,5 @@
 //import liraries
-import React, { Component} from 'react';
+import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 var TweetParser = require("./TweetParser")
@@ -15,7 +15,8 @@ class TweetBlock extends Component {
     static defaultProps = {
         value:'',
         style: {},
-        onBlockPressed: (name, stockID)=>{}
+        onBlockPressed: (name, stockID)=>{},
+        
     }
 
     constructor(props){
@@ -23,7 +24,8 @@ class TweetBlock extends Component {
 
         var textNodes = TweetParser.parseTextNodes(this.props.value);
         this.state = {
-            textNodes: textNodes
+            textNodes: textNodes,
+            maxLine:3,
         };
     }
 
@@ -61,19 +63,28 @@ class TweetBlock extends Component {
             }
         });
 
-        return (           
-            <Text style={[styles.container, this.props.style]}>
-                {parsedListView}
-            </Text>
+        return (     
+            <TouchableOpacity onPress={()=>this.onPressed()}>      
+                <Text  style={[styles.container, this.props.style]} numberOfLines={this.state.maxLine}>
+                    {parsedListView}
+                </Text>
+            </TouchableOpacity>
         );
+    }
+
+
+    onPressed(){
+        this.setState({
+            maxLine:this.state.maxLine==3?99:3
+        })
     }
 }
 
 // define your styles
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-    },
+    // container: {
+    //     flex: 1,
+    // },
 
     textPart:{
         fontSize: 15,
