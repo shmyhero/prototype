@@ -19,12 +19,16 @@ export default class  UserProfileTabPositionHold extends React.Component {
     title: 'Home',
   }
 
+  tabPressed(index){
+    this.refs['positionBlock'].refresh();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <View style={styles.content}>
-            <PositionBlock/>
+          <PositionBlock ref={'positionBlock'} userId={this.props.userId} type={'open'} isPrivate={false}/>
         </View>  
       </View> 
     );

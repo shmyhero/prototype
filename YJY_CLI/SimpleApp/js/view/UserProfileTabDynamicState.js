@@ -16,25 +16,15 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
+import {ViewKeys} from '../../AppNavigatorConfiguration'
+import TweetBlock from './tweet/TweetBlock';
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
-
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var listRawData = [
-]
-var listResponse = [ 
-  {Liked:false,likes:9,rewardCount:10,createdAt:'2017.10.12 20.20',message:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预全球不稳定因素继续加大稳定因素继续加大，可以适当买涨黄金，杠杆在10-20倍左右，2018年预计增长20%收益。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-  {Liked:false,likes:1,rewardCount:4,createdAt:'2017.10.11 10.20',message:'@美国科技股100，由于税改赠策的落地，建议继续买涨，杠杆在10倍左右，同时设置好止损。'},
-]
-
+] 
 
 
 export default class  UserProfileTabDynamicState extends React.Component {
@@ -45,18 +35,80 @@ export default class  UserProfileTabDynamicState extends React.Component {
   constructor(props){
 		super(props);
 		this.state = {
-			listRawData: ds.cloneWithRows(listResponse),
-			listResponse: listResponse,
+			// listRawData: ds.cloneWithRows(listResponse),
+			// listResponse: listResponse,
 			noMessage: false,
 			contentLoaded: false,
 			isRefreshing: false,
 			trendId:undefined,
 		}
-  }
+	}
+	
+	refresh(){
+		this.loadData()
+	}
   
   onPressedEditView(){
-    Alert.alert('发动态')
-  }
+    this.props.navigation.navigate(ViewKeys.SCREEN_TWEET, {
+			onPopOut:()=>this.refresh()
+		});
+	}
+	
+	tabPressed(index){
+		console.log('UserProfileTabDynamicState tabPressed')
+		this.loadData()
+	}
+	 /*
+	 { id: 9,
+		userId: 0,
+		time: '2018-03-08T04:00:46.243',
+		text: '123123213123123',
+		likeCount: 0 },
+	{ id: 8,
+		userId: 0,
+		time: '2018-03-08T03:53:13.827',
+		text: '<a href="cfd://page/stock/34781">加元/日元</a> Test',
+		likeCount: 0 },
+	{ id: 7,
+		userId: 0,
+		time: '2018-03-08T03:36:40.763',
+		text: 'Test4',
+		likeCount: 0 },
+	{ id: 6,
+		userId: 0,
+		time: '2018-03-08T03:36:13.033',
+		text: 'Test2',
+		likeCount: 0 },
+	{ id: 5,
+		userId: 0,
+		time: '2018-03-08T03:29:38.68',
+		text: 'Test2',
+		likeCount: 0 },
+	 */
+	loadData(){   
+      var url = NetConstants.CFD_API.USER_DYNAMIC_LIST
+      url = url.replace('<id>',this.props.userId)
+      console.log('url='+url);
+      this.setState({
+          isDataLoading: true,
+      }, ()=>{
+          NetworkModule.fetchTHUrl(
+            url,
+              {
+                  method: 'GET', 
+                  showLoading: true,
+              }, (responseJson) => { 
+                   this.setState({ 
+										listRawData: ds.cloneWithRows(responseJson),
+										listResponse: responseJson,
+                   })  
+              },
+              (exception) => {
+                  alert(exception.errorMessage)
+              }
+          );
+      })  
+  } 
 
   renderEditView(){ 
 		  if(LogicData.isUserSelf(this.props.userId)){
@@ -103,13 +155,37 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		}
 	}
 
-  onPressedPraise(){
-    
+  onPressedPraise(rowData){
+     
+			var userData = LogicData.getUserData();
+			var url = NetConstants.CFD_API.DO_DYNAMIC_LIKE,
+			url = url.replace('<id>',rowData.id)
+			NetworkModule.fetchTHUrl(
+				url,
+				{
+					method: 'PUT',
+					headers: {
+						'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+						'Content-Type': 'application/json; charset=utf-8',
+					},
+					showLoading: true,
+				}, (responseJson) => {					
+					 
+					this.setState({
+						 
+					})
+				});
+	 
   }
 
   onPressedShare(){
 
-  }
+	}
+	
+	jump2Detail(name, id){ 
+		this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
+				{stockCode: id, stockName: name});
+	}
   
 
   renderRow(rowData,sectionID,rowID){
@@ -121,15 +197,19 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		return(
 			<View style={styles.itemLine}>
 			  <View style={{width:width-20,paddingRight:24}}>
-					<Text style={styles.timeStyle}>{rowData.createdAt}</Text>
-					<Text style={{fontSize:15,color:'#999999'}}>{rowData.message}</Text>
- 
+
+				  <Text style={styles.timeStyle}>{rowData.time}</Text>
+					<TweetBlock
+							style={{fontSize:15,color:'#999999',lineHeight:18}}
+							value={rowData.text}
+							onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
+					  
 					<View style = {styles.itemOperator}>
 						<View style={styles.separator}></View>
 							<View style={{flexDirection:'row'}}>
 								<TouchableOpacity style={styles.operatorItem} onPress={()=>this.onPressedPraise(rowData)}>
 										 <Image style={styles.iconOperator} source={iconPraise}/>
-										 <Text style={[styles.textOperator,textPraise]}>{rowData.likes}</Text>
+										 <Text style={[styles.textOperator,textPraise]}>{rowData.likeCount}</Text>
 								</TouchableOpacity>
 								<View style={styles.operatorSepator}/> 
 
@@ -140,7 +220,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 							</View>
 						<View style={styles.separator}></View>
 					</View>
-				</View> 
+				</View>
 			</View>
 	 	);
 	}

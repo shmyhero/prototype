@@ -13,13 +13,13 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../../ColorConstants'); 
-// var NetConstants = require('../../NetConstants');
+var NetConstants = require('../../../NetConstants');
 var UIConstants = require('../../../UIConstants');
-// var NetworkModule = require('../../module/NetworkModule');
+var NetworkModule = require('../../../module/NetworkModule');
 var NetworkErrorIndicator = require('../NetworkErrorIndicator'); 
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(15*width/375.0);
-
+var LogicData = require("../../../LogicData");
 var {height, width} = Dimensions.get('window');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 		if(r1.security && r2.security){
@@ -29,28 +29,7 @@ var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 		}
 		return r1.id !== r2.id || r1.profitPercentage!==r2.profitPercentage || r1.hasSelected!==r2.hasSelected
   }});
-  
-
-  var responseJson = [
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28}, 
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28}, 
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28}, 
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28}, 
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28}, 
-    {name:'比特币/英镑', symbol:'XBTGBP', rate:0.0226, pl:2.42},
-    {name:'美元/日元', symbol:'USDJPY', rate:-0.0136, pl:-1.38},
-    {name:'美国科技股100', symbol:'NDX', rate:-0.0026, pl:-0.28},  
-  ]
+   
 
 export default class PositionBlock extends Component {
   static propTypes = {
@@ -84,9 +63,7 @@ export default class PositionBlock extends Component {
   componentDidMount(){
     this.setState({
       contentLoaded: true,
-      isRefreshing: false,
-      stockInfoRowData: responseJson,
-      stockInfo: this.state.stockInfo.cloneWithRows(responseJson),
+      isRefreshing: false, 
     });
   }
 
@@ -105,54 +82,53 @@ export default class PositionBlock extends Component {
 
   loadData(){
 
+		this.setState({
+			isRefreshing: true,
+		}, ()=>{
+      var url = '';
+      console.log('this.props.type='+this.props.type)
+      if(this.props.type == 'open'){
+        url = NetConstants.CFD_API.PERSONAL_PAGE_POSITION_OPEN;
+      }else if(this.props.type == 'close'){
+        url = NetConstants.CFD_API.PERSONAL_PAGE_POSITION_CLOSED;
+      }
+      console.log('url='+url)
+      if(url == ''){
+        return;
+      }
 
- 
+      url = url.replace("<id>", this.props.userId);
+      // var userData = LogicData.getUserData()
 
-		// this.setState({
-		// 	isRefreshing: true,
-		// }, ()=>{
-    //   var url = '';
-    //   if(this.props.type == 'open'){
-    //     url = NetConstants.CFD_API.PERSONAL_PAGE_POSITION_OPEN;
-    //   }else if(this.props.type == 'close'){
-    //     url = NetConstants.CFD_API.PERSONAL_PAGE_POSITION_CLOSE;
-    //   }
+      NetworkModule.fetchTHUrl(
+        url,
+        {
+          method: 'GET',
+          // headers: {
+          //   'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+          // },
+          cache: 'none',
+        },
+        (responseJson) => {
+          this.setState({
+            contentLoaded: true,
+            isRefreshing: false,
+            stockInfoRowData: responseJson,
+            stockInfo: this.state.stockInfo.cloneWithRows(responseJson),
+          });
+        },
+        (result) => {
+          if(!result.loadedOfflineCache){
+            this.setState({
+              contentLoaded: false,
+              isRefreshing: false,
+            })
+          }
+          // Alert.alert('', errorMessage);
+        }
+      )
+    });
 
-    //   if(url == ''){
-    //     return;
-    //   }
-
-    //   url = url.replace("<userID>", this.props.userId);
-    //   var userData = LogicData.getUserData()
-
-    //   NetworkModule.fetchTHUrl(
-    //     url,
-    //     {
-    //       method: 'GET',
-    //       headers: {
-    //         'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-    //       },
-    //       cache: 'none',
-    //     },
-    //     (responseJson) => {
-    //       this.setState({
-    //         contentLoaded: true,
-    //         isRefreshing: false,
-    //         stockInfoRowData: responseJson,
-    //         stockInfo: this.state.stockInfo.cloneWithRows(responseJson),
-    //       });
-    //     },
-    //     (result) => {
-    //       if(!result.loadedOfflineCache){
-    //         this.setState({
-    //           contentLoaded: false,
-    //           isRefreshing: false,
-    //         })
-    //       }
-    //       // Alert.alert('', errorMessage);
-    //     }
-    //   )
-    // });
 	}
 
   renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
@@ -163,9 +139,27 @@ export default class PositionBlock extends Component {
 		);
 	} 
 
+
+  /*
+  { id: 22,
+    roi: 0,
+    pl: 0,
+    security: { id: 34821, name: '黄金', symbol: 'GOLDS' } },
+  { id: 4,
+    roi: -0.0007437156,
+    pl: -0.07437156,
+    security: { id: 34821, name: '黄金', symbol: 'GOLDS' } },
+  { id: 2,
+    roi: -0.0007433838,
+    pl: -0.07433838,
+    security: { id: 34821, name: '黄金', symbol: 'GOLDS' } },
+  */
   renderRow(rowData, sectionID, rowID, highlightRow) {
-		var profitPercentage = rowData.rate
-		var profitAmount = rowData.pl
+		var profitPercentage = rowData.roi
+    var profitAmount = rowData.upl
+    if(this.props.type == 'close'){
+      profitAmount = rowData.pl
+    }
 		var bgcolor = 'white'
 
 		return (
@@ -174,13 +168,13 @@ export default class PositionBlock extends Component {
 					<View style={[styles.rowWrapper, {backgroundColor: bgcolor}]} key={rowID}>
 						<View style={styles.rowLeftPart}>
 							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{rowData.name}
+								{rowData.security.name}
 							</Text>
 
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
 						 
 								<Text style={styles.stockSymbolText}>
-									{rowData.symbol}
+									{rowData.security.symbol}
 								</Text>
 							</View>
 						</View>
@@ -348,7 +342,7 @@ const styles = StyleSheet.create({
 
 	emptyView: {
 		flex: 2,
-		backgroundColor: 'white',
+		backgroundColor: 'transparent',
 		alignItems: 'center',
 		justifyContent: 'space-around',
   },

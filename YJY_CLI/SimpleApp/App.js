@@ -16,6 +16,7 @@ import { NavigationActions } from 'react-navigation';
 var StorageModule = require('./js/module/StorageModule');
 import LogicData from './js/LogicData';
 import {SimpleApp, ViewKeys} from './AppNavigatorConfiguration';
+import Orientation from 'react-native-orientation';
 
 var WebSocketModule = require('./js/module/WebSocketModule');
 var {EventCenter, EventConst} = require('./js/EventCenter');
@@ -40,6 +41,8 @@ function getCurrentRouteName(navigationState) {
 export default class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
+    Orientation.lockToPortrait();
+    
     this.startupJobs()
   }
 
@@ -101,7 +104,7 @@ export default class App extends React.Component {
             break;
           default:
             break;
-        }        
+        }     
       }}
     />;
   }

@@ -1,56 +1,53 @@
+'use strict';
+
 import React, { Component } from 'react';
 import {
-    AppRegistry,
-    Text,
-    Button,
-    View,
-    StyleSheet,
-    Platform,
-    Image,
-    TouchableOpacity,
-    StatusBar,
-    Alert
+	StyleSheet,
+	View,
+	Image,
+	Text,
+	TouchableHighlight,
+	Platform,
+	TextInput,
+	Dimensions,
+	FlatList,
+	Alert,
+	TouchableOpacity,
 } from 'react-native';
-
-import PropTypes from "prop-types";
-import { TabNavigator } from "react-navigation";
-import NavBar from './component/NavBar';
 import LogicData from '../LogicData';
+import ViewKeys from '../../AppNavigatorConfiguration';
+import SortableListView from 'react-native-sortable-listview';
+import NavBar from './component/NavBar';
 import StockRowComponent from './component/StockRowComponent';
 
-var WebSocketModule = require('../module/WebSocketModule');
-var AppStateModule = require('../module/AppStateModule');
-var ColorConstants = require('../ColorConstants');
-var NetConstants = require('../NetConstants');
-var NetworkModule = require('../module/NetworkModule');
-var {EventCenter,EventConst} = require('../EventCenter');
+var LayoutAnimation = require('LayoutAnimation')
+var ColorConstants = require('../ColorConstants')
+var NetConstants = require('../NetConstants')
+var StorageModule = require('../module/StorageModule')
+var NetworkModule = require('../module/NetworkModule')
 
-import SortableListView from 'react-native-sortable-listview'
-
-var tabSwitchedSubscription = null;
-
-
-//Tab1:行情
-class TabMarketScreen extends Component {
-    constructor(props){
+// create a component
+class StockSearchScreen extends Component {
+	constructor(props){
         super(props)
 
-        this.state = {
-            listData: {},
+
+        var state = {
+			listData: {},
             listDataOrder: [],
             isLoading: true,
         };
+
+        if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
+            var params = this.props.navigation.state.params;
+			state.onGetItem = params.onGetItem;
+        }
+        
+        this.state = state;
     }
 
     componentWillMount(){
-        tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.STOCK_TAB_PRESS_EVENT, () => {
-            console.log("STOCK_TAB_PRESS_EVENT")
-            this.loadStockList();
-        });
-    }
-
-    componentWillUnmount(){
-        tabSwitchedSubscription && tabSwitchedSubscription.remove();
+        this.loadStockList();
     }
 
     loadStockList(){
@@ -69,8 +66,6 @@ class TabMarketScreen extends Component {
                             listDataOrder: data.listDataOrder,
                             listData: data.listData,
                             isLoading: false,
-                        }, ()=>{
-                            this.webSocketRegisterInsterestedStocks();
                         });
                     }); 
                 },
@@ -97,34 +92,6 @@ class TabMarketScreen extends Component {
             return out;
         }
         return obj;
-    }
-
-    webSocketRegisterInsterestedStocks(){
-        var result = ''
-		for (var i = 0; i < this.state.listDataOrder.length; i++) {
-			result += ( this.state.listDataOrder[i] + ',')
-		};
-
-        result = result.substring(0, result.length - 1);
-        WebSocketModule.registerInterestedStocks(result)
-        WebSocketModule.registerInterestedStocksCallbacks(
-			(realtimeStockInfo) => {
-                var updated = false;
-				for (var i = 0; i < realtimeStockInfo.length; i++) {
-                    var stockID = ""+realtimeStockInfo[i].id;                   
-                    if (stockID in this.state.listData){
-                        this.state.listData[stockID].last = realtimeStockInfo[i].last
-                        updated = true;
-					}
-                }
-             
-                if(updated){
-                    this.setState({
-                        //only a new object will trigger the list view update.
-                        listData: this.deepCopy(this.state.listData)
-                    })
-                }
-			})
     }
 
     updateStockDataOrder(localData, responseData){
@@ -225,24 +192,26 @@ class TabMarketScreen extends Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                <NavBar onlyShowStatusBar={true}/>
+                <NavBar title="选择产品" navigation={this.props.navigation}/>
                 {this.renderContent()}
             </View>
         )
-        
     }   
 
     jump2Next(stockId, stockName){
-        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL,{stockCode: stockId, stockName: stockName})
+		this.props.navigation.goBack(null);
+		
+		if(this.state.onGetItem){
+			this.state.onGetItem({id: stockId, name: stockName});
+		}
     }
 }
 
-const styles = StyleSheet.create({
-    mainContainer:{
+var styles = StyleSheet.create({
+	mainContainer:{
         flex:1,
         backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
-})
+});
 
-export default TabMarketScreen;
-
+export default StockSearchScreen;

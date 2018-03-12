@@ -12,6 +12,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import LogicData from '../LogicData';
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
@@ -32,6 +33,10 @@ export default class  MyPositionTabStatistics extends React.Component {
   }
   
   render() {
+
+    var userId = LogicData.getUserData().userId;
+    console.log("USERID = " + userId)
+
     return (
       <View style={styles.container}> 
         <View style={styles.content}>
@@ -43,10 +48,10 @@ export default class  MyPositionTabStatistics extends React.Component {
               <ProfitTrendCharts ref={'profitTrendCharts'}/>
             </View>
             <View style={{backgroundColor:'white', marginTop:10,height:250,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-              <ProfitBlock/>
+              <ProfitBlock userId={userId}/>
             </View>
             <View style={{backgroundColor:'white', marginTop:10,marginBottom:20,height:200,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-              <TradeStyleBlock/>
+              <TradeStyleBlock userId={userId}/>
             </View> 
           </ScrollView>  
         </View>  

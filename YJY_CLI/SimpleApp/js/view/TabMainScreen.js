@@ -22,6 +22,11 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
+
+import TweetBlock from './tweet/TweetBlock';
+import { ViewKeys } from '../../AppNavigatorConfiguration';
+
+
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
 require('../utils/dateUtils')
@@ -31,55 +36,41 @@ var WebSocketModule = require('../module/WebSocketModule')
 var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule');
 
-import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 
-// var mkData = [
-//     {time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'},
-//     {time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
-//     {time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'},
-//     {time:'16:29',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
-//     {time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'},
-//     {time:'16:27',userName:'王思聪',isTrade:true,isHero:true,text:'600糖果*5倍数',tradeid:'003',tradeName:'德国30'},
-//     {time:'16:26',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续加动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续大，可以适当买涨黄金，倍数在10-20倍左右。'},
-//     {time:'16:25',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续续加大，可以适当买涨黄金，倍数在10-20倍左右。'},
-//     {time:'16:24',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'},
-//     {time:'16:23',userName:'傻子',isTrade:false,isHero:false,text:'平仓盈利+200.12%'},
-//     {time:'16:21',userName:'热点',isTrade:false,isHero:false,text:'苹果公司2017年度净利润增长仅5%，不及预期！'},
-//     {time:'16:20',userName:'王思聪',isTrade:false,isHero:false,text:'2000糖果*10倍数'},
-//     {time:'16:19',userName:'王思聪',isTrade:false,isHero:false,text:'600糖果*5倍数'},
-//   ]
+import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
+ 
 
   /*
   { time: '2018-03-05T01:58:31.263',
-                                                                 type: 'close',
-                                                                 user: { id: 7, nickname: 'u000007' },
-                                                                 isRankedUser: true,
-                                                                 security: { id: 34854, name: '英国100' },
-                                                                 position: { id: 45, roi: -0.06526041005 } },
-                                                               { time: '2018-03-02T07:52:30.857',
-                                                                 type: 'close',
-                                                                 user: { id: 7, nickname: 'u000007' },
-                                                                 isRankedUser: true,
-                                                                 security: { id: 34854, name: '英国100' },
-                                                                 position: { id: 48, roi: 0.0035087719 } },
-                                                               { time: '2018-03-02T07:51:49.377',
-                                                                 type: 'close',
-                                                                 user: { id: 7, nickname: 'u000007' },
-                                                                 isRankedUser: true,
-                                                                 security: { id: 34854, name: '英国100' },
-                                                                 position: { id: 47, roi: 0.00701754385 } },
-                                                               { time: '2018-03-02T07:51:05.24',
-                                                                 type: 'close',
-                                                                 user: { id: 7, nickname: 'u000007' },
-                                                                 isRankedUser: true,
-                                                                 security: { id: 34854, name: '英国100' },
-                                                                 position: { id: 46, roi: 0.00842069805 } },
-                                                               { time: '2018-03-02T07:50:17.643',
-                                                                 type: 'open',
-                                                                 user: { id: 7, nickname: 'u000007' },
-                                                                 isRankedUser: true,
-                                                                 security: { id: 34854, name: '英国100' },
-                                                                 position: { id: 50, invest: 200, leverage: 50 } },
+    type: 'close',
+    user: { id: 7, nickname: 'u000007' },
+    isRankedUser: true,
+    security: { id: 34854, name: '英国100' },
+    position: { id: 45, roi: -0.06526041005 } },
+    { time: '2018-03-02T07:52:30.857',
+    type: 'close',
+    user: { id: 7, nickname: 'u000007' },
+    isRankedUser: true,
+    security: { id: 34854, name: '英国100' },
+    position: { id: 48, roi: 0.0035087719 } },
+    { time: '2018-03-02T07:51:49.377',
+    type: 'close',
+    user: { id: 7, nickname: 'u000007' },
+    isRankedUser: true,
+    security: { id: 34854, name: '英国100' },
+    position: { id: 47, roi: 0.00701754385 } },
+    { time: '2018-03-02T07:51:05.24',
+    type: 'close',
+    user: { id: 7, nickname: 'u000007' },
+    isRankedUser: true,
+    security: { id: 34854, name: '英国100' },
+    position: { id: 46, roi: 0.00842069805 } },
+    { time: '2018-03-02T07:50:17.643',
+    type: 'open',
+    user: { id: 7, nickname: 'u000007' },
+    isRankedUser: true,
+    security: { id: 34854, name: '英国100' },
+    position: { id: 50, invest: 200, leverage: 50 } },
   */
 
 
@@ -95,25 +86,7 @@ export default class TabMainScreen extends React.Component {
         this._dataSource = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2, 
         });
-
-   
-    // let dataList = [
-    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
-    
-    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
-    
-    //     {data:{time:'16:32',userName:'卡尔先生',isTrade:false,isHero:false,text:'@黄金，鉴于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动于朝鲜半岛持续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续动荡，全球不稳定因素继续'}},
-    //     {data:{time:'16:31',userName:'巴菲特',isTrade:false,isHero:false,text:'500糖果*50倍数'}},
-    //     {data:{time:'16:30',userName:'傻子',isTrade:true,isHero:true,text:'平仓盈利+200.12%',tradeid:'001',tradeName:'黄金100'}},
-    //     {data:{time:'16:28',userName:'王思聪',isTrade:true,isHero:true,text:'2000糖果*10倍数',tradeid:'002',tradeName:'美国科技股100'}},
-    
-    // ]
+ 
 
         this.state = {
             first: true,
@@ -203,7 +176,7 @@ export default class TabMainScreen extends React.Component {
     }
 
     _onPressToSecurity(rowData){
-        this.props.navigation.navigate('StockDetail',{stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
+        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, {stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
     }
 
     _onPressToUser(rowData){
@@ -211,7 +184,7 @@ export default class TabMainScreen extends React.Component {
             userId:rowData.data.user.id,
             nickName:rowData.data.user.nickname,
         }
-        this.props.navigation.navigate('UserProfileScreen',{userData:userData})
+        this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE, {userData:userData})
     }
 
     _renderRow = (rowData, sectionID, rowID) => {
@@ -243,13 +216,13 @@ export default class TabMainScreen extends React.Component {
                <View style={styles.thumbnailAll}> 
                     <View>
                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
-                        <View style={{width:40}}>
-                            <Text style={{color:'#b0dcfe',fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                        <View style={{width:40,flexDirection:'row'}}>
+                            <Text style={{width:30,color:'#b0dcfe',marginLeft:5,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                            <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
                         </View>
                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                     </View>
- 
-                    <Image style={{marginTop:25,marginRight:-6, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
+                    
                     <View style={styles.thumbnail}> 
                      <Swipeout right={swipeoutBtns} autoClose={true} style={{backgroundColor:'transparent',flex:1}}>  
                         <View style={{flexDirection:'row'}}>
@@ -259,11 +232,15 @@ export default class TabMainScreen extends React.Component {
                                 </Image>
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
-                                <View style={{flexDirection:'row',marginTop:-5}}>
+                                <View style={{flexDirection:'row',marginTop:0}}>
                                     <Text style={styles.textUserName}>{rowData.data.user.nickname}</Text>
                                     {viewHero}
                                 </View>
-                                <Text style={{fontSize:15,color:'#666666'}}>{text}</Text>
+                                <TweetBlock
+                                    style={{fontSize:15,color:'#666666',lineHeight:20}}
+                                    value={text}
+                                    
+                                    onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -471,9 +448,10 @@ export default class TabMainScreen extends React.Component {
     }
  
  
-  jump2Detail(){ 
-    this.props.navigation.navigate('StockDetail', { user: 'Lucy' })
-  }
+    jump2Detail(name, id){ 
+        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
+            {stockCode: id, stockName: name});
+    }
 
 }
 
@@ -530,8 +508,8 @@ const styles = StyleSheet.create({
     textContainer: {
         paddingRight: 10,
         flex:1,
-        justifyContent: 'center',
-        alignItems: 'flex-start',  
+        justifyContent: 'center', 
+        alignItems: 'flex-start',   
     },
     textUserName:{
         fontSize:12,

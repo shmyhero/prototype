@@ -19,12 +19,17 @@ export default class  UserProfileTabPositionClosed extends React.Component {
     title: 'Home',
   }
 
+  tabPressed(index){
+    console.log('UserProfileTabPositionClosed tabPressed')
+    this.refs['positionBlock'].refresh();
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <View style={styles.content}>
-            <PositionBlock/>
+            <PositionBlock ref={'positionBlock'} userId={this.props.userId} type={'close'} isPrivate={false}/>
         </View>  
       </View> 
     );
