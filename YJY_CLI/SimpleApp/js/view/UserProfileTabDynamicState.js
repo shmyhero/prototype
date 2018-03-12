@@ -200,7 +200,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 
 				  <Text style={styles.timeStyle}>{rowData.time}</Text>
 					<TweetBlock
-							style={{fontSize:15,color:'#999999'}}
+							style={{fontSize:15,color:'#999999',lineHeight:18}}
 							value={rowData.text}
 							onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
 					  

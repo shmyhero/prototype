@@ -238,6 +238,7 @@ export default class  RankHeroList extends React.Component {
                     dataSource={this.state.dataSource}
                     renderRow={this._renderRow}
                     renderSeparator={this.renderSeparator}
+                    removeClippedSubviews={false}
                 />
             </View>
         )

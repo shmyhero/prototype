@@ -22,6 +22,7 @@ var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 var ColorConstants = require('../ColorConstants');
 var RankHeroList = require('./RankHeroList');
+var RankFollowList = require('./RankFollowList');
 var {height, width} = Dimensions.get('window');
 var RANKING_TYPE_0 = 0;
 var RANKING_TYPE_1 = 1;
@@ -67,45 +68,9 @@ export default class  TabRankScreen extends React.Component {
     if(type==this.state.rankType)return;
     this.setState({
       rankType:this.state.rankType===RANKING_TYPE_0?RANKING_TYPE_1:RANKING_TYPE_0
-    })
-
-
-    if(type == RANKING_TYPE_1){
-      this.loadFollowing();
-    }
+    }) 
   }
-
-  loadFollowing(){
-    if(LogicData.isLoggedIn()){
-      var userData = LogicData.getUserData();
-      this.setState({
-          isDataLoading: true,
-      }, ()=>{
-          NetworkModule.fetchTHUrl(
-              NetConstants.CFD_API.RANK_FOLLOWING,
-              {
-                  method: 'GET',
-                  headers: {
-                      'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                      'Content-Type': 'application/json; charset=utf-8',
-                  },
-                  showLoading: true,
-              }, (responseJson) => { 
-                  // const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-                  // this.setState({
-                  //     rankListData: responseJson,
-                  //     isDataLoading: false,
-                  //     dataSource: ds.cloneWithRows(responseJson),
-                  // });  
-                  console.log(''+responseJson)
-              },
-              (exception) => {
-                  // alert(exception.errorMessage)
-              }
-          );
-      })			
-  }
-  }
+ 
 
   renderRankTypeButton(){
     var isLeftSelected = this.state.rankType == RANKING_TYPE_0;
@@ -153,11 +118,7 @@ export default class  TabRankScreen extends React.Component {
       return(<RankHeroList ref={RANK_LIST} showMeBlock={this.state.isLoggedIn} navigation={this.props.navigation}>达人榜</RankHeroList>)
     }else if(this.state.rankType == RANKING_TYPE_1){
       if(this.state.isLoggedIn){
-        return(
-        <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
-          <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image>
-        </View>
-        )
+        return(<RankFollowList navigation={this.props.navigation}/>)
       }else{
         return (<LoginScreen hideBackButton={true}
           onLoginFinished={()=>{

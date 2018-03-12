@@ -237,8 +237,9 @@ export default class TabMainScreen extends React.Component {
                                     {viewHero}
                                 </View>
                                 <TweetBlock
-                                    style={{fontSize:15,color:'#666666'}}
+                                    style={{fontSize:15,color:'#666666',lineHeight:20}}
                                     value={text}
+                                    
                                     onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
                             </View>
                             {this.renderItemTrede(rowData)}
