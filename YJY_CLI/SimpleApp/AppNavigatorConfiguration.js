@@ -1,5 +1,5 @@
 import React from 'react';
-import { Image, StyleSheet } from 'react-native';
+import { Image, StyleSheet,Platform, } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from 'react-navigation';
 
@@ -114,9 +114,14 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
         inactiveTintColor:'grey',
         style:{
             backgroundColor: 'white',
+            height:Platform.OS == "android"?58:50, 
         },
         labelStyle: {
-            fontSize: 12, 
+            fontSize: 12,
+            marginBottom:5,
+        },
+        iconStyle: {  
+            marginBottom:-5
         },
         showIcon:true, 
         indicatorStyle:{height:0},//for android ,remove line on tab
