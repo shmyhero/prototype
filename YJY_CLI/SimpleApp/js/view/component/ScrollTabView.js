@@ -25,6 +25,7 @@ export default class  ScrollTabView extends React.Component {
 		tabNames: PropTypes.array,
 		viewPages: PropTypes.any,
 		onPageSelected: PropTypes.func,
+		tabBgStyle: PropTypes.any,
 	} 
 
 	state = {
@@ -95,8 +96,9 @@ export default class  ScrollTabView extends React.Component {
 			]} key={i}
 					underlayColor={'#00000000'}
 					onPress={() => this.tabClicked(i)}>
-				<ImageBackground style={{width:69,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')}>
-					<Text style={this.state.currentSelectedTab == i ? styles.tabItemTextSelected : [styles.tabItemTextUnSelected]}>
+ 
+				<ImageBackground style={{width:69,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
+					<Text style={this.state.currentSelectedTab == i ? (this.props.tabBgStyle==0?styles.tabItemTextSelected:[styles.tabItemTextUnSelected]): (this.props.tabBgStyle==0?[styles.tabItemTextUnSelected]:styles.tabItemTextSelected)}>
 						{tabName}
 					</Text>
 				</ImageBackground> 

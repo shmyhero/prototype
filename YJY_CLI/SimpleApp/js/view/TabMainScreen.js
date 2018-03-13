@@ -522,10 +522,12 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:5,
         marginLeft:2,
-        paddingTop:1,
-        paddingBottom:1,
+        paddingTop:1.5,
+        paddingBottom:1.5,
+        paddingLeft:2,
+        paddingRight:2,
         backgroundColor:'#f9b82f',
-        borderRadius:2,
+        borderRadius:2, 
     }
 
 })

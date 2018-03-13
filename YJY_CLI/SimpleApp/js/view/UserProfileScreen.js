@@ -118,6 +118,7 @@ export default class  UserProfileScreen extends React.Component {
               ref={"tabPages"} 
               tabNames={tabNameShow} 
               viewPages={viewPages} 
+              tabBgStyle={0}
               removeClippedSubviews={true}
               onPageSelected={(index) => this.onPageSelected(index)}
               />
