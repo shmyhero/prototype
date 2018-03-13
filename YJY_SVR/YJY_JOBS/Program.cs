@@ -49,6 +49,10 @@ namespace YJY_JOBS
                 {
                     PositionCheck.Run();
                 }
+                if (args.Contains("-PositionClose"))
+                {
+                    PositionClose.Run();
+                }
 
                 return 0;
             }

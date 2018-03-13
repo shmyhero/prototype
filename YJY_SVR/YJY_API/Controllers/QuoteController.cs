@@ -23,7 +23,7 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("{securityId}/tick/1m")]
-        public List<TickDTO> GetTick1m(int securityId, int count=200)
+        public List<TickDTO> GetTick1m(int securityId, int count = 200)
         {
             List<Tick> ticks;
             using (var redisTypedClient = RedisClient.As<Tick>())
@@ -50,13 +50,15 @@ namespace YJY_SVR.Controllers
 
         [HttpGet]
         [Route("{securityId}/tick/raw")]
-        public List<TickDTO> GetTickRaw(int securityId)
+        public List<TickDTO> GetTickRaw(int securityId, int count = 200)
         {
             List<Tick> ticks;
             using (var redisTypedClient = RedisClient.As<Tick>())
             {
                 var list = redisTypedClient.Lists[Ticks.GetTickListNamePrefix(TickSize.Raw) + securityId];
-                ticks = list.GetAll();
+                //ticks = list.GetAll();
+                var listSize = list.Count;
+                ticks = list.GetRange(listSize - count, listSize);
             }
 
             List<TickDTO> result;
@@ -64,9 +66,10 @@ namespace YJY_SVR.Controllers
                 result = new List<TickDTO>();
             else
             {
-                var lastTickTime = ticks.Last().T;
+                //var lastTickTime = ticks.Last().T;
+                //result = ticks.Where(o => lastTickTime - o.T <= TimeSpan.FromMinutes(30)).Select(o => Mapper.Map<TickDTO>(o)).ToList();
 
-                result = ticks.Where(o => lastTickTime - o.T <= TimeSpan.FromMinutes(30)).Select(o => Mapper.Map<TickDTO>(o)).ToList();
+                result = ticks.Select(o => Mapper.Map<TickDTO>(o)).ToList();
             }
 
             return result;

@@ -122,6 +122,7 @@
     <Compile Include="Ayondo\AyondoFixFeedWorker.cs" />
     <Compile Include="Ayondo\AyondoFixFeedApp.cs" />
     <Compile Include="PositionCheck.cs" />
+    <Compile Include="PositionClose.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -8,6 +8,7 @@ using System.Transactions;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
+using YJY_COMMON.Model.Queue;
 using YJY_COMMON.Util;
 
 namespace YJY_COMMON.Service
@@ -79,6 +80,48 @@ namespace YJY_COMMON.Service
                         position.ClosedAt = DateTime.UtcNow;
                         position.ClosePrice = closePrice;
                         position.PL = pl;
+
+                        var pValue = position.Invest + pl;
+                        if (pValue > 0)
+                        {
+                            user.Balance = user.Balance + pValue;
+                        }
+
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
+            return position;
+        }
+
+        public static Position AutoClosePosition(PosToClose posToClose)
+        {
+            Position position = null;
+
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    position = dbIsolated.Positions.FirstOrDefault(o => o.Id == posToClose.Id);
+                    var user = dbIsolated.Users.FirstOrDefault(o => o.Id == position.UserId);
+
+                    if (user == null || position == null)
+                        throw new ObjectNotFoundException();
+
+                    if (position.ClosedAt == null)
+                    {
+                        var pl = Trades.CalculatePL(position, posToClose.closePx);
+
+                        position.ClosedAt = DateTime.UtcNow;
+                        position.PL = pl;
+
+                        position.CloseType = posToClose.closeType.ToString();
+                        position.ClosePrice = posToClose.closePx;
+                        position.ClosePriceTime = posToClose.closePxTime;
 
                         var pValue = position.Invest + pl;
                         if (pValue > 0)

@@ -6,25 +6,14 @@ using Microsoft.Azure.ServiceBus;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
+using YJY_COMMON.Model.Queue;
 using YJY_COMMON.Util;
 
 namespace YJY_JOBS
 {
-    [Serializable]
-    class PosToClose
-    {
-        public int Id { get; set; }
-        public CloseType closeType { get; set; }
-        public decimal closePx { get; set; }
-        public DateTime closePxTime { get; set; }
-    }
+   
 
-    internal enum CloseType
-    {
-        Liquidate,
-        Stop,
-        Take,
-    }
+    
 
     class PositionCheck
     {
