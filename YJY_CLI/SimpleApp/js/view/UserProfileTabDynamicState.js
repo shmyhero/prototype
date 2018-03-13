@@ -10,7 +10,8 @@ import {
   ListView,
   TouchableOpacity,
   Image,
-  Alert
+  Alert,
+	ImageBackground
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -195,9 +196,8 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		var textPraise = liked?{color:'#1962dd'}:{}
 		var strFX = '分享'
 		return(
-			<View style={styles.itemLine}>
-			  <View style={{width:width-20,paddingRight:24}}>
-
+			<View style={styles.itemLine}> 
+			  <View style={{width:width-20,paddingRight:24}}>  
 				  <Text style={styles.timeStyle}>{rowData.time}</Text>
 					<TweetBlock
 							style={{fontSize:15,color:'#999999',lineHeight:18}}
@@ -220,7 +220,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 							</View>
 						<View style={styles.separator}></View>
 					</View>
-				</View>
+				</View> 
 			</View>
 	 	);
 	}
@@ -286,7 +286,12 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderRadius:16,
     borderColor:'#EEEEEE',
-    marginBottom:16,
+		marginBottom:16,
+		shadowOffset: {width:2, height:2},
+    shadowColor: '#F1F1F1',
+    shadowOpacity: 0.75,
+		shadowRadius: 0.5,
+		elevation: 20,
 	},
 	itemOperator:{
 		height:32,

@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
 
     linkedPart:{
-        color:'blue',
+        color:'#0091ed',
         fontSize: 30,
     }
 });

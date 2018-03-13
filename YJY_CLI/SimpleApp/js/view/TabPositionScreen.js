@@ -111,6 +111,7 @@ class TabPositionScreen extends Component {
             <ScrollTabView 
               ref={"tabPages"} 
               tabNames={tabNameShow} 
+              tabBgStyle={1}
               viewPages={viewPages} 
               removeClippedSubviews={true}
               onPageSelected={(index) => this.onPageSelected(index)}
