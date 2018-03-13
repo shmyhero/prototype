@@ -30,8 +30,7 @@ namespace YJY_JOBS
     {
         // Connection String for the namespace can be obtained from the Azure portal under the 
         // 'Shared Access policies' section.
-        const string ServiceBusConnectionString =
-            "Endpoint=sb://yjy-bus.servicebus.chinacloudapi.cn/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=0EMgUSnzVWcytHwATt+nmSFJVy5l+iOjpfr/i+u3WqM=";
+        private static readonly string ServiceBusConnectionString = YJYGlobal.GetConfigurationSetting("ServiceBusConnectionString");
 
         const string QueueName = "positiontoclose";
         static QueueClient _queueClient;

@@ -11,6 +11,19 @@ namespace YJY_COMMON.Service
 {
     public class UserService
     {
+        public static string USER_PIC_FOLDER_URL = YJYGlobal.BLOG_ENDPOINT + "user-pic/";
+        public static string USER_DEFAULT_PIC_FOLDER_URL = USER_PIC_FOLDER_URL + "default/";
+        public static List<string> USER_DEFAULT_PIC_FILENAMES = new List<string>()
+        {
+            "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg",
+        };
+
+        public static string GetRandomUserDefaultPicUrl()
+        {
+            var r = new Random();
+            return USER_DEFAULT_PIC_FOLDER_URL + USER_DEFAULT_PIC_FILENAMES[r.Next(USER_DEFAULT_PIC_FILENAMES.Count)];
+        }
+
         public YJYEntities db { get; set; }
 
         public UserService(YJYEntities db)
@@ -25,7 +38,7 @@ namespace YJY_COMMON.Service
 
         public void CreateUserByPhone(string phone)
         {
-            if(string.IsNullOrWhiteSpace(phone))
+            if(String.IsNullOrWhiteSpace(phone))
                 throw new ArgumentNullException();
 
             //creating new user if phone doesn't exist in a new transaction

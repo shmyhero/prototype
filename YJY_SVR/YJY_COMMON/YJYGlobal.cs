@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Azure;
 using Microsoft.WindowsAzure.ServiceRuntime;
+using Microsoft.WindowsAzure.Storage;
 using ServiceStack.Redis;
 
 namespace YJY_COMMON
@@ -20,6 +21,10 @@ namespace YJY_COMMON
 
         public const int DEFAULT_PAGE_SIZE = 50;
 
+        public static readonly string BLOG_ENDPOINT = GetConfigurationSetting("StorageConnectionString") == null
+            ? null
+            : CloudStorageAccount.Parse(GetConfigurationSetting("StorageConnectionString")).BlobEndpoint.AbsoluteUri;
+        
         public static TimeSpan PROD_DEF_ACTIVE_IF_TIME_NOT_OLDER_THAN_TS = TimeSpan.FromDays(14);
         public const string ASSET_CLASS_STOCK = "Single Stocks";
         public const string ASSET_CLASS_FX = "Currencies";
