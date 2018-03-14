@@ -45,7 +45,7 @@ export default class  MyPositionTabStatistics extends React.Component {
               <ProfitStatisticsBlock ref={'profitStatisticBlock'}/>
             {/* </View> */}
             <View style={{backgroundColor:'white', marginTop:10,height:220,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
-              <ProfitTrendCharts ref={'profitTrendCharts'}/>
+              <ProfitTrendCharts ref={'profitTrendCharts'} userId={userId}/>
             </View>
             <View style={{backgroundColor:'white', marginTop:10,height:250,width:width-40,borderRadius:10,borderWidth:1,borderColor:'#EEEEEE'}}>
               <ProfitBlock userId={userId}/>
