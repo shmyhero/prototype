@@ -452,7 +452,7 @@ class StockDetailScreen extends Component {
         }
         return  (
             <PriceChartView style={{flex:1}}
-                lineChartGradient={['#33c1fc', '#20b2f7']}
+                lineChartGradient={['#32c0fb', '#1b9beb']}
                 xAxisPosition="BOTTOM"
                 leftAxisEnabled={false}
                 rightAxisEnabled={true}

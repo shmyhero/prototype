@@ -2,12 +2,19 @@ package com.simpleapp.component.chart;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.view.MotionEvent;
 
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.highlight.Highlight;
+import com.github.mikephil.charting.interfaces.datasets.IDataSet;
+import com.github.mikephil.charting.listener.ChartTouchListener;
+import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.simpleapp.component.chart.base.CustomCombinedChartRenderer;
 import com.simpleapp.component.chart.base.CustomXAxisRenderer;
 import com.simpleapp.component.chart.base.CustomYAxisRenderer;
+import com.simpleapp.component.chart.linechart.LongTouchHighlightLineChartTouchListener;
 
 /**
  * Created by Neko on 2018/1/29.
@@ -37,6 +44,8 @@ public class PriceChart extends CombinedChart {
         };
 
         super.init();
+
+        mChartTouchListener = new LongTouchHighlightLineChartTouchListener(this, mViewPortHandler.getMatrixTouch(), 3f);
 
         mXAxisRenderer = new CustomXAxisRenderer(getContext(), mViewPortHandler, mXAxis, mLeftAxisTransformer);
         mAxisRendererRight = new CustomYAxisRenderer(getContext(), mViewPortHandler, mAxisRight, mRightAxisTransformer);
@@ -144,58 +153,8 @@ public class PriceChart extends CombinedChart {
         drawDescription(canvas);
 
         drawMarkers(canvas);
-
-
-//        if (mLogEnabled) {
-//            long drawtime = (System.currentTimeMillis() - starttime);
-//            totalTime += drawtime;
-//            drawCycles += 1;
-//            long average = totalTime / drawCycles;
-//            Log.i(LOG_TAG, "Drawtime: " + drawtime + " ms, average: " + average + " ms, cycles: "
-//                    + drawCycles);
-//        }
-//        super.onDraw(canvas);
-//        mRenderer.drawExtras(canvas);
-////        if (mXAxis.isDrawLimitLinesBehindDataEnabled())
-////            mXAxisRenderer.renderLimitLines(canvas);
-
     }
-//
-////    public void setGridBackgroundColor(int color) {
-////        super.setGridBackgroundColor(color);
-//////        ((ReactYAxisRenderer)mAxisRendererRight).setBackgroundColor(color);
-//////        ((ReactYAxisRenderer)mAxisRendererLeft).setBackgroundColor(color);
-//////        ((ReactXAxisRenderer)mXAxisRenderer).setBackgroundColor(color);
-////    }
-//
-////    @Override
-////    public void setData(CombinedData data) {
-////        mData = null;
-////        mRenderer = null;
-////        super.setData(data);
-////        mRenderer = new ReactCombinedChartRenderer(this, mAnimator, mViewPortHandler);
-////        mRenderer.initBuffers();
-////    }
-//
-////
-////    @Override
-////    protected void drawGridBackground(Canvas c) {
-////        super.drawGridBackground(c);
-////
-////        if (mDrawGridBackground) {
-////
-////            // draw the grid background
-////            RectF new_Background = new RectF(mViewPortHandler.getContentRect());
-////            new_Background.left = mViewPortHandler.getContentRect().right;
-////            new_Background.right = c.getWidth();
-////            c.drawRect(new_Background, mGridBackgroundPaint);
-////        }
-////
-////        if (mDrawBorders) {
-////            c.drawRect(mViewPortHandler.getContentRect(), mBorderPaint);
-////        }
-////    }
-//
+
     int[] gradientColors;
     public void setGradientColors(int[] colors){
         gradientColors = colors;
@@ -259,5 +218,44 @@ public class PriceChart extends CombinedChart {
     public boolean isPrivate(){return isPrivate;}
     public void setIsPrivate(boolean isPrivate){
         this.isPrivate = isPrivate;
+    }
+
+    /**
+     * draws all MarkerViews on the highlighted positions
+     */
+    protected void drawMarkers(Canvas canvas) {
+
+        // if there is no marker view or drawing marker is disabled
+        if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
+            return;
+
+        for (int i = 0; i < mIndicesToHighlight.length; i++) {
+
+            Highlight highlight = mIndicesToHighlight[i];
+
+            IDataSet set = mData.getDataSetByHighlight(highlight);
+
+            Entry e = mData.getEntryForHighlight(highlight);
+            if (e == null)
+                continue;
+
+            int entryIndex = set.getEntryIndex(e);
+
+            // make sure entry not null
+            if (entryIndex > set.getEntryCount() * mAnimator.getPhaseX())
+                continue;
+
+            float[] pos = getMarkerPosition(highlight);
+
+            // check bounds
+            if (!mViewPortHandler.isInBounds(pos[0], pos[1]))
+                continue;
+
+            // callbacks to update the content
+            mMarker.refreshContent(e, highlight);
+
+            // draw the marker
+            mMarker.draw(canvas, pos[0], pos[1]);
+        }
     }
 }

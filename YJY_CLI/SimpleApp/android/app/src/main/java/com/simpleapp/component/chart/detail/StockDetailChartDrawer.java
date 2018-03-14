@@ -1,10 +1,15 @@
 package com.simpleapp.component.chart.detail;
 
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Point;
+import android.view.Display;
+import android.view.WindowManager;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
 import com.simpleapp.component.chart.PriceChart;
@@ -68,9 +73,20 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     @Override
     protected void calculateZoom(CombinedChart chart, CombinedData data) {
         int totalSize = chart.getData().getDataSetByIndex(0).getEntryCount();
+
+        float dotDistance = 10;
         float scale = 2;
+        if(chart.getWidth() > 0) {
+            scale = dotDistance * totalSize / chart.getWidth();
+        }else{
+            WindowManager wm = (WindowManager) chart.getContext().getSystemService(Context.WINDOW_SERVICE);
+            Display display = wm.getDefaultDisplay();
+            Point size = new Point();
+            display.getSize(size);
+            int width = size.x;
+            scale = dotDistance * totalSize / width;
+        }
         int xOffset = (int)(totalSize - totalSize / scale);
-        //int xOffset2 = (int)(totalSize * scale);
         chart.zoom(scale, 1, xOffset, 0);
         chart.moveViewToX(xOffset);
     }

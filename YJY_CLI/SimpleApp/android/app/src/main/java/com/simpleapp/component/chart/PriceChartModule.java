@@ -13,6 +13,7 @@ import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.listener.ChartTouchListener;
 import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.simpleapp.component.chart.base.IChartDrawer;
+import com.simpleapp.component.chart.linechart.LongTouchHighlightLineChartTouchListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,99 +92,37 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 
         chart.getXAxis().setAvoidFirstLastClipping(true);
         //chart.setExtraLeftOffset(15);
-        chart.setOnChartGestureListener(new OnChartGestureListener() {
-            @Override
-            public void onChartGestureStart(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartGestureEnd(MotionEvent me, ChartTouchListener.ChartGesture lastPerformedGesture) {
-
-            }
-
-            @Override
-            public void onChartLongPressed(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartDoubleTapped(MotionEvent me) {
-
-            }
-
-            @Override
-            public void onChartSingleTapped(MotionEvent me) {
-                Log.d("","Chart onChartSingleTapped!!!");
-//                if(!MainActivity.isLandscape()){
-//                    LogicData.getInstance().sendChartClickedToRN();
-//                }
-            }
-
-            @Override
-            public void onChartFling(MotionEvent me1, MotionEvent me2, float velocityX, float velocityY) {
-
-            }
-
-            @Override
-            public void onChartScale(MotionEvent me, float scaleX, float scaleY) {
-
-            }
-
-            @Override
-            public void onChartTranslate(MotionEvent me, float dX, float dY) {
-
-            }
-        });
 
         return chart;
     }
 
     @ReactProp(name = "data")
     public void setData(PriceChart chart, String stockInfoData) {
-//        if(mChartType!=null&&(mChartType.equals(ChartDrawerConstants.CHART_TYPE.towWeekYield)||mChartType.equals(ChartDrawerConstants.CHART_TYPE.allYield))){
-//            Log.d("","stockInfoData = " + stockInfoData);
-//            try{
-////                JSONObject plData = new JSONObject(stockInfoData);
-//                JSONArray plDataArray = new JSONArray(stockInfoData);
-//                IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
-//                drawer.setTextColor(textColor);
-//                drawer.setBorderColor(borderColor);
-//                drawer.setPreCloseColor(preCloseColor);
-//                if(drawer != null){
-//                    drawer.draw(chart, null, plDataArray);
-//                    return;
-//                }
-//            }catch (Exception e){
-//
-//            }
-//        }else if (chart != null && stockInfoData != null && stockInfoData.length() > 0) {
-            try {
-                JSONObject stockInfoObject = new JSONObject(stockInfoData);
-                if (!stockInfoObject.has("priceData")) {
-                    return;
-                }
-
-                JSONArray chartDataList = stockInfoObject.getJSONArray("priceData");
-
-                //TODO: If you want to enable Drawer, undo-comment the following lines.
-                Log.d("","setData chartType = " + mChartType);
-                IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
-                drawer.setTextColor(textColor);
-                drawer.setBorderColor(borderColor);
-                drawer.setPreCloseColor(preCloseColor);
-
-                int maxCount = stockInfoObject.getJSONArray("priceData").length();
-                chart.setMaxVisibleValueCount(maxCount/2);
-                if(drawer != null){
-                    drawer.draw(chart, stockInfoObject, chartDataList);
-                    return;
-                }
-
-            } catch (JSONException e) {
-                e.printStackTrace();
+        try {
+            JSONObject stockInfoObject = new JSONObject(stockInfoData);
+            if (!stockInfoObject.has("priceData")) {
+                return;
             }
-//        }
+
+            JSONArray chartDataList = stockInfoObject.getJSONArray("priceData");
+
+            //TODO: If you want to enable Drawer, undo-comment the following lines.
+            Log.d("","setData chartType = " + mChartType);
+            IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
+            drawer.setTextColor(textColor);
+            drawer.setBorderColor(borderColor);
+            drawer.setPreCloseColor(preCloseColor);
+
+            int maxCount = stockInfoObject.getJSONArray("priceData").length();
+            chart.setMaxVisibleValueCount(maxCount/2);
+            if(drawer != null){
+                drawer.draw(chart, stockInfoObject, chartDataList);
+                return;
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     @ReactProp(name = "noDataText")
