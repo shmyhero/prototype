@@ -63,6 +63,11 @@ class  TabMeScreen extends React.Component {
 
   refresh(){
     var state = this.getInitialState();
+
+    var meData = LogicData.getMeData();
+    if(Object.keys(meData).length > 0){
+      state.nickname = meData.nickname
+    }
     console.log("refresh ", LogicData.isLoggedIn())
     if(!LogicData.isLoggedIn()){
       this.setState(state)
@@ -160,8 +165,10 @@ class  TabMeScreen extends React.Component {
     }
     return(
       <View style={{justifyContent:'center'}}>
+
         <Image style={styles.headPortrait} source={picSource}></Image>
-        <Text style={{textAlign:'center', marginTop:10, fontSize: 12, color: '#44c1fc'}}>{this.state.nickname}</Text>
+        <Text style={{textAlign:'center', marginTop:10, height:15, fontSize: 12, color: '#44c1fc'}}>{this.state.nickname}</Text>
+
       </View>
     )
   }
