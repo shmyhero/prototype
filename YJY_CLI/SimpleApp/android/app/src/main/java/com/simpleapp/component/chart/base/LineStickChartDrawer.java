@@ -12,6 +12,9 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IFillFormatter;
+import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
+import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
@@ -97,6 +100,12 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
         set1.setLineWidth(Utils.convertPixelsToDp(ChartDrawerConstants.LINE_WIDTH_PRICE));
+        set1.setFillFormatter(new IFillFormatter() {
+            @Override
+            public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {
+                return minVal;
+            }
+        });
 
         if(needDrawLastCircle(chart)) {
             int[] circleColors = {Color.TRANSPARENT};
