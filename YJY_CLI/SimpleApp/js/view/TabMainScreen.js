@@ -16,6 +16,7 @@ import {
     ProgressBarAndroid,
     ActivityIndicatorIOS,
     TouchableHighlight,
+    PanResponder,
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -78,6 +79,7 @@ import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 export default class TabMainScreen extends React.Component {
     
     tabSwitchedSubscription = null;
+    
 
     constructor(props){
         super()
@@ -92,6 +94,7 @@ export default class TabMainScreen extends React.Component {
             first: true,
             // dataList: dataList,
             // dataSource: this._dataSource.cloneWithRows(dataList),
+          
         }
 
 
@@ -113,6 +116,17 @@ export default class TabMainScreen extends React.Component {
         this.timer && clearTimeout(this.timer);
     }
 
+
+    _panResponder={}
+    componentWillMount() {
+        this._panResponder = PanResponder.create({
+            onShouldBlockNativeResponder: (event, gestureState) => false,
+            onMoveShouldSetPanResponder: (e, gestureState) => false,
+            onMoveShouldSetPanResponderCapture: (e, gestureState) => false,
+            onStartShouldSetPanResponder: (e, gestureState) => false,
+            onStartShouldSetPanResponderCapture: (e, gestureState) => false,
+        });
+    } 
      
 
     render() {
@@ -136,12 +150,19 @@ export default class TabMainScreen extends React.Component {
                     onRefresh={this._onRefresh}
                     onLoadMore={this._onLoadMore}
                     pullUpDistance={35}
-                    pullUpStayDistance={50}
+                    pullUpStayDistance={50} 
+                    removeClippedSubviews={false}
                     pullDownDistance={35}
                     pullDownStayDistance={50}
+                    onScroll={()=>this.onScroll()}
+                    scrollEnabled={this.state.isAllowScroll}  
                 />
             </View>
         )
+    }
+
+    onScroll(){
+        console.log('scroll ing ')
     }
 
     renderItemTrede(rowData){
@@ -213,7 +234,7 @@ export default class TabMainScreen extends React.Component {
         }
 
         return ( 
-               <View style={styles.thumbnailAll}> 
+               <View style={styles.thumbnailAll} {...this._panResponder.panHandlers}> 
                     <View>
                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
                         <View style={{width:40,flexDirection:'row'}}>
@@ -223,12 +244,19 @@ export default class TabMainScreen extends React.Component {
                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                     </View>
                     
-                    <View style={styles.thumbnail}> 
-                     <Swipeout right={swipeoutBtns} autoClose={true} style={{backgroundColor:'transparent',flex:1}}>  
-                        <View style={{flexDirection:'row'}}>
+                    {/* <View style={styles.thumbnail}>  */}
+                    {/* <Swipeout right={swipeoutBtns} autoClose={true} close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)} style={{backgroundColor:'transparent',flex:1}}>   */}
+                    <Swipeout 
+                    right={swipeoutBtns} 
+                    autoClose={true}   
+                    scroll={()=>{}}
+                    sensitivity={50}
+                    style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}
+                    > 
+                        <View style={{flexDirection:'row',margin:5}}>
                             <TouchableOpacity onPress={()=>this._onPressToUser(rowData)}>
-                                <Image source={require('../../images/head_portrait.png')}
-                                    style={{height:34,width:34,margin:10,}} >
+                                <Image source={{uri:rowData.data.user.picUrl}}
+                                    style={{height:34,width:34,margin:10,borderRadius:17}} >
                                 </Image>
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
@@ -244,9 +272,8 @@ export default class TabMainScreen extends React.Component {
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
-                      </Swipeout>
-
-                    </View>
+                      </Swipeout> 
+                    {/* </View> */}
                 
               </View>  
         )
@@ -490,6 +517,15 @@ const styles = StyleSheet.create({
         paddingTop: 20 + 44,
     },
 
+    // thumbnail: {
+    //     margin: 5,
+    //     flexDirection: 'row',
+    //     width:width-60, 
+    //     backgroundColor:'white',
+    //     paddingTop:10,
+    //     paddingBottom:10,
+    //     borderRadius:10,
+    // },
     thumbnail: {
         margin: 5,
         flexDirection: 'row',

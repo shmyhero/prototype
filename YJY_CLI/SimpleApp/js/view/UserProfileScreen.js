@@ -40,6 +40,7 @@ export default class  UserProfileScreen extends React.Component {
     staticData = this.props.navigation.state.params.userData; 
     this.state = {
       isFollowing:false,
+      picUrl:'',
       nickName:this.props.navigation.state.params.userData.nickName,
       userId:this.props.navigation.state.params.userData.userId,
     };  
@@ -80,7 +81,7 @@ export default class  UserProfileScreen extends React.Component {
                    
                   this.setState({
                     isFollowing: responseJson.isFollowing,
-                      
+                    picUrl:responseJson.picUrl, 
                   });  
               },
               (exception) => {
@@ -204,11 +205,15 @@ export default class  UserProfileScreen extends React.Component {
   }
 
   render() {
+
+    var picSource = require('../../images/head_portrait.png')
+    if(this.state.picUrl.length > 0){
+      picSource = {uri:this.state.picUrl}
+    }
     return (
       <View style={styles.mainContainer}>
           <NavBar title={this.state.nickName} rightCustomContent={this.rightCustomContent.bind(this)} showBackButton={true} navigation={this.props.navigation}/>
-          <Image style={{width:80,height:80,alignSelf:'center',marginTop:20}} source={require('../../images/head_portrait.png')}></Image>
-
+          <Image style={{width:80,height:80,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
           {this.renderContent()}
       </View>
       

@@ -45,6 +45,7 @@ class  TabMeScreen extends React.Component {
     return {
       userLoggedin: false,
       nickname: "",
+      picUrl:"",
     };
   }
 
@@ -89,6 +90,7 @@ class  TabMeScreen extends React.Component {
         LogicData.setMeData(responseJson);
         this.setState({
           nickname: responseJson.nickname,
+          picUrl:responseJson.picUrl,
         })
       });
   }
@@ -152,9 +154,13 @@ class  TabMeScreen extends React.Component {
   }
 
   renderPortrait(){
+    var picSource = require('../../images/head_portrait.png')
+    if(this.state.picUrl.length>0){
+      picSource = {uri:this.state.picUrl}
+    }
     return(
       <View style={{justifyContent:'center'}}>
-        <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
+        <Image style={styles.headPortrait} source={picSource}></Image>
         <Text style={{textAlign:'center', marginTop:10, fontSize: 12, color: '#44c1fc'}}>{this.state.nickname}</Text>
       </View>
     )
@@ -252,6 +258,7 @@ const styles = StyleSheet.create({
     headPortrait:{
       width:80,
       height:80,
+      borderRadius:40,
       alignSelf:'center'
     },
 })
