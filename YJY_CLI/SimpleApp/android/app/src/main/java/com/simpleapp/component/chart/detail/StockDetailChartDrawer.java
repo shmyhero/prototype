@@ -30,6 +30,8 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     @Override
     protected void resetChart(CombinedChart chart) {
         super.resetChart(chart);
+
+        chart.setDrawMarkers(true);
         ((PriceChart)chart).setDrawDataUnderYAxis(true);
 
         chart.setDragEnabled(true);

@@ -1,5 +1,7 @@
 package com.simpleapp.component.chart.linechart;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -96,8 +98,25 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
         this.mDragTriggerDist = Utils.convertDpToPixel(dragTriggerDistance);
 
         this.mMinScalePointerDistance = Utils.convertDpToPixel(3.5f);
+
+        this.mCustomGestureHandler = new Handler(){
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+                    case CUSTOM_LONG_PRESS:
+                        onCustomLongPress(mCurrentDownEvent);
+                        break;
+                }
+            }
+        };
     }
 
+    protected Handler mCustomGestureHandler;
+
+    static final int CUSTOM_LONG_PRESS = 0;
+
+    static final int LONGPRESS_TIMEOUT = 500;
+
+    private MotionEvent mCurrentDownEvent;
 
 
     @SuppressLint("ClickableViewAccessibility")
@@ -133,6 +152,18 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                 stopDeceleration();
 
                 saveTouchStart(event);
+
+                if (mChart.isDrawMarkersEnabled()) {
+
+                    if (mCurrentDownEvent != null) {
+                        mCurrentDownEvent.recycle();
+                    }
+                    mCurrentDownEvent = MotionEvent.obtain(event);
+
+                    mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
+                    mCustomGestureHandler.sendEmptyMessageAtTime(CUSTOM_LONG_PRESS, mCurrentDownEvent.getDownTime()
+                             + LONGPRESS_TIMEOUT);
+                }
 
                 break;
 
@@ -172,6 +203,9 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                 break;
 
             case MotionEvent.ACTION_MOVE:
+
+                mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
+
                 if(mLastGesture == ChartGesture.LONG_PRESS) {
                     //mLastGesture = ChartGesture.DRAG;
                     if (mChart.isHighlightPerDragEnabled()) {
@@ -222,6 +256,8 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                 break;
 
             case MotionEvent.ACTION_UP:
+
+                mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
 
                 if(mLastGesture == ChartGesture.LONG_PRESS){
                     if (mChart.isHighlightPerTapEnabled()) {
@@ -282,12 +318,15 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
                 break;
             case MotionEvent.ACTION_POINTER_UP:
+                mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
+
                 Utils.velocityTrackerPointerUpCleanUpIfNecessary(event, mVelocityTracker);
 
                 mTouchMode = POST_ZOOM;
                 break;
 
             case MotionEvent.ACTION_CANCEL:
+                mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
 
                 mTouchMode = NONE;
                 endAction(event);
@@ -604,16 +643,8 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
         return super.onDoubleTap(e);
     }
 
-    @Override
-    public void onLongPress(MotionEvent e) {
-
+    public void onCustomLongPress(MotionEvent e){
         mLastGesture = ChartGesture.LONG_PRESS;
-
-        OnChartGestureListener l = mChart.getOnChartGestureListener();
-
-        if (l != null) {
-            l.onChartLongPressed(e);
-        }
 
         if (!mChart.isHighlightPerTapEnabled()) {
             return;
@@ -621,6 +652,16 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
         Highlight h = mChart.getHighlightByTouchPoint(e.getX(), e.getY());
         performHighlight(h, e);
+    }
+
+    @Override
+    public void onLongPress(MotionEvent e) {
+
+        OnChartGestureListener l = mChart.getOnChartGestureListener();
+
+        if (l != null) {
+            l.onChartLongPressed(e);
+        }
     }
 
     @Override

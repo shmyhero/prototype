@@ -105,6 +105,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      */
     protected void resetChart(CombinedChart chart) {
         chart.clear();
+        chart.setDrawMarkers(false);
         chart.getXAxis().removeAllLimitLines();
         chart.getAxisLeft().removeAllLimitLines();
         chart.getAxisRight().removeAllLimitLines();

@@ -229,7 +229,12 @@ class StockDetailScreen extends Component {
 					}
 				};
 			})
-	}
+    }
+    
+    goToPositionPage(){
+        this.refs["orderFinishedModal"].hide();
+        this.props.navigation.navigate(ViewKeys.TAB_POSITION);
+    }
 
     isSubmitButtonEnabled(){
         return this.state.stockInfo.isOpen && this.state.Amount != undefined && this.state.Multiplier != undefined && this.state.Operation != undefined;
@@ -431,7 +436,8 @@ class StockDetailScreen extends Component {
 
     renderOrderFinishedModal(){
         return (
-            <StockOrderInfoModal ref='orderFinishedModal'/>
+            <StockOrderInfoModal ref='orderFinishedModal'
+                onContainerPress={()=>this.goToPositionPage()}/>
         );
     }
 
