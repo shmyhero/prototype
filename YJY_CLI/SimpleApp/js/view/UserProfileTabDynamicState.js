@@ -295,7 +295,7 @@ const styles = StyleSheet.create({
     shadowColor: '#F1F1F1',
     shadowOpacity: 0.75,
 		shadowRadius: 0.5,
-		elevation: 20,
+		elevation: 1.5,
 	},
 	itemOperator:{
 		height:32,

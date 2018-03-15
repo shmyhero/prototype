@@ -137,7 +137,7 @@ export default class  RankHeroList extends React.Component {
                 </TouchableOpacity>
             )
         }else{
-            return null;
+            return <View style={{width:width,height:20}}></View>;
         }
     }
 

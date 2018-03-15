@@ -153,17 +153,13 @@ export default class TabMainScreen extends React.Component {
                     pullUpStayDistance={50} 
                     removeClippedSubviews={false}
                     pullDownDistance={35}
-                    pullDownStayDistance={50}
-                    onScroll={()=>this.onScroll()}
+                    pullDownStayDistance={50} 
                     scrollEnabled={this.state.isAllowScroll}  
                 />
             </View>
         )
     }
-
-    onScroll(){
-        console.log('scroll ing ')
-    }
+ 
 
     renderItemTrede(rowData){
         if(rowData.data.type=='open' || rowData.data.type=='close' ){
@@ -213,8 +209,19 @@ export default class TabMainScreen extends React.Component {
         var viewHero = rowData.data.isRankedUser ? <Text style={styles.textHero}>达人</Text> : null;
         var swipeoutBtns = [
             {
-              backgroundColor:'#ff4240', 
+                backgroundColor:'#ff4240', 
+            //   backgroundColor:'transparent', 
               text:'删除',
+            //   component:<Image 
+            //   style={{
+            //         alignItems: 'center',
+            //         alignSelf: 'center',
+            //         alignContent: 'center', 
+            //         width:17,height:17
+            //         }} 
+            //     source={require('../../images/delete.png')}
+            // />
+            // ,
               onPress:()=>this._onPressButton(rowData)
             }
           ]

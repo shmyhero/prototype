@@ -148,7 +148,7 @@ export default class  RankFollowList extends React.Component {
     }
     render() {  
             if(this.state.isDataLoading){
-                return(<View style={{flex:1,backgroundColor:'white'}}></View>)
+                return(<View style={{flex:1,backgroundColor:'transparent'}}></View>)
             }else{
                 if(this.state.rankListData.length==0){
                     return(
