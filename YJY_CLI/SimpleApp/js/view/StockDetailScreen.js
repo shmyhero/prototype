@@ -421,7 +421,7 @@ class StockDetailScreen extends Component {
         }
         return (
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
-                <ImageBackground style={{width:100,height:100, alignItems:'center', justifyContent:'center'}} source={source}
+                <ImageBackground style={{width:120,height:120, alignItems:'center', justifyContent:'center'}} source={source}
                     resizeMode={"contain"}>
                     <Text style={{color:'white'}}>{buttonLabel}</Text>
                 </ImageBackground>
@@ -595,6 +595,7 @@ const styles = StyleSheet.create({
         alignItems:'stretch',
         justifyContent:'center',
         flexDirection:'row',
+        paddingBottom:3,
     },
 
     numberButtonLabel:{
