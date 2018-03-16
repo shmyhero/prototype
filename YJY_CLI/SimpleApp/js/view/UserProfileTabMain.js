@@ -45,7 +45,7 @@ export default class  UserProfileTabMain extends React.Component {
         <View style={styles.topHead}/>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>  
           <ImageBackground style={{height:240,width:bgWidth,padding:5}} resizeMode='stretch'  source={require('../../images/bg_block.png')}>  
-            <ProfitTrendCharts ref={'profitTrendCharts'}/>
+            <ProfitTrendCharts ref={'profitTrendCharts'} userId={this.props.userId}/>
           </ImageBackground>
           <ImageBackground style={{marginTop:10,height:240,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
             <ProfitBlock userId={this.props.userId} isPrivate={false}/>

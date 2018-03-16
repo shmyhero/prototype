@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.dataprovider.BarLineScatterCandleBubbleDataProvider;
+import com.github.mikephil.charting.interfaces.dataprovider.ChartInterface;
 import com.github.mikephil.charting.interfaces.dataprovider.LineDataProvider;
 import com.github.mikephil.charting.interfaces.datasets.IBarLineScatterCandleBubbleDataSet;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
@@ -56,6 +57,8 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
      * paint for the inner circle of the value indicators
      */
     protected Paint mCirclePaintInner;
+    
+    protected Paint mBigDotLinePaint;
 
     /**
      * Bitmap object used for drawing the paths (otherwise they are too long if
@@ -98,6 +101,10 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         mCirclePaintInner = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaintInner.setStyle(Paint.Style.FILL);
         mCirclePaintInner.setColor(Color.WHITE);
+        
+        mBigDotLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mBigDotLinePaint.setStyle(Paint.Style.FILL);
+        mBigDotLinePaint.setColor(context.getResources().getColor(R.color.line_chart_last_price_blue));
     }
 
     public LineDataProvider getChart(){
@@ -610,6 +617,11 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
     }
 
     @Override
+    protected boolean isDrawingValuesAllowed(ChartInterface chart) {
+        return false;
+    }
+
+    @Override
     public void drawValues(Canvas c) {
 
         if (isDrawingValuesAllowed(mChart)) {
@@ -745,6 +757,17 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             }
 
             int boundsRangeCount = mXBounds.range + mXBounds.min;
+
+
+            Entry lastEntry = dataSet.getEntryForIndex(dataSet.getEntryCount()-1);
+            if(lastEntry != null) {
+                mCirclesBuffer[0] = lastEntry.getX();
+                mCirclesBuffer[1] = lastEntry.getY() * phaseY;
+
+                trans.pointValuesToPixel(mCirclesBuffer);
+
+                c.drawLine(0, mCirclesBuffer[1], mCirclesBuffer[0], mCirclesBuffer[1], mBigDotLinePaint);
+            }
 
             for (int j = mXBounds.min; j <= boundsRangeCount; j++) {
 

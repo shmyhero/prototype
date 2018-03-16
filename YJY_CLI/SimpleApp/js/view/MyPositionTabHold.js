@@ -27,8 +27,10 @@ var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 
+import { ViewKeys } from '../../AppNavigatorConfiguration';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
+import CustomKeyboard from "./CustomKeyboard";
 
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
@@ -817,9 +819,9 @@ export default class  MyPositionTabHold extends React.Component {
 
 	getErrorText(type, minValue, maxValue) {
 		if( type == 1){
-			return 'ZYWZ' +" "+ minValue.toString()+" " + "D" +" "+ maxValue.toString()+" "+   "ZJ_";
+			return '止盈位置' +" "+ minValue.toString()+" " + "到" +" "+ maxValue.toString()+" "+   "之间";
 		}else if (type == 2){
-			return "ZSWZ" +" "+ minValue.toString()+" " + "D"+" " + maxValue.toString() +" "+ "ZJ_";
+			return "止损位置" +" "+ minValue.toString()+" " + "到"+" " + maxValue.toString() +" "+ "之间";
 		}
 	}
 
@@ -943,6 +945,19 @@ export default class  MyPositionTabHold extends React.Component {
 
 		this.updateCurrentStopLossProfitMinMaxValue(rowData, type);
 
+		
+		this.keyboardRef.showWithData({
+			value: currentValue,
+			checkError: (value)=>{
+				return this.getError(value, rowData, type);
+			},
+			hasDot: true,
+			dcmCount: rowData.security.dcmCount,
+			onInputConfirmed: (newValue)=>{
+				var newPercent = this.priceToPercentWithRow(newValue, rowData, type)
+				this.setSliderValue(type, newPercent, rowData)
+			}
+		})
 		// MainPage.showKeyboard({
 		// 	value: currentValue,
 		// 	checkError: (value)=>{
@@ -1117,6 +1132,8 @@ export default class  MyPositionTabHold extends React.Component {
 				{this.state.selectedSubItem !== SUB_ACTION_NONE ? this.renderSubDetail(rowData): null}
 
 				{this.renderOKView(rowData)}
+
+				<CustomKeyboard ref={(ref)=>this.keyboardRef = ref}/>
 			</View>
 		);
 	}

@@ -105,6 +105,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      */
     protected void resetChart(CombinedChart chart) {
         chart.clear();
+        chart.setDrawMarkers(false);
         chart.getXAxis().removeAllLimitLines();
         chart.getAxisLeft().removeAllLimitLines();
         chart.getAxisRight().removeAllLimitLines();
@@ -337,19 +338,19 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      * @throws JSONException
      */
     private void drawLastPriceLine(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
-        double last = chartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
-        LimitLine line = new LimitLine((float)last);
-
-//        int lastLine = cchartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
-//        limitLineAt.add(lastLine);
-
-        line.setLineColor(chart.getContext().getResources().getColor(R.color.line_chart_last_price_blue));
-
-        line.setLineWidth(ChartDrawerConstants.LINE_WIDTH * 2);
-        line.setTextSize(0f);
-
-        //Left Axis is disabled. Use Right one.
-        chart.getAxisRight().addLimitLine(line);
+//        double last = chartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
+//        LimitLine line = new LimitLine((float)last);
+//
+////        int lastLine = cchartDataList.getJSONObject(chartDataList.length()-1).getDouble(this.getPriceKey());
+////        limitLineAt.add(lastLine);
+//
+//        line.setLineColor(chart.getContext().getResources().getColor(R.color.line_chart_last_price_blue));
+//
+//        line.setLineWidth(ChartDrawerConstants.LINE_WIDTH * 2);
+//        line.setTextSize(0f);
+//
+//        //Left Axis is disabled. Use Right one.
+//        chart.getAxisRight().addLimitLine(line);
     }
 
     private void calculateAxis(CombinedChart chart, JSONArray chartDataList, CombinedData data) {

@@ -71,7 +71,10 @@ class NavBar extends Component {
     }
 
     backOnClick(){
-		if(this.props.navigation &&  this.props.navigation.goBack){
+		if(this.props.leftPartOnClick && this.props.leftPartOnClick()){
+			this.props.leftPartOnClick();
+		}
+		if(this.props.navigation && this.props.navigation.goBack){
 			this.props.navigation.goBack(null);
 		}
     }
@@ -200,7 +203,7 @@ class NavBar extends Component {
 		if (this.props.textOnLeft !== null) {
 			return (
 				<TouchableOpacity
-					onPress={()=> this.leftPartOnClick && this.leftPartOnClick()}>
+					onPress={()=> this.props.leftPartOnClick && this.props.leftPartOnClick()}>
 
 					<Text style={styles.textOnLeft}>
 						{this.props.textOnLeft}

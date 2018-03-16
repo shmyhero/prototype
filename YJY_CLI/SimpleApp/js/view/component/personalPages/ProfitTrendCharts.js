@@ -20,7 +20,7 @@ var TYPE_ALL = 1;
 
 export default class ProfitTrendCharts extends Component {
   static propTypes = {
-    userId: PropTypes.number,
+    userId: PropTypes.number.isRequired,
   }
 
   static defaultProps = {

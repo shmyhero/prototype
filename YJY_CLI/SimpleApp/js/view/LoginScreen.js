@@ -10,6 +10,7 @@ import {
   Dimensions,
   TextInput,
   Alert,
+  ScrollView,
   TouchableOpacity,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
@@ -85,6 +86,12 @@ class LoginScreen extends Component {
     }
 
     onLoginClicked(){
+
+        if(!this.isLoginable()){
+            Alert.alert('温馨提示','请输入手机号码和验证码')
+            return
+        }
+
         if(NetConstants.CFD_API.POST_USER_SIGNUP_BY_PHONE == undefined){
             Alert.alert(
                 'undefined')
@@ -126,6 +133,8 @@ class LoginScreen extends Component {
     render() {
         var textLogin = this.isLoginable()?'white':'#40b7f8'
         return (
+            <ScrollView style={{width:width,height:height-50}}>
+             
             <View style={styles.container}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
@@ -181,10 +190,10 @@ class LoginScreen extends Component {
                     <Text style={{fontSize:17, color:'#40b7f8'}}>快速登录</Text>
                     <TouchableOpacity onPress={()=>this.onWechatLogin()}>
                      <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
-                    </TouchableOpacity>    
-                    
+                    </TouchableOpacity>   
                 </View>    
             </View>
+            </ScrollView>  
         );
     } 
 }
@@ -192,6 +201,7 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container:{
        flex:1,
+       height:height-50,
        backgroundColor:ColorConstants.BGBLUE
     }
 })

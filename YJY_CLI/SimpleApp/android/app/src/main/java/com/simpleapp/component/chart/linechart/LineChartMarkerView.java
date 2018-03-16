@@ -85,17 +85,30 @@ public class LineChartMarkerView extends MarkerView {
         float valueBoxHeight = Utils.convertDpToPixel(16);
         float borderThickness = Utils.convertDpToPixel(1);
         float bottomPadding = Utils.convertDpToPixel(30);
-        float rightPadding = Utils.convertDpToPixel(80);
+        float rightPaddingMax = Utils.convertDpToPixel(80);
+        float rightPaddingMin = Utils.convertDpToPixel(20);
         float textSize = Utils.convertDpToPixel(10);
         float xValueYOffset = Utils.convertDpToPixel(80);
+        float boxHorizontalPadding = Utils.convertDpToPixel(10);
 
-        float verticalValueX = posX;
         float verticalValueY = Math.min(posY + xValueYOffset, canvas.getHeight() - bottomPadding);
+        float verticalValueX = Math.min(posX, canvas.getWidth() - borderThickness - valueBoxWidth/2);
+        float horizontalValueX;
+        float highlightEndX;
+        if(posX + valueBoxWidth/2 + boxHorizontalPadding < canvas.getWidth() - borderThickness - rightPaddingMax) {
+            horizontalValueX = canvas.getWidth() - borderThickness - rightPaddingMax - boxHorizontalPadding;
+            highlightEndX = horizontalValueX;
+        }else if(posX + valueBoxWidth/2 + boxHorizontalPadding < canvas.getWidth() - borderThickness - rightPaddingMin){
+            horizontalValueX = posX + valueBoxWidth/2 + boxHorizontalPadding;
+            highlightEndX = horizontalValueX;
+        }else{
+            horizontalValueX = posX - valueBoxWidth/2 - boxHorizontalPadding;
+            highlightEndX = canvas.getWidth();
+        }
 
-        float horizontalValueX = Math.max(posX + valueBoxWidth/2, canvas.getWidth() - borderThickness - rightPadding);
         float horizontalValueY = posY;
 
-        drawHighlightLines(canvas, posX, posY, 0, horizontalValueX, 0, verticalValueY);
+        drawHighlightLines(canvas, posX, posY, 0, highlightEndX, 0, verticalValueY);
 
         RectF xValueBorderRect = new RectF(verticalValueX - (valueBoxWidth/2) - borderThickness,
                 verticalValueY - (valueBoxHeight/2) - borderThickness,

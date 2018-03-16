@@ -229,7 +229,12 @@ class StockDetailScreen extends Component {
 					}
 				};
 			})
-	}
+    }
+    
+    goToPositionPage(){
+        this.refs["orderFinishedModal"].hide();
+        this.props.navigation.navigate(ViewKeys.TAB_POSITION);
+    }
 
     isSubmitButtonEnabled(){
         return this.state.stockInfo.isOpen && this.state.Amount != undefined && this.state.Multiplier != undefined && this.state.Operation != undefined;
@@ -421,7 +426,7 @@ class StockDetailScreen extends Component {
         }
         return (
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
-                <ImageBackground style={{width:100,height:100, alignItems:'center', justifyContent:'center'}} source={source}
+                <ImageBackground style={{width:120,height:120, alignItems:'center', justifyContent:'center'}} source={source}
                     resizeMode={"contain"}>
                     <Text style={{color:'white'}}>{buttonLabel}</Text>
                 </ImageBackground>
@@ -431,7 +436,8 @@ class StockDetailScreen extends Component {
 
     renderOrderFinishedModal(){
         return (
-            <StockOrderInfoModal ref='orderFinishedModal'/>
+            <StockOrderInfoModal ref='orderFinishedModal'
+                onContainerPress={()=>this.goToPositionPage()}/>
         );
     }
 
@@ -452,7 +458,7 @@ class StockDetailScreen extends Component {
         }
         return  (
             <PriceChartView style={{flex:1}}
-                lineChartGradient={['#33c1fc', '#20b2f7']}
+                lineChartGradient={['#32c0fb', '#1b9beb']}
                 xAxisPosition="BOTTOM"
                 leftAxisEnabled={false}
                 rightAxisEnabled={true}
@@ -595,6 +601,7 @@ const styles = StyleSheet.create({
         alignItems:'stretch',
         justifyContent:'center',
         flexDirection:'row',
+        paddingBottom:3,
     },
 
     numberButtonLabel:{

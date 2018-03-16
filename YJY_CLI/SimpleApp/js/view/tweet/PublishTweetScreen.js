@@ -7,7 +7,8 @@ import { View, Text, StyleSheet,
     TouchableHighlight,
     TouchableOpacity,
     Platform,
-    Alert
+    Alert,
+    Keyboard
 } from 'react-native';
 import KeyboardSpacer from '../component/KeyboardSpacer';
 import NavBar from '../component/NavBar';
@@ -41,13 +42,7 @@ class PublishTweetScreen extends Component {
     }
 
     addLinkBlock() {
-        // this.props.navigator.push({
-        //     name: MainPage.STOCK_SEARCH_ROUTE,
-        //     searchType: "getItem",
-        //     onGetItem: (item)=>{
-        //         this.refs[TWEET_WRITER].insertItem(item)
-        //     }
-        // })
+        Keyboard.dismiss();
         this.props.navigation.navigate(
             ViewKeys.SCREEN_STOCK_SEARCH,{
             onGetItem: (item)=>{
@@ -68,6 +63,8 @@ class PublishTweetScreen extends Component {
     }
 
     pressCommitButton(){
+        Keyboard.dismiss();
+
         var userData = LogicData.getUserData()
 
         var body = {'text': this.state.text}
@@ -124,12 +121,15 @@ class PublishTweetScreen extends Component {
                 <View style={[{position:'absolute', top:0, left:0, right:0, bottom: 0}, containerViewStyle]}>
                     <NavBar 
                         title={"发布状态"} showBackButton={true} navigation={this.props.navigation}
+                        leftPartOnClick={()=>{
+                            Keyboard.dismiss();
+                        }}
                         textOnRight={"发布"}
                         rightPartOnClick={()=>this.pressCommitButton()}
                         enableRightText={this.state.text.length>0}/>
-                
-                    <TweetComponent ref={TWEET_WRITER} 
-                        value={this.state.text}                    
+                        
+                    <TweetComponent ref={TWEET_WRITER}
+                        value={this.state.text}
                         onValueChanged={(value)=> {
                             console.log("onValueChanged "  + value)
                             this.setState({text:value})}

@@ -98,9 +98,9 @@ export default class  RankFollowList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:68,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:34,width:34,marginLeft:15,marginBottom:5}} source={require('../../images/head_portrait.png')}></Image>
+                        <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
@@ -136,12 +136,11 @@ export default class  RankFollowList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'white'}}>
+            <View style={{flex:1,width:width,backgroundColor:'transparent'}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    renderSeparator={this.renderSeparator}
+                    renderRow={this._renderRow} 
                     removeClippedSubviews={false}
                 />
             </View>
@@ -149,7 +148,7 @@ export default class  RankFollowList extends React.Component {
     }
     render() {  
             if(this.state.isDataLoading){
-                return(<View style={{flex:1,backgroundColor:'white'}}></View>)
+                return(<View style={{flex:1,backgroundColor:'transparent'}}></View>)
             }else{
                 if(this.state.rankListData.length==0){
                     return(

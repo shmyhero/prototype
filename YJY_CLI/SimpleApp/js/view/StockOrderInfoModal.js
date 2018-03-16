@@ -55,6 +55,11 @@ class StockOrderInfoModal extends Component {
 		this.state.hideCallback && this.state.hideCallback();
 	}
 
+	onContainerPress(){
+		this.props.onContainerPress && this.props.onContainerPress();
+	}
+
+
 	_setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
@@ -78,8 +83,7 @@ class StockOrderInfoModal extends Component {
                 onRequestClose={() => {this._setModalVisible(false)}}>
                     <TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>
                         <View style={styles.modalContainer}>
-                            <TouchableOpacity>
-                                
+                            <TouchableOpacity onPress={()=>this.onContainerPress()}>
                                 {this.renderContent()}
                             </TouchableOpacity>
                         </View>

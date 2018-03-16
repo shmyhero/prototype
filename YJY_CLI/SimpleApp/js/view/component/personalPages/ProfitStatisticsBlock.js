@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
   
   gifBg:{
     width:width-40,
-    height:(width-40)*215/350,
+    height:(width-40)*230/350,
     margin:0,alignItems:'center',
     justifyContent:'space-between'
   }
