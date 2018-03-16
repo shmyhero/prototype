@@ -43,31 +43,55 @@ namespace YJY_SVR.Controllers
             var tryGetAuthUser = TryGetAuthUser();
             if (tryGetAuthUser != null)
             {
-                //move myself to the top
-                var findIndex = userDTOs.FindIndex(o => o.id == tryGetAuthUser.Id);
-                if (findIndex > 0)
-                {
-                    var me = userDTOs.First(o => o.id == tryGetAuthUser.Id);
-                    userDTOs.RemoveAt(findIndex);
-                    userDTOs.Insert(0, me);
-                }
-                else if (findIndex == 0)
-                {
-                    //do nothing
-                }
-                else
-                {
-                    userDTOs.Insert(0, new UserRankDTO()
-                    {
-                        id = tryGetAuthUser.Id,
-                        nickname = tryGetAuthUser.Nickname,
-                        picUrl = tryGetAuthUser.PicUrl,
+                ////move myself to the top
+                //var findIndex = userDTOs.FindIndex(o => o.id == tryGetAuthUser.Id);
+                //if (findIndex > 0)
+                //{
+                //    var me = userDTOs.First(o => o.id == tryGetAuthUser.Id);
+                //    userDTOs.RemoveAt(findIndex);
+                //    userDTOs.Insert(0, me);
+                //}
+                //else if (findIndex == 0)
+                //{
+                //    //do nothing
+                //}
+                //else
+                //{
+                //    userDTOs.Insert(0, new UserRankDTO()
+                //    {
+                //        id = tryGetAuthUser.Id,
+                //        nickname = tryGetAuthUser.Nickname,
+                //        picUrl = tryGetAuthUser.PicUrl,
 
-                        //posCount = 0,
-                        roi = 0,
-                        winRate = 0,
-                    });
-                }
+                //        //posCount = 0,
+                //        roi = 0,
+                //        winRate = 0,
+                //    });
+                //}
+
+                //add myself to the top
+                var me = userDTOs.FirstOrDefault(o => o.id == tryGetAuthUser.Id);
+                if (me != null)
+                    userDTOs.Insert(0,
+                        new UserRankDTO()
+                        {
+                            id = me.id,
+                            nickname = me.nickname,
+                            picUrl = me.picUrl,
+                            roi = me.roi,
+                            winRate = me.winRate
+                        });
+                else
+                    userDTOs.Insert(0,
+                        new UserRankDTO()
+                        {
+                            id = tryGetAuthUser.Id,
+                            nickname = tryGetAuthUser.Nickname,
+                            picUrl = tryGetAuthUser.PicUrl,
+
+                            roi = 0,
+                            winRate = 0,
+                        });
             }
 
             return userDTOs;

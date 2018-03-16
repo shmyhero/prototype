@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net;
-using System.Net.Http;
 using System.Web.Http;
-using ServiceStack.Common.Extensions;
 using YJY_COMMON;
 using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
@@ -51,50 +47,57 @@ namespace YJY_SVR.Controllers
                     feedUserIds.Remove(tryGetAuthUser.Id);
 
                 //following user ids
-                var followingUserIds = db.UserFollows.Where(o => o.UserId == tryGetAuthUser.Id).Select(o=>o.FollowingId).ToList();
+                var followingUserIds =
+                    db.UserFollows.Where(o => o.UserId == tryGetAuthUser.Id).Select(o => o.FollowingId).ToList();
 
                 feedUserIds = feedUserIds.Concat(followingUserIds).ToList();
             }
 
             //get open feeds
             var openFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value))
-                .OrderByDescending(o=>o.CreateTime).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
+                .OrderByDescending(o => o.CreateTime).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .Select(o => new FeedDTO()
                 {
-                    user = new UserBaseDTO() { id = o.UserId.Value },
+                    user = new UserBaseDTO() {id = o.UserId.Value},
                     type = "open",
-                    time=o.CreateTime.Value,
-                    position = new PositionBaseDTO(){id=o.Id,invest=o.Invest,leverage=o.Leverage},
-                    security = new SecurityBaseDTO() { id = o.SecurityId.Value },
+                    time = o.CreateTime.Value,
+                    position =
+                        new PositionBaseDTO() {id = o.Id, invest = o.Invest, leverage = o.Leverage, isLong = o.Side},
+                    security = new SecurityBaseDTO() {id = o.SecurityId.Value},
                 })
                 .ToList();
 
             //get close feeds
-            var closeFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt!=null)
+            var closeFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null)
                 .OrderByDescending(o => o.ClosedAt).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                 .Select(o => new FeedDTO()
                 {
-                    user = new UserBaseDTO() { id = o.UserId.Value },
+                    user = new UserBaseDTO() {id = o.UserId.Value},
                     type = "close",
                     time = o.ClosedAt.Value,
-                    position = new PositionBaseDTO() { id = o.Id, roi = o.PL/o.Invest},
-                    security = new SecurityBaseDTO() { id = o.SecurityId.Value },
+                    position = new PositionBaseDTO() {id = o.Id, roi = o.PL/o.Invest, isLong = o.Side },
+                    security = new SecurityBaseDTO() {id = o.SecurityId.Value},
                 })
                 .ToList();
 
             //get status feeds
-            var statusFeed= db.Status.Where(o => feedUserIds.Contains(o.UserId.Value))
+            var statusFeed = db.Status.Where(o => feedUserIds.Contains(o.UserId.Value))
                 .OrderByDescending(o => o.Time).Take(YJYGlobal.DEFAULT_PAGE_SIZE)
-                 .Select(o=>new FeedDTO()
-                 {
-                     user = new UserBaseDTO() { id = o.UserId.Value },
-                     type = "status",
-                     time = o.Time.Value,
-                     status = o.Text,
-                 })
-                 .ToList();
+                .Select(o => new FeedDTO()
+                {
+                    user = new UserBaseDTO() {id = o.UserId.Value},
+                    type = "status",
+                    time = o.Time.Value,
+                    status = o.Text,
+                })
+                .ToList();
 
-            var result = openFeeds.Concat(closeFeeds).Concat(statusFeed).OrderByDescending(o => o.time).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
+            var result =
+                openFeeds.Concat(closeFeeds)
+                    .Concat(statusFeed)
+                    .OrderByDescending(o => o.time)
+                    .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
+                    .ToList();
 
             //populate user/security info
             var users = db.Users.Where(o => feedUserIds.Contains(o.Id)).ToList();
