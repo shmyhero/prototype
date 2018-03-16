@@ -169,7 +169,7 @@ public class CustomXAxisRenderer extends XAxisRenderer {
                     } else if (i == 0) {
 
                         float width = Utils.calcTextWidth(mAxisLabelPaint, label);
-                        x += width / 2;
+                        x += width / 2 + Utils.convertDpToPixel(10);
                     }
                 }
 

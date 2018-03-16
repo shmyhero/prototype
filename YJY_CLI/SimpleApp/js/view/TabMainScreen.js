@@ -165,7 +165,7 @@ export default class TabMainScreen extends React.Component {
         if(rowData.data.type=='open' || rowData.data.type=='close' ){
             return (
                 <TouchableOpacity onPress={()=>this._onPressToSecurity(rowData)} style={{marginRight:10,alignItems:'flex-end',justifyContent:'center'}}>
-                    <Image source={require('../../images/stock_detail_direction_up_enabled.png')} 
+                    <Image source={rowData.data.position.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')}
                         style={{width:22,height:22,marginBottom:-3}}>
                     </Image>
                     <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.data.security.name}</Text>
@@ -228,17 +228,6 @@ export default class TabMainScreen extends React.Component {
  
         var d = new Date(rowData.data.time);
         var timeText = d.getDateSimpleString()
-         
-        var text = '';
-
-        if(rowData.data.type == 'status'){
-            text = rowData.data.status
-        }else if(rowData.data.type == 'open'){ 
-            text = rowData.data.position.invest + '糖果x'+rowData.data.position.leverage+'倍数'
-        }else if(rowData.data.type == 'close'){
-            winOrLoss = rowData.data.position.roi>=0?'盈利+':'亏损'
-            text = '平仓'+winOrLoss+(rowData.data.position.roi*100).toFixed(2)+'%'
-        }
 
         return ( 
                <View style={styles.thumbnailAll} {...this._panResponder.panHandlers}> 
@@ -271,11 +260,7 @@ export default class TabMainScreen extends React.Component {
                                     <Text style={styles.textUserName}>{rowData.data.user.nickname}</Text>
                                     {viewHero}
                                 </View>
-                                <TweetBlock
-                                    style={{fontSize:15,color:'#666666',lineHeight:20}}
-                                    value={text}
-                                    
-                                    onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
+                                {this.renderNewsText(rowData)}
                             </View>
                             {this.renderItemTrede(rowData)}
                         </View>      
@@ -285,6 +270,43 @@ export default class TabMainScreen extends React.Component {
               </View>  
         )
     }
+
+    renderNewsText(rowData){                 
+        var text = '';
+
+        if(rowData.data.type == 'status'){
+            text = rowData.data.status
+            return (
+                <TweetBlock
+                style={{fontSize:15,color:'#666666',lineHeight:20}}
+                value={text}
+                onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
+            )
+        }else if(rowData.data.type == 'open'){ 
+            text = rowData.data.position.invest + '糖果x'+rowData.data.position.leverage+'倍数'
+            return (
+                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                    {text}
+                </Text>
+            )
+        }else if(rowData.data.type == 'close'){
+            var winOrLoss = rowData.data.position.roi>=0 ? '盈利':'亏损'
+            var value = (rowData.data.position.roi>=0 ? '+':'') + (rowData.data.position.roi*100).toFixed(2)+'%'
+            var valueColor = rowData.data.position.roi>=0 ? ColorConstants.STOCK_RISE_RED:ColorConstants.STOCK_DOWN_GREEN;
+           
+            text = '平仓'+winOrLoss;
+
+            return (
+                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                    {text}
+                    <Text style={{color: valueColor}}>
+                        {value}
+                    </Text>
+                </Text>
+            )
+        }
+    }
+
 
 
 
