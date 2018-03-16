@@ -439,8 +439,8 @@ export default class TabMainScreen extends React.Component {
     }
 
     _onLoadMore = () => {
-
-        this.loadData()
+        this._pullToRefreshListView.endLoadMore()
+        // this.loadData()
 
 
         //console.log('outside _onLoadMore start...')
