@@ -34,13 +34,25 @@ class DynamicRowComponent extends Component {
     }
 
     componentDidMount() { 
-        this.animate() 
+        if(this.props.rowData.isNew){
+            this.animate() 
+        }else{
+            this.setState( {
+                translateX: new RN.Animated.Value(0), 
+            });
+        }
     } 
 
-    componentWillReceiveProps(){ 
+    componentWillReceiveProps(props){ 
         // console.log('componentWillReceiveProps + '+this.props.rowData.user.id)
-        this.initAnimate()
-        this.animate()
+        //console.log("componentWillReceiveProps", props)
+        if(props.rowData.isNew){
+            this.setState( {
+                translateX: new RN.Animated.Value(0-width*2), 
+            }, ()=>{
+                this.animate()
+            });
+        }
     }
 
     componentWillUpdate(){

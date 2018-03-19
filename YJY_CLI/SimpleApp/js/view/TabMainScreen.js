@@ -94,22 +94,6 @@ export default class TabMainScreen extends React.Component {
             first: true,  
         } 
 
-        this.loadData()
-
-        this.timer = setInterval(
-            () => {  
-             console.log('time Interval...')
-
-             var responseJson = this.state.dataResponse;
-             responseJson.splice(0, 0, responseJson[0]);
-            //  responseJson.push(responseJson[0])
-             this.setState({ 
-                dataResponse: responseJson,
-                dataSource: this._dataSource.cloneWithRows(responseJson),
-              })
-            },
-            5000
-        );
     }
 
      
@@ -120,6 +104,35 @@ export default class TabMainScreen extends React.Component {
     }
  
     componentDidMount () {
+
+        this.loadData()
+
+        this.timer = setInterval(
+            () => {  
+                console.log('time Interval...')
+
+                var responseJson = this.state.dataResponse
+                if(responseJson && responseJson.length > 0){
+                    for(var i = 0; i < responseJson.length; i++){
+                        responseJson[i].isNew = false;
+                    }
+
+                    var add = {}
+                    $.extend(true, add, responseJson[0]);
+                    add.isNew = true;
+
+                    responseJson.splice(0, 0, add);
+                    
+                    this.setState({ 
+                        dataResponse: responseJson,
+                        dataSource: this._dataSource.cloneWithRows(responseJson),
+                    })
+                }
+               
+            },
+            5000
+        );
+
         // this._pullToRefreshListView.beginRefresh()
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
             console.log("HOME_TAB_RESS_EVENT")
@@ -179,8 +192,7 @@ export default class TabMainScreen extends React.Component {
     }
   
 
-    _renderRow = (rowData, sectionID, rowID) => {
-        
+    _renderRow = (rowData, sectionID, rowID) => {        
         return(
             <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/>
         ) 
@@ -290,10 +302,17 @@ export default class TabMainScreen extends React.Component {
 				}, 
 			},
 			(responseJson) => {  
+                
+
+                for(var i = 0; i < responseJson.length; i++){
+                    responseJson[i].isNew = false;
+                }
+       
+                //responseJson = [responseJson[0]]
                 this.setState({ 
-                            dataResponse: responseJson,
-                            dataSource: this._dataSource.cloneWithRows(responseJson),
-                        })
+                    dataResponse: responseJson,
+                    dataSource: this._dataSource.cloneWithRows(responseJson),
+                })
                 if(isRefresh){
                     this._pullToRefreshListView.endRefresh()
                 }
