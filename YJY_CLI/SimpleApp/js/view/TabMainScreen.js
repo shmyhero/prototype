@@ -23,7 +23,7 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
-
+import DynamicRowComponent from './component/DynamicRowComponent';
 import TweetBlock from './tweet/TweetBlock';
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 
@@ -91,14 +91,32 @@ export default class TabMainScreen extends React.Component {
  
 
         this.state = {
-            first: true,
-            // dataList: dataList,
-            // dataSource: this._dataSource.cloneWithRows(dataList),
-          
-        }
-
+            first: true,  
+        } 
 
         this.loadData()
+
+        this.timer = setInterval(
+            () => {  
+             console.log('time Interval...')
+
+             var responseJson = this.state.dataResponse;
+             responseJson.splice(0, 0, responseJson[0]);
+            //  responseJson.push(responseJson[0])
+             this.setState({ 
+                dataResponse: responseJson,
+                dataSource: this._dataSource.cloneWithRows(responseJson),
+              })
+            },
+            5000
+        );
+    }
+
+     
+    componentWillUnmount() {
+        // 如果存在this.timer，则使用clearTimeout清空。
+        // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
+        this.timer && clearTimeout(this.timer);
     }
  
     componentDidMount () {
@@ -159,156 +177,14 @@ export default class TabMainScreen extends React.Component {
             </View>
         )
     }
- 
-
-    renderItemTrede(rowData){
-        if(rowData.data.type=='open' || rowData.data.type=='close' ){
-            return (
-                <TouchableOpacity onPress={()=>this._onPressToSecurity(rowData)} style={{marginRight:10,alignItems:'flex-end',justifyContent:'center'}}>
-                    <Image source={rowData.data.position.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')}
-                        style={{width:22,height:22,marginBottom:-3}}>
-                    </Image>
-                    <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.data.security.name}</Text>
-                </TouchableOpacity>
-            )
-        }else{
-            return null;
-        } 
-    }
-
-    // onPressedDeleteItem(rowData){
-    //     Alert.alert(rowData.data.userName)
-    // }
-
-    // renderDeleteButton(rowData){
-    //     return(
-    //         <TouchableOpacity onPress={this.onPressedDeleteItem(rowData)} style={{flex:1,justifyContent: 'center',alignItems: 'center'}}>
-    //             <Text style={{color:'white',fontSize:13}}>删除</Text>
-    //         </TouchableOpacity>
-    //     )
-    // }
-
-    _onPressButton(rowData){
-        Alert.alert('onPressButton'+rowData.data.userName)
-    }
-
-    _onPressToSecurity(rowData){
-        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, {stockCode: rowData.data.security.id, stockName: rowData.data.security.name})
-    }
-
-    _onPressToUser(rowData){
-        var userData = {
-            userId:rowData.data.user.id,
-            nickName:rowData.data.user.nickname,
-        }
-        this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE, {userData:userData})
-    }
+  
 
     _renderRow = (rowData, sectionID, rowID) => {
-
-        var viewHero = rowData.data.isRankedUser ? <Text style={styles.textHero}>达人</Text> : null;
-        var swipeoutBtns = [
-            {
-                backgroundColor:'#ff4240', 
-            //   backgroundColor:'transparent', 
-              text:'删除',
-            //   component:<Image 
-            //   style={{
-            //         alignItems: 'center',
-            //         alignSelf: 'center',
-            //         alignContent: 'center', 
-            //         width:17,height:17
-            //         }} 
-            //     source={require('../../images/delete.png')}
-            // />
-            // ,
-              onPress:()=>this._onPressButton(rowData)
-            }
-          ]
- 
-        var d = new Date(rowData.data.time);
-        var timeText = d.getDateSimpleString()
-
-        return ( 
-               <View style={styles.thumbnailAll} {...this._panResponder.panHandlers}> 
-                    <View>
-                        <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#1da4f8'}}></View>
-                        <View style={{width:40,flexDirection:'row'}}>
-                            <Text style={{width:30,color:'#b0dcfe',marginLeft:5,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
-                            <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../images/triangle.png')}></Image>
-                        </View>
-                        <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
-                    </View>
-                    
-                    {/* <View style={styles.thumbnail}>  */}
-                    {/* <Swipeout right={swipeoutBtns} autoClose={true} close={!(this.state.sectionID === sectionID && this.state.rowID === rowID)} style={{backgroundColor:'transparent',flex:1}}>   */}
-                    <Swipeout 
-                    right={swipeoutBtns} 
-                    autoClose={true}   
-                    scroll={()=>{}}
-                    sensitivity={50}
-                    style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}
-                    > 
-                        <View style={{flexDirection:'row',margin:5}}>
-                            <TouchableOpacity onPress={()=>this._onPressToUser(rowData)}>
-                                <Image source={{uri:rowData.data.user.picUrl}}
-                                    style={{height:34,width:34,margin:10,borderRadius:17}} >
-                                </Image>
-                            </TouchableOpacity> 
-                            <View style={styles.textContainer}>
-                                <View style={{flexDirection:'row',marginTop:0}}>
-                                    <Text style={styles.textUserName}>{rowData.data.user.nickname}</Text>
-                                    {viewHero}
-                                </View>
-                                {this.renderNewsText(rowData)}
-                            </View>
-                            {this.renderItemTrede(rowData)}
-                        </View>      
-                      </Swipeout> 
-                    {/* </View> */}
-                
-              </View>  
-        )
-    }
-
-    renderNewsText(rowData){                 
-        var text = '';
-
-        if(rowData.data.type == 'status'){
-            text = rowData.data.status
-            return (
-                <TweetBlock
-                style={{fontSize:15,color:'#666666',lineHeight:20}}
-                value={text}
-                onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
-            )
-        }else if(rowData.data.type == 'open'){ 
-            text = rowData.data.position.invest + '糖果x'+rowData.data.position.leverage+'倍数'
-            return (
-                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
-                    {text}
-                </Text>
-            )
-        }else if(rowData.data.type == 'close'){
-            var winOrLoss = rowData.data.position.roi>=0 ? '盈利':'亏损'
-            var value = (rowData.data.position.roi>=0 ? '+':'') + (rowData.data.position.roi*100).toFixed(2)+'%'
-            var valueColor = rowData.data.position.roi>=0 ? ColorConstants.STOCK_RISE_RED:ColorConstants.STOCK_DOWN_GREEN;
-           
-            text = '平仓'+winOrLoss;
-
-            return (
-                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
-                    {text}
-                    <Text style={{color: valueColor}}>
-                        {value}
-                    </Text>
-                </Text>
-            )
-        }
-    }
-
-
-
+        
+        return(
+            <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/>
+        ) 
+    } 
 
     _renderHeader = (viewState) => {
         let {pullState, pullDistancePercent} = viewState
@@ -384,14 +260,12 @@ export default class TabMainScreen extends React.Component {
         //console.log('outside _onRefresh start...')
 
         //simulate request data
-        // this.timer = setTimeout( () => {
-
-        //     //console.log('outside _onRefresh end...')
-        //     let addNum = 20
+        // this.timer = setTimeout( () => { 
+        //     let addNum = 1
         //     let refreshedDataList = []
         //     for(let i = 0; i < addNum; i++) {
         //         refreshedDataList.push({
-        //             data:mkData[i%10]
+        //             data:this.state.dataList[0].data
         //         })
         //     }
 
@@ -402,13 +276,11 @@ export default class TabMainScreen extends React.Component {
         //     this._pullToRefreshListView.endRefresh()
 
         // }, 1500)
-
-        
-        this.loadData()
-
+ 
+        this.loadData(true) 
     }
 
-    loadData(){
+    loadData(isRefresh){
         NetworkModule.fetchTHUrl(
 			NetConstants.CFD_API.MAIN_FEED_DEFAULT,
 			{
@@ -417,20 +289,14 @@ export default class TabMainScreen extends React.Component {
 					'Content-Type': 'application/json; charset=UTF-8'
 				}, 
 			},
-			(responseJson) => {
-                let arr = Array.from(responseJson);
-                let length = arr.length;
-                let refreshedDataList = []
-                for(let i = 0;i < length;i++){
-                    refreshedDataList.push({
-                       data:responseJson[i]
-                    })
-                } 
-                this.setState({
-                            dataList: refreshedDataList,
-                            dataSource: this._dataSource.cloneWithRows(refreshedDataList),
+			(responseJson) => {  
+                this.setState({ 
+                            dataResponse: responseJson,
+                            dataSource: this._dataSource.cloneWithRows(responseJson),
                         })
-                this._pullToRefreshListView.endRefresh()
+                if(isRefresh){
+                    this._pullToRefreshListView.endRefresh()
+                }
 			},
 			(result) => {
 				Alert.alert('提示', result.errorMessage);
@@ -501,13 +367,7 @@ export default class TabMainScreen extends React.Component {
                 color={'#000000'}
                 size={'small'}/>
         )
-    }
- 
- 
-    jump2Detail(name, id){ 
-        this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
-            {stockCode: id, stockName: name});
-    }
+    } 
 
 }
 
@@ -527,9 +387,7 @@ const styles = StyleSheet.create({
     }, 
 
     itemHeader: {
-        height: 35,
-        // borderBottomWidth: StyleSheet.hairlineWidth,
-        // borderBottomColor: '#ccc',
+        height: 35, 
         backgroundColor: 'blue',
         overflow: 'hidden',
         justifyContent: 'center',
@@ -546,54 +404,7 @@ const styles = StyleSheet.create({
         paddingTop: 20 + 44,
     },
 
-    // thumbnail: {
-    //     margin: 5,
-    //     flexDirection: 'row',
-    //     width:width-60, 
-    //     backgroundColor:'white',
-    //     paddingTop:10,
-    //     paddingBottom:10,
-    //     borderRadius:10,
-    // },
-    thumbnail: {
-        margin: 5,
-        flexDirection: 'row',
-        width:width-60, 
-        backgroundColor:'white',
-        paddingTop:10,
-        paddingBottom:10,
-        borderRadius:10,
-    },
-     
-    thumbnailAll: {
-        marginLeft: 5,
-        marginRight:5,
-        flexDirection: 'row',  
-    }, 
-    textContainer: {
-        paddingRight: 10,
-        flex:1,
-        justifyContent: 'center', 
-        alignItems: 'flex-start',   
-    },
-    textUserName:{
-        fontSize:12,
-        alignSelf:'flex-start',
-        marginTop:5,
-        color:'#999999'
-    },
-    textHero:{
-        fontSize:8,
-        alignSelf:'center',
-        marginTop:5,
-        marginLeft:2,
-        paddingTop:1.5,
-        paddingBottom:1.5,
-        paddingLeft:2,
-        paddingRight:2,
-        backgroundColor:'#f9b82f',
-        borderRadius:2, 
-    }
+    
 
 })
 
