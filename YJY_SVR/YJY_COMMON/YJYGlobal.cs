@@ -20,10 +20,6 @@ namespace YJY_COMMON
         public const string DATETIME_MASK_SECOND = "yyyy-MM-dd HH:mm:ss";
 
         public const int DEFAULT_PAGE_SIZE = 50;
-
-        public static readonly string BLOG_ENDPOINT = GetConfigurationSetting("StorageConnectionString") == null
-            ? null
-            : CloudStorageAccount.Parse(GetConfigurationSetting("StorageConnectionString")).BlobEndpoint.AbsoluteUri;
         
         public static TimeSpan PROD_DEF_ACTIVE_IF_TIME_NOT_OLDER_THAN_TS = TimeSpan.FromDays(14);
         public const string ASSET_CLASS_STOCK = "Single Stocks";

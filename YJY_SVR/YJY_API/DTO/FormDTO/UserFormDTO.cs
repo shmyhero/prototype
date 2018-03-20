@@ -11,6 +11,11 @@ namespace YJY_SVR.DTO.FormDTO
         public string verifyCode { get; set; }
     }
 
+    //public class SetNicknameFormDTO
+    //{
+    //    public string nickname { get; set; }
+    //}
+
     public class NewStatusFormDTO
     {
         public string text { get; set; }

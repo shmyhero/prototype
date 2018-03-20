@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using Microsoft.WindowsAzure.Storage;
+using YJY_COMMON.Azure;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 
@@ -11,19 +13,6 @@ namespace YJY_COMMON.Service
 {
     public class UserService
     {
-        public static string USER_PIC_FOLDER_URL = YJYGlobal.BLOG_ENDPOINT + "user-pic/";
-        public static string USER_DEFAULT_PIC_FOLDER_URL = USER_PIC_FOLDER_URL + "default/";
-        public static List<string> USER_DEFAULT_PIC_FILENAMES = new List<string>()
-        {
-            "1.jpg", "2.jpg", "3.jpg", "4.jpg", "5.jpg", "6.jpg", "7.jpg", "8.jpg", "9.jpg", "10.jpg", "11.jpg",
-        };
-
-        public static string GetRandomUserDefaultPicUrl()
-        {
-            var r = new Random();
-            return USER_DEFAULT_PIC_FOLDER_URL + USER_DEFAULT_PIC_FILENAMES[r.Next(USER_DEFAULT_PIC_FILENAMES.Count)];
-        }
-
         public YJYEntities db { get; set; }
 
         public UserService(YJYEntities db)

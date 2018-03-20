@@ -2,7 +2,10 @@
 using System.Linq;
 using System.Web.Http;
 using AutoMapper;
+using ServiceStack.Text;
 using YJY_COMMON;
+using YJY_COMMON.Azure;
+using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
@@ -21,6 +24,8 @@ namespace YJY_SVR.Controllers
         public UserController(YJYEntities db, IMapper mapper) : base(db, mapper)
         {
         }
+
+        private const int NICKNAME_MAX_LENGTH = 8;
 
         [HttpPost]
         [Route("signupByPhone")]
@@ -60,7 +65,7 @@ namespace YJY_SVR.Controllers
                 }
 
                 //default avatar
-                user.PicUrl = UserService.GetRandomUserDefaultPicUrl();
+                user.PicUrl = Blob.GetRandomUserDefaultPicUrl();
 
                 db.SaveChanges();
 
@@ -94,6 +99,52 @@ namespace YJY_SVR.Controllers
             var userDto = Mapper.Map<UserBaseDTO>(user);
 
             return userDto;
+        }
+
+        [HttpPut]
+        [Route("nickname/{nickname}")]
+        [BasicAuth]
+        public ResultDTO SetNickname(string nickname)
+        {
+            if (string.IsNullOrEmpty(nickname))
+                return new ResultDTO {success = false};
+
+            nickname = nickname.Trim();
+            if (nickname.Length > NICKNAME_MAX_LENGTH)
+                return new ResultDTO() { success = false, message = __(TransKey.NICKNAME_TOO_LONG) };
+
+            if (db.Users.Any(o => o.Id != UserId && o.Nickname == nickname))
+                return new ResultDTO
+                {
+                    success = false,
+                    message = __(TransKey.NICKNAME_EXISTS)
+                };
+
+            var user = GetUser();
+            user.Nickname = nickname;
+            db.SaveChanges();
+
+            return new ResultDTO { success = true };
+        }
+
+        [HttpPut]
+        [Route("avatar")]
+        [BasicAuth]
+        public ResultDTO SetUserPic()
+        {
+            var requestString = Request.Content.ReadAsStringAsync().Result;
+            var bytes = Convert.FromBase64String(requestString);
+
+            var user = GetUser();
+
+            //upload new pic
+            string fileName = user.Id + "_" + DateTime.UtcNow.ToUnixTimeMs() + "_" + Guid.NewGuid().ToString("N");
+            Blob.UploadFromBytes(Blob.USER_PIC_BLOB_CONTAINER_NAME, fileName, bytes);
+
+            user.PicUrl = Blob.USER_PIC_FOLDER_URL + fileName;
+            db.SaveChanges();
+
+            return new ResultDTO {success = true};
         }
 
         [HttpGet]

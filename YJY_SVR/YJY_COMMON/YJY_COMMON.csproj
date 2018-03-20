@@ -86,6 +86,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Azure\Blob.cs" />
     <Compile Include="Localization\TransKey.cs" />
     <Compile Include="Localization\Translations.cs" />
     <Compile Include="Localization\Translator.cs" />
