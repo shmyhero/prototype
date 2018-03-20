@@ -63,7 +63,7 @@ class DynamicRowComponent extends Component {
     animate(){ 
         RN.Animated.timing(this.state.translateX, {
             toValue: 0,
-            duration: 2000,
+            duration: 500,
             easing: RN.Easing.linear
         }).start();
     }
@@ -173,13 +173,14 @@ class DynamicRowComponent extends Component {
                          </View>
                          <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#1da4f8'}}></View>
                      </View>
-                     <Swipeout 
+                     {/* <View 
                      right={swipeoutBtns} 
                      autoClose={true}   
                      scroll={()=>{}}
                      sensitivity={50}
                      style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}
-                     > 
+                     >  */}
+                     <View style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}>
                          <View style={{flexDirection:'row',margin:5}}>
                              <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
                                  <Image source={{uri:this.props.rowData.user.picUrl}}
@@ -195,7 +196,7 @@ class DynamicRowComponent extends Component {
                              </View>
                              {this.renderItemTrede(this.props.rowData)}
                          </View>      
-                       </Swipeout>   
+                       </View>   
                </View>   
         </RN.Animated.View>
         )
