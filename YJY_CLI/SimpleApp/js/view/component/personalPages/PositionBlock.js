@@ -163,8 +163,8 @@ export default class PositionBlock extends Component {
 		var bgcolor = 'white'
 
 		return (
-			<View>
-				<TouchableHighlight activeOpacity={1}>
+			 
+				<TouchableHighlight style={styles.rowItem} activeOpacity={1}>
 					<View style={[styles.rowWrapper, {backgroundColor: bgcolor}]} key={rowID}>
 						<View style={styles.rowLeftPart}>
 							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
@@ -188,7 +188,7 @@ export default class PositionBlock extends Component {
 						</View>
 					</View>
 				</TouchableHighlight>
-			</View>
+			 
 		);
 	}
 
@@ -351,6 +351,13 @@ const styles = StyleSheet.create({
     fontSize: 13,
     color: '#9f9f9f'
   },
+  rowItem:{
+    shadowOffset: {width:2, height:2},
+    shadowColor: '#F1F1F1',
+    shadowOpacity: 0.75,
+		shadowRadius: 0.5,
+		elevation: 1.5,
+  }
 });
 
 module.exports = PositionBlock;
