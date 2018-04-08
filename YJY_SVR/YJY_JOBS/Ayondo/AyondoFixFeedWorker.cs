@@ -34,11 +34,13 @@ namespace YJY_JOBS.Ayondo
             SessionSettings settings = new SessionSettings(YJYGlobal.GetConfigurationSetting("ayondoFixFeedCfgFilePath"));
             myApp = new AyondoFixFeedApp(YJYGlobal.GetConfigurationSetting("ayondoFixFeedUsername"),
                 YJYGlobal.GetConfigurationSetting("ayondoFixFeedPassword"));
-            IMessageStoreFactory storeFactory = new MemoryStoreFactory(); //new FileStoreFactory(settings);
-            ILogFactory logFactory = new FileLogFactory(settings);
+            IMessageStoreFactory storeFactory = 
+                new MemoryStoreFactory();
+                //new FileStoreFactory(settings);
+            //ILogFactory logFactory = new FileLogFactory(settings);
             SocketInitiator initiator = new SocketInitiator(myApp, storeFactory, settings,
-                //null 
-                logFactory
+                null 
+                //logFactory
                 );
 
             //var redisClient = YJYGlobal.BasicRedisClientManager.GetClient();
