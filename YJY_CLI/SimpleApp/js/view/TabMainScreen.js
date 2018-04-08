@@ -92,6 +92,7 @@ export default class TabMainScreen extends React.Component {
 
         this.state = {
             first: true,  
+            isLoading:true
         } 
 
     }
@@ -109,31 +110,65 @@ export default class TabMainScreen extends React.Component {
 
         this.timer = setInterval(
             () => {  
-                console.log('time Interval...')
+                // console.log('time Interval...')
 
-                var responseJson = this.state.dataResponse
-                if(responseJson && responseJson.length > 0){
-                    for(var i = 0; i < responseJson.length; i++){
-                        responseJson[i].isNew = false;
-                    }
+                // var responseJson = this.state.dataResponse
+                // if(responseJson && responseJson.length > 0){
+                //     for(var i = 0; i < responseJson.length; i++){
+                //         responseJson[i].isNew = false;
+                //     }
 
-                    var add = {}
-                    $.extend(true, add, responseJson[0]);
-                    add.isNew = true;
+                //     var add = {}
+                //     $.extend(true, add, responseJson[0]);
+                //     add.isNew = true;
 
-                    responseJson.splice(0, 0, add);
+                //     responseJson.splice(0, 0, add);
                     
-                    this.setState({ 
-                        dataResponse: responseJson,
-                        dataSource: this._dataSource.cloneWithRows(responseJson),
-                    })
-                }
+                //     this.setState({ 
+                //         dataResponse: responseJson,
+                //         dataSource: this._dataSource.cloneWithRows(responseJson),
+                //     })
+                // }
+
+                this.loadCacheListData()
                
             },
-            5000
+            30000
         );
 
-        // this._pullToRefreshListView.beginRefresh()
+        this.timerCacheList = setInterval(
+            () => { 
+                var responseJson = this.state.dataResponse
+                if(this.state.cacheData&&this.state.cacheData.length>0){
+                    console.log('this.state.cacheData.length = '+this.state.cacheData.length)
+                    
+                    if(responseJson && responseJson.length > 0){
+                        for(var i = 0; i < responseJson.length; i++){
+                            responseJson[i].isNew = false;
+                        }
+                        var add = {}
+                        $.extend(true, add, this.state.cacheData[this.state.cacheData.length-1]);
+                        responseJson.splice(0, 0, add);
+                        this.state.cacheData.splice(this.state.cacheData.length-1,1)
+                        this.setState({ 
+                            dataResponse:responseJson,
+                            cacheData:this.state.cacheData,
+                            dataSource:this._dataSource.cloneWithRows(responseJson),
+                        })
+                    }
+                }else{
+                    for(var i = 0; i < responseJson.length; i++){
+                        responseJson[i].isNew = false;
+                    } 
+                    this.setState({ 
+                        dataResponse:responseJson, 
+                        dataSource:this._dataSource.cloneWithRows(responseJson),
+                    })
+                }
+            },
+            2000
+        )
+ 
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
             console.log("HOME_TAB_RESS_EVENT")
             WebSocketModule.cleanRegisteredCallbacks();
@@ -145,6 +180,7 @@ export default class TabMainScreen extends React.Component {
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
         this.tabSwitchedSubscription && this.tabSwitchedSubscription.remove();
         this.timer && clearTimeout(this.timer);
+        this.timerCacheList && clearTimeout(this.timerCacheList);
     }
 
 
@@ -161,34 +197,41 @@ export default class TabMainScreen extends React.Component {
      
 
     render() {
-        console.log('render scene')
-        return (
-            <View style = {styles.mainContainer}>
-                <NavBar onlyShowStatusBar={true}/>
-                <PullToRefreshListView
-                    ref={ (component) => this._pullToRefreshListView = component }
-                    viewType={PullToRefreshListView.constants.viewType.listView}
-                    contentContainerStyle={{backgroundColor: 'transparent', }}
-                    style={{marginTop: Platform.OS == 'ios' ? 0 : 0, }}
-                    initialListSize={20}
-                    enableEmptySections={true}
-                    dataSource={this.state.dataSource}
-                    pageSize={20}
-                    renderRow={this._renderRow}
-                    renderHeader={this._renderHeader}
-                    renderFooter={this._renderFooter}
-                    //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
-                    onRefresh={this._onRefresh}
-                    onLoadMore={this._onLoadMore}
-                    pullUpDistance={35}
-                    pullUpStayDistance={50} 
-                    removeClippedSubviews={false}
-                    pullDownDistance={35}
-                    pullDownStayDistance={50} 
-                    scrollEnabled={this.state.isAllowScroll}  
-                />
-            </View>
-        )
+        if(this.state.isLoading){
+            return (
+            <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+            </View>);
+        }else{
+            return (
+                <View style = {styles.mainContainer}>
+                    <NavBar onlyShowStatusBar={true}/>
+                    <PullToRefreshListView
+                        ref={ (component) => this._pullToRefreshListView = component }
+                        viewType={PullToRefreshListView.constants.viewType.listView}
+                        contentContainerStyle={{backgroundColor: 'transparent', }}
+                        style={{marginTop: Platform.OS == 'ios' ? 0 : 0, }}
+                        initialListSize={20}
+                        enableEmptySections={true}
+                        dataSource={this.state.dataSource}
+                        pageSize={20}
+                        renderRow={this._renderRow}
+                        renderHeader={this._renderHeader}
+                        renderFooter={this._renderFooter}
+                        //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
+                        onRefresh={this._onRefresh}
+                        onLoadMore={this._onLoadMore}
+                        pullUpDistance={35}
+                        pullUpStayDistance={50} 
+                        removeClippedSubviews={false}
+                        pullDownDistance={35}
+                        pullDownStayDistance={50} 
+                        scrollEnabled={this.state.isAllowScroll}  
+                    />
+                </View>
+            )
+        }
+        
     }
   
 
@@ -292,6 +335,39 @@ export default class TabMainScreen extends React.Component {
         this.loadData(true) 
     }
 
+    loadCacheListData(){
+        if(this.state.dataResponse&&this.state.dataResponse.length>0){
+            var timer = this.state.dataResponse[0].time
+            var url = NetConstants.CFD_API.MAIN_FEED_DEFAULT
+            url += '?newerThan=' + timer
+            url += '&count=' + 5
+
+
+            NetworkModule.fetchTHUrl(
+                url,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    }, 
+                },
+                (responseJson) => {
+                    for(var i = 0; i < responseJson.length; i++){
+                        responseJson[i].isNew = true;
+                    } 
+                    this.setState({ 
+                        cacheData: responseJson,
+                    }) 
+    
+                    console.log('loadCacheListData length is = ' + responseJson.length);
+                },
+                (result) => {
+                    Alert.alert('提示', result.errorMessage);
+                }
+            )
+        } 
+    }
+
     loadData(isRefresh){
         NetworkModule.fetchTHUrl(
 			NetConstants.CFD_API.MAIN_FEED_DEFAULT,
@@ -312,6 +388,7 @@ export default class TabMainScreen extends React.Component {
                 this.setState({ 
                     dataResponse: responseJson,
                     dataSource: this._dataSource.cloneWithRows(responseJson),
+                    isLoading:false,
                 })
                 if(isRefresh){
                     this._pullToRefreshListView.endRefresh()

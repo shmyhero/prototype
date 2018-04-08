@@ -234,7 +234,14 @@ export default class  RankHeroList extends React.Component {
 		);
     }
     
-    
+    renderHeader(){
+        return(
+            <View style={{backgroundColor:ColorConstants.BGBLUE}}>
+                {this.renderMe()}
+                {this.renderThreeHero()}
+            </View>  
+        )
+    }
 
     renderListAll(){
         return(
@@ -245,6 +252,7 @@ export default class  RankHeroList extends React.Component {
                     renderRow={this._renderRow}
                     renderSeparator={this.renderSeparator}
                     removeClippedSubviews={false}
+                    renderHeader={this.renderHeader.bind(this)}
                 />
             </View>
         )
@@ -252,8 +260,8 @@ export default class  RankHeroList extends React.Component {
     render() {
         return (
             <View style={{flex:1}}>
-                 {this.renderMe()}
-                 {this.renderThreeHero()}
+                 {/* {this.renderMe()}
+                 {this.renderThreeHero()} */}
                  {this.renderListAll()}
             </View>
         );
