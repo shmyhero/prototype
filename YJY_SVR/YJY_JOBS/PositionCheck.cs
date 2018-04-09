@@ -44,7 +44,7 @@ namespace YJY_JOBS
                     {
                         var redisProdDefClient = redisClient.As<ProdDef>();
                         var redisQuoteClient = redisClient.As<Quote>();
-                        var redisTickClient = redisClient.As<Tick>();
+                        //var redisTickClient = redisClient.As<Tick>();
 
                         using (var db = YJYEntities.Create())
                         {
@@ -81,7 +81,7 @@ namespace YJY_JOBS
                                 if (prodDef.QuoteType == enmQuoteType.Closed ||
                                     prodDef.QuoteType == enmQuoteType.Inactive)
                                 {
-                                    YJYGlobal.LogLine("prod " + prodDef.Id + " quoteType is " + prodDef.QuoteType);
+                                    //YJYGlobal.LogLine("prod " + prodDef.Id + " quoteType is " + prodDef.QuoteType);
                                     continue;
                                 }
 
