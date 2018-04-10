@@ -230,8 +230,7 @@ export default class TabMainScreen extends React.Component {
                     />
                 </View>
             )
-        }
-        
+        } 
     }
   
 
@@ -311,27 +310,7 @@ export default class TabMainScreen extends React.Component {
         }
     }
 
-    _onRefresh = () => {
-        //console.log('outside _onRefresh start...')
-
-        //simulate request data
-        // this.timer = setTimeout( () => { 
-        //     let addNum = 1
-        //     let refreshedDataList = []
-        //     for(let i = 0; i < addNum; i++) {
-        //         refreshedDataList.push({
-        //             data:this.state.dataList[0].data
-        //         })
-        //     }
-
-        //     this.setState({
-        //         dataList: refreshedDataList,
-        //         dataSource: this._dataSource.cloneWithRows(refreshedDataList),
-        //     })
-        //     this._pullToRefreshListView.endRefresh()
-
-        // }, 1500)
- 
+    _onRefresh = () => {  
         this.loadData(true) 
     }
 
@@ -401,45 +380,7 @@ export default class TabMainScreen extends React.Component {
     }
 
     _onLoadMore = () => {
-        this._pullToRefreshListView.endLoadMore()
-        // this.loadData()
-
-
-        //console.log('outside _onLoadMore start...')
-        // this.timer = setTimeout(
-        //     () => {
-
-        //         //console.log('outside _onLoadMore end...')
-    
-        //         let length = this.state.dataList.length
-        //         let addNum = 20
-        //         let addedDataList = []
-        //         if(length >= 100) {
-        //             addNum = 3
-        //         }
-        //         for(let i = length; i < length + addNum; i++) {
-        //             addedDataList.push({
-        //                 data:mkData[i%10]
-        //             })
-        //         }
-        //         let newDataList = this.state.dataList.concat(addedDataList)
-        //         this.setState({
-        //             dataList: newDataList,
-        //             dataSource: this._dataSource.cloneWithRows(newDataList),
-        //         })
-    
-        //         let loadedAll
-        //         if(length >= 100) {
-        //             loadedAll = true
-        //             this._pullToRefreshListView.endLoadMore(loadedAll)
-        //         }
-        //         else {
-        //             loadedAll = false
-        //             this._pullToRefreshListView.endLoadMore(loadedAll)
-        //         }
-    
-        //     }, 1500) 
-         
+        this._pullToRefreshListView.endLoadMore()   
     }
 
     _renderActivityIndicator() {
