@@ -2,12 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading;
+using Microsoft.Owin.Hosting;
 using QuickFix;
 using QuickFix.Transport;
 using ServiceStack.Redis.Generic;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Util;
+using YJY_JOBS.SignalR;
 
 namespace YJY_JOBS.Ayondo
 {
@@ -19,6 +21,7 @@ namespace YJY_JOBS.Ayondo
         private static Timer _timerRawTicks;
         private static Timer _timerTicks;
         private static Timer _timerKLines;
+        private static Timer _timerQuoteBroadcast;
 
         private static AyondoFixFeedApp myApp;
 
@@ -28,18 +31,19 @@ namespace YJY_JOBS.Ayondo
         private static readonly TimeSpan _intervalRawTicks = TimeSpan.FromMilliseconds(500);
         private static readonly TimeSpan _intervalTicks = TimeSpan.FromSeconds(10);
         private static readonly TimeSpan _intervalKLine = TimeSpan.FromSeconds(10);
+        private static readonly TimeSpan _intervalQuoteBroadcast = TimeSpan.FromMilliseconds(500);
 
         public static void Run(bool isLive = false)
         {
             SessionSettings settings = new SessionSettings(YJYGlobal.GetConfigurationSetting("ayondoFixFeedCfgFilePath"));
             myApp = new AyondoFixFeedApp(YJYGlobal.GetConfigurationSetting("ayondoFixFeedUsername"),
                 YJYGlobal.GetConfigurationSetting("ayondoFixFeedPassword"));
-            IMessageStoreFactory storeFactory = 
+            IMessageStoreFactory storeFactory =
                 new MemoryStoreFactory();
-                //new FileStoreFactory(settings);
+            //new FileStoreFactory(settings);
             //ILogFactory logFactory = new FileLogFactory(settings);
             SocketInitiator initiator = new SocketInitiator(myApp, storeFactory, settings,
-                null 
+                null
                 //logFactory
                 );
 
@@ -49,14 +53,27 @@ namespace YJY_JOBS.Ayondo
 
             initiator.Start();
 
+
+
+            // This will *ONLY* bind to localhost, if you want to bind to all addresses
+            // use http://*:8080 to bind to all addresses. 
+            // See http://msdn.microsoft.com/library/system.net.httplistener.aspx 
+            // for more information.
+            string url = "http://*:39680";
+            var start = WebApp.Start(url);
+            Console.WriteLine("Server running on {0}", url);
+            //Console.ReadLine();
+
+
+
             //run tasks in NEW threads
             _timerProdDefs = new Timer(SaveProdDefs, null, _intervalProdDefs, TimeSpan.FromMilliseconds(-1));
-            _timerProdDefRequest = new Timer(SendProdDefRequest, null, _intervalProdDefRequest,
-                TimeSpan.FromMilliseconds(-1));
+            _timerProdDefRequest = new Timer(SendProdDefRequest, null, _intervalProdDefRequest, TimeSpan.FromMilliseconds(-1));
             _timerQuotes = new Timer(SaveQuotes, null, _intervalQuotes, TimeSpan.FromMilliseconds(-1));
             _timerRawTicks = new Timer(SaveRawTicks, null, _intervalRawTicks, TimeSpan.FromMilliseconds(-1));
             _timerTicks = new Timer(SaveTicks, null, _intervalTicks, TimeSpan.FromMilliseconds(-1));
             _timerKLines = new Timer(SaveKLine, null, _intervalKLine, TimeSpan.FromMilliseconds(-1));
+            _timerQuoteBroadcast = new Timer(QuoteBroadcast, null, _intervalQuoteBroadcast, TimeSpan.FromMilliseconds(-1));
 
             while (true)
             {
@@ -65,6 +82,34 @@ namespace YJY_JOBS.Ayondo
             }
 
             //initiator.Stop();
+        }
+
+        private static void QuoteBroadcast(object state)
+        {
+            while (true)
+            {
+                try
+                {
+                    var quotes = new List<Quote>();
+                    while (!myApp.QueueQuotesForRedistribution.IsEmpty)
+                    {
+                        Quote obj;
+                        var tryDequeue = myApp.QueueQuotesForRedistribution.TryDequeue(out obj);
+                        quotes.Add(obj);
+                    }
+
+                    if (quotes.Count > 0)
+                    {
+                        QuoteFeedTicker.Instance.Broadcast(quotes);
+                    }
+                }
+                catch (Exception e)
+                {
+                    YJYGlobal.LogException(e);
+                }
+
+                Thread.Sleep(_intervalQuoteBroadcast);
+            }
         }
 
         private static void SaveQuotes(object state)

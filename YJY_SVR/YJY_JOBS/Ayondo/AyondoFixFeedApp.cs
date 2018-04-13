@@ -42,6 +42,7 @@ namespace YJY_JOBS.Ayondo
         public ConcurrentQueue<Quote> QueueQuotesForRawTick = new ConcurrentQueue<Quote>();
         public ConcurrentQueue<Quote> QueueQuotesForTick = new ConcurrentQueue<Quote>();
         public ConcurrentQueue<Quote> QueueQuotesForKLine = new ConcurrentQueue<Quote>();
+        public ConcurrentQueue<Quote> QueueQuotesForRedistribution = new ConcurrentQueue<Quote>();
 
         public IDictionary<int, ProdDef> ProdDefs = new Dictionary<int, ProdDef>();
 
@@ -353,6 +354,14 @@ namespace YJY_JOBS.Ayondo
             });
 
             QueueQuotesForKLine.Enqueue(new Quote
+            {
+                Bid = bid,
+                Id = secId,
+                Ask = offer,
+                Time = time
+            });
+
+            QueueQuotesForRedistribution.Enqueue(new Quote
             {
                 Bid = bid,
                 Id = secId,
