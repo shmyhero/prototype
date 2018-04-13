@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data.Entity.Core;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -48,6 +49,19 @@ namespace YJY_COMMON.Service
 
                         dbIsolated.Positions.Add(position);
 
+                        dbIsolated.SaveChanges();//to get position auto id
+
+                        //add a new transfer
+                        dbIsolated.Transfers.Add(new Transfer()
+                        {
+                            Amount = -invest,
+                            BalanceAfter = userIsolated.Balance,
+                            Time = DateTime.UtcNow,
+                            Type = "Open",
+                            UserId = userIsolated.Id,
+                            PositionId = position.Id,//position id should be populated
+                        });
+
                         dbIsolated.SaveChanges();
                     }
                 }
@@ -86,6 +100,17 @@ namespace YJY_COMMON.Service
                         {
                             user.Balance = user.Balance + pValue;
                         }
+
+                        //add a new transfer
+                        dbIsolated.Transfers.Add(new Transfer()
+                        {
+                            Amount = pValue,
+                            BalanceAfter = user.Balance,
+                            Time = DateTime.UtcNow,
+                            Type = "Close",
+                            UserId = user.Id,
+                            PositionId = position.Id,
+                        });
 
                         dbIsolated.SaveChanges();
                     }
@@ -128,6 +153,17 @@ namespace YJY_COMMON.Service
                         {
                             user.Balance = user.Balance + pValue;
                         }
+
+                        //add a new transfer
+                        dbIsolated.Transfers.Add(new Transfer()
+                        {
+                            Amount = pValue,
+                            BalanceAfter = user.Balance,
+                            Time = DateTime.UtcNow,
+                            Type = "Close",
+                            UserId = user.Id,
+                            PositionId = position.Id,
+                        });
 
                         dbIsolated.SaveChanges();
                     }

@@ -17,6 +17,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StatusLike> StatusLikes { get; set; }
+        public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }
 
@@ -48,6 +49,14 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.TakePx)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<Transfer>()
+                .Property(e => e.Amount)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<Transfer>()
+                .Property(e => e.BalanceAfter)
                 .HasPrecision(18, 8);
 
             modelBuilder.Entity<User>()

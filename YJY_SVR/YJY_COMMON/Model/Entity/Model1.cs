@@ -12,11 +12,17 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<Status> Status { get; set; }
-        public virtual DbSet<StatusLike> StatusLikes { get; set; }
+        public virtual DbSet<Transfer> Transfers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Transfer>()
+                .Property(e => e.Amount)
+                .HasPrecision(18, 5);
+
+            modelBuilder.Entity<Transfer>()
+                .Property(e => e.BalanceAfter)
+                .HasPrecision(18, 5);
         }
     }
 }
