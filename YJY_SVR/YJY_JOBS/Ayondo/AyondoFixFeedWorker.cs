@@ -55,14 +55,14 @@ namespace YJY_JOBS.Ayondo
 
 
 
-            // This will *ONLY* bind to localhost, if you want to bind to all addresses
-            // use http://*:8080 to bind to all addresses. 
-            // See http://msdn.microsoft.com/library/system.net.httplistener.aspx 
-            // for more information.
-            string url = "http://*:39680";
-            var start = WebApp.Start(url);
-            Console.WriteLine("Server running on {0}", url);
-            //Console.ReadLine();
+            //// This will *ONLY* bind to localhost, if you want to bind to all addresses
+            //// use http://*:8080 to bind to all addresses. 
+            //// See http://msdn.microsoft.com/library/system.net.httplistener.aspx 
+            //// for more information.
+            //string url = "http://*:39680";
+            //var start = WebApp.Start(url);
+            //Console.WriteLine("Server running on {0}", url);
+            ////Console.ReadLine();
 
 
 
