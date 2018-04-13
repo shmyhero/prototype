@@ -124,6 +124,7 @@ export default class  RankHeroList extends React.Component {
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
                     <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
+                              
                             <Image style={{height:34,width:34,marginLeft:28,marginBottom:5,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
@@ -144,48 +145,65 @@ export default class  RankHeroList extends React.Component {
         }
     }
 
+    renderThreeOfOneItem(index,data){
+        var bgWidth = (width-39.5)/3;
+        var bgHeight = bgWidth;
+        var bgHeightLR = bgHeight*201/230;
+
+        var picUri = require('../../images/rank_bg_ag.png')
+        if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
+        if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
+
+        var viewOff = (index == 1)?-5:-10
+         
+        if(data!==null){
+            return(
+                <TouchableOpacity onPress={()=>this.gotoUserProfile(data.id,data.nickname)} activeOpacity={0.9} style={{flex:1}}>
+                    <Image style={styles.headPortrait} source={{uri:data.picUrl}}></Image>
+                    <Text style={styles.textTopUserName}>{data.nickname}</Text>
+                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text style={styles.textWinRate}>胜率: </Text>
+                        <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(2)}%</Text>
+                    </View>  
+                    <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
+                        <Text style={styles.textProfit}>{(data.roi*100).toFixed(2)}%</Text>
+                    </ImageBackground>
+                </TouchableOpacity>
+            ) 
+        }else{
+            return(
+                <TouchableOpacity  activeOpacity={0.9} style={{flex:1}}>
+                    <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
+                    <Text style={styles.textTopUserName}>--</Text>
+                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                        <Text style={styles.textWinRate}>胜率: </Text>
+                        <Text style={styles.textTopUserScore}>--</Text>
+                    </View>  
+                    <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
+                        <Text style={styles.textProfit}>--</Text>
+                    </ImageBackground>
+                </TouchableOpacity>
+            ) 
+        }
+        
+    }
+
     renderThreeHero(){ 
         var bgWidth = (width-39.5)/3;
         var bgHeight = bgWidth;
         var bgHeightLR = bgHeight*201/230;
         var offset = this.props.showMeBlock?1:0;
+        var length = this.state.rankListData.length
+        
+        var item0 = (1+offset<=length-1)?this.state.rankListData[1+offset]:null
+        var item1 = (0+offset<=length-1)?this.state.rankListData[0+offset]:null
+        var item2 = (2+offset<=length-1)?this.state.rankListData[2+offset]:null
         return(
             <View style={{marginTop:0}}>
                 <ImageBackground style={styles.containerAll}>
-                    <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[1+offset].id,this.state.rankListData[1].nickname)} activeOpacity={0.9} style={{flex:1}}>
-                        <Image style={styles.headPortrait} source={{uri:this.state.rankListData[1+offset].picUrl}}></Image>
-                        <Text style={styles.textTopUserName}>{this.state.rankListData[1+offset].nickname}</Text>
-                        <View style={{marginBottom:-5, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{(this.state.rankListData[1+offset].winRate*100).toFixed(2)}%</Text>
-                        </View>    
-                        
-                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_ag.png')}>
-                            <Text style={styles.textProfit}>{(this.state.rankListData[1+offset].roi*100).toFixed(2)}%</Text>
-                        </ImageBackground>
-                    </TouchableOpacity>
-                    <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0+offset].id,this.state.rankListData[0].nickname)} activeOpacity={0.9}  style={{flex:1}}>
-                        <Image style={styles.headPortrait} source={{uri:this.state.rankListData[0+offset].picUrl}}></Image>
-                        <Text style={styles.textTopUserName}>{this.state.rankListData[0+offset].nickname}</Text>
-                        <View style={{marginBottom:-5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{(this.state.rankListData[0+offset].winRate*100).toFixed(2)}%</Text>
-                        </View>    
-                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeight ,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_gd.png')}>
-                            <Text style={styles.textProfit}>{(this.state.rankListData[0+offset].roi*100).toFixed(2)}%</Text>
-                        </ImageBackground>
-                    </TouchableOpacity>
-                    <TouchableOpacity  onPress={()=>this.gotoUserProfile(this.state.rankListData[2+offset].id,this.state.rankListData[2].nickname)} activeOpacity={0.9}  style={{flex:1}}>
-                        <Image style={styles.headPortrait} source={{uri:this.state.rankListData[2+offset].picUrl}}></Image>
-                        <Text style={styles.textTopUserName}>{this.state.rankListData[2+offset].nickname}</Text>
-                        <View style={{marginBottom:-5,flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <Text style={styles.textWinRate}>胜率: </Text>
-                            <Text style={styles.textTopUserScore}>{(this.state.rankListData[2+offset].winRate*100).toFixed(2)}%</Text>
-                        </View>    
-                        <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={require('../../images/rank_bg_cu.png')}>
-                            <Text style={styles.textProfit}>{(this.state.rankListData[2+offset].roi*100).toFixed(2)}%</Text>
-                        </ImageBackground>  
-                    </TouchableOpacity> 
+                    {this.renderThreeOfOneItem(0,item0)}
+                    {this.renderThreeOfOneItem(1,item1)}
+                    {this.renderThreeOfOneItem(2,item2)}
                 </ImageBackground>
             </View>
         )
@@ -259,9 +277,7 @@ export default class  RankHeroList extends React.Component {
     }
     render() {
         return (
-            <View style={{flex:1}}>
-                 {/* {this.renderMe()}
-                 {this.renderThreeHero()} */}
+            <View style={{flex:1}}> 
                  {this.renderListAll()}
             </View>
         );
