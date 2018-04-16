@@ -211,6 +211,7 @@
     <Compile Include="Caching\WebCache.cs" />
     <Compile Include="Caching\WebCacheInstance.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
+    <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\FundController.cs" />
     <Compile Include="Controllers\MiscController.cs" />
@@ -223,6 +224,7 @@
     <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\YJYController.cs" />
     <Compile Include="DTO\FeedDTO.cs" />
+    <Compile Include="DTO\FormDTO\CallbackFormDTO.cs" />
     <Compile Include="DTO\FormDTO\PositionFormDTO.cs" />
     <Compile Include="DTO\FormDTO\UserFormDTO.cs" />
     <Compile Include="DTO\FundDTO.cs" />
