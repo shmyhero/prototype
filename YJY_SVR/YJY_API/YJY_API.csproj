@@ -225,6 +225,7 @@
     <Compile Include="Controllers\YJYController.cs" />
     <Compile Include="DTO\FeedDTO.cs" />
     <Compile Include="DTO\FormDTO\CallbackFormDTO.cs" />
+    <Compile Include="DTO\FormDTO\FundFormDTO.cs" />
     <Compile Include="DTO\FormDTO\PositionFormDTO.cs" />
     <Compile Include="DTO\FormDTO\UserFormDTO.cs" />
     <Compile Include="DTO\FundDTO.cs" />

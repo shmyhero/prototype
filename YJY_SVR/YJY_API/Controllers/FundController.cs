@@ -7,10 +7,12 @@ using System.Web.Http;
 using Newtonsoft.Json.Linq;
 using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
+using YJY_COMMON.Service;
 using YJY_COMMON.Util;
 using YJY_SVR.Caching;
 using YJY_SVR.Controllers.Attributes;
 using YJY_SVR.DTO;
+using YJY_SVR.DTO.FormDTO;
 
 namespace YJY_SVR.Controllers
 {
@@ -35,6 +37,17 @@ namespace YJY_SVR.Controllers
                 balance = user.Balance.Value,
                 total = user.Balance.Value + sumOfPositionValue,
             };
+        }
+
+        [HttpPut]
+        [Route("THT/address")]
+        [BasicAuth]
+        public ResultDTO SetTHTAddress(THTAddressFormDTO form)
+        {
+            var fundService = new FundService(db);
+            fundService.SetTHTAddress(UserId, form.address);
+
+            return new ResultDTO(true);
         }
     }
 }

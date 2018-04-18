@@ -23,5 +23,7 @@ namespace YJY_COMMON.Model.Entity
         public decimal? BalanceAfter { get; set; }
 
         public int? PositionId { get; set; }
+
+        public int? TransactionId { get; set; }
     }
 }

@@ -34,5 +34,8 @@ namespace YJY_COMMON.Model.Entity
         public string WeChatUnionId { get; set; }
 
         public decimal? Balance { get; set; }
+
+        [StringLength(100)]
+        public string THTAddress { get; set; }
     }
 }
