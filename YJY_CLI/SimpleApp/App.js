@@ -87,6 +87,9 @@ export default class App extends React.Component {
         var routeName = getCurrentRouteName(currentState);
         console.log("routeName ", routeName)
         switch(routeName){
+          case ViewKeys.SCREEN_DEPOSIT:
+            StatusBar.setBarStyle("dark-content");
+            break;
           case ViewKeys.TAB_MAIN:
             EventCenter.emitHomeTabPressEvent();
             break;

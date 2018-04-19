@@ -13,6 +13,7 @@ import {
     Alert,
 	LayoutAnimation,
 	FlatList,
+	ImageBackground,
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -37,6 +38,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 const ROW_PADDING = 15
 
 const PAGE_SIZE = 20;
+const FOLLOW_ROW_HEIGHT = 50;
 
 export default class  MyPositionTabClosed extends React.Component {
     static navigationOptions = {
@@ -96,6 +98,14 @@ export default class  MyPositionTabClosed extends React.Component {
 					},
 					showLoading: true,
 				}, (responseJson) => {
+					//TODO: Use real data!!!!!
+					for (var i in responseJson){
+						responseJson[i].isFollowing = true;
+						responseJson[i].followingUser = "一个人"
+						responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
+					}
+					//TODO: Use real data!!!!!
+
 					var newStockInfoRowData;
 					if(this.pageNum == 1){
 						newStockInfoRowData = responseJson;
@@ -388,6 +398,25 @@ export default class  MyPositionTabClosed extends React.Component {
 		);
 	}
 
+	renderFollowRow(rowData){
+		if(rowData.isFollowing){
+			return (
+				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
+					<Image source={{uri:rowData.followingUserPortrit}} 
+						style={{height:40,width:40, borderRadius:20}}></Image>
+					<Text style={{marginLeft:10}}>{rowData.followingUser}</Text>
+					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
+						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
+						<Text style={{color:'white', fontSize:10}}>跟随</Text>
+						</View>
+					</ImageBackground>
+				</View>
+			)
+		}else{
+			return null;
+		}
+	}
+
 	renderItem(data) {
 		var rowData = data.item;
 		var rowID = data.index;
@@ -397,29 +426,33 @@ export default class  MyPositionTabClosed extends React.Component {
 		var topLine = rowData.security.name
         var bottomLine = rowData.security.symbol
 
+		
 		return (
 			<View style={styles.rowContainer}>
 				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
-					<View style={[styles.rowWrapper]} key={rowData.key}>
-						<View style={styles.rowLeftPart}>
-							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{topLine}
-							</Text>
-
-							<View style={{flexDirection: 'row', alignItems: 'center'}}>
-								{this.renderCountyFlag(rowData)}
-								<Text style={styles.stockSymbolText}>
-									{bottomLine}
+					<View >
+						{this.renderFollowRow(rowData)}
+						<View style={[styles.rowWrapper]} key={rowData.key}>
+							<View style={styles.rowLeftPart}>
+								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+									{topLine}
 								</Text>
+
+								<View style={{flexDirection: 'row', alignItems: 'center'}}>
+									{this.renderCountyFlag(rowData)}
+									<Text style={styles.stockSymbolText}>
+										{bottomLine}
+									</Text>
+								</View>
 							</View>
-						</View>
 
-						<View style={styles.rowCenterPart}>
-							{this.renderProfit(rowData.pl)}
-						</View>
+							<View style={styles.rowCenterPart}>
+								{this.renderProfit(rowData.pl)}
+							</View>
 
-						<View style={styles.rowRightPart}>
-							{this.renderProfitPercentage(plPercent)}
+							<View style={styles.rowRightPart}>
+								{this.renderProfitPercentage(plPercent)}
+							</View>
 						</View>
 					</View>
 				</TouchableOpacity>
