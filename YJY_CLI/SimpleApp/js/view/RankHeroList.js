@@ -130,7 +130,7 @@ export default class  RankHeroList extends React.Component {
                                 <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
                                     <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
-                                    <Text style={{fontSize:16,color:'#d8effc'}}>{this.state.rankListData[0].winRate.toFixed(2)}%</Text>
+                                    <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(2)}%</Text>
                                 </View>
                             </View>
                         </View>     

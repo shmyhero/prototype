@@ -12,6 +12,7 @@ import DepositTokenScreen from './js/view/depositWithdraw/DepositTokenScreen';
 import WithdrawTokenScreen from './js/view/depositWithdraw/WithdrawTokenScreen';
 import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
 import StockSearchScreen from './js/view/StockSearchScreen';
+import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -42,6 +43,7 @@ const ViewKeys = {
     SCREEN_WITHDRAW: "WithdrawTokenScreen",
     SCREEN_TWEET: "TweetScreen",
     SCREEN_STOCK_SEARCH: "StockSearchScreen",
+    SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
 }
 
 var mainTabNavigatorConfiguration = {}
@@ -153,6 +155,7 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTo
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  
 {
