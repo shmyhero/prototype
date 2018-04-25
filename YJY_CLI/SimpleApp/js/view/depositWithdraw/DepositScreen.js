@@ -8,8 +8,8 @@ import {
     TextInput,
     TouchableOpacity,
     Image } from 'react-native';
-import NavBar from './component/NavBar';
-var ColorConstants = require('../ColorConstants')
+import NavBar from '../component/NavBar';
+var ColorConstants = require('../../ColorConstants')
 var PAYMENT_TYPE_WECHAT = "wechat";
 var PAYMENT_TYPE_ALIPAY = "alipay";
 // create a component
@@ -49,9 +49,9 @@ class DepositScreen extends Component {
     renderAgreement(){
         var checkIcon;
         if(this.state.isAgreementRead){
-            checkIcon = require("../../images/selection_small_selected.png");
+            checkIcon = require("../../../images/selection_small_selected.png");
         }else{
-            checkIcon = require("../../images/selection_small_unselected.png");
+            checkIcon = require("../../../images/selection_small_unselected.png");
         }
         return (
             <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{
@@ -74,9 +74,9 @@ class DepositScreen extends Component {
     renderPaymentSwitch(title, icon, type){
         var checkIcon;
         if(this.state.paymentType == type){
-            checkIcon = require("../../images/selection_big_selected.png");
+            checkIcon = require("../../../images/selection_big_selected.png");
         }else{
-            checkIcon = require("../../images/selection_big_unselected.png");
+            checkIcon = require("../../../images/selection_big_unselected.png");
         }
         return (
             <TouchableOpacity style={styles.rowContainer} onPress={()=>{
@@ -93,7 +93,7 @@ class DepositScreen extends Component {
 
     renderConfirmButton(){
         var buttonEnabled = this.isReadyToPay();
-        var buttonImage = buttonEnabled ? require("../../images/position_confirm_button_enabled.png") : require("../../images/position_confirm_button_disabled.png")
+        var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
         return (
             <TouchableOpacity
                 onPress={()=>{alert("支付" + this.state.paymentType + ", " + this.state.value)}}
@@ -128,14 +128,14 @@ class DepositScreen extends Component {
                         />
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>
-                        <Image style={{height:15, width:15}} source={require('../../images/deposit_balance.png')}/>
+                        <Image style={{height:15, width:15}} source={require('../../../images/deposit_balance.png')}/>
                         <Text style={styles.hintText}>糖果可用于产品交易及服务，1元=1糖果</Text>
                     </View>
                     <Text style={styles.rowTitle}>当前剩余糖果: {+ this.state.balance}</Text>
 
                     <View style={styles.blockContainer}>
                         <ImageBackground style={{width:"100%", height:"100%"}}
-                                            source={require("../../images/deposit_block_background.png")}>
+                                            source={require("../../../images/deposit_block_background.png")}>
                             <View style={styles.rowContainer}>
                                 <Text style={styles.rowHeader}>糖果数量: </Text>
                                 <TextInput style={styles.rowValue} defaultValue={this.state.displayText}
@@ -151,9 +151,9 @@ class DepositScreen extends Component {
                     <Text style={styles.rowTitle}>选择支付方式</Text>
                     <View style={styles.blockContainer}>
                         <ImageBackground style={{width:"100%", height:"100%"}}
-                                            source={require("../../images/deposit_block_background.png")}>                          
-                            {this.renderPaymentSwitch("微信支付", require("../../images/deposit_icon_wechat.png"), PAYMENT_TYPE_WECHAT)}
-                            {this.renderPaymentSwitch("支付宝", require("../../images/deposit_icon_alipay.png"), PAYMENT_TYPE_ALIPAY)}
+                                            source={require("../../../images/deposit_block_background.png")}>                          
+                            {this.renderPaymentSwitch("微信支付", require("../../../images/deposit_icon_wechat.png"), PAYMENT_TYPE_WECHAT)}
+                            {this.renderPaymentSwitch("支付宝", require("../../../images/deposit_icon_alipay.png"), PAYMENT_TYPE_ALIPAY)}
                         </ImageBackground>
                     </View>
                     {this.renderAgreement()}

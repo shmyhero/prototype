@@ -111,19 +111,20 @@ class  TabMeScreen extends React.Component {
               hideBackButton={true} 
               onLoginFinished={()=>{this.refresh()}}
               />;
-  }
+  }  
 
   renderExitButton(){
     return (
-      <TouchableOpacity style={styles.smallButtonContainer} onPress={()=>this.onExitButtonPressed()}>
-        <ImageBackground source={require('../../images/me_entry_button_gray.png')}
+      <TouchableOpacity
+        style={styles.okView}
+        onPress={()=>this.onExitButtonPressed()}>
+        <ImageBackground source={require("../../images/position_confirm_button_disabled.png")}
           resizeMode={'contain'}
-          style={styles.buttonBackground}>
-        <View style={styles.buttonTextContainer}>
-          <Text style={{fontSize:15, color:'#999999'}}>退出登录</Text>
-        </View>
+          style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
+          <Text style={styles.okButton}>退出登录</Text>
       </ImageBackground>
-    </TouchableOpacity>);
+    </TouchableOpacity>  
+  );
   }
 
   showHelp(){
@@ -134,8 +135,12 @@ class  TabMeScreen extends React.Component {
     this.props.navigation.navigate(ViewKeys.SCREEN_ABOUT);
   }
 
-  showWithdraw(){
+  showDeposit(){
     this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
+  }
+
+  showWithdraw(){
+    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW);
   }
 
   showMessage(){
@@ -144,18 +149,21 @@ class  TabMeScreen extends React.Component {
 
   renderButton(title, icon, onPress){
     return (
-      <TouchableOpacity style={styles.smallButtonContainer} onPress={()=>onPress()}>
-        <ImageBackground source={require('../../images/me_entry_button.png')}
-          resizeMode={'contain'}
-          style={styles.buttonBackground}>
+      <View>
+        <TouchableOpacity style={styles.smallButtonContainer} onPress={()=>onPress()}>
           <View style={styles.buttonTextContainerLeft}>
             <Image style={{marginLeft:10, height:30, width:30}} source={icon}></Image>
             <View style={{flexDirection:'column', justifyContent:'center', marginLeft: 10}}>
               <Text style={{fontSize:15, color:'#8c8d90'}}>{title}</Text>
             </View>
+            <View style={{flex:1}}/>
+            <Image source={require("../../images/icon_arrow_right.png")} 
+                  style={{height:10,width:10, marginRight:20}}/>
           </View>
-        </ImageBackground>
-      </TouchableOpacity>);
+        </TouchableOpacity>
+        <View style={styles.separator}></View>
+      </View>
+      );
   }
 
   renderPortrait(){
@@ -187,10 +195,32 @@ class  TabMeScreen extends React.Component {
           <View style={styles.buttonTextContainer}>
               <Text style={{fontSize:12, color:'#999999'}}>糖果数</Text>
               <Text style={{fontSize:34, color:'#999999', marginTop:10}}>0</Text>
-              <TouchableOpacity onPress={()=>this.showWithdraw()}>
-                <Image source={require('../../images/me_deposit_line.png')} 
-                      style={{width:300, height:34, marginTop:10}} resizeMode="contain"/>
-              </TouchableOpacity>
+              <View style={{flexDirection:'row', alignSelf:'stretch', justifyContent:'space-around'}}>
+                <TouchableOpacity onPress={()=>this.showDeposit()}>
+                  <ImageBackground source={require('../../images/bg_btn_blue.png')}
+                      resizeMode={'contain'}
+                      style={{
+                          width: 70,
+                          height: 42,
+                          justifyContent:'center',
+                          flexDirection:'column',
+                      }}>
+                    <Text style={{textAlign:'center', color:'#ffffff'}}>入金</Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+                <TouchableOpacity onPress={()=>this.showWithdraw()}>
+                  <ImageBackground source={require('../../images/bg_btn_blue.png')}
+                    resizeMode={'contain'}
+                    style={{
+                        width: 70,
+                        height: 42,
+                        justifyContent:'center',
+                        flexDirection:'column',
+                    }}>
+                    <Text style={{textAlign:'center', color:'#ffffff'}}>出金</Text>
+                  </ImageBackground>
+                </TouchableOpacity>
+              </View>
           </View>
         </ImageBackground>
       </View>
@@ -206,6 +236,7 @@ class  TabMeScreen extends React.Component {
                   rightPartOnClick={()=>this.showMessage()}/>
           {this.renderPortrait()}
           {this.renderBalance()}
+          {this.renderButton("资金明细", require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.showHelp())}          
           {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
           {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
           {this.renderExitButton()}
@@ -243,6 +274,13 @@ const styles = StyleSheet.create({
       height: BUTTON_HEIGHT,
       paddingLeft:10,
       paddingRight:10,
+      justifyContent:'center',
+    },
+    separator: {
+      height: 0.5,
+      backgroundColor: '#f0f0f0',
+      marginLeft:20,
+      marginRight:20,
     },
     bigButtonContainer:{
       height: BIG_BUTTON_HEIGHT,
@@ -261,12 +299,28 @@ const styles = StyleSheet.create({
     },
     buttonTextContainerLeft: {
       flexDirection:'row',
+      alignItems:'center'
     },
     headPortrait:{
       width:80,
       height:80,
       borderRadius:40,
       alignSelf:'center'
+    },
+    okView: {
+      width: 332,
+      height: 60,
+      justifyContent: 'center',
+      alignItems: 'center',
+      alignSelf: 'center',
+      marginTop:15,
+    },
+    okButton: {
+      color: 'white',
+      textAlign: 'center',
+      fontSize: 17,
+      position:'absolute',
+      top:17
     },
 })
 

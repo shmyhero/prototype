@@ -42,6 +42,7 @@ const ROW_SIMPLE_CONTENT_PADDING = 10;
 const ROW_SIMPLE_CONTENT_HEIGHT = 40 + ROW_SIMPLE_CONTENT_PADDING * 2;
 const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
+const FOLLOW_ROW_HEIGHT = 50;
 
 const SUB_ACTION_NONE = 0;
 const SUB_ACTION_STOP_LOSS_PROFIT = 2;
@@ -139,7 +140,15 @@ export default class  MyPositionTabHold extends React.Component {
 						'Content-Type': 'application/json; charset=utf-8',
 					},
 					showLoading: true,
-				}, (responseJson) => {					
+				}, (responseJson) => {
+					//TODO: Use real data!!!!!
+					for (var i in responseJson){
+						responseJson[i].isFollowing = true;
+						responseJson[i].followingUser = "一个人"
+						responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
+					}
+					//TODO: Use real data!!!!!
+					
 					this.setState({
 						stockInfoRowData: responseJson,
 						isDataLoading: false,
@@ -1057,17 +1066,44 @@ export default class  MyPositionTabHold extends React.Component {
 			</View>)
 	}
 
+	renderStopProfitLossRow(rowData){
+		if(!rowData.isFollowing){
+			var stopLossImage = (rowData.takePx !== undefined || rowData.stopPx !== undefined) ? 
+							require('../../images/position_stop_profit_loss_enabled.png') : 
+							require('../../images/position_stop_profit_loss_disabled.png');
+			var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
+			var stopProfit = rowData.takePx !== undefined
+
+			return (
+			<View>
+				<View style={styles.extendRowWrapper}>
+					<View style={[styles.extendLeft, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder]}/>
+					<TouchableOpacity onPress={()=>this.subItemPress(rowData)}
+						style={[styles.extendMiddle, 
+								(this.state.selectedSubItem===SUB_ACTION_STOP_LOSS_PROFIT)&&styles.leftTopRightBorder,
+								{borderTopColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
+								{borderBottomColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
+								{borderLeftColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
+								{borderRightColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
+							]}>
+						<Text style={styles.extendTextTop}>止盈/止损</Text>
+						<Image style={styles.extendImageBottom} source={stopLossImage}/>
+					</TouchableOpacity>
+
+					<View style={[styles.extendRight, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder, ]}/>
+				</View>
+
+				{this.state.selectedSubItem !== SUB_ACTION_NONE ? this.renderSubDetail(rowData): null}
+			</View>
+			)
+		}
+	}
+
 	renderDetailInfo(rowData) {
 		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')
         var lastPrice = this.getLastPrice(rowData)
         
-		// console.log('RAMBO rowData.id = ' + rowData.security.id)
-		var stopLossImage = (rowData.takePx !== undefined || rowData.stopPx !== undefined) ? 
-							require('../../images/position_stop_profit_loss_enabled.png') : 
-							require('../../images/position_stop_profit_loss_disabled.png');
-		var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
-		var stopProfit = rowData.takePx !== undefined
-
+		// console.log('RAMBO rowData.id = ' + rowData.security.id)		
 		var currentPriceLabel = rowData.isLong ? "当前卖价" : "当前买价"
 		var openDate = new Date(rowData.createAt)
 		
@@ -1112,24 +1148,7 @@ export default class  MyPositionTabHold extends React.Component {
 					</View>
 				</View>
                 <View style={styles.darkSeparator} />
-				<View style={styles.extendRowWrapper}>
-					<View style={[styles.extendLeft, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder]}/>
-					<TouchableOpacity onPress={()=>this.subItemPress(rowData)}
-						style={[styles.extendMiddle, 
-								(this.state.selectedSubItem===SUB_ACTION_STOP_LOSS_PROFIT)&&styles.leftTopRightBorder,
-								{borderTopColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
-								{borderBottomColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
-								{borderLeftColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
-								{borderRightColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
-							]}>
-						<Text style={styles.extendTextTop}>止盈/止损</Text>
-						<Image style={styles.extendImageBottom} source={stopLossImage}/>
-					</TouchableOpacity>
-
-					<View style={[styles.extendRight, this.state.selectedSubItem==SUB_ACTION_STOP_LOSS_PROFIT && styles.bottomBorder, ]}/>
-				</View>
-
-				{this.state.selectedSubItem !== SUB_ACTION_NONE ? this.renderSubDetail(rowData): null}
+				{this.renderStopProfitLossRow(rowData)}
 
 				{this.renderOKView(rowData)}
 
@@ -1167,6 +1186,25 @@ export default class  MyPositionTabHold extends React.Component {
 			index: index};
 	}
 
+	renderFollowRow(rowData){
+		if(rowData.isFollowing){
+			return (
+				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
+					<Image source={{uri:rowData.followingUserPortrit}} 
+						style={{height:40,width:40, borderRadius:20}}></Image>
+					<Text style={{marginLeft:10}}>{rowData.followingUser}</Text>
+					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
+						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
+						<Text style={{color:'white', fontSize:10}}>跟随</Text>
+						</View>
+					</ImageBackground>
+				</View>
+			)
+		}else{
+			return null;
+		}
+	}
+
 	renderItem(data){
 		var rowData = data.item;
 		var rowID = data.index;
@@ -1179,32 +1217,36 @@ export default class  MyPositionTabHold extends React.Component {
 			profitAmount = profitPercentage * rowData.invest
 		}
 		var topLine = rowData.security.name
-        var bottomLine = rowData.security.symbol
-        		
+		var bottomLine = rowData.security.symbol
+		
+		var rowHeaderHeight = rowData.isFollowing ? ROW_SIMPLE_CONTENT_HEIGHT + FOLLOW_ROW_HEIGHT : ROW_SIMPLE_CONTENT_HEIGHT;
 		return (
 			<View style={styles.rowContainer}>
-				<TouchableOpacity style={styles.rowTouchable} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
-					<View style={[styles.rowWrapper]} key={rowData.key}>
-						<View style={styles.rowLeftPart}>
-							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{topLine}
-							</Text>
-
-							<View style={{flexDirection: 'row', alignItems: 'center'}}>
-								{/* {this.renderCountyFlag(rowData)} */}
-								{this.renderStockStatus(rowData)}
-								<Text style={styles.stockSymbolText}>
-									{bottomLine}
+				<TouchableOpacity style={[styles.rowTouchable,{height:rowHeaderHeight}]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
+					<View >
+						{this.renderFollowRow(rowData)}
+						<View style={[styles.rowWrapper]} key={rowData.key}>
+							<View style={styles.rowLeftPart}>							
+								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+									{topLine}
 								</Text>
+
+								<View style={{flexDirection: 'row', alignItems: 'center'}}>
+									{/* {this.renderCountyFlag(rowData)} */}
+									{this.renderStockStatus(rowData)}
+									<Text style={styles.stockSymbolText}>
+										{bottomLine}
+									</Text>
+								</View>
 							</View>
-						</View>
 
-						<View style={styles.rowCenterPart}>
-							{this.renderProfit(profitAmount, null)}
-						</View>
+							<View style={styles.rowCenterPart}>
+								{this.renderProfit(profitAmount, null)}
+							</View>
 
-						<View style={styles.rowRightPart}>
-							{this.renderProfit(profitPercentage * 100, "%")}
+							<View style={styles.rowRightPart}>
+								{this.renderProfit(profitPercentage * 100, "%")}
+							</View>
 						</View>
 					</View>
 				</TouchableOpacity>

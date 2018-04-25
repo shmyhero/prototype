@@ -8,9 +8,11 @@ import HelpScreen from "./js/view/HelpScreen"
 import AboutScreen from "./js/view/AboutScreen"
 import StockDetailScreen from './js/view/StockDetailScreen';
 import MessageScreen from './js/view/MessageScreen';
-import DepositScreen from './js/view/DepositScreen';
+import DepositTokenScreen from './js/view/depositWithdraw/DepositTokenScreen';
+import WithdrawTokenScreen from './js/view/depositWithdraw/WithdrawTokenScreen';
 import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
 import StockSearchScreen from './js/view/StockSearchScreen';
+import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -37,9 +39,11 @@ const ViewKeys = {
     SCREEN_HELP: "Help",
     SCREEN_ABOUT: "AboutScreen",
     SCREEN_MESSAGE: "MessageScreen",
-    SCREEN_DEPOSIT: "DepositScreen",
+    SCREEN_DEPOSIT: "DepositTokenScreen",
+    SCREEN_WITHDRAW: "WithdrawTokenScreen",
     SCREEN_TWEET: "TweetScreen",
     SCREEN_STOCK_SEARCH: "StockSearchScreen",
+    SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
 }
 
 var mainTabNavigatorConfiguration = {}
@@ -147,9 +151,11 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {screen: User
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {screen: HelpScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTokenScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  
 {

@@ -37,6 +37,8 @@ var WebSocketModule = require('../module/WebSocketModule')
 var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule');
 
+var childHeights=[];
+var listViewOffY = 0;
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
  
@@ -157,6 +159,7 @@ export default class TabMainScreen extends React.Component {
                         })
                     }
                 }else{
+                    console.log("responseJson", responseJson)
                     for(var i = 0; i < responseJson.length; i++){
                         responseJson[i].isNew = false;
                     } 
@@ -182,19 +185,64 @@ export default class TabMainScreen extends React.Component {
         this.timer && clearTimeout(this.timer);
         this.timerCacheList && clearTimeout(this.timerCacheList);
     }
-
-
-    _panResponder={}
+ 
     componentWillMount() {
-        this._panResponder = PanResponder.create({
-            onShouldBlockNativeResponder: (event, gestureState) => false,
-            onMoveShouldSetPanResponder: (e, gestureState) => false,
-            onMoveShouldSetPanResponderCapture: (e, gestureState) => false,
-            onStartShouldSetPanResponder: (e, gestureState) => false,
-            onStartShouldSetPanResponderCapture: (e, gestureState) => false,
-        });
+        
+    } 
+
+    renderEmpty(){
+		if(this.state.dataResponse&&this.state.dataResponse.length>0){
+		}else{
+			return(
+				<View style={{flex:1,alignItems:'center',justifyContent: 'center',}} >
+					<Image style={{width:230,height:230}} source={require('../../images/dynamic_empty.png')}></Image>
+			   </View>	  
+			) 
+		} 
+    } 
+    
+    _onScroll(event){ 
+        listViewOffY = event.nativeEvent.contentOffset.y;
     } 
      
+    onPopOut(){
+        console.log('i am onPopOut!!')
+    }
+
+    onPressedConfig(){
+        this.props.navigation.navigate(ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG,{onGoBack:()=>this.onPopOut()})
+    }
+
+    renderDateInfo(){ 
+		// console.log('LOG ==> offY =' + listViewOffY)
+		var maxOff = listViewOffY
+        var fistItem = 0
+        // console.log('LOG ===> childHeights.length = ' + childHeights.length);
+		for(var i = 0;i<childHeights.length;i++){
+            maxOff -= childHeights[i]
+            // console.log('height:'+childHeights[i])
+			if(maxOff <= 0) {
+				fistItem = i
+				break
+			}
+		}  
+		var firstItemId = fistItem; 
+		var dataTime = '';
+		if(this.state.dataResponse.length>firstItemId){
+			var d = new Date(this.state.dataResponse[firstItemId].time);
+			dataTime = d.getDateFullString() 
+		}
+
+		return(
+			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+				 
+				<Text style={{color:'#b0dcfe'}}>{dataTime}</Text> 
+				<TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
+					<Image style = {{width:29,height:29,}} source={require('../../images/three_point.png')}></Image>
+				</TouchableOpacity>
+			</View>	
+		)
+	}
 
     render() {
         if(this.state.isLoading){
@@ -206,6 +254,7 @@ export default class TabMainScreen extends React.Component {
             return (
                 <View style = {styles.mainContainer}>
                     <NavBar onlyShowStatusBar={true}/>
+                    {this.renderDateInfo()}
                     <PullToRefreshListView
                         ref={ (component) => this._pullToRefreshListView = component }
                         viewType={PullToRefreshListView.constants.viewType.listView}
@@ -215,10 +264,11 @@ export default class TabMainScreen extends React.Component {
                         enableEmptySections={true}
                         dataSource={this.state.dataSource}
                         pageSize={20}
+                        onScroll={this._onScroll}
+				        scrollEventThrottle={8} 
                         renderRow={this._renderRow}
                         renderHeader={this._renderHeader}
-                        renderFooter={this._renderFooter}
-                        //renderSeparator={(sectionID, rowID) => <View style={styles.separator} />}
+                        renderFooter={this._renderFooter} 
                         onRefresh={this._onRefresh}
                         onLoadMore={this._onLoadMore}
                         pullUpDistance={35}
@@ -234,9 +284,17 @@ export default class TabMainScreen extends React.Component {
     }
   
 
-    _renderRow = (rowData, sectionID, rowID) => {        
+    _renderRow = (rowData, sectionID, rowID) => {     
+        
         return(
-            <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/>
+            <View onLayout={(e) => {
+				childHeights[parseInt(rowID)] = e.nativeEvent.layout.height;
+				// console.log("id = "+ rowID + "  height = " + e.nativeEvent.layout.height)
+				// console.log('childHeights length2 = ' + childHeights.length)
+				}} 
+				>
+                <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/>
+            </View>
         ) 
     } 
 
