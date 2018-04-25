@@ -18,6 +18,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StatusLike> StatusLikes { get; set; }
         public virtual DbSet<THTDeposit> THTDeposits { get; set; }
+        public virtual DbSet<THTWithdrawal> THTWithdrawals { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }

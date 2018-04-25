@@ -86,5 +86,62 @@ namespace YJY_COMMON.Service
                 scope.Complete();
             }
         }
+
+        public int NewTHTWithdrawal(int userId, int value)
+        {
+            if(value <=0)
+                throw new ArgumentOutOfRangeException();
+
+            var amount = ((decimal) value)/100;
+
+            THTWithdrawal withdrawal = null;
+
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var user = dbIsolated.Users.FirstOrDefault(o => o.Id == userId);
+                    if (user != null)
+                    {
+                        if (user.Balance < amount)
+                            throw new Exception("insufficient balance");
+
+                        if (string.IsNullOrWhiteSpace(user.THTAddress))
+                            throw new Exception("empty THT address");
+
+                        user.Balance = user.Balance - amount;
+
+                        withdrawal = new THTWithdrawal()
+                        {
+                            CreateAt = DateTime.UtcNow,
+                            To = user.THTAddress,
+                            UserId = user.Id,
+                            Value = value,
+                        };
+                        dbIsolated.THTWithdrawals.Add(withdrawal);
+
+                        dbIsolated.SaveChanges(); //save to get withdrawal auto id
+
+                        var transfer = new Transfer()
+                        {
+                            Time = DateTime.UtcNow,
+                            Amount = amount,
+                            BalanceAfter = user.Balance,
+                            Type = "THTWithdrawal",
+                            UserId = user.Id,
+                            TransactionId = withdrawal.Id, //withdrawal id should be populated
+                        };
+                        dbIsolated.Transfers.Add(transfer);
+
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
+            return withdrawal.Id;
+        }
     }
 }

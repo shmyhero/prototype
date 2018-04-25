@@ -9,4 +9,8 @@ namespace YJY_SVR.DTO.FormDTO
     {
         public string address { get; set; }
     }
+    public class NewTHTWithdrawalFormDTO
+    {
+        public int value { get; set; }
+    }
 }

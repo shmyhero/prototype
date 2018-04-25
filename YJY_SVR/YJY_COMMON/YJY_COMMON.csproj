@@ -101,6 +101,7 @@
     <Compile Include="Model\Entity\Status.cs" />
     <Compile Include="Model\Entity\StatusLike.cs" />
     <Compile Include="Model\Entity\THTDeposit.cs" />
+    <Compile Include="Model\Entity\THTWithdrawal.cs" />
     <Compile Include="Model\Entity\Transfer.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Model\Entity\UserFollow.cs" />

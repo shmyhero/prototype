@@ -57,5 +57,30 @@ namespace YJY_SVR.Controllers
 
             return true;
         }
+
+        [HttpPost]
+        [Route("THT/withdrawal")]
+        public bool THTWithdrawalConfirm(THTWithdrawalFormDTO form)
+        {
+            var authorization = Request.Headers.Authorization;
+
+            if (authorization?.Parameter == null || authorization.Parameter != CALLBACK_AUTH_TOKEN)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
+
+            if (form.index == 0)
+                throw new ArgumentOutOfRangeException();
+
+            var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == form.index);
+            if(withdrawal==null)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no such index"));
+
+            withdrawal.CallbackAt=DateTime.UtcNow;
+            withdrawal.CallbackTo = form.to;
+            withdrawal.CallbackValue = form.value;
+            
+            db.SaveChanges();
+
+            return true;
+        }
     }
 }

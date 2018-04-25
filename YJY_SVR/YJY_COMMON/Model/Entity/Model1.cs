@@ -12,7 +12,7 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<THTDeposit> THTDeposits { get; set; }
+        public virtual DbSet<THTWithdrawal> THTWithdrawals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
