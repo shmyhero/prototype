@@ -56,9 +56,8 @@ class WithdrawTokenScreen extends Component {
         var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
         return (
             <TouchableOpacity
-                onPress={()=>{alert("支付" + this.state.paymentType + ", " + this.state.withdrawValue)}}
-                style={styles.okView}
-                >
+                onPress={()=>{alert("出金" + this.state.withdrawValue)}}
+                style={styles.okView}>
                 <ImageBackground source={buttonImage}
                     style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
                     <Text style={styles.okButton}>

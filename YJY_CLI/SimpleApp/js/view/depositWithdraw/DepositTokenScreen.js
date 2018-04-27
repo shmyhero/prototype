@@ -55,14 +55,6 @@ class DepositScreen extends Component {
                         backgroundColor="transparent"
                         titleColor={'#0066cc'}
                         navigation={this.props.navigation}
-                        // viewOnRight={
-                        //     <TouchableOpacity style={{flex:1, alignItems:'flex-end'}}>
-                        //         <Text style={{marginRight:30, color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>明细</Text>
-                        //     </TouchableOpacity>
-                        // }
-                        textOnRight={"明细"}
-                        rightTextColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
-                        rightPartOnClick={()=>alert("!!")}
                         />
                 <View style={styles.contentContainer}>
                     <Image style={{height:width/15*16, width:width}} source={require("../../../images/deposit_token_image.jpg")}/>
