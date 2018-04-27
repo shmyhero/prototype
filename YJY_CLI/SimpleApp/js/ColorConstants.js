@@ -30,6 +30,7 @@ var colors = {
 	COLOR_STATIC_TEXT1:'#85b1fb',
 	COLOR_CUSTOM_BLUE:'#629af3',
 	COLOR_MAIN_THEME_BLUE: '#1b9beb',
+	COLOR_NAVBAR_BLUE_GRADIENT: ["#0094ed", "#05bcff"],
 
 	stock_color: function(change) {
 		if (change > 0) {

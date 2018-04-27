@@ -9,6 +9,7 @@ import {
     TouchableOpacity,
     Image } from 'react-native';
 import NavBar from '../component/NavBar';
+import { ViewKeys } from '../../../AppNavigatorConfiguration';
 var ColorConstants = require('../../ColorConstants')
 var PAYMENT_TYPE_WECHAT = "wechat";
 var PAYMENT_TYPE_ALIPAY = "alipay";
@@ -116,15 +117,7 @@ class DepositScreen extends Component {
                         showBackButton={true}
                         backgroundColor="transparent"
                         titleColor={'#0066cc'}
-                        navigation={this.props.navigation}
-                        // viewOnRight={
-                        //     <TouchableOpacity style={{flex:1, alignItems:'flex-end'}}>
-                        //         <Text style={{marginRight:30, color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>明细</Text>
-                        //     </TouchableOpacity>
-                        // }
-                        textOnRight={"明细"}
-                        rightTextColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
-                        rightPartOnClick={()=>alert("!!")}
+                        navigation={this.props.navigation}                                   
                         />
                 <View style={styles.contentContainer}>
                     <View style={{flexDirection:'row'}}>

@@ -2,6 +2,7 @@ package com.simpleapp;
 
 import android.app.Application;
 
+import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
 import com.github.yamill.orientation.OrientationPackage;
 import com.facebook.react.ReactNativeHost;
@@ -29,7 +30,8 @@ public class MainApplication extends Application implements ReactApplication {
           new OrientationPackage(),
           new RealmReactPackage(), // add this line
           new RCTSwipeRefreshLayoutPackage(),  //register Module
-          new NativePackage()
+          new NativePackage(),
+          new LinearGradientPackage()
       );
     }
 

@@ -137,7 +137,7 @@ export default class  UserProfileScreen extends React.Component {
     //
     return(
       <TouchableOpacity style={{borderRadius:12, backgroundColor:'#43b9f9',width:widthBtn,borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}} onPress={()=>this.followUser()}>
-        <Text style={{textAlign:'center', fontSize:12, color:'white'}}>{text}</Text>
+        <Text style={{textAlign:'center',marginTop:2,marginBottom:2, fontSize:12, color:'white'}}>{text}</Text>
       </TouchableOpacity>
       ) 
   }

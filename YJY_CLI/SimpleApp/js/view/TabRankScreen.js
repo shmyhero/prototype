@@ -23,9 +23,11 @@ var WebSocketModule = require('../module/WebSocketModule');
 var ColorConstants = require('../ColorConstants');
 var RankHeroList = require('./RankHeroList');
 var RankFollowList = require('./RankFollowList');
+var RankTradeFollowList = require('./RankTradeFollowList');
 var {height, width} = Dimensions.get('window');
-var RANKING_TYPE_0 = 0;
-var RANKING_TYPE_1 = 1;
+var RANKING_TYPE_0 = 0;//达人
+var RANKING_TYPE_1 = 1;//关注
+var RANKING_TYPE_2 = 2;//跟随
 
 const RANK_LIST = 'rankList'
 //Tab2:榜单
@@ -67,19 +69,24 @@ export default class  TabRankScreen extends React.Component {
   onPressedRankType(type){
     if(type==this.state.rankType)return;
     this.setState({
-      rankType:this.state.rankType===RANKING_TYPE_0?RANKING_TYPE_1:RANKING_TYPE_0
+      rankType:type
     }) 
   }
  
 
   renderRankTypeButton(){
-    var isLeftSelected = this.state.rankType == RANKING_TYPE_0;
-    var leftbg = isLeftSelected ? '#41bafc':'#1b9beb';
-    var leftbd = isLeftSelected ? '#41bafc':'#41bafc';
-    var rightbg = isLeftSelected ? '#1b9beb':'#41bafc';
-    var rightbd = isLeftSelected ? '#41bafc':'#41bafc'
-    var leftTextColor = isLeftSelected ? 'white':'#41bafc';
-    var rightTextColor = isLeftSelected ? '#41bafc':'white';
+
+    var leftbg = this.state.rankType == RANKING_TYPE_0 ? '#41bafc':'#1b9beb';
+    var leftbd = this.state.rankType == RANKING_TYPE_0 ? '#41bafc':'#41bafc';
+    var middlebg = this.state.rankType == RANKING_TYPE_1 ? '#41bafc':'#1b9beb';
+    var middlebd = this.state.rankType == RANKING_TYPE_1 ? '#41bafc':'#41bafc';
+    var rightbg = this.state.rankType == RANKING_TYPE_2 ? '#41bafc':'#1b9beb';
+    var rightbd = this.state.rankType == RANKING_TYPE_2 ? '#41bafc':'#41bafc';
+
+    var leftTextColor = this.state.rankType == RANKING_TYPE_0 ? 'white':'#41bafc';
+    var middleTextColor = this.state.rankType == RANKING_TYPE_1 ? 'white':'#41bafc';
+    var rightTextColor = this.state.rankType == RANKING_TYPE_2 ? 'white':'#41bafc';
+
     return(
         <View style={styles.headContainer}>
           <TouchableOpacity 
@@ -99,6 +106,17 @@ export default class  TabRankScreen extends React.Component {
             onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
             style={{flex:1,height:32, 
             alignItems:'center',
+            justifyContent:'center', 
+            backgroundColor:middlebg,
+            borderColor:middlebd,
+            borderWidth:1,
+            }}>
+            <Text style={{color:middleTextColor}}>关注</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
+            style={{flex:1,height:32, 
+            alignItems:'center',
             justifyContent:'center',
             marginLeft:-1,
             borderTopRightRadius:16,
@@ -106,7 +124,7 @@ export default class  TabRankScreen extends React.Component {
             backgroundColor:rightbg,
             borderColor:rightbd,
             borderWidth:1,}}>
-            <Text style={{color:rightTextColor}}>关注</Text>
+            <Text style={{color:rightTextColor}}>跟随</Text>
           </TouchableOpacity>
         </View> 
        
@@ -119,6 +137,17 @@ export default class  TabRankScreen extends React.Component {
     }else if(this.state.rankType == RANKING_TYPE_1){
       if(this.state.isLoggedIn){
         return(<RankFollowList navigation={this.props.navigation}/>)
+      }else{
+        return (<LoginScreen hideBackButton={true}
+          onLoginFinished={()=>{
+            this.setState({
+              isLoggedIn:true,
+            })}
+        }/>)
+      }
+    }else if(this.state.rankType == RANKING_TYPE_2){
+      if(this.state.isLoggedIn){
+        return(<RankTradeFollowList navigation={this.props.navigation}/>)
       }else{
         return (<LoginScreen hideBackButton={true}
           onLoginFinished={()=>{
@@ -153,7 +182,7 @@ const styles = StyleSheet.create({
     headContainer:{
       marginBottom:5,
       height:32,
-      width:128,
+      width:192,
       alignSelf:'center',
       justifyContent:'center',
       alignItems:'center', 

@@ -159,7 +159,7 @@ export default class TabMainScreen extends React.Component {
                         })
                     }
                 }else{
-                    console.log("responseJson", responseJson)
+                    console.log("tab main screen responseJson", responseJson)
                     for(var i = 0; i < responseJson.length; i++){
                         responseJson[i].isNew = false;
                     } 
@@ -237,9 +237,9 @@ export default class TabMainScreen extends React.Component {
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
 				<Text style={{color:'#b0dcfe'}}>{dataTime}</Text> 
-				<TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
+				{/* <TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
 					<Image style = {{width:29,height:29,}} source={require('../../images/three_point.png')}></Image>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>	
 		)
 	}

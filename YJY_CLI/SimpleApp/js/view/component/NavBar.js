@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 var ColorPropType = require('ColorPropType');
+import LinearGradient from 'react-native-linear-gradient'
 import {
     View, 
     Text,
@@ -41,10 +42,11 @@ class NavBar extends Component {
 		titleOpacity: PropTypes.number,
 		subTitle: PropTypes.string,
 		subTitleStyle: Text.propTypes.style,
-		backgroundColor: ColorPropType,
 		barStyle: ViewPropTypes.style,		
 		hideStatusBar: PropTypes.bool,
 		onlyShowStatusBar: PropTypes.bool,
+		backgroundColor: ColorPropType,
+		backgroundGradientColor:PropTypes.arrayOf(ColorPropType),
     }
     
     static defaultProps = {
@@ -62,54 +64,72 @@ class NavBar extends Component {
         backButtonOnClick: null,
         title: "详情",
         subTitle: null,
-        backgroundColor: null,
         rightCustomContent: null,
         enableRightText: true,
         hideStatusBar: false,
         onlyShowStatusBar: false,
-        titleOpacity: 1,
+		titleOpacity: 1,
+        backgroundColor: null,
+		backgroundGradientColor: null,
     }
 
     backOnClick(){
-		if(this.props.leftPartOnClick && this.props.leftPartOnClick()){
+		console.log("backOnClick")
+		console.log(this.props.rightPartOnClick)
+		console.log(this.props.leftPartOnClick)
+		if(this.props.leftPartOnClick){
+			console.log("this.props.leftPartOnClick")
 			this.props.leftPartOnClick();
 		}
-		if(this.props.navigation && this.props.navigation.goBack){
-			this.props.navigation.goBack(null);
+		else if(this.props.navigation && this.props.navigation.goBack){
+			console.log("this.props.navigation.goBack")
+			if(this.props.navigation.state.params && this.props.navigation.state.params.backFrom){
+				this.props.navigation.goBack(this.props.navigation.state.params.backFrom)
+			}else{                            
+				this.props.navigation.goBack(null)
+			}
 		}
     }
 
     render() {
         var {height,width} = Dimensions.get('window');
 
+		var colorList = null
         var backgroundColor = ColorConstants.COLOR_MAIN_THEME_BLUE;
 		if(this.props.backgroundColor){
 			backgroundColor = this.props.backgroundColor;
-        }
-        var navBarColor = ColorConstants.COLOR_MAIN_THEME_BLUE;
+		}
+		
+		var navBarColor = ColorConstants.COLOR_MAIN_THEME_BLUE;
 		if(this.props.backgroundColor && this.props.backgroundColor !== "transparent"){
 			//Which means the background doesn't have an alpha channel
-			navBarColor = this.props.backgroundColor;
+			navBarColor = backgroundColor;
 		}
 
-		if(this.props.onlyShowStatusBar){
-			return this.renderStatusBar(navBarColor);
-		}else{
+		if (this.props.backgroundGradientColor != null){
 			return (
-				<View style={[
-					styles.container, 
-					{
-						backgroundColor: backgroundColor,
-						width: width,
-					},]}>
-					{this.renderStatusBar(navBarColor)}
+				<LinearGradient start={{x: 0.0, y: 0}} end={{x: 1.0, y: 0}} colors={this.props.backgroundGradientColor} 
+					style={[styles.container, {width: width}]}>
+					{this.renderStatusBar("transparent")}
 					{this.renderLeftPart()}
 					{this.renderTitle()}
 					{this.renderRightPart()}
-				</View>
+				</LinearGradient>
 			);
-		}        
-    }
+		} else if(this.props.onlyShowStatusBar){
+			return this.renderStatusBar(navBarColor);
+		} else{
+			return (
+			<View colors={colorList} style={[styles.container, 
+				{backgroundColor: backgroundColor, width: width}]}>
+				{this.renderStatusBar(navBarColor)}
+				{this.renderLeftPart()}
+				{this.renderTitle()}
+				{this.renderRightPart()}
+			</View>
+			);
+		}     
+	}	
 
     renderStatusBar(navBarColor){
 		if (Platform.OS === "android"){
@@ -203,7 +223,7 @@ class NavBar extends Component {
 		if (this.props.textOnLeft !== null) {
 			return (
 				<TouchableOpacity
-					onPress={()=> this.props.leftPartOnClick && this.props.leftPartOnClick()}>
+					onPress={()=>this.backOnClick()}>
 
 					<Text style={styles.textOnLeft}>
 						{this.props.textOnLeft}
