@@ -30,7 +30,7 @@ namespace YJY_SVR.Controllers
             if (authorization?.Parameter == null || authorization.Parameter != CALLBACK_AUTH_TOKEN)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
 
-            if (form.index == 0 || string.IsNullOrWhiteSpace(form.from))
+            if (form.index == 0 || string.IsNullOrWhiteSpace(form.from) || form.value<=0)
                 throw new ArgumentOutOfRangeException();
 
             var deposit = new THTDeposit()
