@@ -123,6 +123,7 @@ class PublishTweetScreen extends Component {
                         title={"发布状态"} showBackButton={true} navigation={this.props.navigation}
                         leftPartOnClick={()=>{
                             Keyboard.dismiss();
+                            this.props.navigation.goBack(null);
                         }}
                         textOnRight={"发布"}
                         rightPartOnClick={()=>this.pressCommitButton()}

@@ -8,11 +8,14 @@ import {
   Platform,
   Dimensions,
   ScrollView,
-  ImageBackground
+  ImageBackground,
+  TouchableOpacity
 } from 'react-native';
 
+import LinearGradient from 'react-native-linear-gradient'
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import FollowScreen from './FollowScreen';
 var ColorConstants = require('../ColorConstants');
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
@@ -36,6 +39,10 @@ export default class  UserProfileTabMain extends React.Component {
     this.refs['profitTrendCharts'].refresh();
   }
 
+  onFollowPressed(){
+    this.followScreen.show()
+  }
+
   render() {
 
     var bgWidth = width-20; 
@@ -53,7 +60,20 @@ export default class  UserProfileTabMain extends React.Component {
           <ImageBackground style={{marginTop:10,marginBottom:10,height:180,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
             <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
-        </ScrollView>  
+        </ScrollView>
+        <TouchableOpacity style={{height: 100, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
+          onPress={()=>this.onFollowPressed()}>
+          <LinearGradient 
+            start={{x:0.0, y:0}}
+            end={{x:1.0, y:0.0}}
+            style={{flex:1, alignItems:'center', justifyContent:'center'}}
+            colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
+            <Text style={{color:'white', fontSize:20}}>
+              跟随
+            </Text>
+          </LinearGradient>
+        </TouchableOpacity>
+        <FollowScreen ref={(ref)=> this.followScreen = ref}/>
       </View> 
     );
   }
