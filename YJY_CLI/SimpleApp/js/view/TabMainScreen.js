@@ -159,7 +159,7 @@ export default class TabMainScreen extends React.Component {
                         })
                     }
                 }else{
-                    console.log("responseJson", responseJson)
+                    console.log("tab main screen responseJson", responseJson)
                     for(var i = 0; i < responseJson.length; i++){
                         responseJson[i].isNew = false;
                     } 

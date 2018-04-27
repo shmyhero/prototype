@@ -52,8 +52,7 @@ class DepositScreen extends Component {
             <View style={styles.container}>
                 <NavBar title="入金"
                         showBackButton={true}
-                        backgroundColor="transparent"
-                        titleColor={'#0066cc'}
+                        backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}                       
                         navigation={this.props.navigation}
                         />
                 <View style={styles.contentContainer}>

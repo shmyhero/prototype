@@ -17,9 +17,10 @@ class WithdrawTokenScreen extends Component {
 
         this.state = {
             balance: 122,
-            withdrawStringValue: "324234",
+            withdrawStringValue: "",
             withdrawValue: 0,
             isAgreementRead: false,
+            purseAddress: "0XBASFEWR$@#VF123fgdfg@#FGEWRTERDFGGERTY#12gGEWETRWT4gAW",
         }
     }
 
@@ -51,19 +52,25 @@ class WithdrawTokenScreen extends Component {
         this.setState(state)
     }
 
+    deposit(){
+        if(this.isReadyToPay()){
+            alert("出金" + this.state.withdrawValue);
+        }
+    }
+
     renderConfirmButton(){
         var buttonEnabled = this.isReadyToPay();
         var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
         return (
             <TouchableOpacity
-                onPress={()=>{alert("出金" + this.state.withdrawValue)}}
+                onPress={()=>this.deposit()}
                 style={styles.okView}>
-                <ImageBackground source={buttonImage}
+                {/* <ImageBackground source={buttonImage}
                     style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
                     <Text style={styles.okButton}>
                         确认出金
                     </Text>
-                </ImageBackground>
+                </ImageBackground> */}
             </TouchableOpacity>
         );
     }
@@ -81,30 +88,30 @@ class WithdrawTokenScreen extends Component {
                         isAgreementRead: !this.state.isAgreementRead
                     })
                 }}>
-                <Image style={{height:15, width:15}}
-                    source={checkIcon}/>
-                <Text>
-                    我已经阅读并同意
-                    {/* <TouchableOpacity style={{width:150, height:11, }}> */}
-                        <Text style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>《购买糖果协议内容》</Text>
-                    {/* </TouchableOpacity> */}
-                    。
-                </Text>
+                <View style={{flexDirection:'row', }}>
+                    <Image style={{height:15, width:15}}
+                        source={checkIcon}/>
+                    <Text>
+                        我已经阅读并同意
+                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>《购买糖果协议内容》</Text>
+                        。
+                    </Text>                   
+                </View>
             </TouchableOpacity>);
     }
 
     render() {
         return (
             <View style={styles.container}>
-                 <NavBar title="出金"
-                        showBackButton={true}
-                        backgroundColor="transparent"
-                        titleColor={'#7d7d7d'}
-                        navigation={this.props.navigation}/>
+                <NavBar title="出金"
+                    showBackButton={true}
+                    backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
+                    navigation={this.props.navigation}
+                    />
                 <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
                     <View style={styles.rowContainer}>
                         <Text style={{fontSize:17}}>我的收款地址</Text>
-                        <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>0XBASFEWR$@#VF123fgdfg@#FGEWRTERDFGGERTY#12gGEWETRWT4gAW</Text>
+                        <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.state.purseAddress}</Text>
                     </View>
 
                     <View style={styles.rowContainer}>
@@ -112,16 +119,17 @@ class WithdrawTokenScreen extends Component {
                         <View style={styles.depositValueRow}>
                             <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>糖果</Text>
                             <TextInput 
+                                underlineColorAndroid={"transparent"}
                                 style={{fontSize:40, flex:1,}}
                                 onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
-                                withdrawValue={this.state.withdrawStringValue}/>
+                                value={this.state.withdrawStringValue}/>
                         </View>
-                        <Text style={{color:"#7d7d7d", fontSize:14}}>
+                        {/* <Text style={{color:"#7d7d7d", fontSize:14}}>
                             {"可出资金："+this.state.balance+"糖果，"}
                             <TouchableOpacity style={{height:13, width:100}} onPress={()=>this.onWithdrawAllPressed()}>
                                 <Text style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>全部出金</Text>
                             </TouchableOpacity>
-                        </Text>
+                        </Text> */}
                     </View>
                     <View style={{flex:1}}/>
                     {this.renderAgreement()}
@@ -165,7 +173,7 @@ const styles = StyleSheet.create({
         borderWidth: 1, 
         borderColor: "#dddddd",
         borderRadius: 10,
-        marginBottom: 15,
+        marginTop: 15,
     }
 });
 

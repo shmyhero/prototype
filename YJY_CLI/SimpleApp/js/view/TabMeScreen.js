@@ -127,6 +127,10 @@ class  TabMeScreen extends React.Component {
   );
   }
 
+  showTokenDetail(){
+    this.props.navigation.navigate(ViewKeys.SCREEN_TOKEN_DETAIL);
+  }
+
   showHelp(){
     this.props.navigation.navigate(ViewKeys.SCREEN_HELP);
   }
@@ -244,7 +248,7 @@ class  TabMeScreen extends React.Component {
                   rightPartOnClick={()=>this.showMessage()}/>
           {this.renderPortrait()}
           {this.renderBalance()}
-          {this.renderButton("资金明细", require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.showHelp())}          
+          {this.renderButton("资金明细", require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.showTokenDetail())}          
           {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
           {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
           {this.renderExitButton()}

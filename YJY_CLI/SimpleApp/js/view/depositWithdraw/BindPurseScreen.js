@@ -42,7 +42,9 @@ class BindPurseScreen extends Component {
 
     bindCard(){
         //TODO: bind card API
-        this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {backFrom: this.props.navigation.state.key});
+        if(this.isReadyToBind()){
+            this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {backFrom: this.props.navigation.state.key});
+        }
     }
 
     renderConfirmButton(){
@@ -66,17 +68,19 @@ class BindPurseScreen extends Component {
         return (
             <View style={styles.container}>                
                 <View style={{flex:1}}>
-                    <Image style={styles.headerBackground} source={require('../../../images/rank_bg_all.png')}></Image>
+                    <Image style={styles.headerBackground} source={require('../../../images/rank_bg_all.png')}/>
                     <View style={styles.contentContainer}>
                         <View style={styles.rowContainer}>
-                            <Text style={{fontSize:17}}>请输入/粘贴钱包地址</Text>
+                            <Text style={{fontSize:15, color:"#7d7d7d"}}>请输入/粘贴钱包地址</Text>
                             <TextInput 
-                                style={{height: 100, }}
+                                underlineColorAndroid={"transparent"}
+                                style={{height: 50, }}
+                                multiline={true}
                                 onChangeText={(purseAddress)=>this.updateAddress(purseAddress)}
                                 value={this.state.purseAddress}/>
                         </View>
                         <View style={styles.hintContainer}>
-                            <Text>
+                            <Text style={{fontSize:15, color:"#7d7d7d"}}>
                                 绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！
                             </Text>
                         </View>
@@ -103,6 +107,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
+        backgroundColor: 'white'
     },
     contentContainer:{
         padding: 15, 
@@ -121,7 +126,7 @@ const styles = StyleSheet.create({
         flexDirection: 'column'
     },
     hintContainer:{
-        marginTop: 50,
+        marginTop: 30,
     },
     okView: {
 		width: 332,
