@@ -10,6 +10,8 @@ import {
 import NavBar from '../component/NavBar';
 var ColorConstants = require('../../ColorConstants')
 import LogicData from "../../LogicData";
+var NetworkModule = require("../../module/NetworkModule");
+var NetConstants = require("../../NetConstants");
 var {height, width} = Dimensions.get('window');
 
 // create a component
@@ -35,41 +37,63 @@ class TokenDetailScreen extends Component {
 
     fetchData(){
         //TODO: use real data
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+            NetConstants.CFD_API.TOKEN_DETAIL,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                    'Content-Type': 'application/json; charset=UTF-8'
+                },
+            },(responseJson)=>{
+                // { amount: 900,
+                //     balanceAfter: 97840.08815195,
+                //     time: '2018-04-28T06:08:54.16',
+                //     type: '出金' },
+                this.setState({
+                    stockInfoRowData:responseJson
+                });
 
-        this.setState({
-            stockInfoRowData: [ { transferType: '出金',
-            date: '2018-03-01 19:39:12',
-            amount: -650,
-            color: '#000000' },
-          { transferType: '交易金入金',
-            date: '2017-06-13 17:03:20',
-            amount: 9.92,
-            color: '#1c8d13' },
-          { transferType: '转账',
-            date: '2017-02-16 19:58:01',
-            amount: 100,
-            color: '#1c8d13' },
-          { transferType: '手续费',
-            date: '2017-02-16 19:46:39',
-            amount: -2.1,
-            color: '#000000' },
-          { transferType: '入金',
-            date: '2017-02-15 22:45:25',
-            amount: 210,
-            color: '#1c8d13' },
-          { transferType: '手续费',
-            date: '2017-02-14 17:31:01',
-            amount: -1.44,
-            color: '#000000' },
-          { transferType: '入金',
-            date: '2017-02-14 13:46:16',
-            amount: 144,
-            color: '#1c8d13' },
-          { transferType: '出金受理',
-            date: '2017-02-13 19:30:44',
-            amount: -87.12,
-            color: '#1c8d13' } ]
-        })
+                console.log("responseJson", responseJson)
+            },()=>{
+
+            });
+
+        // this.setState({
+        //     stockInfoRowData: [ { transferType: '出金',
+        //     date: '2018-03-01 19:39:12',
+        //     amount: -650,
+        //     color: '#000000' },
+        //   { transferType: '交易金入金',
+        //     date: '2017-06-13 17:03:20',
+        //     amount: 9.92,
+        //     color: '#1c8d13' },
+        //   { transferType: '转账',
+        //     date: '2017-02-16 19:58:01',
+        //     amount: 100,
+        //     color: '#1c8d13' },
+        //   { transferType: '手续费',
+        //     date: '2017-02-16 19:46:39',
+        //     amount: -2.1,
+        //     color: '#000000' },
+        //   { transferType: '入金',
+        //     date: '2017-02-15 22:45:25',
+        //     amount: 210,
+        //     color: '#1c8d13' },
+        //   { transferType: '手续费',
+        //     date: '2017-02-14 17:31:01',
+        //     amount: -1.44,
+        //     color: '#000000' },
+        //   { transferType: '入金',
+        //     date: '2017-02-14 13:46:16',
+        //     amount: 144,
+        //     color: '#1c8d13' },
+        //   { transferType: '出金受理',
+        //     date: '2017-02-13 19:30:44',
+        //     amount: -87.12,
+        //     color: '#1c8d13' } ]
+        // })
     }
 
 	refresh(){
@@ -121,8 +145,8 @@ class TokenDetailScreen extends Component {
         return (
             <View style={styles.rowContainer}>
                 <View style={styles.rowHeaderContainer}>
-                    <Text style={{fontSize:17}}>{rowData.item.transferType}</Text>
-                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{rowData.item.date}</Text>
+                    <Text style={{fontSize:17}}>{rowData.item.type}</Text>
+                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{rowData.item.time}</Text>
                 </View>
                 <View style={{alignItems:'flex-end', justifyContent:'center', flex:1, flexDirection:'column'}}>
                     <Text style={{fontSize:17, color: rowData.item.color}}>{rowData.item.amount}</Text>
@@ -161,7 +185,8 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        width:width
+        width:width,
+        backgroundColor: 'white'
     },
     rowContainer: {
         padding: 15, 

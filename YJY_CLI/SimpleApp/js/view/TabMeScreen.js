@@ -140,19 +140,17 @@ class  TabMeScreen extends React.Component {
   }
 
   showDeposit(){
-    if(LogicData.getUserData()){
-      var address = true;
-      //var address = LogicData.getUserData().getAddress()
-      if(address){
-        this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE);
-      }else{
-        this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
-      }
+    var meData = LogicData.getMeData()
+    if(meData.thtAddress){
+      this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
+    }else{
+       this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE);
     }
   }
 
   showWithdraw(){
-    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW);
+    var meData = LogicData.getMeData()
+    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW, {address: meData.thtAddress});
   }
 
   showMessage(){

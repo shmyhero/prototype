@@ -93,7 +93,7 @@ class FollowScreen extends Component {
     renderPicker(title, stateKey, availableKey){
         var pickerItems = this.state[availableKey].map( (value, index, array)=>{
             return (
-                <Picker.Item label={""+value} value={value} index={index}/>
+                <Picker.Item label={""+value} value={value} key={index}/>
             );
         })
         return(
@@ -120,7 +120,7 @@ class FollowScreen extends Component {
                 <ImageBackground source={buttonImage}
                     style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
                     <Text style={styles.okButton}>
-                        确认
+                        确定
                     </Text>
                 </ImageBackground>
             </TouchableOpacity>

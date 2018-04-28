@@ -7,12 +7,19 @@ import { View,
     Dimensions,
     TextInput,
     TouchableOpacity,
-    ImageBackground
+    ImageBackground,
+    Platform
 } from 'react-native';
 import NavBar from "../component/NavBar";
 var ColorConstants = require("../../ColorConstants");
 var {height,width} = Dimensions.get('window');
 import { ViewKeys } from '../../../AppNavigatorConfiguration';
+import LinearGradient from 'react-native-linear-gradient'
+var UIConstants = require("../../UIConstants");
+var NetworkModule = require("../../module/NetworkModule");
+var NetConstants = require("../../NetConstants");
+import LogicData from "../../LogicData";
+import SubmitButton from "../component/SubmitButton";
 
 // create a component
 class BindPurseScreen extends Component {
@@ -21,12 +28,27 @@ class BindPurseScreen extends Component {
         super(props)
 
         this.state = {
-            purseAddress: ""
+            purseAddress: "",
+            isButtonEnable: false,
+            necessaryAddressLength: 42,
+            isRequestSending: false,
         }
     }
 
+    updateButtonStatus(){
+        this.setState({
+            isButtonEnable: this.isReadyToBind()
+        })
+    }
+
+    componentDidMount(){
+        this.textInputRef && this.textInputRef.focus()
+    }
+
     isReadyToBind(){
-        if(this.state.purseAddress && this.state.purseAddress.length > 0){
+        if(this.state.purseAddress 
+            && this.state.purseAddress.length == this.state.necessaryAddressLength
+            && !this.state.isRequestSending){
             return true;
         }else{
             return false;
@@ -37,55 +59,77 @@ class BindPurseScreen extends Component {
         var state = {
             purseAddress: purseAddress
         };        
-        this.setState(state)
+        this.setState(state, ()=>this.updateButtonStatus());
     }
 
     bindCard(){
-        //TODO: bind card API
-        if(this.isReadyToBind()){
-            this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {backFrom: this.props.navigation.state.key});
-        }
-    }
+        this.setState({
+            isRequestSending: true,
+        }, ()=>{
+            this.updateButtonStatus();
+            var userData = LogicData.getUserData();
 
-    renderConfirmButton(){
-        var buttonEnabled = this.isReadyToBind();
-        var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
-        return (
-            <TouchableOpacity
-                onPress={()=>this.bindCard()}
-                style={styles.okView}>
-                <ImageBackground source={buttonImage}
-                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                    <Text style={styles.okButton}>
-                        确认绑定
-                    </Text>
-                </ImageBackground>
-            </TouchableOpacity>
-        );
+            NetworkModule.fetchTHUrl(
+                NetConstants.CFD_API.BIND_PURSE_ADDRESS,
+                {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify({
+                        "address": this.state.purseAddress,
+                    }),
+                },
+                (response )=>{
+                    this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {backFrom: this.props.navigation.state.key});
+                },
+                (error)=>{
+                    alert(error.errorMessage)
+                    this.setState({
+                        isRequestSending: false,
+                    }, ()=>{
+                        this.updateButtonStatus();
+                    });
+                });
+        })
+
     }
     
     render() {
         return (
             <View style={styles.container}>                
                 <View style={{flex:1}}>
-                    <Image style={styles.headerBackground} source={require('../../../images/rank_bg_all.png')}/>
+                    <LinearGradient
+                        start={{x:0.0, y:0}}
+                        end={{x:1.0, y:0.0}}
+                        style={{height: UIConstants.HEADER_HEIGHT + 50, width:width, alignItems:'center', justifyContent:'flex-end'}}
+                        colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
+                        <View style={{height:50, alignItems:'center', justifyContent:'center'}}>
+                            <Image style={{height:35, width:170}} source={require("../../../images/bind_purse_address_hint.png")}/>
+                        </View>
+                    </LinearGradient>
                     <View style={styles.contentContainer}>
                         <View style={styles.rowContainer}>
-                            <Text style={{fontSize:15, color:"#7d7d7d"}}>请输入/粘贴钱包地址</Text>
-                            <TextInput 
+                            <Text style={{fontSize:13, color:"#5a5a5a"}}>请输入/粘贴钱包地址</Text>
+                            <TextInput
+                                ref={(ref)=>this.textInputRef = ref}
                                 underlineColorAndroid={"transparent"}
-                                style={{height: 50, }}
+                                style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:15, color:"#000000"}}
                                 multiline={true}
+                                maxLength={this.state.necessaryAddressLength}
                                 onChangeText={(purseAddress)=>this.updateAddress(purseAddress)}
                                 value={this.state.purseAddress}/>
                         </View>
                         <View style={styles.hintContainer}>
-                            <Text style={{fontSize:15, color:"#7d7d7d"}}>
+                            <Text style={{fontSize:13, color:"#cccccc"}}>
                                 绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！
                             </Text>
                         </View>
                         <View style={{flex:1}}></View>
-                        {this.renderConfirmButton()}
+                        <SubmitButton onPress={()=>this.bindCard()}
+                            enable={this.state.isButtonEnable}
+                            text={"确认绑定"} />
                     </View>
                 </View>
                 <View style={{position:'absolute', top:0, left:0, right:0, width: width, height:100}}>

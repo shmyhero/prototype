@@ -15,6 +15,7 @@ import StockSearchScreen from './js/view/StockSearchScreen';
 import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 import BindPurseScreen from './js/view/depositWithdraw/BindPurseScreen';
 import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
+import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -44,6 +45,7 @@ const ViewKeys = {
     SCREEN_MESSAGE: "MessageScreen",
     SCREEN_DEPOSIT: "DepositTokenScreen",
     SCREEN_WITHDRAW: "WithdrawTokenScreen",
+    SCREEN_WITHDRAW_SUBMITTED: "WithdrawSubmittedPage",
     SCREEN_TWEET: "TweetScreen",
     SCREEN_STOCK_SEARCH: "StockSearchScreen",
     SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
@@ -159,6 +161,7 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW_SUBMITTED] = {screen: WithdrawSubmittedPage}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}

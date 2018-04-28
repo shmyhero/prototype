@@ -36,6 +36,10 @@ export let CFD_API = {
   PUBLISH_TWEET: CFD_API_SERVER+"/api/status",
   USER_DYNAMIC_LIST:CFD_API_SERVER+'/api/user/<id>/status',
   DO_DYNAMIC_LIKE:CFD_API_SERVER+'/api/status/<id>/like',
+  BIND_PURSE_ADDRESS:CFD_API_SERVER+'/api/fund/THT/address',
+  WITHDRAW_BALANCE:CFD_API_SERVER + '/api/fund/THT/withdrawal',
+  TH_PURSE_ADDRESS:CFD_API_SERVER + '/api/fund/THT/serverAddress',
+  TOKEN_DETAIL:CFD_API_SERVER + '/api/fund/transfer',
 }
     
  
