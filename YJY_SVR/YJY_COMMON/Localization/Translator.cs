@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading;
@@ -43,6 +44,23 @@ namespace YJY_COMMON.Localization
             //    return first.Value;
             //else
             //    return str;
+        }
+
+        public static string GetTransferTypeDescription(string transferType)
+        {
+            switch (transferType)
+            {
+                case "Open":
+                    return "开仓";
+                case "Close":
+                    return "平仓";
+                case "THTDeposit":
+                    return "入金";
+                case "THTWithdrawal":
+                    return "出金";
+                default:
+                    throw new ArgumentOutOfRangeException();
+            }
         }
 
         public static string RemoveENameSuffix(string name)

@@ -11,4 +11,16 @@ namespace YJY_SVR.DTO
 
         public decimal total { get; set; }
     }
+    public class THTAddressDTO
+    {
+        public string address { get; set; }
+    }
+
+    public class TransferDTO
+    {
+        public decimal amount { get; set; }
+        public decimal balanceAfter { get; set; }
+        public DateTime time { get; set; }
+        public string type { get; set; }
+    }
 }

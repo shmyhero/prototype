@@ -6,7 +6,9 @@ using System.Net;
 using System.Net.Http;
 using System.Web;
 using System.Web.Http;
+using AutoMapper;
 using Newtonsoft.Json.Linq;
+using YJY_COMMON;
 using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Service;
@@ -22,7 +24,7 @@ namespace YJY_SVR.Controllers
     [RoutePrefix("api/fund")]
     public class FundController : YJYController
     {
-        public FundController(YJYEntities db) : base(db)
+        public FundController(YJYEntities db, IMapper mapper) : base(db,mapper)
         {
         }
 
@@ -46,6 +48,20 @@ namespace YJY_SVR.Controllers
             };
         }
 
+        [HttpGet]
+        [Route("transfer")]
+        [BasicAuth]
+        public List<TransferDTO> GetTransferHistory(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
+        {
+            var transfers =
+                db.Transfers.Where(o => o.UserId == UserId)
+                    .OrderByDescending(o => o.Time)
+                    .Skip((pageNum - 1)*pageSize)
+                    .Take(pageSize)
+                    .ToList();
+            return transfers.Select(o => Mapper.Map<TransferDTO>(o)).ToList();
+        }
+
         [HttpPut]
         [Route("THT/address")]
         [BasicAuth]
@@ -55,6 +71,16 @@ namespace YJY_SVR.Controllers
             fundService.SetTHTAddress(UserId, form.address);
 
             return new ResultDTO(true);
+        }
+
+        [HttpGet]
+        [Route("THT/address")]
+        [BasicAuth]
+        public THTAddressDTO GetTHTAddress()
+        {
+            var user = GetUser();
+
+            return new THTAddressDTO() {address = user.THTAddress};
         }
 
         [HttpPost]
