@@ -23,6 +23,7 @@ import TabMarketScreen from './js/view/TabMarketScreen';
 var TabRankScreen = require('./js/view/TabRankScreen');
 import TabPositionScreen from './js/view/TabPositionScreen';
 import TabMeScreen from './js/view/TabMeScreen';
+import FollowScreen from './js/view/FollowScreen';
 var SplashScreen = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
 
@@ -48,6 +49,7 @@ const ViewKeys = {
     SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
     SCREEN_BIND_PURSE: "BindPurseScreen",
     SCREEN_TOKEN_DETAIL: "TokenDetailScreen",
+    SCREEN_FOLLOW: "FollowScreen",
 }
 
 var mainTabNavigatorConfiguration = {}
@@ -162,6 +164,12 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: Stoc
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_BIND_PURSE] = {screen: BindPurseScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TOKEN_DETAIL] = {screen: TokenDetailScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {screen: FollowScreen,
+    navigationOptions: {
+        mode: 'modal', // Remember to set the root navigator to display modally.
+        headerMode: 'none', // This ensures we don't get two top bars.
+    }
+}
 
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  
