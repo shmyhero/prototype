@@ -88,12 +88,12 @@ namespace YJY_COMMON.Service
             }
         }
 
-        public int NewTHTWithdrawal(int userId, int value)
+        public int NewTHTWithdrawal(int userId, decimal amount)
         {
-            if(value <=0)
+            if(amount <= 0)
                 throw new ArgumentOutOfRangeException();
 
-            var amount = ((decimal) value)/100;
+            //var amount = ((decimal) value)/100;
 
             THTWithdrawal withdrawal = null;
 
@@ -119,7 +119,7 @@ namespace YJY_COMMON.Service
                             CreateAt = DateTime.UtcNow,
                             To = user.THTAddress,
                             UserId = user.Id,
-                            Value = value,
+                            Value = (int?) (amount*100),
                         };
                         dbIsolated.THTWithdrawals.Add(withdrawal);
 

@@ -11,6 +11,7 @@ namespace YJY_SVR.DTO.FormDTO
     }
     public class NewTHTWithdrawalFormDTO
     {
-        public int value { get; set; }
+        //public int value { get; set; }
+        public decimal amount { get; set; }
     }
 }

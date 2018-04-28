@@ -99,7 +99,7 @@ namespace YJY_SVR.Controllers
         public ResultDTO NewTHTWithdrawal(NewTHTWithdrawalFormDTO form)
         {
             var fundService = new FundService(db);
-            var withdrawalId = fundService.NewTHTWithdrawal(UserId, form.value);
+            var withdrawalId = fundService.NewTHTWithdrawal(UserId,form.amount);
 
             var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == withdrawalId);
 
