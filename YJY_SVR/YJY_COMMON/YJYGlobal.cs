@@ -28,6 +28,8 @@ namespace YJY_COMMON
         public const string ASSET_CLASS_INDEX = "Stock Indices";
         public const string ASSET_CLASS_COMMODITY = "Commodities";
 
+        public const string THT_COMPANY_ADDRESS = "0xa6b52d348bff523a22c17639967ad8f8409f136f";
+
         /// <summary>
         /// the default application-wide PooledRedisClientsManager
         /// </summary>

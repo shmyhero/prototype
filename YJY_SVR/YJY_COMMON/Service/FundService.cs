@@ -31,6 +31,7 @@ namespace YJY_COMMON.Service
                     var user = dbIsolated.Users.FirstOrDefault(o => o.Id == userId);
                     if (user != null && user.THTAddress != address)
                     {
+                        //make sure no duplicated THT addresses in database
                         if (!string.IsNullOrWhiteSpace(address) && dbIsolated.Users.Any(o => o.THTAddress == address))
                         {
                             throw new ArgumentException("address existed");

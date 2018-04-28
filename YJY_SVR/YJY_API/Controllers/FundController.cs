@@ -67,6 +67,9 @@ namespace YJY_SVR.Controllers
         [BasicAuth]
         public ResultDTO SetTHTAddress(THTAddressFormDTO form)
         {
+            if(string.IsNullOrWhiteSpace(form.address)||form.address==YJYGlobal.THT_COMPANY_ADDRESS)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid address"));
+
             var fundService = new FundService(db);
             fundService.SetTHTAddress(UserId, form.address);
 
