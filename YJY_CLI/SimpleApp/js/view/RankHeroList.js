@@ -123,9 +123,10 @@ export default class  RankHeroList extends React.Component {
             return(
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
                     <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
-                        <View style={{flexDirection:'row',alignItems:'center'}}>
-                              
-                            <Image style={{height:34,width:34,marginLeft:28,marginBottom:5,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+                        <View style={{flexDirection:'row',alignItems:'center'}}> 
+                            <View style={{height:34,width:34,marginLeft:28,marginBottom:5,}}>
+                                <Image style={{height:34,width:34,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+                            </View>    
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
