@@ -92,11 +92,11 @@ namespace YJY_SVR.Controllers
         [HttpGet]
         [Route("me")]
         [BasicAuth]
-        public UserBaseDTO GetMe()
+        public MeDTO GetMe()
         {
             var user = GetUser();
 
-            var userDto = Mapper.Map<UserBaseDTO>(user);
+            var userDto = Mapper.Map<MeDTO>(user);
 
             return userDto;
         }

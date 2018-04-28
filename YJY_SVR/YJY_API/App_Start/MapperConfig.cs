@@ -40,7 +40,7 @@ namespace YJY_API
                 .ForMember(dest => dest.isLong, opt => opt.MapFrom(src => src.Side))
                 .ForMember(dest=>dest.createAt,opt=>opt.MapFrom(src=>src.CreateTime));
 
-                cfg.CreateMap<User, UserDTO>();
+                //cfg.CreateMap<User, MeDTO>();
 
                 cfg.CreateMap<Transfer, TransferDTO>()
                 .ForMember(dest=>dest.type, opt => opt.MapFrom(src =>Translator.GetTransferTypeDescription(src.Type)));

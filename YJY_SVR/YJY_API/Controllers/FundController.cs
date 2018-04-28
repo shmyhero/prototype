@@ -86,6 +86,13 @@ namespace YJY_SVR.Controllers
             return new THTAddressDTO() {address = user.THTAddress};
         }
 
+        [HttpGet]
+        [Route("THT/serverAddress")]
+        public THTAddressDTO GetTHTServerAddress()
+        {
+           return new THTAddressDTO() { address = YJYGlobal.THT_COMPANY_ADDRESS };
+        }
+
         [HttpPost]
         [Route("THT/withdrawal")]
         [BasicAuth]

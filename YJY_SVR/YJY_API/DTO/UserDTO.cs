@@ -21,6 +21,11 @@ namespace YJY_SVR.DTO
         public string picUrl { get; set; }
     }
 
+    public class MeDTO:UserBaseDTO
+    {
+       public string thtAddress { get; set; }
+    }
+
     public class UserRankDTO : UserBaseDTO
     { 
         public decimal roi { get; set; }
