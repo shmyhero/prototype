@@ -110,67 +110,69 @@ export default class TabMainScreen extends React.Component {
 
         this.loadData()
 
-        // this.timer = setInterval(
-        //     () => {  
-        //         // console.log('time Interval...')
+        this.timer = setInterval(
+            () => {  
+                // console.log('time Interval...')
 
-        //         // var responseJson = this.state.dataResponse
-        //         // if(responseJson && responseJson.length > 0){
-        //         //     for(var i = 0; i < responseJson.length; i++){
-        //         //         responseJson[i].isNew = false;
-        //         //     }
+                // var responseJson = this.state.dataResponse
+                // if(responseJson && responseJson.length > 0){
+                //     for(var i = 0; i < responseJson.length; i++){
+                //         responseJson[i].isNew = false;
+                //     }
 
-        //         //     var add = {}
-        //         //     $.extend(true, add, responseJson[0]);
-        //         //     add.isNew = true;
+                //     var add = {}
+                //     $.extend(true, add, responseJson[0]);
+                //     add.isNew = true;
 
-        //         //     responseJson.splice(0, 0, add);
+                //     responseJson.splice(0, 0, add);
                     
-        //         //     this.setState({ 
-        //         //         dataResponse: responseJson,
-        //         //         dataSource: this._dataSource.cloneWithRows(responseJson),
-        //         //     })
-        //         // } 
-        //         this.loadCacheListData() 
-        //     },
-        //     30000
-        // );
+                //     this.setState({ 
+                //         dataResponse: responseJson,
+                //         dataSource: this._dataSource.cloneWithRows(responseJson),
+                //     })
+                // } 
+                this.loadCacheListData() 
+            },
+            30000
+        );
 
-        // this.timerCacheList = setInterval(
-        //     () => { 
-        //         var responseJson = this.state.dataResponse
-        //         if(this.state.cacheData&&this.state.cacheData.length>0){
-        //             console.log('this.state.cacheData.length = '+this.state.cacheData.length)
-                    
-        //             if(responseJson && responseJson.length > 0){
-        //                 for(var i = 0; i < responseJson.length; i++){
-        //                     responseJson[i].isNew = false;
-        //                 }
-        //                 var add = {}
-        //                 $.extend(true, add, this.state.cacheData[this.state.cacheData.length-1]);
-        //                 responseJson.splice(0, 0, add);
-        //                 this.state.cacheData.splice(this.state.cacheData.length-1,1)
-        //                 this.setState({ 
-        //                     dataResponse:responseJson,
-        //                     cacheData:this.state.cacheData,
-        //                     dataSource:this._dataSource.cloneWithRows(responseJson),
-        //                 })
-        //             }
-        //         }else{
-        //             console.log("tab main screen responseJson", responseJson)
-        //             if(responseJson){
-        //                 for(var i = 0; i < responseJson.length; i++){
-        //                     responseJson[i].isNew = false;
-        //                 } 
-        //                 this.setState({ 
-        //                     dataResponse:responseJson, 
-        //                     dataSource:this._dataSource.cloneWithRows(responseJson),
-        //                 })
-        //             } 
-        //         }
-        //     },
-        //     2000
-        // )
+        this.timerCacheList = setInterval(
+            () => { 
+                var responseJson = this.state.dataResponse
+                if(this.state.cacheData&&this.state.cacheData.length>0){
+                    console.log('this.state.cacheData.length = '+this.state.cacheData.length)
+                     
+                    if(responseJson && responseJson.length > 0){
+                        for(var i = 0; i < responseJson.length; i++){
+                            responseJson[i].isNew = false;
+                        }
+                        var add = {}
+                        $.extend(true, add, this.state.cacheData[this.state.cacheData.length-1]);
+                        responseJson.splice(0, 0, add);
+                        this.state.cacheData.splice(this.state.cacheData.length-1,1)
+                        this.setState({ 
+                            dataResponse:responseJson,
+                            cacheData:this.state.cacheData,
+                            dataSource:this._dataSource.cloneWithRows(responseJson),
+                        })
+                    }
+                }else{
+                    try{
+                        console.log("tab main screen responseJson", responseJson)
+                        for(var i = 0; i < responseJson.length; i++){
+                            responseJson[i].isNew = false;
+                        } 
+                        this.setState({ 
+                            dataResponse:responseJson, 
+                            dataSource:this._dataSource.cloneWithRows(responseJson),
+                        })
+                    }catch(e){
+                        console.log("error!", e)
+                    }
+                }
+            },
+            2000
+        )
  
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
             console.log("HOME_TAB_RESS_EVENT")

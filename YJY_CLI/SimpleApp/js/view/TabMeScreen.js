@@ -46,6 +46,8 @@ class  TabMeScreen extends React.Component {
       userLoggedin: false,
       nickname: "",
       picUrl:"",
+      balance:0,
+      balanceText:"--"
     };
   }
 
@@ -54,7 +56,7 @@ class  TabMeScreen extends React.Component {
       console.log("ME_TAB_PRESS_EVENT")
       WebSocketModule.cleanRegisteredCallbacks();
 			this.refresh();
-    });     
+    }); 
   } 
 
   componentWillUnmount(){
@@ -76,6 +78,23 @@ class  TabMeScreen extends React.Component {
       state.userLoggedin = true;
       this.setState(state, ()=>{
         this.fetchMeData();
+
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+        NetConstants.CFD_API.USER_FUND_BALANCE,
+        {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+            },
+        },(responseJson)=>{
+            this.setState({
+                balance: responseJson.balance.maxDecimal(2),
+                balanceText: ""+responseJson.balance.maxDecimal(2),
+            })
+        },()=>{
+
+        });
       });
     }
   }
@@ -204,7 +223,7 @@ class  TabMeScreen extends React.Component {
           }}>
           <View style={styles.buttonTextContainer}>
               <Text style={{fontSize:12, color:'#999999'}}>糖果数</Text>
-              <Text style={{fontSize:34, color:'#999999', marginTop:10}}>0</Text>
+              <Text style={{fontSize:34, color:'#999999', marginTop:10}}>{this.state.balanceText}</Text>
               <View style={{flexDirection:'row', alignSelf:'stretch', justifyContent:'space-around'}}>
                 <TouchableOpacity onPress={()=>this.showDeposit()}>
                   <ImageBackground source={require('../../images/bg_btn_blue.png')}
