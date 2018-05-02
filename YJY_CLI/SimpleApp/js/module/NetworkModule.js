@@ -3,7 +3,8 @@ var CacheModule = require('./CacheModule')
 
 import React from 'react';
 import {
-	Alert
+	Alert,
+	Platform
 } from 'react-native';
 
 import LogicData from "../LogicData";
@@ -36,6 +37,13 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 			}
 		});
 	}
+
+	if(! params.headers){
+		params.headers = {};
+	}
+	
+	params.headers['User-Agent'] = Platform.OS;
+	params.headers['language'] = LogicData.getLanguage();
 
 	fetch(url, params)
 		.then((response) => {
