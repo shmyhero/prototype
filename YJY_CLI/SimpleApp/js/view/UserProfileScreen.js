@@ -62,7 +62,7 @@ export default class  UserProfileScreen extends React.Component {
 
   loadUserInfo(){ 
     var api = NetConstants.CFD_API.USER_INFO.replace('<id>',this.state.userId);
-    
+    // Alert.alert('api:'+api)
     if(LogicData.isLoggedIn()){
       var userData = LogicData.getUserData();
       this.setState({
@@ -77,8 +77,7 @@ export default class  UserProfileScreen extends React.Component {
                       'Content-Type': 'application/json; charset=utf-8',
                   },
                   showLoading: true,
-              }, (responseJson) => { 
-                   
+              }, (responseJson) => {  
                   this.setState({
                     isFollowing: responseJson.isFollowing,
                     picUrl:responseJson.picUrl, 

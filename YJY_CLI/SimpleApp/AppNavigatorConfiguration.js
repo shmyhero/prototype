@@ -15,6 +15,7 @@ import StockSearchScreen from './js/view/StockSearchScreen';
 import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 import BindPurseScreen from './js/view/depositWithdraw/BindPurseScreen';
 import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
+import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -26,6 +27,7 @@ import TabMeScreen from './js/view/TabMeScreen';
 import FollowScreen from './js/view/FollowScreen';
 var SplashScreen = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
+var LS = require("./js/LS");
 
 const ViewKeys = {
     TAB_MAIN: "TabMain",
@@ -44,6 +46,7 @@ const ViewKeys = {
     SCREEN_MESSAGE: "MessageScreen",
     SCREEN_DEPOSIT: "DepositTokenScreen",
     SCREEN_WITHDRAW: "WithdrawTokenScreen",
+    SCREEN_WITHDRAW_SUBMITTED: "WithdrawSubmittedPage",
     SCREEN_TWEET: "TweetScreen",
     SCREEN_STOCK_SEARCH: "StockSearchScreen",
     SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
@@ -56,7 +59,7 @@ var mainTabNavigatorConfiguration = {}
 mainTabNavigatorConfiguration[ViewKeys.TAB_MAIN] = {
     screen: TabMainScreen,
     navigationOptions: {
-        tabBarLabel:'动态',
+        tabBarLabel:LS.str('HOME_TAB_TITLE'),
         tabBarIcon: ({focused,tintColor }) => (
             <Image
                 source={focused?require('./images/tab0_sel.png'):require('./images/tab0_unsel.png')}
@@ -68,7 +71,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MAIN] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
     screen: TabMarketScreen,
     navigationOptions: {
-        tabBarLabel:'行情',
+        tabBarLabel: LS.str('MARKET_TAB_TITLE'),
         tabBarIcon: ({ focused,tintColor }) => (
             <Image
             source={focused?require('./images/tab1_sel.png'):require('./images/tab1_unsel.png')}
@@ -80,7 +83,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
     screen: TabRankScreen,
     navigationOptions: {
-        tabBarLabel:'榜单',
+        tabBarLabel:LS.str('RANK_TAB_TITLE'),
         tabBarIcon: ({ focused,tintColor }) => (
             <Image
             source={focused?require('./images/tab2_sel.png'):require('./images/tab2_unsel.png')}
@@ -92,7 +95,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
     screen: TabPositionScreen,
     navigationOptions: {
-        tabBarLabel:'仓位',
+        tabBarLabel:LS.str('POSITION_TAB_TITLE'),
         tabBarIcon: ({ focused,tintColor }) => (
         <Image
             source={focused?require('./images/tab3_sel.png'):require('./images/tab3_unsel.png')}
@@ -104,7 +107,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_ME] = {
     screen: TabMeScreen,
     navigationOptions: {
-        tabBarLabel:'我的',
+        tabBarLabel:LS.str('ME_TAB_TITLE'),
         tabBarIcon: ({ focused,tintColor }) => (
         <Image
             source={focused?require('./images/tab4_sel.png'):require('./images/tab4_unsel.png')}
@@ -159,6 +162,7 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW_SUBMITTED] = {screen: WithdrawSubmittedPage}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}

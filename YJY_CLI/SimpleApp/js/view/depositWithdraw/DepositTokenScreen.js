@@ -9,11 +9,16 @@ import {
     TouchableOpacity,
     Image,
     Dimensions,
-    Clipboard
+    Clipboard,
 } from 'react-native';
 import NavBar from '../component/NavBar';
 var ColorConstants = require('../../ColorConstants')
 var {height,width} = Dimensions.get('window');
+import SubmitButton from '../component/SubmitButton';
+var NetworkModule = require("../../module/NetworkModule");
+var NetConstants = require("../../NetConstants");
+import LogicData from '../../LogicData';
+var Toast = require('@remobile/react-native-toast');
 
 // create a component
 class DepositScreen extends Component {
@@ -21,33 +26,59 @@ class DepositScreen extends Component {
         super(props)
 
         this.state = {
-            tokenAddress: "tokenAddress",
+            tokenAddress: "",
         }
+    }
+
+    componentWillMount(){
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+            NetConstants.CFD_API.TH_PURSE_ADDRESS,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                },
+            },(responseJson)=>{
+                this.setState({
+                    tokenAddress: responseJson.address,
+                });
+            },()=>{
+                
+            });
     }
     
     copyAddress(){
         Clipboard.setString(this.state.tokenAddress)
-        alert("复制成功")
+        Toast.show("复制成功")
     }
 
-    renderConfirmButton(){
-        var buttonEnabled = true;
-        var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
+    renderTopPart(){
+        var imageHeight = width/15*16;
+        var imageWidth = width;
+
         return (
-            <TouchableOpacity
-                onPress={()=>this.copyAddress()}
-                style={styles.okView}>
-                <ImageBackground source={buttonImage}
-                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                    <Text style={styles.okButton}>
-                        复制盈交易收款地址
+            <ImageBackground style={{height:imageHeight, width:imageWidth}} source={require("../../../images/deposit_token_image.jpg")}>
+                <View style={{position:'absolute', top: imageHeight* 0.6, left: imageWidth * 0.15, flex:1}}>
+                    <Text style={styles.titleText}>注册以太坊钱包</Text>
+                    <Text style={styles.bodyText}>
+                        以太坊官网：
+                        <Text style={styles.linkText}>{"https://wallet.ethereum.org"}</Text>
                     </Text>
-                </ImageBackground>
-            </TouchableOpacity>
-        );
+                </View>
+                <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, 
+                    width:imageWidth * 0.8, flex:1}}>
+                    <Text style={styles.titleText}>用户把自己的Token转入盈交易</Text>
+                    <Text style={styles.bodyText} numberOfLines={3}>
+                        盈交易收款地址: 
+                        <Text style={styles.linkText}>{this.state.tokenAddress}</Text>
+                    </Text>
+                </View>
+            </ImageBackground>);
     }
 
     render() {
+        
         return (
             <View style={styles.container}>
                 <NavBar title="入金"
@@ -56,8 +87,9 @@ class DepositScreen extends Component {
                         navigation={this.props.navigation}
                         />
                 <View style={styles.contentContainer}>
-                    <Image style={{height:width/15*16, width:width}} source={require("../../../images/deposit_token_image.jpg")}/>
-                    {this.renderConfirmButton()}
+                    {this.renderTopPart()}
+                    <SubmitButton onPress={()=>this.copyAddress()}
+                        text={"复制盈交易收款地址"} />
                 </View>
                
             </View>
@@ -129,8 +161,19 @@ const styles = StyleSheet.create({
         fontSize: 17,
         position:'absolute',
         top:17
-	},
-
+    },
+    titleText:{
+        fontSize: 17,
+        color:'#333333'
+    },
+    bodyText: {
+        fontSize: 15,
+        color:'#666666',
+    },
+    linkText: {
+        fontSize: 15,
+        color:'#0099ff',
+    }
 });
 
 //make this component available to the app

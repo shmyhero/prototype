@@ -9,35 +9,71 @@ import { View,
     Image
 } from 'react-native';
 import NavBar from '../component/NavBar';
-var ColorConstants = require('../../ColorConstants')
+var ColorConstants = require('../../ColorConstants');
+var NetworkModule = require("../../module/NetworkModule");
+var NetConstants = require("../../NetConstants");
+import LogicData from "../../LogicData";
+import { ViewKeys } from '../../../AppNavigatorConfiguration';
+import SubmitButton from '../component/SubmitButton';
+var NetworkModule = require("../../module/NetworkModule");
+var NetConstants = require("../../NetConstants");
+
 // create a component
 class WithdrawTokenScreen extends Component {
     constructor(props){
         super(props)
 
+        var purseAddress = "";
+        if(this.props.navigation.state && this.props.navigation.state.params){
+            purseAddress = this.props.navigation.state.params.address;
+        }
         this.state = {
-            balance: 122,
+            balance: 0,
+            balanceText: "...",
             withdrawStringValue: "",
             withdrawValue: 0,
             isAgreementRead: false,
-            purseAddress: "0XBASFEWR$@#VF123fgdfg@#FGEWRTERDFGGERTY#12gGEWETRWT4gAW",
+            purseAddress: purseAddress,
+            isButtonEnable: false,
+            isRequestSending: false,
         }
     }
 
+    componentWillMount(){
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+            NetConstants.CFD_API.USER_FUND_BALANCE,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                },
+            },(responseJson)=>{
+                this.setState({
+                    balance: responseJson.balance.maxDecimal(2),
+                    balanceText: ""+responseJson.balance.maxDecimal(2),
+                })
+            },()=>{
+
+            });
+    }
+
+    updateButtonStatus(){
+        this.setState({
+            isButtonEnable: this.isReadyToPay()
+        })
+    }
+
     isReadyToPay(){
-        if(this.state.withdrawValue > 0 && this.state.isAgreementRead){
-            return true;
-        }else{
-            return false;
-        }
+        return this.state.withdrawValue > 0 && this.state.isAgreementRead && !this.state.isRequestSending;
     }
 
     onWithdrawAllPressed(){
         var state = {
             withdrawStringValue: "" + this.state.balance,
-            withdrawValue: this.state.balance
-        };       
-        this.setState(state)
+            withdrawValue: this.state.balance,
+        };
+        this.setState(state, ()=>this.updateButtonStatus())
     }
 
     updatePaymentAmount(withdrawValue){
@@ -49,30 +85,43 @@ class WithdrawTokenScreen extends Component {
         }else{
             state.withdrawValue = 0;
         }
-        this.setState(state)
+        this.setState(state, ()=>this.updateButtonStatus())
     }
 
-    deposit(){
+    withdraw(){
         if(this.isReadyToPay()){
-            alert("出金" + this.state.withdrawValue);
-        }
-    }
+            this.setState({
+                isRequestSending: true,
+            }, ()=>{
+                this.updateButtonStatus();
+                var userData = LogicData.getUserData();
 
-    renderConfirmButton(){
-        var buttonEnabled = this.isReadyToPay();
-        var buttonImage = buttonEnabled ? require("../../../images/position_confirm_button_enabled.png") : require("../../../images/position_confirm_button_disabled.png")
-        return (
-            <TouchableOpacity
-                onPress={()=>this.deposit()}
-                style={styles.okView}>
-                {/* <ImageBackground source={buttonImage}
-                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                    <Text style={styles.okButton}>
-                        确认出金
-                    </Text>
-                </ImageBackground> */}
-            </TouchableOpacity>
-        );
+                NetworkModule.fetchTHUrl(
+                    NetConstants.CFD_API.WITHDRAW_BALANCE,
+                    {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                            'Content-Type': 'application/json; charset=UTF-8'
+                        },
+                        body: JSON.stringify({
+                            "amount": this.state.withdrawValue,
+                        }),
+                    },
+                    (response )=>{
+                        this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW_SUBMITTED, {backFrom: this.props.navigation.state.key});
+                    },
+                    (error)=>{
+                        console.log("withdraw balance", error);
+                        alert(error.errorMessage)
+                        this.setState({
+                            isRequestSending: false,
+                        }, ()=>{
+                            this.updateButtonStatus();
+                        });
+                    });
+            })            
+        }
     }
 
     renderAgreement(){
@@ -83,12 +132,12 @@ class WithdrawTokenScreen extends Component {
             checkIcon = require("../../../images/selection_small_unselected.png");
         }
         return (
-            <TouchableOpacity style={{flexDirection:'row', marginBottom:15}} onPress={()=>{
+            <TouchableOpacity style={{flexDirection:'row', marginBottom:15, marginTop:15}} onPress={()=>{
                     this.setState({
                         isAgreementRead: !this.state.isAgreementRead
-                    })
+                    },()=>this.updateButtonStatus())
                 }}>
-                <View style={{flexDirection:'row', }}>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text>
@@ -100,6 +149,18 @@ class WithdrawTokenScreen extends Component {
             </TouchableOpacity>);
     }
 
+    renderPurseAddress(){
+        if(this.state.purseAddress && this.state.purseAddress != ""){
+            return (
+                <View style={styles.rowContainer}>
+                    <Text style={{fontSize:17}}>我的收款地址</Text>
+                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.state.purseAddress}</Text>
+                </View>);
+        }else{
+            return null;
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -109,14 +170,10 @@ class WithdrawTokenScreen extends Component {
                     navigation={this.props.navigation}
                     />
                 <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
-                    <View style={styles.rowContainer}>
-                        <Text style={{fontSize:17}}>我的收款地址</Text>
-                        <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.state.purseAddress}</Text>
-                    </View>
-
+                    {this.renderPurseAddress()}
                     <View style={styles.rowContainer}>
                         <Text style={{fontSize:15, color:"#7d7d7d"}}>出金金额</Text>
-                        <View style={styles.depositValueRow}>
+                        <View style={styles.withdrawValueRow}>
                             <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>糖果</Text>
                             <TextInput 
                                 underlineColorAndroid={"transparent"}
@@ -124,16 +181,17 @@ class WithdrawTokenScreen extends Component {
                                 onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
                                 value={this.state.withdrawStringValue}/>
                         </View>
-                        {/* <Text style={{color:"#7d7d7d", fontSize:14}}>
-                            {"可出资金："+this.state.balance+"糖果，"}
-                            <TouchableOpacity style={{height:13, width:100}} onPress={()=>this.onWithdrawAllPressed()}>
-                                <Text style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>全部出金</Text>
-                            </TouchableOpacity>
-                        </Text> */}
+                        <Text style={{color:"#7d7d7d", fontSize:14}}>
+                            {"可出资金："+this.state.balanceText+"糖果，"}
+                            <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>全部出金</Text>
+                        </Text>
                     </View>
                     <View style={{flex:1}}/>
                     {this.renderAgreement()}
-                    {this.renderConfirmButton()}
+                    <SubmitButton 
+                        enable={this.state.isButtonEnable}
+                        onPress={()=>this.withdraw()}
+                        text={this.state.isButtonEnable ? "确认出金" : "请稍后"} />
                 </View>
             </View>
         );
@@ -147,27 +205,13 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
     },
-    depositValueRow:{
+    withdrawValueRow:{
         flexDirection:'row', 
         alignItems:'center',
         justifyContent:'center',
         marginTop:15,
         marginBottom:15,
     },
-    okView: {
-		width: 332,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-		alignSelf: 'center',
-    },
-    okButton: {
-		color: 'white',
-		textAlign: 'center',
-        fontSize: 17,
-        position:'absolute',
-        top:17
-	},
     rowContainer: {
         padding: 15, 
         borderWidth: 1, 

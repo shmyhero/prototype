@@ -61,7 +61,7 @@ export default class  UserProfileTabMain extends React.Component {
             <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
         </ScrollView>
-        <TouchableOpacity style={{height: 100, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
+        <TouchableOpacity style={{height: 60, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
           onPress={()=>this.onFollowPressed()}>
           <LinearGradient 
             start={{x:0.0, y:0}}

@@ -25,6 +25,7 @@ var ColorConstants = require('../ColorConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
 var {EventCenter,EventConst} = require('../EventCenter');
+var LS = require('../LS');
 
 import SortableListView from 'react-native-sortable-listview'
 
@@ -76,7 +77,7 @@ class TabMarketScreen extends Component {
                     }); 
                 },
                 (result) => {
-                    Alert.alert('提示', result.errorMessage);
+                    Alert.alert(LS.str('HINT'), result.errorMessage);
                 }
             )
         });
@@ -192,7 +193,7 @@ class TabMarketScreen extends Component {
     renderContent(){
         if(this.state.isLoading){
             return (<View style={{ flex: 1, justifyContent:'center'}}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             </View>);
         }else{
             return (

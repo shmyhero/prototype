@@ -25,6 +25,7 @@ var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var WebSocketModule = require("../module/WebSocketModule");
 
+import { NavigationActions } from 'react-navigation';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 
 var {height, width} = Dimensions.get('window')
@@ -233,7 +234,16 @@ class StockDetailScreen extends Component {
     
     goToPositionPage(){
         this.refs["orderFinishedModal"].hide();
-        this.props.navigation.navigate(ViewKeys.TAB_POSITION);
+        //this.props.navigation.navigate(ViewKeys.TAB_POSITION);
+        //this.props.navigation.goBack(ViewKeys.TAB_POSITION);
+    
+        const action = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
+
+        // const action = NavigationActions.reset({
+        //     index: 0,
+        //     actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME })],
+        // });
+        this.props.navigation.dispatch(action);
     }
 
     isSubmitButtonEnabled(){

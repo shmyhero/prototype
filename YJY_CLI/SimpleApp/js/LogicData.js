@@ -9,6 +9,7 @@ var StorageModule = require('./module/StorageModule');
 class LogicData {
 	static userData = {};
 	static meData = {};
+	static language = "en-us" // "zh-cn";
 	
 	static isLoggedIn(){
 		console.log("isLoggedIn", this.userData)
@@ -69,6 +70,17 @@ class LogicData {
 				});
 			}			
 		});
+	}
+
+	static setLanguage(value){
+		if(this.language!==value){
+			StorageModule.setLanguage(value)
+			this.language = value
+		}
+	}
+
+	static getLanguage(){
+		return this.language
 	}
 }
 

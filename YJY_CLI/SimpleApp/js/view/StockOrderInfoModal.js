@@ -20,6 +20,7 @@ var UIConstants = require('../UIConstants');
 var NetworkModule = require('../module/NetworkModule');
 var StockOrderInfoBar = require('./StockOrderInfoBar')
 var {height, width} = Dimensions.get('window');
+import {ViewKeys} from '../../AppNavigatorConfiguration';
 
 const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
 const BODY_TOP_MARGIN = 0;

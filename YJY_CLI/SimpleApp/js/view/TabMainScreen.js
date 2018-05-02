@@ -130,10 +130,8 @@ export default class TabMainScreen extends React.Component {
                 //         dataResponse: responseJson,
                 //         dataSource: this._dataSource.cloneWithRows(responseJson),
                 //     })
-                // }
-
-                this.loadCacheListData()
-               
+                // } 
+                this.loadCacheListData() 
             },
             30000
         );
@@ -143,7 +141,7 @@ export default class TabMainScreen extends React.Component {
                 var responseJson = this.state.dataResponse
                 if(this.state.cacheData&&this.state.cacheData.length>0){
                     console.log('this.state.cacheData.length = '+this.state.cacheData.length)
-                    
+                     
                     if(responseJson && responseJson.length > 0){
                         for(var i = 0; i < responseJson.length; i++){
                             responseJson[i].isNew = false;
@@ -159,14 +157,18 @@ export default class TabMainScreen extends React.Component {
                         })
                     }
                 }else{
-                    console.log("tab main screen responseJson", responseJson)
-                    for(var i = 0; i < responseJson.length; i++){
-                        responseJson[i].isNew = false;
-                    } 
-                    this.setState({ 
-                        dataResponse:responseJson, 
-                        dataSource:this._dataSource.cloneWithRows(responseJson),
-                    })
+                    try{
+                        console.log("tab main screen responseJson", responseJson)
+                        for(var i = 0; i < responseJson.length; i++){
+                            responseJson[i].isNew = false;
+                        } 
+                        this.setState({ 
+                            dataResponse:responseJson, 
+                            dataSource:this._dataSource.cloneWithRows(responseJson),
+                        })
+                    }catch(e){
+                        console.log("error!", e)
+                    }
                 }
             },
             2000

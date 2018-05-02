@@ -31,6 +31,7 @@ var NetworkModule = require('../module/NetworkModule');
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
 var WebSocketModule = require('../module/WebSocketModule');
+var LS = require('../LS');
 
 var layoutSizeChangedSubscription = null;
 //Tab4:我的
@@ -46,6 +47,8 @@ class  TabMeScreen extends React.Component {
       userLoggedin: false,
       nickname: "",
       picUrl:"",
+      balance:0,
+      balanceText:"--"
     };
   }
 
@@ -54,7 +57,7 @@ class  TabMeScreen extends React.Component {
       console.log("ME_TAB_PRESS_EVENT")
       WebSocketModule.cleanRegisteredCallbacks();
 			this.refresh();
-    });     
+    }); 
   } 
 
   componentWillUnmount(){
@@ -76,6 +79,23 @@ class  TabMeScreen extends React.Component {
       state.userLoggedin = true;
       this.setState(state, ()=>{
         this.fetchMeData();
+
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+        NetConstants.CFD_API.USER_FUND_BALANCE,
+        {
+            method: 'GET',
+            headers: {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+            },
+        },(responseJson)=>{
+            this.setState({
+                balance: responseJson.balance.maxDecimal(2),
+                balanceText: ""+responseJson.balance.maxDecimal(2),
+            })
+        },()=>{
+
+        });
       });
     }
   }
@@ -121,7 +141,7 @@ class  TabMeScreen extends React.Component {
         <ImageBackground source={require("../../images/position_confirm_button_disabled.png")}
           resizeMode={'contain'}
           style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-          <Text style={styles.okButton}>退出登录</Text>
+          <Text style={styles.okButton}>{LS.str("EXIT")}</Text>
       </ImageBackground>
     </TouchableOpacity>  
   );
@@ -140,19 +160,17 @@ class  TabMeScreen extends React.Component {
   }
 
   showDeposit(){
-    if(LogicData.getUserData()){
-      var address = true;
-      //var address = LogicData.getUserData().getAddress()
-      if(address){
-        this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE);
-      }else{
-        this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
-      }
+    var meData = LogicData.getMeData()
+    if(meData.thtAddress){
+      this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
+    }else{
+       this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE);
     }
   }
 
   showWithdraw(){
-    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW);
+    var meData = LogicData.getMeData()
+    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW, {address: meData.thtAddress});
   }
 
   showMessage(){
@@ -205,8 +223,8 @@ class  TabMeScreen extends React.Component {
               flexDirection:'column',
           }}>
           <View style={styles.buttonTextContainer}>
-              <Text style={{fontSize:12, color:'#999999'}}>糖果数</Text>
-              <Text style={{fontSize:34, color:'#999999', marginTop:10}}>0</Text>
+              <Text style={{fontSize:12, color:'#999999'}}>{LS.str("SUGAR_AMOUNT")}</Text>
+              <Text style={{fontSize:34, color:'#999999', marginTop:10}}>{this.state.balanceText}</Text>
               <View style={{flexDirection:'row', alignSelf:'stretch', justifyContent:'space-around'}}>
                 <TouchableOpacity onPress={()=>this.showDeposit()}>
                   <ImageBackground source={require('../../images/bg_btn_blue.png')}
@@ -217,7 +235,7 @@ class  TabMeScreen extends React.Component {
                           justifyContent:'center',
                           flexDirection:'column',
                       }}>
-                    <Text style={{textAlign:'center', color:'#ffffff'}}>入金</Text>
+                    <Text style={{textAlign:'center', color:'#ffffff'}}>{LS.str("ME_DEPOSIT_TITLE")}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>this.showWithdraw()}>
@@ -229,7 +247,7 @@ class  TabMeScreen extends React.Component {
                         justifyContent:'center',
                         flexDirection:'column',
                     }}>
-                    <Text style={{textAlign:'center', color:'#ffffff'}}>出金</Text>
+                    <Text style={{textAlign:'center', color:'#ffffff'}}>{LS.str("ME_WITHDRAW_TITLE")}</Text>
                   </ImageBackground>
                 </TouchableOpacity>
               </View>
@@ -248,9 +266,9 @@ class  TabMeScreen extends React.Component {
                   rightPartOnClick={()=>this.showMessage()}/>
           {this.renderPortrait()}
           {this.renderBalance()}
-          {this.renderButton("资金明细", require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.showTokenDetail())}          
-          {this.renderButton("帮助中心", require("../../images/me_icon_help.png"), ()=>this.showHelp())}
-          {this.renderButton("关于我们", require("../../images/me_icon_about.png"), ()=>this.showAbout())}
+          {this.renderButton(LS.str("ME_DETAIL_TITLE"), require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.showTokenDetail())}          
+          {this.renderButton(LS.str("ME_HELP_CENTER_TITLE"), require("../../images/me_icon_help.png"), ()=>this.showHelp())}
+          {this.renderButton(LS.str("ME_ABOUT_TITLE"), require("../../images/me_icon_about.png"), ()=>this.showAbout())}
           {this.renderExitButton()}
           <View style={{height:10}}></View>
         </ScrollView>);
