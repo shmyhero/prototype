@@ -104,11 +104,11 @@ namespace YJY_SVR.Controllers
             var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == withdrawalId);
 
             var request =
-                WebRequest.CreateHttp("http://139.217.205.9:9527/refund?index=" + withdrawal.Id + "&to=" + withdrawal.To +
+                WebRequest.CreateHttp(YJYGlobal.THT_BC_API_HOST + "refund?index=" + withdrawal.Id + "&to=" + withdrawal.To +
                                       "&value=" + withdrawal.Value);
             request.Method = "GET";
             request.Headers.Add("Authorization",
-                "Bearer jR7cB9s6n2I0C4zP1xZ6b92Mki0Q3Ae7G1L3vU5hoT8xD5Fy3Ux9bR1wO5Hb7ec4HJ6Es2oC");
+                "Bearer "+YJYGlobal.CALLBACK_AUTH_TOKEN);
 
 
             withdrawal.SendAt = DateTime.UtcNow;

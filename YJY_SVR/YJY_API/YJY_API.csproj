@@ -211,6 +211,7 @@
     <Compile Include="Caching\WebCache.cs" />
     <Compile Include="Caching\WebCacheInstance.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
+    <Compile Include="Controllers\Attributes\CultureHandler.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\FundController.cs" />

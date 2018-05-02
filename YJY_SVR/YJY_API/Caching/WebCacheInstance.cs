@@ -6,7 +6,6 @@ using System.Threading;
 using System.Web;
 using AutoMapper;
 using ServiceStack.Redis;
-using YJY_API;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 

@@ -10,6 +10,8 @@ namespace YJY_COMMON.Localization
 {
     public class Translator
     {
+        public const string CULTURE_SYSTEM_DEFAULT = "en-US";
+
         public static string Translate(TransKey transKey)
         {
             if (Translations.Values.ContainsKey(transKey))

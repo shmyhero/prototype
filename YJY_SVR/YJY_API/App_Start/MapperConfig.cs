@@ -9,7 +9,7 @@ using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Util;
 using YJY_SVR.DTO;
 
-namespace YJY_API
+namespace YJY_SVR
 {
     public class MapperConfig
     {

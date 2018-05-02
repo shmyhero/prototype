@@ -18,6 +18,8 @@ namespace YJY_COMMON.Model.Entity
 
         public DateTime? CreateAt { get; set; }
 
+        public decimal? Amount { get; set; }
+
         public int? Value { get; set; }
 
         public DateTime? SendAt { get; set; }

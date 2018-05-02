@@ -19,15 +19,13 @@ namespace YJY_SVR.Controllers
         {
         }
 
-        private const string CALLBACK_AUTH_TOKEN = "jR7cB9s6n2I0C4zP1xZ6b92Mki0Q3Ae7G1L3vU5hoT8xD5Fy3Ux9bR1wO5Hb7ec4HJ6Es2oC";
-
         [HttpPost]
         [Route("THT/deposit")]
         public bool THTDeposit(THTDepositFormDTO form)
         {
             var authorization = Request.Headers.Authorization;
             
-            if (authorization?.Parameter == null || authorization.Parameter != CALLBACK_AUTH_TOKEN)
+            if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
 
             if (form.index == 0 || string.IsNullOrWhiteSpace(form.from) || form.value<=0)
@@ -64,7 +62,7 @@ namespace YJY_SVR.Controllers
         {
             var authorization = Request.Headers.Authorization;
 
-            if (authorization?.Parameter == null || authorization.Parameter != CALLBACK_AUTH_TOKEN)
+            if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
 
             if (form.index == 0)

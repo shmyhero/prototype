@@ -59,13 +59,14 @@ namespace YJY_COMMON.Service
                         var user = dbIsolated.Users.FirstOrDefault(o => o.THTAddress == deposit.From);
                         if (user != null)
                         {
-                            var amount = (decimal) deposit.Value/100;
+                            var amount = ((decimal) deposit.Value)/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
 
                             if (amount > 0)
                             {
                                 user.Balance = user.Balance + amount;
 
                                 deposit.PaidAt = DateTime.UtcNow;
+                                deposit.PaidAmount = amount;
                                 deposit.PaidToUserId = user.Id;
 
                                 var transfer = new Transfer()
@@ -119,7 +120,8 @@ namespace YJY_COMMON.Service
                             CreateAt = DateTime.UtcNow,
                             To = user.THTAddress,
                             UserId = user.Id,
-                            Value = (int?) (amount*100),
+                            Amount = amount,
+                            Value = (int?) (amount*100/YJYGlobal.BALANCE_TO_TOKEN_RATIO),
                         };
                         dbIsolated.THTWithdrawals.Add(withdrawal);
 

@@ -12,7 +12,7 @@ using ServiceStack.Redis;
 using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 
-namespace YJY_API
+namespace YJY_SVR
 {
     public static class WebApiConfig
     {

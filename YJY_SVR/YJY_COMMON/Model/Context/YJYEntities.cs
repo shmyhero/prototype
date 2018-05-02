@@ -53,6 +53,14 @@ namespace YJY_COMMON.Model.Context
                 .Property(e => e.TakePx)
                 .HasPrecision(18, 8);
 
+            modelBuilder.Entity<THTDeposit>()
+                .Property(e => e.PaidAmount)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.Amount)
+                .HasPrecision(18, 8);
+
             modelBuilder.Entity<Transfer>()
                 .Property(e => e.Amount)
                 .HasPrecision(18, 8);

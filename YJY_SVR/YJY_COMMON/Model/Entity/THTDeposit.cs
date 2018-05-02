@@ -25,6 +25,8 @@ namespace YJY_COMMON.Model.Entity
 
         public int? PaidToUserId { get; set; }
 
+        public decimal? PaidAmount { get; set; }
+
         public DateTime? PaidAt { get; set; }
     }
 }
