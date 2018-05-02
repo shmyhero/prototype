@@ -88,7 +88,7 @@ class WithdrawTokenScreen extends Component {
         this.setState(state, ()=>this.updateButtonStatus())
     }
 
-    deposit(){
+    withdraw(){
         if(this.isReadyToPay()){
             this.setState({
                 isRequestSending: true,
@@ -105,7 +105,7 @@ class WithdrawTokenScreen extends Component {
                             'Content-Type': 'application/json; charset=UTF-8'
                         },
                         body: JSON.stringify({
-                            "value": this.state.withdrawValue,
+                            "amount": this.state.withdrawValue,
                         }),
                     },
                     (response )=>{
@@ -113,7 +113,7 @@ class WithdrawTokenScreen extends Component {
                     },
                     (error)=>{
                         console.log("withdraw balance", error);
-                        //alert(error.message)
+                        alert(error.errorMessage)
                         this.setState({
                             isRequestSending: false,
                         }, ()=>{
@@ -137,7 +137,7 @@ class WithdrawTokenScreen extends Component {
                         isAgreementRead: !this.state.isAgreementRead
                     },()=>this.updateButtonStatus())
                 }}>
-                <View style={{flexDirection:'row', }}>
+                <View style={{flexDirection:'row', alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text>
@@ -173,7 +173,7 @@ class WithdrawTokenScreen extends Component {
                     {this.renderPurseAddress()}
                     <View style={styles.rowContainer}>
                         <Text style={{fontSize:15, color:"#7d7d7d"}}>出金金额</Text>
-                        <View style={styles.depositValueRow}>
+                        <View style={styles.withdrawValueRow}>
                             <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>糖果</Text>
                             <TextInput 
                                 underlineColorAndroid={"transparent"}
@@ -190,8 +190,8 @@ class WithdrawTokenScreen extends Component {
                     {this.renderAgreement()}
                     <SubmitButton 
                         enable={this.state.isButtonEnable}
-                        onPress={()=>this.deposit()}
-                        text={"确认出金"} />
+                        onPress={()=>this.withdraw()}
+                        text={this.state.isButtonEnable ? "确认出金" : "请稍后"} />
                 </View>
             </View>
         );
@@ -205,7 +205,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         backgroundColor: 'white',
     },
-    depositValueRow:{
+    withdrawValueRow:{
         flexDirection:'row', 
         alignItems:'center',
         justifyContent:'center',

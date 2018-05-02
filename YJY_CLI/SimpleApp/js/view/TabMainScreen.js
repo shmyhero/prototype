@@ -159,14 +159,18 @@ export default class TabMainScreen extends React.Component {
                         })
                     }
                 }else{
-                    console.log("tab main screen responseJson", responseJson)
-                    for(var i = 0; i < responseJson.length; i++){
-                        responseJson[i].isNew = false;
-                    } 
-                    this.setState({ 
-                        dataResponse:responseJson, 
-                        dataSource:this._dataSource.cloneWithRows(responseJson),
-                    })
+                    try{
+                        console.log("tab main screen responseJson", responseJson)
+                        for(var i = 0; i < responseJson.length; i++){
+                            responseJson[i].isNew = false;
+                        } 
+                        this.setState({ 
+                            dataResponse:responseJson, 
+                            dataSource:this._dataSource.cloneWithRows(responseJson),
+                        })
+                    }catch(e){
+                        console.log("error!", e)
+                    }
                 }
             },
             2000

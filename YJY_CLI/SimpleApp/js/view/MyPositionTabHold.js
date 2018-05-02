@@ -142,11 +142,11 @@ export default class  MyPositionTabHold extends React.Component {
 					showLoading: true,
 				}, (responseJson) => {
 					//TODO: Use real data!!!!!
-					for (var i in responseJson){
-						responseJson[i].isFollowing = true;
-						responseJson[i].followingUser = "一个人"
-						responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
-					}
+					// for (var i in responseJson){
+					// 	responseJson[i].isFollowing = true;
+					// 	responseJson[i].followingUser = "一个人"
+					// 	responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
+					// }
 					//TODO: Use real data!!!!!
 					
 					this.setState({

@@ -18,6 +18,8 @@ import SubmitButton from '../component/SubmitButton';
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 import LogicData from '../../LogicData';
+var Toast = require('@remobile/react-native-toast');
+
 // create a component
 class DepositScreen extends Component {
     constructor(props){
@@ -48,7 +50,7 @@ class DepositScreen extends Component {
     
     copyAddress(){
         Clipboard.setString(this.state.tokenAddress)
-        alert("复制成功")
+        Toast.show("复制成功")
     }
 
     renderTopPart(){
@@ -64,7 +66,7 @@ class DepositScreen extends Component {
                         <Text style={styles.linkText}>{"https://wallet.ethereum.org"}</Text>
                     </Text>
                 </View>
-                <View style={{position:'absolute', top: imageHeight* 0.8, left: imageWidth * 0.15, 
+                <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, 
                     width:imageWidth * 0.8, flex:1}}>
                     <Text style={styles.titleText}>用户把自己的Token转入盈交易</Text>
                     <Text style={styles.bodyText} numberOfLines={3}>
