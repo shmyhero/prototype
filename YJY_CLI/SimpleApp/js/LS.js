@@ -24,6 +24,7 @@ var LS = {
     PULL_TO_REFRESH:["下拉刷新...","pull to refresh ..."],
     RELEASE_TO_REFRESH:["释放刷新","release to refresh"],
     REFRESHING:["刷新中","loading..."],  
+    LOADING:["加载中...","loading..."],
     LOAD_MORE:["加载更多","load more ..."],
     RELEASE_FOR_LOAD_MORE:["释放加载更多","release to load more..."],
     NO_MORE:["没有更多","no more data"],
@@ -73,6 +74,13 @@ var LS = {
     CONCERN_CANCEL:["取消关注","-Concern"],
     CONCERN_ADD:["+关注","+Concern"],
     STATISTICS:["统计","Statistics"],
+    PHONE_NUM:["手机号","Phone Number"],
+    VCODE:["验证码","VCode"],
+    GET_VCODE:["获取验证码","Get VCode"],
+    YOU_ARE_LOGIN:["您正在登录糖果市场","You are login tradehero token"],
+    FAST_LOGIN:["快速登录","Fast Login"],
+    LOGIN:["登录","Login"],
+     
     
     ME_DEPOSIT_TITLE: ["入金", "Deposit"],
     ME_WITHDRAW_TITLE: ["出金", "Withdraw"],

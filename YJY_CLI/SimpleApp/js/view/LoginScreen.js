@@ -23,6 +23,7 @@ var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
+var LS = require('../LS')
 import LogicData from "../LogicData";
 
 class LoginScreen extends Component {
@@ -142,13 +143,13 @@ class LoginScreen extends Component {
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     
-                    <Text style={{marginBottom:5,color:'#60cafa',fontSize:11}}>您正在登录糖果市场</Text>
+                    <Text style={{marginBottom:5,color:'#60cafa',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
                     <View style={{backgroundColor:'#3ebdf8',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                         underlineColorAndroid='transparent'
                         maxLength={11} 
                         placeholderTextColor='white'
-                        placeholder='手机号'
+                        placeholder={LS.str("PHONE_NUM")}
                         keyboardType='numeric' 
                         onChangeText={(text) => {
                             this.setState({
@@ -158,7 +159,7 @@ class LoginScreen extends Component {
                         style={{marginLeft:10,color:'white',flex:1}}/>
                         <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                             <View style={{marginRight:10,width:1,height:40,backgroundColor:'#50c2f7'}}></View>
-                            <Text style={{marginRight:10,color:'white'}}>获取验证码</Text>
+                            <Text style={{marginRight:10,color:'white'}}>{LS.str("GET_VCODE")}</Text>
                         </TouchableOpacity>  
                     </View>
 
@@ -167,7 +168,7 @@ class LoginScreen extends Component {
                             underlineColorAndroid='transparent'
                             maxLength={4} 
                             placeholderTextColor='white'
-                            placeholder='验证码'
+                            placeholder={LS.str("VCODE")}
                             keyboardType='numeric' 
                             onChangeText={(text) => {
                                 this.setState({
@@ -183,11 +184,11 @@ class LoginScreen extends Component {
                         alignItems:'center',
                         justifyContent:'center',
                         width:width-50,height:40,backgroundColor:'#25aaf3',marginTop:20,borderRadius:15,}}>
-                        <Text style={{fontSize:17, color:textLogin}}>登录</Text>
+                        <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>
                 <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{fontSize:17, color:'#40b7f8'}}>快速登录</Text>
+                    <Text style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</Text>
                     <TouchableOpacity onPress={()=>this.onWechatLogin()}>
                      <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
                     </TouchableOpacity>   
