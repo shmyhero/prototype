@@ -7,7 +7,7 @@ using System.Web.Http;
 using AutoMapper;
 using YJY_COMMON.Model.Context;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/misc")]
     public class MiscController : YJYController

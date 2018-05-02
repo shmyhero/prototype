@@ -11,12 +11,12 @@ using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
 using YJY_COMMON.Util;
 using YJY_COMMON.Util.Extension;
-using YJY_SVR.Controllers.Attributes;
-using YJY_SVR.DTO;
-using YJY_SVR.DTO.FormDTO;
+using YJY_API.Controllers.Attributes;
+using YJY_API.DTO;
+using YJY_API.DTO.FormDTO;
 using Z.EntityFramework.Plus;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/user")]
     public class UserController : YJYController
@@ -111,13 +111,13 @@ namespace YJY_SVR.Controllers
 
             nickname = nickname.Trim();
             if (nickname.Length > NICKNAME_MAX_LENGTH)
-                return new ResultDTO() { success = false, message = __(TransKey.NICKNAME_TOO_LONG) };
+                return new ResultDTO() { success = false, message = "nickname too long" };
 
             if (db.Users.Any(o => o.Id != UserId && o.Nickname == nickname))
                 return new ResultDTO
                 {
                     success = false,
-                    message = __(TransKey.NICKNAME_EXISTS)
+                    message = Resources.Resource.NicknameExisted,
                 };
 
             var user = GetUser();

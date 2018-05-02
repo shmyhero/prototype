@@ -14,12 +14,12 @@ using YJY_COMMON.Model.Context;
 using YJY_COMMON.Service;
 using YJY_COMMON.Util;
 using YJY_COMMON.Util.Extension;
-using YJY_SVR.Caching;
-using YJY_SVR.Controllers.Attributes;
-using YJY_SVR.DTO;
-using YJY_SVR.DTO.FormDTO;
+using YJY_API.Caching;
+using YJY_API.Controllers.Attributes;
+using YJY_API.DTO;
+using YJY_API.DTO.FormDTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/fund")]
     public class FundController : YJYController
@@ -59,7 +59,12 @@ namespace YJY_SVR.Controllers
                     .Skip((pageNum - 1)*pageSize)
                     .Take(pageSize)
                     .ToList();
-            return transfers.Select(o => Mapper.Map<TransferDTO>(o)).ToList();
+            var result = transfers.Select(o => Mapper.Map<TransferDTO>(o)).ToList();
+            foreach (var t in result)
+            {
+                t.type = (string) HttpContext.GetGlobalResourceObject("Resource", "TransferType_" + t.type);
+            }
+            return result;
         }
 
         [HttpPut]

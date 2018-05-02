@@ -11,7 +11,7 @@ using System.Web.Http.Controllers;
 using System.Web.Http.Filters;
 using YJY_COMMON.Model.Context;
 
-namespace YJY_SVR.Controllers.Attributes
+namespace YJY_API.Controllers.Attributes
 {
     public class BasicAuth : AuthorizationFilterAttribute
     {

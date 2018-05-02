@@ -9,10 +9,10 @@ using Microsoft.AspNet.SignalR.Hubs;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Util;
-using YJY_SVR.Caching;
-using YJY_SVR.DTO.SignalRDTO;
+using YJY_API.Caching;
+using YJY_API.DTO.SignalRDTO;
 
-namespace YJY_SVR.SignalR
+namespace YJY_API.SignalR
 {
     public class QuoteFeedTicker
     {

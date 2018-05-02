@@ -7,10 +7,10 @@ using System.Web.Http;
 using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Util;
-using YJY_SVR.Controllers.Attributes;
-using YJY_SVR.DTO;
+using YJY_API.Controllers.Attributes;
+using YJY_API.DTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/rank")]
     public class RankController : YJYController

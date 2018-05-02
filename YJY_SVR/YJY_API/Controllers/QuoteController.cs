@@ -8,10 +8,10 @@ using AutoMapper;
 using ServiceStack.Redis;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Util;
-using YJY_SVR.Caching;
-using YJY_SVR.DTO;
+using YJY_API.Caching;
+using YJY_API.DTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/quote")]
     public class QuoteController : YJYController

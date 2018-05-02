@@ -205,6 +205,16 @@
     <Content Include="WebPages\insight.html" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="App_GlobalResources\Resource.zh.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.zh.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Resource.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\MapperConfig.cs" />
     <Compile Include="App_Start\OwinStartup.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
@@ -263,6 +273,18 @@
       <Project>{0cff222d-45d3-465d-b755-23a4e6f2c2d3}</Project>
       <Name>YJY_COMMON</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Resource.zh.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resource.zh.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Resource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resource.designer.cs</LastGenOutput>
+    </Content>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

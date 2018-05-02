@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace YJY_SVR.DTO.SignalRDTO
+namespace YJY_API.DTO.SignalRDTO
 {
     public class QuoteFeed
     {

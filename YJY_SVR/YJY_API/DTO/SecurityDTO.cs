@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using YJY_COMMON.Model.Cache;
 
-namespace YJY_SVR.DTO
+namespace YJY_API.DTO
 {
     /// <summary>
     /// todo: for test use only

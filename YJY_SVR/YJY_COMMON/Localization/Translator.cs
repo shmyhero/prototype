@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
+using System.Net.Http;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -11,6 +12,12 @@ namespace YJY_COMMON.Localization
     public class Translator
     {
         public const string CULTURE_SYSTEM_DEFAULT = "en-US";
+
+        public static bool IsChineseCulture(string cultureName)
+        {
+            var lower = cultureName.ToLower();
+            return lower.StartsWith("zh");
+        }
 
         public static string Translate(TransKey transKey)
         {
@@ -24,7 +31,7 @@ namespace YJY_COMMON.Localization
         {
             var str = RemoveENameSuffix(name);
 
-            if (Thread.CurrentThread.CurrentUICulture.Name == YJYGlobal.CULTURE_EN)
+            if (!IsChineseCulture(Thread.CurrentThread.CurrentUICulture.Name))
                 return str;
 
             var lower = str.ToLower();
@@ -48,22 +55,22 @@ namespace YJY_COMMON.Localization
             //    return str;
         }
 
-        public static string GetTransferTypeDescription(string transferType)
-        {
-            switch (transferType)
-            {
-                case "Open":
-                    return "开仓";
-                case "Close":
-                    return "平仓";
-                case "THTDeposit":
-                    return "入金";
-                case "THTWithdrawal":
-                    return "出金";
-                default:
-                    throw new ArgumentOutOfRangeException();
-            }
-        }
+        //public static string GetTransferTypeDescription(string transferType)
+        //{
+        //    switch (transferType)
+        //    {
+        //        case "Open":
+        //            return "开仓";
+        //        case "Close":
+        //            return "平仓";
+        //        case "THTDeposit":
+        //            return "入金";
+        //        case "THTWithdrawal":
+        //            return "出金";
+        //        default:
+        //            throw new ArgumentOutOfRangeException();
+        //    }
+        //}
 
         public static string RemoveENameSuffix(string name)
         {

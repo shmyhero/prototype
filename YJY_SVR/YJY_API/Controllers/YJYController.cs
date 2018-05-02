@@ -11,7 +11,7 @@ using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     public class YJYController : ApiController
     {
@@ -105,9 +105,9 @@ namespace YJY_SVR.Controllers
             return null;
         }
 
-        public string __(TransKey transKey)
-        {
-            return Translator.Translate(transKey);
-        }
+        //public string __(TransKey transKey)
+        //{
+        //    return Translator.Translate(transKey);
+        //}
     }
 }

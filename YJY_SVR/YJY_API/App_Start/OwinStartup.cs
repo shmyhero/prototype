@@ -6,7 +6,7 @@ using Microsoft.AspNet.SignalR;
 using Microsoft.Owin.Cors;
 using Owin;
 
-namespace YJY_SVR
+namespace YJY_API
 {
     public class Startup
     {

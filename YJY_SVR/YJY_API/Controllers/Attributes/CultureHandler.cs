@@ -7,7 +7,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using YJY_COMMON.Localization;
 
-namespace YJY_SVR.Controllers.Attributes
+namespace YJY_API.Controllers.Attributes
 {
     public class CultureHandler : DelegatingHandler
     {

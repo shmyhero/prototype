@@ -4,7 +4,7 @@ using System.Linq;
 using System.Web;
 using Newtonsoft.Json.Linq;
 
-namespace YJY_SVR.DTO
+namespace YJY_API.DTO
 {
     public class ResultDTO
     {

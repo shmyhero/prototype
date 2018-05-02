@@ -12,12 +12,12 @@ using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
 using YJY_COMMON.Util;
-using YJY_SVR.Caching;
-using YJY_SVR.Controllers.Attributes;
-using YJY_SVR.DTO;
-using YJY_SVR.DTO.FormDTO;
+using YJY_API.Caching;
+using YJY_API.Controllers.Attributes;
+using YJY_API.DTO;
+using YJY_API.DTO.FormDTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/position")]
     public class PositionController : YJYController
@@ -37,13 +37,13 @@ namespace YJY_SVR.Controllers
 
             var user = GetUser();
             if(user.Balance<form.invest)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,__(TransKey.NOT_ENOUGH_BALANCE)));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,Resources.Resource.NotEnoughBalance));
 
             var cache = WebCache.Instance;
 
             var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == form.securityId);
             if (prodDef.QuoteType== enmQuoteType.Closed || prodDef.QuoteType== enmQuoteType.Inactive)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, __(TransKey.PROD_IS_CLOSED)));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Resource.ProductClosed));
 
             if (form.leverage > prodDef.MaxLeverage)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
@@ -76,7 +76,7 @@ namespace YJY_SVR.Controllers
             
             var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == form.securityId);
             if (prodDef.QuoteType == enmQuoteType.Closed || prodDef.QuoteType == enmQuoteType.Inactive)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, __(TransKey.PROD_IS_CLOSED)));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Resource.ProductClosed));
 
             var quote = cache.Quotes.FirstOrDefault(o => o.Id == form.securityId);
 

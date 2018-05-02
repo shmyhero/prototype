@@ -7,9 +7,9 @@ using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Util;
-using YJY_SVR.DTO;
+using YJY_API.DTO;
 
-namespace YJY_SVR
+namespace YJY_API
 {
     public class MapperConfig
     {
@@ -42,8 +42,8 @@ namespace YJY_SVR
 
                 cfg.CreateMap<User, UserDTO>();
 
-                cfg.CreateMap<Transfer, TransferDTO>()
-                .ForMember(dest=>dest.type, opt => opt.MapFrom(src =>Translator.GetTransferTypeDescription(src.Type)));
+                ////cfg.CreateMap<Transfer, TransferDTO>()
+                ////.ForMember(dest=>dest.type, opt => opt.MapFrom(src =>Translator.GetTransferTypeDescription(src.Type)));
             });
         }
     }

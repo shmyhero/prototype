@@ -9,7 +9,7 @@ using ServiceStack.Redis;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 
-namespace YJY_SVR.Caching
+namespace YJY_API.Caching
 {
     public class WebCacheInstance
     {

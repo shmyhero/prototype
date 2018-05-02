@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Microsoft.AspNet.SignalR.Hubs;
 
-namespace YJY_SVR.SignalR
+namespace YJY_API.SignalR
 {
     [HubName("Q")]
     //[QueryStringAuthorize]

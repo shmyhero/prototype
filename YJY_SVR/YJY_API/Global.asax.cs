@@ -4,8 +4,9 @@ using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Routing;
+using YJY_API.Controllers.Attributes;
 
-namespace YJY_SVR
+namespace YJY_API
 {
     public class WebApiApplication : System.Web.HttpApplication
     {
@@ -15,6 +16,8 @@ namespace YJY_SVR
 
             WebApiConfig.ConfigureJSONFormatter(GlobalConfiguration.Configuration);
             WebApiConfig.ConfigureDependencyResolver(GlobalConfiguration.Configuration);
+
+            GlobalConfiguration.Configuration.MessageHandlers.Add(new CultureHandler());
         }
     }
 }

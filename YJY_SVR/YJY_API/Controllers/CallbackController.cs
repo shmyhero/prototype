@@ -8,9 +8,9 @@ using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
-using YJY_SVR.DTO.FormDTO;
+using YJY_API.DTO.FormDTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/callback")]
     public class CallbackController : YJYController
