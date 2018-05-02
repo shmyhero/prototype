@@ -29,6 +29,7 @@ var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
+var LS = require("../LS");
 
 var extendHeight = 204
 var rowHeight = 56
@@ -99,11 +100,11 @@ export default class  MyPositionTabClosed extends React.Component {
 					showLoading: true,
 				}, (responseJson) => {
 					//TODO: Use real data!!!!!
-					for (var i in responseJson){
-						responseJson[i].isFollowing = true;
-						responseJson[i].followingUser = "一个人"
-						responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
-					}
+					// for (var i in responseJson){
+					// 	responseJson[i].isFollowing = true;
+					// 	responseJson[i].followingUser = "一个人"
+					// 	responseJson[i].followingUserPortrit = "https://yjystorage.blob.core.chinacloudapi.cn/user-pic/default/5.jpg"
+					// }
 					//TODO: Use real data!!!!!
 
 					var newStockInfoRowData;
@@ -252,13 +253,13 @@ export default class  MyPositionTabClosed extends React.Component {
 			case will_load_more:
 				return (
 					<View style={{height: 35, justifyContent: 'center', alignItems: 'center'}}>
-						<Text style={styles.refreshTextStyle}>加载更多</Text>
+						<Text style={styles.refreshTextStyle}>{LS.str("LOAD_MORE")}</Text>
 					</View>
 				)
 			case loading_more:
 				return (
 					<View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center'}}>
-						{this.renderActivityIndicator()}<Text style={styles.refreshTextStyle}>加载中...</Text>
+						<Text style={styles.refreshTextStyle}>{LS.str("DATA_LOADING")}</Text>
 					</View>
 				)
 			case loaded_all:
@@ -273,7 +274,7 @@ export default class  MyPositionTabClosed extends React.Component {
 		var styleAttr = 'small' //or "large"
 		return (
 			<Text style={{color:color}}>
-				载入中...
+				{LS.str("DATA_LOADING")}
 			</Text>
 			// <WaitingRing color={color} styleAttr={styleAttr}/>
 		);
@@ -355,22 +356,22 @@ export default class  MyPositionTabClosed extends React.Component {
 				<View style={[styles.darkSeparator]} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>类型</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
 						<Image style={styles.extendImageBottom} source={tradeImage}/>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>糖果</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_SUGAR_AMOUNT")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.invest && rowData.invest.toFixed(2)}</Text>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>倍数</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
 						<Text style={styles.extendTextBottom}>x{rowData.leverage}</Text>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>开仓价格</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_OPEN_PRICE")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
 					</View>
 					<View style={styles.extendMiddle}>
@@ -384,7 +385,7 @@ export default class  MyPositionTabClosed extends React.Component {
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>平仓价格</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_CLOSE_PRICE")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.closePrice.maxDecimal(5)}</Text>
 					</View>
 					<View style={styles.extendMiddle}>

@@ -20,6 +20,7 @@ import SortableListView from 'react-native-sortable-listview';
 import NavBar from './component/NavBar';
 import StockRowComponent from './component/StockRowComponent';
 
+var LS = require("../LS");
 var LayoutAnimation = require('LayoutAnimation')
 var ColorConstants = require('../ColorConstants')
 var NetConstants = require('../NetConstants')
@@ -70,7 +71,7 @@ class StockSearchScreen extends Component {
                     }); 
                 },
                 (result) => {
-                    Alert.alert('提示', result.errorMessage);
+                    Alert.alert(LS.str("HINT"), result.errorMessage);
                 }
             )
         });
@@ -158,7 +159,7 @@ class StockSearchScreen extends Component {
     renderContent(){
         if(this.state.isLoading){
             return (<View style={{ flex: 1, justifyContent:'center'}}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             </View>);
         }else{
             return (
@@ -192,7 +193,7 @@ class StockSearchScreen extends Component {
     render() {
         return (
             <View style={styles.mainContainer}>
-                <NavBar title="选择产品" navigation={this.props.navigation}/>
+                <NavBar title={LS.str("SELECT_PRODUCT")} navigation={this.props.navigation}/>
                 {this.renderContent()}
             </View>
         )

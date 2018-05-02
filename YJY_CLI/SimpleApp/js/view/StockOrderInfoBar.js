@@ -12,10 +12,11 @@ import {
 
 var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
+var LS = require("../LS");
 
 var {height, width} = Dimensions.get('window');
 const RESIZE_SCALE = width/375
-var itemTitleFontSize = Math.round(16*RESIZE_SCALE)
+var itemTitleFontSize = Math.round(14*RESIZE_SCALE)
 var itemValueFontSize = Math.round(14*RESIZE_SCALE)
 
 var TITLE_HEIGHT = 40;
@@ -111,7 +112,7 @@ export default class StockOrderInfoBar extends Component {
                 <View style={[styles.titleContainer, {justifyContent:'center'}]}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch'}}>
                         <Text style={[styles.titleText, {flex:1, marginLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}, titleTextStyle]} numberOfLines={1} ellipsizeMode={'head'}>
-                            {this.state.name} - {this.state.isCreate? "开仓" : "平仓"}
+                            {this.state.name} - {this.state.isCreate? LS.str("ORDER_OPEN") : LS.str("ORDER_CLOSE")}
                         </Text>
                         {this.state.isCreate ?
                             null :
@@ -124,13 +125,13 @@ export default class StockOrderInfoBar extends Component {
                 <View style={[styles.centerContainer]}>
                     <View style={{flex: 1, alignItems: 'flex-start', paddingLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, paddingVertical: 8}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            类型
+                            {LS.str("ORDER_TYPE")}
                         </Text>
                         <Image style={[styles.longImage, longImageStyle]} source={longImageSrc}/>
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            糖果
+                            {LS.str("ORDER_SUGAR_AMOUNT")}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.invest.toFixed(2)}
@@ -138,7 +139,7 @@ export default class StockOrderInfoBar extends Component {
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end', paddingRight: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            倍数
+                            {LS.str("ORDER_MULTIPLE")}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.leverage}
@@ -149,7 +150,7 @@ export default class StockOrderInfoBar extends Component {
                 <View style={[styles.bottomContainer]}>
                     <View style={{flex: 1, alignItems: 'flex-start', paddingLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, paddingVertical: 8}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            交易价格
+                            {LS.str("ORDER_TRADE_PRICE")}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.settlePrice}
@@ -157,7 +158,7 @@ export default class StockOrderInfoBar extends Component {
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            {this.state.isCreate?"最大风险（糖果）":"盈亏（糖果）"}
+                            {this.state.isCreate? LS.str("ORDER_MAX_RISK") : LS.str("ORDER_PROFIT_AND_LOSS")}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle, {color: plColor}]}>
                         {this.state.isCreate ? this.state.invest.toFixed(2) : this.state.pl.toFixed(2)}
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
 	itemTitleText: {
 		fontSize: itemTitleFontSize,
 		textAlign: 'center',
-		color: '#7d7d7d',
+        color: '#7d7d7d',
 	},
 
 	itemValueText: {

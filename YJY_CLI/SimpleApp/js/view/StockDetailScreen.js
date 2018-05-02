@@ -24,6 +24,7 @@ var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var WebSocketModule = require("../module/WebSocketModule");
+var LS = require('../LS');
 
 import { NavigationActions } from 'react-navigation';
 import StockOrderInfoModal from "./StockOrderInfoModal";
@@ -400,16 +401,16 @@ class StockDetailScreen extends Component {
     }
 
     renderOperationButton(value){
-        var imageSource = require("../../images/stock_detail_option_up_unselected.png")
-        var selectedImageSource = require("../../images/stock_detail_option_up_selected.png")
+        var imageSource = LS.loadImage("stock_detail_option_up_unselected")
+        var selectedImageSource = LS.loadImage("stock_detail_option_up_selected")
         if (value == 0){
             //Down
-            imageSource = require("../../images/stock_detail_option_down_unselected.png")
-            selectedImageSource = require("../../images/stock_detail_option_down_selected.png")
+            imageSource = LS.loadImage("stock_detail_option_down_unselected")
+            selectedImageSource = LS.loadImage("stock_detail_option_down_selected")
         }else{
             //Up
-            imageSource = require("../../images/stock_detail_option_up_unselected.png")
-            selectedImageSource = require("../../images/stock_detail_option_up_selected.png")
+            imageSource = LS.loadImage("stock_detail_option_up_unselected")
+            selectedImageSource = LS.loadImage("stock_detail_option_up_selected")
         }
 
         return this.renderButtonInGroup({
@@ -424,9 +425,9 @@ class StockDetailScreen extends Component {
         var source = null;
         var buttonLabel;
         if(this.state.stockInfo.isOpen == true || this.state.stockInfo.isOpen == undefined){
-            buttonLabel = "开始"
+            buttonLabel = LS.str("BUY")
         }else{
-            buttonLabel = this.state.stockInfo.status == 2 ? "暂停" : "闭市";
+            buttonLabel = this.state.stockInfo.status == 2 ? LS.str("STOCK_MARKET_STOP") : LS.str("STOCK_MARKET_CLOSED");
         }
 
         if(this.isSubmitButtonEnabled()){
@@ -497,7 +498,7 @@ class StockDetailScreen extends Component {
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require('../../images/stock_detail_amount_container.png')}>
+                        source={require("../../images/en-us/stock_detail_amount_container.png")}>
                         <View style={[styles.buttonsRowContainer]}>                               
                             {this.renderAmountButton(50)}
                             {this.renderAmountButton(100)}
@@ -506,7 +507,7 @@ class StockDetailScreen extends Component {
                         </View>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require('../../images/stock_detail_multiple_container.png')}>
+                        source={LS.loadImage('stock_detail_multiple_container')}>
                         <View style={[styles.buttonsRowContainer]}>
                             {this.renderMultiplierButton(10)}
                             {this.renderMultiplierButton(30)}
@@ -517,7 +518,7 @@ class StockDetailScreen extends Component {
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
                         <ImageBackground style={{flex:1, marginRight: containerHorizontalPadding/2}}
-                            source={require('../../images/stock_detail_direction_container.png')}>
+                            source={LS.loadImage('stock_detail_direction_container')}>
                             <View style={[styles.buttonsContainer, styles.bigButtonsContainer,
                                 {justifyContent:'center', alignItems:'center'}]}>
                                 {this.renderOperationButton(1)}
@@ -525,7 +526,7 @@ class StockDetailScreen extends Component {
                             </View>
                         </ImageBackground>
                         <ImageBackground style={{flex:1, marginLeft: containerHorizontalPadding/2}}
-                            source={require('../../images/stock_detail_trading_container.png')}>
+                            source={LS.loadImage("stock_detail_trading_container")}>
                             <View style={[styles.buttonsContainer, styles.bigButtonsContainer, 
                                 {justifyContent:'center', alignItems:'center'}]}>                               
                                 {this.renderSubmitButton()}                            

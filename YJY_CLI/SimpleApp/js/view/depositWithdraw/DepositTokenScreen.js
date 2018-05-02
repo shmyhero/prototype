@@ -19,7 +19,7 @@ var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 import LogicData from '../../LogicData';
 var Toast = require('@remobile/react-native-toast');
-
+var LS = require("../../LS")
 // create a component
 class DepositScreen extends Component {
     constructor(props){
@@ -50,7 +50,7 @@ class DepositScreen extends Component {
     
     copyAddress(){
         Clipboard.setString(this.state.tokenAddress)
-        Toast.show("复制成功")
+        Toast.show(LS.str("DEPOSIT_COPY_SUCCESS"))
     }
 
     renderTopPart(){
@@ -58,19 +58,19 @@ class DepositScreen extends Component {
         var imageWidth = width;
 
         return (
-            <ImageBackground style={{height:imageHeight, width:imageWidth}} source={require("../../../images/deposit_token_image.jpg")}>
+            <ImageBackground style={{height:imageHeight, width:imageWidth}} source={LS.loadImage("deposit_token_image")}>
                 <View style={{position:'absolute', top: imageHeight* 0.6, left: imageWidth * 0.15, flex:1}}>
-                    <Text style={styles.titleText}>注册以太坊钱包</Text>
+                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_1")}</Text>
                     <Text style={styles.bodyText}>
-                        以太坊官网：
+                        {LS.str("DEPOSIT_HINT_2")}
                         <Text style={styles.linkText}>{"https://wallet.ethereum.org"}</Text>
                     </Text>
                 </View>
                 <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, 
                     width:imageWidth * 0.8, flex:1}}>
-                    <Text style={styles.titleText}>用户把自己的Token转入盈交易</Text>
+                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_3")}</Text>
                     <Text style={styles.bodyText} numberOfLines={3}>
-                        盈交易收款地址: 
+                        {LS.str("DEPOSIT_YJY_ADDRESS")}
                         <Text style={styles.linkText}>{this.state.tokenAddress}</Text>
                     </Text>
                 </View>
@@ -81,7 +81,7 @@ class DepositScreen extends Component {
         
         return (
             <View style={styles.container}>
-                <NavBar title="入金"
+                <NavBar title={LS.str("ME_DEPOSIT_TITLE")}
                         showBackButton={true}
                         backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}                       
                         navigation={this.props.navigation}
@@ -89,7 +89,7 @@ class DepositScreen extends Component {
                 <View style={styles.contentContainer}>
                     {this.renderTopPart()}
                     <SubmitButton onPress={()=>this.copyAddress()}
-                        text={"复制盈交易收款地址"} />
+                        text={LS.str("DEPOSIT_COPY_YJY_ADDRESS")} />
                 </View>
                
             </View>

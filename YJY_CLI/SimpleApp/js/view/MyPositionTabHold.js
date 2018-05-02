@@ -26,7 +26,7 @@ var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
-
+var LS = require("../LS");
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
@@ -716,7 +716,7 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderStopProfitLoss(rowData, type) {
-		var titleText = type === TYPE_STOP_PROFIT ?  "止盈":"止损"
+		var titleText = type === TYPE_STOP_PROFIT ?  LS.str("TAKE_PROFIT"): LS.str("STOP_LOSS")
 		var switchIsOn = type === TYPE_STOP_PROFIT ? this.state.stopProfitSwitchIsOn : this.state.stopLossSwitchIsOn
 		var price = rowData.settlePrice
 		var percent = type === TYPE_STOP_PROFIT ? this.stopProfitPercent : this.stopLossPercent
@@ -1044,7 +1044,7 @@ export default class  MyPositionTabHold extends React.Component {
 			buttonStyle = [styles.okView]
 			buttonTextStyle = [styles.okButton];
 			if(rowData.isSettingProfitLoss){
-				buttonText = "请稍后"
+				buttonText = LS.str("WITHDRAW_WITHDRAW");
 				buttonStyle = [styles.okView];
 				buttonTextStyle = [styles.okButton];
 			}
@@ -1086,7 +1086,7 @@ export default class  MyPositionTabHold extends React.Component {
 								{borderLeftColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 								{borderRightColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 							]}>
-						<Text style={styles.extendTextTop}>止盈/止损</Text>
+						<Text style={styles.extendTextTop}>{LS.str("TAKE_PROFIT_STOP_LOSS_TITLE")}</Text>
 						<Image style={styles.extendImageBottom} source={stopLossImage}/>
 					</TouchableOpacity>
 
@@ -1104,7 +1104,7 @@ export default class  MyPositionTabHold extends React.Component {
         var lastPrice = this.getLastPrice(rowData)
         
 		// console.log('RAMBO rowData.id = ' + rowData.security.id)		
-		var currentPriceLabel = rowData.isLong ? "当前卖价" : "当前买价"
+		var currentPriceLabel = rowData.isLong ? LS.str("ORDER_CURRENT_BUY_PRICE") : LS.str("ORDER_CURRENT_SELL_PRICE")
 		var openDate = new Date(rowData.createAt)
 		
 		var financing_dividend_sum = 0;
@@ -1120,22 +1120,22 @@ export default class  MyPositionTabHold extends React.Component {
 				<View style={[styles.darkSeparator, styles.firstSeparator]} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{"类型"}</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
 						<Image style={styles.extendImageBottom} source={tradeImage}/>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>{"糖果"}</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_SUGAR_AMOUNT")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.invest.toFixed(2)}</Text>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{"倍数"}</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.leverage}</Text>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{"开仓价格"}</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
 					</View>
 					<View style={styles.extendMiddle}>
@@ -1272,7 +1272,7 @@ export default class  MyPositionTabHold extends React.Component {
 	renderEmpty(){
 		return (
 			<View style={styles.loadingTextView}>
-				<Text style={styles.loadingText}>暂无持仓记录</Text>
+				<Text style={styles.loadingText}>{LS.str("POSITION_HOLD_NO_ITEMS")}</Text>
 			</View>
 		);
 	}
