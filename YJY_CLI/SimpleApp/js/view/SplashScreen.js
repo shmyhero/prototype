@@ -10,7 +10,7 @@ import {
   Dimensions,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-
+import {ViewKeys} from '../../AppNavigatorConfiguration';
 var imgSplash = require('../../images/splash.jpg')
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
@@ -41,8 +41,8 @@ export default class  SplashScreen extends React.Component {
 
     jump2Home(){
         const resetAction = NavigationActions.reset({
-        index: 0,
-        actions: [NavigationActions.navigate({ routeName: 'Home'})]
+            index: 0,
+            actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME})]
         })
         this.props.navigation.dispatch(resetAction) 
     }

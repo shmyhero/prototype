@@ -8,8 +8,8 @@ import {
     Modal,
     Dimensions,
     ImageBackground,
-    Picker,
     Image,
+    Picker,
 } from 'react-native';
 
 var {height, width} = Dimensions.get("window");
@@ -17,6 +17,7 @@ var ColorConstants = require('../ColorConstants');
 
 import LinearGradient from 'react-native-linear-gradient'
 // create a component
+
 class FollowScreen extends Component {
     constructor(props){
         super(props)
@@ -91,6 +92,7 @@ class FollowScreen extends Component {
     }
 
     renderPicker(title, stateKey, availableKey){
+
         var pickerItems = this.state[availableKey].map( (value, index, array)=>{
             return (
                 <Picker.Item label={""+value} value={value} key={index}/>
@@ -101,8 +103,8 @@ class FollowScreen extends Component {
                 <Text style={styles.pickerTitle}>{title}</Text>
                 <Picker
                     selectedValue={this.state[stateKey]}
-                    style={{ height: 150, width: 100 }}
-                    itemStyle={{height: 150}}
+                    style={{flex:1, height:150, width: 100 }}
+                    itemStyle={{color:"#bfbfbf", height:150, fontSize:20}}
                     onValueChange={(itemValue, itemIndex) => this.onChangePickerValue(itemValue, itemIndex, stateKey)}>
                     {pickerItems}
                 </Picker>
@@ -156,7 +158,9 @@ class FollowScreen extends Component {
         return (
             <Modal style={styles.container}
                 transparent={true}
-                visible={this.state.modalVisible}>
+                visible={this.state.modalVisible}
+                onRequestClose={()=>{}}
+                >
                 <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
                     <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
                         {this.renderContent()}
