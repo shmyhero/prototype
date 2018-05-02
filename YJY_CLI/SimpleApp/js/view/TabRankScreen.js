@@ -28,6 +28,7 @@ var {height, width} = Dimensions.get('window');
 var RANKING_TYPE_0 = 0;//达人
 var RANKING_TYPE_1 = 1;//关注
 var RANKING_TYPE_2 = 2;//跟随
+var LS = require('../LS')
 
 const RANK_LIST = 'rankList'
 //Tab2:榜单
@@ -100,7 +101,7 @@ export default class  TabRankScreen extends React.Component {
             borderColor:leftbd,
             borderWidth:1,
             }}>
-            <Text style={{color:leftTextColor}}>达人</Text>
+            <Text style={{color:leftTextColor}}>{LS.str("EXPERT")}</Text>
           </TouchableOpacity>
           <TouchableOpacity 
             onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
@@ -111,7 +112,7 @@ export default class  TabRankScreen extends React.Component {
             borderColor:middlebd,
             borderWidth:1,
             }}>
-            <Text style={{color:middleTextColor}}>关注</Text>
+            <Text style={{color:middleTextColor}}>{LS.str("CONCERN")} </Text>
           </TouchableOpacity>
           <TouchableOpacity 
             onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
@@ -124,7 +125,7 @@ export default class  TabRankScreen extends React.Component {
             backgroundColor:rightbg,
             borderColor:rightbd,
             borderWidth:1,}}>
-            <Text style={{color:rightTextColor}}>跟随</Text>
+            <Text style={{color:rightTextColor}}>{LS.str("FOLLOW")} </Text>
           </TouchableOpacity>
         </View> 
        

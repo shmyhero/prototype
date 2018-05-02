@@ -21,6 +21,8 @@ var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(15*width/375.0);
 var LogicData = require("../../../LogicData");
 var {height, width} = Dimensions.get('window');
+var LS = require('../../../LS')
+
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 		if(r1.security && r2.security){
 			if(r1.security.last !== r2.security.last || r1.security.bid !== r2.security.bid || r1.security.ask !== r2.security.ask){
@@ -205,9 +207,10 @@ export default class PositionBlock extends Component {
 	}
 
   render() {
-    var strYHWGKSJ = '用户未公开数据'
-    var strZWCCJL = '暂无持仓记录'
-    var strZWPCJL = '暂无平仓记录'
+    var strYHWGKSJ = LS.str('YHWGKSJ')
+    var strZWCCJL = LS.str('ZWCCJL')
+    var strZWPCJL = LS.str('ZWPCJL')
+    
     if(this.props.isPrivate){
       return (
         <View style={styles.emptyView}>

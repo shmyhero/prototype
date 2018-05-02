@@ -19,7 +19,7 @@ var MyPositionTabHold = require('./MyPositionTabHold')
 var MyPositionTabClosed = require('./MyPositionTabClosed')  
 var MyPositionTabStatistics = require('./MyPositionTabStatistics')  
 var {height,width} = Dimensions.get('window');
-
+var LS = require('../LS')
 import LoginScreen from './LoginScreen';
 import LogicData from "../LogicData";
 var {EventCenter, EventConst} = require('../EventCenter');
@@ -93,7 +93,7 @@ class TabPositionScreen extends Component {
         <MyPositionTabStatistics navigation={this.props.navigation} ref={'page2'}/>,
       ]
   
-      var tabNameShow = ['持仓','平仓','统计']
+      var tabNameShow = [LS.str('OPEN'),LS.str('CLOSED'),LS.str('STATISTICS')]
   
       var viewPages = tabNameShow.map(
         (tabNameShow, i) =>

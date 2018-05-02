@@ -1,3 +1,5 @@
+var LS = require("../LS")
+
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
         "M+": this.getMonth() + 1, //月份
@@ -54,8 +56,8 @@ Date.prototype.getDateString = function(){
 
 
     Date.prototype.getDateFullString = function(){
-        var weekday = new Array("日", "一", "二", "三", "四", "五", "六");
-        var day = weekday[this.getDay()];//当前系统天数0-6 
+        var weekday = new Array("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
+        var day = LS.str(weekday[this.getDay()]);//当前系统天数0-6 
 
         var dd = this.getDate();
         var mm = this.getMonth()+1; //January is 0!
@@ -69,7 +71,7 @@ Date.prototype.getDateString = function(){
         }
 
          
-        today = yyyy+"年"+mm+"月"+dd+"日" + "  星期" + day;
+        today = yyyy+"."+mm+"."+dd+" " + day;
         return today;
       }
 

@@ -13,11 +13,12 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import { LIST_HEADER_BAR_HEIGHT } from '../UIConstants';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
- 
+var LS = require("../LS")
 var listData = []
 
 export default class  RankHeroList extends React.Component {
@@ -128,9 +129,9 @@ export default class  RankHeroList extends React.Component {
                                 <Image style={{height:34,width:34,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
-                                <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>我的</Text>
+                                <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>{LS.str("MINE")}</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
-                                    <Text style={{fontSize:12,color:'#6dcafe'}}>胜率：</Text>
+                                    <Text style={{fontSize:12,color:'#6dcafe'}}>{LS.str("WINRATE")}</Text>
                                     <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(2)}%</Text>
                                 </View>
                             </View>
@@ -163,7 +164,7 @@ export default class  RankHeroList extends React.Component {
                     <Image style={styles.headPortrait} source={{uri:data.picUrl}}></Image>
                     <Text style={styles.textTopUserName}>{data.nickname}</Text>
                     <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textWinRate}>胜率: </Text>
+                        <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
                         <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(2)}%</Text>
                     </View>  
                     <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
@@ -177,7 +178,7 @@ export default class  RankHeroList extends React.Component {
                     <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                     <Text style={styles.textTopUserName}>--</Text>
                     <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textWinRate}>胜率: </Text>
+                        <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
                         <Text style={styles.textTopUserScore}>--</Text>
                     </View>  
                     <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
@@ -225,7 +226,7 @@ export default class  RankHeroList extends React.Component {
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
-                                <Text style={{fontSize:12, color:'#999999'}}>胜率：</Text>
+                                <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
                                 <Text style={{fontSize:14, color:'#666666'}}>{(rowData.winRate*100).toFixed(2)}%</Text>
                             </View>
                         </View>

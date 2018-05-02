@@ -18,7 +18,7 @@ var NetConstants = require('../../../NetConstants');
  
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(14*width/375.0);
-
+var LS = require('../../../LS')
 import LogicData from "../../../LogicData";
 
 var {height, width} = Dimensions.get('window');
@@ -155,9 +155,9 @@ export default class ProfitBlock extends Component {
 	}
 
   renderHeaderBar() {
-    var strCP = '产品'
-    var strPJSY = '平均盈亏'
-    var strZSL = '总胜率'
+    var strCP = LS.str('CP')
+    var strPJSY = LS.str('PJYK')
+    var strZSL = LS.str('ZSL')
     return (
       <View style={styles.headerBar}>
         <View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
@@ -234,7 +234,7 @@ export default class ProfitBlock extends Component {
         }
 
   renderPrivate(){
-    var strYHWGKSJ = '用户未公开数据'
+    var strYHWGKSJ = LS.str('YHWGKSJ')
     return(
         <View style={styles.emptyView}>
            <Text style={styles.loadingText}>{strYHWGKSJ}</Text>
@@ -244,7 +244,7 @@ export default class ProfitBlock extends Component {
 
   renderPublic(){
 
-    var strZWYKFB = '暂无盈亏分布'
+    var strZWYKFB = LS.str('ZWPCJL')
     if(!this.state.contentLoaded){
         return (
             <View></View>
@@ -285,7 +285,7 @@ export default class ProfitBlock extends Component {
   }
 
   render() {
-    var strYKFB = '盈亏分布'
+    var strYKFB = LS.str('YKFB')
       return (
         <View style={{backgroundColor:'transparent'}}>
             <View>

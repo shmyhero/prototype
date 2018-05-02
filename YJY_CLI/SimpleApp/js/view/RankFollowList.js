@@ -18,7 +18,7 @@ var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 var listData = []
-
+var LS = require('../LS')
 export default class  RankFollowList extends React.Component {
     static propTypes = {
         showMeBlock: PropTypes.bool,
@@ -104,7 +104,7 @@ export default class  RankFollowList extends React.Component {
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
-                                <Text style={{fontSize:12, color:'#999999'}}>胜率：</Text>
+                                <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
                                 <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
                             </View>
                         </View>

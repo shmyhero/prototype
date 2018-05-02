@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+var LS = require("../LS")
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
@@ -113,15 +114,15 @@ export default class  RankTradeFollowList extends React.Component {
                 <View style = {{width:width-60,height:0.5,marginTop:-5, backgroundColor:'#eeeeee'}}></View>
                     <View style={{height:58,width:width-60,flexDirection:'row'}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-start'}}>
-                        <Text style={styles.textItemTitle}>申请跟随</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("APPLY_FOLLOW")}</Text>
                         <Text style={styles.textItemValue}>2018.05.01</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textItemTitle}>每笔跟随糖果</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_FOLLOW")}</Text>
                         <Text style={styles.textItemValue}>20</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
-                        <Text style={styles.textItemTitle}>跟随笔数</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("FOLLOW_TIMES")}</Text>
                         <Text style={styles.textItemValue}>2</Text>
                     </View>
                 </View>
@@ -139,7 +140,7 @@ export default class  RankTradeFollowList extends React.Component {
                                     <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image> 
                                 </View>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'flex-start'}}>
-                                    <Text style={{fontSize:12, color:'#999999'}}>胜率:</Text>
+                                    <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
                                     <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
                                 </View>
                             </View>
