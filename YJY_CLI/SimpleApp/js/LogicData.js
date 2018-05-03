@@ -74,8 +74,16 @@ class LogicData {
 
 	static setLanguage(value){
 		if(this.language!==value){
-			StorageModule.setLanguage(value)
-			this.language = value
+			if(value && value.includes("en")){
+				this.language = "en-us";
+			}else if(value && value.includes("zh")){
+				this.language = "zh-cn";
+			}else{
+				this.language = "en-us";
+			}
+			console.log("setLanguage value.includes(en)" + value.includes("en"))
+			console.log("setLanguage value.includes(zh)" + value.includes("zh"))
+			console.log("setLanguage " + this.language)
 		}
 	}
 

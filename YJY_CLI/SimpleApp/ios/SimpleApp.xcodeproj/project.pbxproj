@@ -36,6 +36,7 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* SimpleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SimpleAppTests.m */; };
+		41B16C52209B002600C91652 /* libRCTLocale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B16C34209B001000C91652 /* libRCTLocale.a */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
 		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
 		82957684C79A42F3B32AF98C /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DC94D2363F4E46AED99507 /* libRealmReact.a */; };
@@ -255,6 +256,13 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
+		41B16C33209B001000C91652 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 41B16C23209B000F00C91652 /* RCTLocale.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = DB248BF21C18396500105A5D;
+			remoteInfo = RCTLocale;
+		};
 		41D5928F204FCB34005DBDA8 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 146833FF1AC3E56700842450 /* React.xcodeproj */;
@@ -371,6 +379,7 @@
 		1EF178894B564C6884768377 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2D02E47B1E0B4A5D006451C7 /* SimpleApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SimpleApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SimpleApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		41B16C23209B000F00C91652 /* RCTLocale.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLocale.xcodeproj; path = "../node_modules/react-native-locale/ios/RCTLocale.xcodeproj"; sourceTree = "<group>"; };
 		41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4637A3510A384E83BAD572A4 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		48DC94D2363F4E46AED99507 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
@@ -396,6 +405,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				41B16C52209B002600C91652 /* libRCTLocale.a in Frameworks */,
 				41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */,
 				ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */,
 				23987F301FA07BAA0016C95F /* libRCTAnimation.a in Frameworks */,
@@ -557,6 +567,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		41B16C24209B000F00C91652 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				41B16C34209B001000C91652 /* libRCTLocale.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		41D59268204FCB31005DBDA8 /* Recovered References */ = {
 			isa = PBXGroup;
 			children = (
@@ -621,6 +639,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				41B16C23209B000F00C91652 /* RCTLocale.xcodeproj */,
 				41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */,
 				5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */,
 				146833FF1AC3E56700842450 /* React.xcodeproj */,
@@ -825,6 +844,10 @@
 				{
 					ProductGroup = 78C398B11ACF4ADC00677621 /* Products */;
 					ProjectRef = 78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */;
+				},
+				{
+					ProductGroup = 41B16C24209B000F00C91652 /* Products */;
+					ProjectRef = 41B16C23209B000F00C91652 /* RCTLocale.xcodeproj */;
 				},
 				{
 					ProductGroup = 00C302D41ABCB9D200DB3ED1 /* Products */;
@@ -1064,6 +1087,13 @@
 			fileType = archive.ar;
 			path = libjschelpers.a;
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		41B16C34209B001000C91652 /* libRCTLocale.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTLocale.a;
+			remoteRef = 41B16C33209B001000C91652 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		41D59290204FCB34005DBDA8 /* libjsinspector.a */ = {

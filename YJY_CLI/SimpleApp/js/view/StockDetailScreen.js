@@ -20,6 +20,7 @@ import {ViewKeys} from '../../AppNavigatorConfiguration';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import LogicData from "../LogicData";
 
+var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
@@ -235,6 +236,12 @@ class StockDetailScreen extends Component {
     
     goToPositionPage(){
         this.refs["orderFinishedModal"].hide();
+        this.setState({
+            Amount: undefined,
+            Multiplier: DEFAULT_MULTIPLIER,
+            Operation: undefined,
+        })
+        
         //this.props.navigation.navigate(ViewKeys.TAB_POSITION);
         //this.props.navigation.goBack(ViewKeys.TAB_POSITION);
     
@@ -456,14 +463,14 @@ class StockDetailScreen extends Component {
         if (this.state.dataStatus == DATA_STATUS_FAILED){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>数据读取失败...</Text>
+                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOAD_FAILED")}</Text>
                 </View>
             );
         }
         else if (this.state.dataStatus == DATA_STATUS_LOADING){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>数据读取中...</Text>
+                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOADING")}</Text>
                 </View>
             );
         }

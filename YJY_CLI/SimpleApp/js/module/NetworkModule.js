@@ -43,7 +43,8 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 	}
 	
 	params.headers['User-Agent'] = Platform.OS;
-	params.headers['language'] = LogicData.getLanguage();
+	params.headers['Accept-Language'] = LogicData.getLanguage();
+	console.log("url params", params)
 
 	fetch(url, params)
 		.then((response) => {
