@@ -84,6 +84,8 @@ var LS = {
     TOTAL_MOUNT:["总糖果","Total Mount"],
     REMAIN_MOUNT:["剩余糖果","Remain Mount"],
     SHARE:["分享","Share"],
+    NO_DYNAMIC:["暂无动态","No Data"],
+    
     
     
      

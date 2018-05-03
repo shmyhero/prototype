@@ -20,7 +20,9 @@ var heightRate = height/667.0
 export default class SplashScreen extends React.Component {
 
     componentWillMount(){
-        StatusBar.setBackgroundColor("#22bdfc");
+        if(Platform.OS == 'android'){
+            StatusBar.setBackgroundColor("#22bdfc");
+        } 
     }
 
     componentDidMount() {

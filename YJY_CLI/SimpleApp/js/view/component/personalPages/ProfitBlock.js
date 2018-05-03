@@ -163,8 +163,8 @@ export default class ProfitBlock extends Component {
         <View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
           <Text style={styles.headerTextLeft}>{strCP}</Text>
         </View>
-        <View style={[styles.rowCenterPart, {	paddingRight: 0,}]}>
-          <Text style={[styles.headerTextLeft, {paddingRight: 0,}]}>{strPJSY}</Text>
+        <View style={[styles.rowCenterPart]}>
+          <Text style={[styles.headerTextLeft]}>{strPJSY}</Text>
         </View>
         <View style={styles.rowRightPart}>
           <Text style={styles.headerTextLeft}>{strZSL}</Text>
@@ -325,12 +325,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     backgroundColor: '#ffffff',
-  },
-  rowLeftPart: {
-    flex: 3,
-    alignItems: 'flex-start',
-    paddingLeft: 0,
-  },
+  }, 
 	stockNameText: {
 		fontSize: stockNameFontSize,
 		textAlign: 'center',
@@ -342,9 +337,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		color: '#999999',
 		lineHeight: 14,
-	},
+  },
+  rowLeftPart: {
+    flex: 3,
+    alignItems: 'flex-start',
+    paddingLeft: 0,
+  },
   rowCenterPart: {
-    flex: 2.5,
+    flex: 3,
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 5,

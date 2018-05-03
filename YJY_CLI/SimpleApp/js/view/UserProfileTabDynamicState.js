@@ -139,7 +139,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
   }
   
   emptyContent(){
-		var emptyTip = '暂无动态'   
+		var emptyTip = LS.str("NO_DYNAMIC")  
 		return(
 			<View style={{flex:1,width:width,justifyContent:'center',alignItems:'center'}}>
 				<Text style={{color:'grey',fontSize:14}}>{emptyTip}</Text>
