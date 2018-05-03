@@ -106,7 +106,11 @@ class BindPurseScreen extends Component {
                         style={{height: UIConstants.HEADER_HEIGHT + 50, width:width, alignItems:'center', justifyContent:'flex-end'}}
                         colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
                         <View style={{height:50, alignItems:'center', justifyContent:'center'}}>
-                            <Image style={{height:35, width:170}} source={require("../../../images/bind_purse_address_hint.png")}/>
+                            <Image style={{height:35, width:170}} source={
+                                //require("../../../images/zh-cn/bind_purse_address_hint.png")
+                                //require("../../../images/en-us/bind_purse_address_hint.png")
+                                LS.loadImage("bind_purse_address_hint")
+                                }/>
                         </View>
                     </LinearGradient>
                     <View style={styles.contentContainer}>

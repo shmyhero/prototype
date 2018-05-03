@@ -1027,18 +1027,18 @@ export default class  MyPositionTabHold extends React.Component {
 			profitAmount = profitPercentage * rowData.invest
 		}
 
-		var buttonText = (profitAmount < 0 ? "亏损":"获利") + ': $' + profitAmount.toFixed(2)
+		var buttonText = (profitAmount < 0 ? LS.str("POSITION_TAKE_LOSS"):LS.str("POSITION_TAKE_PROFIT")) + ': ' + profitAmount.toFixed(2)
 		if (this.state.showExchangeDoubleCheck) {
-			buttonText = "确认"+':' + profitAmount.toFixed(2)
+			buttonText = LS.str("POSITION_CONFIRM")+':' + profitAmount.toFixed(2)
 		}
 
 		var separatorStyle = styles.darkSeparator;
         var buttonStyle = [styles.okView];
 		var buttonTextStyle = [styles.okButton];
 		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
-			var buttonText = "确认"
+			var buttonText = LS.str("POSITION_CONFIRM")
 			if (!this.state.profitLossUpdated && this.state.profitLossConfirmed) {
-				buttonText = "已设置"
+				buttonText = LS.str("POSITION_SETTED")
 			}
 			//separatorStyle = {backgroundColor: 'pink'};
 			buttonStyle = [styles.okView]

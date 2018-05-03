@@ -491,14 +491,14 @@ class StockDetailScreen extends Component {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <NavBar title={params ? params.stockName : '详情'}
+                <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
                     navigation={this.props.navigation}/>
                 <View style={styles.chartContainer}>
                     {this.renderPriceChart()}
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require("../../images/en-us/stock_detail_amount_container.png")}>
+                        source={LS.loadImage('stock_detail_amount_container')}>
                         <View style={[styles.buttonsRowContainer]}>                               
                             {this.renderAmountButton(50)}
                             {this.renderAmountButton(100)}
