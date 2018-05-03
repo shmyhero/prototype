@@ -228,10 +228,10 @@ class  TabMeScreen extends React.Component {
               <View style={{flexDirection:'row', alignSelf:'stretch', justifyContent:'space-around'}}>
                 <TouchableOpacity onPress={()=>this.showDeposit()}>
                   <ImageBackground source={require('../../images/bg_btn_blue.png')}
-                      resizeMode={'contain'}
+                      resizeMode={'stretch'}
                       style={{
-                          width: 70,
-                          height: 42,
+                          width: 80,
+                          height: 44,
                           justifyContent:'center',
                           flexDirection:'column',
                       }}>
@@ -240,10 +240,10 @@ class  TabMeScreen extends React.Component {
                 </TouchableOpacity>
                 <TouchableOpacity onPress={()=>this.showWithdraw()}>
                   <ImageBackground source={require('../../images/bg_btn_blue.png')}
-                    resizeMode={'contain'}
+                    resizeMode={'stretch'}
                     style={{
-                        width: 70,
-                        height: 42,
+                        width: 80,
+                        height: 44,
                         justifyContent:'center',
                         flexDirection:'column',
                     }}>
