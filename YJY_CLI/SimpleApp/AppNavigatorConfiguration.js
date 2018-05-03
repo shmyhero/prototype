@@ -132,6 +132,10 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
         labelStyle: {
             fontSize: 12,
             marginBottom:5,
+            marginLeft:0,
+            marginRight:0,
+            paddingLeft:0,
+            paddingRight:0,
         },
         iconStyle: {  
             marginBottom:-5

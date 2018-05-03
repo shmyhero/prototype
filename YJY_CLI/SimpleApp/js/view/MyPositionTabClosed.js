@@ -468,13 +468,13 @@ export default class  MyPositionTabClosed extends React.Component {
 			if(this.state.isDataLoading){
 				return (
 					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>数据读取中，请稍等</Text>
+						<Text style={styles.loadingText}>{LS.str("DATA_LOADING")}</Text>
 					</View>
 				);
 			}else{
 				return (
 					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>暂无平仓记录</Text>
+						<Text style={styles.loadingText}>{LS.str("POSITION_CLOSED_NO_ITEMS")}</Text>
 					</View>
 					)
 			}
