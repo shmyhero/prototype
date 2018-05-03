@@ -16,6 +16,11 @@ import com.github.mikephil.charting.utils.MPPointF;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
 
+import org.json.JSONArray;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by Neko on 2018/1/31.
  */
@@ -28,8 +33,10 @@ public class LineChartMarkerView extends MarkerView {
     protected Paint mRectFillPaint;
     protected Paint mRectBorderPaint;
     private Path mHighlightLinePath = new Path();
+    JSONArray stockInfoObject;
+    String dateTimeKey;
 
-    public LineChartMarkerView(Context context, int layoutResource) {
+    public LineChartMarkerView(Context context, int layoutResource, JSONArray stockInfoObject, String dateTimeKey) {
         super(context, layoutResource);
         mHighlightPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mHighlightPaint.setStyle(Paint.Style.STROKE);
@@ -47,6 +54,9 @@ public class LineChartMarkerView extends MarkerView {
         mRectFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mRectFillPaint.setColor(getContext().getResources().getColor(R.color.line_chart_marker_background_blue));
         mRectFillPaint.setStyle(Paint.Style.FILL);
+
+        this.stockInfoObject = stockInfoObject;
+        this.dateTimeKey = dateTimeKey;
     }
 
     // callbacks everytime the MarkerView is redrawn, can be used to update the
@@ -55,6 +65,16 @@ public class LineChartMarkerView extends MarkerView {
     public void refreshContent(Entry e, Highlight highlight) {
         XVal = "" +e.getX();
         YVal = "" +e.getY();
+
+        try {
+            String xVal = (this.stockInfoObject.getJSONObject((int)e.getX()).getString(dateTimeKey));
+            SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            Date date = format.parse(xVal);
+            SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
+            XVal = outFormat.format(date);
+        }catch (Exception exception){
+
+        }
     }
 
     protected void drawHighlightLines(Canvas c,

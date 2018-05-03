@@ -37,9 +37,6 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
         chart.setTouchEnabled(true);
-
-        LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker);
-        chart.setMarker(marker);
     }
 
     @Override
@@ -101,6 +98,15 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     @Override
     public String getDateTimeKey(){
         return "t";
+    }
+
+    @Override
+    protected CombinedData generateData(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
+
+        LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker, chartDataList, getDateTimeKey());
+        chart.setMarker(marker);
+
+        return super.generateData(chart, stockInfoObject, chartDataList);
     }
 }
 
