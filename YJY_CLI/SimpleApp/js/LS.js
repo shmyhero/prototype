@@ -31,7 +31,7 @@ var LS = {
     NO_MORE:["没有更多","no more data"],
     DEL:["删除","Remove"],
     MOUNT_X:["糖果x","Mount*"],
-    MULRIPLE:["倍数","mulriple"],
+    MULTIPLE:["倍数","multiple"],
     PROFIT:["盈利","profit"],
     LOSS:["亏损","loss"],    
     CLOSE_POSITION:["平仓","close position"],
