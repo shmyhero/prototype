@@ -440,7 +440,41 @@ export default class TabMainScreen extends React.Component {
     }
 
     _onLoadMore = () => {
-        this._pullToRefreshListView.endLoadMore()   
+
+        var timer = this.state.dataResponse[this.state.dataResponse.length-1].time
+		var url = NetConstants.CFD_API.MAIN_FEED_DEFAULT; 
+		url += '?olderThan=' + timer
+        url += '&count=' + 30
+
+        NetworkModule.fetchTHUrl(
+			url,
+			{
+				method: 'GET',
+				headers: {
+					'Content-Type': 'application/json; charset=UTF-8'
+				}, 
+			},
+			(responseJson) => {   
+
+                for(var i = 0; i < responseJson.length; i++){
+                    responseJson[i].isNew = false;
+                } 
+
+                var responseAll = this.state.dataResponse.concat(responseJson)
+
+                this.setState({ 
+                    dataResponse: responseAll,
+                    dataSource: this._dataSource.cloneWithRows(responseAll), 
+                })
+
+                this._pullToRefreshListView.endLoadMore()   
+			},
+			(result) => {
+                // Alert.alert('提示', result.errorMessage);
+                this._pullToRefreshListView.endLoadMore()   
+			}
+		)
+        
     }
 
     _renderActivityIndicator() {
