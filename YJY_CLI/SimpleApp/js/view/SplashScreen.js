@@ -42,6 +42,7 @@ export default class SplashScreen extends React.Component {
             <Image
                 source={imgSplash}
                 style={{width:width,height:height}}
+                resizeMode='stretch'
             />
         );
     }

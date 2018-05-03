@@ -163,7 +163,7 @@ export default class ProfitBlock extends Component {
         <View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
           <Text style={styles.headerTextLeft}>{strCP}</Text>
         </View>
-        <View style={[styles.rowCenterPart, {	paddingRight: 10,}]}>
+        <View style={[styles.rowCenterPart, {	paddingRight: 0,}]}>
           <Text style={[styles.headerTextLeft, {paddingRight: 0,}]}>{strPJSY}</Text>
         </View>
         <View style={styles.rowRightPart}>

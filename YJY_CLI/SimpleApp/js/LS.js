@@ -70,7 +70,7 @@ var LS = {
     LJXD:["累积下单(次)","Total trades"],
     PJCCSJ:["平均持仓(天)","Average hold days"],
     PJBJ:["平均糖果","Average Mount"],
-    PJMBHL:["平均每笔获利","Average per Profit"],
+    PJMBHL:["平均每笔获利","Average Per Profit"],
     CONCERN_CANCEL:["取消关注","-Concern"],
     CONCERN_ADD:["+关注","+Concern"],
     STATISTICS:["统计","Statistics"],
@@ -80,6 +80,11 @@ var LS = {
     YOU_ARE_LOGIN:["您正在登录糖果市场","You are login tradehero token"],
     FAST_LOGIN:["快速登录","Fast Login"],
     LOGIN:["登录","Login"],
+    TOTAL_MOUNT:["总糖果","Total Mount"],
+    REMAIN_MOUNT:["剩余糖果","Remain Mount"],
+    SHARE:["分享","Share"],
+    
+    
      
     
     ME_DEPOSIT_TITLE: ["入金", "Deposit"],

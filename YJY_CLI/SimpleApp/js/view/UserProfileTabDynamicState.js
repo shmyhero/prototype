@@ -26,7 +26,7 @@ var NetConstants = require('../NetConstants');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var listRawData = [
 ] 
-
+var LS=require('../LS')
 
 export default class  UserProfileTabDynamicState extends React.Component {
   static navigationOptions = {
@@ -194,7 +194,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		var liked = rowData.Liked
 		var iconPraise = liked?require('../../images/icon_praised.png'):require('../../images/icon_praise.png')
 		var textPraise = liked?{color:'#1962dd'}:{}
-		var strFX = '分享'
+		var strFX = LS.str('SHARE')
 
 		var d = new Date(rowData.time);
 		var timeText = d.getDateString()
