@@ -17,7 +17,7 @@ import LogicData from '../../../LogicData';
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
 var ColorConstants = require('../../../ColorConstants');  
-
+var LS = require('../../../LS')
  
 var {height, width} = Dimensions.get('window');
 export default class ProfitStatisticsBlock extends Component {
@@ -81,11 +81,11 @@ export default class ProfitStatisticsBlock extends Component {
     return (  
           <ImageBackground style={styles.gifBg} source={require('../../../../images/statistics.gif')}>
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-              <Text style={{marginTop:30,color:'#666666'}}>总糖果</Text>
+              <Text style={{marginTop:30,color:'#666666'}}>{LS.str('TOTAL_MOUNT')}</Text>
               <Text style={{marginTop:0,fontSize:50,color:ColorConstants.BGBLUE}}>{this.state.total.toFixed(2)}</Text>
             </View>  
             <View style={{flex:1,justifyContent:'flex-end',alignItems:'center'}}>
-              <Text style={{fontSize:15, color:'#89cff7'}}>剩余糖果</Text>
+              <Text style={{fontSize:15, color:'#89cff7'}}>{LS.str('REMAIN_MOUNT')}</Text>
               <Text style={{color:'#c1e5fc',fontSize:20,marginBottom:10}}>{this.state.balance.toFixed(2)}</Text>
             </View>
           </ImageBackground>

@@ -13,6 +13,7 @@ import { View,
 var TweetParser = require('./TweetParser');
 import CustomTextInput from '../component/CustomTextInput';
 var {height, width} = Dimensions.get('window');
+var LS = require("../../LS");
 
 //var TweetBlock = require('./TweetBlock')
 class TweetComponent extends Component {
@@ -379,7 +380,7 @@ class TweetComponent extends Component {
         }else{
             //console.log("renderShadowText with empty")
             return (
-                <Text style={[styles.textPart, styles.inputLayout, {color: 'gray', lineHeight:20}]}>{"今天你怎么看？"}</Text>)
+                <Text style={[styles.textPart, styles.inputLayout, {color: 'gray', lineHeight:20}]}>{LS.str("TWEET_HINT")}</Text>)
         }
     }
 
@@ -393,7 +394,7 @@ class TweetComponent extends Component {
                 maxLength={240}
                 defaultValue={this.state.displayText}
                 value={this.state.displayText}
-                placeholder={"今天你怎么看？"}
+                placeholder={LS.str("TWEET_HINT")}
                 onTextInput={(event)=>{
                     var newText = event.nativeEvent.text;
                     if(event.nativeEvent.text == "" && event.nativeEvent.range.start != event.nativeEvent.range.end){
@@ -417,7 +418,7 @@ class TweetComponent extends Component {
                 maxLength={240}
                 defaultValue={this.state.displayText}
                 //value={this.state.displayText}
-                placeholder={"今天你怎么看？"}
+                placeholder={LS.str("TWEET_HINT")}
                 onTextInput={(event)=>{
                     var newText = event.nativeEvent.text;
                     if(event.nativeEvent.text == "" && event.nativeEvent.range.start != event.nativeEvent.range.end){

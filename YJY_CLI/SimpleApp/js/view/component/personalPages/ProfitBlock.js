@@ -18,7 +18,7 @@ var NetConstants = require('../../../NetConstants');
  
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(14*width/375.0);
-
+var LS = require('../../../LS')
 import LogicData from "../../../LogicData";
 
 var {height, width} = Dimensions.get('window');
@@ -155,16 +155,16 @@ export default class ProfitBlock extends Component {
 	}
 
   renderHeaderBar() {
-    var strCP = '产品'
-    var strPJSY = '平均盈亏'
-    var strZSL = '总胜率'
+    var strCP = LS.str('CP')
+    var strPJSY = LS.str('PJYK')
+    var strZSL = LS.str('ZSL')
     return (
       <View style={styles.headerBar}>
         <View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
           <Text style={styles.headerTextLeft}>{strCP}</Text>
         </View>
-        <View style={[styles.rowCenterPart, {	paddingRight: 10,}]}>
-          <Text style={[styles.headerTextLeft, {paddingRight: 0,}]}>{strPJSY}</Text>
+        <View style={[styles.rowCenterPart]}>
+          <Text style={[styles.headerTextLeft]}>{strPJSY}</Text>
         </View>
         <View style={styles.rowRightPart}>
           <Text style={styles.headerTextLeft}>{strZSL}</Text>
@@ -234,7 +234,7 @@ export default class ProfitBlock extends Component {
         }
 
   renderPrivate(){
-    var strYHWGKSJ = '用户未公开数据'
+    var strYHWGKSJ = LS.str('YHWGKSJ')
     return(
         <View style={styles.emptyView}>
            <Text style={styles.loadingText}>{strYHWGKSJ}</Text>
@@ -244,7 +244,7 @@ export default class ProfitBlock extends Component {
 
   renderPublic(){
 
-    var strZWYKFB = '暂无盈亏分布'
+    var strZWYKFB = LS.str('ZWPCJL')
     if(!this.state.contentLoaded){
         return (
             <View></View>
@@ -285,7 +285,7 @@ export default class ProfitBlock extends Component {
   }
 
   render() {
-    var strYKFB = '盈亏分布'
+    var strYKFB = LS.str('YKFB')
       return (
         <View style={{backgroundColor:'transparent'}}>
             <View>
@@ -325,12 +325,7 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     backgroundColor: '#ffffff',
-  },
-  rowLeftPart: {
-    flex: 3,
-    alignItems: 'flex-start',
-    paddingLeft: 0,
-  },
+  }, 
 	stockNameText: {
 		fontSize: stockNameFontSize,
 		textAlign: 'center',
@@ -342,9 +337,14 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		color: '#999999',
 		lineHeight: 14,
-	},
+  },
+  rowLeftPart: {
+    flex: 3,
+    alignItems: 'flex-start',
+    paddingLeft: 0,
+  },
   rowCenterPart: {
-    flex: 2.5,
+    flex: 3,
     paddingTop: 5,
     paddingBottom: 5,
     paddingRight: 5,

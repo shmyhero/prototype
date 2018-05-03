@@ -16,6 +16,7 @@ import TweetComponent from './TweetComponent';
 import {ViewKeys} from '../../../AppNavigatorConfiguration';
 import LogicData from '../../LogicData';
 
+var LS = require("../../LS");
 var NetConstants = require('../../NetConstants');
 var NetworkModule = require('../../module/NetworkModule');
 var ColorConstants = require('../../ColorConstants');
@@ -86,7 +87,7 @@ class PublishTweetScreen extends Component {
                 this.props.navigation.goBack();
             },
             (result) => {
-                Alert.alert("发布失败", result.errorMessage);
+                Alert.alert(LS.str("TWEET_PUBLISH_FAILED_TITLE"), result.errorMessage);
             }
         )
     }
@@ -120,12 +121,12 @@ class PublishTweetScreen extends Component {
                 }}>
                 <View style={[{position:'absolute', top:0, left:0, right:0, bottom: 0}, containerViewStyle]}>
                     <NavBar 
-                        title={"发布状态"} showBackButton={true} navigation={this.props.navigation}
+                        title={LS.str("TWEET_PUBLISH_TITLE")} showBackButton={true} navigation={this.props.navigation}
                         leftPartOnClick={()=>{
                             Keyboard.dismiss();
                             this.props.navigation.goBack(null);
                         }}
-                        textOnRight={"发布"}
+                        textOnRight={LS.str("TWEET_PUBLISH")}
                         rightPartOnClick={()=>this.pressCommitButton()}
                         enableRightText={this.state.text.length>0}/>
                         
@@ -139,7 +140,7 @@ class PublishTweetScreen extends Component {
                     <TouchableHighlight onPress={()=>this.addLinkBlock()} >
                         <View style={styles.bottomActionBar}>
                             <Text style={{color:'#666666', fontSize:30}}>@</Text>
-                            <Text style={{color:'#666666'}}>{"产品"}</Text>
+                            <Text style={{color:'#666666'}}>{LS.str("TWEET_PUBLISH_PRODUCTS")}</Text>
                         </View>
                     </TouchableHighlight>
 

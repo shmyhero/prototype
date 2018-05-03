@@ -8,14 +8,23 @@ import {
   Platform,
   Image,
   Dimensions,
+  StatusBar
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import {ViewKeys} from '../../AppNavigatorConfiguration';
-var imgSplash = require('../../images/splash.jpg')
+var LS = require("../LS");
+var ColorConstants = require("../ColorConstants")
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
 
-export default class  SplashScreen extends React.Component {
+export default class SplashScreen extends React.Component {
+
+    componentWillMount(){
+        if(Platform.OS == 'android'){
+            StatusBar.setBackgroundColor("#22bdfc");
+        } 
+    }
+
     componentDidMount() {
         this.timer = setTimeout(
         () => { 
@@ -33,8 +42,9 @@ export default class  SplashScreen extends React.Component {
     render() {
         return (
             <Image
-                source={imgSplash}
+                source={LS.loadImage("splash")}
                 style={{width:width,height:height}}
+                resizeMode='stretch'
             />
         );
     }

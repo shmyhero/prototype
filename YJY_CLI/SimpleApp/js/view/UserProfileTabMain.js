@@ -21,6 +21,9 @@ var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
 var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var {height, width} = Dimensions.get('window');
+var LS = require('../LS')
+
+
 export default class  UserProfileTabMain extends React.Component {
   static navigationOptions = {
     title: 'Home',
@@ -69,7 +72,7 @@ export default class  UserProfileTabMain extends React.Component {
             style={{flex:1, alignItems:'center', justifyContent:'center'}}
             colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
             <Text style={{color:'white', fontSize:20}}>
-              跟随
+              {LS.str("FOLLOW")}
             </Text>
           </LinearGradient>
         </TouchableOpacity>

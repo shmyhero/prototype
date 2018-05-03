@@ -17,6 +17,7 @@ import PriceChartView from '../PriceChartView';
 import LogicData from '../../../LogicData';
 var TYPE_MONTH = 0;
 var TYPE_ALL = 1;
+var LS = require('../../../LS')
 
 export default class ProfitTrendCharts extends Component {
   static propTypes = {
@@ -107,7 +108,7 @@ export default class ProfitTrendCharts extends Component {
       )
     }else{
       return (<View style={{alignItems:'center', justifyContent:'center', flex:1}}>
-        <Text style={{color:'#666666'}}>暂无交易记录</Text>
+        <Text style={{color:'#666666'}}>{LS.str('ZWJYJL')}</Text>
       </View>);
     }
   }
@@ -122,15 +123,15 @@ export default class ProfitTrendCharts extends Component {
         <View style={{margin:10,flexDirection:'row',justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,{backgroundColor:selectorLeftBgColor}]}>
-              <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>近一个月</Text>
+              <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</Text>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_ALL)} style={[styles.selectorRight,{backgroundColor:selectorRightBgColor}]}>
-              <Text style = {[styles.textChartSelector,{color:textColorRight}]}>全部</Text>
+              <Text style = {[styles.textChartSelector,{color:textColorRight}]}>{LS.str("ALL")}</Text>
             </TouchableOpacity> 
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/>
-            <Text style={{fontSize:12,color:'#666666'}}>TA的收益走势</Text>
+            <Text style={{fontSize:12,color:'#666666'}}>{LS.str('INVESTMENT_TREND')}</Text>
           </View>
         </View> 
         <View style={[styles.chartContainer, {backgroundColor: 'transparent'}]}>

@@ -26,7 +26,7 @@ import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
 import TweetBlock from './tweet/TweetBlock';
 import { ViewKeys } from '../../AppNavigatorConfiguration';
-
+var LS = require('../LS')
 
 var ColorConstants = require('../ColorConstants');
 var UIConstants = require('../UIConstants'); 
@@ -110,69 +110,69 @@ export default class TabMainScreen extends React.Component {
 
         this.loadData()
 
-        this.timer = setInterval(
-            () => {  
-                // console.log('time Interval...')
+        // this.timer = setInterval(
+        //     () => {  
+        //         // console.log('time Interval...')
 
-                // var responseJson = this.state.dataResponse
-                // if(responseJson && responseJson.length > 0){
-                //     for(var i = 0; i < responseJson.length; i++){
-                //         responseJson[i].isNew = false;
-                //     }
+        //         // var responseJson = this.state.dataResponse
+        //         // if(responseJson && responseJson.length > 0){
+        //         //     for(var i = 0; i < responseJson.length; i++){
+        //         //         responseJson[i].isNew = false;
+        //         //     }
 
-                //     var add = {}
-                //     $.extend(true, add, responseJson[0]);
-                //     add.isNew = true;
+        //         //     var add = {}
+        //         //     $.extend(true, add, responseJson[0]);
+        //         //     add.isNew = true;
 
-                //     responseJson.splice(0, 0, add);
+        //         //     responseJson.splice(0, 0, add);
                     
-                //     this.setState({ 
-                //         dataResponse: responseJson,
-                //         dataSource: this._dataSource.cloneWithRows(responseJson),
-                //     })
-                // } 
-                this.loadCacheListData() 
-            },
-            30000
-        );
+        //         //     this.setState({ 
+        //         //         dataResponse: responseJson,
+        //         //         dataSource: this._dataSource.cloneWithRows(responseJson),
+        //         //     })
+        //         // } 
+        //         this.loadCacheListData() 
+        //     },
+        //     30000
+        // );
 
-        this.timerCacheList = setInterval(
-            () => { 
-                var responseJson = this.state.dataResponse
-                if(this.state.cacheData&&this.state.cacheData.length>0){
-                    console.log('this.state.cacheData.length = '+this.state.cacheData.length)
+        // this.timerCacheList = setInterval(
+        //     () => { 
+        //         var responseJson = this.state.dataResponse
+        //         if(this.state.cacheData&&this.state.cacheData.length>0){
+        //             console.log('this.state.cacheData.length = '+this.state.cacheData.length)
                      
-                    if(responseJson && responseJson.length > 0){
-                        for(var i = 0; i < responseJson.length; i++){
-                            responseJson[i].isNew = false;
-                        }
-                        var add = {}
-                        $.extend(true, add, this.state.cacheData[this.state.cacheData.length-1]);
-                        responseJson.splice(0, 0, add);
-                        this.state.cacheData.splice(this.state.cacheData.length-1,1)
-                        this.setState({ 
-                            dataResponse:responseJson,
-                            cacheData:this.state.cacheData,
-                            dataSource:this._dataSource.cloneWithRows(responseJson),
-                        })
-                    }
-                }else{
-                    try{
-                        console.log("tab main screen responseJson", responseJson)
-                        for(var i = 0; i < responseJson.length; i++){
-                            responseJson[i].isNew = false;
-                        } 
-                        this.setState({ 
-                            dataResponse:responseJson, 
-                            dataSource:this._dataSource.cloneWithRows(responseJson),
-                        })
-                    }catch(e){
-                        console.log("error!", e)
-                    }
-                }
-            },
-            2000
-        )
+        //             if(responseJson && responseJson.length > 0){
+        //                 for(var i = 0; i < responseJson.length; i++){
+        //                     responseJson[i].isNew = false;
+        //                 }
+        //                 var add = {}
+        //                 $.extend(true, add, this.state.cacheData[this.state.cacheData.length-1]);
+        //                 responseJson.splice(0, 0, add);
+        //                 this.state.cacheData.splice(this.state.cacheData.length-1,1)
+        //                 this.setState({ 
+        //                     dataResponse:responseJson,
+        //                     cacheData:this.state.cacheData,
+        //                     dataSource:this._dataSource.cloneWithRows(responseJson),
+        //                 })
+        //             }
+        //         }else{
+        //             try{
+        //                 console.log("tab main screen responseJson", responseJson)
+        //                 for(var i = 0; i < responseJson.length; i++){
+        //                     responseJson[i].isNew = false;
+        //                 } 
+        //                 this.setState({ 
+        //                     dataResponse:responseJson, 
+        //                     dataSource:this._dataSource.cloneWithRows(responseJson),
+        //                 })
+        //             }catch(e){
+        //                 console.log("error!", e)
+        //             }
+        //         }
+        //     },
+        //     2000
+        // )
  
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
             console.log("HOME_TAB_RESS_EVENT")
@@ -250,7 +250,7 @@ export default class TabMainScreen extends React.Component {
         if(this.state.isLoading){
             return (
             <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}> 数据读取中... </Text>
+                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             </View>);
         }else{
             return (
@@ -308,25 +308,25 @@ export default class TabMainScreen extends React.Component {
             case refresh_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>下拉刷新</Text>
+                        <Text>{LS.str("PULL_TO_REFRESH")}</Text>
                     </View>
                 )
             case refresh_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>下拉刷新...</Text>
+                        <Text>{LS.str("PULL_TO_REFRESH")}</Text>
                     </View>
                 )
             case will_refresh:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>释放刷新</Text>
+                        <Text>{LS.str("RELEASE_TO_REFRESH")}</Text>
                     </View>
                 )
             case refreshing:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        {this._renderActivityIndicator()}<Text>刷新中...</Text>
+                        {this._renderActivityIndicator()}<Text>{LS.str("REFRESHING")}</Text>
                     </View>
                 )
         }
@@ -340,31 +340,31 @@ export default class TabMainScreen extends React.Component {
             case load_more_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>加载更多</Text>
+                        <Text>{LS.str("LOAD_MORE")}</Text>
                     </View>
                 )
             case load_more_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>加载更多</Text>
+                        <Text>{LS.str("LOAD_MORE")}</Text>
                     </View>
                 )
             case will_load_more:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>释放加载更多</Text>
+                        <Text>{LS.str("RELEASE_FOR_LOAD_MORE")}</Text>
                     </View>
                 )
             case loading_more:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        {this._renderActivityIndicator()}<Text>加载中...</Text>
+                        {this._renderActivityIndicator()}<Text>{LS.str("LOADING")}</Text>
                     </View>
                 )
             case loaded_all:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>没有更多</Text>
+                        <Text>{LS.str("NO_MORE")}</Text>
                     </View>
                 )
         }

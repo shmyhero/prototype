@@ -17,6 +17,7 @@ import TweetBlock from '../tweet/TweetBlock';
 import Swipeout from 'react-native-swipeout';
 var ColorConstants = require('../../ColorConstants');
 import { ViewKeys } from '../../../AppNavigatorConfiguration';
+var LS = require("../../LS")
  
 class DynamicRowComponent extends Component {
     constructor(props) {
@@ -124,18 +125,18 @@ class DynamicRowComponent extends Component {
                 onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
             )
         }else if(rowData.type == 'open'){ 
-            text = rowData.position.invest + '糖果x'+rowData.position.leverage+'倍数'
+            text = rowData.position.invest +" "+ LS.str('MOUNT_X')+" "+rowData.position.leverage+" "+LS.str("MULTIPLE")
             return (
                 <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
                     {text}
                 </Text>
             )
         }else if(rowData.type == 'close'){
-            var winOrLoss = rowData.position.roi>=0 ? '盈利':'亏损'
+            var winOrLoss = rowData.position.roi>=0 ? LS.str("PROFIT"):LS.str("LOSS")
             var value = (rowData.position.roi>=0 ? '+':'') + (rowData.position.roi*100).toFixed(2)+'%'
             var valueColor = rowData.position.roi>=0 ? ColorConstants.STOCK_RISE_RED:ColorConstants.STOCK_DOWN_GREEN;
            
-            text = '平仓'+winOrLoss;
+            text = LS.str("CLOSE_POSITION")+" "+winOrLoss;
 
             return (
                 <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
@@ -150,11 +151,11 @@ class DynamicRowComponent extends Component {
 
     render() { 
 
-        var viewHero = this.props.rowData.isRankedUser ? <Text style={styles.textHero}>达人</Text> : null;
+        var viewHero = this.props.rowData.isRankedUser ? <Text style={styles.textHero}>{LS.str("EXPERT")}</Text> : null;
           var swipeoutBtns = [
              {
                  backgroundColor:'#ff4240',  
-                 text:'删除', 
+                 text:LS.str("DEL"), 
                  onPress:()=>this._onPressButton(this.props.rowData)
              }
            ]

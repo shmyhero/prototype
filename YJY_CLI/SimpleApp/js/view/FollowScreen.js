@@ -16,6 +16,8 @@ var {height, width} = Dimensions.get("window");
 var ColorConstants = require('../ColorConstants');
 
 import LinearGradient from 'react-native-linear-gradient'
+var LS = require("../LS");
+
 // create a component
 
 class FollowScreen extends Component {
@@ -69,8 +71,8 @@ class FollowScreen extends Component {
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text style={{color:"#858585", fontSize:13}}>
-                        我已经阅读并同意
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>《跟随规则》</Text>
+                        {LS.str("WITHDRAW_READ_AGREEMENT")}
+                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("FOLLOW_AGREEMENT")}</Text>
                     </Text>                   
                 </View>
             </TouchableOpacity>
@@ -122,7 +124,7 @@ class FollowScreen extends Component {
                 <ImageBackground source={buttonImage}
                     style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
                     <Text style={styles.okButton}>
-                        确定
+                        {LS.str("POSITION_CONFIRM")}
                     </Text>
                 </ImageBackground>
             </TouchableOpacity>
@@ -144,8 +146,8 @@ class FollowScreen extends Component {
                         <Text style={styles.balanceText}>{this.state.balance}</Text>
                     </ImageBackground>
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker("每笔跟随糖果", "amount", "avaliableAmount")}
-                        {this.renderPicker("跟随笔数", "followCounts", "avaliableFollowCounts")}
+                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "amount", "avaliableAmount")}
+                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "followCounts", "avaliableFollowCounts")}
                     </View>
                     {this.renderHint()}
                 </View>               

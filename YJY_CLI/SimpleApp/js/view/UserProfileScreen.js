@@ -26,7 +26,7 @@ var ColorConstants = require('../ColorConstants');
 var {height,width} = Dimensions.get('window') 
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
-
+var LS = require('../LS')
  
 
 export default class  UserProfileScreen extends React.Component {
@@ -101,16 +101,14 @@ export default class  UserProfileScreen extends React.Component {
           <UserProfileTabPositionClosed navigation={this.props.navigation} ref={'page3'}  userId={staticData.userId}/>,
         ]
     
-        var tabNameShow = ['首页','动态','持仓','平仓']
+        var tabNameShow = [LS.str("MAIN"),LS.str("DYNAMIC"),LS.str("OPEN"),LS.str("CLOSED")]
     
         var viewPages = tabNameShow.map(
           (tabNameShow, i) =>
           <View style={{width:width}} key={i}>
             {tabPages[i]}
           </View>
-        )
-
-        // 
+        ) 
     
         return ( 
           <View style={{flex: 1, marginTop:24,backgroundColor:'transparent'}}>
@@ -128,8 +126,8 @@ export default class  UserProfileScreen extends React.Component {
 
   rightCustomContent(){
  
-    var text = this.state.isFollowing?'取消关注':'+关注';
-    var widthBtn = this.state.isFollowing?72:58;
+    var text = this.state.isFollowing?LS.str('CONCERN_CANCEL'):LS.str('CONCERN_ADD');
+    var widthBtn = this.state.isFollowing?80:80;
     if(LogicData.isUserSelf(this.state.userId)){
       return (null)
     } 

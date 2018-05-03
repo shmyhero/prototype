@@ -20,7 +20,7 @@ var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 import LogicData from "../../LogicData";
 import SubmitButton from "../component/SubmitButton";
-
+var LS = require("../../LS");
 // create a component
 class BindPurseScreen extends Component {
 
@@ -106,12 +106,16 @@ class BindPurseScreen extends Component {
                         style={{height: UIConstants.HEADER_HEIGHT + 50, width:width, alignItems:'center', justifyContent:'flex-end'}}
                         colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
                         <View style={{height:50, alignItems:'center', justifyContent:'center'}}>
-                            <Image style={{height:35, width:170}} source={require("../../../images/bind_purse_address_hint.png")}/>
+                            <Image style={{height:35, width:170}} source={
+                                //require("../../../images/zh-cn/bind_purse_address_hint.png")
+                                //require("../../../images/en-us/bind_purse_address_hint.png")
+                                LS.loadImage("bind_purse_address_hint")
+                                }/>
                         </View>
                     </LinearGradient>
                     <View style={styles.contentContainer}>
                         <View style={styles.rowContainer}>
-                            <Text style={{fontSize:13, color:"#5a5a5a"}}>请输入/粘贴钱包地址</Text>
+                            <Text style={{fontSize:13, color:"#5a5a5a"}}>{LS.str("BIND_PURSE_ADDRESS_HINT")}</Text>
                             <TextInput
                                 ref={(ref)=>this.textInputRef = ref}
                                 underlineColorAndroid={"transparent"}
@@ -123,18 +127,18 @@ class BindPurseScreen extends Component {
                         </View>
                         <View style={styles.hintContainer}>
                             <Text style={{fontSize:13, color:"#cccccc"}}>
-                                绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！
+                                {LS.str("BIND_PURSE_HINT")}
                             </Text>
                         </View>
                         <View style={{flex:1}}></View>
                         <SubmitButton onPress={()=>this.bindCard()}
                             enable={this.state.isButtonEnable}
-                            text={"确认绑定"} />
+                            text={LS.str("BIND_CONFIRM")} />
                     </View>
                 </View>
                 <View style={{position:'absolute', top:0, left:0, right:0, width: width, height:100}}>
                     <NavBar 
-                        title="绑定钱包地址"
+                        title={LS.str("BIND_PURSE_HEADER")}
                         showBackButton={true}
                         backgroundColor="transparent"
                         navigation={this.props.navigation}

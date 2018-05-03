@@ -8,6 +8,7 @@ import { View, Text, StyleSheet,
     ImageBackground,
     Image
 } from 'react-native';
+var LS = require("../../LS");
 
 // create a component
 class SubmitButton extends Component {
@@ -24,7 +25,7 @@ class SubmitButton extends Component {
         enable: true,
         enableImage: require("../../../images/position_confirm_button_enabled.png"),
         disableImage: require("../../../images/position_confirm_button_disabled.png"),
-        text: "完成"
+        text: LS.str("FINISH")
     }
 
     constructor(props){

@@ -7,7 +7,7 @@ import {
   Text,
   StyleSheet,
 } from 'react-native';
-
+var LS = require('../../../LS')
 var ColorConstants = require('../../../ColorConstants');  
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
@@ -115,14 +115,13 @@ export default class TradeStyleBlock extends Component {
   }
 
   render() {
-    var strJYFG = '交易风格'
-
-    var strPJGG = '平均倍数'
-    var strLJXD = '累积下单(次)'
-    var strPJCCSJ = '平均持仓(天)'
-    var strPJBJ = '平均糖果'
-    var strPJMBHL = '平均每笔获利'
-    var strZSL = '总胜率'
+    var strJYFG = LS.str('JYFG') 
+    var strPJGG = LS.str('PJGG')
+    var strLJXD = LS.str('LJXD')
+    var strPJCCSJ = LS.str('PJCCSJ')
+    var strPJBJ = LS.str('PJBJ')
+    var strPJMBHL = LS.str('PJMBHL')
+    var strZSL = LS.str('ZSL')
 
     return (
       <View style={[styles.container, this.props.style]}>

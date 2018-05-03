@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants');
+var LS = require('../../LS')
 
 // create a component
 class StockRowComponent extends Component {
@@ -21,8 +22,8 @@ class StockRowComponent extends Component {
     }
 
     renderStockStatus(rowData){
-		var strBS = "闭市";
-		var strZT = "暂停";
+		var strBS = LS.str("STOCK_MARKET_CLOSED");
+		var strZT = LS.str("STOCK_MARKET_STOP");
 		if(rowData!==undefined){
 			if(rowData.isOpen || rowData.status == undefined){
 				return null;

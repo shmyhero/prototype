@@ -17,6 +17,7 @@ import { ViewKeys } from '../../../AppNavigatorConfiguration';
 import SubmitButton from '../component/SubmitButton';
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
+var LS = require("../../LS");
 
 // create a component
 class WithdrawTokenScreen extends Component {
@@ -141,8 +142,10 @@ class WithdrawTokenScreen extends Component {
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text>
-                        我已经阅读并同意
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>《购买糖果协议内容》</Text>
+                        {LS.str("WITHDRAW_READ_AGREEMENT")}
+                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>
+                        {LS.str("WITHDRAW_AGREEMENT")}
+                        </Text>
                         。
                     </Text>                   
                 </View>
@@ -153,7 +156,7 @@ class WithdrawTokenScreen extends Component {
         if(this.state.purseAddress && this.state.purseAddress != ""){
             return (
                 <View style={styles.rowContainer}>
-                    <Text style={{fontSize:17}}>我的收款地址</Text>
+                    <Text style={{fontSize:17}}>{LS.str("WITHDRAW_ADDRESS_HINT")}</Text>
                     <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.state.purseAddress}</Text>
                 </View>);
         }else{
@@ -164,7 +167,7 @@ class WithdrawTokenScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="出金"
+                <NavBar title={LS.str("ME_WITHDRAW_TITLE")}
                     showBackButton={true}
                     backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
                     navigation={this.props.navigation}
@@ -172,9 +175,9 @@ class WithdrawTokenScreen extends Component {
                 <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
                     {this.renderPurseAddress()}
                     <View style={styles.rowContainer}>
-                        <Text style={{fontSize:15, color:"#7d7d7d"}}>出金金额</Text>
+                        <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
                         <View style={styles.withdrawValueRow}>
-                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>糖果</Text>
+                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_CANDY")}</Text>
                             <TextInput 
                                 underlineColorAndroid={"transparent"}
                                 style={{fontSize:40, flex:1,}}
@@ -182,8 +185,8 @@ class WithdrawTokenScreen extends Component {
                                 value={this.state.withdrawStringValue}/>
                         </View>
                         <Text style={{color:"#7d7d7d", fontSize:14}}>
-                            {"可出资金："+this.state.balanceText+"糖果，"}
-                            <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>全部出金</Text>
+                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}",this.state.balanceText)}
+                            <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
                         </Text>
                     </View>
                     <View style={{flex:1}}/>
@@ -191,7 +194,7 @@ class WithdrawTokenScreen extends Component {
                     <SubmitButton 
                         enable={this.state.isButtonEnable}
                         onPress={()=>this.withdraw()}
-                        text={this.state.isButtonEnable ? "确认出金" : "请稍后"} />
+                        text={this.state.isRequestSending ? LS.str("VERIFING") : LS.str("WITHDRAW_WITHDRAW")} />
                 </View>
             </View>
         );

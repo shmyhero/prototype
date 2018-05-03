@@ -13,7 +13,7 @@ import LogicData from "../../LogicData";
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 var {height, width} = Dimensions.get('window');
-
+var LS = require("../../LS");
 // create a component
 class TokenDetailScreen extends Component {
 
@@ -47,10 +47,6 @@ class TokenDetailScreen extends Component {
                     'Content-Type': 'application/json; charset=UTF-8'
                 },
             },(responseJson)=>{
-                // { amount: 900,
-                //     balanceAfter: 97840.08815195,
-                //     time: '2018-04-28T06:08:54.16',
-                //     type: '出金' },
                 this.setState({
                     stockInfoRowData:responseJson
                 });
@@ -58,42 +54,7 @@ class TokenDetailScreen extends Component {
                 console.log("responseJson", responseJson)
             },()=>{
 
-            });
-
-        // this.setState({
-        //     stockInfoRowData: [ { transferType: '出金',
-        //     date: '2018-03-01 19:39:12',
-        //     amount: -650,
-        //     color: '#000000' },
-        //   { transferType: '交易金入金',
-        //     date: '2017-06-13 17:03:20',
-        //     amount: 9.92,
-        //     color: '#1c8d13' },
-        //   { transferType: '转账',
-        //     date: '2017-02-16 19:58:01',
-        //     amount: 100,
-        //     color: '#1c8d13' },
-        //   { transferType: '手续费',
-        //     date: '2017-02-16 19:46:39',
-        //     amount: -2.1,
-        //     color: '#000000' },
-        //   { transferType: '入金',
-        //     date: '2017-02-15 22:45:25',
-        //     amount: 210,
-        //     color: '#1c8d13' },
-        //   { transferType: '手续费',
-        //     date: '2017-02-14 17:31:01',
-        //     amount: -1.44,
-        //     color: '#000000' },
-        //   { transferType: '入金',
-        //     date: '2017-02-14 13:46:16',
-        //     amount: 144,
-        //     color: '#1c8d13' },
-        //   { transferType: '出金受理',
-        //     date: '2017-02-13 19:30:44',
-        //     amount: -87.12,
-        //     color: '#1c8d13' } ]
-        // })
+            });      
     }
 
 	refresh(){
@@ -158,7 +119,7 @@ class TokenDetailScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="明细"
+                <NavBar title={LS.str("ME_DETAIL_TITLE")}
                     showBackButton={true}
                     backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
                     navigation={this.props.navigation}
