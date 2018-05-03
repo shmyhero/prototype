@@ -114,6 +114,8 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
     static final int CUSTOM_LONG_PRESS = 0;
 
+    static final int LONGPRESS_IGNORE_DISTANCE = 5;
+
     static final int LONGPRESS_TIMEOUT = 500;
 
     private MotionEvent mCurrentDownEvent;
@@ -203,16 +205,17 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                 break;
 
             case MotionEvent.ACTION_MOVE:
+                if(event.getX() - mTouchStartPoint.x > LONGPRESS_IGNORE_DISTANCE
+                        ||event.getY() - mTouchStartPoint.y > LONGPRESS_IGNORE_DISTANCE){
+                    mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
+                }
 
-                mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
-
-                if(mLastGesture == ChartGesture.LONG_PRESS) {
-                    //mLastGesture = ChartGesture.DRAG;
+                if(isHighlightEnabled) {
                     if (mChart.isHighlightPerDragEnabled()) {
                         if (mChart.isHighlightPerDragEnabled())
                             performHighlightDrag(event);
                     }
-                }else if (mTouchMode == DRAG) {
+                } else if (mTouchMode == DRAG) {
 
                     mChart.disableScroll();
 
@@ -245,8 +248,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                             // Disable dragging in a direction that's disallowed
                             if ((mChart.isDragXEnabled() || distanceY >= distanceX) &&
                                     (mChart.isDragYEnabled() || distanceY <= distanceX)) {
-
-                                mLastGesture = ChartGesture.DRAG;
                                 mTouchMode = DRAG;
                             }
 
@@ -259,15 +260,13 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
                 mCustomGestureHandler.removeMessages(CUSTOM_LONG_PRESS);
 
-                if(mLastGesture == ChartGesture.LONG_PRESS){
+                if(isHighlightEnabled){
                     if (mChart.isHighlightPerTapEnabled()) {
-                        mLastGesture = ChartGesture.NONE;
+                        isHighlightEnabled = false;
                         performHighlight(null, event);
                         break;
                     }
                 }
-
-                mLastGesture = ChartGesture.NONE;
                 final VelocityTracker velocityTracker = mVelocityTracker;
                 final int pointerId = event.getPointerId(0);
                 velocityTracker.computeCurrentVelocity(1000, Utils.getMaximumFlingVelocity());
@@ -364,9 +363,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
      * @param event
      */
     private void performDrag(MotionEvent event, float distanceX, float distanceY) {
-
-        mLastGesture = ChartGesture.DRAG;
-
         mMatrix.set(mSavedMatrix);
 
         OnChartGestureListener l = mChart.getOnChartGestureListener();
@@ -411,8 +407,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                 // take actions depending on the activated touch mode
                 if (mTouchMode == PINCH_ZOOM) {
 
-                    mLastGesture = ChartGesture.PINCH_ZOOM;
-
                     float scale = totalDist / mSavedDist; // total scale
 
                     boolean isZoomingOut = (scale < 1);
@@ -439,8 +433,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
                 } else if (mTouchMode == X_ZOOM && mChart.isScaleXEnabled()) {
 
-                    mLastGesture = ChartGesture.X_ZOOM;
-
                     float xDist = getXDist(event);
                     float scaleX = xDist / mSavedXDist; // x-axis scale
 
@@ -459,8 +451,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
                     }
 
                 } else if (mTouchMode == Y_ZOOM && mChart.isScaleYEnabled()) {
-
-                    mLastGesture = ChartGesture.Y_ZOOM;
 
                     float yDist = getYDist(event);
                     float scaleY = yDist / mSavedYDist; // y-axis scale
@@ -618,8 +608,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
     @Override
     public boolean onDoubleTap(MotionEvent e) {
 
-        mLastGesture = ChartGesture.DOUBLE_TAP;
-
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
         if (l != null) {
@@ -643,8 +631,9 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
         return super.onDoubleTap(e);
     }
 
+    boolean isHighlightEnabled = false;
+
     public void onCustomLongPress(MotionEvent e){
-        mLastGesture = ChartGesture.LONG_PRESS;
 
         if (!mChart.isHighlightPerTapEnabled()) {
             return;
@@ -652,6 +641,7 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
         Highlight h = mChart.getHighlightByTouchPoint(e.getX(), e.getY());
         performHighlight(h, e);
+        isHighlightEnabled = true;
     }
 
     @Override
@@ -667,8 +657,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
     @Override
     public boolean onSingleTapUp(MotionEvent e) {
 
-        mLastGesture = ChartGesture.SINGLE_TAP;
-
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
         if (l != null) {
@@ -680,8 +668,6 @@ public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListene
 
     @Override
     public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-
-        mLastGesture = ChartGesture.FLING;
 
         OnChartGestureListener l = mChart.getOnChartGestureListener();
 
