@@ -244,14 +244,12 @@ class StockDetailScreen extends Component {
         
         //this.props.navigation.navigate(ViewKeys.TAB_POSITION);
         //this.props.navigation.goBack(ViewKeys.TAB_POSITION);
-    
-        const action = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
-
-        // const action = NavigationActions.reset({
-        //     index: 0,
-        //     actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME })],
-        // });
-        this.props.navigation.dispatch(action);
+        // const action = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
+        // // const action = NavigationActions.reset({
+        // //     index: 0,
+        // //     actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME })],
+        // // });
+        // this.props.navigation.dispatch(action);
     }
 
     isSubmitButtonEnabled(){

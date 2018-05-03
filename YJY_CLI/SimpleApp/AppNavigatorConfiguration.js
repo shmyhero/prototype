@@ -130,7 +130,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
             height:Platform.OS == "android"?58:50, 
         },
         labelStyle: {
-            fontSize: 12,
+            fontSize: 10,
             marginBottom:5,
             marginLeft:0,
             marginRight:0,
