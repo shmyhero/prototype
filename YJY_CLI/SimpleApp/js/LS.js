@@ -8,6 +8,7 @@ var LS = {
     LANGUAGE: ["语言", "Language"],
 
     DATA_LOADING: ["数据读取中...", "Loading..."],
+    DATA_LOAD_FAILED: ["数据读取失败", "Data Loading Failed"],
     ERROR: ["错误", "Error"],
     HINT: ["提示", "Hint"],
     HOME_TAB_TITLE: ["动态", "Dynamic"],
@@ -186,10 +187,10 @@ var LS = {
     stock_detail_option_up_unselected: [require("../images/zh-cn/stock_detail_option_up_unselected.png"), require("../images/en-us/stock_detail_option_up_unselected.png")],
     stock_detail_trading_container:[require("../images/zh-cn/stock_detail_trading_container.png"), require("../images/en-us/stock_detail_trading_container.png")],
     bind_purse_address_hint: [require("../images/zh-cn/bind_purse_address_hint.png"), require("../images/en-us/bind_purse_address_hint.png")],
+    splash: [require('../images/zh-cn/splash.jpg'), require('../images/en-us/splash.jpg')],
   },
 
   loadImage(imageFileName){
-    console.log("loadImage", imageFileName)
     if(LogicData.getLanguage() == 'zh-cn'){
       return LS.imageList[imageFileName][0]
     }else if(LogicData.getLanguage() == 'en-us'){
@@ -197,21 +198,6 @@ var LS = {
     }else{
       return LS.imageList[imageFileName][1]
     }
-    // if(LogicData.getLanguage() == 'zh-cn' || LogicData.getLanguage() == 'en-us'){
-    //   var path = "../images/" + LogicData.getLanguage() + "/"+imageFileName;
-    //   return require.resolve(path);
-    //   //return {uri: path}
-    // }else {
-    //   //Language code is wrong? What will happen here???
-    // }
-
-    // if(LogicData.getLanguage() == 'zh-cn' || LogicData.getLanguage() == 'en-us'){
-    //   var path = "../images/" + LogicData.getLanguage() + "/"+imageFileName;
-    //   return require.resolve(path);
-    //   //return {uri: path}
-    // }else {
-    //   //Language code is wrong? What will happen here???
-    // }
   }
 }
 

@@ -16,7 +16,6 @@ import {
 import { NavigationActions } from 'react-navigation'
 import NavBar from './component/NavBar';
 
-var imgSplash = require('../../images/splash.jpg')
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
 var NetworkModule = require('../module/NetworkModule');
