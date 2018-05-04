@@ -155,7 +155,8 @@ class PublishTweetScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        width: width
+        width: width,
+        backgroundColor:'white',
     },
     bottomActionBar: {
         width:width, 

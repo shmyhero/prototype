@@ -128,7 +128,7 @@ var LS = {
     BIND_CONFIRM: ["确认绑定", "Confirm binding"],
     BIND_PURSE_HEADER: ["绑定钱包地址", "Bind wallet address"],
     DEPOSIT_COPY_YJY_ADDRESS: ["复制盈交易收款地址", "Copy wallet address of TradeHero"],
-    DEPOSIT_YJY_ADDRESS: ["盈交易收款地址: ", "Wallet address of TradeHero"],
+    DEPOSIT_YJY_ADDRESS: ["盈交易收款地址: ", "Wallet address of TradeHero: "],
     DEPOSIT_HINT_1: ["注册以太坊钱包: ", "Registered Ethereum Wallet: "],
     DEPOSIT_HINT_2: ["以太坊官网: ", "Ethereum Website: "],
     DEPOSIT_HINT_3: ["用户把自己的Token转入盈交易: ", "Users transfer their Token to TradeHero"],

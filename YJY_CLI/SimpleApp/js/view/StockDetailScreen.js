@@ -242,14 +242,18 @@ class StockDetailScreen extends Component {
             Operation: undefined,
         })
         
-        //this.props.navigation.navigate(ViewKeys.TAB_POSITION);
-        //this.props.navigation.goBack(ViewKeys.TAB_POSITION);
-        // const action = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
-        // // const action = NavigationActions.reset({
-        // //     index: 0,
-        // //     actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME })],
-        // // });
-        // this.props.navigation.dispatch(action);
+        //!!!!!!!!!!!!!!!!
+        //BackKey should be the key of the view which is the second one in the view stack, since the 
+        //key should be the key to goBack FROM.
+        //!!!!!!!!!!!!!!!!
+        var backKey = this.props.navigation.state.params.backFrom
+        if(!backKey){
+            backKey = this.props.navigation.state.key;
+        }
+
+        this.props.navigation.goBack(backKey);       
+        const action2 = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
+        this.props.navigation.dispatch(action2);
     }
 
     isSubmitButtonEnabled(){

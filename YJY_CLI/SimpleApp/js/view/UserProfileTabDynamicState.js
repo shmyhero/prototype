@@ -185,7 +185,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 	
 	jump2Detail(name, id){ 
 		this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
-				{stockCode: id, stockName: name});
+				{stockCode: id, stockName: name, backFrom: this.props.navigation.state.key});
 	}
   
 

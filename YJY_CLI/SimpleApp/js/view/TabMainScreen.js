@@ -505,7 +505,9 @@ export default class TabMainScreen extends React.Component {
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
-        backgroundColor:ColorConstants.BGBLUE
+        backgroundColor: ColorConstants.BGBLUE,
+        width:width,
+        height:height,
     },
      
     icon: {

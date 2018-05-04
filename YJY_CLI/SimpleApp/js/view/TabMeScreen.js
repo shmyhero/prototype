@@ -52,7 +52,7 @@ class  TabMeScreen extends React.Component {
     };
   }
 
-  componentWillMount() {
+  componentDidMount() {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.ME_TAB_PRESS_EVENT, () => {
       console.log("ME_TAB_PRESS_EVENT")
       WebSocketModule.cleanRegisteredCallbacks();
