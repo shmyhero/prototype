@@ -9,13 +9,19 @@ import {
     Dimensions,
     ImageBackground,
     Image,
-    Picker,
+    //Picker,
 } from 'react-native';
 
 var {height, width} = Dimensions.get("window");
 var ColorConstants = require('../ColorConstants');
+import WheelPicker from "./component/WheelPicker";
+import LinearGradient from 'react-native-linear-gradient';
+import SubmitButton from './component/SubmitButton';
+import LogicData from '../LogicData';
+var NetworkModule = require("../module/NetworkModule");
+var NetConstants = require("../NetConstants");
 
-import LinearGradient from 'react-native-linear-gradient'
+
 var LS = require("../LS");
 
 // create a component
@@ -26,7 +32,7 @@ class FollowScreen extends Component {
 
         this.state = {
             modalVisible: false,
-            balance: 9999.1,
+            balance: "--",
             amount: 20,
             followCounts: 3,
             avaliableAmount: [10,20,30,50,100],
@@ -37,6 +43,21 @@ class FollowScreen extends Component {
     }
 
     show(){
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+            NetConstants.CFD_API.USER_FUND_BALANCE,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                },
+            },(responseJson)=>{
+                this.setState({
+                    balance: "" + responseJson.balance.maxDecimal(2),
+                })
+            },()=>{
+            });
+
         this.setState({
             modalVisible: true,
         })
@@ -62,12 +83,12 @@ class FollowScreen extends Component {
             checkIcon = require("../../images/selection_small_unselected.png");
         }
         return(
-            <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{
+            <TouchableOpacity style={{flexDirection:'row', marginTop:10, marginBottom:10}} onPress={()=>{
                     this.setState({
                         isAgreementRead: !this.state.isAgreementRead
                     })
                 }}>
-                <View style={{flexDirection:'row', flex:1, alignItems:'flex-start'}}>
+                <View style={{flexDirection:'row', flex:1, alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text style={{color:"#858585", fontSize:13}}>
@@ -97,19 +118,20 @@ class FollowScreen extends Component {
 
         var pickerItems = this.state[availableKey].map( (value, index, array)=>{
             return (
-                <Picker.Item label={""+value} value={value} key={index}/>
+                <WheelPicker.Item label={""+value} value={value} key={index}/>
             );
         })
         return(
             <View style={{alignItems:'center', flex:1}}>
                 <Text style={styles.pickerTitle}>{title}</Text>
-                <Picker
+                <WheelPicker
                     selectedValue={this.state[stateKey]}
+                    selectedTextColor={"#333333"}
                     style={{flex:1, height:150, width: 100 }}
                     itemStyle={{color:"#bfbfbf", height:150, fontSize:20}}
                     onValueChange={(itemValue, itemIndex) => this.onChangePickerValue(itemValue, itemIndex, stateKey)}>
                     {pickerItems}
-                </Picker>
+                </WheelPicker>
             </View>
         );
     }
@@ -150,8 +172,12 @@ class FollowScreen extends Component {
                         {this.renderPicker(LS.str("FOLLOW_COUNT"), "followCounts", "avaliableFollowCounts")}
                     </View>
                     {this.renderHint()}
-                </View>               
-                {this.renderConfirmButton()}
+                </View>
+                <SubmitButton 
+                    onPress={()=>this.isReadyToUpdateFollow()}
+                    enable={this.isReadyToUpdateFollow()}
+                    text={LS.str("POSITION_CONFIRM")}
+                />
             </View>
             );
     }
@@ -161,8 +187,7 @@ class FollowScreen extends Component {
             <Modal style={styles.container}
                 transparent={true}
                 visible={this.state.modalVisible}
-                onRequestClose={()=>{}}
-                >
+                onRequestClose={()=>{this.hide()}}>
                 <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
                     <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
                         {this.renderContent()}
@@ -205,7 +230,8 @@ const styles = StyleSheet.create({
         borderRadius:10
     },
     mainContent: {
-        margin: 15,
+        marginLeft: 15,
+        marginRight: 15,
         alignItems:'center',
         flex:1,
     },

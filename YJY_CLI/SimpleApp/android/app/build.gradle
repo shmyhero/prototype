@@ -173,6 +173,9 @@ dependencies {
     compile project(':react-native-linear-gradient')
     compile project(':react-native-toast')
     compile project(':react-native-locale')
+
+    //Picker
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
 }
 
 // Run this once to be able to run the application with BUCK
