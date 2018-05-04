@@ -101,7 +101,7 @@ var LS = {
     POSITION_TAKE_LOSS:['亏损','Take loss'],
     POSITION_TAKE_PROFIT:['获利','Take Profit'],
     POSITION_CONFIRM: ['确认','OK'],
-    POSITION_SETTED:['已设置','setted'],
+    POSITION_SETTED:['已设置','Setted'],
     TAKE_PROFIT: ['止盈','Take Profit'],
     STOP_LOSS: ['止损','Stop loss'],
     TAKE_PROFIT_STOP_LOSS_TITLE:['止盈/止损','Profit / Loss'],
