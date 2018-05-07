@@ -85,6 +85,7 @@ var LS = {
     REMAIN_MOUNT:["剩余糖果","Remain Candy"],
     SHARE:["分享","Share"],
     NO_DYNAMIC:["暂无动态","No Data"],
+    NO_FOLLOW:["没有跟随记录","No Follow"],
     
     
     
