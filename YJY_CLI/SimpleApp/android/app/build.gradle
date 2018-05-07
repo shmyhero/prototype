@@ -95,6 +95,8 @@ def enableSeparateBuildPerCPUArchitecture = false
  */
 def enableProguardInReleaseBuilds = false
 
+def propFile
+
 android {
     compileSdkVersion 23
     buildToolsVersion '27.0.3'
@@ -152,6 +154,14 @@ android {
                         versionCodes.get(abi) * 1048576 + defaultConfig.versionCode
             }
         }
+    }
+    applicationVariants.all { variant ->
+        if (variant.buildType.name == "debug") {
+            propFile = file("gradle.properties.debug")
+        } else {
+            propFile = file("gradle.properties")
+        }
+        propFile.renameTo("gradle.properties")
     }
 }
 
