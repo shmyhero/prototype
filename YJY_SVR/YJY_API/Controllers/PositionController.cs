@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Threading.Tasks;
 using System.Web.Http;
 using AutoMapper;
 using YJY_COMMON;
@@ -32,18 +33,25 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public PositionDTO NewPosition(NewPositionFormDTO form)
         {
-            if(form.leverage < 1)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid leverage"));
+            if (form.invest <= 0)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "invalid invest"));
+
+            if (form.leverage < 1)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "invalid leverage"));
 
             var user = GetUser();
-            if(user.Balance<form.invest)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,Resources.Resource.NotEnoughBalance));
+            if (user.Balance < form.invest)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    Resources.Resource.NotEnoughBalance));
 
             var cache = WebCache.Instance;
 
             var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == form.securityId);
-            if (prodDef.QuoteType== enmQuoteType.Closed || prodDef.QuoteType== enmQuoteType.Inactive)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Resource.ProductClosed));
+            if (prodDef.QuoteType == enmQuoteType.Closed || prodDef.QuoteType == enmQuoteType.Inactive)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    Resources.Resource.ProductClosed));
 
             if (form.leverage > prodDef.MaxLeverage)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
@@ -52,7 +60,15 @@ namespace YJY_API.Controllers
             var quote = cache.Quotes.FirstOrDefault(o => o.Id == form.securityId);
 
             var positionService = new PositionService();
-            var newPosition = positionService.CreateNewPosition(UserId,form.securityId,form.invest,form.isLong,form.leverage,Quotes.GetLastPrice(quote));
+            var newPosition = positionService.CreateNewPosition(UserId, form.securityId, form.invest, form.isLong,
+                form.leverage, Quotes.GetLastPrice(quote));
+
+            var posIdToFollow = newPosition.Id;
+            Task.Run(() =>
+            {
+                YJYGlobal.LogLine("NEW THREAD: check and OPEN follow positions for pos " + posIdToFollow);
+                PositionService.CheckAndOpenFollowPositions(posIdToFollow);
+            });
 
             var posDTO = new PositionDTO()
             {
@@ -83,6 +99,13 @@ namespace YJY_API.Controllers
             var positionService = new PositionService();
             var closedPosition = positionService.DoClosePosition(UserId, form.posId,form.securityId, Quotes.GetLastPrice(quote));
 
+            var posIdToFollowClose = closedPosition.Id;
+            Task.Run(() =>
+            {
+                YJYGlobal.LogLine("NEW THREAD: check and CLOSE follow positions for pos " + posIdToFollowClose);
+                PositionService.CheckAndCloseFollowPositions(posIdToFollowClose);
+            });
+
             var result = Mapper.Map<PositionDTO>(closedPosition);
 
            return result;
@@ -99,6 +122,9 @@ namespace YJY_API.Controllers
                 .OrderByDescending(o => o.CreateTime)
                 .Skip((pageNum-1)*pageSize).Take(pageSize)
                 .ToList();
+
+            var followUserIds = positions.Where(o => o.FollowUserId.HasValue).Select(o => o.FollowUserId).ToList();
+            var users = db.Users.Where(o => followUserIds.Contains(o.Id)).ToList();
 
             var cache = WebCache.Instance;
 
@@ -125,6 +151,17 @@ namespace YJY_API.Controllers
                 //calculate UPL
                 posDTO.upl = Trades.CalculatePL(p, quote);
 
+                if (p.FollowUserId.HasValue)
+                {
+                    var user = users.FirstOrDefault(o => o.Id == p.FollowUserId.Value);
+                    posDTO.followUser=new UserBaseDTO()
+                    {
+                        id=user.Id,
+                        nickname = user.Nickname,
+                        picUrl = user.PicUrl,
+                    };
+                }
+
                 return posDTO;
             }).Where(o => o != null).ToList();
 
@@ -141,6 +178,9 @@ namespace YJY_API.Controllers
                 .Skip((pageNum - 1) * pageSize).Take(pageSize)
                 .ToList();
 
+            var followUserIds = positions.Where(o => o.FollowUserId.HasValue).Select(o => o.FollowUserId).ToList();
+            var users = db.Users.Where(o => followUserIds.Contains(o.Id)).ToList();
+
             var cache = WebCache.Instance;
 
             var positionDtos = positions.Select(delegate (Position p)
@@ -153,6 +193,17 @@ namespace YJY_API.Controllers
 
                 //security
                 posDTO.security = security;
+
+                if (p.FollowUserId.HasValue)
+                {
+                    var user = users.FirstOrDefault(o => o.Id == p.FollowUserId.Value);
+                    posDTO.followUser = new UserBaseDTO()
+                    {
+                        id = user.Id,
+                        nickname = user.Nickname,
+                        picUrl = user.PicUrl,
+                    };
+                }
 
                 return posDTO;
             }).Where(o => o != null).ToList();
@@ -174,7 +225,11 @@ namespace YJY_API.Controllers
             if (position.ClosedAt != null)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     "position closed"));
-            
+
+            if (position.FollowPosId != null || position.FollowUserId!=null)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "cannot set stop/take for followed position"));
+
             //var quote = WebCache.Instance.Quotes.FirstOrDefault(o => o.Id == position.SecurityId);
             //var lastPrice = Quotes.GetLastPrice(quote);
 

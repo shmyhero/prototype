@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
+using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
 using ServiceStack.Text;
@@ -159,6 +161,10 @@ namespace YJY_API.Controllers
             if (tryGetAuthUser != null)
             {
                 userDto.isFollowing = db.UserFollows.Any(o => o.UserId == tryGetAuthUser.Id && o.FollowingId == userId);
+
+                var tradeFollow = db.UserTradeFollows.FirstOrDefault(o => o.UserId == tryGetAuthUser.Id && o.FollowingId == userId);
+                if (tradeFollow != null)
+                    userDto.followTrade = Mapper.Map<FollowTradeDTO>(tradeFollow);
             }
 
             return userDto;
@@ -197,6 +203,58 @@ namespace YJY_API.Controllers
                 return new ResultDTO(false);
 
             db.UserFollows.Where(o => o.UserId == UserId && o.FollowingId == followingId).Delete();
+
+            return new ResultDTO(true);
+        }
+
+        [HttpPut]
+        [Route("followTrade/{followingId}")]
+        [BasicAuth]
+        public ResultDTO SetFollowTrade(int followingId, SetFollowTradeFormDTO form)
+        {
+            if (UserId == followingId)
+                return new ResultDTO(false);
+
+            if(form.investFixed<=0)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,"invalid invest"));
+
+            if (form.stopAfterCount <= 0)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid stop count"));
+
+            var tradeFollow = db.UserTradeFollows.FirstOrDefault(o => o.UserId == UserId && o.FollowingId == followingId);
+
+            if (tradeFollow==null)
+            {
+                db.UserTradeFollows.Add(new UserTradeFollow()
+                {
+                    UserId = UserId,
+                     FollowingId= followingId,
+                    CreateAt = DateTime.UtcNow,
+                    InvestFixed = form.investFixed,
+                    StopAfterCount = form.stopAfterCount,
+                });
+                db.SaveChanges();
+            }
+            else
+            {
+                tradeFollow.InvestFixed = form.investFixed;
+                tradeFollow.StopAfterCount = form.stopAfterCount;
+                tradeFollow.UpdateAt = DateTime.UtcNow;
+                db.SaveChanges();
+            }
+
+            return new ResultDTO(true);
+        }
+
+        [HttpDelete]
+        [Route("followTrade/{followingId}")]
+        [BasicAuth]
+        public ResultDTO DeleteFollowTrade(int followingId)
+        {
+            if (UserId == followingId)
+                return new ResultDTO(false);
+
+            db.UserTradeFollows.Where(o => o.UserId == UserId && o.FollowingId == followingId).Delete();
 
             return new ResultDTO(true);
         }

@@ -74,7 +74,7 @@ namespace YJY_COMMON.Service
                                     Time = DateTime.UtcNow,
                                     Amount = amount,
                                     BalanceAfter = user.Balance,
-                                    Type = "THTDeposit",
+                                    Type = TransferType.THTDeposit.ToString(),
                                     UserId = user.Id,
                                     TransactionId = deposit.Index,
                                 };
@@ -132,7 +132,7 @@ namespace YJY_COMMON.Service
                             Time = DateTime.UtcNow,
                             Amount = amount,
                             BalanceAfter = user.Balance,
-                            Type = "THTWithdrawal",
+                            Type = TransferType.THTWithdrawal.ToString(),
                             UserId = user.Id,
                             TransactionId = withdrawal.Id, //withdrawal id should be populated
                         };

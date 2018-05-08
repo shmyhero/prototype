@@ -6,6 +6,7 @@ using Microsoft.Azure.ServiceBus;
 using YJY_COMMON;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
+using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Model.Queue;
 using YJY_COMMON.Util;
 
@@ -126,7 +127,7 @@ namespace YJY_JOBS
                                             new PosToClose()
                                             {
                                                 Id = p.Id,
-                                                closeType = CloseType.Liquidate,
+                                                closeType = PositionCloseType.Liquidate,
                                                 closePx = last,
                                                 closePxTime = quote.Time,
                                             })));
@@ -146,7 +147,7 @@ namespace YJY_JOBS
                                                 new PosToClose()
                                                 {
                                                     Id = p.Id,
-                                                    closeType = CloseType.Stop,
+                                                    closeType = PositionCloseType.Stop,
                                                     closePx = last,
                                                     closePxTime = quote.Time,
                                                 })));
@@ -167,7 +168,7 @@ namespace YJY_JOBS
                                                 new PosToClose()
                                                 {
                                                     Id = p.Id,
-                                                    closeType = CloseType.Take,
+                                                    closeType = PositionCloseType.Take,
                                                     closePx = last,
                                                     closePxTime = quote.Time,
                                                 })));

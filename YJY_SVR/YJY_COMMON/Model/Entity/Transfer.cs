@@ -26,4 +26,14 @@ namespace YJY_COMMON.Model.Entity
 
         public int? TransactionId { get; set; }
     }
+    
+    public enum TransferType
+    {
+        Open,
+        Close,
+        THTDeposit,
+        THTWithdrawal,
+        //OpenFollow,
+        //CloseFollow,
+    }
 }

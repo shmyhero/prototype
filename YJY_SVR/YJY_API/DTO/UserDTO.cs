@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using YJY_API.DTO.FormDTO;
+using YJY_COMMON.Model.Entity;
 
 namespace YJY_API.DTO
 {
@@ -31,12 +33,22 @@ namespace YJY_API.DTO
         public decimal roi { get; set; }
         //public int posCount { get; set; }
         public decimal winRate { get; set; }
+
+        public FollowTradeDTO followTrade { get; set; }
     }
 
     public class UserDTO : UserBaseDTO
     {
         //public int followerCount { get; set; }
         public bool? isFollowing { get; set; }
+        public FollowTradeDTO followTrade { get; set; }
+    }
+
+    public class FollowTradeDTO
+    {
+        public decimal investFixed { get; set; }
+        public int stopAfterCount { get; set; }
+        public DateTime? createAt { get; set; }
     }
 
     public class StatusDTO

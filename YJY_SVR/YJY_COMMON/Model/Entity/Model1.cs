@@ -12,10 +12,17 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<THTWithdrawal> THTWithdrawals { get; set; }
+        public virtual DbSet<UserTradeFollow> UserTradeFollows { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<UserTradeFollow>()
+                .Property(e => e.InvestFixed)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<UserTradeFollow>()
+                .Property(e => e.InvestRatio)
+                .HasPrecision(18, 8);
         }
     }
 }

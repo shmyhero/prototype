@@ -20,4 +20,11 @@ namespace YJY_API.DTO.FormDTO
     {
         public string text { get; set; }
     }
+
+    public class SetFollowTradeFormDTO
+    {
+        public decimal investFixed { get; set; }
+        public int stopAfterCount { get; set; }
+
+    }
 }

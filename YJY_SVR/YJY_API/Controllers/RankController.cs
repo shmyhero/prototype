@@ -160,5 +160,76 @@ namespace YJY_API.Controllers
 
             return result;
         }
+
+        [HttpGet]
+        [Route("user/followTrade")]
+        [BasicAuth]
+        public List<UserRankDTO> GetTradeFollowingUsers()
+        {
+            var result =
+                db.UserTradeFollows
+                    .Where(o => o.UserId == UserId)
+                    .OrderByDescending(o => o.CreateAt)
+                    .Join(db.Users, f => f.FollowingId, u => u.Id, (f, u) => new UserRankDTO()
+                    {
+                        id = u.Id,
+                        nickname = u.Nickname,
+                        picUrl = u.PicUrl,
+                        //showData = o.Following.ShowData ?? CFDUsers.DEFAULT_SHOW_DATA,
+                        //rank = o.Following.LiveRank ?? 0,
+
+                        followTrade = new FollowTradeDTO()
+                        {
+                            createAt = f.CreateAt,
+                            investFixed = f.InvestFixed.Value,
+                            stopAfterCount = f.StopAfterCount.Value,
+                        }
+                    }).ToList();
+
+            if (result.Count > 0)
+            {
+                var userIds = result.Select(o => o.id).ToList();
+
+                var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
+                var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
+
+                var datas =
+                    db.Positions.Where(
+                        o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
+                        .GroupBy(o => o.UserId).Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
+                        {
+                            id = g.Key.Value,
+
+                            //nickname = u.Nickname,
+                            //picUrl = u.PicUrl,
+
+                            //posCount = g.Count(),
+                            winRate = (decimal)g.Count(p => p.PL > 0) / g.Count(),
+                            roi = g.Sum(p => p.PL.Value) / g.Sum(p => p.Invest.Value),
+                        }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
+
+                foreach (var userDto in result)
+                {
+                    var data = datas.FirstOrDefault(o => o.id == userDto.id);
+
+                    if (data == null) //this guy has no data
+                    {
+                        userDto.roi = 0;
+                        //userDto.posCount = 0;
+                        userDto.winRate = 0;
+                    }
+                    else
+                    {
+                        userDto.roi = data.roi;
+                        //userDto.posCount = data.posCount;
+                        userDto.winRate = data.winRate;
+                    }
+                }
+
+                //result = result.OrderByDescending(o => o.roi).ToList();
+            }
+
+            return result;
+        }
     }
 }

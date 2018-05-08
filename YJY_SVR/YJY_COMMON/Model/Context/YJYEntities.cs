@@ -22,6 +22,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }
+        public virtual DbSet<UserTradeFollow> UserTradeFollows { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
@@ -71,6 +72,14 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<User>()
                 .Property(e => e.Balance)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<UserTradeFollow>()
+                .Property(e => e.InvestFixed)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<UserTradeFollow>()
+                .Property(e => e.InvestRatio)
                 .HasPrecision(18, 8);
         }
     }
