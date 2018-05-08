@@ -40,6 +40,7 @@ export let CFD_API = {
   WITHDRAW_BALANCE:CFD_API_SERVER + '/api/fund/THT/withdrawal',
   TH_PURSE_ADDRESS:CFD_API_SERVER + '/api/fund/THT/serverAddress',
   TOKEN_DETAIL:CFD_API_SERVER + '/api/fund/transfer',
+  SET_FOLLOW_TRADE: CFD_API_SERVER + '/api/user/followTrade/<id>',
 }
     
  

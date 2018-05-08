@@ -18,9 +18,18 @@ import WheelPicker from "./component/WheelPicker";
 import LinearGradient from 'react-native-linear-gradient';
 import SubmitButton from './component/SubmitButton';
 import LogicData from '../LogicData';
+import BalanceBlock from './component/BalanceBlock';
 var NetworkModule = require("../module/NetworkModule");
 var NetConstants = require("../NetConstants");
 
+import {
+    showFollowDialog,
+    updateFollowConfig,
+    sendFollowConfigRequest,
+    checkAgreement,
+    getCurrentFollowConfig
+} from '../redux/actions'
+import { connect } from 'react-redux';
 
 var LS = require("../LS");
 
@@ -29,64 +38,43 @@ var LS = require("../LS");
 class FollowScreen extends Component {
     constructor(props){
         super(props)
+    }
 
-        this.state = {
-            modalVisible: false,
-            balance: "--",
-            amount: 20,
-            followCounts: 3,
-            avaliableAmount: [10,20,30,50,100],
-            avaliableFollowCounts: [1,2,3,4,5],
-            isAgreementRead: true,
-            valueChanged: false,
-        }
+    componentDidMount(){
+        this.props.getCurrentFollowConfig();
     }
 
     show(){
-        var userData = LogicData.getUserData();
-        NetworkModule.fetchTHUrl(
-            NetConstants.CFD_API.USER_FUND_BALANCE,
-            {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                },
-            },(responseJson)=>{
-                this.setState({
-                    balance: "" + responseJson.balance.maxDecimal(2),
-                })
-            },()=>{
-            });
-
-        this.setState({
-            modalVisible: true,
-        })
+        this.props.showFollowDialog(true);
     }
 
-    hide(){
-        this.setState({
-            modalVisible: false,
-        })
+    hide(){        
+        this.props.showFollowDialog(false);
     }
 
-    isReadyToUpdateFollow(){
-        if(this.state.valueChanged && this.state.isAgreementRead){
-            return true;
+    onChangePickerValue(itemValue, itemIndex, stateKey){
+        if (stateKey == "amount"){
+            this.props.updateFollowConfig(itemValue, this.props.frequency);
+        }else if (stateKey == "frequency"){
+            this.props.updateFollowConfig(this.props.amount, itemValue);
         }
+    }
+
+    setFollowConfig(){
+        this.props.sendFollowConfigRequest(this.props.userId, this.props.amount, this.props.frequency);
     }
 
     renderHint(){
         var checkIcon;
-        if(this.state.isAgreementRead){
+        if(this.props.isAgreementRead){
             checkIcon = require("../../images/selection_small_selected.png");
         }else{
             checkIcon = require("../../images/selection_small_unselected.png");
         }
         return(
-            <TouchableOpacity style={{flexDirection:'row', marginTop:10, marginBottom:10}} onPress={()=>{
-                    this.setState({
-                        isAgreementRead: !this.state.isAgreementRead
-                    })
+            <TouchableOpacity style={{flexDirection:'row', marginTop:10, marginBottom:10}}
+                onPress={()=>{
+                    this.props.checkAgreement(this.props.isAgreementRead);
                 }}>
                 <View style={{flexDirection:'row', flex:1, alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
@@ -100,23 +88,11 @@ class FollowScreen extends Component {
         )
     }
 
-    onChangePickerValue(itemValue, itemIndex, stateKey){
-        if(this.state[stateKey] != itemValue){
-            var state = { valueChanged: true};
-            state[stateKey] = itemValue;
-            this.setState(state)
-        }
-    }
-
-    bindCard(){
-        this.setState({
-            valueChanged: false,
-        })
-    }
-
     renderPicker(title, stateKey, availableKey){
+        console.log("renderPicker ");
+        console.log("renderPicker this.props[stateKey]", this.props[stateKey]);
 
-        var pickerItems = this.state[availableKey].map( (value, index, array)=>{
+        var pickerItems = this.props[availableKey].map( (value, index, array)=>{
             return (
                 <WheelPicker.Item label={""+value} value={value} key={index}/>
             );
@@ -125,7 +101,7 @@ class FollowScreen extends Component {
             <View style={{alignItems:'center', flex:1}}>
                 <Text style={styles.pickerTitle}>{title}</Text>
                 <WheelPicker
-                    selectedValue={this.state[stateKey]}
+                    selectedValue={this.props[stateKey]}
                     selectedTextColor={"#333333"}
                     style={{flex:1, height:150, width: 100 }}
                     itemStyle={{color:"#bfbfbf", height:150, fontSize:20}}
@@ -133,23 +109,6 @@ class FollowScreen extends Component {
                     {pickerItems}
                 </WheelPicker>
             </View>
-        );
-    }
-
-    renderConfirmButton(){
-        var buttonEnabled = this.isReadyToUpdateFollow();
-        var buttonImage = buttonEnabled ? require("../../images/position_confirm_button_enabled.png") : require("../../images/position_confirm_button_disabled.png")
-        return (
-            <TouchableOpacity
-                onPress={()=>this.bindCard()}
-                style={styles.okView}>
-                <ImageBackground source={buttonImage}
-                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                    <Text style={styles.okButton}>
-                        {LS.str("POSITION_CONFIRM")}
-                    </Text>
-                </ImageBackground>
-            </TouchableOpacity>
         );
     }
 
@@ -165,18 +124,18 @@ class FollowScreen extends Component {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <Text style={styles.balanceText}>{this.state.balance}</Text>
+                        <BalanceBlock style={styles.balanceText}/>
                     </ImageBackground>
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "amount", "avaliableAmount")}
-                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "followCounts", "avaliableFollowCounts")}
+                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "amount", "availableAmount")}
+                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "frequency", "availableFrequency")}
                     </View>
                     {this.renderHint()}
                 </View>
                 <SubmitButton 
-                    onPress={()=>this.isReadyToUpdateFollow()}
-                    enable={this.isReadyToUpdateFollow()}
-                    text={LS.str("POSITION_CONFIRM")}
+                    onPress={()=>this.setFollowConfig()}
+                    enable={this.props.buttonEnable}
+                    text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}
                 />
             </View>
             );
@@ -186,7 +145,7 @@ class FollowScreen extends Component {
         return (
             <Modal style={styles.container}
                 transparent={true}
-                visible={this.state.modalVisible}
+                visible={this.props.modalVisible}
                 onRequestClose={()=>{this.hide()}}>
                 <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
                     <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
@@ -260,4 +219,18 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default FollowScreen;
+const mapStateToProps = state => {
+    return {
+        ...state.follow,
+    };
+};
+  
+const mapDispatchToProps = {
+    showFollowDialog,
+    updateFollowConfig,
+    sendFollowConfigRequest,
+    checkAgreement,
+    getCurrentFollowConfig
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(FollowScreen);

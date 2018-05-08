@@ -20,7 +20,7 @@ var LS = {
     FINISH: ["完成", "Done"],
     SUGAR_AMOUNT: ["糖果数", "Candy"],
 
-    EXIT: ["退出登录", "Log Out"],
+    LOG_OUT: ["退出登录", "Log Out"],
 
     PULL_TO_REFRESH:["下拉刷新...","pull to refresh ..."],
     RELEASE_TO_REFRESH:["释放刷新","release to refresh"],
@@ -142,7 +142,7 @@ var LS = {
     WITHDRAW_AMOUNT: ["出金金额", "Withdraw Limit"],
     WITHDRAW_CANDY: ["糖果", "Candy"],
     WITHDRAW_ALL: ['全部出金', 'Withdraw all'],
-    WITHDRAW_AVAILABLE_AMOUNT: ['"可出资金：{1}糖果，', 'Withdraw Limit :{1} Candy,'],
+    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}糖果，', 'Withdraw Limit :{1} Candy,'],
     WITHDRAW_WITHDRAW: ["确认出金", "withdraw"],
     WITHDRAW_REQUEST_SUBMITED: ["出金提交成功", "Submitted"],
     WITHDRAW_ETA_MESSAGE: ["预计资金到账时间为1小时，具体以钱包余额为准！", "Funds may arrive within one hour."],

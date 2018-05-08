@@ -23,6 +23,9 @@ var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var {height, width} = Dimensions.get('window');
 var LS = require('../LS')
 
+import {showFollowDialog} from "../redux/actions/follow";
+import {getStore} from "../../index";
+import LogicData from '../LogicData';
 
 export default class  UserProfileTabMain extends React.Component {
   static navigationOptions = {
@@ -43,7 +46,36 @@ export default class  UserProfileTabMain extends React.Component {
   }
 
   onFollowPressed(){
-    this.followScreen.show()
+    showFollowDialog(true, this.props.userId)(getStore().dispatch)
+  }
+
+  renderFollowBlock(){
+    var userData = LogicData.getUserData();
+    if(this.props.userId == userData.userId){
+      return null;
+    }
+    return (
+      <TouchableOpacity style={{height: 60, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
+      onPress={()=>this.onFollowPressed()}>
+        <LinearGradient 
+          start={{x:0.0, y:0}}
+          end={{x:1.0, y:0.0}}
+          style={{flex:1, alignItems:'center', justifyContent:'center'}}
+          colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
+          <Text style={{color:'white', fontSize:20}}>
+            {LS.str("FOLLOW")}
+          </Text>
+        </LinearGradient>
+      </TouchableOpacity>
+    );
+  }
+
+  renderFollowModal(){
+    var userData = LogicData.getUserData();
+    if(this.props.userId == userData.userId){
+      return null;
+    }
+    return (<FollowScreen ref={(ref)=> this.followScreen = ref}/>);
   }
 
   render() {
@@ -64,19 +96,8 @@ export default class  UserProfileTabMain extends React.Component {
             <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
         </ScrollView>
-        <TouchableOpacity style={{height: 60, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
-          onPress={()=>this.onFollowPressed()}>
-          <LinearGradient 
-            start={{x:0.0, y:0}}
-            end={{x:1.0, y:0.0}}
-            style={{flex:1, alignItems:'center', justifyContent:'center'}}
-            colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-            <Text style={{color:'white', fontSize:20}}>
-              {LS.str("FOLLOW")}
-            </Text>
-          </LinearGradient>
-        </TouchableOpacity>
-        <FollowScreen ref={(ref)=> this.followScreen = ref}/>
+        {this.renderFollowBlock()}
+        {this.renderFollowModal()}
       </View> 
     );
   }
