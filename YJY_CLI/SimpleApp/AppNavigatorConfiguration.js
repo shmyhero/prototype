@@ -1,8 +1,9 @@
 import React from 'react';
 import { Image, StyleSheet,Platform, } from 'react-native';
 import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from 'react-navigation';
+import { TabNavigator,TabBarBottom } from 'react-navigation';
 
+var ColorConstants = require("./js/ColorConstants");
 import LoginScreen from './js/view/LoginScreen';
 import HelpScreen from "./js/view/HelpScreen"
 import AboutScreen from "./js/view/AboutScreen"
@@ -130,7 +131,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
             height:Platform.OS == "android"?58:50, 
         },
         labelStyle: {
-            fontSize: 12,
+            fontSize: 10,
             marginBottom:5,
             marginLeft:0,
             marginRight:0,
@@ -148,9 +149,8 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
             elevation: 0,
         },
         header: null,
-        tabBarOnPress: (scene,jumpToIndex) => {
-            console.log(scene)
-            jumpToIndex(scene.index);
+        tabBarOnPress: (options) => {
+            options.jumpToIndex(options.scene.index);
         },
     })
 });
@@ -184,6 +184,7 @@ const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,
 {
     cardStyle: {
         shadowColor: 'transparent',
+        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
     navigationOptions: {
         headerStyle: {

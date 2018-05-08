@@ -6,9 +6,11 @@ import PropTypes from "prop-types";
 import { View, Text, StyleSheet,
     TouchableOpacity,
     ImageBackground,
-    Image
+    Image,
+    Dimensions
 } from 'react-native';
 var LS = require("../../LS");
+var {height, width} = Dimensions.get("window");
 
 // create a component
 class SubmitButton extends Component {
@@ -53,9 +55,10 @@ class SubmitButton extends Component {
         return (
             <TouchableOpacity
                 onPress={()=>this.onButtonPressed()}
-                style={styles.okView}>
+                style={styles.backgroundImageStyle}>
                 <ImageBackground source={buttonImage}
-                    style={styles.backgroundImageStyle}>
+                    resizeMode={"stretch"}
+                    style={styles.okView}>
                     <Text style={styles.okButton}>
                         {this.props.text}
                     </Text>
@@ -79,10 +82,11 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
         fontSize: 17,
         position:'absolute',
-        top:17
+        top:14
     },
     backgroundImageStyle: {
-        width: '100%', height: '100%', alignItems:'center', justifyContent:"center"
+        alignSelf:'center',
+        width: 332, height: 60, alignItems:'center', justifyContent:"center"
     }
 });
 

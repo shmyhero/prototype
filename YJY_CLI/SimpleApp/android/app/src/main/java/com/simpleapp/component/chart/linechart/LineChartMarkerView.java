@@ -20,6 +20,7 @@ import org.json.JSONArray;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Neko on 2018/1/31.
@@ -69,6 +70,7 @@ public class LineChartMarkerView extends MarkerView {
         try {
             String xVal = (this.stockInfoObject.getJSONObject((int)e.getX()).getString(dateTimeKey));
             SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
             Date date = format.parse(xVal);
             SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
             XVal = outFormat.format(date);

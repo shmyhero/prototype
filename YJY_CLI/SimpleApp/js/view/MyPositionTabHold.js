@@ -31,6 +31,7 @@ import { ViewKeys } from '../../AppNavigatorConfiguration';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";
+import SubmitButton from "./component/SubmitButton";
 
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
@@ -265,8 +266,9 @@ export default class  MyPositionTabHold extends React.Component {
 
 			var stopProfit = rowData.takePx !== undefined
 			// var stopLoss = rowData.stopPx !== undefined
+			
 			var stopLoss = this.priceToPercentWithRow(rowData.stopPx, rowData, 2) >= MAX_LOSS_PERCENT
-
+			console.log("stopLoss ", stopLoss)
 			this.stopProfitPercent = DEFAULT_PERCENT
 			this.stopLossPercent = MAX_LOSS_PERCENT
 			this.stopProfitUpdated = false
@@ -486,7 +488,8 @@ export default class  MyPositionTabHold extends React.Component {
 					},
 					(responseJson) => {
 						console.log("set stop loss returned");
-						this.stopLossUpdated = false							
+						this.stopLossUpdated = false
+						this.stopProfitUpdated = false							
 
 						var stockInfo = {};
 						stockInfo.stopPx = responseJson.stopPx;
@@ -746,9 +749,11 @@ export default class  MyPositionTabHold extends React.Component {
 				startPercent = endPercent - 100
 			}
 
+			console.log("renderStopProfitLoss this.stopLossUpdated", this.stopLossUpdated)
 			if (!this.stopLossUpdated){//percent === MAX_LOSS_PERCENT) {
 
-				percent = rowData.takePx === undefined ? endPercent : this.priceToPercentWithRow(rowData.stopPx, rowData, type)
+				percent = rowData.stopPx === undefined ? endPercent : this.priceToPercentWithRow(rowData.stopPx, rowData, type)
+
 				if (percent < startPercent) {
 					percent = startPercent
 				}
@@ -1035,6 +1040,7 @@ export default class  MyPositionTabHold extends React.Component {
 		var separatorStyle = styles.darkSeparator;
         var buttonStyle = [styles.okView];
 		var buttonTextStyle = [styles.okButton];
+		var buttonEnabled = true;
 		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			var buttonText = LS.str("POSITION_CONFIRM")
 			if (!this.state.profitLossUpdated && this.state.profitLossConfirmed) {
@@ -1048,11 +1054,19 @@ export default class  MyPositionTabHold extends React.Component {
 				buttonStyle = [styles.okView];
 				buttonTextStyle = [styles.okButton];
 			}
+			console.log("this.stopLossUpdated", this.stopLossUpdated)
+			console.log("this.stopProfitUpdated", this.stopProfitUpdated)
+			
+			buttonEnabled = this.stopLossUpdated || this.stopProfitUpdated
 		}
 		return(
 			<View>
 				<View style={separatorStyle}/>
-				<TouchableOpacity
+				<SubmitButton 
+					enable={buttonEnabled}
+					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
+					text={buttonText}/>
+				{/* <TouchableOpacity
 					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
 					style={buttonStyle}
 					>
@@ -1062,7 +1076,7 @@ export default class  MyPositionTabHold extends React.Component {
                             {buttonText}
                         </Text>
                     </ImageBackground>
-				</TouchableOpacity>
+				</TouchableOpacity> */}
 			</View>)
 	}
 
@@ -1195,7 +1209,7 @@ export default class  MyPositionTabHold extends React.Component {
 					<Text style={{marginLeft:10}}>{rowData.followingUser}</Text>
 					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>跟随</Text>
+						<Text style={{color:'white', fontSize:10}}>{LS.str("FOLLOW")}</Text>
 						</View>
 					</ImageBackground>
 				</View>

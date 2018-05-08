@@ -36,11 +36,11 @@ class TabPositionScreen extends Component {
     }
   }
 
-  componentWillMount() {
+  componentDidMount() {
     layoutSizeChangedSubscription = EventCenter.getEventEmitter().addListener(EventConst.POSITON_TAB_PRESS_EVENT, () => {
       console.log("POSITON_TAB_PRESS_EVENT")
       this.refresh();
-    });    
+    });
   }
 
   componentWillUnmount(){

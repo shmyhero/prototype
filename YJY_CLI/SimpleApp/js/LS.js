@@ -18,7 +18,7 @@ var LS = {
     ME_TAB_TITLE:["我的", "Me"], 
     VERIFING: ["信息检查中...", "Verifying..."],    
     FINISH: ["完成", "Done"],
-    SUGAR_AMOUNT: ["糖果数", "Mount"],
+    SUGAR_AMOUNT: ["糖果数", "Candy"],
 
     EXIT: ["退出登录", "Log Out"],
 
@@ -30,7 +30,7 @@ var LS = {
     RELEASE_FOR_LOAD_MORE:["释放加载更多","release to load more..."],
     NO_MORE:["没有更多","no more data"],
     DEL:["删除","Remove"],
-    MOUNT_X:["糖果x","Mount*"],
+    MOUNT_X:["糖果x","Candy*"],
     MULTIPLE:["倍数","multiple"],
     PROFIT:["盈利","profit"],
     LOSS:["亏损","loss"],    
@@ -41,7 +41,7 @@ var LS = {
     MINE:["我的","Mine"],
     WINRATE:["胜率:","WinRate:"],
     APPLY_FOLLOW:["申请跟随:","Apply follow"],
-    AVG_MOUNT_FOLLOW:["每笔跟随糖果","Mount per time"],
+    AVG_MOUNT_FOLLOW:["每笔跟随糖果","Candy per time"],
     FOLLOW_TIMES:["跟随笔数","Follow times"],
     SUNDAY:["星期日","Sunday"],
     MONDAY:["星期一","Monday"],
@@ -70,7 +70,7 @@ var LS = {
     PJGG:["平均倍数","Average Multiple"],
     LJXD:["累积下单(次)","Total trades"],
     PJCCSJ:["平均持仓(天)","Average hold days"],
-    PJBJ:["平均糖果","Average Mount"],
+    PJBJ:["平均糖果","Average Candy"],
     PJMBHL:["平均每笔获利","Average Per Profit"],
     CONCERN_CANCEL:["取消关注","-Concern"],
     CONCERN_ADD:["+关注","+Concern"],
@@ -81,10 +81,11 @@ var LS = {
     YOU_ARE_LOGIN:["您正在登录糖果市场","You are login tradehero token"],
     FAST_LOGIN:["快速登录","Fast Login"],
     LOGIN:["登录","Login"],
-    TOTAL_MOUNT:["总糖果","Total Mount"],
-    REMAIN_MOUNT:["剩余糖果","Remain Mount"],
+    TOTAL_MOUNT:["总糖果","Total Candy"],
+    REMAIN_MOUNT:["剩余糖果","Remain Candy"],
     SHARE:["分享","Share"],
     NO_DYNAMIC:["暂无动态","No Data"],
+    NO_FOLLOW:["没有跟随记录","No Follow"],
     
     
     
@@ -97,10 +98,11 @@ var LS = {
     ME_ABOUT_TITLE: ["关于我们", "About Us"],
 
 
+    NO_TRANSACTIONS: ["暂无资金明细", "There are no transactions"],
     POSITION_TAKE_LOSS:['亏损','Take loss'],
     POSITION_TAKE_PROFIT:['获利','Take Profit'],
     POSITION_CONFIRM: ['确认','OK'],
-    POSITION_SETTED:['已设置','setted'],
+    POSITION_SETTED:['已设置','Setted'],
     TAKE_PROFIT: ['止盈','Take Profit'],
     STOP_LOSS: ['止损','Stop loss'],
     TAKE_PROFIT_STOP_LOSS_TITLE:['止盈/止损','Profit / Loss'],
@@ -126,11 +128,11 @@ var LS = {
     BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit , After binding ,  funds can be associated with the token account."],
     BIND_CONFIRM: ["确认绑定", "Confirm binding"],
     BIND_PURSE_HEADER: ["绑定钱包地址", "Bind wallet address"],
-    DEPOSIT_COPY_YJY_ADDRESS: ["复制盈交易收款地址", "Copy wallet address of yingjiaoyi"],
-    DEPOSIT_YJY_ADDRESS: ["盈交易收款地址: ", "Wallet address of yingjiaoyi"],
-    DEPOSIT_HINT_1: ["注册以太坊钱包: ", "Registered Ethereum Wallet"],
-    DEPOSIT_HINT_2: ["以太坊官网: ", "Ethereum Website"],
-    DEPOSIT_HINT_3: ["用户把自己的Token转入盈交易: ", "Users transfer their Token to yingjiaoyi"],
+    DEPOSIT_COPY_YJY_ADDRESS: ["复制盈交易收款地址", "Copy wallet address of TradeHero"],
+    DEPOSIT_YJY_ADDRESS: ["盈交易收款地址: ", "Wallet address of TradeHero: "],
+    DEPOSIT_HINT_1: ["注册以太坊钱包: ", "Registered Ethereum Wallet: "],
+    DEPOSIT_HINT_2: ["以太坊官网: ", "Ethereum Website: "],
+    DEPOSIT_HINT_3: ["用户把自己的Token转入盈交易: ", "Users transfer their Token to TradeHero"],
     DEPOSIT_COPY_SUCCESS: ["复制成功", "Successful"],
     DEPOSIT_AGREEMENT: ["《购买糖果协议内容》", "《Candy clause》"],
 
@@ -150,11 +152,11 @@ var LS = {
     FOLLOW_COUNT: ["跟随笔数", "Counts"],
 
     ORDER_TYPE:['类型','type'],
-    ORDER_SUGAR_AMOUNT: ["糖果", "Mount"],
+    ORDER_SUGAR_AMOUNT: ["糖果", "Candy"],
     ORDER_MULTIPLE: ["倍数", "Multiple"],
     ORDER_TRADE_PRICE: ["交易价格", "Trade Price"],
     ORDER_MAX_RISK: ["最大风险（糖果）", "Maximum Risk"],
-    ORDER_PROFIT_AND_LOSS: ["盈亏（糖果）", "Profit / loss (Mount)"],
+    ORDER_PROFIT_AND_LOSS: ["盈亏（糖果）", "Profit / loss (Candy)"],
     
     ORDER_CURRENT_BUY_PRICE:['当前买价','Current Price'],
     ORDER_CURRENT_SELL_PRICE:['当前卖价','Current Price'],

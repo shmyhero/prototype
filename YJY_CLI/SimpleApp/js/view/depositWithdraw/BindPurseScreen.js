@@ -119,7 +119,7 @@ class BindPurseScreen extends Component {
                             <TextInput
                                 ref={(ref)=>this.textInputRef = ref}
                                 underlineColorAndroid={"transparent"}
-                                style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:15, color:"#000000"}}
+                                style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:13, color:"#000000"}}
                                 multiline={true}
                                 maxLength={this.state.necessaryAddressLength}
                                 onChangeText={(purseAddress)=>this.updateAddress(purseAddress)}

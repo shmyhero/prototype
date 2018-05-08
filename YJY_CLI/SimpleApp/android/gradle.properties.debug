@@ -20,7 +20,3 @@
 android.useDeprecatedNdk=true
 # systemProp.http.proxyHost=127.0.0.1
 # systemProp.http.proxyPort=1080
-
-## When buildType is debug, the following line will throw an error.
-## So use gradle.properties.debug in that case.
-android.enableAapt2=false

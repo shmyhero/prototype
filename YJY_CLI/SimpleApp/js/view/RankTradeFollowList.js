@@ -64,32 +64,32 @@ export default class  RankTradeFollowList extends React.Component {
     loadRankData(){  
         if(LogicData.isLoggedIn()){
                 var userData = LogicData.getUserData();
-                this.setState({
-                    isDataLoading: true,
-                }, ()=>{
-                    NetworkModule.fetchTHUrl(
-                        NetConstants.CFD_API.RANK_FOLLOWING,
-                        {
-                            method: 'GET',
-                            headers: {
-                                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                                'Content-Type': 'application/json; charset=utf-8',
-                            },
-                            showLoading: true,
-                        }, (responseJson) => { 
+                // this.setState({
+                //     isDataLoading: true,
+                // }, ()=>{
+                    // NetworkModule.fetchTHUrl(
+                    //     NetConstants.CFD_API.RANK_FOLLOWING,
+                    //     {
+                    //         method: 'GET',
+                    //         headers: {
+                    //             'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                    //             'Content-Type': 'application/json; charset=utf-8',
+                    //         },
+                    //         showLoading: true,
+                    //     }, (responseJson) => { 
                              
-                            this.setState({
-                                rankListData: responseJson,
-                                isDataLoading: false,
-                                dataSource: ds.cloneWithRows(responseJson),
-                            });
-                            itemOpen = []
-                        },
-                        (exception) => {
-                            alert(exception.errorMessage)
-                        }
-                    );
-                })			
+                    //         this.setState({
+                    //             rankListData: responseJson,
+                    //             isDataLoading: false,
+                    //             dataSource: ds.cloneWithRows(responseJson),
+                    //         });
+                    //         itemOpen = []
+                    //     },
+                    //     (exception) => {
+                    //         alert(exception.errorMessage)
+                    //     }
+                    // );
+                // })			
             } 
      } 
   
@@ -191,7 +191,8 @@ export default class  RankTradeFollowList extends React.Component {
                 if(this.state.rankListData.length==0){
                     return(
                         <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
-                            <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image>
+                            {/* <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image> */}
+                            <Text style={{color:'white'}}>{LS.str("NO_FOLLOW")}</Text> 
                         </View>
                     )
                 }else{
