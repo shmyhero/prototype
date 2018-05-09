@@ -27,4 +27,11 @@ namespace YJY_API.DTO.FormDTO
         public int stopAfterCount { get; set; }
 
     }
+
+    public class FollowTradeOptionDTO
+    {
+        public int[] investFixed { get; set; }
+        public int[] stopAfterCount { get; set; }
+
+    }
 }

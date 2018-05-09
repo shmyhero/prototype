@@ -175,6 +175,9 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public ResultDTO SetFollowing(int followingId)
         {
+            if (followingId <= 0)
+                return new ResultDTO(false);
+
             if (UserId == followingId)
                 return new ResultDTO(false);
 
@@ -212,6 +215,9 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public ResultDTO SetFollowTrade(int followingId, SetFollowTradeFormDTO form)
         {
+            if (followingId <= 0)
+                return new ResultDTO(false);
+
             if (UserId == followingId)
                 return new ResultDTO(false);
 
@@ -257,6 +263,17 @@ namespace YJY_API.Controllers
             db.UserTradeFollows.Where(o => o.UserId == UserId && o.FollowingId == followingId).Delete();
 
             return new ResultDTO(true);
+        }
+
+        [HttpGet]
+        [Route("followTrade/option")]
+        public FollowTradeOptionDTO GetFollowTradeOption()
+        {
+            return new FollowTradeOptionDTO()
+            {
+                investFixed = new int[] {10,20,30,40,50,60,70,80,90,100},
+                stopAfterCount = new int[] {1,2,3,4,5},
+            };
         }
     }
 }
