@@ -36,6 +36,21 @@
 		2D02E4C81E0B4AEC006451C7 /* libRCTWebSocket-tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3E991DF850E9000B6D8A /* libRCTWebSocket-tvOS.a */; };
 		2D02E4C91E0B4AEC006451C7 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		2DCD954D1E0B4F2C00145EB5 /* SimpleAppTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* SimpleAppTests.m */; };
+		3D2157F6209C113F008C8CDE /* StockChartViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F5209C113F008C8CDE /* StockChartViewManager.m */; };
+		3D2157F9209C12D2008C8CDE /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F8209C12D2008C8CDE /* StockChartView.swift */; };
+		3D2157FC209C13CD008C8CDE /* BaseRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FA209C13CC008C8CDE /* BaseRender.swift */; };
+		3D2157FD209C13CD008C8CDE /* BaseDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FB209C13CC008C8CDE /* BaseDataSource.swift */; };
+		3D215805209FFB36008C8CDE /* CandleChartRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FE209FFB35008C8CDE /* CandleChartRender.swift */; };
+		3D215806209FFB36008C8CDE /* LineChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FF209FFB35008C8CDE /* LineChartDataSource.swift */; };
+		3D215807209FFB36008C8CDE /* ChartDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215800209FFB35008C8CDE /* ChartDataManager.swift */; };
+		3D215808209FFB36008C8CDE /* SwiftExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215801209FFB35008C8CDE /* SwiftExtensions.swift */; };
+		3D215809209FFB36008C8CDE /* CandleChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215802209FFB35008C8CDE /* CandleChartDataSource.swift */; };
+		3D21580A209FFB36008C8CDE /* LineChartRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215803209FFB35008C8CDE /* LineChartRender.swift */; };
+		3D21580B209FFB36008C8CDE /* ColorSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215804209FFB35008C8CDE /* ColorSet.swift */; };
+		3D21580D209FFCC0008C8CDE /* StockDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21580C209FFCC0008C8CDE /* StockDataManager.swift */; };
+		3D215810209FFD59008C8CDE /* YieldLineChartRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21580E209FFD59008C8CDE /* YieldLineChartRender.swift */; };
+		3D215811209FFD59008C8CDE /* YieldLineChartDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D21580F209FFD59008C8CDE /* YieldLineChartDataSource.swift */; };
+		3D215813209FFD84008C8CDE /* SwiftNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215812209FFD84008C8CDE /* SwiftNotice.swift */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
 		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
 		82957684C79A42F3B32AF98C /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DC94D2363F4E46AED99507 /* libRealmReact.a */; };
@@ -371,6 +386,23 @@
 		1EF178894B564C6884768377 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		2D02E47B1E0B4A5D006451C7 /* SimpleApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SimpleApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SimpleApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D2157F4209C113F008C8CDE /* StockChartViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StockChartViewManager.h; path = SimpleApp/StockChartViewManager.h; sourceTree = "<group>"; };
+		3D2157F5209C113F008C8CDE /* StockChartViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StockChartViewManager.m; path = SimpleApp/StockChartViewManager.m; sourceTree = "<group>"; };
+		3D2157F7209C12D1008C8CDE /* SimpleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleApp-Bridging-Header.h"; sourceTree = "<group>"; };
+		3D2157F8209C12D2008C8CDE /* StockChartView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StockChartView.swift; path = SimpleApp/StockChartView.swift; sourceTree = "<group>"; };
+		3D2157FA209C13CC008C8CDE /* BaseRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseRender.swift; path = SimpleApp/BaseRender.swift; sourceTree = "<group>"; };
+		3D2157FB209C13CC008C8CDE /* BaseDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = BaseDataSource.swift; path = SimpleApp/BaseDataSource.swift; sourceTree = "<group>"; };
+		3D2157FE209FFB35008C8CDE /* CandleChartRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleChartRender.swift; path = SimpleApp/CandleChartRender.swift; sourceTree = "<group>"; };
+		3D2157FF209FFB35008C8CDE /* LineChartDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartDataSource.swift; path = SimpleApp/LineChartDataSource.swift; sourceTree = "<group>"; };
+		3D215800209FFB35008C8CDE /* ChartDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChartDataManager.swift; path = SimpleApp/ChartDataManager.swift; sourceTree = "<group>"; };
+		3D215801209FFB35008C8CDE /* SwiftExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftExtensions.swift; path = SimpleApp/SwiftExtensions.swift; sourceTree = "<group>"; };
+		3D215802209FFB35008C8CDE /* CandleChartDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = CandleChartDataSource.swift; path = SimpleApp/CandleChartDataSource.swift; sourceTree = "<group>"; };
+		3D215803209FFB35008C8CDE /* LineChartRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LineChartRender.swift; path = SimpleApp/LineChartRender.swift; sourceTree = "<group>"; };
+		3D215804209FFB35008C8CDE /* ColorSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ColorSet.swift; path = SimpleApp/ColorSet.swift; sourceTree = "<group>"; };
+		3D21580C209FFCC0008C8CDE /* StockDataManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = StockDataManager.swift; path = SimpleApp/StockDataManager.swift; sourceTree = "<group>"; };
+		3D21580E209FFD59008C8CDE /* YieldLineChartRender.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YieldLineChartRender.swift; path = SimpleApp/YieldLineChartRender.swift; sourceTree = "<group>"; };
+		3D21580F209FFD59008C8CDE /* YieldLineChartDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = YieldLineChartDataSource.swift; path = SimpleApp/YieldLineChartDataSource.swift; sourceTree = "<group>"; };
+		3D215812209FFD84008C8CDE /* SwiftNotice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftNotice.swift; path = SimpleApp/SwiftNotice.swift; sourceTree = "<group>"; };
 		41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4637A3510A384E83BAD572A4 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		48DC94D2363F4E46AED99507 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
@@ -523,6 +555,7 @@
 		13B07FAE1A68108700A75B9A /* SimpleApp */ = {
 			isa = PBXGroup;
 			children = (
+				3D2157CA209C0D2A008C8CDE /* Swift */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -530,6 +563,8 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
+				3D2157F4209C113F008C8CDE /* StockChartViewManager.h */,
+				3D2157F5209C113F008C8CDE /* StockChartViewManager.m */,
 			);
 			name = SimpleApp;
 			sourceTree = "<group>";
@@ -555,6 +590,28 @@
 				41D59296204FCB34005DBDA8 /* libprivatedata-tvOS.a */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		3D2157CA209C0D2A008C8CDE /* Swift */ = {
+			isa = PBXGroup;
+			children = (
+				3D215812209FFD84008C8CDE /* SwiftNotice.swift */,
+				3D21580F209FFD59008C8CDE /* YieldLineChartDataSource.swift */,
+				3D21580E209FFD59008C8CDE /* YieldLineChartRender.swift */,
+				3D21580C209FFCC0008C8CDE /* StockDataManager.swift */,
+				3D215802209FFB35008C8CDE /* CandleChartDataSource.swift */,
+				3D2157FE209FFB35008C8CDE /* CandleChartRender.swift */,
+				3D215800209FFB35008C8CDE /* ChartDataManager.swift */,
+				3D215804209FFB35008C8CDE /* ColorSet.swift */,
+				3D2157FF209FFB35008C8CDE /* LineChartDataSource.swift */,
+				3D215803209FFB35008C8CDE /* LineChartRender.swift */,
+				3D215801209FFB35008C8CDE /* SwiftExtensions.swift */,
+				3D2157FB209C13CC008C8CDE /* BaseDataSource.swift */,
+				3D2157FA209C13CC008C8CDE /* BaseRender.swift */,
+				3D2157F8209C12D2008C8CDE /* StockChartView.swift */,
+				3D2157F7209C12D1008C8CDE /* SimpleApp-Bridging-Header.h */,
+			);
+			name = Swift;
 			sourceTree = "<group>";
 		};
 		41D59268204FCB31005DBDA8 /* Recovered References */ = {
@@ -659,9 +716,9 @@
 				76F017EE781740BFB6E7FF82 /* Frameworks */,
 				41D59268204FCB31005DBDA8 /* Recovered References */,
 			);
-			indentWidth = 2;
+			indentWidth = 4;
 			sourceTree = "<group>";
-			tabWidth = 2;
+			tabWidth = 4;
 			usesTabs = 0;
 		};
 		83CBBA001A601CBA00E9B192 /* Products */ = {
@@ -774,6 +831,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = N66QT9VQE7;
+						LastSwiftMigration = 0920;
 					};
 					2D02E47A1E0B4A5D006451C7 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -1237,8 +1295,23 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D215810209FFD59008C8CDE /* YieldLineChartRender.swift in Sources */,
+				3D2157F9209C12D2008C8CDE /* StockChartView.swift in Sources */,
+				3D215806209FFB36008C8CDE /* LineChartDataSource.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				3D215805209FFB36008C8CDE /* CandleChartRender.swift in Sources */,
+				3D215811209FFD59008C8CDE /* YieldLineChartDataSource.swift in Sources */,
+				3D2157FC209C13CD008C8CDE /* BaseRender.swift in Sources */,
+				3D215807209FFB36008C8CDE /* ChartDataManager.swift in Sources */,
+				3D21580A209FFB36008C8CDE /* LineChartRender.swift in Sources */,
+				3D2157FD209C13CD008C8CDE /* BaseDataSource.swift in Sources */,
+				3D215808209FFB36008C8CDE /* SwiftExtensions.swift in Sources */,
+				3D21580B209FFB36008C8CDE /* ColorSet.swift in Sources */,
+				3D21580D209FFCC0008C8CDE /* StockDataManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
+				3D2157F6209C113F008C8CDE /* StockChartViewManager.m in Sources */,
+				3D215813209FFD84008C8CDE /* SwiftNotice.swift in Sources */,
+				3D215809209FFB36008C8CDE /* CandleChartDataSource.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1290,6 +1363,7 @@
 		00E356F61AD99517003FC87E /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
@@ -1321,6 +1395,7 @@
 		00E356F71AD99517003FC87E /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				COPY_PHASE_STRIP = NO;
 				HEADER_SEARCH_PATHS = (
@@ -1350,6 +1425,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
 				DEVELOPMENT_TEAM = N66QT9VQE7;
@@ -1368,6 +1444,9 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleApp-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
@@ -1376,6 +1455,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = N66QT9VQE7;
 				HEADER_SEARCH_PATHS = (
@@ -1393,6 +1473,8 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = SimpleApp;
+				SWIFT_OBJC_BRIDGING_HEADER = "SimpleApp-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;

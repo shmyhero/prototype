@@ -1,14 +1,29 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import PropTypes from 'prop-types';
+import { requireNativeComponent, View, Text, StyleSheet } from 'react-native';
+var ColorPropType = require('ColorPropType');
 
 // create a component
 class PriceChartView extends Component {
+    static propTypes = {
+        data: PropTypes.string,
+        colorType: PropTypes.number,
+        chartType: PropTypes.string,
+        isPrivate: PropTypes.bool,
+        backgroundColor: ColorPropType,
+    }
+
+    static defaultProps = {
+        colorType: 0,
+        chartType: 'today',	//today, week, month
+        isPrivate: false,
+        backgroundColor: 'transparent',
+    }
+
     render() {
         return (
-            <View style={styles.container}>
-                <Text>PriceChartView TODO</Text>
-            </View>
+            <PriceChartNative {...this.props} />
         );
     }
 }
@@ -22,5 +37,6 @@ const styles = StyleSheet.create({
     },
 });
 
+var PriceChartNative = requireNativeComponent('StockChartView', PriceChartView)
 //make this component available to the app
 export default PriceChartView;

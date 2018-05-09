@@ -13,4 +13,6 @@
 
 @property (nonatomic, strong) UIWindow *window;
 
++ (BOOL)isPortrait;
+
 @end
