@@ -125,7 +125,7 @@ class DynamicRowComponent extends Component {
                 onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
             )
         }else if(rowData.type == 'open'){ 
-            text = rowData.position.invest +" "+ LS.str('MOUNT_X')+" "+rowData.position.leverage+" "+LS.str("MULRIPLE")
+            text = rowData.position.invest +" "+ LS.str('MOUNT_X')+" "+rowData.position.leverage+" "+LS.str("MULTIPLE")
             return (
                 <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
                     {text}

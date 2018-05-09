@@ -28,6 +28,7 @@ import org.json.JSONObject;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 /**
  * Created by Neko on 2018/1/31.
@@ -162,6 +163,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
                     //String val = "2018-01-29T22:21:54.896Z";
                     String xVal = (chartDataList.getJSONObject((int) value).getString(getDateTimeKey()));
                     SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+                    format.setTimeZone(TimeZone.getTimeZone("UTC"));
                     Date date = format.parse(xVal);
                     SimpleDateFormat outFormat = new SimpleDateFormat("HH:mm");
                     String outputString = outFormat.format(date);

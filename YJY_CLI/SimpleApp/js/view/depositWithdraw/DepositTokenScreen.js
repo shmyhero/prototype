@@ -58,15 +58,15 @@ class DepositScreen extends Component {
         var imageWidth = width;
 
         return (
-            <ImageBackground style={{height:imageHeight, width:imageWidth}} source={LS.loadImage("deposit_token_image")}>
-                <View style={{position:'absolute', top: imageHeight* 0.6, left: imageWidth * 0.15, flex:1}}>
+            <ImageBackground style={{height:imageHeight, width:imageWidth, marginBottom:15}} source={LS.loadImage("deposit_token_image")}>
+                <View style={{position:'absolute', top: imageHeight* 0.6, left: imageWidth * 0.15, right:10,}}>
                     <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_1")}</Text>
                     <Text style={styles.bodyText}>
                         {LS.str("DEPOSIT_HINT_2")}
                         <Text style={styles.linkText}>{"https://wallet.ethereum.org"}</Text>
                     </Text>
                 </View>
-                <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, 
+                <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, right:10,
                     width:imageWidth * 0.8, flex:1}}>
                     <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_3")}</Text>
                     <Text style={styles.bodyText} numberOfLines={3}>

@@ -57,7 +57,7 @@ namespace YJY_COMMON.Service
                             Amount = -invest,
                             BalanceAfter = userIsolated.Balance,
                             Time = DateTime.UtcNow,
-                            Type = "Open",
+                            Type = TransferType.Open.ToString(),
                             UserId = userIsolated.Id,
                             PositionId = position.Id,//position id should be populated
                         });
@@ -81,7 +81,7 @@ namespace YJY_COMMON.Service
             {
                 using (var dbIsolated = YJYEntities.Create())
                 {
-                    position = dbIsolated.Positions.FirstOrDefault(o => o.Id == posId && o.SecurityId == secId);
+                    position = dbIsolated.Positions.FirstOrDefault(o => o.Id == posId && o.UserId==userId && o.SecurityId == secId);
                     var user = dbIsolated.Users.FirstOrDefault(o => o.Id == userId);
 
                     if (user == null || position == null)
@@ -107,7 +107,7 @@ namespace YJY_COMMON.Service
                             Amount = pValue,
                             BalanceAfter = user.Balance,
                             Time = DateTime.UtcNow,
-                            Type = "Close",
+                            Type = TransferType.Close.ToString(),
                             UserId = user.Id,
                             PositionId = position.Id,
                         });
@@ -160,7 +160,7 @@ namespace YJY_COMMON.Service
                             Amount = pValue,
                             BalanceAfter = user.Balance,
                             Time = DateTime.UtcNow,
-                            Type = "Close",
+                            Type = TransferType.Close.ToString(),
                             UserId = user.Id,
                             PositionId = position.Id,
                         });
@@ -172,6 +172,174 @@ namespace YJY_COMMON.Service
             }
 
             return position;
+        }
+
+        public static void CheckAndOpenFollowPositions(int posIdToFollow)
+        {
+            var db = YJYEntities.Create();
+            var basePosition = db.Positions.FirstOrDefault(o => o.Id == posIdToFollow);
+            if (basePosition != null)
+            {
+                var tradeFollows =db.UserTradeFollows.Where(o => o.FollowingId == basePosition.UserId && o.StopAfterCount > 0).ToList();
+                foreach (var tradeFollow in tradeFollows)
+                {
+                    try
+                    {
+                        using (var scope = new TransactionScope(TransactionScopeOption.RequiresNew,new TransactionOptions {IsolationLevel = IsolationLevel.Serializable}))
+                        {
+                            using (var dbIsolated = YJYEntities.Create())
+                            {
+                                var tFollow = dbIsolated.UserTradeFollows.FirstOrDefault(o => o.UserId == tradeFollow.UserId && o.FollowingId==tradeFollow.FollowingId);
+
+                                if (tFollow != null && tFollow.StopAfterCount > 0)
+                                {
+                                    var u = dbIsolated.Users.FirstOrDefault(o => o.Id == tFollow.UserId);
+
+                                    if (u != null)
+                                    {
+                                        if (u.Balance < tFollow.InvestFixed)//not enough balance
+                                        {
+                                            tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
+
+                                            tFollow.LastTriggerAt = DateTime.UtcNow;
+
+                                            if (tFollow.StopAfterCount == 0) //stop following if count == 0
+                                                dbIsolated.UserTradeFollows.Remove(tFollow);
+
+                                            dbIsolated.SaveChanges();
+                                        }
+                                        else
+                                        {
+                                            u.Balance = u.Balance - tFollow.InvestFixed;
+
+                                            var p = new Position()
+                                            {
+                                                CreateTime = DateTime.UtcNow,
+                                                Invest = tFollow.InvestFixed,
+                                                Leverage = basePosition.Leverage,
+                                                UserId = u.Id,
+                                                Side = basePosition.Side,
+                                                SecurityId = basePosition.SecurityId,
+                                                SettlePrice = basePosition.SettlePrice,
+
+                                                FollowPosId = basePosition.Id,
+                                                FollowUserId = basePosition.UserId,
+                                            };
+
+                                            dbIsolated.Positions.Add(p);
+
+                                            dbIsolated.SaveChanges(); //to get position auto id
+
+                                            //add a new transfer
+                                            dbIsolated.Transfers.Add(new Transfer()
+                                            {
+                                                Amount = -tFollow.InvestFixed,
+                                                BalanceAfter = u.Balance,
+                                                Time = DateTime.UtcNow,
+                                                Type = TransferType.Open.ToString(),
+                                                UserId = u.Id,
+                                                PositionId = p.Id, //position id should be populated
+                                            });
+
+
+                                            tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
+
+                                            tFollow.LastTriggerAt = DateTime.UtcNow;
+
+                                            if (tFollow.StopAfterCount == 0) //stop following if count == 0
+                                                dbIsolated.UserTradeFollows.Remove(tFollow);
+                                            
+
+                                            dbIsolated.SaveChanges();
+                                        }
+                                    }
+                                }
+                            }
+
+                            scope.Complete();
+                        }
+                    }
+                    catch (Exception e)
+                    {
+                        YJYGlobal.LogWarning("copy trade error:");
+                        YJYGlobal.LogExceptionAsWarning(e);
+                    }
+                }
+            }
+        }
+
+        public static void CheckAndCloseFollowPositions(int posIdToFollowClose)
+        {
+            var db = YJYEntities.Create();
+            var basePosition = db.Positions.FirstOrDefault(o => o.Id == posIdToFollowClose);
+            if (basePosition != null)
+            {
+                if (basePosition.ClosedAt != null && basePosition.ClosePrice != null)
+                {
+                    var positions = db.Positions.Where(o => o.FollowPosId == basePosition.Id && o.ClosedAt==null).ToList();
+                    foreach (var position in positions)
+                    {
+                        try
+                        {
+                            using (
+                                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                                    new TransactionOptions {IsolationLevel = IsolationLevel.Serializable}))
+                            {
+                                using (var dbIsolated = YJYEntities.Create())
+                                {
+                                    var p = dbIsolated.Positions.FirstOrDefault(o => o.Id == position.Id);
+                                    var u = dbIsolated.Users.FirstOrDefault(o => o.Id == position.UserId);
+
+                                    if (u == null || p == null)
+                                        throw new ObjectNotFoundException();
+
+                                    if (p.ClosedAt == null)
+                                    {
+                                        var pl = Trades.CalculatePL(p, basePosition.ClosePrice.Value);
+
+                                        p.ClosedAt = DateTime.UtcNow;
+                                        p.ClosePrice = basePosition.ClosePrice.Value;
+                                        p.PL = pl;
+
+                                        p.CloseType = PositionCloseType.Follow.ToString();
+
+                                        var pValue = p.Invest + pl;
+                                        if (pValue > 0)
+                                        {
+                                            u.Balance = u.Balance + pValue;
+                                        }
+
+                                        //add a new transfer
+                                        dbIsolated.Transfers.Add(new Transfer()
+                                        {
+                                            Amount = pValue,
+                                            BalanceAfter = u.Balance,
+                                            Time = DateTime.UtcNow,
+                                            Type = TransferType.Close.ToString(),
+                                            UserId = u.Id,
+                                            PositionId = p.Id,
+                                        });
+
+                                        dbIsolated.SaveChanges();
+                                    }
+                                }
+
+                                scope.Complete();
+                            }
+                        }
+                        catch (Exception e)
+                        {
+                            YJYGlobal.LogWarning("follow close error:");
+                            YJYGlobal.LogExceptionAsWarning(e);
+                        }
+
+                    }
+                }
+                else
+                {
+                    YJYGlobal.LogWarning("FOLLOW CLOSE fail: base position is not closed");
+                }
+            }
         }
     }
 }

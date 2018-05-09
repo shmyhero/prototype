@@ -9,123 +9,106 @@ import {
     Dimensions,
     ImageBackground,
     Image,
-    Picker,
+    //Picker,
 } from 'react-native';
 
 var {height, width} = Dimensions.get("window");
 var ColorConstants = require('../ColorConstants');
+import WheelPicker from "./component/WheelPicker";
+import LinearGradient from 'react-native-linear-gradient';
+import SubmitButton from './component/SubmitButton';
+import LogicData from '../LogicData';
+import BalanceBlock from './component/BalanceBlock';
+var NetworkModule = require("../module/NetworkModule");
+var NetConstants = require("../NetConstants");
 
-import LinearGradient from 'react-native-linear-gradient'
+import {
+    showFollowDialog,
+    updateFollowConfig,
+    sendFollowConfigRequest,
+    checkAgreement,
+    getCurrentFollowConfig
+} from '../redux/actions'
+import { connect } from 'react-redux';
+
+var LS = require("../LS");
+
 // create a component
 
 class FollowScreen extends Component {
     constructor(props){
         super(props)
+    }
 
-        this.state = {
-            modalVisible: false,
-            balance: 9999.1,
-            amount: 20,
-            followCounts: 3,
-            avaliableAmount: [10,20,30,50,100],
-            avaliableFollowCounts: [1,2,3,4,5],
-            isAgreementRead: true,
-            valueChanged: false,
+    componentWillReceiveProps(props){
+        console.log("componentWillReceiveProps props.userId", props.userId)
+    }
+
+
+    componentDidMount(){
+        this.props.getCurrentFollowConfig();
+    }
+
+    hide(){        
+        this.props.showFollowDialog(false);
+    }
+
+    onChangePickerValue(itemValue, itemIndex, stateKey){
+        if (stateKey == "investFixed"){
+            this.props.updateFollowConfig(itemValue, this.props.newFollowTrade.stopAfterCount);
+        }else if (stateKey == "stopAfterCount"){
+            this.props.updateFollowConfig(this.props.newFollowTrade.investFixed, itemValue);
         }
     }
 
-    show(){
-        this.setState({
-            modalVisible: true,
-        })
-    }
-
-    hide(){
-        this.setState({
-            modalVisible: false,
-        })
-    }
-
-    isReadyToUpdateFollow(){
-        if(this.state.valueChanged && this.state.isAgreementRead){
-            return true;
-        }
+    setFollowConfig(){
+        console.log("setFollowConfig this.props.userId", this.props.userId)
+        console.log("setFollowConfig this.props.newFollowTrade", this.props.newFollowTrade)
+        this.props.sendFollowConfigRequest(this.props.userId, this.props.newFollowTrade);
     }
 
     renderHint(){
         var checkIcon;
-        if(this.state.isAgreementRead){
+        if(this.props.isAgreementRead){
             checkIcon = require("../../images/selection_small_selected.png");
         }else{
             checkIcon = require("../../images/selection_small_unselected.png");
         }
         return(
-            <TouchableOpacity style={{flexDirection:'row'}} onPress={()=>{
-                    this.setState({
-                        isAgreementRead: !this.state.isAgreementRead
-                    })
+            <TouchableOpacity style={{flexDirection:'row', marginTop:10, marginBottom:10}}
+                onPress={()=>{
+                    this.props.checkAgreement(this.props.isAgreementRead);
                 }}>
-                <View style={{flexDirection:'row', flex:1, alignItems:'flex-start'}}>
+                <View style={{flexDirection:'row', flex:1, alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
                     <Text style={{color:"#858585", fontSize:13}}>
-                        我已经阅读并同意
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>《跟随规则》</Text>
+                        {LS.str("WITHDRAW_READ_AGREEMENT")}
+                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("FOLLOW_AGREEMENT")}</Text>
                     </Text>                   
                 </View>
             </TouchableOpacity>
         )
     }
 
-    onChangePickerValue(itemValue, itemIndex, stateKey){
-        if(this.state[stateKey] != itemValue){
-            var state = { valueChanged: true};
-            state[stateKey] = itemValue;
-            this.setState(state)
-        }
-    }
-
-    bindCard(){
-        this.setState({
-            valueChanged: false,
-        })
-    }
-
     renderPicker(title, stateKey, availableKey){
-
-        var pickerItems = this.state[availableKey].map( (value, index, array)=>{
+        var pickerItems = this.props[availableKey].map( (value, index, array)=>{
             return (
-                <Picker.Item label={""+value} value={value} key={index}/>
+                <WheelPicker.Item label={""+value} value={value} key={index}/>
             );
         })
         return(
             <View style={{alignItems:'center', flex:1}}>
                 <Text style={styles.pickerTitle}>{title}</Text>
-                <Picker
-                    selectedValue={this.state[stateKey]}
+                <WheelPicker
+                    selectedValue={this.props.newFollowTrade[stateKey]}
+                    selectedTextColor={"#333333"}
                     style={{flex:1, height:150, width: 100 }}
                     itemStyle={{color:"#bfbfbf", height:150, fontSize:20}}
                     onValueChange={(itemValue, itemIndex) => this.onChangePickerValue(itemValue, itemIndex, stateKey)}>
                     {pickerItems}
-                </Picker>
+                </WheelPicker>
             </View>
-        );
-    }
-
-    renderConfirmButton(){
-        var buttonEnabled = this.isReadyToUpdateFollow();
-        var buttonImage = buttonEnabled ? require("../../images/position_confirm_button_enabled.png") : require("../../images/position_confirm_button_disabled.png")
-        return (
-            <TouchableOpacity
-                onPress={()=>this.bindCard()}
-                style={styles.okView}>
-                <ImageBackground source={buttonImage}
-                    style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                    <Text style={styles.okButton}>
-                        确定
-                    </Text>
-                </ImageBackground>
-            </TouchableOpacity>
         );
     }
 
@@ -141,15 +124,19 @@ class FollowScreen extends Component {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}>
-                        <Text style={styles.balanceText}>{this.state.balance}</Text>
+                        <BalanceBlock style={styles.balanceText}/>
                     </ImageBackground>
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker("每笔跟随糖果", "amount", "avaliableAmount")}
-                        {this.renderPicker("跟随笔数", "followCounts", "avaliableFollowCounts")}
+                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "investFixed", "availableAmount")}
+                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "stopAfterCount", "availableFrequency")}
                     </View>
                     {this.renderHint()}
-                </View>               
-                {this.renderConfirmButton()}
+                </View>
+                <SubmitButton 
+                    onPress={()=>this.setFollowConfig()}
+                    enable={this.props.followConfigButtonEnable}
+                    text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}
+                />
             </View>
             );
     }
@@ -158,9 +145,8 @@ class FollowScreen extends Component {
         return (
             <Modal style={styles.container}
                 transparent={true}
-                visible={this.state.modalVisible}
-                onRequestClose={()=>{}}
-                >
+                visible={this.props.modalVisible}
+                onRequestClose={()=>{this.hide()}}>
                 <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
                     <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
                         {this.renderContent()}
@@ -203,7 +189,8 @@ const styles = StyleSheet.create({
         borderRadius:10
     },
     mainContent: {
-        margin: 15,
+        marginLeft: 15,
+        marginRight: 15,
         alignItems:'center',
         flex:1,
     },
@@ -232,4 +219,18 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default FollowScreen;
+const mapStateToProps = state => {
+    return {
+        ...state.follow,
+    };
+};
+  
+const mapDispatchToProps = {
+    showFollowDialog,
+    updateFollowConfig,
+    sendFollowConfigRequest,
+    checkAgreement,
+    getCurrentFollowConfig
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(FollowScreen);

@@ -20,7 +20,7 @@ namespace YJY_API.Controllers
 
         [HttpGet]
         [Route("default")]
-        public List<FeedDTO> GetDefaultFeeds(int count = 50, DateTime? newerThan = null)
+        public List<FeedDTO> GetDefaultFeeds(int count = 50, DateTime? newerThan = null, DateTime? olderThan = null)
         {
             var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
             var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
@@ -55,7 +55,9 @@ namespace YJY_API.Controllers
             }
 
             //get open feeds
-            var openFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value))
+            var openFeedsWhereClause = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value));
+            if (olderThan != null) openFeedsWhereClause = openFeedsWhereClause.Where(o => o.CreateTime < olderThan);
+            var openFeeds = openFeedsWhereClause
                 .OrderByDescending(o => o.CreateTime).Take(count)
                 .Select(o => new FeedDTO()
                 {
@@ -69,7 +71,9 @@ namespace YJY_API.Controllers
                 .ToList();
 
             //get close feeds
-            var closeFeeds = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null)
+            var closeFeedsWhereClause = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null);
+            if (olderThan != null) closeFeedsWhereClause = closeFeedsWhereClause.Where(o => o.ClosedAt < olderThan);
+            var closeFeeds = closeFeedsWhereClause
                 .OrderByDescending(o => o.ClosedAt).Take(count)
                 .Select(o => new FeedDTO()
                 {
@@ -82,7 +86,9 @@ namespace YJY_API.Controllers
                 .ToList();
 
             //get status feeds
-            var statusFeed = db.Status.Where(o => feedUserIds.Contains(o.UserId.Value))
+            var statusFeedsWhereClause = db.Status.Where(o => feedUserIds.Contains(o.UserId.Value));
+            if (olderThan != null) statusFeedsWhereClause = statusFeedsWhereClause.Where(o => o.Time < olderThan);
+            var statusFeed = statusFeedsWhereClause
                 .OrderByDescending(o => o.Time).Take(count)
                 .Select(o => new FeedDTO()
                 {

@@ -26,7 +26,7 @@ namespace YJY_API.DTO
         //public int secId { get; set; }
         //public string symbol { get; set; }
         //public string name { get; set; }
-        public SecurityDetailDTO security { get; set; }
+        //public SecurityDetailDTO security { get; set; }
 
         public decimal settlePrice { get; set; }
 
@@ -37,5 +37,7 @@ namespace YJY_API.DTO
 
         public DateTime? closedAt { get; set; }
         public decimal? closePrice { get; set; }
+
+        public UserBaseDTO followUser { get; set; }
     }
 }

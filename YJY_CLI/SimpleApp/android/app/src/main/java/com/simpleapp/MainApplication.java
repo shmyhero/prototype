@@ -12,6 +12,7 @@ import com.facebook.soloader.SoLoader;
 import com.remobile.toast.RCTToastPackage;
 import com.reactnativecomponent.swiperefreshlayout.RCTSwipeRefreshLayoutPackage;
 import java.util.Arrays;
+import io.fixd.rctlocale.RCTLocalePackage;
 import java.util.List;
 
 import io.realm.react.RealmReactPackage;
@@ -33,7 +34,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RCTSwipeRefreshLayoutPackage(),  //register Module
           new NativePackage(),
           new RCTToastPackage(),
-          new LinearGradientPackage()
+          new LinearGradientPackage(),
+              new RCTLocalePackage() // add package
       );
     }
 

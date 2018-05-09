@@ -7,7 +7,7 @@ import {
   View,
   StyleSheet,
   Platform,
-  StatusBar,
+  StatusBar
 } from 'react-native';
 
 require('./js/utils/dateUtils')
@@ -15,12 +15,13 @@ require('./js/utils/numberUtils')
 import { NavigationActions } from 'react-navigation';
 var StorageModule = require('./js/module/StorageModule');
 import LogicData from './js/LogicData';
-import {SimpleApp, ViewKeys} from './AppNavigatorConfiguration';
 import Orientation from 'react-native-orientation';
 
 var WebSocketModule = require('./js/module/WebSocketModule');
 var {EventCenter, EventConst} = require('./js/EventCenter');
 
+var Locale = require('react-native-locale');
+import {SimpleApp, ViewKeys} from './AppNavigatorConfiguration';
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
 
@@ -28,6 +29,8 @@ function getCurrentRouteName(navigationState) {
   if (!navigationState) {
     return null;
   }
+
+  console.log("navigationState ", navigationState)
   const route = navigationState.routes[navigationState.index];
   // dive into nested navigators
   if (route.routes) {
@@ -47,6 +50,10 @@ export default class App extends React.Component {
   }
 
   startupJobs(){
+    var locale = Locale.constants().localeIdentifier;
+    console.log("locale", locale);
+    LogicData.setLanguage(locale);
+
     StorageModule.loadUserData().then((data)=>{
       if(data!=undefined){
         var obj = JSON.parse(data)

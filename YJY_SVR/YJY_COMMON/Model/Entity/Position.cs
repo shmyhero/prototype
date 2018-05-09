@@ -43,5 +43,17 @@ namespace YJY_COMMON.Model.Entity
         public string CloseType { get; set; }
 
         public DateTime? ClosePriceTime { get; set; }
+
+        public int? FollowPosId { get; set; }
+
+        public int? FollowUserId { get; set; }
+    }
+
+    public enum PositionCloseType
+    {
+        Liquidate,
+        Stop,
+        Take,
+        Follow,
     }
 }

@@ -44,7 +44,7 @@ class TabMarketScreen extends Component {
         };
     }
 
-    componentWillMount(){
+    componentDidMount(){
         tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.STOCK_TAB_PRESS_EVENT, () => {
             console.log("STOCK_TAB_PRESS_EVENT")
             this.loadStockList();

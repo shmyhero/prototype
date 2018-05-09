@@ -6,6 +6,7 @@ import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.simpleapp.component.chart.PriceChartModule;
 import com.simpleapp.component.customTextInput.CustomTextInputManager;
+import com.simpleapp.component.picker.ReactWheelPickerManager;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +30,8 @@ public class NativePackage implements ReactPackage {
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
                 new PriceChartModule(),
-                new CustomTextInputManager()
+                new CustomTextInputManager(),
+                new ReactWheelPickerManager()
         );
     }
 }

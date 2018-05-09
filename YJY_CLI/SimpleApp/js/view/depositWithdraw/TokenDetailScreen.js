@@ -116,6 +116,17 @@ class TokenDetailScreen extends Component {
         )
     }
 
+    renderContent(){
+        if(this.state.stockInfoRowData == undefined || this.state.stockInfoRowData.length == 0){
+            return (
+                <View style={styles.loadingTextView}>
+                    <Text style={styles.loadingText}>{LS.str("NO_TRANSACTIONS")}</Text>
+                </View>);
+        }else{
+            
+        }
+    }
+
     render() {
         return (
             <View style={styles.container}>
@@ -125,15 +136,16 @@ class TokenDetailScreen extends Component {
                     navigation={this.props.navigation}
                     />
                 <View style={{flex:1}}>
-                <FlatList
-                    style={{flex:1, width:width}}
-                    ref={(ref) => { this.flatListRef = ref;}}
-                    data={this.state.stockInfoRowData}
-                    refreshing={this.state.isRefreshing}
-                    onRefresh={()=>this.refresh()}
-                    //getItemLayout={(data, index) => this.getItemLayout(data, index)}
-                    keyExtractor={(item, index) => index}
-                    renderItem={(data)=>this.renderItem(data)}/>
+                    {this.renderContent()}
+                    <FlatList
+                        style={{flex:1, width:width}}
+                        ref={(ref) => { this.flatListRef = ref;}}
+                        data={this.state.stockInfoRowData}
+                        refreshing={this.state.isRefreshing}
+                        onRefresh={()=>this.refresh()}
+                        //getItemLayout={(data, index) => this.getItemLayout(data, index)}
+                        keyExtractor={(item, index) => index}
+                        renderItem={(data)=>this.renderItem(data)}/>
                 </View>
             </View>
         );
@@ -162,7 +174,20 @@ const styles = StyleSheet.create({
     },
     rowHeaderContainer:{
         flexDirection:'column',
-    }
+    },
+    loadingTextView: {
+		position: 'absolute',
+		top:0,
+		left:0,
+		right:0,
+		bottom:0,
+		alignItems: 'center',
+        justifyContent: 'center',
+	},
+	loadingText: {
+		fontSize: 13,
+		color: '#9f9f9f'
+	},
 });
 
 //make this component available to the app

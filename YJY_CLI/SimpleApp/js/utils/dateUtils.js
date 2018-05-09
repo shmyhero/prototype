@@ -39,6 +39,22 @@ Date.prototype.getDateString = function(){
     return today;
   }
 
+  Date.prototype.getDateStringDay = function(){
+    var dd = this.getDate();
+    var mm = this.getMonth()+1; //January is 0!
+    var yyyy = this.getFullYear();
+ 
+    if(dd<10) {
+        dd='0'+dd
+    }
+    if(mm<10) {
+        mm='0'+mm
+    }
+    
+    today = yyyy+"."+mm+"."+dd;
+    return today;
+  }
+
 
   Date.prototype.getDateSimpleString = function(){
     var hour = this.getHours();
@@ -53,6 +69,7 @@ Date.prototype.getDateString = function(){
     today = hour+':'+minute
     return today;
     }
+
 
 
     Date.prototype.getDateFullString = function(){

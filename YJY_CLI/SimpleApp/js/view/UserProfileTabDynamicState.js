@@ -26,7 +26,7 @@ var NetConstants = require('../NetConstants');
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var listRawData = [
 ] 
-
+var LS=require('../LS')
 
 export default class  UserProfileTabDynamicState extends React.Component {
   static navigationOptions = {
@@ -139,7 +139,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
   }
   
   emptyContent(){
-		var emptyTip = '暂无动态'   
+		var emptyTip = LS.str("NO_DYNAMIC")  
 		return(
 			<View style={{flex:1,width:width,justifyContent:'center',alignItems:'center'}}>
 				<Text style={{color:'grey',fontSize:14}}>{emptyTip}</Text>
@@ -185,7 +185,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 	
 	jump2Detail(name, id){ 
 		this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
-				{stockCode: id, stockName: name});
+				{stockCode: id, stockName: name, backFrom: this.props.navigation.state.key});
 	}
   
 
@@ -194,7 +194,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		var liked = rowData.Liked
 		var iconPraise = liked?require('../../images/icon_praised.png'):require('../../images/icon_praise.png')
 		var textPraise = liked?{color:'#1962dd'}:{}
-		var strFX = '分享'
+		var strFX = LS.str('SHARE')
 
 		var d = new Date(rowData.time);
 		var timeText = d.getDateString()

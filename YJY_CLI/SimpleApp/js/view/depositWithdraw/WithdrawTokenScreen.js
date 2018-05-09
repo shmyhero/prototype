@@ -66,7 +66,11 @@ class WithdrawTokenScreen extends Component {
     }
 
     isReadyToPay(){
-        return this.state.withdrawValue > 0 && this.state.isAgreementRead && !this.state.isRequestSending;
+        return this.state.withdrawValue > 0 
+                && this.state.isAgreementRead
+                && !this.state.isRequestSending
+                && this.state.purseAddress != undefined
+                && this.state.purseAddress != "";
     }
 
     onWithdrawAllPressed(){
@@ -177,10 +181,11 @@ class WithdrawTokenScreen extends Component {
                     <View style={styles.rowContainer}>
                         <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
                         <View style={styles.withdrawValueRow}>
-                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
+                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_CANDY")}</Text>
                             <TextInput 
                                 underlineColorAndroid={"transparent"}
                                 style={{fontSize:40, flex:1,}}
+                                keyboardType='numeric' 
                                 onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
                                 value={this.state.withdrawStringValue}/>
                         </View>

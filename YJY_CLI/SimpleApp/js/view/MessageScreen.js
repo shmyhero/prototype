@@ -2,13 +2,13 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import NavBar from './component/NavBar';
-
+var LS = require("../LS");
 // create a component
 class MessageScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title="消息" showBackButton={true} navigation={this.props.navigation}/>
+                <NavBar title={LS.str("MY_MESSAGES")} showBackButton={true} navigation={this.props.navigation}/>
                 <View style={{
                     flex:1,
                     justifyContent: 'center',

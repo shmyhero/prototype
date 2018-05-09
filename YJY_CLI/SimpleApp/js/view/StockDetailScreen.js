@@ -20,6 +20,7 @@ import {ViewKeys} from '../../AppNavigatorConfiguration';
 import { StackNavigator, TabNavigator } from 'react-navigation';
 import LogicData from "../LogicData";
 
+var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
@@ -235,16 +236,19 @@ class StockDetailScreen extends Component {
     
     goToPositionPage(){
         this.refs["orderFinishedModal"].hide();
-        //this.props.navigation.navigate(ViewKeys.TAB_POSITION);
-        //this.props.navigation.goBack(ViewKeys.TAB_POSITION);
-    
-        const action = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
+        
+        //!!!!!!!!!!!!!!!!
+        //BackKey should be the key of the view which is the second one in the view stack, since the 
+        //key should be the key to goBack FROM.
+        //!!!!!!!!!!!!!!!!
+        var backKey = this.props.navigation.state.params.backFrom
+        if(!backKey){
+            backKey = this.props.navigation.state.key;
+        }
 
-        // const action = NavigationActions.reset({
-        //     index: 0,
-        //     actions: [NavigationActions.navigate({ routeName: ViewKeys.SCREEN_HOME })],
-        // });
-        this.props.navigation.dispatch(action);
+        this.props.navigation.goBack(backKey);       
+        const action2 = NavigationActions.navigate({ routeName: ViewKeys.TAB_POSITION});
+        this.props.navigation.dispatch(action2);
     }
 
     isSubmitButtonEnabled(){
@@ -282,7 +286,13 @@ class StockDetailScreen extends Component {
                         showData.stockName = params.stockName;
                         showData.isCreate = true;
                         showData.time = new Date(responseJson.createAt);
-                        this.refs["orderFinishedModal"].show(showData);
+                        this.refs["orderFinishedModal"].show(showData, ()=>{
+                            this.setState({
+                                Amount: undefined,
+                                Multiplier: DEFAULT_MULTIPLIER,
+                                Operation: undefined,
+                            })
+                        });
                     },
                     (exception) => {
                         alert(exception.errorMessage)
@@ -456,14 +466,14 @@ class StockDetailScreen extends Component {
         if (this.state.dataStatus == DATA_STATUS_FAILED){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>数据读取失败...</Text>
+                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOAD_FAILED")}</Text>
                 </View>
             );
         }
         else if (this.state.dataStatus == DATA_STATUS_LOADING){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>数据读取中...</Text>
+                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOADING")}</Text>
                 </View>
             );
         }
@@ -491,14 +501,14 @@ class StockDetailScreen extends Component {
         const { params } = this.props.navigation.state;
         return (
             <View style={styles.container}>
-                <NavBar title={params ? params.stockName : '详情'}
+                <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
                     navigation={this.props.navigation}/>
                 <View style={styles.chartContainer}>
                     {this.renderPriceChart()}
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require("../../images/en-us/stock_detail_amount_container.png")}>
+                        source={LS.loadImage('stock_detail_amount_container')}>
                         <View style={[styles.buttonsRowContainer]}>                               
                             {this.renderAmountButton(50)}
                             {this.renderAmountButton(100)}

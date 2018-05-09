@@ -97,7 +97,7 @@ export default class  ScrollTabView extends React.Component {
 					underlayColor={'#00000000'}
 					onPress={() => this.tabClicked(i)}>
  
-				<ImageBackground style={{width:69,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
+				<ImageBackground style={{width:80,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
 					<Text style={this.state.currentSelectedTab == i ? (this.props.tabBgStyle==0?styles.tabItemTextSelected:[styles.tabItemTextUnSelected]): (this.props.tabBgStyle==0?[styles.tabItemTextUnSelected]:styles.tabItemTextSelected)}>
 						{tabName}
 					</Text>

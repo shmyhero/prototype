@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.TimeZone;
 
 /**
  * Created by Neko on 2018/1/31.
@@ -286,7 +287,9 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      * @return
      */
     protected SimpleDateFormat getGapLineFormat() {
-        return new SimpleDateFormat("HH:mm");
+        SimpleDateFormat format = new SimpleDateFormat("HH:mm");
+        format.setTimeZone(TimeZone.getTimeZone("UTC"));
+        return format;
     }
 
     /**
@@ -470,6 +473,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
             if (s.indexOf(".") > 0) {
                 format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
             }
+            format.setTimeZone(TimeZone.getTimeZone("UTC"));
 
             Date date = format.parse(s);
             calendar.setTime(date);

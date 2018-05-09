@@ -44,7 +44,7 @@ namespace YJY_COMMON.Service
                             Phone = phone,
                             AuthToken = NewToken(),
 
-                            Balance = 100000,
+                            Balance = YJYGlobal.NEW_USER_INIT_BALANCE,
                         };
                         dbIsolated.Users.Add(userIsolated);
 

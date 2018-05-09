@@ -16,7 +16,6 @@ import {
 import { NavigationActions } from 'react-navigation'
 import NavBar from './component/NavBar';
 
-var imgSplash = require('../../images/splash.jpg')
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
 var NetworkModule = require('../module/NetworkModule');
@@ -133,10 +132,15 @@ class LoginScreen extends Component {
 
     render() {
         var textLogin = this.isLoginable()?'white':'#40b7f8'
+        var HeightSub = 50;
+        if (!this.state.hideBackButton){
+            HeightSub = 0;
+        }
+        console.log("HeightSub ", HeightSub)
         return (
-            <ScrollView style={{width:width,height:height-50}}>
+            <ScrollView style={{width:width,height:height-HeightSub}}>
              
-            <View style={styles.container}>
+            <View style={[styles.container, {height:height-HeightSub}]}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Image style={{width:128,height:128}} source={require('../../images/app_icon.png')}/>
@@ -202,7 +206,6 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container:{
        flex:1,
-       height:height-50,
        backgroundColor:ColorConstants.BGBLUE
     }
 })
