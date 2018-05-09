@@ -84,7 +84,7 @@ class FollowScreen extends Component {
                         source={checkIcon}/>
                     <Text style={{color:"#858585", fontSize:13}}>
                         {LS.str("WITHDRAW_READ_AGREEMENT")}
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("FOLLOW_AGREEMENT")}</Text>
+                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("COPY_AGREEMENT")}</Text>
                     </Text>                   
                 </View>
             </TouchableOpacity>
@@ -161,8 +161,8 @@ class FollowScreen extends Component {
                        
                     {/* </ImageBackground> */}
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "investFixed", "availableInvestFixed")}
-                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "stopAfterCount", "availableStopAfterCount")}
+                        {this.renderPicker(LS.str("COPY_AMOUNT"), "investFixed", "availableInvestFixed")}
+                        {this.renderPicker(LS.str("COPY_COUNT"), "stopAfterCount", "availableStopAfterCount")}
                     </View>
                     {this.renderHint()}
                 </View>

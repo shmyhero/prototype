@@ -408,7 +408,7 @@ export default class  MyPositionTabClosed extends React.Component {
 					<Text style={{marginLeft:10}}>{rowData.followUser.nickname}</Text>
 					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>{LS.str("FOLLOW")}</Text>
+						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
 						</View>
 					</ImageBackground>
 				</View>

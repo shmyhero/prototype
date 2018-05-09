@@ -5,9 +5,9 @@ import {
     SEND_FOLLOW_CONFIG_REQUEST,
     SEND_FOLLOW_CONFIG_REQUEST_SUCCESS,
     SEND_FOLLOW_CONFIG_REQUEST_FAIL,
-    SEND_UNFOLLOW_REQUEST,
-    SEND_UNFOLLOW_REQUEST_SUCCESS,
-    SEND_UNFOLLOW_REQUEST_FAIL,
+    SEND_CANCLE_COPY_REQUEST,
+    SEND_CANCLE_COPY_REQUEST_SUCCESS,
+    SEND_CANCLE_COPY_REQUEST_FAIL,
     SHOW_FOLLOW_CONFIG_MODAL,
     UPDATE_FOLLOW_CONFIG,
     CHECK_AGREEMENT,
@@ -72,19 +72,19 @@ function setFollowConfigFailure(errorMessage) {
 
 function unFollowRequestSent() {
     return {
-        type: SEND_UNFOLLOW_REQUEST,
+        type: SEND_CANCLE_COPY_REQUEST,
     };
 }
 
 function unFollowSuccess() {
     return {
-        type: SEND_UNFOLLOW_REQUEST_SUCCESS
+        type: SEND_CANCLE_COPY_REQUEST_SUCCESS
     }
 }
 
 function unFollowFailure(errorMessage) {
     return {
-        type: SEND_UNFOLLOW_REQUEST_FAIL,
+        type: SEND_CANCLE_COPY_REQUEST_FAIL,
         payload: {
             errorMessage
         }

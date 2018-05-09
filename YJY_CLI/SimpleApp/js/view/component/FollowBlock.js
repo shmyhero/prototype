@@ -41,16 +41,16 @@ class FollowBlock extends Component {
 
     onUnFollowPressed(){
         Alert.alert(
-            LS.str("UNFOLLOW_ALERT_TITLE"),
-            LS.str("UNFOLLOW_ALERT_MESSAGE"),
+            LS.str("CANCLE_COPY_ALERT_TITLE"),
+            LS.str("CANCLE_COPY_ALERT_MESSAGE"),
             [
                 {
-                    text: LS.str("UNFOLLOW_ALERT_OK"), 
+                    text: LS.str("CANCLE_COPY_ALERT_OK"), 
                     onPress: () => {
                         this.props.sendUnFollowRequest(this.props.currentUserId);
                     }},
                 {
-                    text: LS.str("UNFOLLOW_ALERT_CANCLE"), 
+                    text: LS.str("CANCLE_COPY_ALERT_CANCLE"), 
                     onPress: () => console.log('Cancel Pressed'), 
                     style: 'cancel'
                 },
@@ -75,7 +75,7 @@ class FollowBlock extends Component {
                 style={{flex:1, alignItems:'center', justifyContent:'center'}}
                 colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
                 <Text style={{color:'white', fontSize:20}}>
-                    {LS.str("FOLLOW")}
+                    {LS.str("COPY_TRADE")}
                 </Text>
                 </LinearGradient>
             </TouchableOpacity>
@@ -93,7 +93,7 @@ class FollowBlock extends Component {
                     style={{flex:1, alignItems:'center', justifyContent:'center'}}
                     colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
                     <Text style={{color:'white', fontSize:20}}>
-                        {LS.str("UNFOLLOW").replace("{1}", this.props.followTrade.stopAfterCount)}
+                        {LS.str("CANCLE_COPY").replace("{1}", this.props.followTrade.stopAfterCount)}
                     </Text>
                 </LinearGradient>
             </TouchableOpacity>

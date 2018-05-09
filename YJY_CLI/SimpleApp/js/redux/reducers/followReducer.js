@@ -6,9 +6,9 @@ import {
     GET_FOLLOW_CONFIG_REQUEST,
     GET_FOLLOW_CONFIG_REQUEST_SUCCESS,
     GET_FOLLOW_CONFIG_REQUEST_FAIL,
-    SEND_UNFOLLOW_REQUEST,
-    SEND_UNFOLLOW_REQUEST_SUCCESS ,
-    SEND_UNFOLLOW_REQUEST_FAIL,
+    SEND_CANCLE_COPY_REQUEST,
+    SEND_CANCLE_COPY_REQUEST_SUCCESS ,
+    SEND_CANCLE_COPY_REQUEST_FAIL,
     CHECK_AGREEMENT,
     SHOW_FOLLOW_CONFIG_MODAL,
     RESET_USER_INFO
@@ -64,12 +64,12 @@ export default function followReducer(state = initializeState, action) {
                 newFollowTrade: followTrade,
             };
             break;
-        case SEND_UNFOLLOW_REQUEST:
+        case SEND_CANCLE_COPY_REQUEST:
             newState = { ...newState, 
                 isLoading: true,
             };
             break;
-        case SEND_UNFOLLOW_REQUEST_SUCCESS:
+        case SEND_CANCLE_COPY_REQUEST_SUCCESS:
             newState = { ...newState, 
                 isLoading: false,
                 followTrade: {
@@ -77,7 +77,7 @@ export default function followReducer(state = initializeState, action) {
                 },
             };
             break;
-        case SEND_UNFOLLOW_REQUEST_FAIL:
+        case SEND_CANCLE_COPY_REQUEST_FAIL:
             newState = { ...newState, 
                 isLoading: false,
             };

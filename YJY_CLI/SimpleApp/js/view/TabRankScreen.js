@@ -125,7 +125,7 @@ export default class  TabRankScreen extends React.Component {
             backgroundColor:rightbg,
             borderColor:rightbd,
             borderWidth:1,}}>
-            <Text style={{color:rightTextColor}}>{LS.str("FOLLOW")} </Text>
+            <Text style={{color:rightTextColor}}>{LS.str("COPY_TRADE")} </Text>
           </TouchableOpacity>
         </View> 
        
