@@ -30,8 +30,8 @@ var initializeState = {
     },
     isLoading: false,
     errorMessage: null,
-    availableAmount: [10,20],
-    availableFrequency: [1,2,3,4,5],
+    availableInvestFixed: [10,20],
+    availableStopAfterCount: [1,2,3,4,5],
     isAgreementRead: true,
     valueChanged: false,
     followConfigButtonEnable: false,
@@ -97,8 +97,8 @@ export default function followReducer(state = initializeState, action) {
             }
             newState = { ...newState, 
                 isLoading: false,
-                availableAmount: action.payload.availableAmount,
-                availableFrequency: action.payload.availableFrequency,
+                availableInvestFixed: action.payload.availableInvestFixed,
+                availableStopAfterCount: action.payload.availableStopAfterCount,
                 newFollowTrade,
             };
             break;

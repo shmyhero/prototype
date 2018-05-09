@@ -93,10 +93,24 @@ class FollowBlock extends Component {
                     style={{flex:1, alignItems:'center', justifyContent:'center'}}
                     colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
                     <Text style={{color:'white', fontSize:20}}>
-                    {LS.str("UNFOLLOW").replace("{1}", this.props.followTrade.stopAfterCount)}
+                        {LS.str("UNFOLLOW").replace("{1}", this.props.followTrade.stopAfterCount)}
                     </Text>
                 </LinearGradient>
             </TouchableOpacity>
+        );
+    }
+
+    renderWaitButton(){
+        return (          
+            <LinearGradient 
+                    start={{x:0.0, y:0}}
+                    end={{x:1.0, y:0.0}}
+                    style={{height: 60, width:width, alignItems:'center', justifyContent:'center'}}
+                    colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
+                <Text style={{color:'white', fontSize:20}}>
+                    {LS.str("VERIFING")}
+                </Text>
+            </LinearGradient>
         );
     }
 
@@ -104,6 +118,9 @@ class FollowBlock extends Component {
         var userData = LogicData.getUserData();
         if(!userData.userId || this.props.userId == userData.userId){
             return null;
+        }
+        if(this.props.isBalanceLoading){
+            return this.renderWaitButton();
         }
         if(this.props.followTrade 
             && this.props.followTrade.investFixed > 0 

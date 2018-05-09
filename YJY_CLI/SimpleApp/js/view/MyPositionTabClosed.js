@@ -400,15 +400,15 @@ export default class  MyPositionTabClosed extends React.Component {
 	}
 
 	renderFollowRow(rowData){
-		if(rowData.isFollowing){
+		if(rowData.followUser){
 			return (
 				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
-					<Image source={{uri:rowData.followingUserPortrit}} 
+					<Image source={{uri:rowData.followUser.picUrl}} 
 						style={{height:40,width:40, borderRadius:20}}></Image>
-					<Text style={{marginLeft:10}}>{rowData.followingUser}</Text>
+					<Text style={{marginLeft:10}}>{rowData.followUser.nickname}</Text>
 					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>跟随</Text>
+						<Text style={{color:'white', fontSize:10}}>{LS.str("FOLLOW")}</Text>
 						</View>
 					</ImageBackground>
 				</View>

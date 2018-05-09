@@ -88,8 +88,7 @@ class  TabMeScreen extends React.Component {
   }
 
   goToWithdraw(){
-    var meData = LogicData.getMeData()
-    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW, {address: meData.thtAddress});
+    this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW);
   }
 
   goToMessage(){
@@ -307,7 +306,6 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
       ...state.meData,
-      ...state.checkLogin,
   };
 };
 

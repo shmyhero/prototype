@@ -2,7 +2,7 @@ import {GET_BALANCE, GET_BALANCE_SUCCESS, GET_BALANCE_FAIL } from "../constants/
 
 var initializeState = {
     balance: 0,
-    isLoading: false,
+    isBalanceLoading: false,
     errorMessage: null,
 }
 
@@ -10,19 +10,19 @@ var initializeState = {
 export default function balanceReducer(state = initializeState, action) {
     switch (action.type) {
         case GET_BALANCE:
-            return { ...state, isLoading: true,
+            return { ...state, isBalanceLoading: true,
                 errorMessage: null
             };
         case GET_BALANCE_SUCCESS:
             return { ...state, 
-                isLoading: false, 
+                isBalanceLoading: false, 
                 balance: action.payload.data,
                 errorMessage: null
             };
         case GET_BALANCE_FAIL:
             return {
                 ...state,
-                isLoading: false,
+                isBalanceLoading: false,
                 errorMessage: action.payload.errorMessage
             };
         default:

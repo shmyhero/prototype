@@ -33,10 +33,10 @@ export function getMeDataFailure(errorMessage) {
 }
 
 export function fetchMeData() {
+    console.log("fetchMeData action")
     return (dispatch) => {   
         checkIsLoggedIn(()=>{
             dispatch(getMeData());
-            console.log("fetchMeDataRequest ", fetchMeDataRequest)
             fetchMeDataRequest()
                 .then((data) => {
                     console.log("fetchMeData then", data)
@@ -45,7 +45,7 @@ export function fetchMeData() {
                 .catch((err) => {
                     console.log("fetchMeData catch", err)
                     dispatch(getMeDataFailure(err));
-                });    
+                });
             fetchBalanceData()(dispatch);
         }, ()=>{
             

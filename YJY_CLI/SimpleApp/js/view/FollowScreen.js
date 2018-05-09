@@ -116,19 +116,53 @@ class FollowScreen extends Component {
         return (
             <View style={{flex:1, alignSelf:'stretch', alignItems:'stretch'}}>
                 <View style={styles.mainContent}>
-                    <ImageBackground 
+                    {/* <ImageBackground 
                         source={require('../../images/remain_tokens_border.jpg')}
                         style={{
                             height:60, //450 × 120,
                             width: 225,
                             alignItems: 'center',
                             justifyContent: 'center'
-                        }}>
-                        <BalanceBlock style={styles.balanceText}/>
-                    </ImageBackground>
+                        }}> */}
+                        <View style={{
+                                height:50, //450 × 120,
+                                width: 225,
+                                marginTop:15}}>
+                            <View style={{
+                                flex:1,
+                                marginTop:10,                                
+                                borderColor: ColorConstants.SEPARATOR_GRAY,
+                                borderWidth: 1,
+                                borderRadius:10,
+                                alignItems:'center',
+                                justifyContent:'center',
+                            }}>
+                                <BalanceBlock style={styles.balanceText}/>
+                            </View>
+                            <View style={{position:'absolute', 
+                                    top:0,
+                                    left:0,
+                                    right:0,}}>
+                                <View style={{
+                                    backgroundColor:'white',
+                                    alignSelf:'center',
+                                    paddingLeft:10,
+                                    paddingRight:10
+                                }}>
+                                    <Text style={{
+                                        fontSize: 15,
+                                        color: ColorConstants.SEPARATOR_GRAY,
+                                        textAlign:'center'
+                                    }}>{LS.str('REMAIN_MOUNT')}</Text>
+                                </View>
+                            </View>
+                            
+                        </View>
+                       
+                    {/* </ImageBackground> */}
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "investFixed", "availableAmount")}
-                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "stopAfterCount", "availableFrequency")}
+                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "investFixed", "availableInvestFixed")}
+                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "stopAfterCount", "availableStopAfterCount")}
                     </View>
                     {this.renderHint()}
                 </View>

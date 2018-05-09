@@ -24,16 +24,12 @@ function getFollowConfigRequestSent() {
     };
 }
 
-function getFollowConfigSuccess(availableAmount, availableFrequency, investFixed, stopAfterCount) {
-    console.log("getFollowConfigSuccess availableAmount", availableAmount)
-    console.log("getFollowConfigSuccess availableFrequency", availableFrequency)
-    console.log("getFollowConfigSuccess investFixed", investFixed)
-    console.log("getFollowConfigSuccess stopAfterCount", stopAfterCount)
+function getFollowConfigSuccess(availableInvestFixed, availableStopAfterCount, investFixed, stopAfterCount) {
     return {
         type: GET_FOLLOW_CONFIG_REQUEST_SUCCESS,
         payload: {
-            availableAmount,
-            availableFrequency,
+            availableInvestFixed,
+            availableStopAfterCount,
             investFixed,
             stopAfterCount
         }
@@ -143,7 +139,6 @@ export function updateFollowConfig(investFixed, stopAfterCount){
 
 export function sendFollowConfigRequest(userId, followTrade) {
     return (dispatch) => {
-        console.log("")
         dispatch(setFollowConfigRequestSent())
         setFollowConfigRequest(userId, followTrade)
             .then(() => {
@@ -174,10 +169,9 @@ export function getCurrentFollowConfig(){
         dispatch(getFollowConfigRequestSent());
         getFollowConfigRequest()
             .then(data => {
-                console.log("")
                 dispatch(getFollowConfigSuccess(
-                    data.availableAmount,
-                    data.availableFrequency,
+                    data.availableInvestFixed,
+                    data.availableStopAfterCount,
                     data.investFixed,
                     data.stopAfterCount));
             })

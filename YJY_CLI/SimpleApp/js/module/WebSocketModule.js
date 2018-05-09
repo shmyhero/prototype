@@ -93,7 +93,7 @@ export function start() {
 
 	// return;
 
-	webSocketConnection = $.hubConnection('http://yjy-webapi.chinacloudapp.cn');
+	webSocketConnection = $.hubConnection(NetConstants.CFD_API_SERVER);
 	webSocketConnection.disconnected(function() {
 		wsErrorCallback('网络已断开。')
 	});

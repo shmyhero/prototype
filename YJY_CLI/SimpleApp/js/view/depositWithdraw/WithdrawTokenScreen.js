@@ -18,45 +18,27 @@ import SubmitButton from '../component/SubmitButton';
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 var LS = require("../../LS");
+import { connect } from 'react-redux';
 
+import { fetchBalanceData } from "../../redux/actions/balance";
 // create a component
 class WithdrawTokenScreen extends Component {
     constructor(props){
         super(props)
 
-        var purseAddress = "";
-        if(this.props.navigation.state && this.props.navigation.state.params){
-            purseAddress = this.props.navigation.state.params.address;
-        }
         this.state = {
             balance: 0,
             balanceText: "...",
             withdrawStringValue: "",
             withdrawValue: 0,
             isAgreementRead: false,
-            purseAddress: purseAddress,
             isButtonEnable: false,
             isRequestSending: false,
         }
     }
 
     componentWillMount(){
-        var userData = LogicData.getUserData();
-        NetworkModule.fetchTHUrl(
-            NetConstants.CFD_API.USER_FUND_BALANCE,
-            {
-                method: 'GET',
-                headers: {
-                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                },
-            },(responseJson)=>{
-                this.setState({
-                    balance: responseJson.balance.maxDecimal(2),
-                    balanceText: ""+responseJson.balance.maxDecimal(2),
-                })
-            },()=>{
-
-            });
+        this.props.fetchBalanceData();
     }
 
     updateButtonStatus(){
@@ -69,14 +51,14 @@ class WithdrawTokenScreen extends Component {
         return this.state.withdrawValue > 0 
                 && this.state.isAgreementRead
                 && !this.state.isRequestSending
-                && this.state.purseAddress != undefined
-                && this.state.purseAddress != "";
+                && this.props.thtAddress != undefined
+                && this.props.thtAddress != "";
     }
 
     onWithdrawAllPressed(){
         var state = {
-            withdrawStringValue: "" + this.state.balance,
-            withdrawValue: this.state.balance,
+            withdrawStringValue: "" + this.props.balance,
+            withdrawValue: this.props.balance,
         };
         this.setState(state, ()=>this.updateButtonStatus())
     }
@@ -157,11 +139,11 @@ class WithdrawTokenScreen extends Component {
     }
 
     renderPurseAddress(){
-        if(this.state.purseAddress && this.state.purseAddress != ""){
+        if(this.props.thtAddress && this.props.thtAddress != ""){
             return (
                 <View style={styles.rowContainer}>
                     <Text style={{fontSize:17}}>{LS.str("WITHDRAW_ADDRESS_HINT")}</Text>
-                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.state.purseAddress}</Text>
+                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.props.thtAddress}</Text>
                 </View>);
         }else{
             return null;
@@ -169,6 +151,7 @@ class WithdrawTokenScreen extends Component {
     }
 
     render() {
+        var balanceValue = this.props.isBalanceLoading ? "--" : this.props.balance;
         return (
             <View style={styles.container}>
                 <NavBar title={LS.str("ME_WITHDRAW_TITLE")}
@@ -190,7 +173,7 @@ class WithdrawTokenScreen extends Component {
                                 value={this.state.withdrawStringValue}/>
                         </View>
                         <Text style={{color:"#7d7d7d", fontSize:14}}>
-                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}",this.state.balanceText)}
+                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue)}
                             <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
                         </Text>
                     </View>
@@ -229,5 +212,17 @@ const styles = StyleSheet.create({
     }
 });
 
-//make this component available to the app
-export default WithdrawTokenScreen;
+const mapStateToProps = state => {
+    return {
+        ...state.balance,
+        ...state.meData,
+    };
+};
+
+const mapDispatchToProps = {
+    fetchBalanceData
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(WithdrawTokenScreen);
+  
+  
