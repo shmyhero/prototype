@@ -77,7 +77,7 @@ export default class  RankTradeFollowList extends React.Component {
                             },
                             showLoading: true,
                         }, (responseJson) => { 
-                            console.log(responseJson);
+                            // console.log(responseJson);
                             this.setState({
                                 rankListData: responseJson,
                                 isDataLoading: false,
@@ -107,6 +107,10 @@ export default class  RankTradeFollowList extends React.Component {
     }
 
     _renderRow = (rowData, sectionID, rowID) => {
+          
+        var d = new Date(rowData.followTrade.createAt);
+        var createAt = d.getDateStringDay()
+
         if(rowID>=0){ 
             id = rowID 
             var openView = itemOpen[id]==1?
@@ -115,15 +119,15 @@ export default class  RankTradeFollowList extends React.Component {
                     <View style={{height:58,width:width-60,flexDirection:'row'}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-start'}}>
                         <Text style={styles.textItemTitle}>{LS.str("APPLY_FOLLOW")}</Text>
-                        <Text style={styles.textItemValue}>2018.05.01</Text>
+                        <Text style={styles.textItemValue}>{createAt}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                         <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_FOLLOW")}</Text>
-                        <Text style={styles.textItemValue}>20</Text>
+                        <Text style={styles.textItemValue}>{rowData.followTrade.investFixed}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
                         <Text style={styles.textItemTitle}>{LS.str("FOLLOW_TIMES")}</Text>
-                        <Text style={styles.textItemValue}>2</Text>
+                        <Text style={styles.textItemValue}>{rowData.followTrade.stopAfterCount}</Text>
                     </View>
                 </View>
             </View>:null;    
