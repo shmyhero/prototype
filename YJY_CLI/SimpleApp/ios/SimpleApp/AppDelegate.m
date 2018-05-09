@@ -44,5 +44,9 @@
                       sourceApplication:sourceApplication annotation:annotation];
 }
 
++ (BOOL)isPortrait {
+  return true;
+//  return Orientation.getOrientation() == .portrait
+}
 
 @end

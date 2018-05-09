@@ -236,11 +236,6 @@ class StockDetailScreen extends Component {
     
     goToPositionPage(){
         this.refs["orderFinishedModal"].hide();
-        this.setState({
-            Amount: undefined,
-            Multiplier: DEFAULT_MULTIPLIER,
-            Operation: undefined,
-        })
         
         //!!!!!!!!!!!!!!!!
         //BackKey should be the key of the view which is the second one in the view stack, since the 
@@ -291,7 +286,13 @@ class StockDetailScreen extends Component {
                         showData.stockName = params.stockName;
                         showData.isCreate = true;
                         showData.time = new Date(responseJson.createAt);
-                        this.refs["orderFinishedModal"].show(showData);
+                        this.refs["orderFinishedModal"].show(showData, ()=>{
+                            this.setState({
+                                Amount: undefined,
+                                Multiplier: DEFAULT_MULTIPLIER,
+                                Operation: undefined,
+                            })
+                        });
                     },
                     (exception) => {
                         alert(exception.errorMessage)
