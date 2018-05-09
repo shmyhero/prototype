@@ -32,13 +32,13 @@ var LS = require('../LS')
 export default class  UserProfileScreen extends React.Component {
   static navigationOptions = {
     title: 'UserProfileScreen',
-
   }
 
   constructor(props) {
     super(props); 
     staticData = this.props.navigation.state.params.userData; 
     this.state = {
+      followTrade: null,
       isFollowing:false,
       picUrl:'',
       nickName:this.props.navigation.state.params.userData.nickName,
@@ -77,9 +77,11 @@ export default class  UserProfileScreen extends React.Component {
                       'Content-Type': 'application/json; charset=utf-8',
                   },
                   showLoading: true,
-              }, (responseJson) => {  
+              }, (responseJson) => {
+                console.log("loadUserInfo responseJson.followTrade,", responseJson.followTrade)
                   this.setState({
                     isFollowing: responseJson.isFollowing,
+                    followTrade: responseJson.followTrade,
                     picUrl:responseJson.picUrl, 
                   });  
               },
@@ -93,9 +95,9 @@ export default class  UserProfileScreen extends React.Component {
 
   
   renderContent(){ 
- 
         var tabPages = [
-          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'} userId={staticData.userId}/>,
+          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'} userId={staticData.userId} 
+            followTrade={this.state.followTrade}/>,
           <UserProfileTabDynamicState navigation={this.props.navigation} ref={'page1'}  userId={staticData.userId}/>,
           <UserProfileTabPositionHold navigation={this.props.navigation} ref={'page2'}  userId={staticData.userId}/>,
           <UserProfileTabPositionClosed navigation={this.props.navigation} ref={'page3'}  userId={staticData.userId}/>,

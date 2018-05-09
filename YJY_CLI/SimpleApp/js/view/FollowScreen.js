@@ -40,12 +40,13 @@ class FollowScreen extends Component {
         super(props)
     }
 
-    componentDidMount(){
-        this.props.getCurrentFollowConfig();
+    componentWillReceiveProps(props){
+        console.log("componentWillReceiveProps props.userId", props.userId)
     }
 
-    show(){
-        this.props.showFollowDialog(true);
+
+    componentDidMount(){
+        this.props.getCurrentFollowConfig();
     }
 
     hide(){        
@@ -53,15 +54,17 @@ class FollowScreen extends Component {
     }
 
     onChangePickerValue(itemValue, itemIndex, stateKey){
-        if (stateKey == "amount"){
-            this.props.updateFollowConfig(itemValue, this.props.frequency);
-        }else if (stateKey == "frequency"){
-            this.props.updateFollowConfig(this.props.amount, itemValue);
+        if (stateKey == "investFixed"){
+            this.props.updateFollowConfig(itemValue, this.props.newFollowTrade.stopAfterCount);
+        }else if (stateKey == "stopAfterCount"){
+            this.props.updateFollowConfig(this.props.newFollowTrade.investFixed, itemValue);
         }
     }
 
     setFollowConfig(){
-        this.props.sendFollowConfigRequest(this.props.userId, this.props.amount, this.props.frequency);
+        console.log("setFollowConfig this.props.userId", this.props.userId)
+        console.log("setFollowConfig this.props.newFollowTrade", this.props.newFollowTrade)
+        this.props.sendFollowConfigRequest(this.props.userId, this.props.newFollowTrade);
     }
 
     renderHint(){
@@ -89,9 +92,6 @@ class FollowScreen extends Component {
     }
 
     renderPicker(title, stateKey, availableKey){
-        console.log("renderPicker ");
-        console.log("renderPicker this.props[stateKey]", this.props[stateKey]);
-
         var pickerItems = this.props[availableKey].map( (value, index, array)=>{
             return (
                 <WheelPicker.Item label={""+value} value={value} key={index}/>
@@ -101,7 +101,7 @@ class FollowScreen extends Component {
             <View style={{alignItems:'center', flex:1}}>
                 <Text style={styles.pickerTitle}>{title}</Text>
                 <WheelPicker
-                    selectedValue={this.props[stateKey]}
+                    selectedValue={this.props.newFollowTrade[stateKey]}
                     selectedTextColor={"#333333"}
                     style={{flex:1, height:150, width: 100 }}
                     itemStyle={{color:"#bfbfbf", height:150, fontSize:20}}
@@ -127,14 +127,14 @@ class FollowScreen extends Component {
                         <BalanceBlock style={styles.balanceText}/>
                     </ImageBackground>
                     <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "amount", "availableAmount")}
-                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "frequency", "availableFrequency")}
+                        {this.renderPicker(LS.str("FOLLOW_AMOUNT"), "investFixed", "availableAmount")}
+                        {this.renderPicker(LS.str("FOLLOW_COUNT"), "stopAfterCount", "availableFrequency")}
                     </View>
                     {this.renderHint()}
                 </View>
                 <SubmitButton 
                     onPress={()=>this.setFollowConfig()}
-                    enable={this.props.buttonEnable}
+                    enable={this.props.followConfigButtonEnable}
                     text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}
                 />
             </View>

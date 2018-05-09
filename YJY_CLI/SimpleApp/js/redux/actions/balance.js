@@ -2,7 +2,7 @@ import {
     GET_BALANCE,
     GET_BALANCE_SUCCESS,
     GET_BALANCE_FAIL
-} from "../constants/action-types";
+} from "../constants/actionTypes";
 
 import fetchBalanceRequest from "../api/fetchBalanceRequest";
 

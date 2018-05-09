@@ -2,7 +2,7 @@ import {
     GET_ME_DATA,
     GET_ME_DATA_SUCCESS,
     GET_ME_DATA_FAIL
-} from "../constants/action-types";
+} from "../constants/actionTypes";
 
 import fetchMeDataRequest from "../api/fetchMeDataRequest";
 import {checkIsLoggedIn, fetchBalanceData} from "../actions";

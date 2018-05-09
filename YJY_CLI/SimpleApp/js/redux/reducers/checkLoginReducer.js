@@ -1,4 +1,4 @@
-import { CHECK_LOGIN_STATE_LOGGED_IN, CHECK_LOGIN_STATE_NOT_LOGGED_IN } from "../constants/action-types";
+import { CHECK_LOGIN_STATE_LOGGED_IN, CHECK_LOGIN_STATE_NOT_LOGGED_IN } from "../constants/actionTypes";
 
 var initializeState = {
     userLoggedin: false

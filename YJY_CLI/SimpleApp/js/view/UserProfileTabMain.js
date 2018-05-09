@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   AppRegistry,
   Text,
@@ -12,10 +13,10 @@ import {
   TouchableOpacity
 } from 'react-native';
 
-import LinearGradient from 'react-native-linear-gradient'
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import FollowScreen from './FollowScreen';
+import FollowBlock from './component/FollowBlock';
 var ColorConstants = require('../ColorConstants');
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
@@ -23,13 +24,15 @@ var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var {height, width} = Dimensions.get('window');
 var LS = require('../LS')
 
-import {showFollowDialog} from "../redux/actions/follow";
-import {getStore} from "../../index";
 import LogicData from '../LogicData';
 
 export default class  UserProfileTabMain extends React.Component {
   static navigationOptions = {
     title: 'Home',
+  }
+
+  static propTypes = {
+    followTrade: PropTypes.object,
   }
 
   componentDidMount(){
@@ -45,31 +48,6 @@ export default class  UserProfileTabMain extends React.Component {
     this.refs['profitTrendCharts'].refresh();
   }
 
-  onFollowPressed(){
-    showFollowDialog(true, this.props.userId)(getStore().dispatch)
-  }
-
-  renderFollowBlock(){
-    var userData = LogicData.getUserData();
-    if(this.props.userId == userData.userId){
-      return null;
-    }
-    return (
-      <TouchableOpacity style={{height: 60, width:width, backgroundColor:ColorConstants.TITLE_BLUE}}
-      onPress={()=>this.onFollowPressed()}>
-        <LinearGradient 
-          start={{x:0.0, y:0}}
-          end={{x:1.0, y:0.0}}
-          style={{flex:1, alignItems:'center', justifyContent:'center'}}
-          colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-          <Text style={{color:'white', fontSize:20}}>
-            {LS.str("FOLLOW")}
-          </Text>
-        </LinearGradient>
-      </TouchableOpacity>
-    );
-  }
-
   renderFollowModal(){
     var userData = LogicData.getUserData();
     if(this.props.userId == userData.userId){
@@ -79,9 +57,7 @@ export default class  UserProfileTabMain extends React.Component {
   }
 
   render() {
-
     var bgWidth = width-20; 
-
     return (
       <View style={styles.container}>
         <View style={styles.topHead}/>
@@ -96,7 +72,9 @@ export default class  UserProfileTabMain extends React.Component {
             <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
           </ImageBackground>
         </ScrollView>
-        {this.renderFollowBlock()}
+        <FollowBlock 
+          currentFollowTrade={this.props.followTrade}
+          currentUserId={this.props.userId}/>
         {this.renderFollowModal()}
       </View> 
     );

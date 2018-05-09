@@ -5,13 +5,18 @@ import {
     SEND_FOLLOW_CONFIG_REQUEST,
     SEND_FOLLOW_CONFIG_REQUEST_SUCCESS,
     SEND_FOLLOW_CONFIG_REQUEST_FAIL,
+    SEND_UNFOLLOW_REQUEST,
+    SEND_UNFOLLOW_REQUEST_SUCCESS,
+    SEND_UNFOLLOW_REQUEST_FAIL,
     SHOW_FOLLOW_CONFIG_MODAL,
     UPDATE_FOLLOW_CONFIG,
     CHECK_AGREEMENT,
-} from "../constants/action-types";
+    RESET_USER_INFO,
+} from "../constants/actionTypes";
 
 import setFollowConfigRequest from "../api/setFollowConfigRequest";
 import getFollowConfigRequest from "../api/getFollowConfigRequest";
+import unFollowRequest from "../api/unFollowRequest";
 
 function getFollowConfigRequestSent() {
     return {
@@ -19,18 +24,18 @@ function getFollowConfigRequestSent() {
     };
 }
 
-function getFollowConfigSuccess(availableAmount, availableFrequency, amount, frequency) {
+function getFollowConfigSuccess(availableAmount, availableFrequency, investFixed, stopAfterCount) {
     console.log("getFollowConfigSuccess availableAmount", availableAmount)
     console.log("getFollowConfigSuccess availableFrequency", availableFrequency)
-    console.log("getFollowConfigSuccess amount", amount)
-    console.log("getFollowConfigSuccess frequency", frequency)
+    console.log("getFollowConfigSuccess investFixed", investFixed)
+    console.log("getFollowConfigSuccess stopAfterCount", stopAfterCount)
     return {
         type: GET_FOLLOW_CONFIG_REQUEST_SUCCESS,
         payload: {
             availableAmount,
             availableFrequency,
-            amount,
-            frequency
+            investFixed,
+            stopAfterCount
         }
     }
 }
@@ -44,19 +49,18 @@ function getFollowConfigFailure(errorMessage) {
     }
 }
 
-
 function setFollowConfigRequestSent() {
     return {
         type: SEND_FOLLOW_CONFIG_REQUEST,
     };
 }
 
-function setFollowConfigSuccess(amount, frequency) {
+function setFollowConfigSuccess(investFixed, stopAfterCount) {
     return {
         type: SEND_FOLLOW_CONFIG_REQUEST_SUCCESS,
         payload: {
-            amount,
-            frequency
+            investFixed,
+            stopAfterCount
         }
     }
 }
@@ -64,6 +68,27 @@ function setFollowConfigSuccess(amount, frequency) {
 function setFollowConfigFailure(errorMessage) {
     return {
         type: SEND_FOLLOW_CONFIG_REQUEST_FAIL,
+        payload: {
+            errorMessage
+        }
+    }
+}
+
+function unFollowRequestSent() {
+    return {
+        type: SEND_UNFOLLOW_REQUEST,
+    };
+}
+
+function unFollowSuccess() {
+    return {
+        type: SEND_UNFOLLOW_REQUEST_SUCCESS
+    }
+}
+
+function unFollowFailure(errorMessage) {
+    return {
+        type: SEND_UNFOLLOW_REQUEST_FAIL,
         payload: {
             errorMessage
         }
@@ -81,39 +106,65 @@ export function checkAgreement(isAgreementRead){
     }
 }
 
-export function showFollowDialog(show, userId){
-    return (dispatch) => {
+export function resetUserInfo(userId, followTrade){
+    return (dispatch) => {        
         dispatch({
-            type: SHOW_FOLLOW_CONFIG_MODAL,
-            payload: {
-                show,
-                userId
-            }
-        })
-    }
-}
-
-export function updateFollowConfig(amount, frequency){
-    return (dispatch) => {
-        dispatch({
-            type: UPDATE_FOLLOW_CONFIG,
-            payload: {
-                amount,
-                frequency
+            type: RESET_USER_INFO,
+            payload:{
+                userId,
+                followTrade
             }
         })        
     }
 }
 
-export function sendFollowConfigRequest(userId, amount, frequency) {
+export function showFollowDialog(show){
     return (dispatch) => {
+        dispatch({
+            type: SHOW_FOLLOW_CONFIG_MODAL,
+            payload: {
+                show
+            }
+        })
+    }
+}
+
+export function updateFollowConfig(investFixed, stopAfterCount){
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_FOLLOW_CONFIG,
+            payload: {
+                investFixed,
+                stopAfterCount
+            }
+        })        
+    }
+}
+
+export function sendFollowConfigRequest(userId, followTrade) {
+    return (dispatch) => {
+        console.log("")
         dispatch(setFollowConfigRequestSent())
-        setFollowConfigRequest(userId, amount, frequency)
+        setFollowConfigRequest(userId, followTrade)
             .then(() => {
-                dispatch(setFollowConfigSuccess(amount, frequency))
+                dispatch(setFollowConfigSuccess(followTrade.investFixed, followTrade.stopAfterCount))
+                dispatch(showFollowDialog(false));
             })
             .catch((err) => {
                 dispatch(setFollowConfigFailure(err));
+            });
+    }
+}
+
+export function sendUnFollowRequest(userId) {
+    return (dispatch) => {
+        dispatch(unFollowRequestSent())
+        unFollowRequest(userId)
+            .then(() => {
+                dispatch(unFollowSuccess())
+            })
+            .catch((err) => {
+                dispatch(unFollowFailure(err));
             });
     }
 }
@@ -127,8 +178,8 @@ export function getCurrentFollowConfig(){
                 dispatch(getFollowConfigSuccess(
                     data.availableAmount,
                     data.availableFrequency,
-                    data.amount,
-                    data.frequency));
+                    data.investFixed,
+                    data.stopAfterCount));
             })
             .catch((err) => {
                 dispatch(getFollowConfigFailure(err));

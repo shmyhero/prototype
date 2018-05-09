@@ -1,4 +1,4 @@
-import {GET_BALANCE, GET_BALANCE_SUCCESS, GET_BALANCE_FAIL } from "../constants/action-types";
+import {GET_BALANCE, GET_BALANCE_SUCCESS, GET_BALANCE_FAIL } from "../constants/actionTypes";
 
 var initializeState = {
     balance: 0,
