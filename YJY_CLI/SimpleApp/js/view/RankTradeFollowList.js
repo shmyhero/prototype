@@ -64,32 +64,32 @@ export default class  RankTradeFollowList extends React.Component {
     loadRankData(){  
         if(LogicData.isLoggedIn()){
                 var userData = LogicData.getUserData();
-                // this.setState({
-                //     isDataLoading: true,
-                // }, ()=>{
-                    // NetworkModule.fetchTHUrl(
-                    //     NetConstants.CFD_API.RANK_FOLLOWING,
-                    //     {
-                    //         method: 'GET',
-                    //         headers: {
-                    //             'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                    //             'Content-Type': 'application/json; charset=utf-8',
-                    //         },
-                    //         showLoading: true,
-                    //     }, (responseJson) => { 
-                             
-                    //         this.setState({
-                    //             rankListData: responseJson,
-                    //             isDataLoading: false,
-                    //             dataSource: ds.cloneWithRows(responseJson),
-                    //         });
-                    //         itemOpen = []
-                    //     },
-                    //     (exception) => {
-                    //         alert(exception.errorMessage)
-                    //     }
-                    // );
-                // })			
+                this.setState({
+                    isDataLoading: true,
+                }, ()=>{
+                    NetworkModule.fetchTHUrl(
+                        NetConstants.CFD_API.RANK_USER_FOLLOW_TRADE,
+                        {
+                            method: 'GET',
+                            headers: {
+                                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                                'Content-Type': 'application/json; charset=utf-8',
+                            },
+                            showLoading: true,
+                        }, (responseJson) => { 
+                            console.log(responseJson);
+                            this.setState({
+                                rankListData: responseJson,
+                                isDataLoading: false,
+                                dataSource: ds.cloneWithRows(responseJson),
+                            });
+                            itemOpen = []
+                        },
+                        (exception) => {
+                            alert(exception.errorMessage)
+                        }
+                    );
+                })			
             } 
      } 
   
