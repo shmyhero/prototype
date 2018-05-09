@@ -102,7 +102,7 @@ class FollowBlock extends Component {
 
     render() {
         var userData = LogicData.getUserData();
-        if(this.props.userId == userData.userId){
+        if(!userData.userId || this.props.userId == userData.userId){
             return null;
         }
         if(this.props.followTrade 
