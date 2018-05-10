@@ -3,7 +3,9 @@ import {
     GET_ME_DATA_SUCCESS,
     GET_ME_DATA_FAIL,
     CHECK_LOGIN_STATE_LOGGED_IN,
-    CHECK_LOGIN_STATE_NOT_LOGGED_IN} from "../constants/actionTypes";
+    CHECK_LOGIN_STATE_NOT_LOGGED_IN,
+    BIND_WALLET_ADDRESS,
+} from "../constants/actionTypes";
 
 var initializeState = {
     userLoggedin: false,
@@ -20,11 +22,15 @@ export default function meDataReducer(state = initializeState, action) {
     console.log("meDataReducer state ", state)
     console.log("CHECK_LOGIN_STATE_LOGGED_IN", CHECK_LOGIN_STATE_LOGGED_IN)
     switch (action.type) {
+        case BIND_WALLET_ADDRESS:
+            state = { ...state,
+                thtAddress: action.payload.thtAddress,
+            }
+            return state;
         case CHECK_LOGIN_STATE_LOGGED_IN:
             state = { ...state,
                 userLoggedin: true
             }
-            console.log("meDataReducer newstate ", state)
             return state;
         case CHECK_LOGIN_STATE_NOT_LOGGED_IN:
             return { ...initializeState,

@@ -96,7 +96,11 @@ class WithdrawTokenScreen extends Component {
                         }),
                     },
                     (response )=>{
-                        this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW_SUBMITTED, {backFrom: this.props.navigation.state.key});
+                        var backFrom = this.props.navigation.state.key;
+                        if(this.props.navigation.state.params && this.props.navigation.state.params.backFrom){
+                            backFrom = this.props.navigation.state.params.backFrom;
+                        }
+                        this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW_SUBMITTED, {backFrom: backFrom});
                     },
                     (error)=>{
                         console.log("withdraw balance", error);

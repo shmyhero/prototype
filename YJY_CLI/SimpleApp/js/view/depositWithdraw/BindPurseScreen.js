@@ -21,17 +21,21 @@ var NetConstants = require("../../NetConstants");
 import LogicData from "../../LogicData";
 import SubmitButton from "../component/SubmitButton";
 var LS = require("../../LS");
+
+import { bindWallet } from '../../redux/actions'
+import { connect } from 'react-redux';
+
 // create a component
+const necessaryAddressLength = 42
 class BindPurseScreen extends Component {
 
     constructor(props){
         super(props)
 
         this.state = {
-            purseAddress: "",
+            thtAddress: "",
             isButtonEnable: false,
-            necessaryAddressLength: 42,
-            isRequestSending: false,
+            isRequestSending: false
         }
     }
 
@@ -46,8 +50,8 @@ class BindPurseScreen extends Component {
     }
 
     isReadyToBind(){
-        if(this.state.purseAddress 
-            && this.state.purseAddress.length == this.state.necessaryAddressLength
+        if(this.state.thtAddress
+            && this.state.thtAddress.length == necessaryAddressLength
             && !this.state.isRequestSending){
             return true;
         }else{
@@ -55,18 +59,20 @@ class BindPurseScreen extends Component {
         }
     }
 
-    updateAddress(purseAddress){
+    updateAddress(thtAddress){
         var state = {
-            purseAddress: purseAddress
+            thtAddress: thtAddress
         };        
         this.setState(state, ()=>this.updateButtonStatus());
     }
 
     bindCard(){
+        
         this.setState({
             isRequestSending: true,
         }, ()=>{
             this.updateButtonStatus();
+
             var userData = LogicData.getUserData();
 
             NetworkModule.fetchTHUrl(
@@ -78,11 +84,13 @@ class BindPurseScreen extends Component {
                         'Content-Type': 'application/json; charset=UTF-8'
                     },
                     body: JSON.stringify({
-                        "address": this.state.purseAddress,
+                        "address": this.state.thtAddress,
                     }),
                 },
-                (response )=>{
-                    this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {backFrom: this.props.navigation.state.key});
+                (response)=>{
+                    this.props.bindWallet(this.state.thtAddress)
+                    var nextView = this.props.navigation.state.params.nextView;
+                    this.props.navigation.navigate(nextView, {backFrom: this.props.navigation.state.key});
                 },
                 (error)=>{
                     alert(error.errorMessage)
@@ -92,8 +100,7 @@ class BindPurseScreen extends Component {
                         this.updateButtonStatus();
                     });
                 });
-        })
-
+        });
     }
     
     render() {
@@ -121,9 +128,9 @@ class BindPurseScreen extends Component {
                                 underlineColorAndroid={"transparent"}
                                 style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:13, color:"#000000"}}
                                 multiline={true}
-                                maxLength={this.state.necessaryAddressLength}
-                                onChangeText={(purseAddress)=>this.updateAddress(purseAddress)}
-                                value={this.state.purseAddress}/>
+                                maxLength={necessaryAddressLength}
+                                onChangeText={(thtAddress)=>this.updateAddress(thtAddress)}
+                                value={this.state.thtAddress}/>
                         </View>
                         <View style={styles.hintContainer}>
                             <Text style={{fontSize:13, color:"#cccccc"}}>
@@ -193,4 +200,17 @@ const styles = StyleSheet.create({
 });
 
 //make this component available to the app
-export default BindPurseScreen;
+
+const mapStateToProps = state => {
+    return {
+        ...state.meData,
+    };
+  };
+  
+  const mapDispatchToProps = {
+    bindWallet
+  };
+  
+  export default connect(mapStateToProps, mapDispatchToProps)(BindPurseScreen);
+  
+  
