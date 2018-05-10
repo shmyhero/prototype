@@ -131,7 +131,7 @@ var LS = {
     SELECT_PRODUCT: ["选择产品", "Choose Products"],
 
     BIND_PURSE_ADDRESS_HINT: ["请输入/粘贴钱包地址", "Please enter/paste wallet address"],
-    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit , After binding ,  funds can be associated with the token account."],
+    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
     BIND_CONFIRM: ["确认绑定", "Confirm binding"],
     BIND_PURSE_HEADER: ["绑定钱包地址", "Bind wallet address"],
     DEPOSIT_COPY_YJY_ADDRESS: ["复制盈交易收款地址", "Copy wallet address of TradeHero"],

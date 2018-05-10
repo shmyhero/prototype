@@ -1,7 +1,8 @@
 import {
     GET_ME_DATA,
     GET_ME_DATA_SUCCESS,
-    GET_ME_DATA_FAIL
+    GET_ME_DATA_FAIL,
+    BIND_WALLET_ADDRESS,
 } from "../constants/actionTypes";
 
 import fetchMeDataRequest from "../api/fetchMeDataRequest";
@@ -50,5 +51,18 @@ export function fetchMeData() {
         }, ()=>{
             
         })(dispatch);
+    }
+}
+
+
+export function bindWallet(thtAddress){
+    return (dispatch) => {
+        //TODO!!!
+        dispatch({
+            type: BIND_WALLET_ADDRESS,
+            payload: {
+                thtAddress
+            }
+        });
     }
 }

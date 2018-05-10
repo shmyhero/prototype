@@ -113,18 +113,8 @@ export default function followReducer(state = initializeState, action) {
                 isAgreementRead: isAgreementRead,
             };
         case SHOW_FOLLOW_CONFIG_MODAL:
-            // var userId = state.userId;
-            // if(action.payload.userId){
-            //     userId = action.payload.userId
-            // }
-            // var newFollowTrade = state.followTrade;
-            // if(action.payload.followTrade){
-            //     newFollowTrade = action.payload.followTrade;
-            // }
             newState = { ...newState,
                 modalVisible: action.payload.show,
-                // userId: userId,
-                // newFollowTrade: followTrade,
             }
             break;
         case UPDATE_FOLLOW_CONFIG:
