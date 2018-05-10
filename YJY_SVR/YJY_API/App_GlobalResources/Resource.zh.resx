@@ -126,6 +126,9 @@
   <data name="ProductClosed" xml:space="preserve">
     <value>产品闭市中</value>
   </data>
+  <data name="THTAddressExisted" xml:space="preserve">
+    <value>此地址已被使用</value>
+  </data>
   <data name="TransferType_Close" xml:space="preserve">
     <value>平仓</value>
   </data>

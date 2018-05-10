@@ -88,6 +88,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to This address is already used by another user..
+        /// </summary>
+        internal static string THTAddressExisted {
+            get {
+                return ResourceManager.GetString("THTAddressExisted", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Close Position.
         /// </summary>
         internal static string TransferType_Close {

@@ -126,6 +126,9 @@
   <data name="ProductClosed" xml:space="preserve">
     <value>Security is closed.</value>
   </data>
+  <data name="THTAddressExisted" xml:space="preserve">
+    <value>This address is already used by another user.</value>
+  </data>
   <data name="TransferType_Close" xml:space="preserve">
     <value>Close Position</value>
   </data>

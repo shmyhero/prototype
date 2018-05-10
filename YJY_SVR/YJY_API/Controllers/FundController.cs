@@ -75,8 +75,15 @@ namespace YJY_API.Controllers
             if(string.IsNullOrWhiteSpace(form.address)||form.address==YJYGlobal.THT_COMPANY_ADDRESS)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "invalid address"));
 
-            var fundService = new FundService(db);
-            fundService.SetTHTAddress(UserId, form.address);
+            try
+            {
+                var fundService = new FundService(db);
+                fundService.SetTHTAddress(UserId, form.address);
+            }
+            catch (ArgumentException)
+            {
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, Resources.Resource.THTAddressExisted));
+            }
 
             return new ResultDTO(true);
         }
