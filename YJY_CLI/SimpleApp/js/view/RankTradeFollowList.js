@@ -118,15 +118,15 @@ export default class  RankTradeFollowList extends React.Component {
                 <View style = {{width:width-60,height:0.5,marginTop:-5, backgroundColor:'#eeeeee'}}></View>
                     <View style={{height:58,width:width-60,flexDirection:'row'}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-start'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("APPLY_FOLLOW")}</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("APPLY_COPY")}</Text>
                         <Text style={styles.textItemValue}>{createAt}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_FOLLOW")}</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_COPY")}</Text>
                         <Text style={styles.textItemValue}>{rowData.followTrade.investFixed}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("FOLLOW_TIMES")}</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("COPY_TIMES")}</Text>
                         <Text style={styles.textItemValue}>{rowData.followTrade.stopAfterCount}</Text>
                     </View>
                 </View>
@@ -196,7 +196,7 @@ export default class  RankTradeFollowList extends React.Component {
                     return(
                         <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
                             {/* <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image> */}
-                            <Text style={{color:'white'}}>{LS.str("NO_FOLLOW")}</Text> 
+                            <Text style={{color:'white'}}>{LS.str("NO_COPY")}</Text> 
                         </View>
                     )
                 }else{

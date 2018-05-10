@@ -1081,7 +1081,7 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderStopProfitLossRow(rowData){
-		if(!rowData.isFollowing){
+		if(!rowData.followUser){
 			var stopLossImage = (rowData.takePx !== undefined || rowData.stopPx !== undefined) ? 
 							require('../../images/position_stop_profit_loss_enabled.png') : 
 							require('../../images/position_stop_profit_loss_disabled.png');
@@ -1201,15 +1201,15 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderFollowRow(rowData){
-		if(rowData.isFollowing){
+		if(rowData.followUser){
 			return (
 				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
-					<Image source={{uri:rowData.followingUserPortrit}} 
+					<Image source={{uri:rowData.followUser.picUrl}} 
 						style={{height:40,width:40, borderRadius:20}}></Image>
-					<Text style={{marginLeft:10}}>{rowData.followingUser}</Text>
+					<Text style={{marginLeft:10}}>{rowData.followUser.nickname}</Text>
 					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>{LS.str("FOLLOW")}</Text>
+						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
 						</View>
 					</ImageBackground>
 				</View>
@@ -1232,8 +1232,8 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 		var topLine = rowData.security.name
 		var bottomLine = rowData.security.symbol
-		
-		var rowHeaderHeight = rowData.isFollowing ? ROW_SIMPLE_CONTENT_HEIGHT + FOLLOW_ROW_HEIGHT : ROW_SIMPLE_CONTENT_HEIGHT;
+
+		var rowHeaderHeight = rowData.followUser ? ROW_SIMPLE_CONTENT_HEIGHT + FOLLOW_ROW_HEIGHT : ROW_SIMPLE_CONTENT_HEIGHT;
 		return (
 			<View style={styles.rowContainer}>
 				<TouchableOpacity style={[styles.rowTouchable,{height:rowHeaderHeight}]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>

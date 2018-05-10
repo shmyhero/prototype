@@ -26,3 +26,19 @@ export function checkIsLoggedIn(isLoggedIn: Function, notLoggedIn: Function) {
         }
     }
 }
+
+export function logout(){
+    return (dispatch) => {
+        //TODO!!!
+        dispatch(NotLogin());
+        // if(!LogicData.isLoggedIn()){
+        //     console.log("checkIsLoggedIn NotLogin")
+        //     dispatch(NotLogin());
+        //     notLoggedIn && notLoggedIn();
+        // }else{
+        //     console.log("checkIsLoggedIn Login")
+        //     dispatch(HasLogin());
+        //     isLoggedIn && isLoggedIn();
+        // }
+    }
+}
