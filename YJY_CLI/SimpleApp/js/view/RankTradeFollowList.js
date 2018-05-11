@@ -141,7 +141,7 @@ export default class  RankTradeFollowList extends React.Component {
                             <View style={{marginLeft:10}}>
                                 <View style={{flexDirection:'row',alignItems:'center'}}>
                                     <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
-                                    <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image> 
+                                    {/* <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image>  */}
                                 </View>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'flex-start'}}>
                                     <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
@@ -150,7 +150,7 @@ export default class  RankTradeFollowList extends React.Component {
                             </View>
                         </View>
                         <View style={{marginRight:15}}>
-                            <Text style={{fontSize:17, color:'#ca3538'}}>{rowData.roi.toFixed(2)}%</Text>
+                            <Text style={{fontSize:17,color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
                         </View> 
                     </View>
                     {openView}
