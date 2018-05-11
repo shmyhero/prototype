@@ -167,6 +167,9 @@ namespace YJY_API.Controllers
                     userDto.followTrade = Mapper.Map<FollowTradeDTO>(tradeFollow);
             }
 
+            userDto.followerCount = db.UserFollows.Count(o => o.FollowingId == userId);
+            userDto.followTraderCount = db.UserTradeFollows.Count(o => o.FollowingId == userId);
+
             return userDto;
         }
 

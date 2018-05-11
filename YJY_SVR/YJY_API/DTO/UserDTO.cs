@@ -42,6 +42,9 @@ namespace YJY_API.DTO
         //public int followerCount { get; set; }
         public bool? isFollowing { get; set; }
         public FollowTradeDTO followTrade { get; set; }
+
+        public int followerCount { get; set; }
+        public int followTraderCount { get; set; }
     }
 
     public class FollowTradeDTO
