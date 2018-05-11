@@ -4,7 +4,7 @@ import LogicData from './LogicData';
 
 var LS = {
   Str:{
-    APP_NAME: ["BHT Token", "BHT Token"],
+    APP_NAME: ["BHT", "BHT"],
     LANGUAGE: ["语言", "Language"],
 
     DATA_LOADING: ["数据读取中...", "Loading..."],
