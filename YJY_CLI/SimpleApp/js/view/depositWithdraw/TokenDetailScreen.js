@@ -103,14 +103,16 @@ class TokenDetailScreen extends Component {
 
     renderItem(rowData){
         console.log("rowData", rowData)
+        var date = new Date(rowData.item.time);
+        var dateString = date.Format('yy/MM/dd hh:mm');
         return (
             <View style={styles.rowContainer}>
                 <View style={styles.rowHeaderContainer}>
                     <Text style={{fontSize:17}}>{rowData.item.type}</Text>
-                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{rowData.item.time}</Text>
+                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{dateString}</Text>
                 </View>
                 <View style={{alignItems:'flex-end', justifyContent:'center', flex:1, flexDirection:'column'}}>
-                    <Text style={{fontSize:17, color: rowData.item.color}}>{rowData.item.amount}</Text>
+                    <Text style={{fontSize:17, color: rowData.item.color}}>{rowData.item.amount.toFixed(2)}</Text>
                 </View>
             </View>
         )

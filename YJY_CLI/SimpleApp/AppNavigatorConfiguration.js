@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import { Image, StyleSheet,Platform, } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
@@ -56,11 +56,40 @@ const ViewKeys = {
     SCREEN_FOLLOW: "FollowScreen",
 }
 
+class CustomTabBar extends Component {
+    render(){
+        return (
+            <TabBarBottom
+                {...this.props}
+                getLabel={(scene)=>{
+                    try{
+                        console.log("scene.route.routeName", scene.route.routeName)
+                        switch(scene.route.routeName){
+                            case ViewKeys.TAB_MAIN:
+                                return LS.str('TAB_MAIN_TAB_LABEL');
+                            case ViewKeys.TAB_MARKET:
+                                return LS.str('TAB_MARKET_TAB_LABEL');
+                            case ViewKeys.TAB_RANK:
+                                return LS.str('TAB_RANK_TAB_LABEL');
+                            case ViewKeys.TAB_POSITION:
+                                return LS.str('TAB_POSITION_TAB_LABEL');
+                            case ViewKeys.TAB_ME:
+                                return LS.str('TAB_ME_TAB_LABEL');
+                            return ""
+                        }
+                    }catch(e){
+                        return ""
+                    }
+                }}
+        />)
+    }
+}
+
 var mainTabNavigatorConfiguration = {}
 mainTabNavigatorConfiguration[ViewKeys.TAB_MAIN] = {
     screen: TabMainScreen,
     navigationOptions: {
-        tabBarLabel:LS.str('HOME_TAB_TITLE'),
+        tabBarLabel:LS.str('TAB_MAIN_TAB_LABEL'),
         tabBarIcon: ({focused,tintColor }) => (
             <Image
                 source={focused?require('./images/tab0_sel.png'):require('./images/tab0_unsel.png')}
@@ -69,10 +98,11 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MAIN] = {
         ),   
     }
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
     screen: TabMarketScreen,
     navigationOptions: {
-        tabBarLabel: LS.str('MARKET_TAB_TITLE'),
+        tabBarLabel: LS.str('TAB_MARKET_TAB_LABEL'),
         tabBarIcon: ({ focused,tintColor }) => (
             <Image
             source={focused?require('./images/tab1_sel.png'):require('./images/tab1_unsel.png')}
@@ -84,7 +114,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
     screen: TabRankScreen,
     navigationOptions: {
-        tabBarLabel:LS.str('RANK_TAB_TITLE'),
+        tabBarLabel:LS.str('TAB_RANK_TAB_LABEL'),
         tabBarIcon: ({ focused,tintColor }) => (
             <Image
             source={focused?require('./images/tab2_sel.png'):require('./images/tab2_unsel.png')}
@@ -96,7 +126,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
     screen: TabPositionScreen,
     navigationOptions: {
-        tabBarLabel:LS.str('POSITION_TAB_TITLE'),
+        tabBarLabel:LS.str('TAB_POSITION_TAB_LABEL'),
         tabBarIcon: ({ focused,tintColor }) => (
         <Image
             source={focused?require('./images/tab3_sel.png'):require('./images/tab3_unsel.png')}
@@ -108,7 +138,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
 mainTabNavigatorConfiguration[ViewKeys.TAB_ME] = {
     screen: TabMeScreen,
     navigationOptions: {
-        tabBarLabel:LS.str('ME_TAB_TITLE'),
+        tabBarLabel:LS.str('TAB_ME_TAB_LABEL'),
         tabBarIcon: ({ focused,tintColor }) => (
         <Image
             source={focused?require('./images/tab4_sel.png'):require('./images/tab4_unsel.png')}
@@ -123,6 +153,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
     animationEnabled: false, //If lazy load is true, make sure no tab animation is enabled.
     swipeEnabled: false,
     backBehavior: 'none',
+    tabBarComponent: CustomTabBar,
     tabBarOptions: {
         activeTintColor: '#1b9bec',
         inactiveTintColor:'grey',

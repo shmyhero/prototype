@@ -41,10 +41,11 @@ class BalanceBlock extends Component {
                     style={style}>{errorMessage}</Text>
             )
         }else{
+            //balance.maxDecimal(2)
             return (
                 <Text 
                     {...this.props}>
-                        {balance}
+                        {balance.toFixed(2)}
                 </Text>
             );
         }
