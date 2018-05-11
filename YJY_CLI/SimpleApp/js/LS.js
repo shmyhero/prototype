@@ -84,7 +84,7 @@ var LS = {
     PHONE_NUM:["手机号","Phone Number"],
     VCODE:["验证码","VCode"],
     GET_VCODE:["获取验证码","Get VCode"],
-    YOU_ARE_LOGIN:["您正在登录糖果市场","You are login BitHero token"],
+    YOU_ARE_LOGIN:["您正在登录糖果市场","You are login Candy market"],
     FAST_LOGIN:["快速登录","Fast Login"],
     LOGIN:["登录","Login"],
     TOTAL_MOUNT:["总糖果","Total Candy"],
