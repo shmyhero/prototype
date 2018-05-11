@@ -12,11 +12,12 @@ export function getBalance() {
     };
 }
 
-export function getBalanceSuccess(data) {
+export function getBalanceSuccess(balance, total) {
     return {
         type: GET_BALANCE_SUCCESS,
         payload: {
-            data
+            total,
+            balance,
         }
     }
 }
@@ -36,11 +37,11 @@ export function fetchBalanceData() {
         dispatch(getBalance())
         fetchBalanceRequest()
             .then((data) => {
-                console.log("fetchBalance then", data)
-                dispatch(getBalanceSuccess(data.balance.maxDecimal(2)))
+                console.log("fetchBalance then", data);
+                dispatch(getBalanceSuccess(data.balance, data.total));
             })
             .catch((err) => {
-                console.log("fetchBalance catch", err)
+                console.log("fetchBalance catch", err);
                 dispatch(getBalanceFailure(err));
             });
     }

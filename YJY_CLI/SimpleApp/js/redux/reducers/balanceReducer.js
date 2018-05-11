@@ -1,6 +1,7 @@
 import {GET_BALANCE, GET_BALANCE_SUCCESS, GET_BALANCE_FAIL } from "../constants/actionTypes";
 
 var initializeState = {
+    total:0,
     balance: 0,
     isBalanceLoading: false,
     errorMessage: null,
@@ -16,7 +17,8 @@ export default function balanceReducer(state = initializeState, action) {
         case GET_BALANCE_SUCCESS:
             return { ...state, 
                 isBalanceLoading: false, 
-                balance: action.payload.data,
+                total: action.payload.total,
+                balance: action.payload.balance,
                 errorMessage: null
             };
         case GET_BALANCE_FAIL:

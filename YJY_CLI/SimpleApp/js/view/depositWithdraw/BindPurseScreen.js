@@ -21,11 +21,12 @@ var NetConstants = require("../../NetConstants");
 import LogicData from "../../LogicData";
 import SubmitButton from "../component/SubmitButton";
 var LS = require("../../LS");
-
 import { bindWallet } from '../../redux/actions'
 import { connect } from 'react-redux';
 
 // create a component
+
+const necessaryAddressLengthWithout0x = 40
 const necessaryAddressLength = 42
 class BindPurseScreen extends Component {
 
@@ -51,7 +52,8 @@ class BindPurseScreen extends Component {
 
     isReadyToBind(){
         if(this.state.thtAddress
-            && this.state.thtAddress.length == necessaryAddressLength
+            && (this.state.thtAddress.length == necessaryAddressLength
+            || this.state.thtAddress.length == necessaryAddressLengthWithout0x)
             && !this.state.isRequestSending){
             return true;
         }else{
@@ -75,6 +77,11 @@ class BindPurseScreen extends Component {
 
             var userData = LogicData.getUserData();
 
+            var thtAddress = this.state.thtAddress
+            if (this.state.thtAddress.length == necessaryAddressLengthWithout0x){
+                thtAddress = "0x" + thtAddress
+            }
+
             NetworkModule.fetchTHUrl(
                 NetConstants.CFD_API.BIND_PURSE_ADDRESS,
                 {
@@ -84,11 +91,11 @@ class BindPurseScreen extends Component {
                         'Content-Type': 'application/json; charset=UTF-8'
                     },
                     body: JSON.stringify({
-                        "address": this.state.thtAddress,
+                        "address": thtAddress,
                     }),
                 },
                 (response)=>{
-                    this.props.bindWallet(this.state.thtAddress)
+                    this.props.bindWallet(this.state.thtAddress);
                     var nextView = this.props.navigation.state.params.nextView;
                     this.props.navigation.navigate(nextView, {backFrom: this.props.navigation.state.key});
                 },
