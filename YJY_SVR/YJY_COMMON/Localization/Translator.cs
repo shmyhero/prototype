@@ -78,7 +78,8 @@ namespace YJY_COMMON.Localization
                 .Replace(" TradeHero", string.Empty)
                 .Replace(" Mini", string.Empty)
                 .Replace(" Outright", string.Empty)
-                .Replace(" Spot", string.Empty);//;
+                .Replace(" Spot", string.Empty)
+                .Replace(" (1 EUR Contract)", string.Empty);//;
         }
     }
 }

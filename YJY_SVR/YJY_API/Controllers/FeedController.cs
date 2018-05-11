@@ -55,7 +55,7 @@ namespace YJY_API.Controllers
             }
 
             //get open feeds
-            var openFeedsWhereClause = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value));
+            var openFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value));
             if (olderThan != null) openFeedsWhereClause = openFeedsWhereClause.Where(o => o.CreateTime < olderThan);
             var openFeeds = openFeedsWhereClause
                 .OrderByDescending(o => o.CreateTime).Take(count)
@@ -71,7 +71,7 @@ namespace YJY_API.Controllers
                 .ToList();
 
             //get close feeds
-            var closeFeedsWhereClause = db.Positions.Where(o => feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null);
+            var closeFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null);
             if (olderThan != null) closeFeedsWhereClause = closeFeedsWhereClause.Where(o => o.ClosedAt < olderThan);
             var closeFeeds = closeFeedsWhereClause
                 .OrderByDescending(o => o.ClosedAt).Take(count)
