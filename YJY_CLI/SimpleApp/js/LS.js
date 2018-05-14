@@ -56,7 +56,7 @@ var LS = {
     THURSDAY:["星期四","Thursday"],
     FRIDAY:["星期五","Friday"],
     SATURDAY:["星期六","Saturday"],
-    MAIN:["'首页'","Main"],
+    MAIN:["首页","Main"],
     DYNAMIC:["动态","Dynamic"],
     OPEN:["持仓","Open"],
     CLOSED:["平仓","Close"],

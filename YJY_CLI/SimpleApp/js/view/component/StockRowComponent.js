@@ -14,10 +14,12 @@ var LS = require('../../LS')
 // create a component
 class StockRowComponent extends Component {
     static propTypes = {
+        data: PropTypes.object,
         onPress: PropTypes.func,
     }
 
     static defaultProps = {
+        data: {},
         onPress: ()=>{},
     }
 
