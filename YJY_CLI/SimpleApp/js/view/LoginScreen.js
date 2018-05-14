@@ -191,12 +191,12 @@ class LoginScreen extends Component {
                         <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>
-                <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                {/* <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Text style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</Text>
                     <TouchableOpacity onPress={()=>this.onWechatLogin()}>
                      <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
                     </TouchableOpacity>   
-                </View>    
+                </View>     */}
             </View>
             </ScrollView>  
         );
