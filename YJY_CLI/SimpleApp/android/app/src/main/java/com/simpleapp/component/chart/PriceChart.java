@@ -23,6 +23,7 @@ public class PriceChart extends CombinedChart {
 //    public boolean isAcutal = false;
 
 
+    boolean needReset = true;
     boolean drawDataUnderYAxis = false;
     public PriceChart(Context context) {
         super(context);
@@ -257,5 +258,13 @@ public class PriceChart extends CombinedChart {
             // draw the marker
             mMarker.draw(canvas, pos[0], pos[1]);
         }
+    }
+
+    public boolean getNeedReset(){
+        return needReset;
+    }
+
+    public void setNeedReset(boolean needReset){
+        this.needReset = needReset;
     }
 }

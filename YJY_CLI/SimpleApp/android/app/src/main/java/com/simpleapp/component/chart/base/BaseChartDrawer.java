@@ -9,6 +9,7 @@ import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.ChartDrawerConstants;
+import com.simpleapp.component.chart.PriceChart;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -85,14 +86,24 @@ public abstract class BaseChartDrawer implements IChartDrawer {
 
         }
 
-        resetChart(chart);
+        boolean isReset = false;
+        if(((PriceChart)chart).getNeedReset()) {
+            resetChart(chart);
+            isReset = true;
+        }
 
         CombinedData data = generateData(chart, stockInfoObject, chartDataList);
         calculateAxis(chart, chartDataList, data);
 
         chart.setData(data);
         drawLimitLine(chart, stockInfoObject, chartDataList);
-        calculateZoom(chart, data);
+        if(((PriceChart)chart).getNeedReset()) {
+            calculateZoom(chart, data);
+        }
+
+        if(isReset) {
+            ((PriceChart)chart).setNeedReset(false);
+        }
 
         chart.notifyDataSetChanged();
     }
@@ -112,9 +123,9 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         chart.getAxisRight().removeAllLimitLines();
         chart.resetTracking();
         chart.fitScreen();
-        if (chart.getScaleX() != 1 && chart.getScaleX() > 0) {
-            chart.zoom(1 / chart.getScaleX(), 1, 0, 0);
-        }
+//        if (chart.getScaleX() != 1 && chart.getScaleX() > 0) {
+//            chart.zoom(1 / chart.getScaleX(), 1, 0, 0);
+//        }
     }
 
     /**

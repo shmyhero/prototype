@@ -218,7 +218,7 @@ export default class  RankHeroList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         var offset = this.props.showMeBlock?1:0;
         if(rowID>=3+offset){
-            var colorRoi = rowData.roi > 0?'#ca3538':'green'
+            // var colorRoi = rowData.roi > 0?'#ca3538':'green'
             return( 
                 <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -232,7 +232,7 @@ export default class  RankHeroList extends React.Component {
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, color:colorRoi}}>{(rowData.roi*100).toFixed(2)}%</Text>
+                        <Text style={{fontSize:17, color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(2)}%</Text>
                     </View> 
                 </TouchableOpacity>
             )

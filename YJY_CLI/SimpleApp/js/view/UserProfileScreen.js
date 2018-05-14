@@ -43,6 +43,8 @@ export default class  UserProfileScreen extends React.Component {
       picUrl:'',
       nickName:this.props.navigation.state.params.userData.nickName,
       userId:this.props.navigation.state.params.userData.userId,
+      followTraderCount:'0',
+      followerCount:'0',
     };  
 
   }
@@ -83,6 +85,8 @@ export default class  UserProfileScreen extends React.Component {
                     isFollowing: responseJson.isFollowing,
                     followTrade: responseJson.followTrade,
                     picUrl:responseJson.picUrl, 
+                    followerCount:responseJson.followerCount,
+                    followTraderCount:responseJson.followTraderCount
                   });  
               },
               (exception) => {
@@ -212,7 +216,17 @@ export default class  UserProfileScreen extends React.Component {
     return (
       <View style={styles.mainContainer}>
           <NavBar title={this.state.nickName} rightCustomContent={this.rightCustomContent.bind(this)} showBackButton={true} navigation={this.props.navigation}/>
-          <Image style={{width:80,height:80,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
+          <View style={{flexDirection:'row',justifyContent:'center'}}>
+              <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text style={styles.textNum}>{this.state.followerCount}</Text>
+                <Text style={styles.textName}>{LS.str('WATCHS')}</Text>
+              </View>
+            <Image style={{width:80,height:80,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
+                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                <Text style={styles.textNum}>{this.state.followTraderCount}</Text>
+                <Text style={styles.textName}>{LS.str('COPYS')}</Text>
+              </View>
+          </View>  
           {this.renderContent()}
       </View>
       
@@ -225,6 +239,14 @@ const styles = StyleSheet.create({
       flex:1,
       backgroundColor:ColorConstants.BGBLUE
   },
+  textNum:{
+    fontSize:32,
+    color:'white'
+  },
+  textName:{
+    fontSize:12,
+    color:'#eeeeee'
+  }
 })
 
 module.exports = UserProfileScreen;

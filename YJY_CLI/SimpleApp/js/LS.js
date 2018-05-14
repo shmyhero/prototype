@@ -56,7 +56,7 @@ var LS = {
     THURSDAY:["星期四","Thursday"],
     FRIDAY:["星期五","Friday"],
     SATURDAY:["星期六","Saturday"],
-    MAIN:["'首页'","Main"],
+    MAIN:["首页","Main"],
     DYNAMIC:["动态","Dynamic"],
     OPEN:["持仓","Open"],
     CLOSED:["平仓","Close"],
@@ -92,6 +92,9 @@ var LS = {
     SHARE:["分享","Share"],
     NO_DYNAMIC:["暂无动态","No Data"],
     NO_COPY:["没有跟随记录","No Copy"],
+    WATCHS:["关注数","Watch"],
+    COPYS:["跟随数","Copy"],
+    
     
     
     

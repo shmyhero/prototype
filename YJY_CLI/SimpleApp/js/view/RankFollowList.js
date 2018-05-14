@@ -110,7 +110,7 @@ export default class  RankFollowList extends React.Component {
                         </View>
                     </View>
                     <View style={{marginRight:15}}>
-                        <Text style={{fontSize:17, color:'#ca3538'}}>{rowData.roi.toFixed(2)}%</Text>
+                        <Text style={{fontSize:17, color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
                     </View> 
                 </TouchableOpacity>
             )

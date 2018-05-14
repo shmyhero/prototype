@@ -56,7 +56,7 @@ Date.prototype.getDateString = function(){
   }
 
 
-  Date.prototype.getDateSimpleString = function(){
+Date.prototype.getDateSimpleString = function(){
     var hour = this.getHours();
     var minute = this.getMinutes(); 
         
@@ -68,29 +68,29 @@ Date.prototype.getDateString = function(){
     }
     today = hour+':'+minute
     return today;
+}
+
+
+
+Date.prototype.getDateFullString = function(){
+    var weekday = new Array("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
+    var day = LS.str(weekday[this.getDay()]);//当前系统天数0-6 
+
+    var dd = this.getDate();
+    var mm = this.getMonth()+1; //January is 0!
+    var yyyy = this.getFullYear();
+    var dayName = this.get
+    if(dd<10) {
+        dd='0'+dd
+    }
+    if(mm<10) {
+        mm='0'+mm
     }
 
-
-
-    Date.prototype.getDateFullString = function(){
-        var weekday = new Array("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
-        var day = LS.str(weekday[this.getDay()]);//当前系统天数0-6 
-
-        var dd = this.getDate();
-        var mm = this.getMonth()+1; //January is 0!
-        var yyyy = this.getFullYear();
-        var dayName = this.get
-        if(dd<10) {
-            dd='0'+dd
-        }
-        if(mm<10) {
-            mm='0'+mm
-        }
-
-         
-        today = yyyy+"."+mm+"."+dd+" " + day;
-        return today;
-      }
+        
+    today = yyyy+"."+mm+"."+dd+" " + day;
+    return today;
+}
 
 
  
