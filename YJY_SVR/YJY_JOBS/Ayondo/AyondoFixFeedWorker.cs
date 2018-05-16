@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading;
 using Microsoft.Owin.Hosting;
@@ -61,6 +62,7 @@ namespace YJY_JOBS.Ayondo
             // for more information.
             string url = "http://*:39680";
             var start = WebApp.Start(url);
+            Trace.Listeners.Remove("HostingTraceListener");//remove the trace listener that OWIN added
             Console.WriteLine("Server running on {0}", url);
             //Console.ReadLine();
 
@@ -139,7 +141,7 @@ namespace YJY_JOBS.Ayondo
                             redisQuoteClient.StoreAll(distinctQuotes);
                         }
 
-                        YJYGlobal.LogLine("Count: " + distinctQuotes.Count + "/" + quotes.Count + " (distinct/raw) "
+                        YJYGlobal.LogLine("Quote: " + distinctQuotes.Count + "/" + quotes.Count + " (distinct/raw) "
                                           + " Time: " +
                                           quotes.Min(o => o.Time).ToString(YJYGlobal.DATETIME_MASK_MILLI_SECOND)
                                           + " ~ " +
@@ -193,7 +195,7 @@ namespace YJY_JOBS.Ayondo
                                     //update open/close time/price depending on state change
                                     if (old.QuoteType != enmQuoteType.Closed && newProdDef.QuoteType == enmQuoteType.Closed) //xxx -> close
                                     {
-                                        YJYGlobal.LogLine("PROD CLOSED " + newProdDef.Id + " time: " + newProdDef.Time +
+                                        YJYGlobal.LogLine("PROD CLOSED " + newProdDef.Id + " " + newProdDef.Name + " time: " + newProdDef.Time +
                                                           " offer: " + newProdDef.Offer + " bid: " + newProdDef.Bid);
                                         
                                         old.LastClose = newProdDef.Time;
@@ -201,9 +203,8 @@ namespace YJY_JOBS.Ayondo
                                     else if (old.QuoteType != enmQuoteType.Open && old.QuoteType != enmQuoteType.PhoneOnly &&
                                              (newProdDef.QuoteType == enmQuoteType.Open || newProdDef.QuoteType == enmQuoteType.PhoneOnly)) //xxx -> open/phone
                                     {
-                                        YJYGlobal.LogLine("PROD OPENED " + newProdDef.Id + " time: " +
-                                                          newProdDef.Time + " offer: " + newProdDef.Offer + " bid: " +
-                                                          newProdDef.Bid);
+                                        YJYGlobal.LogLine("PROD OPENED " + newProdDef.Id + " " + newProdDef.Name + " time: " + newProdDef.Time +
+                                                        " offer: " + newProdDef.Offer + " bid: " + newProdDef.Bid);
 
                                         //open time
                                         old.LastOpen = newProdDef.Time;
@@ -334,7 +335,7 @@ namespace YJY_JOBS.Ayondo
                                 if (prodDef.QuoteType != enmQuoteType.Open &&
                                     prodDef.QuoteType != enmQuoteType.PhoneOnly) //not open not phoneOnly
                                 {
-                                    YJYGlobal.LogLine("SaveRawTicks: prod not opening. tick ignored. " + prodDef.Id + " " +
+                                    YJYGlobal.LogLine("\tSaveRawTicks: prod not opening. tick ignored. " + prodDef.Id + " " +
                                                       prodDef.Name);
                                     continue;
                                 }
