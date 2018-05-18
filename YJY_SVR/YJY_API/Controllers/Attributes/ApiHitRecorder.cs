@@ -84,66 +84,83 @@ namespace YJY_API.Controllers.Attributes
         {
             base.OnActionExecuted(actionExecutedContext);
 
-            var controller = (YJYController)actionExecutedContext.ActionContext.ControllerContext.Controller;
-
-            var startAt = controller.RequestStartAt;
-            var timeSpent = (DateTime.UtcNow - startAt).TotalMilliseconds;
-
-            var httpMethod = actionExecutedContext.Request.Method.Method;
-
-            int? userId;
             try
             {
-                userId = controller.UserId;
+                var controller = (YJYController) actionExecutedContext.ActionContext.ControllerContext.Controller;
+
+                var startAt = controller.RequestStartAt;
+                var timeSpent = (DateTime.UtcNow - startAt).TotalMilliseconds;
+
+                var httpMethod = actionExecutedContext.Request.Method.Method;
+
+                int? userId;
+                try
+                {
+                    userId = controller.UserId;
+                }
+                catch (Exception)
+                {
+                    userId = null;
+                }
+
+                var isException = actionExecutedContext.Exception != null;
+
+                var param = JsonConvert.SerializeObject(actionExecutedContext.ActionContext.ActionArguments);
+
+                string ip = null;
+                if (actionExecutedContext.Request.Properties.ContainsKey("MS_HttpContext"))
+                {
+                    var requestBase =
+                        ((HttpContextWrapper) actionExecutedContext.Request.Properties["MS_HttpContext"]).Request;
+                    ip = requestBase.UserHostAddress;
+                }
+
+                var httpActionDescriptor =
+                    (ReflectedHttpActionDescriptor) actionExecutedContext.ActionContext.ActionDescriptor;
+                var methodInfo = httpActionDescriptor.MethodInfo.ToString().Trim('{', '}');
+                var methodName = methodInfo.Substring(methodInfo.IndexOf(' ') + 1);
+                var controllerName = actionExecutedContext.ActionContext.ControllerContext.Controller.ToString();
+
+                var reqHeader =
+                    actionExecutedContext.Request.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value))
+                        .Aggregate((o, n) => o + System.Environment.NewLine + n);
+                var responseHeader =
+                    actionExecutedContext.Response.Content.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value))
+                        .Aggregate((o, n) => o + System.Environment.NewLine + n);
+
+                var apiHit = new ApiHit()
+                {
+                    HitAt = startAt,
+                    HttpMethod = httpMethod.TruncateMax(20),
+                    ApiName = (controllerName + '.' + methodName).TruncateMax(200),
+                    Ip = ip,
+                    IsException = isException,
+                    Param = param.TruncateMax(1000),
+                    TimeSpent = timeSpent,
+                    Url = actionExecutedContext.Request.RequestUri.AbsoluteUri.TruncateMax(200),
+                    UserId = userId,
+                    RequestHeader = reqHeader.TruncateMax(1000),
+                    ResponseHeader = responseHeader.TruncateMax(1000),
+                };
+
+                if (apiHit.IsException == true)
+                    apiHit.Exception = actionExecutedContext.Exception.Message + Environment.NewLine +
+                                       actionExecutedContext.Exception.StackTrace;
+
+                if (apiHit.HttpMethod != "GET")
+                    apiHit.ResponseContent =
+                        actionExecutedContext.Response.Content.ReadAsStringAsync().Result.TruncateMax(1000);
+
+                ////too many spam logs
+                //if (apiHit.Url.Contains("api/sendCode"))
+                //    return;
+
+                ApiHitsQueue.Enqueue(apiHit);
             }
-            catch (Exception)
+            catch (Exception e)
             {
-                userId = null;
+                YJYGlobal.LogExceptionAsWarning(e);
             }
-
-            var isException = actionExecutedContext.Exception != null;
-
-            var param = JsonConvert.SerializeObject(actionExecutedContext.ActionContext.ActionArguments);
-
-            string ip = null;
-            if (actionExecutedContext.Request.Properties.ContainsKey("MS_HttpContext"))
-            {
-                var requestBase = ((HttpContextWrapper)actionExecutedContext.Request.Properties["MS_HttpContext"]).Request;
-                ip = requestBase.UserHostAddress;
-            }
-
-            var httpActionDescriptor = (ReflectedHttpActionDescriptor)actionExecutedContext.ActionContext.ActionDescriptor;
-            var methodInfo = httpActionDescriptor.MethodInfo.ToString().Trim('{', '}');
-            var methodName = methodInfo.Substring(methodInfo.IndexOf(' ') + 1);
-            var controllerName = actionExecutedContext.ActionContext.ControllerContext.Controller.ToString();
-
-            var reqHeader = actionExecutedContext.Request.Headers.Select(o=>o.Key+":"+string.Join(",",o.Value)).Aggregate((o, n) => o + System.Environment.NewLine + n);
-            var responseHeader = actionExecutedContext.Response.Content.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value)).Aggregate((o, n) => o + System.Environment.NewLine + n);
-
-            var apiHit = new ApiHit()
-            {
-                HitAt = startAt,
-                HttpMethod = httpMethod.TruncateMax(20),
-                ApiName = (controllerName + '.' + methodName).TruncateMax(200),
-                Ip = ip,
-                IsException = isException,
-                Param = param.TruncateMax(1000),
-                TimeSpent = timeSpent,
-                Url = actionExecutedContext.Request.RequestUri.AbsoluteUri.TruncateMax(200),
-                UserId = userId,
-                RequestHeader = reqHeader.TruncateMax(1000),
-                ResponseHeader = responseHeader.TruncateMax(1000),
-            };
-
-            if (apiHit.HttpMethod != "GET")
-                apiHit.ResponseContent =
-                    actionExecutedContext.Response.Content.ReadAsStringAsync().Result.TruncateMax(1000);
-
-            ////too many spam logs
-            //if (apiHit.Url.Contains("api/sendCode"))
-            //    return;
-
-            ApiHitsQueue.Enqueue(apiHit);
         }
     }
 }
