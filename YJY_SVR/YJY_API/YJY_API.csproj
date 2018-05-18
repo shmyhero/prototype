@@ -180,6 +180,10 @@
     <Reference Include="System.Configuration" />
     <Reference Include="System.Web.Services" />
     <Reference Include="System.EnterpriseServices" />
+    <Reference Include="Z.EntityFramework.Extensions, Version=3.14.26.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
+      <HintPath>..\packages\Z.EntityFramework.Extensions.3.14.26\lib\net45\Z.EntityFramework.Extensions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Z.EntityFramework.Plus.EF6, Version=1.7.14.0, Culture=neutral, PublicKeyToken=59b66d028979105b, processorArchitecture=MSIL">
       <HintPath>..\packages\Z.EntityFramework.Plus.EF6.1.7.14\lib\net45\Z.EntityFramework.Plus.EF6.dll</HintPath>
       <Private>True</Private>
@@ -240,6 +244,7 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Caching\WebCache.cs" />
     <Compile Include="Caching\WebCacheInstance.cs" />
+    <Compile Include="Controllers\Attributes\ApiHitRecorder.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\Attributes\CultureHandler.cs" />
     <Compile Include="Controllers\CallbackController.cs" />

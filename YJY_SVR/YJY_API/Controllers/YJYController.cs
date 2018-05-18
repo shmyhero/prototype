@@ -63,6 +63,8 @@ namespace YJY_API.Controllers
             //get; set;
         }
 
+        internal DateTime RequestStartAt { get; set; }
+
         public User GetUser()
         {
             return db.Users.FirstOrDefault(o => o.Id == UserId);

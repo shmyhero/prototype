@@ -94,8 +94,11 @@
     <Compile Include="Model\Cache\ProdDef.cs" />
     <Compile Include="Model\Cache\Quote.cs" />
     <Compile Include="Model\Cache\Tick.cs" />
+    <Compile Include="Model\Context\YJYHistoryEntities.cs" />
+    <Compile Include="Model\Context\YJYHistoryEntitiesFactory.cs" />
     <Compile Include="Model\Context\YJYEntitiesFactory.cs" />
     <Compile Include="Model\Context\YJYEntities.cs" />
+    <Compile Include="Model\Entity\ApiHit.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
     <Compile Include="Model\Entity\Position.cs" />
     <Compile Include="Model\Entity\Status.cs" />

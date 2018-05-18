@@ -1,14 +1,16 @@
-namespace YJY_COMMON.Model.Entity
+using YJY_COMMON.Model.Entity;
+
+namespace YJY_COMMON.Model.Context
 {
     using System;
     using System.Data.Entity;
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Linq;
 
-    public partial class Model1 : DbContext
+    public partial class YJYHistoryEntities : DbContext
     {
-        public Model1()
-            : base("name=Model1")
+        public YJYHistoryEntities()
+            : base("name=YJYHistoryEntities")
         {
         }
 
@@ -16,6 +18,7 @@ namespace YJY_COMMON.Model.Entity
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            
         }
     }
 }
