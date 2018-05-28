@@ -33,5 +33,12 @@ namespace YJY_API.Controllers
                 + " -- DB=[" + dbName + "]"
                 );
         }
+
+        [HttpGet]
+        [Route("error")]
+        public HttpResponseMessage GetError()
+        {
+            throw new NullReferenceException();
+        }
     }
 }

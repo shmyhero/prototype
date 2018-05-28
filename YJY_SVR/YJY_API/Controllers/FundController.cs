@@ -111,7 +111,7 @@ namespace YJY_API.Controllers
         public ResultDTO NewTHTWithdrawal(NewTHTWithdrawalFormDTO form)
         {
             var fundService = new FundService(db);
-            var withdrawalId = fundService.NewTHTWithdrawal(UserId,form.amount);
+            var withdrawalId = fundService.NewTHTWithdrawal(UserId, form.amount);
 
             var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == withdrawalId);
 

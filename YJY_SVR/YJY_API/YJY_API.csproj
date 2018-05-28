@@ -55,6 +55,10 @@
       <HintPath>..\packages\AutoMapper.6.2.2\lib\net45\AutoMapper.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Elmah, Version=1.2.14706.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\elmah.corelibrary.1.2.2\lib\Elmah.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.1.3\lib\net45\EntityFramework.dll</HintPath>
       <Private>True</Private>
@@ -247,6 +251,7 @@
     <Compile Include="Controllers\Attributes\ApiHitRecorder.cs" />
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\Attributes\CultureHandler.cs" />
+    <Compile Include="Controllers\Attributes\Elmah.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\FundController.cs" />

@@ -17,6 +17,7 @@ namespace YJY_API
             WebApiConfig.ConfigureJSONFormatter(GlobalConfiguration.Configuration);
             WebApiConfig.ConfigureDependencyResolver(GlobalConfiguration.Configuration);
 
+            GlobalConfiguration.Configuration.Filters.Add(new ElmahHandledErrorLoggerFilter());
             GlobalConfiguration.Configuration.Filters.Add(new ApiHitRecorder());
 
             GlobalConfiguration.Configuration.MessageHandlers.Add(new CultureHandler());

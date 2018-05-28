@@ -125,7 +125,7 @@ namespace YJY_API.Controllers.Attributes
                     actionExecutedContext.Request.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value))
                         .Aggregate((o, n) => o + System.Environment.NewLine + n);
                 var responseHeader =
-                    actionExecutedContext.Response.Content.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value))
+                    actionExecutedContext.Response?.Content.Headers.Select(o => o.Key + ":" + string.Join(",", o.Value))
                         .Aggregate((o, n) => o + System.Environment.NewLine + n);
 
                 var apiHit = new ApiHit()
@@ -144,8 +144,8 @@ namespace YJY_API.Controllers.Attributes
                 };
 
                 if (apiHit.IsException == true)
-                    apiHit.Exception = actionExecutedContext.Exception.Message + Environment.NewLine +
-                                       actionExecutedContext.Exception.StackTrace;
+                    apiHit.Exception = (actionExecutedContext.Exception.Message + Environment.NewLine +
+                                       actionExecutedContext.Exception.StackTrace).TruncateMax(1000);
 
                 if (apiHit.HttpMethod != "GET")
                     apiHit.ResponseContent =
