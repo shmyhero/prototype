@@ -23,6 +23,7 @@ export default class  ScrollTabView extends React.Component {
 
 	static propTypes = {
 		tabNames: PropTypes.array,
+		renderTabView: PropTypes.func,
 		viewPages: PropTypes.any,
 		onPageSelected: PropTypes.func,
 		tabBgStyle: PropTypes.any,
@@ -86,28 +87,42 @@ export default class  ScrollTabView extends React.Component {
 		}
 	}
 
-	renderTabs () { 
-		var tabs = this.props.tabNames.map(
-			(tabName, i) =>
-			<TouchableHighlight style={[styles.tabItemContainer,
-				{width: width / this.props.tabNames.length,
-				 paddingBottom: 10,
-				}
-			]} key={i}
-					underlayColor={'#00000000'}
-					onPress={() => this.tabClicked(i)}>
- 
-				<ImageBackground style={{width:80,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
-					<Text style={this.state.currentSelectedTab == i ? (this.props.tabBgStyle==0?styles.tabItemTextSelected:[styles.tabItemTextUnSelected]): (this.props.tabBgStyle==0?[styles.tabItemTextUnSelected]:styles.tabItemTextSelected)}>
-						{tabName}
-					</Text>
-				</ImageBackground> 
-			</TouchableHighlight>
-		)
-
+	renderTabs () {
+		if(this.props.renderTabView){
+			var tabs = this.props.tabNames.map(
+				(tabName, i) =>
+					<TouchableHighlight style={[
+						//styles.tabItemContainer,
+							{width: width / this.props.tabNames.length,
+							}
+						]} key={i}
+						underlayColor={'#00000000'}
+						onPress={() => this.tabClicked(i)}>
+						{this.props.renderTabView(tabName, this.state.currentSelectedTab == i)}
+					</TouchableHighlight>
+			)
+		}else{
+			var tabs = this.props.tabNames.map(
+				(tabName, i) =>
+				<TouchableHighlight style={[styles.tabItemContainer,
+					{width: width / this.props.tabNames.length,
+					 paddingBottom: 10,
+					}
+				]} key={i}
+						underlayColor={'#00000000'}
+						onPress={() => this.tabClicked(i)}>
+	 
+					<ImageBackground style={{width:80,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
+						<Text style={this.state.currentSelectedTab == i ? (this.props.tabBgStyle==0?styles.tabItemTextSelected:[styles.tabItemTextUnSelected]): (this.props.tabBgStyle==0?[styles.tabItemTextUnSelected]:styles.tabItemTextSelected)}>
+							{tabName}
+						</Text>
+					</ImageBackground> 
+				</TouchableHighlight>
+			)
+		}
 		return (
 			<View>
-				<ScrollView horizontal={true} style={[styles.tabs, {paddingTop:10,backgroundColor: 'transparent'}]}>
+				<ScrollView horizontal={true} style={[styles.tabs, {backgroundColor: 'transparent'}]}>
 					{tabs}
 				</ScrollView>
 			</View>

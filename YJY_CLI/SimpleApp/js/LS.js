@@ -112,6 +112,7 @@ var LS = {
     POSITION_TAKE_PROFIT:['获利','Take Profit'],
     POSITION_CONFIRM: ['确认','OK'],
     POSITION_SETTED:['已设置','Setted'],
+    POSITION_COPY_TRADE:["跟随: {1}","Copying: {1}"],
     TAKE_PROFIT: ['止盈','Take Profit'],
     STOP_LOSS: ['止损','Stop loss'],
     TAKE_PROFIT_STOP_LOSS_TITLE:['止盈/止损','Profit / Loss'],
@@ -163,7 +164,7 @@ var LS = {
     ORDER_TYPE:['类型','type'],
     ORDER_SUGAR_AMOUNT: ["糖果", "Candy"],
     ORDER_MULTIPLE: ["倍数", "Multiple"],
-    ORDER_TRADE_PRICE: ["交易价格", "Trade Price"],
+    ORDER_TRADE_PRICE: ["开仓价格", "Trade Price"],
     ORDER_MAX_RISK: ["最大风险（糖果）", "Maximum Risk"],
     ORDER_PROFIT_AND_LOSS: ["盈亏（糖果）", "Profit / loss (Candy)"],
     

@@ -351,8 +351,9 @@ export default class  MyPositionTabClosed extends React.Component {
 		var closeDate = new Date(rowData.closedAt)
 		console.log("closeDate ", closeDate);
 
+		var rowHeight = rowData.followUser ? extendHeight + FOLLOW_ROW_HEIGHT : extendHeight
 		return (
-			<View style={[{height: extendHeight}, styles.extendWrapper]} >
+			<View style={[{height: rowHeight}, styles.extendWrapper]} >
 				<View style={[styles.darkSeparator]} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
@@ -365,7 +366,7 @@ export default class  MyPositionTabClosed extends React.Component {
 					</View>
 					<View style={styles.extendRight}>
 						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
-						<Text style={styles.extendTextBottom}>x{rowData.leverage}</Text>
+						<Text style={styles.extendTextBottom}>{"x"+rowData.leverage}</Text>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
@@ -395,6 +396,8 @@ export default class  MyPositionTabClosed extends React.Component {
 						<Text style={styles.extendTextBottom}>{closeDate.Format('hh:mm')}</Text>
 					</View>
 				</View>
+				<View style={styles.darkSeparator} />
+				{this.renderFollowRow(rowData)}
 			</View>
 		);
 	}
@@ -402,15 +405,17 @@ export default class  MyPositionTabClosed extends React.Component {
 	renderFollowRow(rowData){
 		if(rowData.followUser){
 			return (
-				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
-					<Image source={{uri:rowData.followUser.picUrl}} 
-						style={{height:40,width:40, borderRadius:20}}></Image>
-					<Text style={{marginLeft:10}}>{rowData.followUser.nickname}</Text>
-					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
+				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT, justifyContent:'center', alignItems:'center'}]}>
+					<View style={{justifyContent:'center', alignItems:'center'}}>
+						<Text style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</Text>					
+						<Image source={{uri:rowData.followUser.picUrl}} 
+							style={{height:20,width:20, borderRadius:10}}></Image>
+					</View>
+					{/* <ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
 						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
 						</View>
-					</ImageBackground>
+					</ImageBackground> */}
 				</View>
 			)
 		}else{
@@ -432,7 +437,6 @@ export default class  MyPositionTabClosed extends React.Component {
 			<View style={styles.rowContainer}>
 				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
 					<View >
-						{this.renderFollowRow(rowData)}
 						<View style={[styles.rowWrapper]} key={rowData.key}>
 							<View style={styles.rowLeftPart}>
 								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
@@ -628,7 +632,6 @@ var styles = StyleSheet.create({
 	},
 
 	darkSeparator: {
-		marginLeft: 15,
 		height: 0.5,
 		backgroundColor: '#dfdfdf',
 	},

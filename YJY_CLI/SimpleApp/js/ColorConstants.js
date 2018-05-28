@@ -15,6 +15,8 @@ var colors = {
 	BACKGROUND_GREY: '#f0f0f0',
 	STOCK_RISE_RED: '#cc3333',
 	STOCK_DOWN_GREEN: '#428e1b',
+	STOCK_RISE: '#428e1b',
+	STOCK_DOWN: '#cc3333',
 	STOCK_UNCHANGED_GRAY: '#999999',
 	LIST_BACKGROUND_GREY: '#f0eff5',
 	SEPARATOR_GRAY: '#ececec',
@@ -34,10 +36,10 @@ var colors = {
 
 	stock_color: function(change) {
 		if (change > 0) {
-			return this.STOCK_RISE_RED
+			return this.STOCK_RISE
 		}
 		else if (change < 0) {
-			return this.STOCK_DOWN_GREEN
+			return this.STOCK_DOWN
 		}
 		else {
 			return this.STOCK_UNCHANGED_GRAY
