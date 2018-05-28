@@ -50,8 +50,14 @@ export default class App extends React.Component {
   }
 
   startupJobs(){
-    var locale = Locale.constants().localeIdentifier;
-    console.log("locale", locale);
+    var localConstants = Locale.constants();
+    var locale = localConstants.localeIdentifier;
+    if(Platform.OS == "ios"){
+      var language;
+      if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
+        locale = localConstants.preferredLanguages[0];
+      }
+    }
     LogicData.setLanguage(locale);
 
     StorageModule.loadUserData().then((data)=>{
