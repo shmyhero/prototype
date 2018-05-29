@@ -126,15 +126,20 @@ export default class TradeStyleBlock extends Component {
     return (
       <View style={[styles.container, this.props.style]}>
 
-        <View style={styles.titleRow}>
+        {/* <View style={styles.titleRow}>
           <Text style={styles.titleText}>{strJYFG}</Text>
-        </View>
+        </View> */}
 				 
-        <View style={styles.contentRow}>
-            <View style={styles.contentBlock}>
+         <View style={styles.contentRow}>
+           {/* <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strZSL}</Text>
             <Text style={styles.contentValueBlock}>{this.state.totalWinRate}</Text>
-           </View>
+           </View>   */}
+
+           <View style={styles.contentBlock}>
+            <Text style={styles.contentTitleBlock}>{strPJCCSJ}</Text>
+            <Text style={styles.contentValueBlock}>{this.state.averageOpenTime}</Text>
+          </View>
 
            <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strPJMBHL}</Text>

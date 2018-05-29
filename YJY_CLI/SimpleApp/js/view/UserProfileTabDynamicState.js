@@ -245,7 +245,8 @@ export default class  UserProfileTabDynamicState extends React.Component {
 const styles = StyleSheet.create({
    container:{
       flex:1,
-      backgroundColor:'white'
+			backgroundColor:ColorConstants.BGBLUE,
+			marginTop:10,
    },
    topHead:{
      backgroundColor:ColorConstants.BGBLUE,
