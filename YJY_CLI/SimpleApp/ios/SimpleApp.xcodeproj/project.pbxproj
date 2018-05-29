@@ -24,6 +24,7 @@
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		16944A88429D421D8BE9A993 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EF178894B564C6884768377 /* libc++.tbd */; };
 		23987F301FA07BAA0016C95F /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		23E327F620BBE793002B8F88 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E327C820BBE750002B8F88 /* libART.a */; };
 		2D02E4BC1E0B4A80006451C7 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.m */; };
 		2D02E4BD1E0B4A84006451C7 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		2D02E4BF1E0B4AB3006451C7 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
@@ -173,6 +174,20 @@
 			proxyType = 2;
 			remoteGlobalIDString = 3D383D621EBD27B9005632C8;
 			remoteInfo = "double-conversion-tvOS";
+		};
+		23E327C720BBE750002B8F88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23E327C220BBE750002B8F88 /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0CF68AC11AF0540F00FF9E5C;
+			remoteInfo = ART;
+		};
+		23E327C920BBE750002B8F88 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 23E327C220BBE750002B8F88 /* ART.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 323A12871E5F266B004975B8;
+			remoteInfo = "ART-tvOS";
 		};
 		2D02E4911E0B4A5D006451C7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -400,6 +415,7 @@
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = SimpleApp/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1EF178894B564C6884768377 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		23E327C220BBE750002B8F88 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
 		2D02E47B1E0B4A5D006451C7 /* SimpleApp-tvOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SimpleApp-tvOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D02E4901E0B4A5D006451C7 /* SimpleApp-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "SimpleApp-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D2157F4209C113F008C8CDE /* StockChartViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StockChartViewManager.h; path = SimpleApp/StockChartViewManager.h; sourceTree = "<group>"; };
@@ -446,6 +462,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				23E327F620BBE793002B8F88 /* libART.a in Frameworks */,
 				3D306A7A20A54E5100929EFF /* libRCTToast.a in Frameworks */,
 				3D21586320A2E7BA008C8CDE /* libRCTLocale.a in Frameworks */,
 				41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */,
@@ -612,6 +629,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		23E327C320BBE750002B8F88 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				23E327C820BBE750002B8F88 /* libART.a */,
+				23E327CA20BBE750002B8F88 /* libART-tvOS.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		3D2157CA209C0D2A008C8CDE /* Swift */ = {
 			isa = PBXGroup;
 			children = (
@@ -714,6 +740,7 @@
 		832341AE1AAA6A7D00B99B32 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				23E327C220BBE750002B8F88 /* ART.xcodeproj */,
 				3D306A7420A54B6700929EFF /* RCTToast.xcodeproj */,
 				3D21583420A2E7A2008C8CDE /* RCTLocale.xcodeproj */,
 				41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */,
@@ -894,6 +921,10 @@
 			productRefGroup = 83CBBA001A601CBA00E9B192 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 23E327C320BBE750002B8F88 /* Products */;
+					ProjectRef = 23E327C220BBE750002B8F88 /* ART.xcodeproj */;
+				},
 				{
 					ProductGroup = 41F8784A2092E60A005D04CF /* Products */;
 					ProjectRef = 41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */;
@@ -1077,6 +1108,20 @@
 			fileType = archive.ar;
 			path = "libdouble-conversion.a";
 			remoteRef = 23987F581FA07BAA0016C95F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		23E327C820BBE750002B8F88 /* libART.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libART.a;
+			remoteRef = 23E327C720BBE750002B8F88 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		23E327CA20BBE750002B8F88 /* libART-tvOS.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = "libART-tvOS.a";
+			remoteRef = 23E327C920BBE750002B8F88 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		3D21584520A2E7A2008C8CDE /* libRCTLocale.a */ = {

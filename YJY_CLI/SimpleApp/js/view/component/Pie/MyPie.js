@@ -6,7 +6,7 @@ import {
   View,
   StyleSheet,
 } from 'react-native';
-import Pie from 'react-native-pie'
+import Pie from './Pie';
 
 
 export default class  MyPie extends React.Component {
@@ -17,6 +17,9 @@ export default class  MyPie extends React.Component {
         series: PropTypes.array,
         colors:  PropTypes.array,
         innerText:  PropTypes.string,
+        series2: PropTypes.array,
+        colors2:  PropTypes.array,
+        show2Circle:PropTypes.bool,
     }
 
     static defaultProps = {
@@ -24,6 +27,8 @@ export default class  MyPie extends React.Component {
         innerRadius:0,
         series:[10, 20, 30, 40],
         colors:['red', 'lime', 'blue', 'yellow'],
+        series2:[10, 20, 30, 40],
+        colors2:['red', 'lime', 'blue', 'yellow'],
         innerText:'',
     }
 
@@ -32,7 +37,10 @@ export default class  MyPie extends React.Component {
         innerRadius = this.props.innerRadius||0;
         series = this.props.series;
         colors = this.props.colors;
+        series2 = this.props.series2;
+        colors2 = this.props.colors2;
         innerText = this.props.innerText;
+        show2Circle = this.props.show2Circle;
 
         length = series.length;
         sum = 0;
@@ -44,19 +52,34 @@ export default class  MyPie extends React.Component {
             series[j] = series[j]/sum*100;
         }
 
+        length2 = series2.length;
+        sum2 = 0;
+        for(i = 0;i<length2;i++){
+            sum2 += series2[i];
+        }
+
+        for(j = 0;j<length2;j++){
+            series2[j] = series2[j]/sum2*100;
+        }
+
+        var topFontSize = 24;
+        var topOffSet = radius - topFontSize;
+         
 
         return (
-            <View style={{justifyContent:'center',alignItems:'center'}}>
-                    <Pie
-                        radius={radius}
-                        innerRadius={innerRadius}
-                        series={series}
-                        colors={colors}
-                    >
-                    </Pie>
-                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style = {{color:'white',height:radius*2,fontSize:12,marginBottom:12,}}>{innerText}</Text>
-                    </View>
+            <View style={{justifyContent:'center',alignItems:'center'}} >
+                    <View>
+                        <Pie 
+                            radius={radius}
+                            innerRadius={innerRadius}
+                            series={series}
+                            colors={colors} 
+                            series2={series2}
+                            colors2={colors2}   
+                        />  
+                    </View> 
+                    <Text style={{fontSize:topFontSize, position:'absolute',top:topOffSet}}>48</Text>
+                    <Text style={{fontSize:topFontSize-4, position:'absolute',top:radius}}>TRADES</Text>
             </View>
         );
     }
