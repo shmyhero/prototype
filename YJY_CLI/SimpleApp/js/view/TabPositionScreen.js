@@ -18,6 +18,8 @@ var ScrollTabView = require('./component/ScrollTabView')
 var MyPositionTabHold = require('./MyPositionTabHold')  
 var MyPositionTabClosed = require('./MyPositionTabClosed')  
 var MyPositionTabStatistics = require('./MyPositionTabStatistics')  
+import TraingleShapeTabBarItem from './component/TriangleShapeTabBarItem';
+
 var {height,width} = Dimensions.get('window');
 var LS = require('../LS')
 import LoginScreen from './LoginScreen';
@@ -49,12 +51,12 @@ class TabPositionScreen extends Component {
 
   refresh(){
     if(!LogicData.isLoggedIn()){
-      StatusBar.setBarStyle("light-content");
+      //StatusBar.setBarStyle("light-content");
       this.setState({
         userLoggedin: false,
       })
     }else{
-      StatusBar.setBarStyle("dark-content");
+      //StatusBar.setBarStyle("dark-content");
       //TODO: the refresh jobs
       this.setState({
         userLoggedin: true,
@@ -90,10 +92,14 @@ class TabPositionScreen extends Component {
       var tabPages = [ 
         <MyPositionTabHold navigation={this.props.navigation} ref={'page0'}/>,
         <MyPositionTabClosed navigation={this.props.navigation} ref={'page1'}/>,
-        <MyPositionTabStatistics navigation={this.props.navigation} ref={'page2'}/>,
+        // <MyPositionTabStatistics navigation={this.props.navigation} ref={'page2'}/>,
       ]
   
-      var tabNameShow = [LS.str('OPEN'),LS.str('CLOSED'),LS.str('STATISTICS')]
+      var tabNameShow = [
+        LS.str('OPEN'),
+        LS.str('CLOSED'),
+        //LS.str('STATISTICS')
+      ]
   
       var viewPages = tabNameShow.map(
         (tabNameShow, i) =>
@@ -106,12 +112,20 @@ class TabPositionScreen extends Component {
   
       return ( 
         <View style={styles.mainContainer}>
-          <NavBar onlyShowStatusBar={true}/>
-          <View style={{flex: 1, marginTop:0,backgroundColor:'transparent'}}>
+ 
+          <NavBar onlyShowStatusBar={true} backgroundColor={ColorConstants.COLOR_MAIN_THEME_BLUE}/>
+          <View style={{flex: 1, marginTop:0,backgroundColor:'transparent'}}> 
+ 
             <ScrollTabView 
               ref={"tabPages"} 
               tabNames={tabNameShow} 
               tabBgStyle={1}
+              renderTabView={(tabName, isSelected)=><TraingleShapeTabBarItem 
+                isSelected={isSelected}
+                tabName={tabName}
+                triangleColor={"white"}
+                bottomLineColor={"transparent"}
+                />}
               viewPages={viewPages} 
               removeClippedSubviews={true}
               onPageSelected={(index) => this.onPageSelected(index)}
@@ -122,7 +136,7 @@ class TabPositionScreen extends Component {
     }else{
       return this.renderLogin();
     }
-  }
+  }  
 
   render() {
     return this.renderContent();

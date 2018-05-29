@@ -64,11 +64,11 @@ class StockRowComponent extends Component {
                 activeOpacity={0.7}
                 {...this.props.sortHandlers}>
                 <View style={styles.stockRowContainer}>
-                    <View style={styles.titleContainerStyle}>
-                        <Text style={styles.titleStyle}>{this.props.data.name}</Text>
+                    <View style={styles.titleContainerStyle}>                        
                         <View style={{flexDirection:'row'}}>
+                            <Text style={styles.titleStyle}>{this.props.data.name}</Text>
                             {this.renderStockStatus(this.props.data)}
-                            <Text style={styles.symbolStyle}>{this.props.data.symbol}</Text>
+                            {/* <Text style={styles.symbolStyle}>{this.props.data.symbol}</Text> */}
                         </View>
                     </View>
                     <Text style={styles.priceStyle}>{this.props.data.last}</Text>
@@ -88,7 +88,8 @@ const styles = StyleSheet.create({
     },
 
     titleContainerStyle:{
-        flex:2,        
+        flex:2,
+        justifyContent:'center',   
     },
 
     priceStyle:{

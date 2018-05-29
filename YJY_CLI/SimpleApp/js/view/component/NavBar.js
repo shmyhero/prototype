@@ -140,13 +140,13 @@ class NavBar extends Component {
 			//StatusBar.setBackgroundColor(bgColor);
 			//StatusBar.setBarStyle('light-content');
             return (
-				<View style={{height:24}}>
+				<View style={{height:24, backgroundColor:navBarColor}}>
 					<StatusBar
 						backgroundColor={bgColor}
 						translucent={true}/>
 				</View>)
 		}else{
-			return (<View style={{height:20}}/>);
+			return (<View style={{height:20, backgroundColor:navBarColor}}/>);
 		}
     }
     

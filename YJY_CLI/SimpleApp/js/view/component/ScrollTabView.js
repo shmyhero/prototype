@@ -23,6 +23,7 @@ export default class  ScrollTabView extends React.Component {
 
 	static propTypes = {
 		tabNames: PropTypes.array,
+		renderTabView: PropTypes.func,
 		viewPages: PropTypes.any,
 		onPageSelected: PropTypes.func,
 		tabBgStyle: PropTypes.any,
@@ -86,28 +87,31 @@ export default class  ScrollTabView extends React.Component {
 		}
 	}
 
+  
 	renderTabs () { 
 		var tabs = this.props.tabNames.map(
 			(tabName, i) =>
 			<TouchableHighlight style={[styles.tabItemContainer,
 				{width: width / this.props.tabNames.length,
-				 paddingBottom: 10,
+				 paddingBottom: 0,
 				}
 			]} key={i}
 					underlayColor={'#00000000'}
 					onPress={() => this.tabClicked(i)}>
  
-				<ImageBackground style={{width:80,height:41,alignItems:'center',justifyContent:'center'}} source={this.state.currentSelectedTab == i?(this.props.tabBgStyle==0?require('../../../images/bg_btn_white.png'):require('../../../images/bg_btn_blue.png')):(this.props.tabBgStyle==0?require('../../../images/bg_btn_blue.png'):require('../../../images/bg_btn_white.png'))}>
-					<Text style={this.state.currentSelectedTab == i ? (this.props.tabBgStyle==0?styles.tabItemTextSelected:[styles.tabItemTextUnSelected]): (this.props.tabBgStyle==0?[styles.tabItemTextUnSelected]:styles.tabItemTextSelected)}>
+				<View style={{width:80,height:41,alignItems:'center',justifyContent:'center'}}>
+					<Text style={ styles.tabItemTextUnSelected}>
 						{tabName}
 					</Text>
-				</ImageBackground> 
+				</View> 
 			</TouchableHighlight>
 		)
 
+		var bgcolor = this.props.tabBgStyle ==0?'transparent':ColorConstants.BGBLUE;
 		return (
 			<View>
-				<ScrollView horizontal={true} style={[styles.tabs, {paddingTop:10,backgroundColor: 'transparent'}]}>
+				<ScrollView horizontal={true} style={[styles.tabs, {paddingTop:10,backgroundColor: bgcolor}]}>
+ 
 					{tabs}
 				</ScrollView>
 			</View>
@@ -115,15 +119,15 @@ export default class  ScrollTabView extends React.Component {
 	}
 
 	renderSeperate () { 
-		var offsetX = width / this.props.tabNames.length * this.state.currentSelectedTab
-
+		var half = (width / this.props.tabNames.length)/2 - 10
+		var offsetX = (width / this.props.tabNames.length * this.state.currentSelectedTab)+half
+		var imageSource = this.props.tabBgStyle == 0?require('../../../images/icon_control.png'):require('../../../images/icon_control_white.png')
+		var lineColor = this.props.tabBgStyle == 0? '#30adf2':'white'
 		return (
 			<View style={styles.lineContainer}>
-
-				<View style={[styles.tabItemContainer, {backgroundColor:'#1962dd',height:2,width: width / this.props.tabNames.length, marginLeft: offsetX}]}>
-
-				</View>
-
+				<Image style={{width:11.5,height:6.5,marginLeft: offsetX}} source={imageSource}/>
+				{/* <View style={[styles.tabItemContainer, {backgroundColor:'#30adf2',height:2,width: width / this.props.tabNames.length, marginLeft: offsetX}]}/> */}
+				<View style={[styles.tabItemContainer, {backgroundColor:lineColor,height:2,width: width}]}/>
 			</View>
 		);
 	}
@@ -156,7 +160,7 @@ export default class  ScrollTabView extends React.Component {
 			<View style={[styles.wrapper, {width: width}]}>
 				{this.renderTabs()}
 
-				{/* {this.renderSeperate()} */}
+				{this.renderSeperate()}
 
 				{this.renderViewPagers()}
 			</View>
@@ -199,8 +203,9 @@ var styles = StyleSheet.create({
 	},
 
 	lineContainer: {
-		alignSelf: 'stretch',
-		flexDirection: 'row',
+		justifyContent:'center',
+		// alignItems:'center'
+		backgroundColor:ColorConstants.BGBLUE
 	},
 
 	line: {

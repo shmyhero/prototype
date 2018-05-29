@@ -33,7 +33,7 @@ var listRawData = [
 ] 
 var {height, width} = Dimensions.get('window')
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
+var MyPie = require('./component/Pie/MyPie')
 
 // { showMy: true, showFollowing: true, showHeadline: true }
 export default class DynamicStatusConfig extends Component {
@@ -180,6 +180,20 @@ export default class DynamicStatusConfig extends Component {
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow.bind(this)}
 					renderSeparator={this.renderSeparator} />
+
+				<View style={{width:width,height:400,backgroundColor:'#EEEEEE',justifyContent:'center',alignItems:'center'}}>
+					<MyPie 
+						radius={100}
+						innerRadius={92} 
+						colors={['#3dcc24','#d0f5c7',]} 
+						series={[20, 10]}
+						colors2={['#2b9ff1','#c8e2f4',]} 
+						series2={[40, 10]}
+						innerText={'48'}
+						innerText2={'TRADES'}
+					 /> 
+					  
+				</View>		
 			</View>
 		 ) 
 	}

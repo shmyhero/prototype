@@ -140,9 +140,9 @@ class DynamicRowComponent extends Component {
 
             return (
                 <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
-                    {text}
+                    {text+' '}
                     <Text style={{color: valueColor}}>
-                        {value}
+                         {value}
                     </Text>
                 </Text>
             )

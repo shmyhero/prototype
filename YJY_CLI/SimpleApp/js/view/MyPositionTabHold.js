@@ -544,13 +544,26 @@ export default class  MyPositionTabHold extends React.Component {
 		// );
 	}
 
+	renderFollowStatus(rowData){
+		if(rowData.followUser){
+			var statusTxt = LS.str("COPY_TRADE")
+			return(
+				<View style={styles.statusLableContainer}>
+					<Text style={styles.statusLable}>{statusTxt}</Text>
+				</View>
+			)
+		}else{
+			return null;
+		}
+	}
+
 	renderStockStatus(rowData){
 		if(rowData.security!==undefined){
 			if(rowData.security.isOpen){
 				return null;
 			}else{
 				// console.log('rowData.security.status = ' + rowData.security.status);
-				var statusTxt = rowData.security.status == 2 ? "ZT":"BS"
+				var statusTxt = rowData.security.status == 2 ? LS.str("STOCK_MARKET_STOP") : LS.str("STOCK_MARKET_CLOSED")
 				return(
 					<View style={styles.statusLableContainer}>
 						<Text style={styles.statusLable}>{statusTxt}</Text>
@@ -565,7 +578,9 @@ export default class  MyPositionTabHold extends React.Component {
 		percentChange = percentChange.toFixed(2)
 		var startMark = percentChange > 0 ? "+":null
 		return (
-			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange), fontSize:textSize}]}>
+			<Text style={[styles.stockPercentText, 
+			//{color: ColorConstants.stock_color(percentChange), fontSize:textSize}
+			]}>
 				 {startMark}{percentChange} {endMark}
 			</Text>
 		);
@@ -1143,13 +1158,13 @@ export default class  MyPositionTabHold extends React.Component {
 					</View>
 					<View style={styles.extendRight}>
 						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
-						<Text style={styles.extendTextBottom}>{rowData.leverage}</Text>
+						<Text style={styles.extendTextBottom}>{"x"+rowData.leverage}</Text>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
+						<Text style={styles.extendTextTop}>{LS.str("ORDER_TRADE_PRICE")}</Text>
 						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
 					</View>
 					<View style={styles.extendMiddle}>
@@ -1163,7 +1178,7 @@ export default class  MyPositionTabHold extends React.Component {
 				</View>
                 <View style={styles.darkSeparator} />
 				{this.renderStopProfitLossRow(rowData)}
-
+				{this.renderFollowRow(rowData)}
 				{this.renderOKView(rowData)}
 
 				<CustomKeyboard ref={(ref)=>this.keyboardRef = ref}/>
@@ -1203,15 +1218,17 @@ export default class  MyPositionTabHold extends React.Component {
 	renderFollowRow(rowData){
 		if(rowData.followUser){
 			return (
-				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT}]}>
-					<Image source={{uri:rowData.followUser.picUrl}} 
-						style={{height:40,width:40, borderRadius:20}}></Image>
-					<Text style={{marginLeft:10}}>{rowData.followUser.nickname}</Text>
-					<ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
+				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT, flex:1, justifyContent:'center', alignItems:'center'}]}>
+					<View style={{justifyContent:'center', alignItems:'center'}}>
+						<Text style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</Text>					
+						<Image source={{uri:rowData.followUser.picUrl}} 
+							style={{height:20,width:20, borderRadius:10}}></Image>
+					</View>
+					{/* <ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
 						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
 						</View>
-					</ImageBackground>
+					</ImageBackground> */}
 				</View>
 			)
 		}else{
@@ -1233,34 +1250,48 @@ export default class  MyPositionTabHold extends React.Component {
 		var topLine = rowData.security.name
 		var bottomLine = rowData.security.symbol
 
-		var rowHeaderHeight = rowData.followUser ? ROW_SIMPLE_CONTENT_HEIGHT + FOLLOW_ROW_HEIGHT : ROW_SIMPLE_CONTENT_HEIGHT;
+		var rowHeaderHeight = ROW_SIMPLE_CONTENT_HEIGHT;
+
+		var touchableStyle={height:rowHeaderHeight,
+			backgroundColor:ColorConstants.stock_color(profitAmount)}
+		if(this.state.selectedRow == rowID){
+			touchableStyle.borderTopLeftRadius = 10
+			touchableStyle.borderTopRightRadius = 10
+		}else{
+			touchableStyle.borderRadius = 10
+		}
+
+		// var rowBackgroundColor = profitAmount > 0 ? "green" : profitAmount < 0 ? "red" : "gray";
 		return (
-			<View style={styles.rowContainer}>
-				<TouchableOpacity style={[styles.rowTouchable,{height:rowHeaderHeight}]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
-					<View >
-						{this.renderFollowRow(rowData)}
-						<View style={[styles.rowWrapper]} key={rowData.key}>
-							<View style={styles.rowLeftPart}>							
-								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-									{topLine}
-								</Text>
+			<View style={[styles.rowContainer]}>
+				<TouchableOpacity style={[styles.rowTouchable,
+						touchableStyle
+					]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
+					<View style={[styles.rowWrapper]} key={rowData.key}>
+						<View style={styles.rowLeftPart}>							
+							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+								{topLine}
+							</Text>							
+							{this.renderStockStatus(rowData)}						
+						</View>
 
-								<View style={{flexDirection: 'row', alignItems: 'center'}}>
-									{/* {this.renderCountyFlag(rowData)} */}
-									{this.renderStockStatus(rowData)}
-									<Text style={styles.stockSymbolText}>
-										{bottomLine}
-									</Text>
-								</View>
-							</View>
+						<View style={{flexDirection: 'row', alignItems: 'center', 
+							position:'absolute',
+							bottom: 0,
+							left: ROW_PADDING}}>
+							{/* {this.renderCountyFlag(rowData)} */}
+							{this.renderFollowStatus(rowData)}
+							{/* <Text style={styles.stockSymbolText}>
+								{bottomLine}
+							</Text> */}
+						</View>
 
-							<View style={styles.rowCenterPart}>
-								{this.renderProfit(profitAmount, null)}
-							</View>
+						<View style={styles.rowCenterPart}>
+							{this.renderProfit(profitAmount, null)}
+						</View>
 
-							<View style={styles.rowRightPart}>
-								{this.renderProfit(profitPercentage * 100, "%")}
-							</View>
+						<View style={styles.rowRightPart}>
+							{this.renderProfit(profitPercentage * 100, "%")}
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -1384,6 +1415,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingLeft: ROW_PADDING,
 		paddingRight: ROW_PADDING,
+		flex:1,
 	},
 
 	stockCountryFlagText: {
@@ -1393,8 +1425,9 @@ const styles = StyleSheet.create({
 	},
 
 	rowLeftPart: {
-		flex: 3,
-		alignItems: 'flex-start',
+		flex: 4,
+		alignItems: 'center',
+		flexDirection:'row',		
 		paddingLeft: 0,
 	},
 
@@ -1419,7 +1452,7 @@ const styles = StyleSheet.create({
 		textAlign: 'center',
 		fontWeight: 'bold',
 		lineHeight: 22,
-		color: '#505050',
+		color: 'white',
 	},
 
 	stockSymbolText: {
@@ -1443,6 +1476,7 @@ const styles = StyleSheet.create({
 
 	darkSeparator: {
 		marginLeft: ROW_PADDING,
+		marginRight: ROW_PADDING,
 		height: 0.5,
 		backgroundColor: '#dfdfdf',
 	},
