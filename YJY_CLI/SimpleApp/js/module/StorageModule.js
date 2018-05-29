@@ -28,6 +28,7 @@ var DEBUG_SETTINGS = '@TH_CFD:debugSettings'
 var LAST_ACTIVITY_DATA = '@TH_CFD:lastActivityData'
 var MIFID_TEST_VERIFIED = '@TH_CFD:MIFIDTestVerified'
 var MARKET_LIST_ORDER = '@TH_CFD:MarketListOrder'
+var LANGUAGE = '@TH_CFD:Language'
 
 export async function loadUserData() {
 	try {
@@ -467,11 +468,29 @@ export async function setMarketListOrder(value){
 	  }
   }
   
-  export async function loadMarketListOrder(){
+export async function loadMarketListOrder(){
 	try {
-			var value = await AsyncStorage.getItem(MARKET_LIST_ORDER);
+		var value = await AsyncStorage.getItem(MARKET_LIST_ORDER);
 		return value;
-	  } catch (error) {
-		  console.log('AsyncStorage error: ' + error.message);
-	  }
-  }
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
+}
+
+
+export async function setLanguage(value){
+	try {
+		await AsyncStorage.setItem(LANGUAGE, value);
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
+}
+  
+export async function loadLanguage(){
+	try {
+		var value = await AsyncStorage.getItem(LANGUAGE);
+		return value;
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
+}

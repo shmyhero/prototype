@@ -5,15 +5,18 @@ import {
     CHECK_LOGIN_STATE_LOGGED_IN,
     CHECK_LOGIN_STATE_NOT_LOGGED_IN,
     BIND_WALLET_ADDRESS,
+    SWITCH_LANGUAGE,
 } from "../constants/actionTypes";
 
 var initializeState = {
+    userId: 0,
     userLoggedin: false,
     nickname: "",
     avatarSource: require('../../../images/head_portrait.png'),
     isLoading: false,
     errorMessage: null,
     thtAddress: "",
+    language: "",
 }
 
 //Previous state, action => current state
@@ -22,6 +25,11 @@ export default function meDataReducer(state = initializeState, action) {
     console.log("meDataReducer state ", state)
     console.log("CHECK_LOGIN_STATE_LOGGED_IN", CHECK_LOGIN_STATE_LOGGED_IN)
     switch (action.type) {
+        case SWITCH_LANGUAGE:
+            state = { ...state,
+                language: action.payload.language,
+            }
+            return state;
         case BIND_WALLET_ADDRESS:
             state = { ...state,
                 thtAddress: action.payload.thtAddress,
@@ -42,6 +50,7 @@ export default function meDataReducer(state = initializeState, action) {
             };
         case GET_ME_DATA_SUCCESS:
             return { ...state,
+                userId: action.payload.data.id,
                 nickname: action.payload.data.nickname,
                 avatarSource: {uri: action.payload.data.picUrl},
                 thtAddress: action.payload.data.thtAddress,

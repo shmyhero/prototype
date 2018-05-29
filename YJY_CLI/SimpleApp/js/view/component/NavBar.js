@@ -177,10 +177,31 @@ class NavBar extends Component {
 			return (
 				<View style={styles.leftContainer}>
 					{this.renderBackButton()}
+					{this.renderLeftImage()}
 					{this.renderLeftText()}
 				</View>)
 		}
 	}
+
+	renderLeftImage(){
+		//leftImage
+		if(this.props.imageOnLeft){
+			var imageOnLeft = this.props.imageOnLeft;
+
+			var imageStyles = [styles.leftImage];
+			if(this.props.leftImageStyle){
+				imageStyles.push(this.props.leftImageStyle);
+			}
+			return (
+				<TouchableOpacity
+					onPress={()=> this.props.leftPartOnClick && this.props.leftPartOnClick()}>
+					<Image
+						style={imageStyles}
+						source={this.props.imageOnLeft}/>
+				</TouchableOpacity>);
+		}
+	}
+	
 
 	renderRightPart(){
 		//viewOnRight
@@ -198,11 +219,8 @@ class NavBar extends Component {
 	}
 
 	renderBackButton() {
-		if(this.props.navigation &&  this.props.navigation.goBack && this.props.showBackButton) {
+		if(!this.props.imageOnLeft && this.props.navigation &&  this.props.navigation.goBack && this.props.showBackButton) {
 			var imageOnLeft = require('../../../images/back.png');
-			if(this.props.imageOnLeft){
-				imageOnLeft = this.props.imageOnLeft;
-			}
 
 			return (
 				<TouchableOpacity
@@ -353,6 +371,12 @@ const styles = StyleSheet.create({
 		width: 21,
 		height: 21,
 		marginRight: 20,
+		resizeMode: Image.resizeMode.contain,
+	},
+	leftImage: {
+		width: 21,
+		height: 21,
+		marginLeft: 20,
 		resizeMode: Image.resizeMode.contain,
 	},
 	left: {

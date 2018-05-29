@@ -6,7 +6,7 @@ import {
 } from "../constants/actionTypes";
 
 import fetchMeDataRequest from "../api/fetchMeDataRequest";
-import {checkIsLoggedIn, fetchBalanceData} from "../actions";
+import {checkIsLoggedIn, fetchBalanceData, logout} from "../actions";
 
 export function getMeData() {
     console.log("getMeData", GET_ME_DATA)

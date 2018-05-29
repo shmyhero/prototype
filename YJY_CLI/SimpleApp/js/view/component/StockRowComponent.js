@@ -6,6 +6,7 @@ import {
     Text, 
     StyleSheet,
     TouchableOpacity,
+    Image
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants');
@@ -33,10 +34,9 @@ class StockRowComponent extends Component {
                 var statusTxt = rowData.status == 2 ? strZT:strBS;
 
                 return(
-					<View style={styles.statusLableContainer}>
-						<Text style={styles.statusLable}>{statusTxt}</Text>
-					</View>
-				)
+					<Image source={require("../../../images/item_stoped.png")} 
+						style={styles.statusIcon}/>
+				);
             }
         }
     }
@@ -86,19 +86,16 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         flex:1
     },
-
     titleContainerStyle:{
         flex:2,
         justifyContent:'center',   
     },
-
     priceStyle:{
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
         fontSize: 17
     },
-
     stockTouchableContainerStyle:{
         borderRadius: 10,
         backgroundColor: "white",
@@ -108,7 +105,6 @@ const styles = StyleSheet.create({
         marginBottom: 5,
         height:70,
     },
-
     statusLableContainer: {
 		backgroundColor: '#999999',
 		borderRadius: 2,
@@ -118,42 +114,39 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         alignItems: 'center',
     },
-    
 	statusLable:{
 		fontSize: 10,
 		textAlign: 'center',
 		color: '#ffffff',
-    },    
-
+    },  
     plStyle:{
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
         fontSize: 17
     },
-    
     UpPLStyle:{
         color: ColorConstants.STOCK_RISE_RED,
     },
-
     DownPLStyle: {
         color: ColorConstants.STOCK_DOWN_GREEN,
     },
-    
     SamePLStyle: {
         color: ColorConstants.STOCK_UNCHANGED_GRAY,
     },
-
     titleStyle:{
         color:'#000000',
         fontSize: 15,
     },
-
     symbolStyle:{
         color:'#666666',
         fontSize: 15,
     },
-
+    statusIcon:{
+		width:22,
+		height:22,
+		marginLeft:5
+	}
 });
 
 //make this component available to the app

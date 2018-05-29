@@ -15,7 +15,7 @@ export default () => {
                 },
                 showLoading: true,
             }, (responseJson) => {	
-                console.log("fetchmedataRequest", responseJson)				
+                console.log("fetchmedataRequest", responseJson)
                 LogicData.setMeData(responseJson);
                 resolve(responseJson)
             }, (error) =>{

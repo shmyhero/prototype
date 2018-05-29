@@ -4,7 +4,7 @@ import LogicData from './LogicData';
 
 var LS = {
   Str:{
-    APP_NAME: ["BitHero", "BitHero"],
+    APP_NAME: ["BTH", "BTH"],
     LANGUAGE: ["语言", "Language"],
 
     DATA_LOADING: ["数据读取中...", "Loading..."],
@@ -18,7 +18,9 @@ var LS = {
     TAB_ME_TAB_LABEL:["我的", "Me"], 
     VERIFING: ["信息检查中...", "Verifying..."],    
     FINISH: ["完成", "Done"],
-    SUGAR_AMOUNT: ["糖果数", "Candy"],
+    SUGAR_PROFIT: ["盈利", "Profit"],
+    SUGAR_AMOUNT: ["总BTH数", "Total BTH"],
+    SUGAR_AVAILABLE: ["可出BTH数", "Available"],
 
     LOG_OUT: ["退出登录", "Log Out"],
 
@@ -30,7 +32,7 @@ var LS = {
     RELEASE_FOR_LOAD_MORE:["释放加载更多","release to load more..."],
     NO_MORE:["没有更多","no more data"] ,
     DEL:["删除","Remove"],
-    MOUNT_X:["糖果 x","Candy x"],
+    MOUNT_X:["BTH x","BTH x"],
     MULTIPLE:["倍数","multiple"],
     PROFIT:["盈利","profit"],
     LOSS:["亏损","loss"],    
@@ -47,7 +49,7 @@ var LS = {
     MINE:["我的","Mine"],
     WINRATE:["胜率:","WinRate:"],
     APPLY_COPY:["申请跟随:","Apply Copy"],
-    AVG_MOUNT_COPY:["每笔跟随糖果","Candy per time"],
+    AVG_MOUNT_COPY:["每笔跟随BTH","BTH per time"],
     COPY_TIMES:["跟随笔数","Copy times"],
     SUNDAY:["星期日","Sunday"],
     MONDAY:["星期一","Monday"],
@@ -76,7 +78,7 @@ var LS = {
     PJGG:["平均倍数","Average Multiple"],
     LJXD:["累积下单(次)","Total trades"],
     PJCCSJ:["平均持仓(天)","Average hold days"],
-    PJBJ:["平均糖果","Average Invest"],
+    PJBJ:["平均BTH","Average BTH"],
     PJMBHL:["平均每笔获利","Average Per Profit"],
     CONCERN_CANCEL:["取消关注","UnWatch"],
     CONCERN_ADD:["+关注","Watch"],
@@ -84,11 +86,11 @@ var LS = {
     PHONE_NUM:["手机号","Phone Number"],
     VCODE:["验证码","VCode"],
     GET_VCODE:["获取验证码","Get VCode"],
-    YOU_ARE_LOGIN:["您正在登录糖果市场","You are login Candy market"],
+    YOU_ARE_LOGIN:["您正在登录BTH市场","You are login BTH market"],
     FAST_LOGIN:["快速登录","Fast Login"],
     LOGIN:["登录","Login"],
-    TOTAL_MOUNT:["总糖果","Total Candy"],
-    REMAIN_MOUNT:["剩余糖果","Remain Candy"],
+    TOTAL_MOUNT:["总BTH","Total BTH"],
+    REMAIN_MOUNT:["剩余BTH","Remain BTH"],
     SHARE:["分享","Share"],
     NO_DYNAMIC:["暂无动态","No Data"],
     NO_COPY:["没有跟随记录","No Copy"],
@@ -98,14 +100,10 @@ var LS = {
     
     
     
-     
-    
+    ME_DEPOSIT_WITHDRAW: ["入金/出金", "Deposit/Withdraw"],
     ME_DEPOSIT_TITLE: ["入金", "Deposit"],
     ME_WITHDRAW_TITLE: ["出金", "Withdraw"],
     ME_DETAIL_TITLE: ["资金明细", "Transactions"],
-    ME_HELP_CENTER_TITLE: ["帮助中心", "Help Center"],
-    ME_ABOUT_TITLE: ["关于我们", "About Us"],
-
 
     NO_TRANSACTIONS: ["暂无资金明细", "There are no transactions"],
     POSITION_TAKE_LOSS:['亏损','Take loss'],
@@ -133,40 +131,42 @@ var LS = {
     BUY_SHORT: ["下降","SHORT"],
     BUY: ["开始", "Start"],
     SELECT_PRODUCT: ["选择产品", "Choose Products"],
-
+     
+    DEPOSIT_WITHDRAW_ENTRY_HEADER:['存取资金','Wallet'],
+    DEPOSIT_WITHDRAW_ENTRY_AVAILABLE:['剩余BTH','Remaining BTH'],
     BIND_PURSE_ADDRESS_HINT: ["请输入/粘贴钱包地址", "Please enter/paste wallet address"],
-    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和糖果账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
+    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和BTH账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
     BIND_CONFIRM: ["确认绑定", "Confirm binding"],
     BIND_PURSE_HEADER: ["绑定钱包地址", "Bind wallet address"],
-    DEPOSIT_COPY_YJY_ADDRESS: ["复制BitHero收款地址", "Copy wallet address of BitHero"],
-    DEPOSIT_YJY_ADDRESS: ["BitHero收款地址: ", "Wallet address of BitHero: "],
+    DEPOSIT_COPY_YJY_ADDRESS: ["复制BTH收款地址", "Copy wallet address of BTH"],
+    DEPOSIT_YJY_ADDRESS: ["BTH收款地址: ", "Wallet address of BTH: "],
     DEPOSIT_HINT_1: ["注册以太坊钱包: ", "Registered Ethereum Wallet: "],
     DEPOSIT_HINT_2: ["以太坊官网: ", "Ethereum Website: "],
-    DEPOSIT_HINT_3: ["用户把自己的Token转入BitHero: ", "Users transfer their Token to BitHero"],
+    DEPOSIT_HINT_3: ["用户把自己的Token转入BTH: ", "Users transfer their Token to BTH"],
     DEPOSIT_COPY_SUCCESS: ["复制成功", "Successful"],
-    DEPOSIT_AGREEMENT: ["《购买糖果协议内容》", "《Candy clause》"],
+    DEPOSIT_AGREEMENT: ["《购买BTH协议内容》", "《BTH clause》"],
 
     WITHDRAW_ADDRESS_HINT: ["我的收款地址", "My wallet address"],
     WITHDRAW_READ_AGREEMENT: ["我已经阅读并同意", "Accept "],
     WITHDRAW_AGREEMENT: ["出金协议内容", "the Agreement"],
     WITHDRAW_AMOUNT: ["出金金额", "Withdraw Limit"],
-    WITHDRAW_CANDY: ["糖果", "Candy"],
+    WITHDRAW_BTH: ["BTH", "BTH"],
     WITHDRAW_ALL: ['全部出金', 'Withdraw all'],
-    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}糖果，', 'Withdraw Limit :{1} Candy,'],
+    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}BTH，', 'Withdraw Limit :{1} BTH,'],
     WITHDRAW_WITHDRAW: ["确认出金", "withdraw"],
     WITHDRAW_REQUEST_SUBMITED: ["出金提交成功", "Submitted"],
     WITHDRAW_ETA_MESSAGE: ["预计资金到账时间为1小时，具体以钱包余额为准！", "Funds may arrive within one hour."],
 
     COPY_AGREEMENT: ["《跟随规则》", "Copy Agreement"],
-    COPY_AMOUNT: ["每笔跟随糖果", "Candy"],
+    COPY_AMOUNT: ["每笔跟随BTH", "BTH"],
     COPY_COUNT: ["跟随笔数", "Times"],
 
     ORDER_TYPE:['类型','type'],
-    ORDER_SUGAR_AMOUNT: ["糖果", "Candy"],
+    ORDER_SUGAR_AMOUNT: ["BTH", "BTH"],
     ORDER_MULTIPLE: ["倍数", "Multiple"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price"],
-    ORDER_MAX_RISK: ["最大风险（糖果）", "Maximum Risk"],
-    ORDER_PROFIT_AND_LOSS: ["盈亏（糖果）", "Profit / loss (Candy)"],
+    ORDER_MAX_RISK: ["最大风险（BTH）", "Maximum Risk"],
+    ORDER_PROFIT_AND_LOSS: ["盈亏（BTH）", "Profit / loss (BTH)"],
     
     ORDER_CURRENT_BUY_PRICE:['当前买价','Current Price'],
     ORDER_CURRENT_SELL_PRICE:['当前卖价','Current Price'],
@@ -177,6 +177,12 @@ var LS = {
     ORDER_OPEN: ["开仓","Open"],
     ORDER_CLOSE: ["平仓","Closed"],
 
+    SETTINGS_TITLE: ["设置", "Settings"],
+    SETTINGS_CENTER_TITLE: ["帮助中心", "Help Center"],
+    SETTINGS_ABOUT_TITLE: ["关于我们", "About Us"],
+    SETTINGS_SWITCH_LANGUAGE: ["切换成英文", "Switch to English"],
+    SETTINGS_VERSION: ["当前版本", "Version"],
+    SETTINGS_LOG_OUT: ["退出登录", "Log out"],
 
     MY_MESSAGES:['我的消息','Messages'],
   },
@@ -192,7 +198,6 @@ var LS = {
   },
   imageList: {
     deposit_token_image: [require("../images/zh-cn/deposit_token_image.jpg"), require("../images/en-us/deposit_token_image.jpg"), ],
-    stock_detail_amount_container: [require("../images/zh-cn/stock_detail_amount_container.png"), require("../images/en-us/stock_detail_amount_container.png")],
     stock_detail_direction_container: [require("../images/zh-cn/stock_detail_direction_container.png"), require("../images/en-us/stock_detail_direction_container.png")],
     stock_detail_multiple_container: [require("../images/zh-cn/stock_detail_multiple_container.png"), require("../images/en-us/stock_detail_multiple_container.png")],
     stock_detail_option_down_selected: [require("../images/zh-cn/stock_detail_option_down_selected.png"), require("../images/en-us/stock_detail_option_down_selected.png")],

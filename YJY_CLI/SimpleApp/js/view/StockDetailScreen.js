@@ -538,8 +538,8 @@ class StockDetailScreen extends Component {
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={LS.loadImage('stock_detail_amount_container')}>
-                        <View style={[styles.buttonsRowContainer]}>                               
+                        source={require("../../images/stock_detail_amount_container.png")}>
+                        <View style={[styles.buttonsRowContainer]}>
                             {this.renderAmountButton(50)}
                             {this.renderAmountButton(100)}
                             {this.renderAmountButton(200)}
