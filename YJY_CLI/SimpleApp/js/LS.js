@@ -76,7 +76,7 @@ var LS = {
     PJGG:["平均倍数","Average Multiple"],
     LJXD:["累积下单(次)","Total trades"],
     PJCCSJ:["平均持仓(天)","Average hold days"],
-    PJBJ:["平均糖果","Average Candy"],
+    PJBJ:["平均糖果","Average Invest"],
     PJMBHL:["平均每笔获利","Average Per Profit"],
     CONCERN_CANCEL:["取消关注","UnWatch"],
     CONCERN_ADD:["+关注","Watch"],

@@ -141,17 +141,17 @@ export default class TradeStyleBlock extends Component {
             <Text style={styles.contentValueBlock}>{this.state.averageProfile}</Text>
            </View>
          
-            <View style={styles.contentBlock}>
+            {/* <View style={styles.contentBlock}>
               <Text style={styles.contentTitleBlock}>{strLJXD}</Text>
               <Text style={styles.contentValueBlock}>{this.state.totalTradeCount}</Text>
-            </View>
+            </View> */}
         </View>
          
         <View style={styles.contentRow}>
-          <View style={styles.contentBlock}>
+          {/* <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strPJCCSJ}</Text>
             <Text style={styles.contentValueBlock}>{this.state.averageOpenTime}</Text>
-          </View>
+          </View> */}
 
           <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strPJGG}</Text> 
