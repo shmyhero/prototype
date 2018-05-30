@@ -69,6 +69,10 @@ class  TabMeScreen extends React.Component {
     // })
   }
 
+  goToUserConfig(){
+    this.props.navigation.navigate(ViewKeys.SCREEN_USER_CONFIG);
+  }
+
   goToHelp(){
     this.props.navigation.navigate(ViewKeys.SCREEN_HELP);
   }
@@ -137,12 +141,13 @@ class  TabMeScreen extends React.Component {
 
   renderPortrait(){
     return(
-      <View style={{justifyContent:'center'}}>
-
-        <Image style={styles.headPortrait} source={this.props.avatarSource}></Image>
-        <Text style={{textAlign:'center', marginTop:10, height:15, fontSize: 12, color: '#44c1fc'}}>{this.props.nickname}</Text>
-
-      </View>
+      <TouchableOpacity style={{justifyContent:'center'}}
+        onPress={()=>this.goToUserConfig()}>
+        <View>
+          <Image style={styles.headPortrait} source={this.props.avatarSource}></Image>
+          <Text style={{textAlign:'center', marginTop:10, height:15, fontSize: 12, color: '#44c1fc'}}>{this.props.nickname}</Text>
+        </View>
+      </TouchableOpacity>
     )
   }
 

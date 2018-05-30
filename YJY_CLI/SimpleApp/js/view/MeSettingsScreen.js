@@ -26,7 +26,7 @@ var configListData = [
 ];
 
 // create a component
-class SettingsScreen extends Component {
+class MeSettingsScreen extends Component {
     componentWillReceiveProps(props){
         console.log("componentWillReceiveProps", props)
         if(!props.userLoggedin){
@@ -79,7 +79,9 @@ class SettingsScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title={LS.str("SETTINGS_TITLE")} showBackButton={true} navigation={this.props.navigation}/>
+                <NavBar title={LS.str("SETTINGS_TITLE")}
+                    showBackButton={true}
+                    navigation={this.props.navigation}/>
                 <FlatList
                     style={{flex:1, width:width}}
                     data={configListData}
@@ -139,6 +141,6 @@ const mapDispatchToProps = {
     switchLanguage,
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(SettingsScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(MeSettingsScreen);
   
   

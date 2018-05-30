@@ -22,6 +22,10 @@ var LS = {
     SUGAR_AMOUNT: ["总BTH数", "Total BTH"],
     SUGAR_AVAILABLE: ["可出BTH数", "Available"],
 
+    CANCLE: ["取消", "Cancle"],
+    IMPORT_FROM_PHOTO: ["拍照", "Take Photo"],
+    IMPORT_FROM_ALBUM: ['照片图库','Choose from Album'],
+
     LOG_OUT: ["退出登录", "Log Out"],
 
     PULL_TO_REFRESH:["下拉刷新...","pull to refresh ..."],
@@ -180,13 +184,24 @@ var LS = {
     ORDER_CLOSE: ["平仓","Closed"],
 
     SETTINGS_TITLE: ["设置", "Settings"],
+    SETTINGS_USER_CONFIG: ["个人信息", "Personal Information"],
     SETTINGS_CENTER_TITLE: ["帮助中心", "Help Center"],
     SETTINGS_ABOUT_TITLE: ["关于我们", "About Us"],
-    SETTINGS_SWITCH_LANGUAGE: ["切换成英文", "Switch to English"],
+    SETTINGS_SWITCH_LANGUAGE: ["切换成英文", "Switch to Chinese"],
     SETTINGS_VERSION: ["当前版本", "Version"],
     SETTINGS_LOG_OUT: ["退出登录", "Log out"],
+    SETTINGS_PORTRAIT: ["头像", "Portrait"],
+    SETTINGS_NICKNAME: ["昵称", "Nickname"],
+    SETTINGS_MOBILE: ["手机号", "Mobile"],
 
     MY_MESSAGES:['我的消息','Messages'],
+
+    ACCOUNT_NAME_TITLE: ["我的昵称", "Name"],
+    ACCOUNT_NAME_INPUT_HINT: ['请输入昵称', "Name"],
+    ACCOUNT_NAME_CANNOT_BE_EMPTY: ["昵称不能为空", "Name cannot be empty"],
+    ACCOUNT_NAME_MAXINUM_LENGTH: ["昵称不能超过{1}个字段", "Name cannot be longer than {1} characters."],
+
+    ERROR_HINT: ["错误提示", "Error Hint"],
   },
   str(key){
     if(LogicData.getLanguage() == 'zh-cn'){

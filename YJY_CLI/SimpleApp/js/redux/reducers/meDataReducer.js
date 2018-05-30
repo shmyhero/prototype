@@ -6,6 +6,10 @@ import {
     CHECK_LOGIN_STATE_NOT_LOGGED_IN,
     BIND_WALLET_ADDRESS,
     SWITCH_LANGUAGE,
+    SET_PORTRAIT,
+    UPLOAD_PORTRAIT_SUCCESS,
+    UPLOAD_PORTRAIT_FAILURE,
+    SET_NICKNAME_SUCCESS
 } from "../constants/actionTypes";
 
 var initializeState = {
@@ -25,6 +29,23 @@ export default function meDataReducer(state = initializeState, action) {
     console.log("meDataReducer state ", state)
     console.log("CHECK_LOGIN_STATE_LOGGED_IN", CHECK_LOGIN_STATE_LOGGED_IN)
     switch (action.type) {
+        case SET_PORTRAIT:
+            state = { ...state,
+                avatarSource: action.payload.avatarSource,
+            }
+            return state;
+        case UPLOAD_PORTRAIT_SUCCESS:
+            state = { ...state,
+                
+            }
+            return state;
+        case SET_NICKNAME_SUCCESS:
+            state = { ...state,
+                nickname: action.payload.nickName
+            }
+            return state;
+        case UPLOAD_PORTRAIT_FAILURE:
+            return state;
         case SWITCH_LANGUAGE:
             state = { ...state,
                 language: action.payload.language,

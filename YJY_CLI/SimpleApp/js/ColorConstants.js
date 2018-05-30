@@ -34,6 +34,13 @@ var colors = {
 	COLOR_MAIN_THEME_BLUE: '#1b9beb',
 	COLOR_NAVBAR_BLUE_GRADIENT: ["#0094ed", "#05bcff"],
 
+	IMPORTANT_COLOR_GRADIENT_ENABLE: ["#f0bd0a", "#fcdc45"],
+    IMPORTANT_TEXT_COLOR_ENABLE: '#917202',
+    UNIMPORTANT_COLOR_GRADIENT_ENABLE: ["#0f96ea",  "#22bdfc"],
+    UNIMPORTANT_TEXT_COLOR_ENABLE: 'white',
+    COLOR_GRADIENT_DISABLE: ["#999999", "#AAAAAA"],
+    TEXT_COLOR_DISABLE: "white",
+	
 	stock_color: function(change) {
 		if (change > 0) {
 			return this.STOCK_RISE

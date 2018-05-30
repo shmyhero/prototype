@@ -3,10 +3,20 @@ import {
     GET_ME_DATA_SUCCESS,
     GET_ME_DATA_FAIL,
     BIND_WALLET_ADDRESS,
+    SET_NICKNAME,
+    SET_NICKNAME_SUCCESS,
+    SET_NICKNAME_FAILURE,
+    SET_PORTRAIT,
+    UPLOAD_PORTRAIT_SUCCESS,
+    UPLOAD_PORTRAIT_FAILURE 
 } from "../constants/actionTypes";
 
 import fetchMeDataRequest from "../api/fetchMeDataRequest";
+import setNickNameRequest from "../api/setNickNameRequest";
+import setPortraitRequest from "../api/setPortraitRequest";
 import {checkIsLoggedIn, fetchBalanceData, logout} from "../actions";
+var UIConstants = require('../../UIConstants');
+var LS = require('../../LS');
 
 export function getMeData() {
     console.log("getMeData", GET_ME_DATA)
@@ -54,7 +64,6 @@ export function fetchMeData() {
     }
 }
 
-
 export function bindWallet(thtAddress){
     return (dispatch) => {
         //TODO!!!
@@ -66,3 +75,81 @@ export function bindWallet(thtAddress){
         });
     }
 }
+
+export function setNickName(nickName){
+    return (dispatch) => {
+        isLoading: true,
+        dispatch({
+            type: SET_NICKNAME,
+        });
+
+        if(!nickName || nickName.length==0 ){
+            dispatch({
+                type: SET_NICKNAME_FAILURE,
+                payload: {
+                    error: LS.str("ACCOUNT_NAME_CANNOT_BE_EMPTY"),
+                }
+            });
+			return;
+		}else if(nickName.length > UIConstants.MAX_NICKNAME_LENGTH){
+            dispatch({
+                type: SET_NICKNAME_FAILURE,
+                payload: {
+                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", UIConstants.MAX_NICKNAME_LENGTH),
+                }
+            });
+			return;
+		}
+
+        setNickNameRequest(nickName)
+        .then(()=>{
+            dispatch({
+                type: SET_NICKNAME_SUCCESS,
+                payload: {
+                    nickName,
+                }
+            });
+        }).catch((error)=>{
+            dispatch({
+                type: SET_NICKNAME_FAILURE,
+                payload: {
+                    error: error,
+                }
+            });
+            
+        })      
+    }
+}
+
+export function setPortrait(portrait){
+    return (dispatch) => {
+        //TODO!!!
+        const source = {uri: 'data:image/jpeg;base64,' + portrait};
+        dispatch({
+            type: SET_PORTRAIT,
+            payload: {
+                avatarSource: source,
+            }
+        });
+        
+        setPortraitRequest(portrait)
+        .then(()=>{
+            dispatch({
+                type: UPLOAD_PORTRAIT_SUCCESS,
+                // payload: {
+                //     avatarSource: source,
+                // }
+            });
+        }).catch((error)=>{
+            dispatch({
+                type: UPLOAD_PORTRAIT_FAILURE,
+                payload: {
+                    error: error,
+                }
+            });
+            
+        })
+
+    }
+}
+//

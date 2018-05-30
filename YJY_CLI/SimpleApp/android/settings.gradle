@@ -1,8 +1,4 @@
 rootProject.name = 'SimpleApp'
-include ':react-native-wheel-picker'
-project(':react-native-wheel-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-wheel-picker/android')
-include ':react-native-smart-pull-to-refresh-listview'
-project(':react-native-smart-pull-to-refresh-listview').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-smart-pull-to-refresh-listview/android')
 include ':react-native-orientation'
 include ':app'
 include ':realm'
@@ -10,6 +6,7 @@ include ':react-native-smart-swipe-refresh-layout'
 include ':react-native-linear-gradient'
 include ':react-native-toast'
 include ':react-native-locale'
+include ':react-native-image-picker'
 
 project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
@@ -17,3 +14,4 @@ project(':react-native-smart-swipe-refresh-layout').projectDir = new File(rootPr
 project(':react-native-linear-gradient').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-linear-gradient/android')
 project(':react-native-toast').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-toast/android')
 project(':react-native-locale').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-locale/android')
+project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')

@@ -12,7 +12,7 @@ import {
 	Image,
 	ListView,
   	TouchableOpacity,
-	BackAndroid,
+	//BackAndroid,
 	ScrollView,
 } from 'react-native';
 
@@ -46,7 +46,7 @@ class DepositWithdrawEntryScreen extends Component {
 		onPopToOutsidePage: ()=>{},
 	}
 
-	hardwareBackPress = ()=>{return this.pressBackButton();};
+	// hardwareBackPress = ()=>{return this.pressBackButton();};
 	constructor(props) {
 		super(props);
 
@@ -57,11 +57,11 @@ class DepositWithdrawEntryScreen extends Component {
   	}
 
 	componentWillUnmount(){
-		BackAndroid.removeEventListener('hardwareBackPress', this.hardwareBackPress);
+		//BackAndroid.removeEventListener('hardwareBackPress', this.hardwareBackPress);
 	}
 
 	componentDidMount(){
-		BackAndroid.addEventListener('hardwareBackPress', this.hardwareBackPress);
+		//BackAndroid.addEventListener('hardwareBackPress', this.hardwareBackPress);
 		this.refreshData();
 	}
 
@@ -328,7 +328,7 @@ var styles = StyleSheet.create({
 		paddingBottom: 8,
 	},
 	image: {
-		marginLeft: 0,
+		marginLeft: 20,
 		marginRight: 11,
 		width: 23,
 		height: 23,

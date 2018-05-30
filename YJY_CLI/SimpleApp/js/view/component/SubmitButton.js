@@ -42,13 +42,6 @@ class SubmitButton extends Component {
         style: {}
     }
 
-    importantColorGradientEnable = ["#f0bd0a", "#fcdc45"]
-    importantTextColorEnable = '#917202'
-    unimportantColorGradientEnable = ["#0f96ea",  "#22bdfc"]
-    unimportantTextColorEnable = 'white'
-    colorGradientDisable = ["#999999", "#AAAAAA"]
-    textColorDisable = "white"
-
     constructor(props){
         super(props)
         this.state = this.props
@@ -75,23 +68,23 @@ class SubmitButton extends Component {
             if(this.props.enableColorGradient){
                 colorGradient = this.props.enableColorGradient;
             }else{
-                colorGradient = this.props.isImportant ? this.importantColorGradientEnable : this.unimportantColorGradientEnable;
+                colorGradient = this.props.isImportant ? ColorConstants.IMPORTANT_COLOR_GRADIENT_ENABLE : ColorConstants.UNIMPORTANT_COLOR_GRADIENT_ENABLE;
             }
             if(this.props.enableTextColor){
                 textColor = this.props.enableTextColor;
             }else{
-                textColor = this.props.isImportant ? this.importantTextColorEnable : this.unimportantTextColorEnable;
+                textColor = this.props.isImportant ? ColorConstants.IMPORTANT_TEXT_COLOR_ENABLE : ColorConstants.UNIMPORTANT_TEXT_COLOR_ENABLE;
             }
         }else{
             if(this.props.disableColorGradient){
                 colorGradient = this.props.disableColorGradient
             }else{
-                colorGradient = this.colorGradientDisable
+                colorGradient = ColorConstants.COLOR_GRADIENT_DISABLE
             }
             if(this.props.disableTextColor){
                 textColor = this.props.disableTextColor;
             }else{
-                textColor = this.textColorDisable;
+                textColor = ColorConstants.TEXT_COLOR_DISABLE;
             }
         }
         

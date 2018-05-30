@@ -13,12 +13,14 @@ import DepositTokenScreen from './js/view/depositWithdraw/DepositTokenScreen';
 import WithdrawTokenScreen from './js/view/depositWithdraw/WithdrawTokenScreen';
 import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
 import StockSearchScreen from './js/view/StockSearchScreen';
-import SettingsScreen from './js/view/SettingsScreen'
+import MeSettingsScreen from './js/view/MeSettingsScreen';
+import MeUserConfigScreen from './js/view/MeUserConfigScreen';
 import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 import BindPurseScreen from './js/view/depositWithdraw/BindPurseScreen';
 import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
 import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
+import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -57,7 +59,9 @@ const ViewKeys = {
     SCREEN_BIND_PURSE: "BindPurseScreen",
     SCREEN_TOKEN_DETAIL: "TokenDetailScreen",
     SCREEN_FOLLOW: "FollowScreen",
-    SCREEN_SETTINGS: "SettingsScreen",
+    SCREEN_SETTINGS: "MeSettingsScreen",
+    SCREEN_USER_CONFIG: "MeUserConfigScreen",
+    SCREEN_SET_NICKNAME: "MeSettingNicknameScreen",
 }
 
 class CustomTabBar extends Component {
@@ -214,7 +218,10 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {screen: FollowScre
         headerMode: 'none', // This ensures we don't get two top bars.
     }
 }
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {screen: SettingsScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {screen: MeSettingsScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_CONFIG] = {screen: MeUserConfigScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_NICKNAME] = {screen: MeSettingNicknameScreen}
+
 
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  
