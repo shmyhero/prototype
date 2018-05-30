@@ -286,6 +286,8 @@ namespace YJY_API.Controllers
                     //dto.invest = p.Invest;
                     dto.upl = Trades.CalculatePL(p, quote);
                     dto.roi = dto.upl/p.Invest;
+                    dto.createAt = p.CreateTime;
+                    dto.isLong = p.Side;
                     dto.security = new SecurityBaseDTO()
                     {
                         id = p.SecurityId.Value,
@@ -324,6 +326,8 @@ namespace YJY_API.Controllers
                     //dto.invest = p.Invest;
                     dto.pl = p.PL;
                     dto.roi = p.PL / p.Invest;
+                    dto.closedAt = p.ClosedAt;
+                    dto.isLong = p.Side;
                     dto.security = new SecurityBaseDTO()
                     {
                         id = p.SecurityId.Value,

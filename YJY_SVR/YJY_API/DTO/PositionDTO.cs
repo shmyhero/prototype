@@ -17,6 +17,9 @@ namespace YJY_API.DTO
         public decimal? pl { get; set; }
         public decimal? upl { get; set; }
 
+        public DateTime? createAt { get; set; }
+        public DateTime? closedAt { get; set; }
+
         public SecurityBaseDTO security { get; set; }
     }
 
@@ -30,12 +33,12 @@ namespace YJY_API.DTO
 
         public decimal settlePrice { get; set; }
 
-        public DateTime createAt { get; set; }
+        //public DateTime createAt { get; set; }
 
         public decimal? stopPx { get; set; }
         public decimal? takePx { get; set; }
 
-        public DateTime? closedAt { get; set; }
+        //public DateTime? closedAt { get; set; }
         public decimal? closePrice { get; set; }
 
         public UserBaseDTO followUser { get; set; }
