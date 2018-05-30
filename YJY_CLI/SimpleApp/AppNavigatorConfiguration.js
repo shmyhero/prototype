@@ -13,10 +13,14 @@ import DepositTokenScreen from './js/view/depositWithdraw/DepositTokenScreen';
 import WithdrawTokenScreen from './js/view/depositWithdraw/WithdrawTokenScreen';
 import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
 import StockSearchScreen from './js/view/StockSearchScreen';
+import MeSettingsScreen from './js/view/MeSettingsScreen';
+import MeUserConfigScreen from './js/view/MeUserConfigScreen';
 import DynamicStatusConfig from './js/view/DynamicStatusConfig';
 import BindPurseScreen from './js/view/depositWithdraw/BindPurseScreen';
 import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
 import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
+import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
+import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -45,6 +49,7 @@ const ViewKeys = {
     SCREEN_HELP: "Help",
     SCREEN_ABOUT: "AboutScreen",
     SCREEN_MESSAGE: "MessageScreen",
+    SCREEN_DEPOSIT_WITHDRAW: "DepositWithdraw",
     SCREEN_DEPOSIT: "DepositTokenScreen",
     SCREEN_WITHDRAW: "WithdrawTokenScreen",
     SCREEN_WITHDRAW_SUBMITTED: "WithdrawSubmittedPage",
@@ -54,6 +59,9 @@ const ViewKeys = {
     SCREEN_BIND_PURSE: "BindPurseScreen",
     SCREEN_TOKEN_DETAIL: "TokenDetailScreen",
     SCREEN_FOLLOW: "FollowScreen",
+    SCREEN_SETTINGS: "MeSettingsScreen",
+    SCREEN_USER_CONFIG: "MeUserConfigScreen",
+    SCREEN_SET_NICKNAME: "MeSettingNicknameScreen",
 }
 
 class CustomTabBar extends Component {
@@ -195,6 +203,7 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {screen: User
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {screen: HelpScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT_WITHDRAW] = {screen: DepositWithdrawEntryScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW_SUBMITTED] = {screen: WithdrawSubmittedPage}
@@ -209,6 +218,10 @@ mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {screen: FollowScre
         headerMode: 'none', // This ensures we don't get two top bars.
     }
 }
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {screen: MeSettingsScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_CONFIG] = {screen: MeUserConfigScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_NICKNAME] = {screen: MeSettingNicknameScreen}
+
 
 
 const SimpleApp = StackNavigator(mainAppStackNavigatorConfiguration,  

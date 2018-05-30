@@ -21,6 +21,7 @@ var ColorConstants = require('../ColorConstants');
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
 var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
+var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
 var {height, width} = Dimensions.get('window');
 var LS = require('../LS')
 
@@ -65,11 +66,12 @@ export default class  UserProfileTabMain extends React.Component {
           <ImageBackground style={{height:240,width:bgWidth,padding:5}} resizeMode='stretch'  source={require('../../images/bg_block.png')}>  
             <ProfitTrendCharts ref={'profitTrendCharts'} userId={this.props.userId}/>
           </ImageBackground>
-          <ImageBackground style={{marginTop:10,height:240,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
-            <ProfitBlock userId={this.props.userId} isPrivate={false}/>
+          <ImageBackground style={{marginTop:10,height:280,width:bgWidth,justifyContent:'center',alignContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
+            {/* <ProfitBlock userId={this.props.userId} isPrivate={false}/> */}
+             <TradeStyleCircleBlock userId={this.props.userId}  viewHeight={180} isPrivate={false}/>
           </ImageBackground>
           <ImageBackground style={{marginTop:10,marginBottom:10,height:180,width:bgWidth}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
-            <TradeStyleBlock userId={this.props.userId} isPrivate={false}/>
+            <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
           </ImageBackground>
         </ScrollView>
         <FollowBlock 
@@ -84,7 +86,8 @@ export default class  UserProfileTabMain extends React.Component {
 const styles = StyleSheet.create({
    container:{
       flex:1,
-      backgroundColor:'white'
+      backgroundColor:ColorConstants.BGBLUE,
+      marginTop:10,
    },
    topHead:{
      backgroundColor:ColorConstants.BGBLUE,

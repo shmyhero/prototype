@@ -43,6 +43,8 @@ export let CFD_API = {
   SET_FOLLOW_TRADE: CFD_API_SERVER + '/api/user/followTrade/<id>',
   RANK_USER_FOLLOW_TRADE: CFD_API_SERVER + '/api/rank/user/followTrade',//交易跟随列表
   FOLLOW_TRADE_OPTIONS: CFD_API_SERVER + '/api/user/followTrade/option',
+  SET_NICKNAME: CFD_API_SERVER + '/api/user/nickname/<name>',
+  SET_PORTRAIT: CFD_API_SERVER + '/api/user/avatar',
 }
     
  

@@ -15,8 +15,8 @@ var colors = {
 	BACKGROUND_GREY: '#f0f0f0',
 	STOCK_RISE_RED: '#cc3333',
 	STOCK_DOWN_GREEN: '#428e1b',
-	STOCK_RISE: '#428e1b',
-	STOCK_DOWN: '#cc3333',
+	STOCK_RISE: '#20bd90',
+	STOCK_DOWN: '#f36767',
 	STOCK_UNCHANGED_GRAY: '#999999',
 	LIST_BACKGROUND_GREY: '#f0eff5',
 	SEPARATOR_GRAY: '#ececec',
@@ -34,6 +34,13 @@ var colors = {
 	COLOR_MAIN_THEME_BLUE: '#1b9beb',
 	COLOR_NAVBAR_BLUE_GRADIENT: ["#0094ed", "#05bcff"],
 
+	IMPORTANT_COLOR_GRADIENT_ENABLE: ["#f0bd0a", "#fcdc45"],
+    IMPORTANT_TEXT_COLOR_ENABLE: '#917202',
+    UNIMPORTANT_COLOR_GRADIENT_ENABLE: ["#0f96ea",  "#22bdfc"],
+    UNIMPORTANT_TEXT_COLOR_ENABLE: 'white',
+    COLOR_GRADIENT_DISABLE: ["#999999", "#AAAAAA"],
+    TEXT_COLOR_DISABLE: "white",
+	
 	stock_color: function(change) {
 		if (change > 0) {
 			return this.STOCK_RISE

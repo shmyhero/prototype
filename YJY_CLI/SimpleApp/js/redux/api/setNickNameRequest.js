@@ -2,25 +2,24 @@ import LogicData from '../../LogicData';
 var NetworkModule = require('../../module/NetworkModule');
 var NetConstants = require("../../NetConstants");
 
-export default () => {
+export default (nickName) => {
     return new Promise((resolve, reject) => {
         var userData = LogicData.getUserData();
+        var url = NetConstants.CFD_API.SET_NICKNAME.replace("<name>", nickName);
         NetworkModule.fetchTHUrl(
-            NetConstants.CFD_API.ME_DATA,
+            url,
             {
-                method: 'GET',
+                method: 'PUT',
                 headers: {
                     'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
                     'Content-Type': 'application/json; charset=utf-8',
                 },
                 showLoading: true,
-            }, (responseJson) => {	
-                console.log("fetchmedataRequest", responseJson)
-                LogicData.setMeData(responseJson);
-                resolve(responseJson)
+            }, (responseJson) => {
+                resolve();
             }, (error) =>{
                 reject(error.errorMessage);
             }
-        );}
-    );
+        );
+    });
 }

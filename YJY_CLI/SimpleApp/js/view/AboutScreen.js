@@ -10,7 +10,7 @@ class AboutScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <NavBar title={LS.str("ME_ABOUT_TITLE")} showBackButton={true} navigation={this.props.navigation}/>
+                <NavBar title={LS.str("SETTINGS_ABOUT_TITLE")} showBackButton={true} navigation={this.props.navigation}/>
                 <View style={{
                     flex:1,
                     justifyContent: 'center',

@@ -50,15 +50,20 @@ export default class App extends React.Component {
   }
 
   startupJobs(){
-    var localConstants = Locale.constants();
-    var locale = localConstants.localeIdentifier;
-    if(Platform.OS == "ios"){
-      var language;
-      if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
-        locale = localConstants.preferredLanguages[0];
+    StorageModule.loadLanguage().then((locale)=>{
+      if(locale==undefined){
+        var localConstants = Locale.constants();
+        locale = localConstants.localeIdentifier;
+        if(Platform.OS == "ios"){
+          var language;
+          if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
+            locale = localConstants.preferredLanguages[0];
+          }
+        }
+        StorageModule.setLanguage(locale);
       }
-    }
-    LogicData.setLanguage(locale);
+      LogicData.setLanguage(locale);
+    });    
 
     StorageModule.loadUserData().then((data)=>{
       if(data!=undefined){

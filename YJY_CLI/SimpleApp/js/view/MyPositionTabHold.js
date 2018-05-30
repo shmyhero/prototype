@@ -40,7 +40,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 
 const ROW_PADDING = 15;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
-const ROW_SIMPLE_CONTENT_HEIGHT = 40 + ROW_SIMPLE_CONTENT_PADDING * 2;
+const ROW_SIMPLE_CONTENT_HEIGHT = 42 + ROW_SIMPLE_CONTENT_PADDING * 2;
 const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 const FOLLOW_ROW_HEIGHT = 50;
@@ -562,13 +562,10 @@ export default class  MyPositionTabHold extends React.Component {
 			if(rowData.security.isOpen){
 				return null;
 			}else{
-				// console.log('rowData.security.status = ' + rowData.security.status);
-				var statusTxt = rowData.security.status == 2 ? LS.str("STOCK_MARKET_STOP") : LS.str("STOCK_MARKET_CLOSED")
 				return(
-					<View style={styles.statusLableContainer}>
-						<Text style={styles.statusLable}>{statusTxt}</Text>
-					</View>
-				)
+					<Image source={require("../../images/item_stoped.png")} 
+						style={styles.statusIcon}/>
+				);
 			}
 		}
 	}
@@ -1037,6 +1034,14 @@ export default class  MyPositionTabHold extends React.Component {
 		);
 	}
 
+	onOKButtonPressed(rowData){
+		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
+			this.switchConfrim(rowData);
+		}else{
+			this.okPress(rowData);
+		}
+	}
+
 	renderOKView(rowData) {
 		var profitAmount = rowData.upl
 		if (rowData.settlePrice !== 0) {
@@ -1074,12 +1079,18 @@ export default class  MyPositionTabHold extends React.Component {
 			
 			buttonEnabled = this.stopLossUpdated || this.stopProfitUpdated
 		}
+
+		if(!rowData.security.isOpen){
+			buttonEnabled = false
+		}
 		return(
 			<View>
 				<View style={separatorStyle}/>
-				<SubmitButton 
+				<SubmitButton
+					style={{marginTop:10, marginBottom:10}}
+					isImportant={true}
 					enable={buttonEnabled}
-					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
+					onPress={()=>this.onOKButtonPressed(rowData)}
 					text={buttonText}/>
 				{/* <TouchableOpacity
 					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
@@ -1224,11 +1235,6 @@ export default class  MyPositionTabHold extends React.Component {
 						<Image source={{uri:rowData.followUser.picUrl}} 
 							style={{height:20,width:20, borderRadius:10}}></Image>
 					</View>
-					{/* <ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
-						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
-						</View>
-					</ImageBackground> */}
 				</View>
 			)
 		}else{
@@ -1279,11 +1285,7 @@ export default class  MyPositionTabHold extends React.Component {
 							position:'absolute',
 							bottom: 0,
 							left: ROW_PADDING}}>
-							{/* {this.renderCountyFlag(rowData)} */}
 							{this.renderFollowStatus(rowData)}
-							{/* <Text style={styles.stockSymbolText}>
-								{bottomLine}
-							</Text> */}
 						</View>
 
 						<View style={styles.rowCenterPart}>
@@ -1737,6 +1739,11 @@ const styles = StyleSheet.create({
 		textAlign:'center',
 		padding: 0,
 	},
+	statusIcon:{
+		width:22,
+		height:22,
+		marginLeft:5
+	}
 });
 
 

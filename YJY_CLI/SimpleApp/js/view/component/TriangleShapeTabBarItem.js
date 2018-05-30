@@ -16,7 +16,7 @@ class TriangleShapeTabBarItem extends Component {
         isSelected: PropTypes.bool
     }
 
-    defaultProps = {
+    static defaultProps = {
         isSelected: false,
     }
 

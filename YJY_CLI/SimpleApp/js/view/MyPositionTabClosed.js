@@ -396,7 +396,7 @@ export default class  MyPositionTabClosed extends React.Component {
 						<Text style={styles.extendTextBottom}>{closeDate.Format('hh:mm')}</Text>
 					</View>
 				</View>
-				<View style={styles.darkSeparator} />
+				{rowData.followUser ? <View style={styles.darkSeparator} /> : null}
 				{this.renderFollowRow(rowData)}
 			</View>
 		);

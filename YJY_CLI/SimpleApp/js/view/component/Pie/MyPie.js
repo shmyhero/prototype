@@ -65,6 +65,7 @@ export default class  MyPie extends React.Component {
         var topFontSize = 24;
         var topOffSet = radius - topFontSize;
          
+        console.log("series:"+series);
 
         return (
             <View style={{justifyContent:'center',alignItems:'center'}} >
@@ -78,8 +79,8 @@ export default class  MyPie extends React.Component {
                             colors2={colors2}   
                         />  
                     </View> 
-                    <Text style={{fontSize:topFontSize, position:'absolute',top:topOffSet}}>48</Text>
-                    <Text style={{fontSize:topFontSize-4, position:'absolute',top:radius}}>TRADES</Text>
+                    <Text style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet}}>48</Text>
+                    <Text style={{color:'#9c9c9c', fontSize:topFontSize-4, position:'absolute',top:radius}}>TRADES</Text>
             </View>
         );
     }

@@ -142,7 +142,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		var emptyTip = LS.str("NO_DYNAMIC")  
 		return(
 			<View style={{flex:1,width:width,justifyContent:'center',alignItems:'center'}}>
-				<Text style={{color:'grey',fontSize:14}}>{emptyTip}</Text>
+				<Text style={{color:'white',fontSize:14}}>{emptyTip}</Text>
 			</View>
 		)
 	}
@@ -245,7 +245,8 @@ export default class  UserProfileTabDynamicState extends React.Component {
 const styles = StyleSheet.create({
    container:{
       flex:1,
-      backgroundColor:'white'
+			backgroundColor:ColorConstants.BGBLUE,
+			marginTop:10,
    },
    topHead:{
      backgroundColor:ColorConstants.BGBLUE,

@@ -39,7 +39,8 @@ export default class  UserProfileTabPositionClosed extends React.Component {
 const styles = StyleSheet.create({
    container:{
       flex:1,
-      backgroundColor:'white'
+      backgroundColor:ColorConstants.BGBLUE,
+      marginTop:10,
    },
    topHead:{
      backgroundColor:ColorConstants.BGBLUE,

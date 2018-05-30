@@ -132,15 +132,15 @@ export default class  UserProfileScreen extends React.Component {
 
   rightCustomContent(){
  
-    var text = this.state.isFollowing?LS.str('CONCERN_CANCEL'):LS.str('CONCERN_ADD');
+    var following = this.state.isFollowing?require('../../images/watched_yes.png'):require('../../images/watched_no.png');
     var widthBtn = this.state.isFollowing?80:80;
     if(LogicData.isUserSelf(this.state.userId)){
       return (null)
     } 
     //
     return(
-      <TouchableOpacity style={{borderRadius:12, backgroundColor:'#43b9f9',width:widthBtn,borderWidth:1,paddingLeft:10,paddingRight:10,paddingTop:2,paddingBottom:2,marginRight:10,borderColor:'#c2e5f9'}} onPress={()=>this.followUser()}>
-        <Text style={{textAlign:'center',marginTop:2,marginBottom:2, fontSize:12, color:'white'}}>{text}</Text>
+      <TouchableOpacity style={{marginRight:10}}  onPress={()=>this.followUser()}>
+        <Image style={{width:22,height:22}} source={following}></Image>
       </TouchableOpacity>
       ) 
   }

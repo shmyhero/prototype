@@ -41,6 +41,7 @@ var childHeights=[];
 var listViewOffY = 0;
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
+import LogicData from '../LogicData';
  
 
   /*
@@ -239,12 +240,23 @@ export default class TabMainScreen extends React.Component {
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
 				<Text style={{color:'#b0dcfe'}}>{dataTime}</Text> 
-				<TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
-					<Image style = {{width:29,height:29,}} source={require('../../images/three_point.png')}></Image>
-				</TouchableOpacity>
+				{this.renderConfigEnter()}
 			</View>	
 		)
-	}
+    }
+    
+    renderConfigEnter(){
+        if(LogicData.isLoggedIn()){
+            return (
+                <TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
+                        <Image style = {{width:26.5,height:5,}} source={require('../../images/three_point.png')}></Image>
+                    </TouchableOpacity>
+            )
+        }else{
+            return null;
+        }
+        
+    }
 
     render() {
         if(this.state.isLoading){

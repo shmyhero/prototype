@@ -76,58 +76,52 @@ export default class  TabRankScreen extends React.Component {
  
 
   renderRankTypeButton(){
+    var marginLeft = width/2-6
+    marginLeft += (this.state.rankType - 1) * 100
 
-    var leftbg = this.state.rankType == RANKING_TYPE_0 ? '#41bafc':'#1b9beb';
-    var leftbd = this.state.rankType == RANKING_TYPE_0 ? '#41bafc':'#41bafc';
-    var middlebg = this.state.rankType == RANKING_TYPE_1 ? '#41bafc':'#1b9beb';
-    var middlebd = this.state.rankType == RANKING_TYPE_1 ? '#41bafc':'#41bafc';
-    var rightbg = this.state.rankType == RANKING_TYPE_2 ? '#41bafc':'#1b9beb';
-    var rightbd = this.state.rankType == RANKING_TYPE_2 ? '#41bafc':'#41bafc';
-
-    var leftTextColor = this.state.rankType == RANKING_TYPE_0 ? 'white':'#41bafc';
-    var middleTextColor = this.state.rankType == RANKING_TYPE_1 ? 'white':'#41bafc';
-    var rightTextColor = this.state.rankType == RANKING_TYPE_2 ? 'white':'#41bafc';
-
-    return(
-        <View style={styles.headContainer}>
+    return( 
+      <View>
+         <View style={styles.headContainer}>
           <TouchableOpacity 
             onPress={()=>this.onPressedRankType(RANKING_TYPE_0)}
-            style={{flex:1,height:32, 
-            alignItems:'center',
-            justifyContent:'center',
-            borderTopLeftRadius:16,
-            borderBottomLeftRadius:16,
-            backgroundColor:leftbg,
-            borderColor:leftbd,
-            borderWidth:1,
-            }}>
-            <Text style={{color:leftTextColor}}>{LS.str("EXPERT")}</Text>
+             style={{ 
+             alignItems:'center',
+             justifyContent:'center',  
+             height:48,
+             width:100, 
+            }} >
+            <Text style={{color:'white'}}>{LS.str("EXPERT")}</Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
-            style={{flex:1,height:32, 
-            alignItems:'center',
-            justifyContent:'center', 
-            backgroundColor:middlebg,
-            borderColor:middlebd,
-            borderWidth:1,
-            }}>
-            <Text style={{color:middleTextColor}}>{LS.str("CONCERN")} </Text>
+             onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
+             style={{ 
+             alignItems:'center',
+             justifyContent:'center',  
+             height:48,
+             width:100, 
+            }} 
+            >
+            <Text style={{color:'white'}}>{LS.str("CONCERN")} </Text>
           </TouchableOpacity>
           <TouchableOpacity 
-            onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
-            style={{flex:1,height:32, 
-            alignItems:'center',
-            justifyContent:'center',
-            marginLeft:-1,
-            borderTopRightRadius:16,
-            borderBottomRightRadius:16,
-            backgroundColor:rightbg,
-            borderColor:rightbd,
-            borderWidth:1,}}>
-            <Text style={{color:rightTextColor}}>{LS.str("COPY_TRADE")} </Text>
+             onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
+             style={{ 
+             alignItems:'center',
+             justifyContent:'center',  
+             height:48,
+             width:100, 
+            }} 
+            >
+            <Text style={{color:'white'}}>{LS.str("COPY_TRADE")} </Text>
           </TouchableOpacity>
         </View> 
+        <View>
+            <Image style={{width:11.5,height:6.5,marginLeft:marginLeft}} source={require('../../images/icon_control.png')}/>
+            <View style={{width:width,height:2,backgroundColor:'#30adf2'}}></View>
+            <View style={{width:width,height:10}}></View>
+        </View>
+      </View>  
+       
        
     ) 
   }
@@ -181,13 +175,13 @@ const styles = StyleSheet.create({
       height: 26,
     },
     headContainer:{
-      marginBottom:5,
+      marginBottom:0,
       height:32,
       width:192,
       alignSelf:'center',
       justifyContent:'center',
       alignItems:'center', 
-      flexDirection:'row', 
+      flexDirection:'row',  
     }
 })
 

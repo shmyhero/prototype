@@ -181,19 +181,19 @@ export default class DynamicStatusConfig extends Component {
 					renderRow={this.renderRow.bind(this)}
 					renderSeparator={this.renderSeparator} />
 
-				<View style={{width:width,height:400,backgroundColor:'#EEEEEE',justifyContent:'center',alignItems:'center'}}>
+				{/* <View style={{width:width,height:400,backgroundColor:'#EEEEEE',justifyContent:'center',alignItems:'center'}}>
 					<MyPie 
 						radius={100}
 						innerRadius={92} 
 						colors={['#3dcc24','#d0f5c7',]} 
-						series={[20, 10]}
+						series={[3, 100]}
 						colors2={['#2b9ff1','#c8e2f4',]} 
-						series2={[40, 10]}
+						series2={[2, 10]}
 						innerText={'48'}
 						innerText2={'TRADES'}
 					 /> 
 					  
-				</View>		
+				</View>		 */}
 			</View>
 		 ) 
 	}
