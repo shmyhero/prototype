@@ -214,6 +214,8 @@ var LS = {
     }
   },
   imageList: {
+    position_follow_open: [require("../images/zh-cn/position_follow_open.png"), require("../images/en-us/position_follow_open.png")],
+    position_follow_closed: [require("../images/zh-cn/position_follow_closed.png"), require("../images/en-us/position_follow_closed.png")],
     deposit_token_image: [require("../images/zh-cn/deposit_token_image.jpg"), require("../images/en-us/deposit_token_image.jpg"), ],
     stock_detail_direction_container: [require("../images/zh-cn/stock_detail_direction_container.png"), require("../images/en-us/stock_detail_direction_container.png")],
     stock_detail_multiple_container: [require("../images/zh-cn/stock_detail_multiple_container.png"), require("../images/en-us/stock_detail_multiple_container.png")],

@@ -423,6 +423,18 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
+	renderFollowStatus(rowData){
+		if(rowData.followUser){
+			var statusTxt = LS.str("COPY_TRADE")
+			return(
+				<Image source={LS.loadImage("position_follow_closed")} 
+					style={styles.followIcon} resizeMode="contain"/>
+			)
+		}else{
+			return null;
+		}
+	}
+
 	renderItem(data) {
 		var rowData = data.item;
 		var rowID = data.index;
@@ -430,9 +442,8 @@ export default class  MyPositionTabClosed extends React.Component {
 		var plPercent = (rowData.closePrice - rowData.settlePrice) / rowData.settlePrice * rowData.leverage * 100
 		plPercent = plPercent * (rowData.isLong ? 1 : -1)
 		var topLine = rowData.security.name
-        var bottomLine = rowData.security.symbol
-
-		
+		var bottomLine = rowData.security.symbol
+				
 		return (
 			<View style={styles.rowContainer}>
 				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
@@ -442,13 +453,13 @@ export default class  MyPositionTabClosed extends React.Component {
 								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
 									{topLine}
 								</Text>
+							</View>
 
-								<View style={{flexDirection: 'row', alignItems: 'center'}}>
-									{this.renderCountyFlag(rowData)}
-									<Text style={styles.stockSymbolText}>
-										{bottomLine}
-									</Text>
-								</View>
+							<View style={{flexDirection: 'row', alignItems: 'center', 
+								position:'absolute',
+								bottom: 5,
+								left: ROW_PADDING}}>
+								{this.renderFollowStatus(rowData)}
 							</View>
 
 							<View style={styles.rowCenterPart}>
@@ -700,6 +711,11 @@ var styles = StyleSheet.create({
 
 	refreshTextStyle: {
 		color: '#afafaf',
+	},
+
+	followIcon:{
+		width:23,
+		height:12,
 	},
 });
 

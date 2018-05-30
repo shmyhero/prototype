@@ -36,10 +36,14 @@ export default class TradeStyleBlock extends Component {
   }
 
   componentDidMount(){
-    this.loadData();
+    this.loadData(this.props.userId);
   }
 
-
+  componentWillReceiveProps(props){
+    if(props.userId != this.props.userId){
+      this.loadData(props.userId);
+    }
+  }
   /*
   { winRate: 0,
     posCount: 12,
@@ -48,9 +52,9 @@ export default class TradeStyleBlock extends Component {
     avgPl: -4.1691446975,
     avgDur: 0.174804940200617 }
   */
-  loadData(){   
+  loadData(userId){   
       var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
-      url = url.replace('<id>',this.props.userId)
+      url = url.replace('<id>', userId)
       console.log('url='+url);
       this.setState({
           isDataLoading: true,

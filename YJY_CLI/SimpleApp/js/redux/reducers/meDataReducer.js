@@ -21,6 +21,7 @@ var initializeState = {
     errorMessage: null,
     thtAddress: "",
     language: "",
+    phone: "",
 }
 
 //Previous state, action => current state
@@ -75,6 +76,7 @@ export default function meDataReducer(state = initializeState, action) {
                 nickname: action.payload.data.nickname,
                 avatarSource: {uri: action.payload.data.picUrl},
                 thtAddress: action.payload.data.thtAddress,
+                phone: action.payload.data.phone,
                 isLoading: false,
             };
         case GET_ME_DATA_FAIL:
