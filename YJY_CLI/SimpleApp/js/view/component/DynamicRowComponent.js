@@ -146,6 +146,22 @@ class DynamicRowComponent extends Component {
                     </Text>
                 </Text>
             )
+        }else if(rowData.type == 'system'){
+            text = rowData.body
+            text2 = rowData.title
+            if(text == text2){
+                return null
+            }else{
+                return (
+                    <TweetBlock  
+                        style={{marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
+                        value={text}
+                        onLinkPressed={(name, id)=>{this.jump2Detail(name, id)}}
+                        onPressed={()=>{
+                            this.props.onRowPress && this.props.onRowPress();
+                        }}/>
+                ) 
+            } 
         }
     } 
 

@@ -352,7 +352,7 @@ const styles = StyleSheet.create({
   
   loadingText: {
     fontSize: 13,
-    color: '#9f9f9f'
+    color: 'white'
   },
   rowItem:{
     shadowOffset: {width:2, height:2},
