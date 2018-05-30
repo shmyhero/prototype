@@ -548,9 +548,8 @@ export default class  MyPositionTabHold extends React.Component {
 		if(rowData.followUser){
 			var statusTxt = LS.str("COPY_TRADE")
 			return(
-				<View style={styles.statusLableContainer}>
-					<Text style={styles.statusLable}>{statusTxt}</Text>
-				</View>
+				<Image source={LS.loadImage("position_follow_open")} 
+					style={styles.followIcon} resizeMode="contain"/>
 			)
 		}else{
 			return null;
@@ -1156,8 +1155,7 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 
 		return (
-			<View style={[styles.extendWrapper]} >
-				<View style={[styles.darkSeparator, styles.firstSeparator]} />
+			<View style={[styles.extendWrapper]} >				
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
 						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
@@ -1396,10 +1394,7 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorConstants.SEPARATOR_GRAY,
 	},
 
-    rowContainer: {
-        borderWidth:1,
-        borderColor:"#cccccc",
-        borderRadius:10,      
+    rowContainer: {    
         margin:ROW_PADDING,
         marginTop: 5,
 		marginBottom: ROW_PADDING-5,
@@ -1484,6 +1479,11 @@ const styles = StyleSheet.create({
 	},
 
 	extendWrapper: {
+		borderWidth:1,
+		borderTopWidth:0,
+		borderColor:'#cccccc',
+		borderBottomLeftRadius: 10,
+		borderBottomRightRadius: 10,
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
 	},
@@ -1738,6 +1738,10 @@ const styles = StyleSheet.create({
 		color: "#000000",
 		textAlign:'center',
 		padding: 0,
+	},
+	followIcon:{
+		width:23,
+		height:12,
 	},
 	statusIcon:{
 		width:22,

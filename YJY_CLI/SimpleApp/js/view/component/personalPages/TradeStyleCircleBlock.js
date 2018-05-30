@@ -29,18 +29,21 @@ export default class TradeStyleCircleBlock extends Component {
     this.state = { 
       
     }
+  }
 
-    
+  componentWillReceiveProps(props){
+    if(props.userId != this.props.userId){
+      this.loadData(props.userId);
+    }
   }
 
   componentDidMount(){
-    this.loadData();
+    this.loadData(this.props.userId);
   }
 
- 
-  loadData(){   
+  loadData(userId){   
       // var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
-      // url = url.replace('<id>',this.props.userId)
+      // url = url.replace('<id>', userId)
       // console.log('url='+url);
       // this.setState({
       //     isDataLoading: true,

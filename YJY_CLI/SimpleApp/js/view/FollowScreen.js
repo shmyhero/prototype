@@ -167,6 +167,7 @@ class FollowScreen extends Component {
                     {this.renderHint()}
                 </View>
                 <SubmitButton 
+                    style={{marginTop:10, marginBottom:10}}
                     onPress={()=>this.setFollowConfig()}
                     enable={this.props.followConfigButtonEnable}
                     text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}

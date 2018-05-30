@@ -92,19 +92,21 @@ class MeUserConfigScreen extends Component {
     renderRightItem(rowData){
 
         var view = null;
+        var showArrow = true;
         if(rowData.item.subtype == "portrait"){
             view = (<Image style={styles.headPortrait} source={this.props.avatarSource}></Image>);
         }else if(rowData.item.subtype == "nickname"){
-            view = (<Text >{this.props.nickname}</Text>);
+            view = (<Text style={[styles.value, {marginRight:10}]}>{this.props.nickname}</Text>);
         }else if(rowData.item.subtype == "mobile"){
-            view = (<Text >{this.props.nickname}</Text>);
+            view = (<Text style={styles.value}>{this.props.phone}</Text>);
+            showArrow = false;
         }
 
         return (
             <View style={styles.rowRightPart}>
                 {view}
-                <Image source={require("../../images/icon_arrow_right.png")}
-                    style={styles.arrowIcon}/>
+                {showArrow ? <Image source={require("../../images/icon_arrow_right.png")}
+                    style={styles.arrowIcon}/> : null}
             </View>
         );
     }
@@ -172,18 +174,22 @@ const styles = StyleSheet.create({
     arrowIcon:{
         height:15,
         width:15,
-        marginRight:20,
         alignSelf:'center',
     },
     rowRightPart:{
-        flexDirection: 'row'
+        flexDirection: 'row',
+        marginRight:20,
     },
     headPortrait:{
         width:40,
         height:40,
         borderRadius:20,
-        alignSelf:'center'
+        alignSelf:'center',
+        marginRight:10,
     },
+    value:{
+        fontSize:15,
+    }
 });
 
 //make this component available to the app

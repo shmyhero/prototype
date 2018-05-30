@@ -17,13 +17,15 @@ var {height,width} = Dimensions.get('window');
 var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
 var BIG_BUTTON_HEIGHT = BUTTON_WIDTH / 722 * 380;
-
+var bgWidth = width-20; 
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 import BalanceBlock from './component/BalanceBlock';
 
+var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
+var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
 import LogicData from "../LogicData";
 import LoginScreen from './LoginScreen';
 
@@ -59,14 +61,11 @@ class  TabMeScreen extends React.Component {
     layoutSizeChangedSubscription && layoutSizeChangedSubscription.remove()
   }
 
-  refresh(){
-    this.props.fetchMeData();
-  }
+  userChanged = false
 
-  onLogOutButtonPressed(){
-    // LogicData.logout(()=>{
-    //   this.refresh();
-    // })
+  refresh(){
+    console.log("Mepage refresh")
+    this.props.fetchMeData();
   }
 
   goToUserConfig(){
@@ -100,41 +99,6 @@ class  TabMeScreen extends React.Component {
               />;
   }  
 
-  renderExitButton(){
-    return (
-      <TouchableOpacity
-        style={styles.okView}
-        onPress={()=>this.onLogOutButtonPressed()}>
-        <ImageBackground source={require("../../images/position_confirm_button_disabled.png")}
-          resizeMode={'contain'}
-          style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-          <Text style={styles.okButton}>{LS.str("LOG_OUT")}</Text>
-      </ImageBackground>
-    </TouchableOpacity>  
-    );
-  }
-
-  renderButton(title, icon, onPress){
-    return (
-      <View>
-        <TouchableOpacity style={styles.smallButtonContainer} onPress={()=>onPress()}>
-          <View style={styles.rowContainer}>
-            <View style={styles.rowLeftTextContainer}>
-              <Image style={{marginLeft:10, height:30, width:30}} source={icon}></Image>
-              <View style={{flexDirection:'column', justifyContent:'center', marginLeft: 10}}>
-                <Text style={{fontSize:15, color:'#8c8d90'}}>{title}</Text>
-              </View>
-            </View>
-           
-            <Image source={require("../../images/icon_arrow_right.png")} 
-                  style={styles.arrowIcon}/>
-          </View>
-        </TouchableOpacity>
-        {this.renderSeparator()}
-      </View>
-      );
-  }
-
   renderSeparator(){
     return <View style={styles.separator}></View>
   }
@@ -145,7 +109,7 @@ class  TabMeScreen extends React.Component {
         onPress={()=>this.goToUserConfig()}>
         <View>
           <Image style={styles.headPortrait} source={this.props.avatarSource}></Image>
-          <Text style={{textAlign:'center', marginTop:10, height:15, fontSize: 12, color: '#44c1fc'}}>{this.props.nickname}</Text>
+          <Text style={styles.nickName}>{this.props.nickname}</Text>
         </View>
       </TouchableOpacity>
     )
@@ -194,6 +158,35 @@ class  TabMeScreen extends React.Component {
     )
   }
 
+  renderTradeStyleCicleBlock(){
+    return (
+      <View style={styles.TradeStyleCycleContainer}>
+        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
+          resizeMode='stretch' source={require('../../images/bg_block.png')}>
+          <TradeStyleCircleBlock 
+            ref={(ref)=>this.tradeStyleCicleBlock = ref}
+            userId={this.props.userId}
+            viewHeight={180}
+            isPrivate={false}/>
+        </ImageBackground>
+      </View>
+    );
+  }
+
+  renderTradeStyleBlock(){
+    console.log("this.props.userId", this.props.userId )
+    return (
+      <View style={styles.TradeStyleContainer}>
+        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+          <TradeStyleBlock
+            ref={(ref)=>this.tradeStyleBlock = ref}
+            userId={this.props.userId}
+            isPrivate={false} />
+        </ImageBackground>
+      </View>
+    );
+  }
+
   renderContent(){
     if(this.props.userLoggedin){
       return (
@@ -214,11 +207,9 @@ class  TabMeScreen extends React.Component {
           
           {this.renderPortrait()}
           {this.renderBalance()}
-          {/* {this.renderButton(LS.str("ME_DETAIL_TITLE"), require("../../images/me_icon_withdraw_deposit_details.png"), ()=>this.goToTokenDetail())}*/}
-          {this.renderButton(LS.str("SETTINGS_CENTER_TITLE"), require("../../images/me_icon_help.png"), ()=>this.goToHelp())}
-          {this.renderButton(LS.str("SETTINGS_ABOUT_TITLE"), require("../../images/me_icon_about.png"), ()=>this.goToAbout())}
-          {this.renderExitButton()}
-          <View style={{height:10}}></View>
+          {this.renderTradeStyleCicleBlock()}
+          {this.renderTradeStyleBlock()}
+          
         </ScrollView>);
     }else{
       return this.renderLogin();
@@ -263,8 +254,25 @@ const styles = StyleSheet.create({
     },
     bigButtonContainer:{
       height: BIG_BUTTON_HEIGHT,
-      paddingLeft:10,
-      paddingRight:10,
+      marginLeft:10,
+      marginRight:10,
+    },
+    TradeStyleCycleContainer:{
+      height:280,
+      marginLeft:15,
+      marginRight:15,
+      justifyContent:'center',
+      alignContent:'center',
+      //backgroundColor:'white'
+    },
+    TradeStyleContainer:{
+      height:180,
+      marginTop:10,
+      marginBottom:10,
+      marginLeft:15,
+      marginRight:15,
+      justifyContent:'center',
+      alignContent:'center',
     },
     buttonBackground: {
       width: '100%',
@@ -289,31 +297,19 @@ const styles = StyleSheet.create({
       flexDirection:'row',
     },
     headPortrait:{
-      width:80,
-      height:80,
-      borderRadius:40,
+      width:101,
+      height:101,
+      borderWidth:3,
+      borderColor:'#70bdf9',
+      borderRadius:50,
       alignSelf:'center'
     },
-    okView: {
-      width: 332,
-      height: 60,
-      justifyContent: 'center',
-      alignItems: 'center',
-      alignSelf: 'center',
-      marginTop:15,
-    },
-    okButton: {
-      color: 'white',
-      textAlign: 'center',
-      fontSize: 17,
-      position:'absolute',
-      top:17
-    },
-    arrowIcon:{
-      height:15,
-      width:15,
-      marginRight:20,
-      alignSelf:'center',
+    nickName: {
+      textAlign:'center',
+      marginTop:10,
+      height:30, 
+      fontSize: 19,
+      color: '#b8daf8'
     },
     balanceRow:{
       flexDirection:'row',
