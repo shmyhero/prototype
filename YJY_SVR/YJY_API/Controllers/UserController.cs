@@ -104,18 +104,18 @@ namespace YJY_API.Controllers
         }
 
         [HttpPut]
-        [Route("nickname/{nickname}")]
+        [Route("nickname")]
         [BasicAuth]
-        public ResultDTO SetNickname(string nickname)
+        public ResultDTO SetNickname(SetNicknameFormDTO form)
         {
-            if (string.IsNullOrEmpty(nickname))
+            if (string.IsNullOrWhiteSpace(form.nickname))
                 return new ResultDTO {success = false};
 
-            nickname = nickname.Trim();
-            if (nickname.Length > NICKNAME_MAX_LENGTH)
+            form.nickname = form.nickname.Trim();
+            if (form.nickname.Length > NICKNAME_MAX_LENGTH)
                 return new ResultDTO() { success = false, message = "nickname too long" };
 
-            if (db.Users.Any(o => o.Id != UserId && o.Nickname == nickname))
+            if (db.Users.Any(o => o.Id != UserId && o.Nickname == form.nickname))
                 return new ResultDTO
                 {
                     success = false,
@@ -123,7 +123,7 @@ namespace YJY_API.Controllers
                 };
 
             var user = GetUser();
-            user.Nickname = nickname;
+            user.Nickname = form.nickname;
             db.SaveChanges();
 
             return new ResultDTO { success = true };

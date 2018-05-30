@@ -149,7 +149,7 @@ namespace YJY_API.Controllers.Attributes
 
                 if (apiHit.HttpMethod != "GET")
                     apiHit.ResponseContent =
-                        actionExecutedContext.Response.Content.ReadAsStringAsync().Result.TruncateMax(1000);
+                        actionExecutedContext.Response?.Content.ReadAsStringAsync().Result.TruncateMax(1000);
 
                 ////too many spam logs
                 //if (apiHit.Url.Contains("api/sendCode"))

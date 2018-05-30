@@ -11,10 +11,10 @@ namespace YJY_API.DTO.FormDTO
         public string verifyCode { get; set; }
     }
 
-    //public class SetNicknameFormDTO
-    //{
-    //    public string nickname { get; set; }
-    //}
+    public class SetNicknameFormDTO
+    {
+        public string nickname { get; set; }
+    }
 
     public class NewStatusFormDTO
     {
