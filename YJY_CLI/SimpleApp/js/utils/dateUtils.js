@@ -1,4 +1,5 @@
 var LS = require("../LS")
+import LogicData from "../LogicData";
 
 Date.prototype.Format = function (fmt) { //author: meizz
     var o = {
@@ -75,21 +76,22 @@ Date.prototype.getDateSimpleString = function(){
 Date.prototype.getDateFullString = function(){
     var weekday = new Array("SUNDAY", "MONDAY", "TUESDAY", "WEDNESDAY", "THURSDAY", "FRIDAY", "SATURDAY");
     var day = LS.str(weekday[this.getDay()]);//当前系统天数0-6 
-
+    var MonthEn = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sept','Oct','Nov','Dec'];
     var dd = this.getDate();
     var mm = this.getMonth()+1; //January is 0!
     var yyyy = this.getFullYear();
-    var dayName = this.get
+     
     if(dd<10) {
         dd='0'+dd
     }
     if(mm<10) {
         mm='0'+mm
-    }
-
+    } 
         
-    today = yyyy+"."+mm+"."+dd+" " + day;
-    return today;
+    var today = yyyy+"年"+mm+"月"+dd+"日" + day; 
+    var todayEn = day+". "+MonthEn[this.getMonth()]+". "+this.getDate()+", "+yyyy
+    var showDay = LogicData.getLanguage().includes('en')?todayEn:today;
+    return todayEn;
 }
 
 
