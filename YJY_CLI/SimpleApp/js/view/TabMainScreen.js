@@ -42,6 +42,7 @@ var listViewOffY = 0;
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 import LogicData from '../LogicData';
+import { CHECK_LOGIN_STATE_NOT_LOGGED_IN } from '../redux/constants/actionTypes';
  
 
   /*
@@ -430,12 +431,12 @@ export default class TabMainScreen extends React.Component {
 			},
 			(responseJson) => {  
                 
-
+                console.log("RAM="+responseJson)
                 for(var i = 0; i < responseJson.length; i++){
                     responseJson[i].isNew = false;
                 }
        
-                //responseJson = [responseJson[0]]
+                
                 this.setState({ 
                     dataResponse: responseJson,
                     dataSource: this._dataSource.cloneWithRows(responseJson),

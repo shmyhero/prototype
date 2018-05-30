@@ -30,6 +30,7 @@ var RANKING_TYPE_1 = 1;//关注
 var RANKING_TYPE_2 = 2;//跟随
 var LS = require('../LS')
 
+
 const RANK_LIST = 'rankList'
 //Tab2:榜单
 export default class  TabRankScreen extends React.Component {
@@ -40,7 +41,7 @@ export default class  TabRankScreen extends React.Component {
     this.state = {
       contentLoaded: false,
       isRefreshing: true,
-      rankType: RANKING_TYPE_0, 
+      rankType : RANKING_TYPE_0, 
       isLoggedIn: LogicData.isLoggedIn()
     } 
   }
@@ -65,6 +66,15 @@ export default class  TabRankScreen extends React.Component {
     if(this.refs[RANK_LIST]){
       this.refs[RANK_LIST].onRefresh()
     }
+
+    if(!LogicData.isLoggedIn()){
+      this.setState(
+        {
+          rankType : RANKING_TYPE_0
+        }
+      )
+    }
+    
   }
 
   onPressedRankType(type){
@@ -78,9 +88,9 @@ export default class  TabRankScreen extends React.Component {
   renderRankTypeButton(){
     var marginLeft = width/2-6
     marginLeft += (this.state.rankType - 1) * 100
-
-    return( 
-      <View>
+    if(LogicData.isLoggedIn()){
+      return(
+        <View>
          <View style={styles.headContainer}>
           <TouchableOpacity 
             onPress={()=>this.onPressedRankType(RANKING_TYPE_0)}
@@ -120,8 +130,15 @@ export default class  TabRankScreen extends React.Component {
             <View style={{width:width,height:2,backgroundColor:'#30adf2'}}></View>
             <View style={{width:width,height:10}}></View>
         </View>
-      </View>  
-       
+      </View>   
+      )
+    }else{
+
+    }
+    return( 
+        <View style={{width:width,height:36,justifyContent:'center',alignItems:'center'}}>
+          <Text style={{fontSize:18,color:'white'}}>达人</Text>
+        </View>
        
     ) 
   }
