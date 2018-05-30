@@ -161,15 +161,15 @@ class  TabMeScreen extends React.Component {
   renderTradeStyleCicleBlock(){
     return (
       <View style={styles.TradeStyleCycleContainer}> 
-        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center',alignItems:'center'}}
+        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}>
-          <View style={{backgroundColor:'white',width:width-50}}>
+           
             <TradeStyleCircleBlock 
               ref={(ref)=>this.tradeStyleCicleBlock = ref}
               userId={this.props.userId}
               viewHeight={180}
               isPrivate={false}/>
-          </View>  
+           
         </ImageBackground> 
       </View>
     );

@@ -96,7 +96,7 @@ export default class TradeStyleCircleBlock extends Component {
     return (
       <View style={[styles.container]}> 
             
-            <View >
+            <View style={{backgroundColor:'white'}}>
               <MyPie  
               radius={radius}
               innerRadius={innerRadius} 
@@ -115,7 +115,7 @@ export default class TradeStyleCircleBlock extends Component {
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>
               <Text style={{fontSize:18,color:'#3dcc24'}}>74%</Text>
               <Text style={{fontSize:12,color:'#3dcc24'}}>WinRate</Text>
-              <Image  style={{width:40,height:22,marginRight:20}} source={require('../../../../images/green_line.png')}></Image>
+              <Image  style={{width:40,height:22,marginRight:22}} source={require('../../../../images/green_line.png')}></Image>
             </View>  
 
            
@@ -128,7 +128,7 @@ const styles = StyleSheet.create({
   container: { 
     flexDirection:'row',
     justifyContent:'center',
-    alignContent:'center',
+    alignContent:'center', 
   }, 
 });
 
