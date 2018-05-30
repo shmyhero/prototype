@@ -15,8 +15,17 @@ namespace YJY_API.DTO
         public bool isRankedUser { get; set; }
 
         public string status { get; set; }
+        public string title { get; set; }
+        public string body { get; set; }
 
         public SecurityBaseDTO security { get; set; }
         public PositionBaseDTO position { get; set; }
+    }
+
+    public class FeedFilterDTO
+    {
+        public bool showFollowing { get; set; }
+        public bool showTradeFollowing { get; set; }
+        public bool showHeadline { get; set; }
     }
 }

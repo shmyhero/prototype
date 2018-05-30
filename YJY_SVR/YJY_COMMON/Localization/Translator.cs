@@ -79,6 +79,7 @@ namespace YJY_COMMON.Localization
                 .Replace(" Mini", string.Empty)
                 .Replace(" Outright", string.Empty)
                 .Replace(" Spot", string.Empty)
+                .Replace(" Rolling", string.Empty)
                 .Replace(" (1 EUR Contract)", string.Empty);//;
         }
     }

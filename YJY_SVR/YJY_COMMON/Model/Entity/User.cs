@@ -37,5 +37,11 @@ namespace YJY_COMMON.Model.Entity
 
         [StringLength(100)]
         public string THTAddress { get; set; }
+
+        public bool? ShowFollowingFeed { get; set; }
+
+        public bool? ShowTradeFollowingFeed { get; set; }
+
+        public bool? ShowHeadlineFeed { get; set; }
     }
 }

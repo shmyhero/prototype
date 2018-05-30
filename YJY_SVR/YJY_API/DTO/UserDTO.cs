@@ -18,7 +18,7 @@ namespace YJY_API.DTO
 
     public class UserBaseDTO
     {
-        public int id { get; set; }
+        public int? id { get; set; }
         public string nickname { get; set; }
         public string picUrl { get; set; }
     }
@@ -26,6 +26,7 @@ namespace YJY_API.DTO
     public class MeDTO:UserBaseDTO
     {
        public string thtAddress { get; set; }
+        public string phone { get; set; }
     }
 
     public class UserRankDTO : UserBaseDTO

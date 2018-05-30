@@ -239,13 +239,13 @@ namespace YJY_COMMON.Localization
             {"yanzhou coalng co-h", "兖州煤业"},
             {"yy inc", "欢聚时代"},
 
-            {"eu 50 rolling", "欧洲50"},
-            {"france 40 rolling", "法国40"},
-            {"germany 30 rolling", "德国30"},
-            {"uk 100 rolling", "英国100"},
-            {"us 500 rolling", "美国标准500"},
-            {"us tech 100 rolling", "美国科技股100"},
-            {"wall street rolling", "华尔街"},
+            {"eu 50", "欧洲50"},
+            {"france 40", "法国40"},
+            {"germany 30", "德国30"},
+            {"uk 100", "英国100"},
+            {"us 500", "美国标准500"},
+            {"us tech 100", "美国科技股100"},
+            {"wall street", "华尔街"},
         };
     }
 }
