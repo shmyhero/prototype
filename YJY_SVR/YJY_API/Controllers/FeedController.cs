@@ -43,7 +43,7 @@ namespace YJY_API.Controllers
                         user =
                             new UserBaseDTO()
                             {
-                                picUrl = Blob.USER_DEFAULT_PIC_FOLDER_URL + "10.jpg",
+                                picUrl = Blob.USER_DEFAULT_PIC_FOLDER_URL + "LOGO.png",
                                 //nickname = "system",
                             },
                         type = "system",
@@ -141,7 +141,7 @@ namespace YJY_API.Controllers
                         user =
                             new UserBaseDTO()
                             {
-                                picUrl = Blob.USER_DEFAULT_PIC_FOLDER_URL + "10.jpg",
+                                picUrl = Blob.USER_DEFAULT_PIC_FOLDER_URL + "LOGO.png",
                                 //nickname = "system",
                             },
                         type = "system",
