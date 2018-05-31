@@ -267,4 +267,13 @@ public class PriceChart extends CombinedChart {
     public void setNeedReset(boolean needReset){
         this.needReset = needReset;
     }
+
+    int lineWidth = 0;
+    public void setLineWidth(int width){
+        this.lineWidth = width;
+    }
+
+    public int getLineWidth(){
+        return lineWidth;
+    }
 }

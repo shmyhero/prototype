@@ -218,10 +218,8 @@ export default class PositionBlock extends Component {
       profitAmount = rowData.pl
     }
 		var bgcolor = 'white'
-    console.log("renderRow");
 		return (
-        <TouchableOpacity style={styles.rowItem} 
-          key={""+rowID}
+        <TouchableOpacity style={styles.rowItem}          
           activeOpacity={0.7} onPress={()=>this.onRowPressed(rowData, rowID)}>
           <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
             <View style={styles.topRow}>
@@ -300,8 +298,9 @@ export default class PositionBlock extends Component {
                 initialListSize={11}
                 data={this.state.stockInfo}
                 enableEmptySections={true}
+                keyExtractor={(item, index) => index}
                 showsVerticalScrollIndicator={false}
-                renderItem={(data)=>this.renderRow(data)}                
+                renderItem={(data)=>this.renderRow(data)}
                 // renderSeparator={this.renderSeparator}
                 />
             </View>

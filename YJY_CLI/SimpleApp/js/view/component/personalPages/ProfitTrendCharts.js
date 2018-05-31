@@ -89,13 +89,14 @@ export default class ProfitTrendCharts extends Component {
             lineChartGradient={['#dbf1fd', '#feffff']}
             dataSetColor={"#0f98eb"}
             textColor={"#9e9e9e"}
+            lineWidth={8}
             borderColor={ColorConstants.SEPARATOR_GRAY}
             xAxisPosition="BOTTOM"
             leftAxisEnabled={false}
             rightAxisEnabled={true}
             rightAxisDrawLabel={true}
-            rightAxisLabelCount={5}
-            chartPaddingLeft={24}
+            rightAxisLabelCount={4}
+            chartPaddingLeft={0}
             chartPaddingTop={20}
             xAxisPaddingBottom={20}
             xAxisPaddingTop={20}

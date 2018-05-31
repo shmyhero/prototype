@@ -339,7 +339,9 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return {
       ...state.meData,
-      ...state.balance
+      ...state.balance,
+      ...state.settings,
+      ...state.message
   };
 };
 
