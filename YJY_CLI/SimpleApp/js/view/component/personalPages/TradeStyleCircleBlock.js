@@ -27,49 +27,78 @@ export default class TradeStyleCircleBlock extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      
+      totalWinRate:0,
+      totalTradeCount:0,
+      tradeType:'--',
+      tradeTypePercent:'--',
     }
   }
 
   componentWillReceiveProps(props){
     if(props.userId != this.props.userId){
       this.loadData(props.userId);
+      // this.loadData2(this.props.userId);
     }
   }
 
   componentDidMount(){
     this.loadData(this.props.userId);
+    // this.loadData2(this.props.userId);
   }
 
   loadData(userId){   
-      // var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
-      // url = url.replace('<id>', userId)
-      // console.log('url='+url);
-      // this.setState({
-      //     isDataLoading: true,
-      // }, ()=>{
-      //     NetworkModule.fetchTHUrl(
-      //       url,
-      //         {
-      //             method: 'GET', 
-      //             showLoading: true,
-      //         }, (responseJson) => { 
-      //              this.setState({
-      //               totalWinRate:(responseJson.winRate*100).toFixed(2), //总胜率
-      //               averageProfile:responseJson.avgPl.toFixed(2),//平均每笔获利
-      //               totalTradeCount: responseJson.posCount,//累积下单
-      //               averageOpenTime: responseJson.avgDur.toFixed(2),//平均持仓
-      //               averageLeverage: responseJson.avgLev.toFixed(2),//平均倍数
-      //               averageInvestUSD: responseJson.avgInv.toFixed(2),//平均糖果
-      //              }) 
-      //              console.log('responseJson is ='+responseJson)
-      //         },
-      //         (exception) => {
-      //             alert(exception.errorMessage)
-      //         }
-      //     );
-      // })  
+    var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
+    url = url.replace('<id>', userId)
+    console.log('url='+url);
+    this.setState({
+        isDataLoading: true,
+    }, ()=>{
+        NetworkModule.fetchTHUrl(
+          url,
+            {
+                method: 'GET', 
+                showLoading: true,
+            }, (responseJson) => { 
+                 this.setState({
+                  totalWinRate:(responseJson.winRate*100).toFixed(0), //总胜率
+                  averageProfile:responseJson.avgPl.toFixed(2),//平均每笔获利
+                  totalTradeCount: responseJson.posCount,//累积下单
+                  averageOpenTime: responseJson.avgDur.toFixed(2),//平均持仓
+                  averageLeverage: responseJson.avgLev.toFixed(2),//平均倍数
+                  averageInvestUSD: responseJson.avgInv.toFixed(2),//平均糖果
+                 }) 
+                 console.log('responseJson is ='+responseJson)
+
+                 this.loadData2(this.props.userId);
+            },
+            (exception) => {
+                alert(exception.errorMessage)
+            }
+        );
+    })  
   }
+
+  //获取交易品种的比例
+  loadData2(userId){ 
+      var url = NetConstants.CFD_API.PERSONAL_PAGE_PLDIST; 
+      url = url.replace("<id>", userId); 
+
+      NetworkModule.fetchTHUrl(
+        url,
+        {
+          method: 'GET', 
+          cache: 'none',
+        },
+        (responseJson) => { 
+          this.setState({
+            tradeType:responseJson[0].symbol,
+            tradeTypePercent:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
+          });
+        },
+        (result) => {
+        }
+	   ) 
+   }
 
 
   refresh(tradeStyle){
@@ -92,8 +121,14 @@ export default class TradeStyleCircleBlock extends Component {
    
     var radius = 100;
     var innerRadius = 92;
+    var totalWinRate = this.state.totalWinRate;
+    var totalTradeCount = this.state.totalTradeCount;
+    var tradeType = this.state.tradeType;
+    var tradeTypePercent = this.state.tradeTypePercent;
+    console.log('WIN:' + totalWinRate + "TradeCount = " + totalTradeCount)
 
-    return (
+    return ( 
+
       <View style={[styles.container]}> 
             
             <View style={{backgroundColor:'white'}}>
@@ -101,19 +136,19 @@ export default class TradeStyleCircleBlock extends Component {
               radius={radius}
               innerRadius={innerRadius} 
               colors={['#3dcc24','#d0f5c7',]} 
-              series={[12, 88]}
+              series={[11.1, 88.9]}
               colors2={['#2b9ff1','#c8e2f4',]} 
-              series2={[33, 75]}
-              innerText={'48'}
+              series2={[11.12, 88.92]}
+              innerText={''+totalTradeCount}
               innerText2={'TRADES'}/>  
             </View>  
             <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-60}}>
-              <Text style={{fontSize:18,color:'#2b9ff1'}}>35%</Text>
-              <Text style={{fontSize:12,color:'#2b9ff1'}}>Golds</Text>
+              <Text style={{fontSize:18,color:'#2b9ff1'}}>{tradeTypePercent}%</Text>
+              <Text style={{fontSize:12,color:'#2b9ff1'}}>{tradeType}</Text>
               <Image style={{width:60,height:21,marginLeft:10}} source={require('../../../../images/blue_line.png')}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>
-              <Text style={{fontSize:18,color:'#3dcc24'}}>74%</Text>
+              <Text style={{fontSize:18,color:'#3dcc24'}}>{totalWinRate}%</Text>
               <Text style={{fontSize:12,color:'#3dcc24'}}>WinRate</Text>
               <Image  style={{width:40,height:22,marginRight:22}} source={require('../../../../images/green_line.png')}></Image>
             </View>  
