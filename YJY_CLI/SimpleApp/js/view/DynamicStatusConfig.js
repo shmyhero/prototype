@@ -21,16 +21,16 @@ import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants') 
 var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule')
-
+var LS = require("../LS");
 
 const FOCUS_FOLLOW = 0
 const FOCUS_TRADE_FOLLOW = 1
 const FOCUS_SYSTEM = 2
 
 var listRawData = [ 
-	{type:FOCUS_FOLLOW,"title":'关注的用户',"desciption":'关注用户的交易动态'},
-	{type:FOCUS_TRADE_FOLLOW,"title":'跟随的用户',"desciption":'自己的交易动态'},
-	{type:FOCUS_SYSTEM,"title":'平台资讯',"desciption":'系统推送的每日资讯'},
+	{type:FOCUS_FOLLOW,"title":LS.str('WATCHLIST'),"desciption":'关注用户的交易动态'},
+	{type:FOCUS_TRADE_FOLLOW,"title":LS.str('COPIERS'),"desciption":'自己的交易动态'},
+	{type:FOCUS_SYSTEM,"title":LS.str('NEWS'),"desciption":'系统推送的每日资讯'},
 ] 
 var {height, width} = Dimensions.get('window')
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -178,9 +178,9 @@ export default class DynamicStatusConfig extends Component {
 	render(){
 		return(
 			<View style={{backgroundColor:'#FFFFFF',flex:1,width:width}}>
-				<NavBar title="栏目管理" showBackButton={true} 
+				<NavBar title={LS.str('DYNAMIC_SETTING')} showBackButton={true} 
 				rightPartOnClick={()=>this.onCompleted()}
-				navigation={this.props.navigation} textOnRight={'完成'}/>
+				navigation={this.props.navigation} textOnRight={LS.str('FINISH')}/>
 			 	<ListView 
 					style={styles.list}
 					dataSource={this.state.dataSource}
