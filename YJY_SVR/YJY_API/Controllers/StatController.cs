@@ -36,7 +36,7 @@ namespace YJY_API.Controllers
                 avgLev = positions.Average(o=>o.Leverage.Value),
                 avgPl = positions.Average(o=>o.PL.Value),
                 posCount = positions.Count,
-                winRate = positions.Count(o=>o.PL>0)/positions.Count,
+                winRate = (decimal)positions.Count(o=>o.PL>0)/positions.Count,
             };
         }
 
