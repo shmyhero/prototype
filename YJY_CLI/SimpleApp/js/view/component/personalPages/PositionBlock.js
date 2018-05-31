@@ -187,7 +187,7 @@ export default class PositionBlock extends Component {
         tradeImage = require('../../../../images/stock_detail_direction_down_disabled.png');
       }
       var timeSubTitle = this.props.type == "open" ? LS.str('ORDER_OPEN_TIME') : LS.str('ORDER_CLOSE_TIME');
-      var dateString = this.props.type == "open" ? rowData.createdAt : rowData.closedAt;
+      var dateString = this.props.type == "open" ? rowData.createAt : rowData.closedAt;
       console.log("renderDetailInfo", dateString)
       var date = new Date(dateString)
       console.log("renderDetailInfo", date)
@@ -227,13 +227,6 @@ export default class PositionBlock extends Component {
                 <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                   {rowData.security.name}
                 </Text>
-
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              
-                  <Text style={styles.stockSymbolText}>
-                    {rowData.security.symbol}
-                  </Text>
-                </View>
               </View>
 
               <View style={styles.rowCenterPart}>

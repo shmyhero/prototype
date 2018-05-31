@@ -73,10 +73,10 @@ class FollowBlock extends Component {
                 start={{x:0.0, y:0}}
                 end={{x:1.0, y:0.0}}
                 style={{flex:1, alignItems:'center', justifyContent:'center'}}
-                colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-                <Text style={{color:'white', fontSize:20}}>
-                    {LS.str("COPY_TRADE")}
-                </Text>
+                colors={ColorConstants.IMPORTANT_COLOR_GRADIENT_ENABLE}>
+                    <Text style={{color:'white', fontSize:20}}>
+                        {LS.str("COPY_TRADE")}
+                    </Text>
                 </LinearGradient>
             </TouchableOpacity>
         );
