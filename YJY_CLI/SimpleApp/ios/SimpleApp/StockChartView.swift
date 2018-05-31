@@ -128,11 +128,13 @@ class StockChartView: UIView {
                 dataSource = CandleChartDataSource.init(json:data!, rect: self.bounds)
             }
             else if YieldLineChartDataSource.isValidData(data!) {
+                // 个人统计页面
                 dataSource = YieldLineChartDataSource.init(json:data!, rect: self.bounds)
                 self.isUserInteractionEnabled = false
                 dataSource?.addSetting("private", value: self.isPrivate as AnyObject)
             }
             else if LineChartDataSource.isValidData(data!) {
+                // 行情页面
                 dataSource = LineChartDataSource.init(json:data!, rect: self.bounds)
             }
             else {

@@ -34,17 +34,19 @@ export default class  MyPie extends React.Component {
     }
 
     render() {
-        radius = this.props.radius;
-        innerRadius = this.props.innerRadius||0;
-        series = this.props.series;
-        colors = this.props.colors;
-        series2 = this.props.series2;
-        colors2 = this.props.colors2;
-        innerText = this.props.innerText;
-        show2Circle = this.props.show2Circle;
 
-        length = series.length;
-        sum = 0;
+        
+        var radius = this.props.radius;
+        var innerRadius = this.props.innerRadius||0;
+        var series = this.props.series;
+        var colors = this.props.colors;
+        var series2 = this.props.series2;
+        var colors2 = this.props.colors2;
+        var innerText = this.props.innerText;
+        var show2Circle = this.props.show2Circle;
+        console.log("PIE:"+series[0]+"  "+series[1])
+        var length = series.length;
+        var sum = 0;
         for(i = 0;i<length;i++){
             sum += series[i];
         }
@@ -53,8 +55,8 @@ export default class  MyPie extends React.Component {
             series[j] = series[j]/sum*100;
         }
 
-        length2 = series2.length;
-        sum2 = 0;
+        var length2 = series2.length;
+        var sum2 = 0;
         for(i = 0;i<length2;i++){
             sum2 += series2[i];
         }

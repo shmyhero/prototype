@@ -22,28 +22,33 @@ var ColorConstants = require('../ColorConstants')
 var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule')
 
-const FOCUS_ME = 0
-const FOCUS_FOLLOW = 1
+
+const FOCUS_FOLLOW = 0
+const FOCUS_TRADE_FOLLOW = 1
 const FOCUS_SYSTEM = 2
 
-var listRawData = [
-	{type:FOCUS_ME,"title":'我的',"desciption":'自己的交易动态'},
-	{type:FOCUS_FOLLOW,"title":'关注',"desciption":'关注用户的交易动态'},
-	{type:FOCUS_SYSTEM,"title":'资讯',"desciption":'系统推送的每日资讯'},
+var listRawData = [ 
+	{type:FOCUS_FOLLOW,"title":'关注的用户',"desciption":'关注用户的交易动态'},
+	{type:FOCUS_TRADE_FOLLOW,"title":'跟随的用户',"desciption":'自己的交易动态'},
+	{type:FOCUS_SYSTEM,"title":'平台资讯',"desciption":'系统推送的每日资讯'},
 ] 
 var {height, width} = Dimensions.get('window')
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var MyPie = require('./component/Pie/MyPie')
 
-// { showMy: true, showFollowing: true, showHeadline: true }
+
+	//  showFollowing: true, 关注的用户
+	// 	showTradeFollowing: true, 跟随的用户
+	// 	showHeadline: true 平台资讯
+ 
 export default class DynamicStatusConfig extends Component {
  
 
 	constructor(props){
 		super(props);
-		this.state = {
-			showMy:false,
+		this.state = { 
 			showFollowing:false,
+			showTradeFollowing:false,
 			showHeadline:false,
 			dataSource: ds.cloneWithRows(listRawData),
 		}
@@ -62,17 +67,18 @@ export default class DynamicStatusConfig extends Component {
 	}
 
 	onSwitchPressed(value,rowData){
-		if(rowData.type == FOCUS_ME){
-			this.setState({
-				dataSource: ds.cloneWithRows(listRawData),
-				showMy: value
-			})
-		}else if(rowData.type == FOCUS_FOLLOW){
+		if(rowData.type == FOCUS_FOLLOW){
 			this.setState({
 				dataSource: ds.cloneWithRows(listRawData),
 				showFollowing: value
 			})
-		}else if(rowData.type == FOCUS_SYSTEM){
+		}else if(rowData.type == FOCUS_TRADE_FOLLOW){
+			this.setState({
+				dataSource: ds.cloneWithRows(listRawData),
+				showTradeFollowing: value
+			})
+		}
+		else if(rowData.type == FOCUS_SYSTEM){
 			this.setState({
 				dataSource: ds.cloneWithRows(listRawData),
 				showHeadline: value
@@ -83,8 +89,8 @@ export default class DynamicStatusConfig extends Component {
 	renderRow(rowData, sectionID, rowID){
 		var switchIsOn = false;
 
-		if(rowData.type == FOCUS_ME){
-			switchIsOn = this.state.showMy
+		if(rowData.type == FOCUS_TRADE_FOLLOW){
+			switchIsOn = this.state.showTradeFollowing
 		}else if(rowData.type == FOCUS_FOLLOW){
 			switchIsOn = this.state.showFollowing
 		}else if(rowData.type == FOCUS_SYSTEM){
@@ -96,7 +102,7 @@ export default class DynamicStatusConfig extends Component {
 			<View style={styles.viewWapper}>
 				<View style={styles.leftWapper}>
 					<Text style={styles.titleText}>{rowData.title}</Text>
-					<Text style={styles.desciptionText}>{rowData.desciption}</Text>
+					{/* <Text style={styles.desciptionText}>{rowData.desciption}</Text> */}
 				</View> 
 				<Switch
 					onValueChange={(value) => this.onSwitchPressed(value, rowData)}
@@ -109,10 +115,10 @@ export default class DynamicStatusConfig extends Component {
  
 	loadLiveFilter() { 
 		var userData = LogicData.getUserData()
-		var notLogin = Object.keys(userData).length === 0
-		if(!notLogin){
+		
+		if(LogicData.isLoggedIn()){
 			NetworkModule.fetchTHUrl(
-				NetConstants.CFD_API.GET_FEED_LIVE_FILTER,
+				NetConstants.CFD_API.GET_DYNAMIC_CONFIG_FILTER,
 				{
 					method: 'GET',
 					headers: {
@@ -121,9 +127,9 @@ export default class DynamicStatusConfig extends Component {
 				},
 				(responseJson) =>{ 
 					this.setState(
-						{
-							showMy:responseJson.showMy,
+						{ 
 							showFollowing:responseJson.showFollowing,
+							showTradeFollowing:responseJson.showTradeFollowing,
 							showHeadline:responseJson.showHeadline, 
 							dataSource: ds.cloneWithRows(listRawData),
 						}
@@ -138,7 +144,7 @@ export default class DynamicStatusConfig extends Component {
 		var notLogin = Object.keys(userData).length === 0
 		if(!notLogin){
 			NetworkModule.fetchTHUrl(
-				NetConstants.CFD_API.GET_FEED_LIVE_FILTER,
+				NetConstants.CFD_API.PUT_DYNAMIC_CONFIG_FILTER_SETTING,
 				{
 					method: 'PUT',
 					headers: {
@@ -146,7 +152,7 @@ export default class DynamicStatusConfig extends Component {
 						'Content-Type': 'application/json; charset=utf-8',
 					}, 
 					body: JSON.stringify({
-						showMy: this.state.showMy,
+						showTradeFollowing: this.state.showTradeFollowing,
 						showFollowing: this.state.showFollowing,
 						showHeadline: this.state.showHeadline, 
 					}),
@@ -179,21 +185,7 @@ export default class DynamicStatusConfig extends Component {
 					style={styles.list}
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow.bind(this)}
-					renderSeparator={this.renderSeparator} />
-
-				{/* <View style={{width:width,height:400,backgroundColor:'#EEEEEE',justifyContent:'center',alignItems:'center'}}>
-					<MyPie 
-						radius={100}
-						innerRadius={92} 
-						colors={['#3dcc24','#d0f5c7',]} 
-						series={[3, 100]}
-						colors2={['#2b9ff1','#c8e2f4',]} 
-						series2={[2, 10]}
-						innerText={'48'}
-						innerText2={'TRADES'}
-					 /> 
-					  
-				</View>		 */}
+					renderSeparator={this.renderSeparator} /> 
 			</View>
 		 ) 
 	}

@@ -187,7 +187,7 @@ export default class PositionBlock extends Component {
         tradeImage = require('../../../../images/stock_detail_direction_down_disabled.png');
       }
       var timeSubTitle = this.props.type == "open" ? LS.str('ORDER_OPEN_TIME') : LS.str('ORDER_CLOSE_TIME');
-      var dateString = this.props.type == "open" ? rowData.createdAt : rowData.closedAt;
+      var dateString = this.props.type == "open" ? rowData.createAt : rowData.closedAt;
       console.log("renderDetailInfo", dateString)
       var date = new Date(dateString)
       console.log("renderDetailInfo", date)
@@ -218,10 +218,8 @@ export default class PositionBlock extends Component {
       profitAmount = rowData.pl
     }
 		var bgcolor = 'white'
-    console.log("renderRow");
 		return (
-        <TouchableOpacity style={styles.rowItem} 
-          key={""+rowID}
+        <TouchableOpacity style={styles.rowItem}          
           activeOpacity={0.7} onPress={()=>this.onRowPressed(rowData, rowID)}>
           <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
             <View style={styles.topRow}>
@@ -229,13 +227,6 @@ export default class PositionBlock extends Component {
                 <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                   {rowData.security.name}
                 </Text>
-
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
-              
-                  <Text style={styles.stockSymbolText}>
-                    {rowData.security.symbol}
-                  </Text>
-                </View>
               </View>
 
               <View style={styles.rowCenterPart}>
@@ -300,8 +291,9 @@ export default class PositionBlock extends Component {
                 initialListSize={11}
                 data={this.state.stockInfo}
                 enableEmptySections={true}
+                keyExtractor={(item, index) => index}
                 showsVerticalScrollIndicator={false}
-                renderItem={(data)=>this.renderRow(data)}                
+                renderItem={(data)=>this.renderRow(data)}
                 // renderSeparator={this.renderSeparator}
                 />
             </View>

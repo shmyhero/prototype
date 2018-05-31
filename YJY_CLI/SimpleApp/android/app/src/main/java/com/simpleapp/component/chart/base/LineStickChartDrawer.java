@@ -68,10 +68,6 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         return false;
     }
 
-    protected float getLineWidth(){
-        return Utils.convertPixelsToDp(ChartDrawerConstants.LINE_WIDTH_PRICE);
-    }
-
     @Override
     protected CombinedData generateData(CombinedChart chart, final JSONObject stockInfoObject,final JSONArray chartDataList) throws JSONException{
         ArrayList<Entry> Vals = new ArrayList<Entry>();
@@ -104,7 +100,9 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
-        set1.setLineWidth(getLineWidth());
+
+        int lineWidth = (int)Utils.convertPixelsToDp(((PriceChart)chart).getLineWidth());
+        set1.setLineWidth(lineWidth);
         set1.setFillFormatter(new IFillFormatter() {
             @Override
             public float getFillLinePosition(ILineDataSet dataSet, LineDataProvider dataProvider) {

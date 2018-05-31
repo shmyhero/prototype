@@ -69,9 +69,9 @@ class MeUserConfigScreen extends Component {
             },
         };
 
+        console.log("ImagePicker" + ImagePicker)
+        console.log("ImagePicker showImagePicker", ImagePicker.showImagePicker)
         ImagePicker.showImagePicker(Options, (response) => {
-            //console.log('Response = ', response);
-
             if (response.didCancel) {
                 console.log('User cancelled image picker');
             }

@@ -421,21 +421,33 @@ export default class TabMainScreen extends React.Component {
     }
 
     loadData(isRefresh){
+        var userData = LogicData.getUserData();
+        var headerToken = undefined
+        if(LogicData.isLoggedIn()){
+            headerToken = {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                'Content-Type': 'application/json; charset=utf-8',    
+            }
+        } else{
+            headerToken = { 
+                'Content-Type': 'application/json; charset=utf-8',    
+            }
+        }
+        
+        
+            
         NetworkModule.fetchTHUrl(
-			NetConstants.CFD_API.MAIN_FEED_DEFAULT,
-			{
-				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json; charset=UTF-8'
-				}, 
-			},
-			(responseJson) => {  
-                
-                console.log("RAM="+responseJson)
+            NetConstants.CFD_API.MAIN_FEED_DEFAULT,
+            {
+                method: 'GET',
+                headers:headerToken, 
+            },
+            (responseJson) => {  
+                 
                 for(var i = 0; i < responseJson.length; i++){
                     responseJson[i].isNew = false;
                 }
-       
+    
                 
                 this.setState({ 
                     dataResponse: responseJson,
@@ -445,11 +457,13 @@ export default class TabMainScreen extends React.Component {
                 if(isRefresh){
                     this._pullToRefreshListView.endRefresh()
                 }
-			},
-			(result) => {
-				Alert.alert('提示', result.errorMessage);
-			}
-		)
+            },
+            (result) => {
+                Alert.alert('提示', result.errorMessage);
+            }
+        )
+         
+        
     }
 
     _onLoadMore = () => {
@@ -459,13 +473,24 @@ export default class TabMainScreen extends React.Component {
 		url += '?olderThan=' + timer
         url += '&count=' + 30
 
+        var userData = LogicData.getUserData();
+        var headerToken = undefined
+        if(LogicData.isLoggedIn()){
+            headerToken = {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                'Content-Type': 'application/json; charset=utf-8',    
+            }
+        } else{
+            headerToken = { 
+                'Content-Type': 'application/json; charset=utf-8',    
+            }
+        }
+
         NetworkModule.fetchTHUrl(
 			url,
 			{
 				method: 'GET',
-				headers: {
-					'Content-Type': 'application/json; charset=UTF-8'
-				}, 
+				headers: headerToken, 
 			},
 			(responseJson) => {   
 
@@ -487,7 +512,6 @@ export default class TabMainScreen extends React.Component {
                 this._pullToRefreshListView.endLoadMore()   
 			}
 		)
-        
     }
 
     _renderActivityIndicator() {

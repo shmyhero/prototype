@@ -528,6 +528,15 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
             }
         }
     }
+
+    @ReactProp(name = "lineWidth")
+    public void setLineWidth(PriceChart chart, int width){
+        if (chart != null) {
+            chart.setLineWidth(width);
+        }
+    }
+
+
 //
 //
 //    @ReactProp(name = "isLandspace")

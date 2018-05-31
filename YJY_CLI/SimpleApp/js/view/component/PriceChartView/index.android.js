@@ -19,6 +19,7 @@ var PriceChartPropTypes = {
     leftAxisEnabled: PropTypes.bool,
     rightAxisEnabled: PropTypes.bool,
     dataSetColor: ColorPropType,
+    lineWidth: PropTypes.number,
     // colorType: PropTypes.number,
 
     chartType: PropTypes.string,
@@ -118,6 +119,7 @@ class PriceChartView extends Component {
         xAxisLabelCount: 4,
         xAxisTextSize: 12,
         dataSetColor: '#000000',
+        lineWidth: 4,
         // leftAxisDrawLabel: false,
         // leftAxisLabelCount: 2 - 2,
         rightAxisDrawLabel: true,

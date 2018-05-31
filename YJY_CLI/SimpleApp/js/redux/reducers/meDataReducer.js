@@ -5,7 +5,6 @@ import {
     CHECK_LOGIN_STATE_LOGGED_IN,
     CHECK_LOGIN_STATE_NOT_LOGGED_IN,
     BIND_WALLET_ADDRESS,
-    SWITCH_LANGUAGE,
     SET_PORTRAIT,
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE,
@@ -20,7 +19,6 @@ var initializeState = {
     isLoading: false,
     errorMessage: null,
     thtAddress: "",
-    language: "",
     phone: "",
 }
 
@@ -46,11 +44,6 @@ export default function meDataReducer(state = initializeState, action) {
             }
             return state;
         case UPLOAD_PORTRAIT_FAILURE:
-            return state;
-        case SWITCH_LANGUAGE:
-            state = { ...state,
-                language: action.payload.language,
-            }
             return state;
         case BIND_WALLET_ADDRESS:
             state = { ...state,

@@ -5,7 +5,7 @@ import {
     BIND_WALLET_ADDRESS,
     SET_NICKNAME,
     SET_NICKNAME_SUCCESS,
-    SET_NICKNAME_FAILURE,
+    SET_NICKNAME_FAIL,
     SET_PORTRAIT,
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE 
@@ -85,7 +85,7 @@ export function setNickName(nickName){
 
         if(!nickName || nickName.length==0 ){
             dispatch({
-                type: SET_NICKNAME_FAILURE,
+                type: SET_NICKNAME_FAIL,
                 payload: {
                     error: LS.str("ACCOUNT_NAME_CANNOT_BE_EMPTY"),
                 }
@@ -93,7 +93,7 @@ export function setNickName(nickName){
 			return;
 		}else if(nickName.length > UIConstants.MAX_NICKNAME_LENGTH){
             dispatch({
-                type: SET_NICKNAME_FAILURE,
+                type: SET_NICKNAME_FAIL,
                 payload: {
                     error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", UIConstants.MAX_NICKNAME_LENGTH),
                 }
@@ -111,7 +111,7 @@ export function setNickName(nickName){
             });
         }).catch((error)=>{
             dispatch({
-                type: SET_NICKNAME_FAILURE,
+                type: SET_NICKNAME_FAIL,
                 payload: {
                     error: error,
                 }

@@ -136,7 +136,7 @@ export default class TradeStyleCircleBlock extends Component {
               radius={radius}
               innerRadius={innerRadius} 
               colors={['#3dcc24','#d0f5c7',]} 
-              series={[11.1, 88.9]}
+              series={[11.12, 88.92]}
               colors2={['#2b9ff1','#c8e2f4',]} 
               series2={[11.12, 88.92]}
               innerText={''+totalTradeCount}
