@@ -49,10 +49,13 @@ class YieldLineChartDataSource: BaseDataSource, YieldLineChartDataProvider {
         _lineData = []
         do {
             let json: Any? = try JSONSerialization.jsonObject(with: nsData, options: JSONSerialization.ReadingOptions.mutableLeaves)
-            if let jsonArray = json as? NSArray {
-                for chartDict in jsonArray {
-                    let lineData:YieldLineData = YieldLineData.init(dict: chartDict as! NSDictionary)
-                    _lineData.append(lineData)
+            if let jsonDict = json as? NSDictionary {
+                if _jsonString.range(of: "priceData") != nil {
+                    let jsonArray = jsonDict["priceData"] as! NSArray
+                    for chartDict in jsonArray {
+                        let lineData:YieldLineData = YieldLineData.init(dict: chartDict as! NSDictionary)
+                        _lineData.append(lineData)
+                    }
                 }
             }
         }
@@ -62,7 +65,7 @@ class YieldLineChartDataSource: BaseDataSource, YieldLineChartDataProvider {
     }
     
     override func setChartType(_ newValue:String) {
-        if ["2WeekYield", "allYield"].contains(newValue) {
+        if ["userHomePage", "allYield"].contains(newValue) {
             super.setChartType(newValue)
             //            drawPreCloseLine = newValue == "today"
         }
@@ -170,13 +173,13 @@ class YieldLineChartDataSource: BaseDataSource, YieldLineChartDataProvider {
         verticalLinesX = []
         verticalTimes = []
         
-        let gaps = ["2WeekYield":3600.0*24, "allYield":3600.0*24*7]
+        let gaps = ["userHomePage":3600.0*24, "allYield":3600.0*24*7]
         let gap = gaps[_chartType]!		// gap between two lines
         
         if let time0 = _lineData.first?.time {
             var startTime = stockData?.lastOpen ?? Date()
             
-            if _chartType == "2WeekYield" {
+            if _chartType == "userHomePage" {
                 // 1 day, 1 line
                 let interval:TimeInterval = time0.timeIntervalSince(startTime)
                 let days = floor(interval / gap)
