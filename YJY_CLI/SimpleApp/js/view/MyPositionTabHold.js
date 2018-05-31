@@ -692,9 +692,9 @@ export default class  MyPositionTabHold extends React.Component {
 			var props = {text: value.toFixed(2)+'%'};
 			if(Platform.OS === "ios"){
 				props.color = value >= 0
-				 ? ColorConstants.STOCK_RISE_RED : ColorConstants.STOCK_DOWN_GREEN;
+				 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED;
 			}else{
-				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE_RED : ColorConstants.STOCK_DOWN_GREEN};
+				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED};
 			}
 			this._text2.setNativeProps(props);
 			this._text4.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
@@ -772,7 +772,7 @@ export default class  MyPositionTabHold extends React.Component {
 			}
 		};
 
-		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE_RED : ColorConstants.STOCK_DOWN_GREEN);
+		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED);
 
 		var disabled = false
 		if (type === TYPE_STOP_LOSS) {

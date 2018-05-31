@@ -134,7 +134,7 @@ class DynamicRowComponent extends Component {
         }else if(rowData.type == 'close'){
             var winOrLoss = rowData.position.roi>=0 ? LS.str("PROFIT"):LS.str("LOSS")
             var value = (rowData.position.roi>=0 ? '+':'') + (rowData.position.roi*100).toFixed(2)+'%'
-            var valueColor = rowData.position.roi>=0 ? ColorConstants.STOCK_RISE_RED:ColorConstants.STOCK_DOWN_GREEN;
+            var valueColor = rowData.position.roi>=0 ? ColorConstants.STOCK_RISE_GREEN:ColorConstants.STOCK_RISE_RED;
            
             text = LS.str("CLOSE_POSITION")+" "+winOrLoss;
 
@@ -149,6 +149,8 @@ class DynamicRowComponent extends Component {
         }else if(rowData.type == 'system'){
             text = rowData.body
             text2 = rowData.title
+
+            console.log('text = ' + text)
             if(text == text2){
                 return null
             }else{
@@ -156,10 +158,11 @@ class DynamicRowComponent extends Component {
                     <TweetBlock  
                         style={{marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
                         value={text}
-                        onLinkPressed={(name, id)=>{this.jump2Detail(name, id)}}
-                        onPressed={()=>{
-                            this.props.onRowPress && this.props.onRowPress();
-                        }}/>
+                        onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}} 
+                        // onPressed={()=>{
+                        //     this.props.onRowPress && this.props.onRowPress();
+                        // }}
+                        /> 
                 ) 
             } 
         }
@@ -178,6 +181,11 @@ class DynamicRowComponent extends Component {
          var d = new Date(this.props.rowData.time);
          var timeText = d.getDateSimpleString()
 
+
+         var title = this.props.rowData.user.nickname;
+         if(this.props.rowData.type == 'system'){
+            title = this.props.rowData.title
+         }
 
         return(  
             <RN.Animated.View style={{transform:[{translateX:this.state.translateX}],flex:1}}> 
@@ -206,7 +214,7 @@ class DynamicRowComponent extends Component {
                              </TouchableOpacity> 
                              <View style={styles.textContainer}>
                                  <View style={{flexDirection:'row',marginTop:0}}>
-                                     <Text style={styles.textUserName}>{this.props.rowData.user.nickname}</Text>
+                                     <Text style={styles.textUserName}>{title}</Text>
                                      {viewHero}
                                  </View>
                                  {this.renderNewsText(this.props.rowData)}

@@ -13,8 +13,8 @@ var colors = {
 	TITLE_DARK_BLUE: '#425a85',
 	DISABLED_GREY: '#dcdcdc',
 	BACKGROUND_GREY: '#f0f0f0',
+	STOCK_RISE_GREEN: '#428e1b',
 	STOCK_RISE_RED: '#cc3333',
-	STOCK_DOWN_GREEN: '#428e1b',
 	STOCK_RISE: '#20bd90',
 	STOCK_DOWN: '#f36767',
 	STOCK_UNCHANGED_GRAY: '#999999',
@@ -66,8 +66,8 @@ var colors = {
 			this.TITLE_DARK_BLUE = '#425a85'
 			this.DISABLED_GREY = '#dcdcdc'
 			this.BACKGROUND_GREY = '#f0f0f0'
-			this.STOCK_RISE_RED = '#bc4105'
-			this.STOCK_DOWN_GREEN = '#428e1b'
+			this.STOCK_RISE_GREEN = '#bc4105'
+			this.STOCK_RISE_RED = '#428e1b'
 			this.STOCK_UNCHANGED_GRAY = '#a0a6aa'
 			this.LIST_BACKGROUND_GREY = '#f0eff5'
 			this.SEPARATOR_GRAY = '#ececec'
@@ -85,8 +85,8 @@ var colors = {
 			this.TITLE_DARK_BLUE = '#425a85'
 			this.DISABLED_GREY = '#dcdcdc'
 			this.BACKGROUND_GREY = '#f0f0f0'
-			this.STOCK_RISE_RED = '#bc4105'
-			this.STOCK_DOWN_GREEN = '#428e1b'
+			this.STOCK_RISE_GREEN = '#bc4105'
+			this.STOCK_RISE_RED = '#428e1b'
 			this.STOCK_UNCHANGED_GRAY = '#a0a6aa'
 			this.LIST_BACKGROUND_GREY = '#f0eff5'
 			this.SEPARATOR_GRAY = '#ececec'

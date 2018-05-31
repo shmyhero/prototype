@@ -90,8 +90,9 @@ Date.prototype.getDateFullString = function(){
         
     var today = yyyy+"年"+mm+"月"+dd+"日" + day; 
     var todayEn = day+". "+MonthEn[this.getMonth()]+". "+this.getDate()+", "+yyyy
+ 
     var showDay = LogicData.getLanguage().includes('en')?todayEn:today;
-    return todayEn;
+    return showDay;
 }
 
 

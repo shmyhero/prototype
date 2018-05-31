@@ -6,10 +6,11 @@ import {
   View,
   Text,
   StyleSheet,
-  ListView,
-  TouchableHighlight,
+  FlatList,
+  TouchableOpacity,
   Dimensions,
   Alert,
+  Image
 } from 'react-native';
 
 var ColorConstants = require('../../../ColorConstants'); 
@@ -23,14 +24,14 @@ var LogicData = require("../../../LogicData");
 var {height, width} = Dimensions.get('window');
 var LS = require('../../../LS')
 
-var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
-		if(r1.security && r2.security){
-			if(r1.security.last !== r2.security.last || r1.security.bid !== r2.security.bid || r1.security.ask !== r2.security.ask){
-				return true;
-			}
-		}
-		return r1.id !== r2.id || r1.profitPercentage!==r2.profitPercentage || r1.hasSelected!==r2.hasSelected
-  }});
+// var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
+// 		if(r1.security && r2.security){
+// 			if(r1.security.last !== r2.security.last || r1.security.bid !== r2.security.bid || r1.security.ask !== r2.security.ask){
+// 				return true;
+// 			}
+// 		}
+// 		return r1.id !== r2.id || r1.profitPercentage!==r2.profitPercentage || r1.hasSelected!==r2.hasSelected
+//   }});
    
 
 export default class PositionBlock extends Component {
@@ -52,13 +53,14 @@ export default class PositionBlock extends Component {
     super(props);
 
     this.state = {
-      stockInfo: ds.cloneWithRows([]),
+      stockInfo: [],
       stockInfoRowData: [],
       statisticsSumInfo: [],
       maxBarSize: 1,
       barAnimPlayed: false,
       contentLoaded: false,
-			isRefreshing: false,
+      isRefreshing: false,
+      selectedRow: -1,
     } 
   }
 
@@ -116,7 +118,7 @@ export default class PositionBlock extends Component {
             contentLoaded: true,
             isRefreshing: false,
             stockInfoRowData: responseJson,
-            stockInfo: this.state.stockInfo.cloneWithRows(responseJson),
+            stockInfo: responseJson,
           });
         },
         (result) => {
@@ -132,6 +134,23 @@ export default class PositionBlock extends Component {
     });
 
 	}
+
+  onRowPressed(rowData, rowID){
+    rowID = parseInt(rowID)
+    var newData = []
+    $.extend(true, newData, this.state.stockInfo)
+    if(this.state.selectedRow == rowID){
+      this.setState({
+        stockInfo: newData,
+        selectedRow: -1
+      })
+    }else{
+      this.setState({
+        stockInfo: newData,
+        selectedRow: rowID
+      })
+    }
+  }
 
   renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
 		return (
@@ -156,40 +175,80 @@ export default class PositionBlock extends Component {
     pl: -0.07433838,
     security: { id: 34821, name: '黄金', symbol: 'GOLDS' } },
   */
-  renderRow(rowData, sectionID, rowID, highlightRow) {
+
+  renderExtended(rowData, rowID) {
+    console.log("renderExtended this.state.selectedRow", this.state.selectedRow)
+    console.log("renderExtended rowID", rowID)
+    if(this.state.selectedRow == rowID){
+      var tradeImage = null;
+      if(rowData.isLong){
+        tradeImage = require('../../../../images/stock_detail_direction_up_disabled.png');
+      }else{
+        tradeImage = require('../../../../images/stock_detail_direction_down_disabled.png');
+      }
+      var timeSubTitle = this.props.type == "open" ? LS.str('ORDER_OPEN_TIME') : LS.str('ORDER_CLOSE_TIME');
+      var dateString = this.props.type == "open" ? rowData.createdAt : rowData.closedAt;
+      console.log("renderDetailInfo", dateString)
+      var date = new Date(dateString)
+      console.log("renderDetailInfo", date)
+      var timeString = date.Format('yy/MM/dd hh:mm');
+      return (
+        <View style={styles.extendRowWrapper}>
+          <View style={styles.extendLeft}>
+            <Text style={styles.extendTextTop}>{LS.str('ORDER_TYPE')}</Text>
+            <Image style={styles.extendImageBottom} source={tradeImage}/>
+          </View>
+          <View style={styles.extendRight}>
+            <Text style={styles.extendTextTop}>{timeSubTitle}</Text>
+            <Text style={styles.extendTextBottom}>{timeString}</Text>
+          </View>
+        </View>);
+    }else{
+      return null;
+    }
+  }
+
+  renderRow(data){
+    var rowData = data.item;
+    var rowID = data.index;
+
 		var profitPercentage = rowData.roi
     var profitAmount = rowData.upl
     if(this.props.type == 'close'){
       profitAmount = rowData.pl
     }
 		var bgcolor = 'white'
-
+    console.log("renderRow");
 		return (
-			 
-				<TouchableHighlight style={styles.rowItem} activeOpacity={1}>
-					<View style={[styles.rowWrapper, {backgroundColor: bgcolor}]} key={rowID}>
-						<View style={styles.rowLeftPart}>
-							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{rowData.security.name}
-							</Text>
+        <TouchableOpacity style={styles.rowItem} 
+          key={""+rowID}
+          activeOpacity={0.7} onPress={()=>this.onRowPressed(rowData, rowID)}>
+          <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
+            <View style={styles.topRow}>
+              <View style={styles.rowLeftPart}>
+                <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+                  {rowData.security.name}
+                </Text>
 
-							<View style={{flexDirection: 'row', alignItems: 'center'}}>
-						 
-								<Text style={styles.stockSymbolText}>
-									{rowData.security.symbol}
-								</Text>
-							</View>
-						</View>
+                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+              
+                  <Text style={styles.stockSymbolText}>
+                    {rowData.security.symbol}
+                  </Text>
+                </View>
+              </View>
 
-						<View style={styles.rowCenterPart}>
-							{this.renderProfit(profitAmount, null)}
-						</View>
+              <View style={styles.rowCenterPart}>
+                {this.renderProfit(profitAmount, null)}
+              </View>
 
-						<View style={styles.rowRightPart}>
-							{this.renderProfit(profitPercentage * 100, "%")}
-						</View>
-					</View>
-				</TouchableHighlight>
+              <View style={styles.rowRightPart}>
+                {this.renderProfit(profitPercentage * 100, "%")}
+              </View>
+            </View>
+            {this.renderExtended(rowData, rowID)}
+          </View>
+				</TouchableOpacity>
 			 
 		);
 	}
@@ -235,14 +294,14 @@ export default class PositionBlock extends Component {
           return (
             <View style={styles.container}>
               {/* {this.renderHeaderBar()} */}
-              <ListView
+              <FlatList
+                ref={ (component) => this.flatListView = component }
                 style={styles.list}
-                ref="listview"
                 initialListSize={11}
-                dataSource={this.state.stockInfo}
+                data={this.state.stockInfo}
                 enableEmptySections={true}
                 showsVerticalScrollIndicator={false}
-                renderRow={(rowData, sectionID, rowID, highlightRow)=>this.renderRow(rowData, sectionID, rowID, highlightRow)}
+                renderItem={(data)=>this.renderRow(data)}                
                 // renderSeparator={this.renderSeparator}
                 />
             </View>
@@ -272,7 +331,7 @@ const styles = StyleSheet.create({
     backgroundColor: ColorConstants.SEPARATOR_GRAY,
   },
   rowWrapper: {
-    flexDirection: 'row',
+    flexDirection: 'column',
     alignSelf: 'stretch',
     alignItems: 'center',
     paddingLeft: 15,
@@ -284,6 +343,11 @@ const styles = StyleSheet.create({
     borderRadius:10,
     borderColor:'#EEEEEE',
     marginBottom:10,
+  },
+  topRow:{
+    flexDirection: 'row',
+    alignSelf: 'stretch',
+    alignItems: 'center',
   },
   rowLeftPart: {
     flex: 3,
@@ -360,7 +424,41 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.75,
 		shadowRadius: 0.5,
 		elevation: 1.5,
-  }
+  },
+  extendLeft: {
+		flex: 1,
+		alignItems: 'flex-start',
+		paddingTop: 8,
+		paddingBottom: 8,
+  },
+  extendRight: {
+		flex: 1,
+		alignItems: 'flex-end',
+		paddingTop: 8,
+		paddingBottom: 8,
+	},
+  extendImageBottom: {
+		width: 24,
+		height: 24,
+  },
+  extendRowWrapper: {
+    marginTop:10,
+    borderTopWidth:1,
+    borderColor: ColorConstants.SEPARATOR_GRAY,
+		flexDirection: 'row',
+		alignItems: 'stretch',
+		justifyContent: 'space-around',
+    height: 51,
+	},
+	extendTextTop: {
+		fontSize:14,
+		color: '#7d7d7d',
+	},
+	extendTextBottom: {
+		fontSize:13,
+		color: 'black',
+		marginTop: 5,
+	},
 });
 
 module.exports = PositionBlock;
