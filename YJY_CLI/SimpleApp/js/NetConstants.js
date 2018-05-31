@@ -45,6 +45,8 @@ export let CFD_API = {
   FOLLOW_TRADE_OPTIONS: CFD_API_SERVER + '/api/user/followTrade/option',
   SET_NICKNAME: CFD_API_SERVER + '/api/user/nickname',
   SET_PORTRAIT: CFD_API_SERVER + '/api/user/avatar',
+  GET_DYNAMIC_CONFIG_FILTER:CFD_API_SERVER + '/api/feed/filter',
+  PUT_DYNAMIC_CONFIG_FILTER_SETTING:CFD_API_SERVER + '/api/feed/filter',
 }
     
  
