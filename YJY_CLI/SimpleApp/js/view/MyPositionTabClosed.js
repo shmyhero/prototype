@@ -340,7 +340,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	renderDetailInfo(rowData) {
 		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')
-		var profitColor = rowData.pl > 0 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED
+		var profitColor = rowData.pl > 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN
 
 		if (rowData.pl === 0) {
 			profitColor = 'black'

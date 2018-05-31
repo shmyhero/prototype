@@ -90,7 +90,7 @@ export default class StockOrderInfoBar extends Component {
 
         var plColor = 'black'
         if (!this.state.isCreate){
-            plColor = plRate > 0 ? ColorConstants.STOCK_RISE_GREEN : (plRate < 0 ? ColorConstants.STOCK_RISE_RED : 'black')
+            plColor = plRate > 0 ? ColorConstants.STOCK_RISE : (plRate < 0 ? ColorConstants.STOCK_DOWN : 'black')
         }
 
         //Card style.

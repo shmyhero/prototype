@@ -14,8 +14,7 @@ export default () => {
                     'Content-Type': 'application/json; charset=utf-8',
                 },
                 showLoading: true,
-            }, (responseJson) => {	
-                console.log("fetchmedataRequest", responseJson)
+            }, (responseJson) => {                
                 LogicData.setMeData(responseJson);
                 resolve(responseJson)
             }, (error) =>{

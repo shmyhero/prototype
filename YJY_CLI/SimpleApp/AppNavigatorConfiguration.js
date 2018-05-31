@@ -163,7 +163,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
     backBehavior: 'none',
     tabBarComponent: CustomTabBar,
     tabBarOptions: {
-        activeTintColor: '#1b9bec',
+        activeTintColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
         inactiveTintColor:'grey',
         style:{
             backgroundColor: 'white',

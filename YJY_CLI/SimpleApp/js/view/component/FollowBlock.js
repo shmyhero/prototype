@@ -73,7 +73,7 @@ class FollowBlock extends Component {
                 start={{x:0.0, y:0}}
                 end={{x:1.0, y:0.0}}
                 style={{flex:1, alignItems:'center', justifyContent:'center'}}
-                colors={ColorConstants.IMPORTANT_COLOR_GRADIENT_ENABLE}>
+                colors={ColorConstants.COLOR_GRADIENT_YELLOW}>
                     <Text style={{color:'white', fontSize:20}}>
                         {LS.str("COPY_TRADE")}
                     </Text>

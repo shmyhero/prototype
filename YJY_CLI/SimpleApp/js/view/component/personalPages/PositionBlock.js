@@ -337,6 +337,7 @@ const styles = StyleSheet.create({
     marginBottom:10,
   },
   topRow:{
+    height: 40,
     flexDirection: 'row',
     alignSelf: 'stretch',
     alignItems: 'center',

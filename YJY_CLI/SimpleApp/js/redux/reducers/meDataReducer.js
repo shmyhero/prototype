@@ -24,9 +24,6 @@ var initializeState = {
 
 //Previous state, action => current state
 export default function meDataReducer(state = initializeState, action) {
-    console.log("meDataReducer action ", action)
-    console.log("meDataReducer state ", state)
-    console.log("CHECK_LOGIN_STATE_LOGGED_IN", CHECK_LOGIN_STATE_LOGGED_IN)
     switch (action.type) {
         case SET_PORTRAIT:
             state = { ...state,
