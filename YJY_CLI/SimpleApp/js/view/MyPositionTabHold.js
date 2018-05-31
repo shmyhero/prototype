@@ -40,7 +40,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 
 const ROW_PADDING = 15;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
-const ROW_SIMPLE_CONTENT_HEIGHT = 42 + ROW_SIMPLE_CONTENT_PADDING * 2;
+const ROW_SIMPLE_CONTENT_HEIGHT = 62;
 const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 const FOLLOW_ROW_HEIGHT = 50;
@@ -692,9 +692,9 @@ export default class  MyPositionTabHold extends React.Component {
 			var props = {text: value.toFixed(2)+'%'};
 			if(Platform.OS === "ios"){
 				props.color = value >= 0
-				 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED;
+				 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN;
 			}else{
-				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED};
+				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN};
 			}
 			this._text2.setNativeProps(props);
 			this._text4.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
@@ -772,7 +772,7 @@ export default class  MyPositionTabHold extends React.Component {
 			}
 		};
 
-		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE_GREEN : ColorConstants.STOCK_RISE_RED);
+		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN);
 
 		var disabled = false
 		if (type === TYPE_STOP_LOSS) {

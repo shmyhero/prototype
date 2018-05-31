@@ -302,7 +302,7 @@ const styles = StyleSheet.create({
       width:101,
       height:101,
       borderWidth:3,
-      borderColor:'#70bdf9',
+      borderColor:ColorConstants.BORDER_LIGHT_BLUE,
       borderRadius:50,
       alignSelf:'center'
     },
@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
       marginTop:10,
       height:30, 
       fontSize: 19,
-      color: '#b8daf8'
+      color: ColorConstants.BORDER_LIGHT_BLUE
     },
     balanceRow:{
       flexDirection:'row',

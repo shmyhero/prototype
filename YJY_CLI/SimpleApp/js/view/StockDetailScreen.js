@@ -509,7 +509,7 @@ class StockDetailScreen extends Component {
         }
         return  (
             <PriceChartView style={{flex:1}}
-                lineChartGradient={['#32c0fb', '#1b9beb']}
+                lineChartGradient={['#346aa2', '#1f4a77']}
                 xAxisPosition="BOTTOM"
                 leftAxisEnabled={false}
                 rightAxisEnabled={true}
@@ -662,7 +662,7 @@ const styles = StyleSheet.create({
     },
 
     SelectedAmountButton:{
-        color:'#0f96ea',
+        color:'#1f4a77',
     },
 
     SelectedMultiplierButton:{

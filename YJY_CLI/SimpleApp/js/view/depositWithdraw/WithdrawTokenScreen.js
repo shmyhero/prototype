@@ -184,6 +184,7 @@ class WithdrawTokenScreen extends Component {
                     <View style={{flex:1}}/>
                     {this.renderAgreement()}
                     <SubmitButton 
+                        style={{marginBottom:10}}
                         enable={this.state.isButtonEnable}
                         onPress={()=>this.withdraw()}
                         text={this.state.isRequestSending ? LS.str("VERIFING") : LS.str("WITHDRAW_WITHDRAW")} />

@@ -15,7 +15,7 @@ import {
 	//BackAndroid,
 	ScrollView,
 } from 'react-native';
-
+import { connect } from 'react-redux';
 var NetworkModule = require('../../module/NetworkModule')
 var ColorConstants = require('../../ColorConstants')
 import NavBar from '../component/NavBar'
@@ -365,4 +365,15 @@ var styles = StyleSheet.create({
 	},
 });
 
-export default DepositWithdrawEntryScreen;
+const mapStateToProps = state => {
+	return {
+		...state.meData,
+	};
+};
+
+const mapDispatchToProps = {
+	
+};
+  
+export default connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);
+  

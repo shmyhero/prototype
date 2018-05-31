@@ -132,7 +132,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        ...state.meData
+        ...state.meData,
+        ...state.settings,
     };
 };
   

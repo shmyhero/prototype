@@ -68,7 +68,7 @@ class SubmitButton extends Component {
             if(this.props.enableColorGradient){
                 colorGradient = this.props.enableColorGradient;
             }else{
-                colorGradient = this.props.isImportant ? ColorConstants.IMPORTANT_COLOR_GRADIENT_ENABLE : ColorConstants.UNIMPORTANT_COLOR_GRADIENT_ENABLE;
+                colorGradient = this.props.isImportant ? ColorConstants.COLOR_GRADIENT_YELLOW : ColorConstants.COLOR_GRADIENT_BLUE;
             }
             if(this.props.enableTextColor){
                 textColor = this.props.enableTextColor;

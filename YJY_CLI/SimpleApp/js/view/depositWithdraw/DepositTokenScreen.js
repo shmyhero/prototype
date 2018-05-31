@@ -119,7 +119,7 @@ const styles = StyleSheet.create({
     rowValue:{
         flex: 3,
         fontSize: 15,
-        color:'#269cee'
+        color: ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
     rowTitle:{
         fontSize:20,
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
     linkText: {
         fontSize: 15,
-        color:'#0099ff',
+        color: ColorConstants.COLOR_MAIN_THEME_BLUE,
     }
 });
 
