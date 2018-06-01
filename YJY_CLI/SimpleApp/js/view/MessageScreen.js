@@ -12,7 +12,7 @@ import {
 
 import { getMessageList, setMessageRead } from '../redux/actions'
 import { connect } from 'react-redux';
-var dateFormat = require('dateformat');
+//var dateFormat = require('dateformat');
 var {height, width} = Dimensions.get('window')
 import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
@@ -34,24 +34,25 @@ class MessageScreen extends Component {
 
     renderDateTime(rowData){
         var datetime = rowData.createdAt;
-        if(datetime){
-            var dt = new Date(datetime);
-            var month = dt.getMonth()+1;
-            var dateString = dateFormat(dt, "yyyy.mm.dd");
-            var timeString = dateFormat(dt, "HH:MM")
-            return (
-                <View style={styles.datetime}>
-                    <Text style={styles.date}>
-                        {dateString}
-                        <Text style={styles.time}>{timeString}</Text>
-                    </Text>
-                </View>
-            );
-        }else{
+        // TODO: add date format later
+        // if(datetime){
+        //     var dt = new Date(datetime);
+        //     var month = dt.getMonth()+1;
+        //     var dateString = dateFormat(dt, "yyyy.mm.dd");
+        //     var timeString = dateFormat(dt, "HH:MM")
+        //     return (
+        //         <View style={styles.datetime}>
+        //             <Text style={styles.date}>
+        //                 {dateString}
+        //                 <Text style={styles.time}>{timeString}</Text>
+        //             </Text>
+        //         </View>
+        //     );
+        // }else{
             return (
                 <View/>
             );
-        }    
+        // }    
     }
 
     _onSelectNormalRow = (rowIndex) => {
