@@ -123,23 +123,23 @@ class LineChartRender: BaseRender {
 		}
 		context.saveGState()
 		//center line
-		var linePath = UIBezierPath()
-		let width = lineDataProvider!.chartWidth()
-		let height = lineDataProvider!.chartHeight()
-		let middleLineY = lineDataProvider?.yPosOfMiddleLine()
-		if (middleLineY! > 0.0) {
-			let centerY = round(middleLineY!)
-			linePath.move(to: CGPoint(x:_margin, y: centerY + 0.5))
-			linePath.addLine(to: CGPoint(x:width - _margin, y: centerY + 0.5))
-			
-			_colorSet.middleLineColor.setStroke()
-			linePath.lineWidth = 1
-//            linePath.setLineDash([5,3], count: 2, phase: 0)
-			linePath.stroke()
-		}
+        var linePath = UIBezierPath()
+        let width = lineDataProvider!.chartWidth()
+        let height = lineDataProvider!.chartHeight()
+//        let middleLineY = lineDataProvider?.yPosOfMiddleLine()
+//        if (middleLineY! > 0.0) {
+//            let centerY = round(middleLineY!)
+//            linePath.move(to: CGPoint(x:_margin, y: centerY + 0.5))
+//            linePath.addLine(to: CGPoint(x:width - _margin, y: centerY + 0.5))
+//
+//            _colorSet.middleLineColor.setStroke()
+//            linePath.lineWidth = 1
+////            linePath.setLineDash([5,3], count: 2, phase: 0)
+//            linePath.stroke()
+//        }
 		
 		// vertical lines
-		linePath = UIBezierPath()
+//        linePath = UIBezierPath()
 		if !lineDataProvider!.hasData() {
 			//center lines, calculate time length
 			let verticalLinesX = lineDataProvider!.xVerticalLines()

@@ -61,10 +61,10 @@ class ColorSet: NSObject {
             startColor = UIColor(hexInt: 0x346aa2)
             endColor = UIColor(hexInt: 0x1f4a77)
             middleLineColor = UIColor(hexInt: 0xffffff, alpha: 0.8)//UIColor(hexInt:0x1394e6)
-            dateTextColor = UIColor(hexInt: 0xb7e1f8)
+            dateTextColor = UIColor(hexInt: 0x62a5e0)
             
             bgLineColor = UIColor(hexInt: 0xffffff, alpha: 0)
-            lineColor = UIColor(hexInt: 0xffffff, alpha: 0.5)
+            lineColor = UIColor(hexInt: 0x577fa2, alpha:1)
             minmaxColor = UIColor.white
             rightTextColor = UIColor.white
         }
