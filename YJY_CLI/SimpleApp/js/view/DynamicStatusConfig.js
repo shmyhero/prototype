@@ -107,7 +107,7 @@ export default class DynamicStatusConfig extends Component {
 				<Switch
 					onValueChange={(value) => this.onSwitchPressed(value, rowData)}
 					value={switchIsOn}
-					onTintColor={ColorConstants.title_blue()} />
+					onTintColor={ColorConstants.BGBLUE} />
 			</View>
 			
 		) 

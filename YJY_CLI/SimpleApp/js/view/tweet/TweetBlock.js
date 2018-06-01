@@ -3,7 +3,7 @@ import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 var TweetParser = require("./TweetParser")
-
+var ColorConstants = require("../../ColorConstants")
 // create a component
 class TweetBlock extends Component {
     static propTypes = {
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
     },
 
     linkedPart:{
-        color:'#0091ed',
+        color:ColorConstants.COLOR_MAIN_THEME_BLUE,
         fontSize: 30,
     }
 });

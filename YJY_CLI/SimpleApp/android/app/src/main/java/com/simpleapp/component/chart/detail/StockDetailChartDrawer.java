@@ -51,7 +51,7 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
 
     @Override
     protected boolean needDrawLastPriceLine() {
-        return true;
+        return false;//true;
     }
 
     @Override

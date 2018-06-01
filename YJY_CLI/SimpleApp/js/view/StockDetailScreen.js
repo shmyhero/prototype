@@ -510,20 +510,32 @@ class StockDetailScreen extends Component {
         return  (
             <PriceChartView style={{flex:1}}
                 lineChartGradient={['#346aa2', '#1f4a77']}
+                xAxisBackground={"#1c4570"}
+                dataSetColor={"#577fa2"}
+                textColor={"#62a5e0"}
                 xAxisPosition="BOTTOM"
                 leftAxisEnabled={false}
                 rightAxisEnabled={true}
-                dataSetColor={"#b7e1f8"}
-                textColor={"#7abff0"}
                 drawBorders={false}
                 borderColor={'transparent'}
                 data={JSON.stringify(this.state.stockInfo)}
                 paddingRightAxis={20}
+                rightAxisDrawLabel={false}
                 drawDataUnderYAxis={true}
-                xAxisBackground={"#1394e6"}
                 xAxisPaddingBottom={20}
                 xAxisPaddingTop={20}
+                lineWidth={6}
                 />
+        )
+    }
+
+    renderDetailRow(){
+        console.log("this.state.stockInfo", this.state.stockInfo)
+        var text = "aaa bbbb"//this.state.data + " " + this.props.currentPrice
+        return (
+            <View style={styles.detailTextRow}>
+                <Text style={styles.detailText}>{text}</Text>
+            </View>
         )
     }
 
@@ -533,6 +545,7 @@ class StockDetailScreen extends Component {
             <View style={styles.container}>
                 <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
                     navigation={this.props.navigation}/>
+                {this.renderDetailRow()}
                 <View style={styles.chartContainer}>
                     {this.renderPriceChart()}
                 </View>
@@ -581,29 +594,28 @@ class StockDetailScreen extends Component {
 }
 
 const styles = StyleSheet.create({
-    mainContainer:{
-        flex:1,
-        backgroundColor:'black', 
-    },
-    
     container: {
         flex: 1,
         alignSelf:'stretch',
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor:'white',
     },
-
+    detailTextRow:{
+        flexDirection: 'row',
+    },
+    detailText:{
+        fontSize:10,
+        color:ColorConstants.NAVBAR_TEXT_COLOR,
+    },
     chartContainer:{
         flex:1, 
         alignSelf:'stretch', 
-        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE
     },
-
     actionsContainer:{       
         justifyContent:'flex-start', 
         alignSelf:'stretch',
-        marginTop:10,
+        paddingTop:10,
+        backgroundColor:'white',
     },
 
     buttonsContainer:{
