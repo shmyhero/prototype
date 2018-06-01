@@ -443,8 +443,8 @@ class StockDetailScreen extends Component {
     }
 
     renderOperationButton(value){
-        var imageSource = LS.loadImage("stock_detail_option_up_unselected")
-        var selectedImageSource = LS.loadImage("stock_detail_option_up_selected")
+        var imageSource;//LS.loadImage("stock_detail_option_up_unselected")
+        var selectedImageSource;// = LS.loadImage("stock_detail_option_up_selected")
         if (value == 0){
             //Down
             label = LS.str("SHORT_OPERATION")

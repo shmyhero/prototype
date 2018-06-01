@@ -4,10 +4,12 @@ import {
     GET_MESSAGE_LIST_ATTACH,
     GET_MESSAGE_LIST_ATTACH_SUCCESS,
     GET_MESSAGE_LIST_FAIL,
-    SET_MESSAGE_READ
+    SET_MESSAGE_READ,
+    UPDATE_UNREAD,
 } from "../constants/actionTypes";
 
 import fetchMessageListRequest from '../api/fetchMessageListRequest';
+import getUnreadMessagesRequest from '../api/getUnreadMessagesRequest';
 
 export function getMessageList(currentPage, data){
     var isLoading = data.isLoading;
@@ -70,5 +72,18 @@ export function setMessageRead(rowIndex, messageList){
                 })
             }, 1);
         }        
+    }
+}
+
+export function updateUnread(){
+    return (dispatch) => {
+        getUnreadMessagesRequest().then((count)=>{
+            dispatch({
+                type: UPDATE_UNREAD,
+                payload:{
+                    unread: count,
+                }
+            })
+        })
     }
 }

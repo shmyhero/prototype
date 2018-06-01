@@ -5,10 +5,12 @@ import {
     GET_MESSAGE_LIST_ATTACH_SUCCESS,
     GET_MESSAGE_LIST_FAIL,
     SET_MESSAGE_READ,
+    UPDATE_UNREAD
 } from "../constants/actionTypes";
 
 var initializeState = {
     messageList: [],
+    unread: 0,
     nextPage: 0,
     newMassageCount: 0,
     isRefreshing: false,
@@ -56,6 +58,11 @@ export default function settingsReducer(state = initializeState, action) {
         case SET_MESSAGE_READ:
             state = { ...state,
                 messageList: action.payload.messageList,
+            }
+            return state;
+        case UPDATE_UNREAD:
+            state = { ...state,
+                unread: action.payload.unread,
             }
             return state;
         default:

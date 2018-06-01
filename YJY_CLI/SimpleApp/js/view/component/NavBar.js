@@ -173,7 +173,12 @@ class NavBar extends Component {
 	renderLeftPart(){
 		//viewOnRight
 		if(this.props.viewOnLeft){
-			return this.props.viewOnLeft;
+			return (
+				<TouchableOpacity
+					onPress={()=>this.props.leftPartOnClick && this.props.leftPartOnClick()}>
+					{this.props.viewOnLeft}
+				</TouchableOpacity>
+				);
 		}else{
 			return (
 				<View style={styles.leftContainer}>
@@ -203,11 +208,15 @@ class NavBar extends Component {
 		}
 	}
 	
-
 	renderRightPart(){
 		//viewOnRight
 		if(this.props.viewOnRight){
-			return this.props.viewOnRight;
+			return (
+				<TouchableOpacity
+					onPress={()=>this.props.rightPartOnClick && this.props.rightPartOnClick()}>
+					{this.props.viewOnRight}
+				</TouchableOpacity>
+			);
 		}else{
 			return (
 				<View style={styles.rightContainer}>
@@ -215,7 +224,8 @@ class NavBar extends Component {
 					{this.renderRightText()}
 					{this.renderRightImage()}
 					{this.renderRightCustomContent()}
-				</View>);
+				</View>
+			);
 		}
 	}
 

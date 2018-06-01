@@ -30,7 +30,7 @@ var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleB
 import LogicData from "../LogicData";
 import LoginScreen from './LoginScreen';
 
-import { fetchMeData } from '../redux/actions'
+import { fetchMeData, updateUnread } from '../redux/actions'
 import { connect } from 'react-redux';
 import SubmitButton from './component/SubmitButton';
 
@@ -67,6 +67,7 @@ class  TabMeScreen extends React.Component {
   refresh(){
     console.log("Mepage refresh")
     this.props.fetchMeData();
+    this.props.updateUnread();
   }
 
   goToUserConfig(){
@@ -205,6 +206,21 @@ class  TabMeScreen extends React.Component {
     );
   }
 
+  renderMessageView(){
+    var view = null;
+    if(this.props.unread > 0){
+      var unreadCount = this.props.unread > 9 ? "9+" : this.props.unread;
+      view = (<View style={styles.unreadMessageCount}>
+        <Text style={{textAlign:'center', fontSize:8, color:'white'}}>{unreadCount}</Text>
+      </View>);
+    }
+    return (
+      <View style={{alignItems:'center', justifyContent:'center'}}>
+        <Image style={styles.messageImage} source={require('../../images/me_messages.png')}/>
+        {view}
+    </View>);
+  }
+
   renderContent(){
     if(this.props.userLoggedin){
       return (
@@ -218,7 +234,7 @@ class  TabMeScreen extends React.Component {
           <NavBar 
             backgroundColor="transparent"
             title=""
-            imageOnLeft={require('../../images/me_messages.png')}
+            viewOnLeft={this.renderMessageView()}
             leftPartOnClick={()=>this.goToMessage()}
             imageOnRight={require('../../images/me_settings.png')}
             rightPartOnClick={()=>this.goToSettings()}/>
@@ -351,6 +367,24 @@ const styles = StyleSheet.create({
       fontSize:12, 
       color:'#999999', 
     },
+    messageImage: {
+      width: 21,
+      height: 21,
+      marginLeft: 20,
+      resizeMode: Image.resizeMode.contain,
+      marginRight: 8
+    },
+    unreadMessageCount: {
+      backgroundColor:'red', 
+      width:18,
+      height:12, 
+      borderRadius:5,
+      alignItems:'center',
+      justifyContent:'center',
+      position:'absolute',
+      top:-5,
+      right:0
+    }
 })
 
 const mapStateToProps = state => {
@@ -363,7 +397,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  fetchMeData
+  fetchMeData,
+  updateUnread
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabMeScreen);
