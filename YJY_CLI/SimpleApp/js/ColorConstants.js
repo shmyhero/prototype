@@ -42,7 +42,8 @@ var colors = {
 	COLOR_NAVBAR_BLUE_GRADIENT: ["#1f4a77",  "#5b8ec2"],
     UNIMPORTANT_TEXT_COLOR_ENABLE: 'white',
     COLOR_GRADIENT_DISABLE: ["#999999", "#AAAAAA"],
-    TEXT_COLOR_DISABLE: "white",
+	TEXT_COLOR_DISABLE: "white",
+	NAVBAR_TEXT_COLOR: "#b7e1f8",
 	
 	stock_color: function(change) {
 		if (change > 0) {

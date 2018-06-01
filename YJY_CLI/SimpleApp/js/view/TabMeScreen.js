@@ -24,6 +24,7 @@ import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 import BalanceBlock from './component/BalanceBlock';
 
+var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
 import LogicData from "../LogicData";
@@ -158,6 +159,21 @@ class  TabMeScreen extends React.Component {
     )
   }
 
+  renderChart(){
+    return (
+      <View style={styles.TradeStyleCycleContainer}> 
+        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
+          resizeMode='stretch' source={require('../../images/bg_block.png')}>
+            <ProfitTrendCharts 
+              ref={(ref)=>this.tradeStyleCicleBlock = ref}
+              userId={this.props.userId}
+              viewHeight={180}
+              isPrivate={false}/>          
+        </ImageBackground> 
+      </View>
+    );
+  }
+
   renderTradeStyleCicleBlock(){
     return (
       <View style={styles.TradeStyleCycleContainer}> 
@@ -209,6 +225,7 @@ class  TabMeScreen extends React.Component {
           
           {this.renderPortrait()}
           {this.renderBalance()}
+          {this.renderChart()}
           {this.renderTradeStyleCicleBlock()}
           {this.renderTradeStyleBlock()}
           

@@ -87,7 +87,7 @@ export default class ProfitTrendCharts extends Component {
         <PriceChartView style={{flex:1}}
             chartType={"userHomePage"}
             lineChartGradient={['#b8c6d4', '#fbfcfd']}
-            dataSetColor={"#0f98eb"}
+            dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
             textColor={"#9e9e9e"}
             lineWidth={8}
             borderColor={ColorConstants.SEPARATOR_GRAY}

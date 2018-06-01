@@ -8,6 +8,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Rect;
+import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 
@@ -60,16 +61,20 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
     
     protected Paint mBigDotLinePaint;
 
+    protected Paint mValueRectBorderPaint;
+
+    protected Paint mValueRectFillPaint;
+
     /**
      * Bitmap object used for drawing the paths (otherwise they are too long if
      * rendered directly on the canvas)
      */
     protected WeakReference<Bitmap> mDrawBitmap;
 
-    /**
-     * Bitmap object used for drawing last price array
-     */
-    protected WeakReference<Bitmap> mArrowBitmap;
+//    /**
+//     * Bitmap object used for drawing last price array
+//     */
+//    protected WeakReference<Bitmap> mArrowBitmap;
 
     /**
      * Bitmap object used for drawing shadowed circle
@@ -92,6 +97,19 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
     private Context mContext;
 
+
+    private int valueRectWidth = (int)Utils.convertDpToPixel(70);
+    private int valueRectHeight = (int)Utils.convertDpToPixel(31);
+    private int valueLineWidth = (int)Utils.convertDpToPixel(31);
+    int valueRectBorderThickness = (int)Utils.convertDpToPixel(2);
+    int valueRectRadius = (int)Utils.convertDpToPixel(20);
+    float valueTextSize = Utils.convertDpToPixel(12);
+
+    private int valueRectLeft = 0;
+    private int valueRectRight = valueRectLeft + valueRectWidth;
+    private int valueLineLeft = valueRectRight;
+    private int valueLineRight = valueLineLeft + valueLineWidth;
+
     public BigDotLineChartRenderer(Context context, LineDataProvider chart, ChartAnimator animator,
                                    ViewPortHandler viewPortHandler) {
         super(animator, viewPortHandler);
@@ -105,6 +123,22 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         mBigDotLinePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mBigDotLinePaint.setStyle(Paint.Style.FILL);
         mBigDotLinePaint.setColor(context.getResources().getColor(R.color.line_chart_last_price_blue));
+
+        mValueRectBorderPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mValueRectBorderPaint.setColor(mContext.getResources().getColor(R.color.line_chart_marker_border_blue));
+        mValueRectBorderPaint.setStyle(Paint.Style.FILL);
+
+        mValueRectFillPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mValueRectFillPaint.setColor(mContext.getResources().getColor(R.color.line_chart_marker_background_blue));
+        mValueRectFillPaint.setStyle(Paint.Style.FILL);
+
+        mValuePaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        mValuePaint.setTextAlign(Paint.Align.CENTER);
+        mValuePaint.setColor(mContext.getResources().getColor(R.color.line_chart_marker_text_blue));
+        mValuePaint.setTextSize(valueTextSize);
+
+
+        mHighlightPaint.setColor(mContext.getResources().getColor(R.color.line_chart_marker_border_blue));
     }
 
     public LineDataProvider getChart(){
@@ -246,7 +280,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             float curDx = 0f;
             float curDy = 0f;
 
-            // Take an extra point from the left, and an extra from the right.
+            // Take an extra point from the valueRectLeft, and an extra from the right.
             // That's because we need 4 points for a cubic bezier (cubic=4), otherwise we get lines moving and doing weird stuff on the edges of the chart.
             // So in the starting `prev` and `cur`, go -2, -1
             // And in the `lastIndex`, add +1
@@ -733,6 +767,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             mXBounds.set(mChart, dataSet);
 
             float circleRadius = dataSet.getCircleRadius();
+
             float circleHoleRadius = dataSet.getCircleHoleRadius();
             boolean drawCircleHole = dataSet.isDrawCircleHoleEnabled() &&
                     circleHoleRadius < circleRadius &&
@@ -758,16 +793,16 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
             int boundsRangeCount = mXBounds.range + mXBounds.min;
 
-
-            Entry lastEntry = dataSet.getEntryForIndex(dataSet.getEntryCount()-1);
-            if(lastEntry != null) {
-                mCirclesBuffer[0] = lastEntry.getX();
-                mCirclesBuffer[1] = lastEntry.getY() * phaseY;
-
-                trans.pointValuesToPixel(mCirclesBuffer);
-
-                c.drawLine(0, mCirclesBuffer[1], mCirclesBuffer[0], mCirclesBuffer[1], mBigDotLinePaint);
-            }
+//            //Current price
+//            Entry lastEntry = dataSet.getEntryForIndex(dataSet.getEntryCount()-1);
+//            if(lastEntry != null) {
+//                mCirclesBuffer[0] = lastEntry.getX();
+//                mCirclesBuffer[1] = lastEntry.getY() * phaseY;
+//
+//                trans.pointValuesToPixel(mCirclesBuffer);
+//
+//                c.drawLine(0, mCirclesBuffer[1], mCirclesBuffer[0], mCirclesBuffer[1], mBigDotLinePaint);
+//            }
 
             for (int j = mXBounds.min; j <= boundsRangeCount; j++) {
 
@@ -790,7 +825,8 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
                 Bitmap circleBitmap = imageCache.getBitmap(j);
 
                 if (circleBitmap != null) {
-                    c.drawBitmap(circleBitmap, mCirclesBuffer[0] - circleRadius, mCirclesBuffer[1] - circleRadius, null);
+                    float paddingLeft = circleBitmap.getWidth() - circleRadius;
+                    c.drawBitmap(circleBitmap, mCirclesBuffer[0] - paddingLeft, mCirclesBuffer[1] - circleRadius, null);
                 }
             }
         }
@@ -858,11 +894,11 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             mDrawBitmap.clear();
             mDrawBitmap = null;
         }
-        if (mArrowBitmap != null) {
-            mArrowBitmap.get().recycle();
-            mArrowBitmap.clear();
-            mArrowBitmap = null;
-        }
+//        if (mArrowBitmap != null) {
+//            mArrowBitmap.get().recycle();
+//            mArrowBitmap.clear();
+//            mArrowBitmap = null;
+//        }
         if (mShadowedCircle != null){
             mShadowedCircle.get().recycle();
             mShadowedCircle.clear();
@@ -909,43 +945,66 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
             int colorCount = set.getCircleColorCount();
             float circleRadius = set.getCircleRadius();
-            float circleHoleRadius = set.getCircleHoleRadius();
-
-
-            int arrowWidth = (int)Utils.convertDpToPixel(56);
-            int arrowHeight = (int)Utils.convertDpToPixel(18);
+            int valueRectTop = (int)(circleRadius - valueRectHeight / 2);
+            int valueRectBottom = valueRectTop + valueRectHeight;
+            int valueTextLeft = (int)(valueRectLeft + valueRectWidth / 2);
+            float valueTextTop = (valueRectHeight + valueTextSize)/2;
+            float valueLineTop = (valueRectTop + valueRectBottom) / 2;
+            float valueLineBottom = valueLineTop;
+            int circleLeft = (int)(valueRectWidth + valueLineWidth - circleRadius);
+            //int valueRectHeight = (int)Utils.convertDpToPixel(18);
 
             Bitmap.Config conf = Bitmap.Config.ARGB_4444;
 
             //Only draw the last circle.
             int i = colorCount - 1;
             Canvas canvas;
-            Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + arrowWidth, (int) (circleRadius * 2.1), conf);
+            Bitmap circleBitmap = Bitmap.createBitmap((int) (circleRadius * 2.1) + circleLeft, (int) (circleRadius * 2.1), conf);
             canvas = new Canvas(circleBitmap);
             circleBitmaps[i] = circleBitmap;
 
             mRenderPaint.setColor(set.getCircleColor(i));
 
+            //Line
+            canvas.drawLine(valueLineLeft, valueLineTop, valueLineRight, valueLineBottom, mHighlightPaint);
 
+            //Circle
             if (mShadowedCircle == null) {
                 mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
             }
-            Rect circleRect = new Rect(0, 0, (int)circleRadius*2, (int)circleRadius*2);
+            Rect circleRect = new Rect(circleLeft, 0, (int)(circleLeft+circleRadius*2), (int)circleRadius*2);
             canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
 
-            int left = (int)circleRadius*2 - (int)Utils.convertDpToPixel(5);
-            int top = (int)(circleRadius - arrowHeight / 2);
-            Rect rect = new Rect(left, (int)top, left + arrowWidth, top + arrowHeight);
+            //ValueRect
+            RectF fillRect = new RectF(
+                    valueRectLeft + valueRectBorderThickness,
+                    valueRectTop + valueRectBorderThickness,
+                    valueRectLeft + valueRectWidth - valueRectBorderThickness,
+                    valueRectTop + valueRectHeight - valueRectBorderThickness);
+            RectF borderRect = new RectF(
+                    valueRectLeft ,
+                    valueRectTop,
+                    valueRectLeft + valueRectWidth,
+                    valueRectTop + valueRectHeight);
 
-            if (mArrowBitmap == null) {
-                mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
-            }
-            canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
+            canvas.drawRoundRect(borderRect,
+                    valueRectRadius,
+                    valueRectRadius,
+                    mValueRectBorderPaint);
+            canvas.drawRoundRect(fillRect,
+                    valueRectRadius - valueRectBorderThickness,
+                    valueRectRadius - valueRectBorderThickness,
+                    mValueRectFillPaint);
 
-            mValuePaint.setTextAlign(Paint.Align.LEFT);
-            mValuePaint.setColor(set.getCircleHoleColor());
+//            if (mArrowBitmap == null) {
+//                mArrowBitmap = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.price_arrow));
+//            }
+//            canvas.drawBitmap(mArrowBitmap.get(), null, rect, null);
+
+            //ValueRect Text
             String text = "" + ((LineDataSet) set).getValues().get(i).getY();
-            canvas.drawText(text, circleRadius*2 + (int)Utils.convertDpToPixel(8), circleRadius + (int)Utils.convertDpToPixel(3), mValuePaint);
+            canvas.drawText(text, valueTextLeft, valueTextTop, mValuePaint);
+
         }
 
         /**

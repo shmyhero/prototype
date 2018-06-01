@@ -71,6 +71,7 @@ class NavBar extends Component {
 		titleOpacity: 1,
         backgroundColor: null,
 		backgroundGradientColor: null,
+		titleColor: ColorConstants.NAVBAR_TEXT_COLOR,
     }
 
     backOnClick(){
@@ -387,7 +388,6 @@ const styles = StyleSheet.create({
 	title: {
 		fontSize: 18,
 		textAlign: 'center',
-		color: '#b7e1f8',
 	},
 	textOnLeft: {
 		fontSize: 15,
