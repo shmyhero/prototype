@@ -8,6 +8,7 @@ using System.Web.Http.Filters;
 using Newtonsoft.Json;
 using YJY_COMMON.Util.Extension;
 using System.Collections.Concurrent;
+using EntityFramework.BulkInsert.Extensions;
 using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;

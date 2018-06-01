@@ -5,14 +5,15 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
+using EntityFramework.Extensions;
 using ServiceStack.Common.Utils;
 using YJY_API.Controllers;
+using YJY_API.Controllers.Attributes;
 using YJY_API.DTO;
 using YJY_API.DTO.FormDTO;
 using YJY_COMMON;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
-using Z.EntityFramework.Plus;
 
 namespace YJY_API.Controllers
 {
@@ -25,6 +26,7 @@ namespace YJY_API.Controllers
 
         [HttpGet]
         [Route("all")]
+        [AdminAuth]
         public List<HeadlineDTO> GetHeadlineList(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
             return db.Headlines.OrderByDescending(o=>o.CreateAt)
@@ -34,6 +36,7 @@ namespace YJY_API.Controllers
 
         [HttpGet]
         [Route("{id}")]
+        [AdminAuth]
         public HeadlineDTO GetHeadline(int id)
         {
             return Mapper.Map<HeadlineDTO>(db.Headlines.FirstOrDefault(o => o.Id == id));
@@ -41,7 +44,7 @@ namespace YJY_API.Controllers
 
         [HttpPost]
         [Route("")]
-        //[AdminAuth]
+        [AdminAuth]
         public ResultDTO NewHeadline(HeadlineFormDTO form)
         {
             if(string.IsNullOrWhiteSpace(form.header)||string.IsNullOrWhiteSpace(form.body))
@@ -61,7 +64,7 @@ namespace YJY_API.Controllers
 
         [HttpPut]
         [Route("{id}")]
-        //[AdminAuth]
+        [AdminAuth]
         public ResultDTO UpdateHeadline(int id, HeadlineFormDTO form)
         {
             var headline = db.Headlines.FirstOrDefault(o => o.Id == id);
@@ -79,6 +82,7 @@ namespace YJY_API.Controllers
 
         [HttpDelete]
         [Route("{id}")]
+        [AdminAuth]
         public ResultDTO DeleteHeadline(int id)
         {
             db.Headlines.Where(o => o.Id == id).Delete();

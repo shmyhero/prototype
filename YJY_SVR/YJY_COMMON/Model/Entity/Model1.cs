@@ -12,7 +12,7 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<Headline> Headlines { get; set; }
+        public virtual DbSet<AdminUser> AdminUsers { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

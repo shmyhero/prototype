@@ -4,6 +4,7 @@ using System.Net;
 using System.Net.Http;
 using System.Web.Http;
 using AutoMapper;
+using EntityFramework.Extensions;
 using ServiceStack.Text;
 using YJY_COMMON;
 using YJY_COMMON.Azure;
@@ -16,7 +17,6 @@ using YJY_COMMON.Util.Extension;
 using YJY_API.Controllers.Attributes;
 using YJY_API.DTO;
 using YJY_API.DTO.FormDTO;
-using Z.EntityFramework.Plus;
 
 namespace YJY_API.Controllers
 {
