@@ -22,11 +22,11 @@ class ColorSet: NSObject {
     var lineColor: UIColor
     
     // yield line chart
-    var yieldLineColor: UIColor = UIColor(hexInt: 0x435b86)
+    var yieldLineColor: UIColor = UIColor(hexInt: 0x1f4a77)
     var yieldBgLineColor: UIColor = UIColor(hexInt: 0xacabab)
     var yieldDateTextColor: UIColor = UIColor(hexInt: 0xacabab)
-    var yieldStartColor: UIColor = UIColor(hexInt: 0x8ea2c6)
-    var yieldEndColor: UIColor = UIColor(hexInt: 0xfefeff)
+    var yieldStartColor: UIColor = UIColor(hexInt: 0xb8c6d4)
+    var yieldEndColor: UIColor = UIColor(hexInt: 0xfbfcfd)
     
     // candle chart
     var upColor: UIColor = UIColor(hexInt: 0xe34b4f)
@@ -58,8 +58,8 @@ class ColorSet: NSObject {
             rightTextColor = type == 1 ? UIColor.white : UIColor(hexInt: 0x223555)
         }
         else {
-            startColor = UIColor(hexInt: 0x32c0fb)
-            endColor = UIColor(hexInt: 0x1b9beb)
+            startColor = UIColor(hexInt: 0x346aa2)
+            endColor = UIColor(hexInt: 0x1f4a77)
             middleLineColor = UIColor(hexInt: 0xffffff, alpha: 0.8)//UIColor(hexInt:0x1394e6)
             dateTextColor = UIColor(hexInt: 0xb7e1f8)
             
