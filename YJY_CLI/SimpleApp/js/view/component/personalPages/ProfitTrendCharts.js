@@ -158,6 +158,7 @@ const styles = StyleSheet.create({
     width:72,
     borderTopLeftRadius:10,
     borderBottomLeftRadius:10,
+     
     borderColor:'#EEEEEE'
   },
   selectorRight:{
@@ -171,7 +172,8 @@ const styles = StyleSheet.create({
   } ,
   textChartSelector:{
     fontSize:12,
-    color:'#999999'
+    color:'#999999',
+     
   },
   chartContainer:{
     flex:1, 

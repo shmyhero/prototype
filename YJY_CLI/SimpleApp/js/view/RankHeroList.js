@@ -131,7 +131,7 @@ export default class  RankHeroList extends React.Component {
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>{LS.str("MINE")}</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
-                                    <Text style={{fontSize:12,color:'#6dcafe'}}>{LS.str("WINRATE")}</Text>
+                                    <Text style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</Text>
                                     <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(2)}%</Text>
                                 </View>
                             </View>
@@ -310,7 +310,7 @@ const styles = StyleSheet.create({
     textTopUserName:{
         alignSelf:'center',
         marginTop:2,
-        color:'#0278c1',
+        color:ColorConstants.BLUETEXT,
         fontSize:14,
         marginBottom:2,
     },
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     },
     textWinRate:{
         fontSize:12,
-        color:'#0278c1'
+        color:ColorConstants.BLUETEXT
     },
     separator: {
         marginLeft: 20,

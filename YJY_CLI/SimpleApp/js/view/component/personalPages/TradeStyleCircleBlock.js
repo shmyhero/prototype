@@ -137,14 +137,14 @@ export default class TradeStyleCircleBlock extends Component {
               innerRadius={innerRadius} 
               colors={['#3dcc24','#d0f5c7',]} 
               series={[totalWinRate,100-totalWinRate]}
-              colors2={['#2b9ff1','#c8e2f4',]} 
+              colors2={[ColorConstants.BGBLUE,'#c8e2f4',]} 
               series2={[tradeTypePercent, 100-tradeTypePercent]}
               innerText={''+totalTradeCount}
               innerText2={'TRADES'}/>  
             </View>  
             <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-60}}>
-              <Text style={{fontSize:18,color:'#2b9ff1'}}>{tradeTypePercent}%</Text>
-              <Text style={{fontSize:12,color:'#2b9ff1'}}>{tradeType}</Text>
+              <Text style={{fontSize:18,color:ColorConstants.BGBLUE}}>{tradeTypePercent}%</Text>
+              <Text style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
               <Image style={{width:60,height:21,marginLeft:10}} source={require('../../../../images/blue_line.png')}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>

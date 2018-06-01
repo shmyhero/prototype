@@ -47,8 +47,12 @@ export default class  MyPie extends React.Component {
       
         var length = series.length;
         var sum = 0;
-        if(series[0]==0){series[0]=0.01}//0,100在PIE画图中有bug
-        if(series2[0]==0){series2[0]=0.01}//0,100在PIE画图中有bug
+        
+        for(k=0;k<series.length;k++){
+            if(series[k] == 0){series[k] =0.01}
+            if(series2[k] == 0){series2[k] =0.01}
+        }
+
         for(i = 0;i<length;i++){ 
             sum += series[i];
         } 

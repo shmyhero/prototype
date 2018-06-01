@@ -100,7 +100,7 @@ export default class  TabRankScreen extends React.Component {
              height:48,
              width:100, 
             }} >
-            <Text style={{color:'white'}}>{LS.str("EXPERT")}</Text>
+            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("EXPERT")}</Text>
           </TouchableOpacity>
           <TouchableOpacity 
              onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
@@ -111,7 +111,7 @@ export default class  TabRankScreen extends React.Component {
              width:100, 
             }} 
             >
-            <Text style={{color:'white'}}>{LS.str("CONCERN")} </Text>
+            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("CONCERN")} </Text>
           </TouchableOpacity>
           <TouchableOpacity 
              onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
@@ -122,7 +122,7 @@ export default class  TabRankScreen extends React.Component {
              width:100, 
             }} 
             >
-            <Text style={{color:'white'}}>{LS.str("COPY_TRADE")} </Text>
+            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("COPY_TRADE")} </Text>
           </TouchableOpacity>
         </View> 
         <View>

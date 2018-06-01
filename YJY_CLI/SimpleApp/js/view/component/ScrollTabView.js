@@ -122,7 +122,7 @@ export default class  ScrollTabView extends React.Component {
 		var half = (width / this.props.tabNames.length)/2 - 10
 		var offsetX = (width / this.props.tabNames.length * this.state.currentSelectedTab)+half
 		var imageSource = this.props.tabBgStyle == 0?require('../../../images/icon_control.png'):require('../../../images/icon_control_white.png')
-		var lineColor = this.props.tabBgStyle == 0? '#30adf2':'white'
+		var lineColor = this.props.tabBgStyle == 0? '#4d7db7':'white'
 		return (
 			<View style={styles.lineContainer}>
 				<Image style={{width:11.5,height:6.5,marginLeft: offsetX}} source={imageSource}/>
@@ -141,7 +141,8 @@ export default class  ScrollTabView extends React.Component {
 						horizontal={true}
 						onScroll={(event)=>this.onScroll(event)}
 						scrollEventThrottle={10}
-						directionalLockEnabled={true} >
+						directionalLockEnabled={true} 
+						>
 					{this.props.viewPages}
 				</ScrollView>
 			);
