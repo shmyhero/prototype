@@ -44,15 +44,17 @@ export default class  MyPie extends React.Component {
         var colors2 = this.props.colors2;
         var innerText = this.props.innerText;
         var show2Circle = this.props.show2Circle;
-        console.log("PIE:"+series[0]+"  "+series[1])
+      
         var length = series.length;
         var sum = 0;
-        for(i = 0;i<length;i++){
+        if(series[0]==0){series[0]=0.01}//0,100在PIE画图中有bug
+        if(series2[0]==0){series2[0]=0.01}//0,100在PIE画图中有bug
+        for(i = 0;i<length;i++){ 
             sum += series[i];
-        }
+        } 
 
-        for(j = 0;j<length;j++){
-            series[j] = series[j]/sum*100;
+        for(j = 0;j<length;j++){ 
+            series[j] = series[j]/sum*100; 
         }
 
         var length2 = series2.length;

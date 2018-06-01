@@ -132,7 +132,7 @@ export default class  UserProfileScreen extends React.Component {
 
   rightCustomContent(){
  
-    var following = this.state.isFollowing?require('../../images/watched_yes.png'):require('../../images/watched_no.png');
+    var following = this.state.isFollowing?require('../../images/watched_no.png'):require('../../images/watched_yes.png');
     var widthBtn = this.state.isFollowing?80:80;
     if(LogicData.isUserSelf(this.state.userId)){
       return (null)

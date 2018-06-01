@@ -30,7 +30,7 @@ export default class TradeStyleCircleBlock extends Component {
       totalWinRate:0,
       totalTradeCount:0,
       tradeType:'--',
-      tradeTypePercent:'--',
+      tradeTypePercent:'0',
     }
   }
 
@@ -91,8 +91,8 @@ export default class TradeStyleCircleBlock extends Component {
         },
         (responseJson) => { 
           this.setState({
-            tradeType:responseJson[0].symbol,
-            tradeTypePercent:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
+            tradeType:responseJson[0].symbol, 
+            tradeTypePercent:this.state.totalTradeCount==0?0:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
           });
         },
         (result) => {
@@ -121,10 +121,10 @@ export default class TradeStyleCircleBlock extends Component {
    
     var radius = 100;
     var innerRadius = 92;
-    var totalWinRate = this.state.totalWinRate;
-    var totalTradeCount = this.state.totalTradeCount;
+    var totalWinRate = Number(this.state.totalWinRate);
+    var totalTradeCount = Number(this.state.totalTradeCount);
     var tradeType = this.state.tradeType;
-    var tradeTypePercent = this.state.tradeTypePercent;
+    var tradeTypePercent = Number(this.state.tradeTypePercent);
     console.log('WIN:' + totalWinRate + "TradeCount = " + totalTradeCount)
 
     return ( 
@@ -136,9 +136,9 @@ export default class TradeStyleCircleBlock extends Component {
               radius={radius}
               innerRadius={innerRadius} 
               colors={['#3dcc24','#d0f5c7',]} 
-              series={[11.12, 88.92]}
+              series={[totalWinRate,100-totalWinRate]}
               colors2={['#2b9ff1','#c8e2f4',]} 
-              series2={[11.12, 88.92]}
+              series2={[tradeTypePercent, 100-tradeTypePercent]}
               innerText={''+totalTradeCount}
               innerText2={'TRADES'}/>  
             </View>  

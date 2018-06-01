@@ -57,7 +57,7 @@ const Pie = ({ series, colors, radius, innerRadius, backgroundColor ,series2, co
   const backgroundPath = createPath(radius, radius, radius - width / 2, 0, 360)
   const backgroundPath2 = createPath(radius, radius, radius - width - 30 / 2, 0, 360)
   let startValue =  25 - series[0]/2
-  let startValue2 = 75 - series2[0]/2 
+  let startValue2 = 75 - series2[0]/2
    
   return (
     <Surface width={radius * 2} height={radius * 2}>

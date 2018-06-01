@@ -148,7 +148,7 @@ class LoginScreen extends Component {
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     
                     <Text style={{marginBottom:5,color:'#60cafa',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
-                    <View style={{backgroundColor:'#3ebdf8',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:ColorConstants.BLUE2,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                         underlineColorAndroid='transparent'
                         maxLength={11} 
@@ -167,7 +167,7 @@ class LoginScreen extends Component {
                         </TouchableOpacity>  
                     </View>
 
-                    <View style={{backgroundColor:'#3ebdf8',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:ColorConstants.BLUE2,marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
                             maxLength={4} 
@@ -187,7 +187,7 @@ class LoginScreen extends Component {
                         style={{
                         alignItems:'center',
                         justifyContent:'center',
-                        width:width-50,height:40,backgroundColor:'#25aaf3',marginTop:20,borderRadius:15,}}>
+                        width:width-50,height:40,backgroundColor:ColorConstants.BLUE2,marginTop:20,borderRadius:15,}}>
                         <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>

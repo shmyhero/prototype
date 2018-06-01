@@ -43,7 +43,7 @@ var listViewOffY = 0;
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 import LogicData from '../LogicData';
 import { CHECK_LOGIN_STATE_NOT_LOGGED_IN } from '../redux/constants/actionTypes';
- 
+var tabSwitchedSubscription = null;
 
   /*
   { time: '2018-03-05T01:58:31.263',
@@ -81,10 +81,7 @@ import { CHECK_LOGIN_STATE_NOT_LOGGED_IN } from '../redux/constants/actionTypes'
 
 //Tab0:动态
 export default class TabMainScreen extends React.Component {
-    
-    tabSwitchedSubscription = null;
-    
-
+     
     constructor(props){
         super()
          
@@ -174,11 +171,16 @@ export default class TabMainScreen extends React.Component {
         //         }
         //     },
         //     2000
-        // )
+        //
  
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
             console.log("HOME_TAB_RESS_EVENT")
             WebSocketModule.cleanRegisteredCallbacks();
+            
+            // if(this.state.dataResponse&&this.state.dataResponse.length==0){
+            //     this._onRefresh();
+            // }
+           
         });
     }
 
@@ -211,6 +213,7 @@ export default class TabMainScreen extends React.Component {
      
     onPopOut(){
         console.log('i am onPopOut!!')
+        this.loadData(false)
     }
 
     onPressedConfig(){
@@ -240,7 +243,7 @@ export default class TabMainScreen extends React.Component {
 		return(
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
-				<Text style={{color:'#b0dcfe'}}>{dataTime}</Text> 
+				<Text style={{color:ColorConstants.BLUE2}}>{dataTime}</Text> 
 				{this.renderConfigEnter()}
 			</View>	
 		)
@@ -263,7 +266,7 @@ export default class TabMainScreen extends React.Component {
         if(this.state.isLoading){
             return (
             <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
+                <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             </View>);
         }else{
             return (
@@ -321,25 +324,26 @@ export default class TabMainScreen extends React.Component {
             case refresh_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("PULL_TO_REFRESH")}</Text>
+                        <Text style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</Text>
                     </View>
                 )
             case refresh_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("PULL_TO_REFRESH")}</Text>
+                        <Text style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</Text>
                     </View>
                 )
             case will_refresh:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("RELEASE_TO_REFRESH")}</Text>
+                        <Text style={styles.loadText}>{LS.str("RELEASE_TO_REFRESH")}</Text>
                     </View>
                 )
             case refreshing:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        {this._renderActivityIndicator()}<Text>{LS.str("REFRESHING")}</Text>
+                        {this._renderActivityIndicator()}
+                        <Text style={styles.loadText}>{LS.str("REFRESHING")}</Text>
                     </View>
                 )
         }
@@ -353,31 +357,32 @@ export default class TabMainScreen extends React.Component {
             case load_more_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("LOAD_MORE")}</Text>
+                        <Text style={styles.loadText}>{LS.str("LOAD_MORE")}</Text>
                     </View>
                 )
             case load_more_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("LOAD_MORE")}</Text>
+                        <Text style={styles.loadText}>{LS.str("LOAD_MORE")}</Text>
                     </View>
                 )
             case will_load_more:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("RELEASE_FOR_LOAD_MORE")}</Text>
+                        <Text style={styles.loadText}>{LS.str("RELEASE_FOR_LOAD_MORE")}</Text>
                     </View>
                 )
             case loading_more:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        {this._renderActivityIndicator()}<Text>{LS.str("LOADING")}</Text>
+                        {this._renderActivityIndicator()}
+                        <Text style={styles.loadText}>{LS.str("LOADING")}</Text>
                     </View>
                 )
             case loaded_all:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text>{LS.str("NO_MORE")}</Text>
+                        <Text style={styles.loadText}>{LS.str("NO_MORE")}</Text>
                     </View>
                 )
         }
@@ -519,20 +524,20 @@ export default class TabMainScreen extends React.Component {
             <ActivityIndicator
                 style={{marginRight: 10,}}
                 animating={true}
-                color={'#000000'}
+                color={ColorConstants.BLUE2}
                 size={'small'}/>
         ) : Platform.OS == 'android' ?
             (
                 <ProgressBarAndroid
                     style={{marginRight: 10,}}
-                    color={'#000000'}
+                    color={ColorConstants.BLUE2}
                     styleAttr={'Small'}/>
 
             ) :  (
             <ActivityIndicatorIOS
                 style={{marginRight: 10,}}
                 animating={true}
-                color={'#000000'}
+                color={ColorConstants.BLUE2}
                 size={'small'}/>
         )
     } 
@@ -573,7 +578,9 @@ const styles = StyleSheet.create({
     contentContainer: {
         paddingTop: 20 + 44,
     },
-
+    loadText:{
+        color:ColorConstants.BLUE2
+    }
     
 
 })
