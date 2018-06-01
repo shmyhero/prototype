@@ -361,6 +361,7 @@ class StockDetailScreen extends Component {
         var imageSource = parameters.imageSource;
         var selectedImageSource = parameters.selectedImageSource;
         var selected = this.state[groupName] == value;
+        var selectedTextColor = ""
         var containerStyleList = [styles.numberButton];
         var textViewStyleList = [styles.numberButtonLabel];
         var backgroundImageSource = parameters.backgroundImageSource ? parameters.backgroundImageSource : require("../../images/stock_detail_action_unselected.png");
@@ -399,6 +400,7 @@ class StockDetailScreen extends Component {
                         alignItems:'center',
                         flexDirection:'row',
                         }}>
+                        {imageSource? <Image style={{marginLeft:20, height: 22, width: 22}} source={imageSource}/> : null}
                         <Text style={textViewStyleList}>{label}</Text>
                     </View>
                 </ImageBackground>
@@ -424,7 +426,7 @@ class StockDetailScreen extends Component {
             value: value,
             label: value,
             groupName: "Amount", 
-            customTextViewStyle: styles.SelectedAmountButton,
+            customTextViewStyle: styles.SelectedAmountButton,            
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
             selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_blue.png")
         });            
@@ -445,19 +447,27 @@ class StockDetailScreen extends Component {
         var selectedImageSource = LS.loadImage("stock_detail_option_up_selected")
         if (value == 0){
             //Down
-            imageSource = LS.loadImage("stock_detail_option_down_unselected")
-            selectedImageSource = LS.loadImage("stock_detail_option_down_selected")
+            label = LS.str("SHORT_OPERATION")
+            imageSource = require('../../images/stock_detail_direction_down_disabled.png');
+            selectedImageSource = require('../../images/stock_detail_direction_down_disabled.png');
         }else{
             //Up
-            imageSource = LS.loadImage("stock_detail_option_up_unselected")
-            selectedImageSource = LS.loadImage("stock_detail_option_up_selected")
+            label = LS.str("LONG_OPERATION")
+            imageSource = require('../../images/stock_detail_direction_up_disabled.png');
+            selectedImageSource = require('../../images/stock_detail_direction_up_disabled.png');
         }
+        backgroundImageSource = require('../../images/stock_detail_option_unselected.png');
+        selectedBackgroundImageSource = require('../../images/stock_detail_option_selected.png');
 
         return this.renderButtonInGroup({
             value: value,
+            label: label,
             groupName: "Operation",
-            backgroundImageSource:imageSource,
-            selectedBackgroundImageSource:selectedImageSource,
+            imageSource: imageSource,
+            customTextViewStyle: styles.SelectedOperationButton,
+            selectedImageSource: selectedImageSource,
+            backgroundImageSource:backgroundImageSource,
+            selectedBackgroundImageSource:selectedBackgroundImageSource,
         });            
     }
 
@@ -531,7 +541,15 @@ class StockDetailScreen extends Component {
 
     renderDetailRow(){
         console.log("this.state.stockInfo", this.state.stockInfo)
-        var text = "aaa bbbb"//this.state.data + " " + this.props.currentPrice
+        var text = "--"
+        if(this.state.stockInfo && this.state.stockInfo.last != undefined && this.state.stockInfo.open != undefined){
+            var percent = (((this.state.stockInfo.last - this.state.stockInfo.open) / this.state.stockInfo.open * 100)).toFixed(2);
+            if(percent > 0) percent = "+" + percent
+            percent = percent + "%";   
+            var text = "" + this.state.stockInfo.last + " " + percent;
+        }
+
+        //this.state.data + " " + this.props.currentPrice
         return (
             <View style={styles.detailTextRow}>
                 <Text style={styles.detailText}>{text}</Text>
@@ -679,6 +697,12 @@ const styles = StyleSheet.create({
 
     SelectedMultiplierButton:{
         color:'#2ab848',
+    },
+
+    SelectedOperationButton:{
+        color:'#1f4a77',
+        textAlign:'center',
+        marginRight:10
     },
 
     centerTextContainer: {

@@ -21,6 +21,8 @@ var LS = {
     SUGAR_PROFIT: ["盈利", "Profit"],
     SUGAR_AMOUNT: ["总BTH数", "Total BTH"],
     SUGAR_AVAILABLE: ["可出BTH数", "Available"],
+    LONG_OPERATION: ["上升", "RISING"],
+    SHORT_OPERATION: ["下降", "FALLING"],
 
     CANCLE: ["取消", "Cancle"],
     IMPORT_FROM_PHOTO: ["拍照", "Take Photo"],
