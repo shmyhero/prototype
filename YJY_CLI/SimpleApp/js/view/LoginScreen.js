@@ -11,6 +11,7 @@ import {
   TextInput,
   Alert,
   ScrollView,
+  ImageBackground,
   TouchableOpacity,
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
@@ -131,7 +132,7 @@ class LoginScreen extends Component {
     }
 
     render() {
-        var textLogin = this.isLoginable()?'white':'#40b7f8'
+        var textLogin = this.isLoginable()?'white':'#e3f0fd'
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;
@@ -140,21 +141,21 @@ class LoginScreen extends Component {
         return (
             <ScrollView style={{width:width,height:height-HeightSub}}>
              
-            <View style={[styles.container, {height:height-HeightSub}]}>
+            <View source={require('../../images/bg_login.jpg')} style={[styles.container, {height:height-HeightSub}]}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Image style={{width:128,height:128}} source={require('../../images/app_icon.png')}/>
+                    <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     
-                    <Text style={{marginBottom:5,color:'#60cafa',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
-                    <View style={{backgroundColor:'#4d7db7',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
+                    <View style={{backgroundColor:'#425a85',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                         underlineColorAndroid='transparent'
                         maxLength={11} 
                         placeholderTextColor='white'
                         placeholder={LS.str("PHONE_NUM")}
-                        keyboardType='numeric' 
+                        keyboardType='numeric'  
                         onChangeText={(text) => {
                             this.setState({
                                 phoneNumber:text
@@ -167,7 +168,7 @@ class LoginScreen extends Component {
                         </TouchableOpacity>  
                     </View>
 
-                    <View style={{backgroundColor:'#4d7db7',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:'#425a85',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
                             maxLength={4} 
@@ -187,7 +188,7 @@ class LoginScreen extends Component {
                         style={{
                         alignItems:'center',
                         justifyContent:'center',
-                        width:width-50,height:40,backgroundColor:'#4d7db7',marginTop:20,borderRadius:15,}}>
+                        width:width-50,height:40,backgroundColor:'#2f5b8b',marginTop:20,borderRadius:15,}}>
                         <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>
@@ -198,7 +199,7 @@ class LoginScreen extends Component {
                     </TouchableOpacity>   
                 </View>     */}
             </View>
-            </ScrollView>  
+           </ScrollView>  
         );
     } 
 }
@@ -206,7 +207,7 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container:{
        flex:1,
-       backgroundColor:ColorConstants.BGBLUE
+    //    backgroundColor:ColorConstants.BGBLUE
     }
 })
 
