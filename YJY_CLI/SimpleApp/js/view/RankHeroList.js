@@ -120,7 +120,7 @@ export default class  RankHeroList extends React.Component {
 
     renderMe(){
         if(this.props.showMeBlock){
-            var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
+            // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
             return(
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
                     <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
@@ -129,15 +129,15 @@ export default class  RankHeroList extends React.Component {
                                 <Image style={{height:34,width:34,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
-                                <Text style={{color:'white',fontSize:15,color:'#a1dcfd'}}>{LS.str("MINE")}</Text>
+                                <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LS.str("MINE")}</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
                                     <Text style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</Text>
-                                    <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(2)}%</Text>
+                                    <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</Text>
                                 </View>
                             </View>
                         </View>     
                         <View style={{marginRight:30}}>
-                            <Text style={{color:roiColor}}>{(this.state.rankListData[0].roi*100).toFixed(2)}%</Text>
+                            <Text style={{color:'#d8effc'}}>{(this.state.rankListData[0].roi*100).toFixed(0)}%</Text>
                         </View> 
                     </ImageBackground>
                 </TouchableOpacity>
@@ -156,7 +156,7 @@ export default class  RankHeroList extends React.Component {
         if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
         if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
 
-        var viewOff = (index == 1)?-5:-10
+        var viewOff = (index == 1)?2:-5
          
         if(data!==null){
             return(
@@ -165,10 +165,10 @@ export default class  RankHeroList extends React.Component {
                     <Text style={styles.textTopUserName}>{data.nickname}</Text>
                     <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
                         <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
-                        <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(2)}%</Text>
+                        <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(0)}%</Text>
                     </View>  
                     <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
-                        <Text style={styles.textProfit}>{(data.roi*100).toFixed(2)}%</Text>
+                        <Text style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</Text>
                     </ImageBackground>
                 </TouchableOpacity>
             ) 
@@ -227,12 +227,12 @@ export default class  RankHeroList extends React.Component {
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                <Text style={{fontSize:14, color:'#666666'}}>{(rowData.winRate*100).toFixed(2)}%</Text>
+                                <Text style={{fontSize:14, color:'#666666'}}>{(rowData.winRate*100).toFixed(0)}%</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(2)}%</Text>
+                        <Text style={{fontSize:17, color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(0)}%</Text>
                     </View> 
                 </TouchableOpacity>
             )

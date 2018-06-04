@@ -119,8 +119,8 @@ export default class TradeStyleCircleBlock extends Component {
 
   render() {
    
-    var radius = 100;
-    var innerRadius = 92;
+    var radius = 90;
+    var innerRadius = 82;
     var totalWinRate = Number(this.state.totalWinRate);
     var totalTradeCount = Number(this.state.totalTradeCount);
     var tradeType = this.state.tradeType;

@@ -243,9 +243,11 @@ class  TabMeScreen extends React.Component {
             rightPartOnClick={()=>this.goToSettings()}/>
           
           {this.renderPortrait()}
-          {this.renderBalance()}
+          {this.renderBalance()} 
           {this.renderChart()}
+          <View style={{height:15}}/>
           {this.renderTradeStyleCicleBlock()}
+          <View style={{height:10}}/>
           {this.renderTradeStyleBlock()}
           
         </ScrollView>);

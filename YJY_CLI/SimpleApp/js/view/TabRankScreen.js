@@ -88,6 +88,9 @@ export default class  TabRankScreen extends React.Component {
   renderRankTypeButton(){
     var marginLeft = width/2-6
     marginLeft += (this.state.rankType - 1) * 100
+    var textStyle0 = this.state.rankType==0?styles.textHeaderSeleted:styles.textHeader;
+    var textStyle1 = this.state.rankType==1?styles.textHeaderSeleted:styles.textHeader;
+    var textStyle2 = this.state.rankType==2?styles.textHeaderSeleted:styles.textHeader;
     if(LogicData.isLoggedIn()){
       return(
         <View>
@@ -100,7 +103,8 @@ export default class  TabRankScreen extends React.Component {
              height:48,
              width:100, 
             }} >
-            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("EXPERT")}</Text>
+            <Text style={textStyle0}>{LS.str("EXPERT")}</Text>
+             
           </TouchableOpacity>
           <TouchableOpacity 
              onPress={()=>this.onPressedRankType(RANKING_TYPE_1)}
@@ -111,7 +115,7 @@ export default class  TabRankScreen extends React.Component {
              width:100, 
             }} 
             >
-            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("CONCERN")} </Text>
+            <Text style={textStyle1}>{LS.str("CONCERN")} </Text>
           </TouchableOpacity>
           <TouchableOpacity 
              onPress={()=>this.onPressedRankType(RANKING_TYPE_2)}
@@ -122,12 +126,12 @@ export default class  TabRankScreen extends React.Component {
              width:100, 
             }} 
             >
-            <Text style={{color:ColorConstants.BLUETEXT}}>{LS.str("COPY_TRADE")} </Text>
+            <Text style={textStyle2}>{LS.str("COPY_TRADE")} </Text>
           </TouchableOpacity>
         </View> 
         <View>
             <Image style={{width:11.5,height:6.5,marginLeft:marginLeft}} source={require('../../images/icon_control.png')}/>
-            <View style={{width:width,height:2,backgroundColor:'#4d7db7'}}></View>
+            <View style={{width:width,height:2,backgroundColor:'#5989bd'}}></View>
             <View style={{width:width,height:10}}></View>
         </View>
       </View>   
@@ -199,7 +203,18 @@ const styles = StyleSheet.create({
       justifyContent:'center',
       alignItems:'center', 
       flexDirection:'row',  
-    }
+    },
+    textHeader:{
+      color:'#ffffff',
+      fontSize:17,
+      opacity:0.6
+    },
+    textHeaderSeleted:{
+      color:'#ffffff',
+      fontSize:17,
+      opacity:1
+    },
+
 })
 
 module.exports = TabRankScreen;

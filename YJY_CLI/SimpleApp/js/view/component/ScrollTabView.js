@@ -100,7 +100,7 @@ export default class  ScrollTabView extends React.Component {
 					onPress={() => this.tabClicked(i)}>
  
 				<View style={{width:80,height:41,alignItems:'center',justifyContent:'center'}}>
-					<Text style={ styles.tabItemTextUnSelected}>
+					<Text style={this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected}>
 						{tabName}
 					</Text>
 				</View> 
@@ -190,16 +190,17 @@ var styles = StyleSheet.create({
 
 	tabItemTextSelected: {
 		textAlign: 'center',
-		color: '#279fe8',
-		fontSize: 13,
+		color: 'white',
+		fontSize: 17,
 		// fontWeight: 'bold',
 		marginBottom:2
 	},
 
 	tabItemTextUnSelected: {
 		textAlign: 'center',
-		fontSize: 13,
+		fontSize: 17,
 		color: 'white',
+		opacity:0.6,
 		marginBottom:2
 	},
 
