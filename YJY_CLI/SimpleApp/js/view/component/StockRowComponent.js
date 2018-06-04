@@ -102,7 +102,7 @@ const styles = StyleSheet.create({
         marginTop: 5,
         marginRight: 15,
         marginLeft:15,
-        marginBottom: 5,
+        marginBottom: 10,
         height:70,
     },
     statusLableContainer: {
