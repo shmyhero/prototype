@@ -123,23 +123,11 @@ class LineChartRender: BaseRender {
 		}
 		context.saveGState()
 		//center line
-        var linePath = UIBezierPath()
+        let linePath = UIBezierPath()
         let width = lineDataProvider!.chartWidth()
         let height = lineDataProvider!.chartHeight()
-//        let middleLineY = lineDataProvider?.yPosOfMiddleLine()
-//        if (middleLineY! > 0.0) {
-//            let centerY = round(middleLineY!)
-//            linePath.move(to: CGPoint(x:_margin, y: centerY + 0.5))
-//            linePath.addLine(to: CGPoint(x:width - _margin, y: centerY + 0.5))
-//
-//            _colorSet.middleLineColor.setStroke()
-//            linePath.lineWidth = 1
-////            linePath.setLineDash([5,3], count: 2, phase: 0)
-//            linePath.stroke()
-//        }
 		
 		// vertical lines
-//        linePath = UIBezierPath()
 		if !lineDataProvider!.hasData() {
 			//center lines, calculate time length
 			let verticalLinesX = lineDataProvider!.xVerticalLines()
@@ -161,6 +149,12 @@ class LineChartRender: BaseRender {
         }
         let width = lineDataProvider!.chartWidth()
 		let height = lineDataProvider!.chartHeight()
+        // add a background color
+        context.saveGState()
+        _colorSet.dateTextBgColor.setFill()
+        context.fill(CGRect(x: 0, y: height-_bottomMargin, width: width, height: 15))
+        context.restoreGState()
+        
 		let dateFormatter = DateFormatter()
 		var textWidth:CGFloat = 28.0
 		let chartType = lineDataProvider!.chartType()
@@ -206,21 +200,20 @@ class LineChartRender: BaseRender {
 			lastX = verticalLinesX[i]
 		}
 		
-//        super.drawExtraText(context)
-        self.drawRightText(context)
+        self.drawCurrentText(context)
 	}
     
-    func drawRightText(_ context: CGContext) {
+    func drawCurrentText(_ context: CGContext) {
         var lastPrice = lineDataProvider!.lastPrice()!
         if (lastPrice.isNaN) {
             return
         }
         
-        let textWidth:CGFloat = dataProvider!.rightPadding()
+        let textWidth:CGFloat = 60
         let textColor = _colorSet.rightTextColor
-        let textFont = UIFont(name: "Helvetica Neue", size: 10)
+        let textFont = UIFont(name: "Helvetica Neue", size: 14)
         let textStyle = NSMutableParagraphStyle()
-        textStyle.alignment = .left
+        textStyle.alignment = .center
         let attributes: [String:AnyObject] = [
             NSForegroundColorAttributeName: textColor,
             NSFontAttributeName: textFont!,
@@ -228,9 +221,29 @@ class LineChartRender: BaseRender {
             ]
         
         let text: NSString = "\(lastPrice.roundTo(2))" as NSString
-        let textX = chartWidth()
+        let textX = chartWidth() - 105
         let textHeight:CGFloat = 14
-        let textY = lineDataProvider?.yPosOfMiddleLine()
-        text.draw(in: CGRect(x: textX, y: textY!-5, width: textWidth, height: textHeight), withAttributes: attributes)
+        let centerPoint = lineDataProvider!.findHighlightPoint()
+        let textY = centerPoint.y
+        
+        let rectX = textX-5
+        let rectWidth:CGFloat = 70
+        let rectHeight:CGFloat = 30
+        
+        // add a background color
+        context.saveGState()
+        let textBgRect = CGRect(x: rectX, y: textY-rectHeight/2, width: rectWidth, height: rectHeight)
+        let path = UIBezierPath(roundedRect: textBgRect, cornerRadius: 20)
+        path.lineWidth = 1
+        _colorSet.currentPriceBgColor.setFill()
+        _colorSet.currentPriceBorderColor.setStroke()
+        path.fill()
+        path.stroke()
+        context.restoreGState()
+        
+        text.draw(in: CGRect(x: textX, y: textY-textHeight/2-1, width: textWidth, height: textHeight), withAttributes: attributes)
+        
+        _colorSet.currentPriceBorderColor.setFill()
+        context.fill(CGRect(x: rectX+rectWidth, y: textY, width: 20, height: 1))
     }
 }

@@ -250,7 +250,7 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
     }
     
     override func rightPadding() ->CGFloat {
-        return 50
+        return 0
     }
     
 }

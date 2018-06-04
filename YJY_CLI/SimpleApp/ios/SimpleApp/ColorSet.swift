@@ -11,7 +11,6 @@ class ColorSet: NSObject {
     
     // base chart
     var bgLineColor: UIColor
-    var middleLineColor: UIColor
     var dateTextColor: UIColor
     var minmaxColor: UIColor
     var rightTextColor: UIColor
@@ -20,6 +19,9 @@ class ColorSet: NSObject {
     var startColor: UIColor
     var endColor: UIColor
     var lineColor: UIColor
+    var dateTextBgColor: UIColor
+    var currentPriceBgColor: UIColor = UIColor(hexInt: 0x23578d, alpha:0.7)
+    var currentPriceBorderColor: UIColor = UIColor(hexInt: 0x5e7d9d, alpha:0.7)
     
     // yield line chart
     var yieldLineColor: UIColor = UIColor(hexInt: 0x1f4a77)
@@ -40,34 +42,20 @@ class ColorSet: NSObject {
         _type = type;
         // type 0 is detail view.
         // type 1 is open position view
-        if StockDataManager.sharedInstance().isLive {
-            //实盘渐变色
-            startColor = UIColor(hexInt: 0x6683b3)
-            endColor = UIColor(hexInt: 0x374d74)
-            //昨收线
-            middleLineColor = type == 1 ? UIColor(hexInt:0x1d4fa2) : UIColor(hexInt: 0x657798)
-            //图下面的日期
-            dateTextColor = type == 1 ? UIColor(hexInt: 0x657798) : UIColor(hexInt: 0x657798)
-            //线框
-            bgLineColor = type == 1 ? UIColor(hexInt: 0xffffff, alpha: 0.5) : UIColor(hexInt: 0x4c638d)
-            //k线的颜色
-            lineColor = type == 1 ? UIColor(hexInt: 0xffffff, alpha: 0.5) : UIColor(hexInt: 0xffffff)
-            //最大最小文字
-            minmaxColor = type == 1 ? UIColor.white : UIColor(hexInt: 0x94a9cf)
-            //横屏时候右边的时间文字
-            rightTextColor = type == 1 ? UIColor.white : UIColor(hexInt: 0x223555)
-        }
-        else {
-            startColor = UIColor(hexInt: 0x346aa2)
-            endColor = UIColor(hexInt: 0x1f4a77)
-            middleLineColor = UIColor(hexInt: 0xffffff, alpha: 0.8)//UIColor(hexInt:0x1394e6)
-            dateTextColor = UIColor(hexInt: 0x62a5e0)
-            
-            bgLineColor = UIColor(hexInt: 0xffffff, alpha: 0)
-            lineColor = UIColor(hexInt: 0x577fa2, alpha:1)
-            minmaxColor = UIColor.white
-            rightTextColor = UIColor.white
-        }
+        //渐变背景色
+        startColor = UIColor(hexInt: 0x346aa2)
+        endColor = UIColor(hexInt: 0x1f4a77)
+        // 下面的时间
+        dateTextColor = UIColor(hexInt: 0x62a5e0)
+        dateTextBgColor = UIColor(hexInt: 0x1c4570)
+        //线框
+        bgLineColor = UIColor(hexInt: 0xffffff, alpha: 0)
+        //k线的颜色
+        lineColor = UIColor(hexInt: 0x577fa2, alpha:1)
+        //最大最小文字
+        minmaxColor = UIColor.white
+        //横屏时候右边的时间文字
+        rightTextColor = UIColor.white
         super.init()
     }
     
