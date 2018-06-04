@@ -8,6 +8,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   Alert,
+  ViewPropTypes,
 } from 'react-native';
 
 var ColorConstants = require('../../../ColorConstants');
@@ -22,10 +23,12 @@ var LS = require('../../../LS')
 export default class ProfitTrendCharts extends Component {
   static propTypes = {
     userId: PropTypes.number.isRequired,
+    chartStyle: ViewPropTypes.style,
   }
 
   static defaultProps = {
     userId: 0,
+    chartStyle: {}
   }
 
   constructor(props) {
@@ -37,14 +40,23 @@ export default class ProfitTrendCharts extends Component {
     }
   }
 
-  refresh(tradeStyle){ 
-    this.fetchData();
+  componentWillReceiveProps(props){
+    if(props.userId != this.props.userId){
+      this.fetchData(props.userId);
+    }
   }
 
-  fetchData(){
+  refresh(tradeStyle){
+    this.fetchData(this.props.userId);
+  }
+
+  fetchData(userId){
+    if(userId == undefined){
+      userId = this.props.userId;
+    }
     console.log("profit chart fetchData")
     var url = this.state.chartType == TYPE_MONTH ? NetConstants.CFD_API.USER_PROFIT_ONE_MONTH : NetConstants.CFD_API.USER_PROFIT_TOTAL;
-    url = url.replace("<id>", this.props.userId);
+    url = url.replace("<id>", userId);
     var userData = LogicData.getUserData()
 
     NetworkModule.fetchTHUrl(
@@ -84,7 +96,7 @@ export default class ProfitTrendCharts extends Component {
   renderChart(){
     if(this.state.stockInfo && this.state.stockInfo.priceData && this.state.stockInfo.priceData.length > 0){
       return (
-        <PriceChartView style={{flex:1}}
+        <PriceChartView style={[{flex:1}, this.props.chartStyle]}
             chartType={"userHomePage"}
             lineChartGradient={['#b8c6d4', '#fbfcfd']}
             dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
