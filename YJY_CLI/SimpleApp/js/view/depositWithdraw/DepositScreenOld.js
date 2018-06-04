@@ -75,9 +75,9 @@ class DepositScreen extends Component {
     renderPaymentSwitch(title, icon, type){
         var checkIcon;
         if(this.state.paymentType == type){
-            checkIcon = require("../../../images/selection_big_selected.png");
+            checkIcon = require("../../../images/selection_small_selected.png");
         }else{
-            checkIcon = require("../../../images/selection_big_unselected.png");
+            checkIcon = require("../../../images/selection_small_unselected.png");
         }
         return (
             <TouchableOpacity style={styles.rowContainer} onPress={()=>{
