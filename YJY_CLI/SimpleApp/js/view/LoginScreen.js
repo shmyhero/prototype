@@ -141,7 +141,7 @@ class LoginScreen extends Component {
         return (
             <ScrollView style={{width:width,height:height-HeightSub}}>
              
-            <View source={require('../../images/bg_login.jpg')} style={[styles.container, {height:height-HeightSub}]}>
+            <View style={[styles.container, {height:height-HeightSub}]}>
                 <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
