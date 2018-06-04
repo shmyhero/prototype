@@ -19,8 +19,7 @@ export default class  MyPie extends React.Component {
         innerText:  PropTypes.string,
         innerText2: PropTypes.string,
         series2: PropTypes.array,
-        colors2:  PropTypes.array,
-        show2Circle:PropTypes.bool,
+        colors2:  PropTypes.array, 
     }
 
     static defaultProps = {
@@ -42,8 +41,7 @@ export default class  MyPie extends React.Component {
         var colors = this.props.colors;
         var series2 = this.props.series2;
         var colors2 = this.props.colors2;
-        var innerText = this.props.innerText;
-        var show2Circle = this.props.show2Circle;
+        var innerText = this.props.innerText; 
       
         var length = series.length;
         var sum = 0;

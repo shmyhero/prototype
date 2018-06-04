@@ -142,10 +142,10 @@ export default class TradeStyleCircleBlock extends Component {
               innerText={''+totalTradeCount}
               innerText2={'TRADES'}/>  
             </View>  
-            <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-60}}>
+            <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-70}}>
               <Text style={{fontSize:18,color:ColorConstants.BGBLUE}}>{tradeTypePercent}%</Text>
               <Text style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
-              <Image style={{width:60,height:21,marginLeft:10}} source={require('../../../../images/blue_line.png')}></Image>
+              <Image style={{width:70,height:12,marginLeft:8}} source={require('../../../../images/blue_line.png')}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>
               <Text style={{fontSize:18,color:'#3dcc24'}}>{totalWinRate}%</Text>
