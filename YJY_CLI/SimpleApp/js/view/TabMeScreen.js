@@ -216,9 +216,11 @@ class  TabMeScreen extends React.Component {
       </View>);
     }
     return (
-      <View style={{alignItems:'center', justifyContent:'center'}}>
-        <Image style={styles.messageImage} source={require('../../images/me_messages.png')}/>
-        {view}
+      <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
+        <View>
+          <Image style={styles.messageImage} source={require('../../images/me_messages.png')}/>
+          {view}
+        </View>
     </View>);
   }
 
@@ -373,7 +375,9 @@ const styles = StyleSheet.create({
       height: 21,
       marginLeft: 20,
       resizeMode: Image.resizeMode.contain,
-      marginRight: 8
+      marginRight: 8,
+      marginTop:10,
+      marginBottom:10,
     },
     unreadMessageCount: {
       backgroundColor:'red', 
@@ -383,7 +387,7 @@ const styles = StyleSheet.create({
       alignItems:'center',
       justifyContent:'center',
       position:'absolute',
-      top:-5,
+      top:5,
       right:0
     }
 })
