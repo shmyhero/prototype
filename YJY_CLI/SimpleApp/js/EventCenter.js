@@ -19,6 +19,7 @@ const EventConst = {
 	LAYOUT_SIZE_CHANGED: 'layout_size_changed',
 	CHART_CLICKED: 'chart_clicked',
 	DISABLE_TABBAR: 'disable_tabbar',
+	UPDATE_TABBAR: 'update_tabbar',
 }
 
 var EventCenter = {
@@ -80,6 +81,10 @@ var EventCenter = {
 	emitDisableTabbarEvent: function(){
 		eventEmitter.emit(EventConst.DISABLE_TABBAR);
 	},
+
+	emitUpdateTabbarEvent: function(){
+		eventEmitter.emit(EventConst.UPDATE_TABBAR);
+	}
 }
 
 module.exports = {EventCenter, EventConst};

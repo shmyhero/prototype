@@ -40,11 +40,6 @@ class FollowScreen extends Component {
         super(props)
     }
 
-    componentWillReceiveProps(props){
-        console.log("componentWillReceiveProps props.userId", props.userId)
-    }
-
-
     componentDidMount(){
         this.props.getCurrentFollowConfig();
     }

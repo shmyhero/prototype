@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import { Image, StyleSheet,Platform, } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
-
+var {EventConst, EventCenter} = require('./js/EventCenter');
 var ColorConstants = require("./js/ColorConstants");
 import LoginScreen from './js/view/LoginScreen';
 import HelpScreen from "./js/view/HelpScreen"
@@ -65,6 +65,20 @@ const ViewKeys = {
 }
 
 class CustomTabBar extends Component {
+
+    updateTabbarSubscription = null
+
+    componentDidMount(){
+        this.updateTabbarSubscription = EventCenter.getEventEmitter().addListener(EventConst.UPDATE_TABBAR, () => {
+            console.log("UPDATE_TABBAR")
+            this.forceUpdate()
+        });
+    }
+    
+    componentWillUnmount(){
+        this.updateTabbarSubscription && this.updateTabbarSubscription.remove()
+    }
+
     render(){
         return (
             <TabBarBottom

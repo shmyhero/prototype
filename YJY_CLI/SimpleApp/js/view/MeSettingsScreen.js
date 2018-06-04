@@ -28,7 +28,6 @@ var configListData = [
 // create a component
 class MeSettingsScreen extends Component {
     componentWillReceiveProps(props){
-        console.log("componentWillReceiveProps", props)
         if(!props.userLoggedin){
             this.props.navigation.goBack(null)
         }

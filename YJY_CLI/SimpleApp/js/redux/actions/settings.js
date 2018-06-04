@@ -2,6 +2,7 @@ import LogicData from '../../LogicData';
 var StorageModule = require("../../module/StorageModule");
 
 import {SWITCH_LANGUAGE} from '../constants/actionTypes';
+var {EventCenter} = require("../../EventCenter");
 
 export function switchLanguage(){
     return (dispatch) => {
@@ -15,6 +16,7 @@ export function switchLanguage(){
                     language: newLocale
                 }
             })
+            EventCenter.emitUpdateTabbarEvent();
         })
     }
 }
