@@ -449,12 +449,12 @@ class StockDetailScreen extends Component {
             //Down
             label = LS.str("SHORT_OPERATION")
             imageSource = require('../../images/stock_detail_direction_down_disabled.png');
-            selectedImageSource = require('../../images/stock_detail_direction_down_disabled.png');
+            selectedImageSource = require('../../images/stock_detail_direction_down_selected.png');
         }else{
             //Up
             label = LS.str("LONG_OPERATION")
             imageSource = require('../../images/stock_detail_direction_up_disabled.png');
-            selectedImageSource = require('../../images/stock_detail_direction_up_disabled.png');
+            selectedImageSource = require('../../images/stock_detail_direction_up_selected.png');
         }
         backgroundImageSource = require('../../images/stock_detail_option_unselected.png');
         selectedBackgroundImageSource = require('../../images/stock_detail_option_selected.png');
