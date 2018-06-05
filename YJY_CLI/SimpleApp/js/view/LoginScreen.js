@@ -133,6 +133,7 @@ class LoginScreen extends Component {
 
     render() {
         var textLogin = this.isLoginable()?'white':'#6281a6'
+        var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b' 
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;
@@ -188,8 +189,8 @@ class LoginScreen extends Component {
                         onPress={()=>this.onLoginClicked()}
                         style={{
                         alignItems:'center',
-                        justifyContent:'center',
-                        width:width-50,height:40,backgroundColor:'#2f5b8b',marginTop:20,borderRadius:7.5,}}>
+                        justifyContent:'center', 
+                        width:width-50,height:40,backgroundColor:bgbtn,marginTop:20,borderRadius:7.5,}}>
                         <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>
