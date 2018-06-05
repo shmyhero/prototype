@@ -10,12 +10,13 @@ import {
 
 import fetchMessageListRequest from '../api/fetchMessageListRequest';
 import getUnreadMessagesRequest from '../api/getUnreadMessagesRequest';
+import setItemReadRequest from '../api/setItemReadRequest';
 
 export function getMessageList(currentPage, data){
     var isLoading = data.isLoading;
     var isRefreshing = data.isRefreshing;
     var isEndReached = data.isEndReached;
-    if(((currentPage == 0 && !isRefreshing)||(currentPage != 0 && !isLoading))&& !isEndReached) {
+    if((currentPage == 0)||((currentPage != 0 && !isLoading))&& !isEndReached) {
         const LIST_PAGE_ITEM = 20;
         return (dispatch) => {
             if(currentPage == 0){
@@ -27,7 +28,7 @@ export function getMessageList(currentPage, data){
                     type: GET_MESSAGE_LIST_ATTACH,            
                 });
             }
-            fetchMessageListRequest(currentPage, LIST_PAGE_ITEM).then((messageList)=>{
+            fetchMessageListRequest(currentPage+1, LIST_PAGE_ITEM).then((messageList)=>{
                 var payload = {
                     nextPage: currentPage+1,
                     messageList,
@@ -60,6 +61,7 @@ export function getMessageList(currentPage, data){
 export function setMessageRead(rowIndex, messageList){
     return (dispatch) => {
         if(!messageList[rowIndex].isReaded){
+            setItemReadRequest(messageList[rowIndex].id);
             setTimeout(()=>{
                 messageList[rowIndex].isReaded = true;
                 var newMessageList = [];
