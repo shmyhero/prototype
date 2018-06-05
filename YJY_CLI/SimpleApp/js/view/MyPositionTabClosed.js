@@ -443,9 +443,12 @@ export default class  MyPositionTabClosed extends React.Component {
 		plPercent = plPercent * (rowData.isLong ? 1 : -1)
 		var topLine = rowData.security.name
 		var bottomLine = rowData.security.symbol
-				
+		var additionalStyle = {}
+		if(rowID == 0){
+			additionalStyle.marginTop = ROW_PADDING;
+		}
 		return (
-			<View style={styles.rowContainer}>
+			<View style={[styles.rowContainer, additionalStyle]}>
 				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
 					<View >
 						<View style={[styles.rowWrapper]} key={rowData.key}>

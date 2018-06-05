@@ -1266,8 +1266,13 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 
 		// var rowBackgroundColor = profitAmount > 0 ? "green" : profitAmount < 0 ? "red" : "gray";
+
+		var additionalStyle = {}
+		if(rowID == 0){
+			additionalStyle.marginTop = ROW_PADDING;
+		}
 		return (
-			<View style={[styles.rowContainer]}>
+			<View style={[styles.rowContainer, additionalStyle]}>
 				<TouchableOpacity style={[styles.rowTouchable,
 						touchableStyle
 					]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>

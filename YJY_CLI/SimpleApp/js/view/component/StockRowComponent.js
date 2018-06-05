@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
-        fontSize: 17
+        fontSize: 15
     },
     UpPLStyle:{
         color: ColorConstants.STOCK_RISE,
@@ -136,7 +136,8 @@ const styles = StyleSheet.create({
     },
     titleStyle:{
         color:'#000000',
-        fontSize: 15,
+        fontSize: 17,
+        fontWeight: 'bold'
     },
     symbolStyle:{
         color:'#666666',

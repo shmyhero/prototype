@@ -21,7 +21,7 @@ export default class SplashScreen extends React.Component {
 
     componentWillMount(){
         if(Platform.OS == 'android'){
-            StatusBar.setBackgroundColor("#22bdfc");
+            StatusBar.setBackgroundColor(ColorConstants.COLOR_MAIN_THEME_BLUE);
         } 
     }
 
