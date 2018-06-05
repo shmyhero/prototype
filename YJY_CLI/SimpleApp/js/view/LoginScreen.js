@@ -132,24 +132,25 @@ class LoginScreen extends Component {
     }
 
     render() {
-        var textLogin = this.isLoginable()?'white':'#e3f0fd'
+        var textLogin = this.isLoginable()?'white':'#6281a6'
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;
         }
         console.log("HeightSub ", HeightSub)
         return (
+            <ImageBackground style={{width:width,height:height}} source={require('../../images/bg_login.jpg')} >
             <ScrollView style={{width:width,height:height-HeightSub}}>
              
             <View style={[styles.container, {height:height-HeightSub}]}>
-                <NavBar title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
+                <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                     <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
                 </View>
                 <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                     
                     <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
-                    <View style={{backgroundColor:'#425a85',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                         underlineColorAndroid='transparent'
                         maxLength={11} 
@@ -163,12 +164,12 @@ class LoginScreen extends Component {
                         }
                         style={{marginLeft:10,color:'white',flex:1}}/>
                         <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <View style={{marginRight:10,width:1,height:40,backgroundColor:'#50c2f7'}}></View>
+                            <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
                             <Text style={{marginRight:10,color:'white'}}>{LS.str("GET_VCODE")}</Text>
                         </TouchableOpacity>  
                     </View>
 
-                    <View style={{backgroundColor:'#425a85',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                    <View style={{backgroundColor:'#3d6c9d',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                         <TextInput 
                             underlineColorAndroid='transparent'
                             maxLength={4} 
@@ -188,7 +189,7 @@ class LoginScreen extends Component {
                         style={{
                         alignItems:'center',
                         justifyContent:'center',
-                        width:width-50,height:40,backgroundColor:'#2f5b8b',marginTop:20,borderRadius:15,}}>
+                        width:width-50,height:40,backgroundColor:'#2f5b8b',marginTop:20,borderRadius:7.5,}}>
                         <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
                     </TouchableOpacity>
                 </View>
@@ -200,6 +201,7 @@ class LoginScreen extends Component {
                 </View>     */}
             </View>
            </ScrollView>  
+           </ImageBackground>
         );
     } 
 }
@@ -207,7 +209,7 @@ class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container:{
        flex:1,
-    //    backgroundColor:ColorConstants.BGBLUE
+    //    backgroundColor:ColorConstants.BLUE2
     }
 })
 
