@@ -54,6 +54,7 @@
 		3D215813209FFD84008C8CDE /* SwiftNotice.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D215812209FFD84008C8CDE /* SwiftNotice.swift */; };
 		3D21586320A2E7BA008C8CDE /* libRCTLocale.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D21584520A2E7A2008C8CDE /* libRCTLocale.a */; };
 		3D306A7A20A54E5100929EFF /* libRCTToast.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D306A7920A54B6800929EFF /* libRCTToast.a */; };
+		3D37883920C639360057682C /* 启动页面.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 3D37880A20C639360057682C /* 启动页面.jpg */; };
 		418E693A20BD4F8D005EC789 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 418E693920BD4F76005EC789 /* libRNImagePicker.a */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
 		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
@@ -445,6 +446,7 @@
 		3D215812209FFD84008C8CDE /* SwiftNotice.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SwiftNotice.swift; path = SimpleApp/SwiftNotice.swift; sourceTree = "<group>"; };
 		3D21583420A2E7A2008C8CDE /* RCTLocale.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLocale.xcodeproj; path = "../node_modules/react-native-locale/ios/RCTLocale.xcodeproj"; sourceTree = "<group>"; };
 		3D306A7420A54B6700929EFF /* RCTToast.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTToast.xcodeproj; path = "../node_modules/@remobile/react-native-toast/ios/RCTToast.xcodeproj"; sourceTree = "<group>"; };
+		3D37880A20C639360057682C /* 启动页面.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = "启动页面.jpg"; sourceTree = "<group>"; };
 		418E690720BD4F75005EC789 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4637A3510A384E83BAD572A4 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
@@ -608,6 +610,7 @@
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
+				3D37880A20C639360057682C /* 启动页面.jpg */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				3D2157F4209C113F008C8CDE /* StockChartViewManager.h */,
@@ -1365,6 +1368,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				3D37883920C639360057682C /* 启动页面.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
