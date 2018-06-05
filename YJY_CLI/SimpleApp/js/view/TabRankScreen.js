@@ -131,7 +131,7 @@ export default class  TabRankScreen extends React.Component {
         </View> 
         <View>
             <Image style={{width:11.5,height:6.5,marginLeft:marginLeft}} source={require('../../images/icon_control.png')}/>
-            <View style={{width:width,height:2,backgroundColor:'#26598e'}}></View>
+            <View style={{width:width,height:1,backgroundColor:'#26598e'}}></View>
             <View style={{width:width,height:10}}></View>
         </View>
       </View>   
@@ -197,7 +197,7 @@ const styles = StyleSheet.create({
     },
     headContainer:{
       marginBottom:0,
-      height:32,
+      height:42,
       width:192,
       alignSelf:'center',
       justifyContent:'center',
