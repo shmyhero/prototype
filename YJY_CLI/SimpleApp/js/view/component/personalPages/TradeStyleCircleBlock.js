@@ -150,7 +150,7 @@ export default class TradeStyleCircleBlock extends Component {
               <Text style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
               <Image style={{width:70,height:12,marginLeft:8}} source={leftRes}></Image>
             </View> 
-            <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>
+            <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
               <Text style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</Text>
               <Text style={{fontSize:12,color:'#3dcc24'}}>WinRate</Text>
               <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>

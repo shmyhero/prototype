@@ -247,11 +247,17 @@ export default class  RankHeroList extends React.Component {
     }
 
     renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-		return (
-			<View style={styles.line} key={rowID}>
-				<View style={styles.separator}/>
-			</View>
-		);
+      
+        if(rowID>=4){
+            return (
+                <View style={styles.line} key={rowID}>
+                    <View style={styles.separator}/>
+                </View>
+            );
+        }else{
+            return null;
+        }
+		
     }
     
     renderHeader(){

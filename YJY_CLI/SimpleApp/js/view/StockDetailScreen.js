@@ -480,8 +480,11 @@ class StockDetailScreen extends Component {
             buttonLabel = this.state.stockInfo.status == 2 ? LS.str("STOCK_MARKET_STOP") : LS.str("STOCK_MARKET_CLOSED");
         }
 
+
+        var buttonTextStyle = {color:'white', fontSize:22}
         if(this.isSubmitButtonEnabled()){
             source = require("../../images/stock_detail_button_enabled.png");
+            buttonTextStyle.color = "#917202"
         }else{
             source = require("../../images/stock_detail_button_disabled.png");
         }
@@ -489,7 +492,7 @@ class StockDetailScreen extends Component {
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
                 <ImageBackground style={{width:120,height:120, alignItems:'center', justifyContent:'center'}} source={source}
                     resizeMode={"contain"}>
-                    <Text style={{color:'white'}}>{buttonLabel}</Text>
+                    <Text style={buttonTextStyle}>{buttonLabel}</Text>
                 </ImageBackground>
             </TouchableOpacity>
         )
@@ -702,6 +705,7 @@ const styles = StyleSheet.create({
 
     SelectedOperationButton:{
         color:'#1f4a77',
+        fontSize:18,
         textAlign:'center',
         marginRight:10
     },

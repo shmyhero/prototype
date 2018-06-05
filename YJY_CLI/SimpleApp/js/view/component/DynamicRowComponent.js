@@ -170,7 +170,7 @@ class DynamicRowComponent extends Component {
 
     render() { 
 
-        var viewHero = this.props.rowData.isRankedUser ? <Text style={styles.textHero}>{LS.str("EXPERT")}</Text> : null;
+        var viewHero = this.props.rowData.isRankedUser ? <Image style={{width:21,height:12}} source={LS.loadImage("expert")}/> : null;
           var swipeoutBtns = [
              {
                  backgroundColor:'#ff4240',  
@@ -213,7 +213,7 @@ class DynamicRowComponent extends Component {
                                  </Image>
                              </TouchableOpacity> 
                              <View style={styles.textContainer}>
-                                 <View style={{flexDirection:'row',marginTop:0}}>
+                                 <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
                                      <Text style={styles.textUserName}>{title}</Text>
                                      {viewHero}
                                  </View>
@@ -249,13 +249,14 @@ const styles = StyleSheet.create({
     },
     textUserName:{
         fontSize:12,
-        alignSelf:'flex-start',
-        marginTop:5,
-        color:'#999999'
+        alignSelf:'flex-start', 
+        color:'#999999',
+        marginRight:2
     },
     thumbnailAll: {
-        marginLeft: 5,
+        marginLeft:5,
         marginRight:5,
+        marginTop:3,
         flexDirection: 'row',  
     }, 
 

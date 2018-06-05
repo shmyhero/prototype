@@ -114,8 +114,7 @@ class TabPositionScreen extends Component {
         <View style={styles.mainContainer}>
  
           <NavBar onlyShowStatusBar={true} backgroundColor={ColorConstants.COLOR_MAIN_THEME_BLUE}/>
-          <View style={{flex: 1, marginTop:0,backgroundColor:'transparent'}}> 
- 
+          <View style={{flex: 1, marginTop:-5,backgroundColor:'transparent'}}> 
             <ScrollTabView 
               ref={"tabPages"} 
               tabNames={tabNameShow} 

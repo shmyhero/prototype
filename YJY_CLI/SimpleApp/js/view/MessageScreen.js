@@ -25,6 +25,7 @@ class MessageScreen extends Component {
     }
 
     refreshList(){
+        console.log("refreshList")
         this.props.getMessageList(0, this.props)
     }
 
@@ -33,26 +34,28 @@ class MessageScreen extends Component {
     }
 
     renderDateTime(rowData){
-        var datetime = rowData.createdAt;
+        var datetime = rowData.createAt;
         // TODO: add date format later
-        // if(datetime){
-        //     var dt = new Date(datetime);
-        //     var month = dt.getMonth()+1;
-        //     var dateString = dateFormat(dt, "yyyy.mm.dd");
-        //     var timeString = dateFormat(dt, "HH:MM")
-        //     return (
-        //         <View style={styles.datetime}>
-        //             <Text style={styles.date}>
-        //                 {dateString}
-        //                 <Text style={styles.time}>{timeString}</Text>
-        //             </Text>
-        //         </View>
-        //     );
-        // }else{
+        if(datetime){
+            var dt = new Date(datetime);
+            var month = dt.getMonth()+1;
+            var dateString = dt.getFullYear() + "." + month + "." + dt.getDate() + " ";
+            var timeString = dt.getHours() + ":" + dt.getMinutes();
+            // var dateString = dateFormat(dt, "yyyy.mm.dd");
+            // var timeString = dateFormat(dt, "HH:MM")
+            return (
+                <View style={styles.datetime}>
+                    <Text style={styles.date}>
+                        {dateString}
+                        <Text style={styles.time}>{timeString}</Text>
+                    </Text>
+                </View>
+            );
+        }else{
             return (
                 <View/>
             );
-        // }    
+        }    
     }
 
     _onSelectNormalRow = (rowIndex) => {
@@ -60,7 +63,7 @@ class MessageScreen extends Component {
     }
 
 	renderNewHint = (rowData) => {
-		if(!rowData.isReaded){
+		if(!rowData.isRead){
 			return (
 				<Image source={require('../../images/icon_new.png')} style={styles.image}/>
 			);
@@ -82,7 +85,7 @@ class MessageScreen extends Component {
                 <View style={styles.rowWrapper}>
                     {this.renderNewHint(rowData)}
                     <View style={styles.messageWrapper}>
-                    <Text style={styles.title}>{rowData.title}</Text>
+                    <Text style={styles.title}>{rowData.header}</Text>
                         <Text style={styles.message}>{rowData.body}</Text>
                     {this.renderDateTime(rowData)}
                     </View>
@@ -178,6 +181,8 @@ const styles = StyleSheet.create({
         paddingTop: 12,
         paddingBottom: 12,
         margin:10,
+        marginTop: 15,
+        marginBottom: 0,
         borderRadius:10,
         backgroundColor: ColorConstants.WHITE
     },
