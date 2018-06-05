@@ -129,7 +129,7 @@ var LS = {
     POSITION_COPY_TRADE:["跟随: {1}","Copying: {1}"],
     TAKE_PROFIT: ['止盈','Take Profit'],
     STOP_LOSS: ['止损','Stop loss'],
-    TAKE_PROFIT_STOP_LOSS_TITLE:['止盈/止损','Profit / Loss'],
+    TAKE_PROFIT_STOP_LOSS_TITLE:['止盈/止损','TP/SL'],
 
     STOCK_MARKET_STOP:['暂停','Stop'],
     STOCK_MARKET_CLOSED:['闭市','closed'],
