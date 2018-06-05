@@ -7,6 +7,7 @@ include ':react-native-linear-gradient'
 include ':react-native-toast'
 include ':react-native-locale'
 include ':react-native-image-picker'
+include ':react-native-device-info'
 
 project(':react-native-orientation').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-orientation/android')
 project(':realm').projectDir = new File(rootProject.projectDir, '../node_modules/realm/android')
@@ -15,3 +16,4 @@ project(':react-native-linear-gradient').projectDir = new File(rootProject.proje
 project(':react-native-toast').projectDir = new File(settingsDir, '../node_modules/@remobile/react-native-toast/android')
 project(':react-native-locale').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-locale/android')
 project(':react-native-image-picker').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-image-picker/android')
+project(':react-native-device-info').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-device-info/android')

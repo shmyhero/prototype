@@ -197,7 +197,7 @@ class  TabMeScreen extends React.Component {
     console.log("this.props.userId", this.props.userId )
     return (
       <View style={styles.TradeStyleContainer}>
-        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+        <ImageBackground style={{height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
           <TradeStyleBlock
             ref={(ref)=>this.tradeStyleBlock = ref}
             userId={this.props.userId}
@@ -306,8 +306,8 @@ const styles = StyleSheet.create({
       //backgroundColor:'white'
     },
     TradeStyleContainer:{
-      height:180,
-      marginTop:10,
+      height:140,
+      marginTop:5,
       marginBottom:10,
       marginLeft:15,
       marginRight:15,

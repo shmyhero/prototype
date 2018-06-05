@@ -10,7 +10,7 @@ import {
     Image
 } from 'react-native';
 
-import { logOut, switchLanguage } from '../redux/actions'
+import { logOut, switchLanguage, getVersion } from '../redux/actions'
 import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
@@ -27,6 +27,13 @@ var configListData = [
 
 // create a component
 class MeSettingsScreen extends Component {
+
+    componentWillMount(){
+        if(this.props.version == ""){
+            this.props.getVersion()
+        }
+    }
+
     componentWillReceiveProps(props){
         if(!props.userLoggedin){
             this.props.navigation.goBack(null)
@@ -56,6 +63,19 @@ class MeSettingsScreen extends Component {
         return <View style={styles.separator}></View>
     }
 
+    renderRightPart(rowData){
+        if(rowData.item.subtype == "version"){
+            return (
+                <Text style={styles.value}>{this.props.version}</Text>
+            )
+        }else{
+            return (
+                <Image source={require("../../images/icon_arrow_right.png")}
+                            style={styles.arrowIcon}/>
+            )
+        }
+    }
+
     renderItem(rowData){
         return (
             <TouchableOpacity
@@ -67,8 +87,7 @@ class MeSettingsScreen extends Component {
                         <View style={styles.rowLeftTextContainer}>
                             <Text style={styles.title}>{LS.str(rowData.item.title)}</Text>
                         </View>
-                        <Image source={require("../../images/icon_arrow_right.png")}
-                            style={styles.arrowIcon}/>
+                        {this.renderRightPart(rowData)}
                     </View>
                     {this.renderSeparator()}
                 </View>
@@ -125,6 +144,9 @@ const styles = StyleSheet.create({
         marginRight:20,
         alignSelf:'center',
     },
+    value:{       
+        marginRight:20,
+    },
 });
 
 //make this component available to the app
@@ -139,6 +161,7 @@ const mapStateToProps = state => {
 const mapDispatchToProps = {
     logOut,
     switchLanguage,
+    getVersion,
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(MeSettingsScreen);
