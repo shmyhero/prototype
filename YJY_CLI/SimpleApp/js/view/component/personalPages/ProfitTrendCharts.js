@@ -101,7 +101,7 @@ export default class ProfitTrendCharts extends Component {
             lineChartGradient={['#b8c6d4', '#fbfcfd']}
             dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
             textColor={"#9e9e9e"}
-            lineWidth={8}
+            lineWidth={10}
             borderColor={ColorConstants.SEPARATOR_GRAY}
             xAxisPosition="BOTTOM"
             leftAxisEnabled={false}

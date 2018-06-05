@@ -22,7 +22,8 @@
 		"realm": "2.0.2",
 		"redux": "4.0.0",
 		"redux-thunk": "2.2.0",
-		"react-native-image-picker": "0.26.10"
+		"react-native-image-picker": "0.26.10",
+		"react-native-device-info": "0.21.5"
 	},
 	"devDependencies": {
 		"babel-jest": "21.2.0",

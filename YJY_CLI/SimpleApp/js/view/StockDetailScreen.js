@@ -448,12 +448,12 @@ class StockDetailScreen extends Component {
         if (value == 0){
             //Down
             label = LS.str("SHORT_OPERATION")
-            imageSource = require('../../images/stock_detail_direction_down_disabled.png');
+            imageSource = require('../../images/stock_detail_direction_down_enabled.png');
             selectedImageSource = require('../../images/stock_detail_direction_down_selected.png');
         }else{
             //Up
             label = LS.str("LONG_OPERATION")
-            imageSource = require('../../images/stock_detail_direction_up_disabled.png');
+            imageSource = require('../../images/stock_detail_direction_up_enabled.png');
             selectedImageSource = require('../../images/stock_detail_direction_up_selected.png');
         }
         backgroundImageSource = require('../../images/stock_detail_option_unselected.png');
@@ -566,6 +566,7 @@ class StockDetailScreen extends Component {
                 {this.renderDetailRow()}
                 <View style={styles.chartContainer}>
                     {this.renderPriceChart()}
+                    {/* <Image style={{position:'absolute', bottom:0, right:0}} source={require('../../images/dot.gif')}/> */}
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}

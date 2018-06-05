@@ -4,6 +4,7 @@ import com.facebook.react.ReactPackage;
 import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
+import com.simpleapp.RNNativeModules.NativeDataModule;
 import com.simpleapp.component.chart.PriceChartModule;
 import com.simpleapp.component.customTextInput.CustomTextInputManager;
 import com.simpleapp.component.picker.ReactWheelPickerManager;
@@ -21,7 +22,7 @@ public class NativePackage implements ReactPackage {
     public List<NativeModule> createNativeModules(ReactApplicationContext reactContext) {
         List<NativeModule> modules = new ArrayList<>();
 
-        //modules.add(new PriceChartModule(reactContext));
+        modules.add(new NativeDataModule(reactContext));
 
         return modules;
     }

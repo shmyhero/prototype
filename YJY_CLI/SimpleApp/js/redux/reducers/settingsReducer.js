@@ -2,7 +2,8 @@ import {
     SWITCH_LANGUAGE,
     SET_NICKNAME,
     SET_NICKNAME_SUCCESS,
-    SET_NICKNAME_FAIL
+    SET_NICKNAME_FAIL,
+    GET_VERSION
 } from "../constants/actionTypes";
 
 var initializeState = {
@@ -10,6 +11,7 @@ var initializeState = {
     isShowError: false,
     error: "",
     language: "",
+    version: "",
 }
 
 //Previous state, action => current state
@@ -38,6 +40,11 @@ export default function settingsReducer(state = initializeState, action) {
         case SWITCH_LANGUAGE:
             state = { ...state,
                 language: action.payload.language,
+            }
+            return state;
+        case GET_VERSION:
+            state = { ...state,
+                version: action.payload.version,
             }
             return state;
         default:

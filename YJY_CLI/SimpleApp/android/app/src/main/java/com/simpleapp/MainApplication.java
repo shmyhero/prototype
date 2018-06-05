@@ -14,6 +14,8 @@ import com.remobile.toast.RCTToastPackage;
 import java.util.Arrays;
 import io.fixd.rctlocale.RCTLocalePackage;
 import com.imagepicker.ImagePickerPackage;
+import com.learnium.RNDeviceInfo.RNDeviceInfo;
+
 import java.util.List;
 
 import io.realm.react.RealmReactPackage;
@@ -39,7 +41,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RCTToastPackage(),
           new LinearGradientPackage(),
           new RCTLocalePackage(), // add package
-          new ImagePickerPackage()
+          new ImagePickerPackage(),
+          new RNDeviceInfo()
       );
     }
 
