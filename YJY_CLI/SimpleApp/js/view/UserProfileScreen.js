@@ -221,7 +221,7 @@ export default class  UserProfileScreen extends React.Component {
                 <Text style={styles.textNum}>{this.state.followerCount}</Text>
                 <Text style={styles.textName}>{LS.str('WATCHS')}</Text>
               </View>
-            <Image style={{width:80,height:80,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
+            <Image style={{width:80,height:80,borderWidth:3,borderColor:ColorConstants.BORDER_LIGHT_BLUE,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                 <Text style={styles.textNum}>{this.state.followTraderCount}</Text>
                 <Text style={styles.textName}>{LS.str('COPYS')}</Text>

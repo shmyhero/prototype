@@ -44,7 +44,7 @@ var colors = {
     UNIMPORTANT_TEXT_COLOR_ENABLE: 'white',
     COLOR_GRADIENT_DISABLE: ["#999999", "#AAAAAA"],
 	TEXT_COLOR_DISABLE: "white",
-	NAVBAR_TEXT_COLOR: "#b7e1f8",
+	NAVBAR_TEXT_COLOR: "white",
 	
 	stock_color: function(change) {
 		if (change > 0) {

@@ -123,10 +123,10 @@ export default class  RankHeroList extends React.Component {
             // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
             return(
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
-                    <ImageBackground style={{height:86,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
+                    <ImageBackground style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                         <View style={{flexDirection:'row',alignItems:'center'}}> 
                             <View style={{height:34,width:34,marginLeft:28,marginBottom:5,}}>
-                                <Image style={{height:34,width:34,borderRadius:17}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+                                <Image style={{height:34,width:34,borderRadius:17,borderWidth:2,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LS.str("MINE")}</Text>
@@ -137,7 +137,7 @@ export default class  RankHeroList extends React.Component {
                             </View>
                         </View>     
                         <View style={{marginRight:30}}>
-                            <Text style={{color:'#d8effc'}}>{(this.state.rankListData[0].roi*100).toFixed(0)}%</Text>
+                            <Text style={{color:'#d8effc',fontWeight: 'bold',}}>{(this.state.rankListData[0].roi*100).toFixed(0)}%</Text>
                         </View> 
                     </ImageBackground>
                 </TouchableOpacity>
@@ -222,17 +222,17 @@ export default class  RankHeroList extends React.Component {
             return( 
                 <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:34,width:34,marginLeft:28,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
+                        <Image style={{height:36,width:36,marginLeft:28,marginBottom:5,borderRadius:18}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10}}>
-                            <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
+                            <Text style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                <Text style={{fontSize:14, color:'#666666'}}>{(rowData.winRate*100).toFixed(0)}%</Text>
+                                <Text style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(0)}%</Text>
+                        <Text style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(0)}%</Text>
                     </View> 
                 </TouchableOpacity>
             )
@@ -256,7 +256,7 @@ export default class  RankHeroList extends React.Component {
     
     renderHeader(){
         return(
-            <View style={{backgroundColor:ColorConstants.BGBLUE}}>
+            <View style={{backgroundColor:ColorConstants.BGBLUE}}> 
                 {this.renderMe()}
                 {this.renderThreeHero()}
             </View>  
@@ -301,11 +301,13 @@ const styles = StyleSheet.create({
         paddingRight:20,
     },
     headPortrait:{
-        width:48,
-        height:48,
-        borderRadius:24,
+        width:40,
+        height:40,
+        borderRadius:20,
         alignSelf:'center',
         marginBottom:5,
+        borderWidth:2,
+        borderColor:ColorConstants.BORDER_LIGHT_BLUE
     },
     textTopUserName:{
         alignSelf:'center',

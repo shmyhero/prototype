@@ -397,7 +397,7 @@ const styles = StyleSheet.create({
 	},
 	title: {
 		fontSize: 18,
-		textAlign: 'center',
+		textAlign: 'center', 
 	},
 	textOnLeft: {
 		fontSize: 15,
@@ -409,13 +409,14 @@ const styles = StyleSheet.create({
 		fontSize: 15,
 		textAlign: 'center',
 		color: '#ffffff',
-		marginRight: 30,
+		marginRight: 15,
 	},
 	disabledTextOnRight: {
 		fontSize: 15,
 		textAlign: 'center',
-		color: '#3e86ff',
-		marginRight: 10,
+		color: '#ffffff',
+		opacity:0.6,
+		marginRight: 15,
 	},
 });
 
