@@ -12,16 +12,18 @@ import {
 
 var ColorConstants = require('../../ColorConstants')
 
-export default class NetworkErrorIndicator extends Component {
+class NetworkErrorIndicator extends Component {
 
   static propTypes = {
     onRefresh: PropTypes.func,
     refreshing: PropTypes.bool,
+    isBlue: PropTypes.bool,
   }
 
   static defaultProps = {
     onRefresh: null,
     refreshing: false,
+    isBlue: true,
   }
 
   constructor(props) {
@@ -75,10 +77,12 @@ export default class NetworkErrorIndicator extends Component {
 
   render() {
     if(this.state.isLoading){
+      var loadingImage = this.props.isBlue ? require('../../../images/loading_animation_blue.gif') : require('../../../images/loading_animation_white.gif');
+      
       return (
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
-            <Image style={styles.loadingImage} source={require('../../../images/loading.gif')}/>
+            <Image style={styles.loadingImage} source={loadingImage}/>
           </View>
         </View>
       );
@@ -150,4 +154,4 @@ const styles = StyleSheet.create({
   }
 });
 
-module.exports = NetworkErrorIndicator;
+export default NetworkErrorIndicator;

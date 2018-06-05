@@ -26,7 +26,7 @@ var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
 var {EventCenter,EventConst} = require('../EventCenter');
 var LS = require('../LS');
-
+import NetworkErrorIndicator from './component/NetworkErrorIndicator'
 import SortableListView from 'react-native-sortable-listview'
 
 var tabSwitchedSubscription = null;
@@ -38,7 +38,7 @@ class TabMarketScreen extends Component {
         super(props)
 
         this.state = {
-            listData: {},
+            listData: [],
             listDataOrder: [],
             isLoading: true,
         };
@@ -191,11 +191,12 @@ class TabMarketScreen extends Component {
     }
 
     renderContent(){
-        if(this.state.isLoading){
-            return (<View style={{ flex: 1, justifyContent:'center'}}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
-            </View>);
-        }else{
+        if((this.state.listData == undefined || this.state.listData.length == 0)){
+            return (<View style={{flex: 1, justifyContent:'center'}}>
+                <NetworkErrorIndicator onRefresh={()=>this.loadStockList()} refreshing={this.state.isLoading}/>
+            </View>)
+        }
+        else{
             return (
                 <SortableListView 
                     ref="sortableListView"

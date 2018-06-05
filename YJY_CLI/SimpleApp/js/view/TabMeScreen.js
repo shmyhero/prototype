@@ -17,6 +17,7 @@ var {height,width} = Dimensions.get('window');
 var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
 var BIG_BUTTON_HEIGHT = BUTTON_WIDTH / 722 * 380;
+const MARGIN_HORIZONTAL = 10;
 var bgWidth = width-20; 
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 import { StackNavigator } from 'react-navigation';
@@ -119,15 +120,15 @@ class  TabMeScreen extends React.Component {
 
   renderBalance(){
     return (
-      <View style={styles.bigButtonContainer}>        
-        <ImageBackground source={require('../../images/me_balance_border.png')}
+      <View style={[styles.bigButtonContainer, styles.radiusBackground]}>
+        {/* <ImageBackground source={require('../../images/me_balance_border.png')}
           resizeMode={'contain'}
           style={{
               width: '100%',
               height: '100%',
               justifyContent:'center',
               flexDirection:'column',
-          }}>
+          }}> */}
           <View style={styles.topBlockContainer}>
             <View style={styles.balanceRow}>
               <View style={styles.balanceBlock}>
@@ -146,12 +147,12 @@ class  TabMeScreen extends React.Component {
             {this.renderSeparator()}        
             <View style={{flex:1, justifyContent:'center'}}>
               <SubmitButton
-                style={{height:43, width:235}}
+                style={{height:43, width:235, marginTop: 15, marginBottom: 15,}}
                 text={LS.str("ME_DEPOSIT_WITHDRAW")} 
                 onPress={()=>this.onBalancePressed()}/>
             </View>
           </View>
-        </ImageBackground>
+        {/* </ImageBackground> */}
         <View>
 
         {/* <ProfitStatisticsBlock/> */}
@@ -162,33 +163,33 @@ class  TabMeScreen extends React.Component {
 
   renderChart(){
     return (
-      <View style={styles.TradeStyleCycleContainer}> 
-        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
-          resizeMode='stretch' source={require('../../images/bg_block.png')}>
+      <View style={[styles.TradeStyleCycleContainer, styles.radiusBackground]}> 
+        {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
+          resizeMode='stretch' source={require('../../images/bg_block.png')}> */}
             <ProfitTrendCharts 
               chartStyle={{marginLeft:5, marginBottom:10}}
               ref={(ref)=>this.tradeStyleCicleBlock = ref}
               userId={this.props.userId}
               viewHeight={180}
               isPrivate={false}/>          
-        </ImageBackground> 
+        {/* </ImageBackground>  */}
       </View>
     );
   }
 
   renderTradeStyleCicleBlock(){
     return (
-      <View style={styles.TradeStyleCycleContainer}> 
-        <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
+      <View style={[styles.TradeStyleCycleContainer, styles.radiusBackground]}>
+        {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}>
-           
+            */}
             <TradeStyleCircleBlock 
               ref={(ref)=>this.tradeStyleCicleBlock = ref}
               userId={this.props.userId}
               viewHeight={180}
               isPrivate={false}/>
            
-        </ImageBackground> 
+        {/* </ImageBackground>  */}
       </View>
     );
   }
@@ -196,13 +197,13 @@ class  TabMeScreen extends React.Component {
   renderTradeStyleBlock(){
     console.log("this.props.userId", this.props.userId )
     return (
-      <View style={styles.TradeStyleContainer}>
-        <ImageBackground style={{height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+      <View style={[styles.TradeStyleContainer, styles.radiusBackground]}>
+        {/* <ImageBackground style={{height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  */}
           <TradeStyleBlock
             ref={(ref)=>this.tradeStyleBlock = ref}
             userId={this.props.userId}
             isPrivate={false} />
-        </ImageBackground>
+        {/* </ImageBackground> */}
       </View>
     );
   }
@@ -245,9 +246,7 @@ class  TabMeScreen extends React.Component {
           {this.renderPortrait()}
           {this.renderBalance()} 
           {this.renderChart()}
-          <View style={{height:15}}/>
           {this.renderTradeStyleCicleBlock()}
-          <View style={{height:10}}/>
           {this.renderTradeStyleBlock()}
           
         </ScrollView>);
@@ -292,25 +291,30 @@ const styles = StyleSheet.create({
       marginLeft:20,
       marginRight:20,
     },
+    radiusBackground:{
+      backgroundColor:'white',
+      borderRadius:15,
+    },
     bigButtonContainer:{
-      height: BIG_BUTTON_HEIGHT,
-      marginLeft:10,
-      marginRight:10,
+      //height: BIG_BUTTON_HEIGHT,
+      marginLeft:MARGIN_HORIZONTAL,
+      marginRight:MARGIN_HORIZONTAL,
+      marginTop:15,
     },
     TradeStyleCycleContainer:{
       height:280,
-      marginLeft:15,
-      marginRight:15,
+      marginLeft:MARGIN_HORIZONTAL,
+      marginRight:MARGIN_HORIZONTAL,
+      marginTop:15,
       justifyContent:'center',
       alignContent:'center',
       //backgroundColor:'white'
     },
     TradeStyleContainer:{
       height:140,
-      marginTop:5,
-      marginBottom:10,
-      marginLeft:15,
-      marginRight:15,
+      marginLeft:MARGIN_HORIZONTAL,
+      marginRight:MARGIN_HORIZONTAL,
+      marginTop:15,
       justifyContent:'center',
       alignContent:'center',
     },
@@ -324,7 +328,6 @@ const styles = StyleSheet.create({
       alignItems:'stretch',
       flexDirection:'column',
       flex:1,
-      paddingBottom:20
     },
     rowContainer: {
       flexDirection:'row',
@@ -366,11 +369,12 @@ const styles = StyleSheet.create({
     balanceValueText:{
       fontSize:20, 
       color:'black', 
-      marginTop:10
+      marginTop:15
     },
     balanceLabelText:{
       fontSize:12, 
       color:'#999999', 
+      marginBottom: 15,
     },
     messageImage: {
       width: 21,

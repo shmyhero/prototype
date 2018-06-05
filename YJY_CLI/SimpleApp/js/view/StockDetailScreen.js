@@ -525,7 +525,7 @@ class StockDetailScreen extends Component {
                 lineChartGradient={['#346aa2', '#1f4a77']}
                 xAxisBackground={"#1c4570"}
                 dataSetColor={"#577fa2"}
-                textColor={"#62a5e0"}
+                textColor={"#6c86a0"}
                 xAxisPosition="BOTTOM"
                 leftAxisEnabled={false}
                 rightAxisEnabled={true}

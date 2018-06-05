@@ -17,7 +17,7 @@ var ColorConstants = require('../../../ColorConstants');
 var NetConstants = require('../../../NetConstants');
 var UIConstants = require('../../../UIConstants');
 var NetworkModule = require('../../../module/NetworkModule');
-var NetworkErrorIndicator = require('../NetworkErrorIndicator'); 
+import NetworkErrorIndicator from '../NetworkErrorIndicator'; 
 var {height, width} = Dimensions.get('window');
 var stockNameFontSize = Math.round(15*width/375.0);
 var LogicData = require("../../../LogicData");
@@ -222,7 +222,7 @@ export default class PositionBlock extends Component {
         <TouchableOpacity style={styles.rowItem}          
           activeOpacity={0.7} onPress={()=>this.onRowPressed(rowData, rowID)}>
           <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
-            <View style={styles.topRow}>
+            <View style={styles.rowHeader}>
               <View style={styles.rowLeftPart}>
                 <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                   {rowData.security.name}
@@ -307,7 +307,7 @@ export default class PositionBlock extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:24,
+    marginTop:15,
   },
   list: {
     alignSelf: 'stretch',
@@ -334,9 +334,8 @@ const styles = StyleSheet.create({
     borderWidth:1,
     borderRadius:10,
     borderColor:'#EEEEEE',
-    marginBottom:10,
   },
-  topRow:{
+  rowHeader:{
     height: 40,
     flexDirection: 'row',
     alignSelf: 'stretch',
@@ -412,11 +411,12 @@ const styles = StyleSheet.create({
     color: 'white'
   },
   rowItem:{
-    shadowOffset: {width:2, height:2},
-    shadowColor: '#F1F1F1',
-    shadowOpacity: 0.75,
-		shadowRadius: 0.5,
-		elevation: 1.5,
+    // shadowOffset: {width:2, height:2},
+    // shadowColor: '#999999',
+    // shadowOpacity: 0.75,
+		// shadowRadius: 0.5,
+    //elevation: 1.5,
+    marginTop:15,
   },
   extendLeft: {
 		flex: 1,
