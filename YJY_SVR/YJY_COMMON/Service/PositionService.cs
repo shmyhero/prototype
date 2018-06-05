@@ -268,8 +268,10 @@ namespace YJY_COMMON.Service
             }
         }
 
-        public static void CheckAndCloseFollowPositions(int posIdToFollowClose)
+        public static List<Position> CheckAndCloseFollowPositions(int posIdToFollowClose)
         {
+            List<Position> result=new List<Position>();
+
             var db = YJYEntities.Create();
             var basePosition = db.Positions.FirstOrDefault(o => o.Id == posIdToFollowClose);
             if (basePosition != null)
@@ -321,6 +323,8 @@ namespace YJY_COMMON.Service
                                         });
 
                                         dbIsolated.SaveChanges();
+
+                                        result.Add(p);
                                     }
                                 }
 
@@ -340,6 +344,8 @@ namespace YJY_COMMON.Service
                     YJYGlobal.LogWarning("FOLLOW CLOSE fail: base position is not closed");
                 }
             }
+
+            return result;
         }
     }
 }

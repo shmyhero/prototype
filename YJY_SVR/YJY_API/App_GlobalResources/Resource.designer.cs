@@ -61,6 +61,96 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to earn.
+        /// </summary>
+        internal static string Earn {
+            get {
+                return ResourceManager.GetString("Earn", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to lose.
+        /// </summary>
+        internal static string Lose {
+            get {
+                return ResourceManager.GetString("Lose", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} you copied is closed at {1}. You {2} {3}..
+        /// </summary>
+        internal static string MsgType_AutoClose_Follow_Body {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Follow_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position Closed.
+        /// </summary>
+        internal static string MsgType_AutoClose_Follow_Header {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Follow_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is closed at {1}. You {2} {3}..
+        /// </summary>
+        internal static string MsgType_AutoClose_Liquidate_Body {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Liquidate_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position Closed.
+        /// </summary>
+        internal static string MsgType_AutoClose_Liquidate_Header {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Liquidate_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is closed by stop price {1}. You {2} {3}..
+        /// </summary>
+        internal static string MsgType_AutoClose_Stop_Body {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Stop_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position Closed.
+        /// </summary>
+        internal static string MsgType_AutoClose_Stop_Header {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Stop_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {0} is closed by profit price {1}. You {2} {3}..
+        /// </summary>
+        internal static string MsgType_AutoClose_Take_Body {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Take_Body", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Position Closed.
+        /// </summary>
+        internal static string MsgType_AutoClose_Take_Header {
+            get {
+                return ResourceManager.GetString("MsgType_AutoClose_Take_Header", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to This nickname is already used..
         /// </summary>
         internal static string NicknameExisted {

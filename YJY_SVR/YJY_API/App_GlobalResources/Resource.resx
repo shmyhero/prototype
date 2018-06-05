@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Earn" xml:space="preserve">
+    <value>earn</value>
+  </data>
+  <data name="Lose" xml:space="preserve">
+    <value>lose</value>
+  </data>
+  <data name="MsgType_AutoClose_Follow_Body" xml:space="preserve">
+    <value>{0} you copied is closed at {1}. You {2} {3}.</value>
+  </data>
+  <data name="MsgType_AutoClose_Follow_Header" xml:space="preserve">
+    <value>Position Closed</value>
+  </data>
+  <data name="MsgType_AutoClose_Liquidate_Body" xml:space="preserve">
+    <value>{0} is closed at {1}. You {2} {3}.</value>
+  </data>
+  <data name="MsgType_AutoClose_Liquidate_Header" xml:space="preserve">
+    <value>Position Closed</value>
+  </data>
+  <data name="MsgType_AutoClose_Stop_Body" xml:space="preserve">
+    <value>{0} is closed by stop price {1}. You {2} {3}.</value>
+  </data>
+  <data name="MsgType_AutoClose_Stop_Header" xml:space="preserve">
+    <value>Position Closed</value>
+  </data>
+  <data name="MsgType_AutoClose_Take_Body" xml:space="preserve">
+    <value>{0} is closed by profit price {1}. You {2} {3}.</value>
+  </data>
+  <data name="MsgType_AutoClose_Take_Header" xml:space="preserve">
+    <value>Position Closed</value>
+  </data>
   <data name="NicknameExisted" xml:space="preserve">
     <value>This nickname is already used.</value>
   </data>

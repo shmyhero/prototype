@@ -82,7 +82,11 @@ namespace YJY_JOBS
                     $"Received: {posToClose.Id} {posToClose.closeType} {posToClose.closePx} {posToClose.closePxTime}");
                 var autoClosePosition = PositionService.AutoClosePosition(posToClose);
 
-                PositionService.CheckAndCloseFollowPositions(autoClosePosition.Id);
+                var checkAndCloseFollowPositions = PositionService.CheckAndCloseFollowPositions(autoClosePosition.Id);
+
+                MessageService.AddAutoCloseMessage(autoClosePosition);
+
+                MessageService.AddAutoCloseMessages(checkAndCloseFollowPositions);
 
                 YJYGlobal.LogLine(
                     $"pos closed: {autoClosePosition.Id} type:{autoClosePosition.CloseType} pl:{autoClosePosition.PL}");

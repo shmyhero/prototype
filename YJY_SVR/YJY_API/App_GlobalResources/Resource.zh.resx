@@ -117,6 +117,36 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Earn" xml:space="preserve">
+    <value>获利</value>
+  </data>
+  <data name="Lose" xml:space="preserve">
+    <value>亏损</value>
+  </data>
+  <data name="MsgType_AutoClose_Follow_Body" xml:space="preserve">
+    <value>您跟随的{0}已自动平仓，平仓价：{1}，{2}{3}。</value>
+  </data>
+  <data name="MsgType_AutoClose_Follow_Header" xml:space="preserve">
+    <value>跟随平仓</value>
+  </data>
+  <data name="MsgType_AutoClose_Liquidate_Body" xml:space="preserve">
+    <value>{0}已自动平仓，平仓价：{1}，{2}{3}。</value>
+  </data>
+  <data name="MsgType_AutoClose_Liquidate_Header" xml:space="preserve">
+    <value>自动平仓</value>
+  </data>
+  <data name="MsgType_AutoClose_Stop_Body" xml:space="preserve">
+    <value>{0}已被止损在{1}，{2}{3}。</value>
+  </data>
+  <data name="MsgType_AutoClose_Stop_Header" xml:space="preserve">
+    <value>止损触发</value>
+  </data>
+  <data name="MsgType_AutoClose_Take_Body" xml:space="preserve">
+    <value>{0}已被止盈在{1}，{2}{3}。</value>
+  </data>
+  <data name="MsgType_AutoClose_Take_Header" xml:space="preserve">
+    <value>止盈触发</value>
+  </data>
   <data name="NicknameExisted" xml:space="preserve">
     <value>昵称已被使用</value>
   </data>

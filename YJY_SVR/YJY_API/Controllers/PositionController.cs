@@ -103,7 +103,9 @@ namespace YJY_API.Controllers
             Task.Run(() =>
             {
                 YJYGlobal.LogLine("NEW THREAD: check and CLOSE follow positions for pos " + posIdToFollowClose);
-                PositionService.CheckAndCloseFollowPositions(posIdToFollowClose);
+                var checkAndCloseFollowPositions = PositionService.CheckAndCloseFollowPositions(posIdToFollowClose);
+
+                MessageService.AddAutoCloseMessages(checkAndCloseFollowPositions);
             });
 
             var result = Mapper.Map<PositionDTO>(closedPosition);

@@ -9,13 +9,10 @@ using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Model.Queue;
 using YJY_COMMON.Util;
+using Message = Microsoft.Azure.ServiceBus.Message;
 
 namespace YJY_JOBS
 {
-   
-
-    
-
     class PositionCheck
     {
         // Connection String for the namespace can be obtained from the Azure portal under the 
@@ -56,8 +53,8 @@ namespace YJY_JOBS
 
                             var openPositionsNotSent = openPositions.Where(o => !_sentPosIds.ContainsKey(o.Id)).ToList();
 
-                            YJYGlobal.LogLine(openPositionsNotSent.Count + "/" + openPositions.Count +
-                                              " (notSent/all) open positions.");
+                            if(new Random().NextDouble()>0.9)
+                            YJYGlobal.LogLine(openPositionsNotSent.Count + "/" + openPositions.Count + " (notSent/all) open positions.");
 
                             var messages = new List<Message>();
                             var posIds = new List<int>();
@@ -196,7 +193,7 @@ namespace YJY_JOBS
                     YJYGlobal.LogException(e);
                 }
 
-                YJYGlobal.LogLine("");
+                //YJYGlobal.LogLine("");
                 Thread.Sleep(_sleepInterval);
             }
         }

@@ -101,6 +101,7 @@
     <Compile Include="Model\Entity\AdminUser.cs" />
     <Compile Include="Model\Entity\ApiHit.cs" />
     <Compile Include="Model\Entity\Headline.cs" />
+    <Compile Include="Model\Entity\Message.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
     <Compile Include="Model\Entity\Position.cs" />
     <Compile Include="Model\Entity\Status.cs" />
@@ -113,6 +114,7 @@
     <Compile Include="Model\Entity\UserTradeFollow.cs" />
     <Compile Include="Model\Queue\PosToClose.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\MessageService.cs" />
     <Compile Include="Service\PositionService.cs" />
     <Compile Include="Service\FundService.cs" />
     <Compile Include="Service\UserService.cs" />
