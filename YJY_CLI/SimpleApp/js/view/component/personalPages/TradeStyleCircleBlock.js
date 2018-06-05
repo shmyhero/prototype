@@ -127,6 +127,9 @@ export default class TradeStyleCircleBlock extends Component {
     var tradeTypePercent = Number(this.state.tradeTypePercent);
     console.log('WIN:' + totalWinRate + "TradeCount = " + totalTradeCount)
 
+    var leftRes = totalWinRate==0?require('../../../../images/blue_line2.png'):require('../../../../images/blue_line.png')
+    var rightRes = totalWinRate==0?require('../../../../images/green_line2.png'):require('../../../../images/green_line.png')
+
     return ( 
 
       <View style={[styles.container]}> 
@@ -143,14 +146,14 @@ export default class TradeStyleCircleBlock extends Component {
               innerText2={'TRADES'}/>  
             </View>  
             <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-70}}>
-              <Text style={{fontSize:18,color:ColorConstants.BGBLUE}}>{tradeTypePercent}%</Text>
+              <Text style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</Text>
               <Text style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
-              <Image style={{width:70,height:12,marginLeft:8}} source={require('../../../../images/blue_line.png')}></Image>
+              <Image style={{width:70,height:12,marginLeft:8}} source={leftRes}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-15}}>
-              <Text style={{fontSize:18,color:'#3dcc24'}}>{totalWinRate}%</Text>
+              <Text style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</Text>
               <Text style={{fontSize:12,color:'#3dcc24'}}>WinRate</Text>
-              <Image  style={{width:40,height:22,marginRight:22}} source={require('../../../../images/green_line.png')}></Image>
+              <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>
             </View>  
 
            

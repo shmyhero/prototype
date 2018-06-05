@@ -245,7 +245,8 @@ const styles = StyleSheet.create({
   },
   textName:{
     fontSize:12,
-    color:'#eeeeee'
+    color:'#eeeeee',
+    opacity:0.6,
   }
 })
 

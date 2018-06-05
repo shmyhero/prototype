@@ -145,6 +145,8 @@ export default class TradeStyleBlock extends Component {
             <Text style={styles.contentValueBlock}>{this.state.averageOpenTime}</Text>
           </View>
 
+          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
+
            <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strPJMBHL}</Text>
             <Text style={styles.contentValueBlock}>{this.state.averageProfile}</Text>
@@ -155,6 +157,8 @@ export default class TradeStyleBlock extends Component {
               <Text style={styles.contentValueBlock}>{this.state.totalTradeCount}</Text>
             </View> */}
         </View>
+
+        <View style={{ marginLeft:20,marginRight:20,height:0.5,backgroundColor:'#ececec'}}></View>
          
         <View style={styles.contentRow}>
           {/* <View style={styles.contentBlock}>
@@ -166,6 +170,7 @@ export default class TradeStyleBlock extends Component {
             <Text style={styles.contentTitleBlock}>{strPJGG}</Text> 
             <Text style={styles.contentValueBlock}>{this.state.averageLeverage}</Text>
           </View>
+          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
           
           <View style={styles.contentBlock}>
             <Text style={styles.contentTitleBlock}>{strPJBJ}</Text>
@@ -179,7 +184,7 @@ export default class TradeStyleBlock extends Component {
 
 const styles = StyleSheet.create({
   container: {
-    height: 181,
+    height: 120,
     backgroundColor: 'transparent',
   },
   separator: {

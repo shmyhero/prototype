@@ -86,7 +86,7 @@ export default class  MyPie extends React.Component {
                             colors2={colors2}   
                         />  
                     </View> 
-                    <Text style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet}}>{this.props.innerText}</Text>
+                    <Text style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</Text>
                     <Text style={{color:'#9c9c9c', fontSize:topFontSize-4, position:'absolute',top:radius}}>{this.props.innerText2}</Text>
             </View>
         );
@@ -115,6 +115,7 @@ const styles = StyleSheet.create({
         innerText:{
         color:'white',
         textAlign:'center',
+        
     },
 })
 
