@@ -124,10 +124,10 @@
     <value>lose</value>
   </data>
   <data name="MsgType_AutoClose_Follow_Body" xml:space="preserve">
-    <value>{0} you copied is closed at {1}. You {2} {3}.</value>
+    <value>The {0} you copied is closed at {1}. You {2} {3}.</value>
   </data>
   <data name="MsgType_AutoClose_Follow_Header" xml:space="preserve">
-    <value>Position Closed</value>
+    <value>Copy Closed</value>
   </data>
   <data name="MsgType_AutoClose_Liquidate_Body" xml:space="preserve">
     <value>{0} is closed at {1}. You {2} {3}.</value>
@@ -139,13 +139,13 @@
     <value>{0} is closed by stop price {1}. You {2} {3}.</value>
   </data>
   <data name="MsgType_AutoClose_Stop_Header" xml:space="preserve">
-    <value>Position Closed</value>
+    <value>Loss Stopped</value>
   </data>
   <data name="MsgType_AutoClose_Take_Body" xml:space="preserve">
     <value>{0} is closed by profit price {1}. You {2} {3}.</value>
   </data>
   <data name="MsgType_AutoClose_Take_Header" xml:space="preserve">
-    <value>Position Closed</value>
+    <value>Profit Taken</value>
   </data>
   <data name="NicknameExisted" xml:space="preserve">
     <value>This nickname is already used.</value>

@@ -79,7 +79,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0} you copied is closed at {1}. You {2} {3}..
+        ///   Looks up a localized string similar to The {0} you copied is closed at {1}. You {2} {3}..
         /// </summary>
         internal static string MsgType_AutoClose_Follow_Body {
             get {
@@ -88,7 +88,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Position Closed.
+        ///   Looks up a localized string similar to Copy Closed.
         /// </summary>
         internal static string MsgType_AutoClose_Follow_Header {
             get {
@@ -124,7 +124,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Position Closed.
+        ///   Looks up a localized string similar to Loss Stopped.
         /// </summary>
         internal static string MsgType_AutoClose_Stop_Header {
             get {
@@ -142,7 +142,7 @@ namespace Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Position Closed.
+        ///   Looks up a localized string similar to Profit Taken.
         /// </summary>
         internal static string MsgType_AutoClose_Take_Header {
             get {
