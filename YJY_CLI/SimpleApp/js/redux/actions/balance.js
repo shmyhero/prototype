@@ -1,10 +1,13 @@
 import {
     GET_BALANCE,
     GET_BALANCE_SUCCESS,
-    GET_BALANCE_FAIL
+    GET_BALANCE_FAIL,
+    GET_TRADE_STYLE_SUCCESS,
+    GET_TRADE_STYLE_FAIL,
 } from "../constants/actionTypes";
 
 import fetchBalanceRequest from "../api/fetchBalanceRequest";
+import fetchTradeStyleRequest from "../api/fetchTradeStyleRequest";
 
 export function getBalance() {
     return {
@@ -43,6 +46,27 @@ export function fetchBalanceData() {
             .catch((err) => {
                 console.log("fetchBalance catch", err);
                 dispatch(getBalanceFailure(err));
+            });
+        fetchTradeStyleRequest()
+            .then((data)=>{
+                console.log("fetchTradeStyleRequest", data)
+                console.log("fetchTradeStyleRequest data.avgPl", data.avgPl)
+                console.log("fetchTradeStyleRequest data.posCount", data.posCount)
+                var totalProfit = data.avgPl * data.posCount;
+                dispatch({
+                    type: GET_TRADE_STYLE_SUCCESS,
+                    payload: {
+                        totalProfit
+                    } 
+                });
+            })
+            .catch((errorMessage) => {
+                dispatch({
+                    type: GET_TRADE_STYLE_FAIL,
+                    payload: {
+                        errorMessage
+                    } 
+                });
             });
     }
 }
