@@ -102,8 +102,8 @@ var LS = {
     SHARE:["分享","Share"],
     NO_DYNAMIC:["暂无动态","No Data"],
     NO_COPY:["没有跟随记录","No Copy"],
-    WATCHS:["关注数","Watch"],
-    COPYS:["跟随数","Copy"],
+    WATCHS:["关注数","Watchlist"],
+    COPYS:["跟随数","Cppiers"],
 
     DYNAMIC_SETTING:["动态设置","Dynamic Settings"],
     COPIERS:["跟随的用户","Copiers"],

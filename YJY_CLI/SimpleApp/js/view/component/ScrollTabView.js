@@ -23,10 +23,11 @@ export default class  ScrollTabView extends React.Component {
 
 	static propTypes = {
 		tabNames: PropTypes.array,
-		renderTabView: PropTypes.func,
+		// renderTabView: PropTypes.func,
 		viewPages: PropTypes.any,
 		onPageSelected: PropTypes.func,
-		tabBgStyle: PropTypes.any,
+		tabBgStyle:PropTypes.any,
+		tabFontSize:PropTypes.any,
 	} 
 
 	state = {
@@ -89,6 +90,7 @@ export default class  ScrollTabView extends React.Component {
 
   
 	renderTabs () { 
+		// console.log('renderTabs fontSize = ' + this.props.tabFontSize + "  type="+this.props.tabBgStyle)
 		var tabs = this.props.tabNames.map(
 			(tabName, i) =>
 			<TouchableHighlight style={[styles.tabItemContainer,
@@ -100,7 +102,7 @@ export default class  ScrollTabView extends React.Component {
 					onPress={() => this.tabClicked(i)}>
  
 				<View style={{width:80,height:41,alignItems:'center',justifyContent:'center'}}>
-					<Text style={this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected}>
+					<Text style={[this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected,{fontSize:this.props.tabFontSize}]}>
 						{tabName}
 					</Text>
 				</View> 
@@ -191,14 +193,14 @@ var styles = StyleSheet.create({
 	tabItemTextSelected: {
 		textAlign: 'center',
 		color: 'white',
-		fontSize: 17,
+		fontSize: 15,
 		// fontWeight: 'bold',
 		marginBottom:2
 	},
 
 	tabItemTextUnSelected: {
 		textAlign: 'center',
-		fontSize: 17,
+		fontSize: 15,
 		color: 'white',
 		opacity:0.6,
 		marginBottom:2

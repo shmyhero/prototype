@@ -129,7 +129,7 @@ export default class  RankHeroList extends React.Component {
                                 <Image style={{height:34,width:34,borderRadius:17,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
-                                <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LS.str("MINE")}</Text>
+                                <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
                                     <Text style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</Text>
                                     <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</Text>

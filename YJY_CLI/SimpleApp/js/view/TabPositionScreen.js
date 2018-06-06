@@ -119,12 +119,13 @@ class TabPositionScreen extends Component {
               ref={"tabPages"} 
               tabNames={tabNameShow} 
               tabBgStyle={1}
-              renderTabView={(tabName, isSelected)=><TraingleShapeTabBarItem 
-                isSelected={isSelected}
-                tabName={tabName}
-                triangleColor={"white"}
-                bottomLineColor={"transparent"}
-                />}
+              tabFontSize={17}
+              // renderTabView={(tabName, isSelected)=><TraingleShapeTabBarItem 
+              //   isSelected={isSelected}
+              //   tabName={tabName}
+              //   triangleColor={"white"} 
+              //   bottomLineColor={"transparent"}
+              // />}
               viewPages={viewPages} 
               removeClippedSubviews={true}
               onPageSelected={(index) => this.onPageSelected(index)}
