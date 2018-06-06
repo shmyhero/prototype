@@ -148,9 +148,9 @@ export default class  RankHeroList extends React.Component {
     }
 
     renderThreeOfOneItem(index,data){
-        var bgWidth = (width-39.5)/3;
+        var bgWidth = (width-38)/3;
         var bgHeight = bgWidth;
-        var bgHeightLR = bgHeight*201/230;
+        var bgHeightLR = bgHeight*204/230;
 
         var picUri = require('../../images/rank_bg_ag.png')
         if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
@@ -167,7 +167,7 @@ export default class  RankHeroList extends React.Component {
                         <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
                         <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(0)}%</Text>
                     </View>  
-                    <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
+                    <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
                         <Text style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</Text>
                     </ImageBackground>
                 </TouchableOpacity>
@@ -181,7 +181,7 @@ export default class  RankHeroList extends React.Component {
                         <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
                         <Text style={styles.textTopUserScore}>--</Text>
                     </View>  
-                    <ImageBackground style={{marginBottom:-10,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
+                    <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
                         <Text style={styles.textProfit}>--</Text>
                     </ImageBackground>
                 </TouchableOpacity>

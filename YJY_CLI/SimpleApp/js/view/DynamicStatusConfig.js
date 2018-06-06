@@ -158,21 +158,26 @@ export default class DynamicStatusConfig extends Component {
 					}),
 				},
 				(responseJson) =>{ 
-					this.props.navigator.pop();
-					if(this.props.onPopOut){
-						this.props.onPopOut()
-					}
+					// this.props.navigator.goBack(); 
+					// if(this.props.navigation.state.params.onGoBack){
+					//    this.props.navigation.state.params.onGoBack();
+					// } 
+
+					this.props.navigation.goBack();
+					if(this.props.navigation.state.params.onGoBack){
+						this.props.navigation.state.params.onGoBack();
+					} 
 				}
 			)
 		}
 	} 
 
-	onCompleted(){ 
-		this.setLiveFilter() 
-		this.props.navigation.goBack();
-		if(this.props.navigation.state.params.onGoBack){
-			this.props.navigation.state.params.onGoBack();
-		} 
+	onCompleted(){
+		this.setLiveFilter(); 
+		// this.props.navigation.goBack();
+		// if(this.props.navigation.state.params.onGoBack){
+		// 	this.props.navigation.state.params.onGoBack();
+		// } 
 	}
 
 	render(){

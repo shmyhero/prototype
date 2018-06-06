@@ -101,7 +101,7 @@ export default class  ScrollTabView extends React.Component {
 					underlayColor={'#00000000'}
 					onPress={() => this.tabClicked(i)}>
  
-				<View style={{width:80,height:41,alignItems:'center',justifyContent:'center'}}>
+				<View style={{width:80,height:40,alignItems:'center',justifyContent:'center'}}>
 					<Text style={[this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected,{fontSize:this.props.tabFontSize}]}>
 						{tabName}
 					</Text>
@@ -127,7 +127,7 @@ export default class  ScrollTabView extends React.Component {
 		var lineColor = this.props.tabBgStyle == 0? '#26598e':'white'
 		return (
 			<View style={styles.lineContainer}>
-				<Image style={{width:11.5,height:6.5,marginLeft: offsetX}} source={imageSource}/>
+				<Image style={{width:11.5,height:6.0,marginLeft: offsetX}} source={imageSource}/>
 				{/* <View style={[styles.tabItemContainer, {backgroundColor:'#30adf2',height:2,width: width / this.props.tabNames.length, marginLeft: offsetX}]}/> */}
 				<View style={[styles.tabItemContainer, {backgroundColor:lineColor,height:1,width: width}]}/>
 			</View>
@@ -207,8 +207,7 @@ var styles = StyleSheet.create({
 	},
 
 	lineContainer: {
-		justifyContent:'center',
-		// alignItems:'center'
+		justifyContent:'center', 
 		backgroundColor:ColorConstants.BGBLUE
 	},
 
