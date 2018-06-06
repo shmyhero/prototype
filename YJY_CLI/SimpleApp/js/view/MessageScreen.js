@@ -17,6 +17,7 @@ import NetworkErrorIndicator from './component/NetworkErrorIndicator'
 var {height, width} = Dimensions.get('window')
 import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
+var UIConstants = require('../UIConstants');
 var LS = require("../LS");
 // create a component
 class MessageScreen extends Component {
@@ -207,7 +208,7 @@ const styles = StyleSheet.create({
         margin:10,
         marginTop: 15,
         marginBottom: 0,
-        borderRadius:10,
+        borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
         backgroundColor: ColorConstants.WHITE
     },
     messageWrapper:{

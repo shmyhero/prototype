@@ -17,7 +17,6 @@ var {height,width} = Dimensions.get('window');
 var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
 var BIG_BUTTON_HEIGHT = BUTTON_WIDTH / 722 * 380;
-const MARGIN_HORIZONTAL = 10;
 var bgWidth = width-20; 
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 import { StackNavigator } from 'react-navigation';
@@ -25,6 +24,7 @@ import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 import BalanceBlock from './component/BalanceBlock';
 
+var UIConstants = require('../UIConstants');
 var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
@@ -293,18 +293,18 @@ const styles = StyleSheet.create({
     },
     radiusBackground:{
       backgroundColor:'white',
-      borderRadius:15,
+      borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
     },
     bigButtonContainer:{
       //height: BIG_BUTTON_HEIGHT,
-      marginLeft:MARGIN_HORIZONTAL,
-      marginRight:MARGIN_HORIZONTAL,
+      marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+      marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
       marginTop:15,
     },
     TradeStyleCycleContainer:{
       height:280,
-      marginLeft:MARGIN_HORIZONTAL,
-      marginRight:MARGIN_HORIZONTAL,
+      marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+      marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
       marginTop:15,
       justifyContent:'center',
       alignContent:'center',
@@ -312,8 +312,8 @@ const styles = StyleSheet.create({
     },
     TradeStyleContainer:{
       height:140,
-      marginLeft:MARGIN_HORIZONTAL,
-      marginRight:MARGIN_HORIZONTAL,
+      marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+      marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
       marginTop:15,
       justifyContent:'center',
       alignContent:'center',

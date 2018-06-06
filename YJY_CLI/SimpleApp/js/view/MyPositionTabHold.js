@@ -39,7 +39,7 @@ var MAX_LOSS_PERCENT = -90
 
 var stockNameFontSize = Math.round(17*width/375.0)
 
-const ROW_PADDING = 15;
+const ROW_PADDING = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
 const SIMPLE_ROW_HEIGHT = UIConstants.ITEM_ROW_MARGIN_VERTICAL + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
@@ -1197,7 +1197,7 @@ export default class  MyPositionTabHold extends React.Component {
 
 	getItemLayout(data, index){
 		var smallItemHeight = SIMPLE_ROW_HEIGHT;
-		var bigItemHeight = 277 + ROW_PADDING;
+		var bigItemHeight = 277 + UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 		var itemHeight = smallItemHeight;
 		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			bigItemHeight += STOP_PROFIT_LOSS_SMALL_HEIGHT;
@@ -1260,17 +1260,17 @@ export default class  MyPositionTabHold extends React.Component {
 			backgroundColor:ColorConstants.stock_color(profitAmount),
 			justifyContent:'center'}
 		if(this.state.selectedRow == rowID){
-			touchableStyle.borderTopLeftRadius = 10
-			touchableStyle.borderTopRightRadius = 10
+			touchableStyle.borderTopLeftRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
+			touchableStyle.borderTopRightRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 		}else{
-			touchableStyle.borderRadius = 10
+			touchableStyle.borderRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 		}
 
 		// var rowBackgroundColor = profitAmount > 0 ? "green" : profitAmount < 0 ? "red" : "gray";
 
 		var additionalStyle = {}
 		if(rowID == 0){
-			additionalStyle.marginTop = ROW_PADDING;
+			additionalStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 		}
 		return (
 			<View style={[styles.rowContainer, additionalStyle]}>
@@ -1404,7 +1404,7 @@ const styles = StyleSheet.create({
 	},
 
     rowContainer: {    
-        margin:ROW_PADDING,
+        margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
         marginTop: 0,
 		marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
 	},
@@ -1474,12 +1474,6 @@ const styles = StyleSheet.create({
 		fontWeight: 'normal',
 	},
 
-    firstSeparator: {
-        marginLeft: ROW_PADDING,
-        marginRight: ROW_PADDING, 
-        marginTop:0
-    },
-
 	darkSeparator: {
 		marginLeft: ROW_PADDING,
 		marginRight: ROW_PADDING,
@@ -1491,8 +1485,8 @@ const styles = StyleSheet.create({
 		borderWidth:1,
 		borderTopWidth:0,
 		borderColor:'#cccccc',
-		borderBottomLeftRadius: 10,
-		borderBottomRightRadius: 10,
+		borderBottomLeftRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
+		borderBottomRightRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
 	},
@@ -1656,8 +1650,8 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		backgroundColor: '#d9e6f3',
 		height: UIConstants.LIST_HEADER_BAR_HEIGHT,
-		paddingLeft: ROW_PADDING,
-		paddingRight: ROW_PADDING,
+		paddingLeft: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+		paddingRight: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
 		paddingTop:2,
 	},
 	headerCell: {
@@ -1700,17 +1694,6 @@ const styles = StyleSheet.create({
 	textDataStatus:{
 		color:'black',
 		marginTop:5,
-	},
-	textDataStatusRefresh:{
-		color:'black',
-		paddingLeft:ROW_PADDING,
-		paddingRight:ROW_PADDING,
-		marginTop:10,
-		paddingTop:5,
-		paddingBottom:5,
-		borderColor:'black',
-		borderRadius:4,
-		borderWidth:1,
 	},
 	tipsLine:{
 		fontSize:9,

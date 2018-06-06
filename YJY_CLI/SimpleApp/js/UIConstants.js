@@ -16,6 +16,8 @@ export let ANDROID_LIST_VIEW_HEIGHT_MAGIC_NUMBER = Platform.OS === 'android' ? S
 export let LIST_HEADER_BAR_HEIGHT = Platform.OS === 'android' ? 31 : 26.5
 export let MAX_NICKNAME_LENGTH = 8;
 export let ITEM_ROW_HEIGHT = 70;
+export let ITEM_ROW_MARGIN_HORIZONTAL = 15;
 export let ITEM_ROW_MARGIN_VERTICAL = 15;
+export let ITEM_ROW_BORDER_RADIUS = 10;
 
  

@@ -331,7 +331,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     backgroundColor: '#ffffff',
     borderWidth:1,
-    borderRadius:10,
+    borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
     borderColor:'#EEEEEE',
   },
   rowHeader:{
