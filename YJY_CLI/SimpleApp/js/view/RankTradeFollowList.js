@@ -16,6 +16,7 @@ import LogicData from '../LogicData';
 var LS = require("../LS")
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
+var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
@@ -121,7 +122,7 @@ export default class  RankTradeFollowList extends React.Component {
             var openView = itemOpen[id]==1?
             <View style={{backgroundColor:'transparent',justifyContent:'center',alignItems:'center'}}>
                 <View style = {{width:width-60,height:0.5,marginTop:-5, backgroundColor:'#eeeeee'}}></View>
-                    <View style={{height:58,width:width-60,flexDirection:'row'}}>
+                    <View style={{height:64,width:width-60,flexDirection:'row'}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-start'}}>
                         <Text style={styles.textItemTitle}>{LS.str("APPLY_COPY")}</Text>
                         <Text style={styles.textItemValue}>{createAt}</Text>
@@ -138,7 +139,7 @@ export default class  RankTradeFollowList extends React.Component {
             </View>:null;    
             return( 
                 <TouchableOpacity onPress={()=>this.onPressItem(rowData,rowID)} style={{borderRadius:16,width:width-30,backgroundColor:'white',marginLeft:15,marginBottom:10,}}> 
-                    <View  style={{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                    <View  style={{height:UIConstants.ITEM_ROW_HEIGHT,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
                             <TouchableOpacity onPress={()=>this.onPressItemHead(rowData,rowID)} >
                                 <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>

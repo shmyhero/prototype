@@ -335,10 +335,10 @@ const styles = StyleSheet.create({
     borderColor:'#EEEEEE',
   },
   rowHeader:{
-    height: 40,
+    height: 50,
     flexDirection: 'row',
     alignSelf: 'stretch',
-    alignItems: 'center',
+    alignItems: 'center', 
   },
   rowLeftPart: {
     flex: 3,
@@ -440,7 +440,7 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
-    height: 51,
+    height: 52,
 	},
 	extendTextTop: {
 		fontSize:14,

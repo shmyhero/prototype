@@ -63,17 +63,17 @@ export default class  UserProfileTabMain extends React.Component {
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>  
-          <ImageBackground style={{height:240,width:bgWidth,padding:5}} resizeMode='stretch'  source={require('../../images/bg_block.png')}>  
+          <View style={{height:240,width:bgWidth,padding:5,backgroundColor:'white',borderRadius:10}} resizeMode='stretch'  >  
             <ProfitTrendCharts ref={'profitTrendCharts'} userId={this.props.userId}/>
-          </ImageBackground>
-          <ImageBackground style={{marginTop:10,height:280,width:bgWidth,justifyContent:'center',alignContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}>  
+          </View>
+          <View style={{marginTop:10,height:280,width:bgWidth,justifyContent:'center',alignContent:'center',backgroundColor:'white',borderRadius:10}} resizeMode='stretch' >  
             {/* <ProfitBlock userId={this.props.userId} isPrivate={false}/> */}
              <TradeStyleCircleBlock userId={this.props.userId}  viewHeight={180} isPrivate={false}/>
-          </ImageBackground>
+          </View>
           <View style={styles.TradeStyleContainer}>
-          <ImageBackground style={{marginTop:10,height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+          <View style={{marginTop:10,height:'100%', width:"100%", justifyContent:'center',backgroundColor:'white',borderRadius:10}} resizeMode='stretch' > 
             <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
-          </ImageBackground>
+          </View>
           <View style={{height:20}}></View>
           </View>
         </ScrollView>

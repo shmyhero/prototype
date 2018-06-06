@@ -223,9 +223,9 @@ export default class  RankHeroList extends React.Component {
         if(rowID>=3+offset){
             // var colorRoi = rowData.roi > 0?'#ca3538':'green'
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:68,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:36,width:36,marginLeft:28,marginBottom:5,borderRadius:18}} source={{uri:rowData.picUrl}}></Image>
+                        <Image style={{height:38,width:38,marginLeft:28,marginBottom:5,borderRadius:19}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>

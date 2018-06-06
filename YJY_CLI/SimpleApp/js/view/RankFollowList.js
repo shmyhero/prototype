@@ -15,6 +15,7 @@ import {
 import LogicData from '../LogicData';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
+var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 var listData = []
@@ -105,7 +106,7 @@ export default class  RankFollowList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:60,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10,justifyContent:'center'}}>
