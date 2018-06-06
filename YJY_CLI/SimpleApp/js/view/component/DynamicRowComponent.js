@@ -183,8 +183,10 @@ class DynamicRowComponent extends Component {
 
 
          var title = this.props.rowData.user.nickname;
+         var titleStyle = null
          if(this.props.rowData.type == 'system'){
             title = this.props.rowData.title
+            titleStyle = {fontSize:15,color:'#666666'}
          }
 
         return(  
@@ -214,7 +216,7 @@ class DynamicRowComponent extends Component {
                              </TouchableOpacity> 
                              <View style={styles.textContainer}>
                                  <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
-                                     <Text style={styles.textUserName}>{title}</Text>
+                                     <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
                                      {viewHero}
                                  </View>
                                  {this.renderNewsText(this.props.rowData)}
