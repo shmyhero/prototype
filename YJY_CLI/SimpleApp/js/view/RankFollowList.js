@@ -37,6 +37,7 @@ export default class  RankFollowList extends React.Component {
             dataSource: ds.cloneWithRows(listData),
             rankListData:[ 
             ],
+            isContentLoaded: false,
         };
     }
 
@@ -81,10 +82,14 @@ export default class  RankFollowList extends React.Component {
                             this.setState({
                                 rankListData: responseJson,
                                 isDataLoading: false,
+                                isContentLoaded: true,
                                 dataSource: ds.cloneWithRows(responseJson),
                             });
                         },
                         (exception) => {
+                            this.setState({
+                                isDataLoading: false,
+                            })
                             //alert(exception.errorMessage)
                         }
                     );
@@ -149,7 +154,7 @@ export default class  RankFollowList extends React.Component {
         )
     }
     render() {  
-            if(this.state.isDataLoading){
+            if(!this.state.isContentLoaded){
                 return(
                     <NetworkErrorIndicator 
                     onRefresh={()=>this.onRefresh()}
