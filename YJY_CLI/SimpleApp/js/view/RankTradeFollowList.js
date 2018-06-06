@@ -142,7 +142,7 @@ export default class  RankTradeFollowList extends React.Component {
                     <View  style={{height:UIConstants.ITEM_ROW_HEIGHT,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
                             <TouchableOpacity onPress={()=>this.onPressItemHead(rowData,rowID)} >
-                                <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
+                                <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
                             </TouchableOpacity>
                             <View style={{marginLeft:10}}>
                                 <View style={{flexDirection:'row',alignItems:'center'}}>
@@ -151,12 +151,12 @@ export default class  RankTradeFollowList extends React.Component {
                                 </View>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'flex-start'}}>
                                     <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                    <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
+                                    <Text style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</Text>
                                 </View>
                             </View>
                         </View>
                         <View style={{marginRight:15}}>
-                            <Text style={{fontSize:17,color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
+                            <Text style={{fontSize:17,fontWeight:'bold',color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
                         </View> 
                     </View>
                     {openView}

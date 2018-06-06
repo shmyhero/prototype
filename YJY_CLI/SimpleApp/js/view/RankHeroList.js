@@ -128,14 +128,14 @@ export default class  RankHeroList extends React.Component {
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
                     <ImageBackground style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                         <View style={{flexDirection:'row',alignItems:'center'}}> 
-                            <View style={{height:34,width:34,marginLeft:28,marginBottom:5,}}>
-                                <Image style={{height:34,width:34,borderRadius:17,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+                            <View style={{height:46,width:46,marginLeft:28,marginBottom:5,}}>
+                                <Image style={{height:46,width:46,borderRadius:23,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</Text>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
                                     <Text style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</Text>
-                                    <Text style={{fontSize:16,color:'#d8effc'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</Text>
+                                    <Text style={{fontSize:16,color:'#d8effc',fontWeight:'bold'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</Text>
                                 </View>
                             </View>
                         </View>     
@@ -223,9 +223,9 @@ export default class  RankHeroList extends React.Component {
         if(rowID>=3+offset){
             // var colorRoi = rowData.roi > 0?'#ca3538':'green'
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:38,width:38,marginLeft:28,marginBottom:5,borderRadius:19}} source={{uri:rowData.picUrl}}></Image>
+                <TouchableOpacity  activeOpacity={0.9} onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:'white'}}>
+                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
+                        <Image style={{height:46,width:46,marginLeft:28,marginBottom:5,borderRadius:23 }} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10}}>
                             <Text style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
@@ -254,7 +254,9 @@ export default class  RankHeroList extends React.Component {
         if(rowID>=4){
             return (
                 <View style={styles.line} key={rowID}>
-                    <View style={styles.separator}/>
+                    <View style={styles.separator}>
+                        <View style={styles.separatorShort}/>
+                    </View>
                 </View>
             );
         }else{
@@ -274,7 +276,7 @@ export default class  RankHeroList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'white'}}>
+            <View style={{flex:1,width:width,backgroundColor:ColorConstants.BGBLUE}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
@@ -310,9 +312,9 @@ const styles = StyleSheet.create({
         paddingRight:20,
     },
     headPortrait:{
-        width:40,
-        height:40,
-        borderRadius:20,
+        width:46,
+        height:46,
+        borderRadius:23,
         alignSelf:'center',
         marginBottom:5,
         borderWidth:1,
@@ -330,21 +332,31 @@ const styles = StyleSheet.create({
         marginBottom:2,
         color:'#d8effc',
         fontSize:14,
+        fontWeight:'bold'
     },
     textProfit:{
         color:'#ffffff',
-        fontSize:15
+        fontSize:15,
+        fontWeight:'bold'
     },
     textWinRate:{
         fontSize:12,
-        color:ColorConstants.BLUETEXT
+        color:ColorConstants.BLUETEXT,
+        
     },
     separator: {
+        marginLeft: 0,
+        marginRight:0,
+        height: 0.5,
+        backgroundColor: 'white',
+    },
+    separatorShort: {
         marginLeft: 20,
         marginRight:20,
         height: 0.5,
-        backgroundColor: ColorConstants.SEPARATOR_GRAY,
+        backgroundColor:ColorConstants.SEPARATOR_GRAY,
     },
+    
 })
 
 

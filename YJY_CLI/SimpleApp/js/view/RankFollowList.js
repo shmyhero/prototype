@@ -108,17 +108,17 @@ export default class  RankFollowList extends React.Component {
             return( 
                 <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
+                        <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10,justifyContent:'center'}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
+                                <Text style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</Text>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:15}}>
-                        <Text style={{fontSize:17, color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
+                        <Text style={{fontSize:17, fontWeight:'bold',color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
                     </View> 
                 </TouchableOpacity>
             )
