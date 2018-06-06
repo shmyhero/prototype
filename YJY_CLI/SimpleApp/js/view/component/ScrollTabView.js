@@ -127,7 +127,7 @@ export default class  ScrollTabView extends React.Component {
 		var lineColor = this.props.tabBgStyle == 0? '#26598e':'white'
 		return (
 			<View style={styles.lineContainer}>
-				<Image style={{width:11.5,height:6.0,marginLeft: offsetX}} source={imageSource}/>
+				<Image style={{width:11.5,height:6.0,marginLeft: offsetX,marginBottom:-0.5,}} source={imageSource}/>
 				{/* <View style={[styles.tabItemContainer, {backgroundColor:'#30adf2',height:2,width: width / this.props.tabNames.length, marginLeft: offsetX}]}/> */}
 				<View style={[styles.tabItemContainer, {backgroundColor:lineColor,height:1,width: width}]}/>
 			</View>
