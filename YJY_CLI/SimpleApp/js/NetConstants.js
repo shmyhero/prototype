@@ -17,7 +17,7 @@ export let CFD_API = {
   CLOSED_POSITION_LIST: CFD_API_SERVER + "/api/position/closed",
   STOP_PROFIT_LOSS_API: CFD_API_SERVER + "/api/position/stopTake",
 
-  RANK_TWO_WEEKS:CFD_API_SERVER+"/api/rank/user/plclosed/2w",
+  RANK_TWO_WEEKS:CFD_API_SERVER+"/api/rank/user/plclosed",
   RANK_FOLLOWING:CFD_API_SERVER+"/api/rank/user/following",
 
   ME_DATA: CFD_API_SERVER + "/api/user/me",
