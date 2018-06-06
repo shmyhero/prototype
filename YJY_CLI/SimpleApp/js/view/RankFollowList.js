@@ -98,12 +98,12 @@ export default class  RankFollowList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:68,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:60,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>
-                        <View style={{marginLeft:10}}>
+                        <View style={{marginLeft:10,justifyContent:'center'}}>
                             <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
-                            <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
+                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
                                 <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
                                 <Text style={{fontSize:14, color:'#666666'}}>{rowData.winRate.toFixed(2)}%</Text>
                             </View>

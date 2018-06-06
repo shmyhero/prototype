@@ -133,7 +133,7 @@ export default class  RankTradeFollowList extends React.Component {
             </View>:null;    
             return( 
                 <TouchableOpacity onPress={()=>this.onPressItem(rowData,rowID)} style={{borderRadius:16,width:width-30,backgroundColor:'white',marginLeft:15,marginBottom:10,}}> 
-                    <View  style={{height:68,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                    <View  style={{height:60,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
                             <TouchableOpacity onPress={()=>this.onPressItemHead(rowData,rowID)} >
                                 <Image style={{height:34,width:34,marginLeft:15,marginBottom:5,borderRadius:17}} source={{uri:rowData.picUrl}}></Image>

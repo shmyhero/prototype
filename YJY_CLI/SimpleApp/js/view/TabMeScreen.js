@@ -248,7 +248,7 @@ class  TabMeScreen extends React.Component {
           {this.renderChart()}
           {this.renderTradeStyleCicleBlock()}
           {this.renderTradeStyleBlock()}
-          
+          <View style={{height:15}}></View>
         </ScrollView>);
     }else{
       return this.renderLogin();

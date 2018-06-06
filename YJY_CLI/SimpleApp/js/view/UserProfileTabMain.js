@@ -71,9 +71,10 @@ export default class  UserProfileTabMain extends React.Component {
              <TradeStyleCircleBlock userId={this.props.userId}  viewHeight={180} isPrivate={false}/>
           </ImageBackground>
           <View style={styles.TradeStyleContainer}>
-          <ImageBackground style={{height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
+          <ImageBackground style={{marginTop:10,height:'100%', width:"100%", justifyContent:'center'}} resizeMode='stretch' source={require('../../images/bg_block.png')}> 
             <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
           </ImageBackground>
+          <View style={{height:20}}></View>
           </View>
         </ScrollView>
         <FollowBlock 
@@ -105,7 +106,7 @@ const styles = StyleSheet.create({
    },
    TradeStyleContainer:{
     height:140,
-    marginTop:10,
+    marginTop:15,
     justifyContent:'center',
     alignContent:'center',
   },

@@ -126,7 +126,7 @@ export default class  RankHeroList extends React.Component {
                     <ImageBackground style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
                         <View style={{flexDirection:'row',alignItems:'center'}}> 
                             <View style={{height:34,width:34,marginLeft:28,marginBottom:5,}}>
-                                <Image style={{height:34,width:34,borderRadius:17,borderWidth:2,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+                                <Image style={{height:34,width:34,borderRadius:17,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
                                 <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LS.str("MINE")}</Text>
@@ -312,7 +312,7 @@ const styles = StyleSheet.create({
         borderRadius:20,
         alignSelf:'center',
         marginBottom:5,
-        borderWidth:2,
+        borderWidth:1,
         borderColor:ColorConstants.BORDER_LIGHT_BLUE
     },
     textTopUserName:{
