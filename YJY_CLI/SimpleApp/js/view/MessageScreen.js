@@ -97,7 +97,7 @@ class MessageScreen extends Component {
 
     renderContent(){
         if(!this.props.messageList || this.props.messageList.length == 0){
-            if(this.props.isRefreshing || this.props.error){
+            if(this.props.isRefreshing || this.props.isShowError){
                 return (
                     <NetworkErrorIndicator 
                         isBlue={false}

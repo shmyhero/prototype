@@ -14,7 +14,7 @@ export let HEADER_HEIGHT = Platform.OS === 'android' ? NAVBAR_HEIGHT + STATUS_BA
 export let SCROLL_TAB_HEIGHT = Platform.OS === 'android' ? 32 : 48	//TODO: A calculated value, may be wrong on some devices...
 export let ANDROID_LIST_VIEW_HEIGHT_MAGIC_NUMBER = Platform.OS === 'android' ? StatusBar.currentHeight : 0
 export let LIST_HEADER_BAR_HEIGHT = Platform.OS === 'android' ? 31 : 26.5
-export let MAX_NICKNAME_LENGTH = 8;
+export let MAX_NICKNAME_LENGTH = 20;
 export let ITEM_ROW_HEIGHT = 70;
 export let ITEM_ROW_MARGIN_HORIZONTAL = 15;
 export let ITEM_ROW_MARGIN_VERTICAL = 15;

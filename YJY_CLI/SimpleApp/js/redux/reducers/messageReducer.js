@@ -25,11 +25,13 @@ export default function settingsReducer(state = initializeState, action) {
             state = { ...state,
                 isRefreshing: true,
                 isEndReached: false,
+                isShowError: false,
             }
             return state;
         case GET_MESSAGE_LIST_ATTACH:
             state = { ...state,
                 isLoading: true,
+                isShowError: false,
             }
             return state;
         case GET_MESSAGE_LIST_SUCCESS:
@@ -50,6 +52,7 @@ export default function settingsReducer(state = initializeState, action) {
             return state;
         case GET_MESSAGE_LIST_FAIL:
             state = { ...state,
+                isRefreshing: false,
                 isLoading: false,
                 isShowError: true,
                 error: action.payload.error,

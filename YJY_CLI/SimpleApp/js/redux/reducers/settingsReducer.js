@@ -3,7 +3,11 @@ import {
     SET_NICKNAME,
     SET_NICKNAME_SUCCESS,
     SET_NICKNAME_FAIL,
-    GET_VERSION
+    GET_VERSION,
+    RESET_SETTINGS,
+    SET_LOACL_NICKNAME,
+    SET_LOACL_NICKNAME_SUCCESS,
+    SET_LOACL_NICKNAME_FAIL
 } from "../constants/actionTypes";
 
 var initializeState = {
@@ -19,6 +23,19 @@ export default function settingsReducer(state = initializeState, action) {
     console.log("settingsReducer action ", action)
     console.log("settingsReducer state ", state)
     switch (action.type) {
+
+        case SET_LOACL_NICKNAME:
+            state = { ...state,
+                isShowError: false,
+                error: "",
+            }
+            return state;
+        case SET_LOACL_NICKNAME_FAIL:
+            state = { ...state,
+                isShowError: true,
+                error: action.payload.error,
+            }
+            return state;
         case SET_NICKNAME:
             state = { ...state,
                 isSettingNickName: true,
@@ -32,11 +49,10 @@ export default function settingsReducer(state = initializeState, action) {
         case SET_NICKNAME_FAIL:
             state = { ...state,
                 isSettingNickName: false,
-                isShowError: action.payload.isShowError,
+                isShowError: true,
                 error: action.payload.error,
             }
             return state;
-
         case SWITCH_LANGUAGE:
             state = { ...state,
                 language: action.payload.language,

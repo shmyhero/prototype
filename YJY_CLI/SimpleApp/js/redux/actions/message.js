@@ -60,10 +60,12 @@ export function getMessageList(currentPage, data){
 
 export function setMessageRead(rowIndex, messageList){
     return (dispatch) => {
-        if(!messageList[rowIndex].isReaded){
-            setItemReadRequest(messageList[rowIndex].id);
+        if(!messageList[rowIndex].isRead){
+            setItemReadRequest(messageList[rowIndex].id)
+            .then(()=>{})
+            .catch(()=>{});
             setTimeout(()=>{
-                messageList[rowIndex].isReaded = true;
+                messageList[rowIndex].isRead = true;
                 var newMessageList = [];
                 $.extend(true, newMessageList, messageList);
                 dispatch({
@@ -86,6 +88,8 @@ export function updateUnread(){
                     unread: count,
                 }
             })
+        }).catch((error)=>{
+
         })
     }
 }

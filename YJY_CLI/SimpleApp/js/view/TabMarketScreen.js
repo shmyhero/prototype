@@ -79,7 +79,7 @@ class TabMarketScreen extends Component {
                 (result) => {
                     this.setState({
                         isLoading: false,
-                    })
+                    });
                     //Alert.alert(LS.str('HINT'), result.errorMessage);
                 }
             )

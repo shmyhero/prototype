@@ -16,7 +16,7 @@ import {
 import LogicData from '../LogicData';
 import NavBar from "./component/NavBar";
 
-import { setNickName } from '../redux/actions'
+import { setNickName, updateLocalNickName} from '../redux/actions'
 import { connect } from 'react-redux';
 //var LocalDataUpdateModule = require('../module/LocalDataUpdateModule')
 var NetConstants = require('../NetConstants')
@@ -60,6 +60,8 @@ class MeSettingNicknameScreen extends Component {
 			errorText: LS.str("ERROR_HINT"),
 			nickName:this.props.nickname,
 		}
+
+		this.props.updateLocalNickName(this.props.nickname);
 	}
 
 	componentWillReceiveProps(props){
@@ -71,20 +73,6 @@ class MeSettingNicknameScreen extends Component {
 	onComplete(){
 		//Check if the new value is valid.
 		console.log("this.state.nickname", this.state.nickName)
-		if(!this.state.nickName || this.state.nickName.length==0 ){
-			this.setState({
-				isShowError:true,
-				errorText:LS.str("ACCOUNT_NAME_CANNOT_BE_EMPTY"),
-			});
-			return;
-		}else if(this.state.nickName.length > UIConstants.MAX_NICKNAME_LENGTH){
-			this.setState({
-				isShowError:true,
-				errorText: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", UIConstants.MAX_NICKNAME_LENGTH),
-			});
-			return;
-		}
-
 		this.props.setNickName(this.state.nickName)
 	}
 
@@ -93,9 +81,12 @@ class MeSettingNicknameScreen extends Component {
 		this.setState({
 			nickName: text
 		});
+		this.props.updateLocalNickName(text);
 	}
 
 	render() {
+		console.log("this.props.isShowError", this.props.isShowError);
+		console.log("this.props.error", this.props.error);
 		return (
 			<View style={{flex:1,backgroundColor:'white'}}>
 
@@ -113,8 +104,8 @@ class MeSettingNicknameScreen extends Component {
 				</View>
 
 				<ErrorMsg
-					showView={this.state.isShowError} 
-					showText={this.state.errorText}/>
+					showView={this.props.isShowError} 
+					showText={this.props.error}/>
 			</View>
 		);
 	}
@@ -184,12 +175,13 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
     return {
 		...state.meData,
-		...state.settingsReducer,
+		...state.settings,
     };
 };
   
 const mapDispatchToProps = {
-	setNickName
+	setNickName,
+	updateLocalNickName
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);

@@ -512,26 +512,6 @@ export default class  MyPositionTabHold extends React.Component {
 		return rowData.security.last 
 	}
 
-	renderHeaderBar() {
-		var strCP = "CP"
-		var strYK = "YK"
-		var strSYL = "SYL"
-
-			return (
-				<View style={styles.headerBar}>
-					<View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
-						<Text style={styles.headerTextLeft}>{strCP}</Text>
-					</View>
-					<View style={[styles.rowCenterPart, {	paddingRight: 10,}]}>
-						<Text style={[styles.headerTextLeft, {paddingRight: 0,}]}>{strYK}</Text>
-					</View>
-					<View style={styles.rowRightPart}>
-						<Text style={styles.headerTextLeft}>{strSYL}</Text>
-					</View>
-				</View>
-			);
-	}
-
 	renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
         return null
 		// if(rowID == this.state.selectedRow - 1) {
@@ -1646,14 +1626,6 @@ const styles = StyleSheet.create({
 		color: '#9f9f9f'
 	},
 
-	headerBar: {
-		flexDirection: 'row',
-		backgroundColor: '#d9e6f3',
-		height: UIConstants.LIST_HEADER_BAR_HEIGHT,
-		paddingLeft: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
-		paddingRight: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
-		paddingTop:2,
-	},
 	headerCell: {
 		flexDirection: 'row',
 		flex: 1,
