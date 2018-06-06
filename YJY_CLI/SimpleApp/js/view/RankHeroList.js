@@ -40,9 +40,11 @@ export default class  RankHeroList extends React.Component {
                 {   roi: 0, winRate: 0, id: 1, nickname: '--' },
                 {   roi: 0,winRate: 0,id: 2,nickname: '--'},
                 {   roi: 0,winRate: 0,id: 2,nickname: '--'}
-            ],
+            ], 
         };
+ 
     }
+    
 
     componentDidMount () {
          this.onRefresh()
@@ -64,6 +66,7 @@ export default class  RankHeroList extends React.Component {
         this.loadRankData()
         
     }
+ 
 
     loadRankData(){   
         if(LogicData.isLoggedIn()){

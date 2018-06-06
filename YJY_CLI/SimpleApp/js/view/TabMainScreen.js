@@ -106,7 +106,7 @@ export default class TabMainScreen extends React.Component {
     }
  
     componentDidMount () {
-
+        this.fetchMeData();
         this.loadData()
 
         // this.timer = setInterval(
@@ -189,6 +189,32 @@ export default class TabMainScreen extends React.Component {
  
     componentWillMount() {
         
+    } 
+
+    fetchMeData(){
+        var userData = LogicData.getUserData();
+        if(userData!=undefined){
+            NetworkModule.fetchTHUrl(
+                NetConstants.CFD_API.ME_DATA,
+                {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                        'Content-Type': 'application/json; charset=utf-8',
+                    },
+                    showLoading: true,
+                }, (responseJson) => {                
+                    LogicData.setMeData(responseJson); 
+
+                    this.setState(
+                        {
+                            nickName:responseJson.nickname
+                        }
+                    )
+                }, (error) =>{ 
+                    
+                }
+            );}
     } 
 
     renderEmpty(){
