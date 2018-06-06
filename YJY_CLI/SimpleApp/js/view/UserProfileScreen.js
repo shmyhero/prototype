@@ -90,7 +90,7 @@ export default class  UserProfileScreen extends React.Component {
                   });  
               },
               (exception) => {
-                  alert(exception.errorMessage)
+                  //alert(exception.errorMessage)
               }
           );
       })			

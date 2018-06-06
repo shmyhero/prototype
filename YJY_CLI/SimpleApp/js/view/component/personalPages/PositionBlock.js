@@ -66,7 +66,6 @@ export default class PositionBlock extends Component {
 
   componentDidMount(){
     this.setState({
-      contentLoaded: true,
       isRefreshing: false, 
     });
   }

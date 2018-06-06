@@ -18,11 +18,10 @@ export default (currentPage, itemCount) => {
                     'Content-Type': 'application/json; charset=utf-8',
                 },
                 showLoading: true,
-            }, (responseJson) => {	
-                console.log("fetchmedataRequest", responseJson)
-                LogicData.setMeData(responseJson);
+            }, (responseJson) => {
                 resolve(responseJson)
             }, (error) =>{
+                console.log("error.errorMessage", error.errorMessage)
                 reject(error.errorMessage);
             }
         );

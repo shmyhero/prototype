@@ -23,7 +23,7 @@ import LogicData from "../LogicData";
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
-
+import NetworkErrorIndicator from "./component/NetworkErrorIndicator";
 
 var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
@@ -117,6 +117,7 @@ export default class  MyPositionTabClosed extends React.Component {
 					this.setState({
 						stockInfoRowData: newStockInfoRowData,
 						isDataLoading: false,
+						contentLoaded: true,
 						hasMore: !(responseJson.length < PAGE_SIZE)
 					}, ()=>{
 						this.pageNum++;
@@ -166,7 +167,7 @@ export default class  MyPositionTabClosed extends React.Component {
 				})		
 			},
 			(exception) => {
-				alert(exception.errorMessage)
+				//alert(exception.errorMessage)
 			}
 		);
 	}
@@ -499,11 +500,14 @@ export default class  MyPositionTabClosed extends React.Component {
 	}
 
 	renderContent(){
-		// if(!this.state.contentLoaded){
-		// 	return (
-		// 		<NetworkErrorIndicator onRefresh={()=>this.loadClosedPositionInfo()} refreshing={this.state.isRefreshing}/>
-		// 	)
-		// }else{
+		if(!this.state.contentLoaded){
+			return (
+				<NetworkErrorIndicator
+					isBlue={false}
+					onRefresh={()=>this.loadClosedPositionInfo()}
+					refreshing={this.state.isDataLoading}/>
+			)
+		}else{
 			var pullUpDistance = 35;
 			var pullUpStayDistance = 35;
 
@@ -539,7 +543,7 @@ export default class  MyPositionTabClosed extends React.Component {
 					// bottomRefreshingPrompt="载入数据中..."
 				/>
 			</View>);
-		// }
+		}
 	}
 
 	render() {

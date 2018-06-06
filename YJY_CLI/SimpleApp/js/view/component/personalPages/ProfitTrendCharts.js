@@ -75,7 +75,7 @@ export default class ProfitTrendCharts extends Component {
         })
       },
       (exception) => {
-        alert(exception.errorMessage)
+        //alert(exception.errorMessage)
       }
     );
   }

@@ -24,6 +24,7 @@ import { TabNavigator } from "react-navigation";
 import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
+import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 import TweetBlock from './tweet/TweetBlock';
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 var LS = require('../LS')
@@ -93,7 +94,8 @@ export default class TabMainScreen extends React.Component {
 
         this.state = {
             first: true,  
-            isLoading:true
+            isLoading:true,
+            isContentLoaded:false,
         } 
 
     }
@@ -284,11 +286,17 @@ export default class TabMainScreen extends React.Component {
     }
 
     render() {
-        if(this.state.isLoading){
+        //if(this.state.isLoading){
+        if(!this.state.isContentLoaded){
+            // return (
+            // <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
+            //     <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
+            // </View>);
             return (
-            <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
-                <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
-            </View>);
+				<NetworkErrorIndicator 
+					onRefresh={()=>this._onRefresh()}
+					refreshing={this.state.isLoading}/>
+			)
         }else{
             return (
                 <View style = {styles.mainContainer}>
@@ -306,10 +314,10 @@ export default class TabMainScreen extends React.Component {
                         onScroll={this._onScroll}
 				        scrollEventThrottle={8} 
                         renderRow={this._renderRow}
-                        renderHeader={this._renderHeader}
-                        renderFooter={this._renderFooter} 
-                        onRefresh={this._onRefresh}
-                        onLoadMore={this._onLoadMore}
+                        renderHeader={(viewState)=>this._renderHeader(viewState)}
+                        renderFooter={(viewState)=>this._renderFooter(viewState)} 
+                        onRefresh={()=>this._onRefresh()}
+                        onLoadMore={()=>this._onLoadMore()}
                         pullUpDistance={35}
                         pullUpStayDistance={50} 
                         removeClippedSubviews={false}
@@ -440,7 +448,7 @@ export default class TabMainScreen extends React.Component {
                     console.log('loadCacheListData length is = ' + responseJson.length);
                 },
                 (result) => {
-                    Alert.alert('提示', result.errorMessage);
+                    //Alert.alert('提示', result.errorMessage);
                 }
             )
         } 
@@ -479,13 +487,17 @@ export default class TabMainScreen extends React.Component {
                     dataResponse: responseJson,
                     dataSource: this._dataSource.cloneWithRows(responseJson),
                     isLoading:false,
+                    isContentLoaded: true,
                 })
                 if(isRefresh){
-                    this._pullToRefreshListView.endRefresh()
+                    this._pullToRefreshListView && this._pullToRefreshListView.endRefresh()
                 }
             },
             (result) => {
-                Alert.alert('提示', result.errorMessage);
+                this.setState({
+                    isLoading:false
+                })
+                //Alert.alert('提示', result.errorMessage);
             }
         )
          

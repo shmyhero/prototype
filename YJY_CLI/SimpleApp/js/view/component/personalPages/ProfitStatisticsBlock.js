@@ -70,7 +70,7 @@ export default class ProfitStatisticsBlock extends Component {
                    })
               },
               (exception) => {
-                  alert(exception.errorMessage)
+                  //alert(exception.errorMessage)
               }
           );
       })			

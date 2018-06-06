@@ -32,6 +32,7 @@ import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";
 import SubmitButton from "./component/SubmitButton";
+import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
@@ -129,7 +130,7 @@ export default class  MyPositionTabHold extends React.Component {
 		console.log("userData:", userData)
 		this.setState({
 			isDataLoading: true,
-		}, ()=>{
+		}, ()=>{			
 			var url = NetConstants.CFD_API.OPEN_POSITION_LIST;
 			NetworkModule.fetchTHUrl(
 				url,
@@ -153,7 +154,7 @@ export default class  MyPositionTabHold extends React.Component {
 						stockInfoRowData: responseJson,
 						isDataLoading: false,
 						isRefreshing: false,
-						
+						contentLoaded: true,
 					}, ()=>{
 						var interestedStockIds = [];
 						for (var i = 0; i < this.state.stockInfoRowData.length; i++) {
@@ -1280,8 +1281,8 @@ export default class  MyPositionTabHold extends React.Component {
 						<View style={styles.rowLeftPart}>							
 							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
 								{topLine}
-							</Text>							
-							{this.renderStockStatus(rowData)}						
+							</Text>
+							{this.renderStockStatus(rowData)}
 						</View>
 
 						<View style={{flexDirection: 'row', alignItems: 'center', 
@@ -1328,11 +1329,14 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderContent(){
-		// if(!this.state.contentLoaded){
-		// 	return (
-		// 		<NetworkErrorIndicator onRefresh={()=>this.loadOpenPositionInfo()} refreshing={this.state.isRefreshing}/>
-		// 	)
-		// }else{
+		if(!this.state.contentLoaded){
+			return (
+				<NetworkErrorIndicator 
+					isBlue={false}
+					onRefresh={()=>this.loadOpenPositionInfo()}
+					refreshing={this.state.isDataLoading}/>
+			)
+		}else{
 			return(
 				<View style={{flex:1}}>
 					{this.renderLoadingText()}
@@ -1364,7 +1368,7 @@ export default class  MyPositionTabHold extends React.Component {
 					{this.renderOrderFinishedModal()}
 				</View>
 			)
-		//}
+		}
 	}
 
 	renderOrderFinishedModal(){

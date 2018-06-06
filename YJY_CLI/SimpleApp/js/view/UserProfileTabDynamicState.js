@@ -19,6 +19,7 @@ import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
 import {ViewKeys} from '../../AppNavigatorConfiguration'
 import TweetBlock from './tweet/TweetBlock';
+import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
@@ -91,7 +92,8 @@ export default class  UserProfileTabDynamicState extends React.Component {
       url = url.replace('<id>',this.props.userId)
       console.log('url='+url);
       this.setState({
-          isDataLoading: true,
+					isDataLoading: true,
+					isRefreshing: true,
       }, ()=>{
           NetworkModule.fetchTHUrl(
             url,
@@ -102,10 +104,14 @@ export default class  UserProfileTabDynamicState extends React.Component {
                    this.setState({ 
 										listRawData: ds.cloneWithRows(responseJson),
 										listResponse: responseJson,
+										contentLoaded: true,
+										isRefreshing: false
                    })  
               },
               (exception) => {
-                  alert(exception.errorMessage)
+								this.setState({
+									isRefreshing: false
+								});
               }
           );
       })  
@@ -123,19 +129,19 @@ export default class  UserProfileTabDynamicState extends React.Component {
 			} 
   }
 
-  renderList(){
+  renderList(){		
 		return (
 			<View style={{flex:1}}>
 			<ListView
 				contentContainerStyle={styles.list}
 				dataSource={this.state.listRawData}
 				enableEmptySections={true}
-        removeClippedSubviews={false}
-        showsVerticalScrollIndicator={false}
+				removeClippedSubviews={false}
+				showsVerticalScrollIndicator={false}
 				renderRow={this.renderRow.bind(this)} />
-			  {/* {this.renderPraiseModal()} */}
+				{/* {this.renderPraiseModal()} */}
 			</View>
-		)
+		)	
   }
   
   emptyContent(){
@@ -149,10 +155,16 @@ export default class  UserProfileTabDynamicState extends React.Component {
 
   renderContent(){
 		// console.log("listResponse" + this.state.listResponse.length)
-		if(this.state.listResponse&&this.state.listResponse.length>0){
-			return this.renderList();
+		if(!this.state.contentLoaded){
+			return (
+				<NetworkErrorIndicator onRefresh={()=>this.loadData()} refreshing={this.state.isRefreshing}/>
+			)
 		}else{
-			return this.emptyContent();
+			if(this.state.listResponse&&this.state.listResponse.length>0){
+				return this.renderList();
+			}else{
+				return this.emptyContent();
+			}
 		}
 	}
 

@@ -83,7 +83,7 @@ export default class  RankFollowList extends React.Component {
                             });
                         },
                         (exception) => {
-                            alert(exception.errorMessage)
+                            //alert(exception.errorMessage)
                         }
                     );
                 })			

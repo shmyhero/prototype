@@ -136,7 +136,7 @@ class  TabMeScreen extends React.Component {
                 <Text style={styles.balanceLabelText}>{LS.str("SUGAR_PROFIT")}</Text>
               </View>
               <View style={styles.balanceBlock}>
-                <Text style={styles.balanceValueText}>{this.props.total.toFixed(2)}</Text>
+                <Text style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.total.toFixed(2)}</Text>
                 <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT")}</Text>
               </View>
               <View style={styles.balanceBlock}>

@@ -92,7 +92,7 @@ export default class  RankHeroList extends React.Component {
                             });  
                         },
                         (exception) => {
-                            alert(exception.errorMessage)
+                            //alert(exception.errorMessage)
                         }
                     );
                 })			
@@ -114,7 +114,7 @@ export default class  RankHeroList extends React.Component {
                             });  
                         },
                         (exception) => {
-                            alert(exception.errorMessage)
+                            //alert(exception.errorMessage)
                         }
                     );
                 })			

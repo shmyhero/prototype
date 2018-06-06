@@ -76,7 +76,7 @@ export default class TradeStyleBlock extends Component {
                    console.log('responseJson is ='+responseJson)
               },
               (exception) => {
-                  alert(exception.errorMessage)
+                //alert(exception.errorMessage)
               }
           );
       })  

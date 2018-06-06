@@ -18,11 +18,6 @@ class BalanceBlock extends Component {
     componentDidMount() {
         this.props.fetchBalanceData();
     }
-
-    renderError(){
-        return (<Text style={{color:this.props.errorTextColor}}
-        {...this.props}>{error}</Text>)
-    }
     
     render() {
         const { balance, isLoading, errorMessage } = this.props;
@@ -36,9 +31,11 @@ class BalanceBlock extends Component {
                 style={color:this.props.errorTextColor}
             }
             return(
+                // <Text
+                //     {...this.props}
+                //     style={style}>{errorMessage}</Text>
                 <Text
-                    {...this.props}
-                    style={style}>{errorMessage}</Text>
+                    {...this.props}>--</Text>
             )
         }else{
             //balance.maxDecimal(2)

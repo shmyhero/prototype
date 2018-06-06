@@ -8,12 +8,15 @@ import {
   StyleSheet,
   Image,
   TouchableOpacity,
+  Animated
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants')
 var LS = require('../../LS');
 
 class NetworkErrorIndicator extends Component {
+
+  refreshIntervalId = null;
 
   static propTypes = {
     onRefresh: PropTypes.func,
@@ -33,14 +36,41 @@ class NetworkErrorIndicator extends Component {
     console.log("NetworkErrorIndicator this.props.refreshing " + this.props.refreshing)
     this.state = {
       isLoading: this.props.refreshing ? true : false,
+      loadingDot: 0,
     }
+
+    this.runAnimation();
   }
 
   componentWillReceiveProps(nextProps){
     if(nextProps){
-      this.setState({
-        isLoading: nextProps.refreshing,
-      })
+      if(nextProps.refreshing != this.state.isLoading){
+        if(nextProps.refreshing){
+          this.runAnimation();
+        }else{
+          clearInterval(this.refreshIntervalId);
+          this.refreshIntervalId = null;
+        }
+        
+
+        this.setState({
+          isLoading: nextProps.refreshing,
+        })
+      }     
+    }
+  }
+
+  runAnimation(){
+    if(this.refreshIntervalId == null){
+      this.refreshIntervalId = setInterval(() => {
+        var newLoadingDot = this.state.loadingDot;
+        if(this.state.loadingDot == 3){
+          newLoadingDot = 0
+        }else{
+          newLoadingDot++;
+        }
+        this.setState({loadingDot: newLoadingDot})
+      }, 500);
     }
   }
 
@@ -61,11 +91,13 @@ class NetworkErrorIndicator extends Component {
 
   renderRefreshButton() {
     if(this.props.onRefresh){
+      var borderStyle = this.props.isBlue ? {borderColor: '#647e99'} : {};
+      var textStyle = this.props.isBlue ? {color: '#dfe3e8'} : {};
       return (
-        <TouchableOpacity style={[styles.refreshButton, {borderColor: ColorConstants.TITLE_BLUE,}]} onPress={()=>this.doRefresh()}>
+        <TouchableOpacity style={[styles.refreshButton, borderStyle ]} onPress={()=>this.doRefresh()}>
           <View>
-            <Text style={[styles.refreshButtonText,{color: ColorConstants.TITLE_BLUE,}]} >
-              刷新
+            <Text style={[styles.refreshButtonText, textStyle]} >
+              {LS.str("REFRESH")}
             </Text>
           </View>
         </TouchableOpacity>
@@ -76,7 +108,17 @@ class NetworkErrorIndicator extends Component {
     }
   }
 
+  renderLoadingDot(textColor){
+    return (<View style={{flexDirection:'row'}}>
+      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 0 ? textColor: 'transparent'}]}></View>
+      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 1 ? textColor: 'transparent'}]}></View>
+      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 2 ? textColor: 'transparent'}]}></View>
+    </View>)
+  }
+
   render() {
+    var textColor = this.props.isBlue ? "#4f81b6" : "#acacac";
+    var textStyle = {color: textColor}
     if(this.state.isLoading){
       var loadingImage = this.props.isBlue ? require('../../../images/loading_animation_blue.gif') : require('../../../images/loading_animation_white.gif');
       
@@ -84,13 +126,19 @@ class NetworkErrorIndicator extends Component {
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
             <Image style={styles.loadingImage} source={loadingImage}/>
+            <View style={{flexDirection:'row', justifyContent:'center'}}>
+              <Text style={[styles.hintText, textStyle]}>{LS.str("LOADING_WITHOUT_DOT")}</Text>
+              {this.renderLoadingDot(textColor)}
+            </View>
+            
           </View>
         </View>
       );
     }else{
       //color: '#6288b0',
       var loadingImage = this.props.isBlue ? require('../../../images/network_connection_error_hint_blue.png') : require('../../../images/network_connection_error_hint_white.png');
-      var additionalText = {color: this.props.isBlue ? '#6288b0' : '#b4b3b3'}
+      var textColor = this.props.isBlue ? '#6288b0' : '#b4b3b3'
+      var additionalText = {color: textColor}
       return (
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
@@ -121,13 +169,14 @@ const styles = StyleSheet.create({
 
   hintText:{
     color: '#b4b3b3',
-    fontSize: 12,
+    fontSize: 17,
+    textAlign: 'center',
   },
 
   refreshButton:{
     borderRadius: 3,
     borderWidth: 1,
-    borderColor: ColorConstants.TITLE_BLUE,
+    borderColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
     width: 115,
     height: 43,
     marginTop: 31,
@@ -140,11 +189,11 @@ const styles = StyleSheet.create({
     alignItems: 'stretch',
     textAlign: 'center',
     fontSize: 18,
-    color: ColorConstants.TITLE_BLUE,
+    color: ColorConstants.COLOR_MAIN_THEME_BLUE,
   },
 
   noNetworkImage:{
-    height: 164,
+    height: 191,
     width: 200,
     alignSelf: 'center',
     resizeMode: "stretch",
@@ -155,7 +204,16 @@ const styles = StyleSheet.create({
     width: 200,
     alignSelf: 'center',
     resizeMode: "stretch",
-  }
+  },
+  dotContainer:{
+    flexDirection:'row',
+  },
+  dot:{
+    borderRadius:2,
+    height:4,
+    width:4,
+    margin: 8
+  },
 });
 
 export default NetworkErrorIndicator;

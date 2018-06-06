@@ -72,7 +72,7 @@ export default class TradeStyleCircleBlock extends Component {
                  this.loadData2(this.props.userId);
             },
             (exception) => {
-                alert(exception.errorMessage)
+              //alert(exception.errorMessage)
             }
         );
     })  

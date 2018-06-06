@@ -77,7 +77,10 @@ class TabMarketScreen extends Component {
                     }); 
                 },
                 (result) => {
-                    Alert.alert(LS.str('HINT'), result.errorMessage);
+                    this.setState({
+                        isLoading: false,
+                    })
+                    //Alert.alert(LS.str('HINT'), result.errorMessage);
                 }
             )
         });
@@ -219,6 +222,7 @@ class TabMarketScreen extends Component {
                                 this.jump2Next(row.id, row.name);
                             }}
                         />}}
+                    renderHeader={()=> (<View style={{height:10}}></View>)}
                     renderFooter={()=> (<View style={{height:5}}></View>)}
                 />
             );

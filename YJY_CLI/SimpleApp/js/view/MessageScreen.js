@@ -12,6 +12,7 @@ import {
 
 import { getMessageList, setMessageRead } from '../redux/actions'
 import { connect } from 'react-redux';
+import NetworkErrorIndicator from './component/NetworkErrorIndicator'
 //var dateFormat = require('dateformat');
 var {height, width} = Dimensions.get('window')
 import NavBar from './component/NavBar';
@@ -93,26 +94,42 @@ class MessageScreen extends Component {
             </TouchableOpacity>);
     }
 
+    renderContent(){
+        if(!this.props.contentLoaded){
+			return (
+				<NetworkErrorIndicator 
+					isBlue={false}
+					onRefresh={()=>this.refreshList()}
+					refreshing={this.props.isRefreshing}/>
+			)
+		}else{
+            return (<FlatList
+                        ref={ (component) => this.flatListView = component }
+                        style={styles.list}
+                        initialListSize={10}
+                        data={this.props.messageList}
+                        enableEmptySections={true}
+                        keyExtractor={(item, index) => index}
+                        showsVerticalScrollIndicator={true}
+                        renderItem={(data)=>this.renderRow(data)}
+                        refreshing={this.props.isRefreshing}
+                        onRefresh={()=>this.refreshList()}
+                        onEndReachedThreshold={0.5}
+                        onEndReached={()=>this.loadNextPage()}/>
+            );
+        }
+    }
+
     render() {
         console.log("render this.props.isRefreshing", this.props.isRefreshing)
+        
         return (
             <View style={styles.container}>
                 <NavBar title={LS.str("MY_MESSAGES")} showBackButton={true} navigation={this.props.navigation}/>
-                <FlatList
-                    ref={ (component) => this.flatListView = component }
-                    style={styles.list}
-                    initialListSize={10}
-                    data={this.props.messageList}
-                    enableEmptySections={true}
-                    keyExtractor={(item, index) => index}
-                    showsVerticalScrollIndicator={true}
-                    renderItem={(data)=>this.renderRow(data)}
-                    refreshing={this.props.isRefreshing}
-                    onRefresh={()=>this.refreshList()}
-                    onEndReachedThreshold={0.5}
-                    onEndReached={()=>this.loadNextPage()}/>
+                {this.renderContent()}
             </View>
         );
+        
     }
 }
 

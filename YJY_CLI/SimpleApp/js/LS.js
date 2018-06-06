@@ -24,17 +24,19 @@ var LS = {
     LONG_OPERATION: ["上升", "RISING"],
     SHORT_OPERATION: ["下降", "FALLING"],
 
-    NETWORK_ERROR: ["溜走的不是网络，是真金白银呀！", "No Network Connection, Please Retry Later."],
+    NETWORK_ERROR: ["溜走的不是网络，是真金白银呀！", "Something went wrong..."],
     CANCLE: ["取消", "Cancle"],
     IMPORT_FROM_PHOTO: ["拍照", "Take Photo"],
     IMPORT_FROM_ALBUM: ['照片图库','Choose from Album'],
 
     LOG_OUT: ["退出登录", "Log Out"],
 
+    REFRESH:["刷新", "REFRESH"],
     PULL_TO_REFRESH:["下拉刷新...","pull to refresh ..."],
     RELEASE_TO_REFRESH:["释放刷新","release to refresh"],
     REFRESHING:["刷新中","loading..."],  
     LOADING:["加载中...","loading..."],
+    LOADING_WITHOUT_DOT:["加载中","LOADING "],
     LOAD_MORE:["加载更多","load more ..."],
     RELEASE_FOR_LOAD_MORE:["释放加载更多","release to load more..."],
     NO_MORE:["没有更多","no more data"] ,

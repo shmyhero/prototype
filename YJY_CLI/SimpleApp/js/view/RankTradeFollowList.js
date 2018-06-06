@@ -86,7 +86,7 @@ export default class  RankTradeFollowList extends React.Component {
                             itemOpen = []
                         },
                         (exception) => {
-                            alert(exception.errorMessage)
+                            //alert(exception.errorMessage)
                         }
                     );
                 })			
