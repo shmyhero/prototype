@@ -162,10 +162,9 @@ namespace YJY_API.Controllers
             var result = @resultEnumerable.OrderByDescending(o => o.time).Take(count).ToList();
 
             //get ranked users
-            var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
-            var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
+            var beginTimeUtc = DateTimes.GetRankingBeginTimeUTC();
             var rankedUsers =
-                db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
+                db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= beginTimeUtc)
                     .GroupBy(o => o.UserId)
                     .Select(g => new
                     {

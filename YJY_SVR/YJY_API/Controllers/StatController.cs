@@ -107,7 +107,7 @@ namespace YJY_API.Controllers
 
         [HttpGet]
         [Route("~/api/user/{userId}/stat/chart/plClosed/1month")]
-        public List<PosChartDTO> PLChartClosed2w(int userId)
+        public List<PosChartDTO> PLChartClosed1m(int userId)
         {
             //var user = db.Users.FirstOrDefault(o => o.Id == userId);
             //if (!(user.ShowData ?? true) && userId != UserId)//not showing data && not myself

@@ -9,6 +9,12 @@ namespace YJY_COMMON.Util
 {
     public class DateTimes
     {
+        public static DateTime GetRankingBeginTimeUTC()
+        {
+            var beginTimeCN = GetChinaToday().AddMonths(-1);
+            return beginTimeCN.AddHours(-8);
+        }
+
         public static DateTime GetChinaNow()
         {
             var dt = DateTime.UtcNow.AddHours(8);
