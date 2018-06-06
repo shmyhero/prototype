@@ -1,5 +1,11 @@
 package com.simpleapp.component.chart.linechart;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
+import android.animation.PropertyValuesHolder;
+import android.animation.ValueAnimator;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -7,10 +13,16 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PorterDuff;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
 import com.github.mikephil.charting.animation.ChartAnimator;
 import com.github.mikephil.charting.charts.BarLineChartBase;
@@ -48,6 +60,8 @@ import java.util.List;
  * Created by Neko on 2018/1/31.
  */
 public class BigDotLineChartRenderer extends LineRadarRenderer {
+
+    protected ImageView imageView;
 
     protected LineDataProvider mChart;
 
@@ -115,6 +129,10 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         super(animator, viewPortHandler);
         mContext = context;
         mChart = chart;
+
+        imageView = new ImageView(context);
+        imageView.setLayoutParams(new LinearLayout.LayoutParams((int)Utils.convertDpToPixel(10), (int)Utils.convertDpToPixel(10)));
+        imageView.setImageResource(R.mipmap.chart_end_point);
 
         mCirclePaintInner = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaintInner.setStyle(Paint.Style.FILL);
@@ -752,6 +770,8 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
         List<ILineDataSet> dataSets = mChart.getLineData().getDataSets();
 
+        boolean drawLastAnimatedCircle = false;
+
         for (int i = 0; i < dataSets.size(); i++) {
 
             ILineDataSet dataSet = dataSets.get(i);
@@ -826,10 +846,80 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
                 if (circleBitmap != null) {
                     float paddingLeft = circleBitmap.getWidth() - circleRadius;
-                    c.drawBitmap(circleBitmap, mCirclesBuffer[0] - paddingLeft, mCirclesBuffer[1] - circleRadius, null);
+                    float left = mCirclesBuffer[0] - paddingLeft;
+                    float top = mCirclesBuffer[1] - circleRadius;
+
+                    c.drawBitmap(circleBitmap, left, top, null);
+
+
+                    circleRadius = Utils.convertDpToPixel(10);
+                    drawValueCircle(c,
+                            (int)(mCirclesBuffer[0]-circleRadius),
+                            (int)(mCirclesBuffer[1]-circleRadius),
+                            (int)circleRadius * 2,
+                            (int)circleRadius * 2);
+
+                    drawLastAnimatedCircle = true;
                 }
             }
         }
+
+        if (!drawLastAnimatedCircle && mCurrentAnimator != null) {
+            mCurrentAnimator.cancel();
+        }
+    }
+
+    private void drawValueCircle(Canvas canvas, int originLeft, int originTop, int imageOriginWidth, int imageOriginHeight){
+        canvas.save();
+        int originCenterX = (int)(originLeft + imageOriginWidth / 2);
+        int originCenterY = (int)(originTop + imageOriginHeight / 2);
+
+        int width = (int)(imageOriginWidth * imageView.getScaleX());
+        int height = (int)(imageOriginHeight * imageView.getScaleY());
+
+        int left = originCenterX - width / 2;
+        int top = originCenterY - height / 2;
+
+        canvas.translate(left, top);
+        final int widthSpec = View.MeasureSpec.makeMeasureSpec(width, View.MeasureSpec.EXACTLY);
+        final int heightSpec = View.MeasureSpec.makeMeasureSpec(height, View.MeasureSpec.EXACTLY);
+        imageView.measure(widthSpec, heightSpec);
+        imageView.layout(left, top, left + width, top + height);
+        imageView.draw(canvas);
+        canvas.restore();
+
+        if(mCurrentAnimator == null) {
+            createAnimator(imageView);
+        }
+    }
+
+
+    private Animator mCurrentAnimator;
+
+    private void createAnimator(View view) {
+        if (mCurrentAnimator != null) {
+            mCurrentAnimator.cancel();
+        }
+
+        int mShortAnimationDuration = 1000;
+        float scale = 1.2f;
+
+        ObjectAnimator scaleDown = ObjectAnimator.ofPropertyValuesHolder(view,
+                PropertyValuesHolder.ofFloat("scaleX", scale),
+                PropertyValuesHolder.ofFloat("scaleY", scale));
+        scaleDown.setDuration(mShortAnimationDuration);
+        scaleDown.setRepeatMode(ValueAnimator.REVERSE);
+        scaleDown.setRepeatCount(ValueAnimator.INFINITE);
+        scaleDown.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator animation) {
+                //imageView.invalidate();
+                ((PriceChart)getChart()).invalidate();
+            }
+        });
+        scaleDown.start();
+
+        mCurrentAnimator = scaleDown;
     }
 
     @Override
@@ -969,11 +1059,12 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             canvas.drawLine(valueLineLeft, valueLineTop, valueLineRight, valueLineBottom, mHighlightPaint);
 
             //Circle
-            if (mShadowedCircle == null) {
-                mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
-            }
-            Rect circleRect = new Rect(circleLeft, 0, (int)(circleLeft+circleRadius*2), (int)circleRadius*2);
-            canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
+//            if (mShadowedCircle == null) {
+//                mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.chart_end_point));
+//                //mShadowedCircle = new WeakReference<Bitmap>(BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.dot));
+//            }
+//            Rect circleRect = new Rect(circleLeft, 0, (int)(circleLeft+circleRadius*2), (int)circleRadius*2);
+//            canvas.drawBitmap(mShadowedCircle.get(), null, circleRect, null);
 
             //ValueRect
             RectF fillRect = new RectF(

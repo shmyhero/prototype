@@ -167,7 +167,7 @@ class  TabMeScreen extends React.Component {
         {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}> */}
             <ProfitTrendCharts 
-              chartStyle={{marginLeft:5, marginBottom:10}}
+              chartStyle={{marginLeft:15, marginBottom:15}}
               ref={(ref)=>this.tradeStyleCicleBlock = ref}
               userId={this.props.userId}
               viewHeight={180}

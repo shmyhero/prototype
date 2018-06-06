@@ -40,8 +40,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 
 const ROW_PADDING = 15;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
-const ROW_SIMPLE_CONTENT_HEIGHT = 62;
-const SIMPLE_ROW_HEIGHT = ROW_SIMPLE_CONTENT_HEIGHT + ROW_PADDING + 2;
+const SIMPLE_ROW_HEIGHT = UIConstants.ITEM_ROW_MARGIN_VERTICAL + ROW_PADDING + 2;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 const FOLLOW_ROW_HEIGHT = 50;
 
@@ -1254,10 +1253,11 @@ export default class  MyPositionTabHold extends React.Component {
 		var topLine = rowData.security.name
 		var bottomLine = rowData.security.symbol
 
-		var rowHeaderHeight = ROW_SIMPLE_CONTENT_HEIGHT;
+		var rowHeaderHeight = UIConstants.ITEM_ROW_HEIGHT;
 
 		var touchableStyle={height:rowHeaderHeight,
-			backgroundColor:ColorConstants.stock_color(profitAmount)}
+			backgroundColor:ColorConstants.stock_color(profitAmount),
+			justifyContent:'center'}
 		if(this.state.selectedRow == rowID){
 			touchableStyle.borderTopLeftRadius = 10
 			touchableStyle.borderTopRightRadius = 10
@@ -1401,14 +1401,14 @@ const styles = StyleSheet.create({
 
     rowContainer: {    
         margin:ROW_PADDING,
-        marginTop: 5,
-		marginBottom: ROW_PADDING-5,
+        marginTop: 0,
+		marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
 	},
 	
 	rowTouchable: {
 		paddingTop:ROW_SIMPLE_CONTENT_PADDING,
 		paddingBottom:ROW_SIMPLE_CONTENT_PADDING,
-		height: ROW_SIMPLE_CONTENT_HEIGHT,
+		height: UIConstants.ITEM_ROW_HEIGHT,
 	},
 
 	rowWrapper: {

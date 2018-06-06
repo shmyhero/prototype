@@ -7,6 +7,7 @@ import com.github.mikephil.charting.components.AxisBase;
 import com.github.mikephil.charting.components.LimitLine;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
+import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.formatter.IAxisValueFormatter;
 import com.simpleapp.R;
 import com.simpleapp.component.chart.PriceChart;
@@ -35,11 +36,19 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
         chart.setDragEnabled(false);
         chart.setScaleEnabled(false);
         chart.setTouchEnabled(false);
+
+        chart.getAxisLeft().setDrawLimitLinesBehindData(true);
+        chart.getAxisRight().setDrawLimitLinesBehindData(true);
     }
 
     @Override
     protected boolean needDrawLastCircle(CombinedChart chart) {
         return false;
+    }
+
+    @Override
+    protected LineDataSet.Mode getDataSetMode(){
+        return LineDataSet.Mode.CUBIC_BEZIER;
     }
 
     @Override

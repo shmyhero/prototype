@@ -68,6 +68,10 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         return false;
     }
 
+    protected LineDataSet.Mode getDataSetMode(){
+        return LineDataSet.Mode.LINEAR;
+    }
+
     @Override
     protected CombinedData generateData(CombinedChart chart, final JSONObject stockInfoObject,final JSONArray chartDataList) throws JSONException{
         ArrayList<Entry> Vals = new ArrayList<Entry>();
@@ -100,6 +104,7 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
+        set1.setMode(getDataSetMode());
 
         int lineWidth = (int)Utils.convertPixelsToDp(((PriceChart)chart).getLineWidth());
         set1.setLineWidth(lineWidth);

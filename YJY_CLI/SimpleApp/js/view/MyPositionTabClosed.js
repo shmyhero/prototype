@@ -445,33 +445,32 @@ export default class  MyPositionTabClosed extends React.Component {
 		var bottomLine = rowData.security.symbol
 		var additionalStyle = {}
 		if(rowID == 0){
-			additionalStyle.marginTop = ROW_PADDING;
+			additionalStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 		}
+
 		return (
 			<View style={[styles.rowContainer, additionalStyle]}>
-				<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
-					<View >
-						<View style={[styles.rowWrapper]} key={rowData.key}>
-							<View style={styles.rowLeftPart}>
-								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-									{topLine}
-								</Text>
-							</View>
+				<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT - 2, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
+					<View style={[styles.rowWrapper]} key={rowData.key}>
+						<View style={styles.rowLeftPart}>
+							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+								{topLine}
+							</Text>
+						</View>
 
-							<View style={{flexDirection: 'row', alignItems: 'center', 
-								position:'absolute',
-								bottom: 5,
-								left: ROW_PADDING}}>
-								{this.renderFollowStatus(rowData)}
-							</View>
+						<View style={{flexDirection: 'row', alignItems: 'center', 
+							position:'absolute',
+							bottom: 5,
+							left: ROW_PADDING}}>
+							{this.renderFollowStatus(rowData)}
+						</View>
 
-							<View style={styles.rowCenterPart}>
-								{this.renderProfit(rowData.pl)}
-							</View>
+						<View style={styles.rowCenterPart}>
+							{this.renderProfit(rowData.pl)}
+						</View>
 
-							<View style={styles.rowRightPart}>
-								{this.renderProfitPercentage(plPercent)}
-							</View>
+						<View style={styles.rowRightPart}>
+							{this.renderProfitPercentage(plPercent)}
 						</View>
 					</View>
 				</TouchableOpacity>
@@ -572,9 +571,9 @@ var styles = StyleSheet.create({
         borderWidth:1,
         borderColor:"#cccccc",
         borderRadius:10,      
-        margin:ROW_PADDING,
-        marginTop: 5,
-        marginBottom: ROW_PADDING-5,
+		margin:ROW_PADDING,
+		marginTop: 0,
+        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
     },
 
 	rowWrapper: {

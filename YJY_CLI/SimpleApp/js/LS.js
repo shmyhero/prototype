@@ -24,6 +24,7 @@ var LS = {
     LONG_OPERATION: ["上升", "RISING"],
     SHORT_OPERATION: ["下降", "FALLING"],
 
+    NETWORK_ERROR: ["溜走的不是网络，是真金白银呀！", "No Network Connection, Please Retry Later."],
     CANCLE: ["取消", "Cancle"],
     IMPORT_FROM_PHOTO: ["拍照", "Take Photo"],
     IMPORT_FROM_ALBUM: ['照片图库','Choose from Album'],

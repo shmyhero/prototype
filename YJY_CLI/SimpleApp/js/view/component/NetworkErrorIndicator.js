@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants')
+var LS = require('../../LS');
 
 class NetworkErrorIndicator extends Component {
 
@@ -87,12 +88,15 @@ class NetworkErrorIndicator extends Component {
         </View>
       );
     }else{
+      //color: '#6288b0',
+      var loadingImage = this.props.isBlue ? require('../../../images/network_connection_error_hint_blue.png') : require('../../../images/network_connection_error_hint_white.png');
+      var additionalText = {color: this.props.isBlue ? '#6288b0' : '#b4b3b3'}
       return (
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
-            <Image style={styles.noNetworkImage} source={require('../../../images/network_connection_error_hint.png')}/>
-            <Text style={styles.hintText}>
-              溜走的不是网络，是真金白银呀！
+            <Image style={styles.noNetworkImage} source={loadingImage}/>
+            <Text style={[styles.hintText, additionalText]}>
+              {LS.str("NETWORK_ERROR")}
             </Text>
             {this.renderRefreshButton()}
           </View>
@@ -117,7 +121,7 @@ const styles = StyleSheet.create({
 
   hintText:{
     color: '#b4b3b3',
-    fontSize: 14,
+    fontSize: 12,
   },
 
   refreshButton:{

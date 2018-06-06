@@ -3,7 +3,6 @@ package com.simpleapp.component.chart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.view.MotionEvent;
-import android.widget.ImageView;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.data.Entry;
@@ -24,8 +23,6 @@ public class PriceChart extends CombinedChart {
 //    public boolean isAcutal = false;
 
 
-    protected ImageView imageView;
-    
     boolean needReset = true;
     boolean drawDataUnderYAxis = false;
     public PriceChart(Context context) {
