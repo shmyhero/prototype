@@ -19,6 +19,8 @@ var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 var listData = []
 var LS = require('../LS')
+import NetworkErrorIndicator from './component/NetworkErrorIndicator';
+
 export default class  RankFollowList extends React.Component {
     static propTypes = {
         showMeBlock: PropTypes.bool,
@@ -148,7 +150,10 @@ export default class  RankFollowList extends React.Component {
     }
     render() {  
             if(this.state.isDataLoading){
-                return(<View style={{flex:1,backgroundColor:'transparent'}}></View>)
+                return(
+                    <NetworkErrorIndicator 
+                    onRefresh={()=>this.onRefresh()}
+                    refreshing={this.state.isDataLoading}/>);
             }else{
                 if(this.state.rankListData.length==0){
                     return(

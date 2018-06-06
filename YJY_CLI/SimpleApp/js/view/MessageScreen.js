@@ -95,13 +95,20 @@ class MessageScreen extends Component {
     }
 
     renderContent(){
-        if(!this.props.contentLoaded){
-			return (
-				<NetworkErrorIndicator 
-					isBlue={false}
-					onRefresh={()=>this.refreshList()}
-					refreshing={this.props.isRefreshing}/>
-			)
+        if(!this.props.messageList || this.props.messageList.length == 0){
+            if(this.props.isRefreshing || this.props.error){
+                return (
+                    <NetworkErrorIndicator 
+                        isBlue={false}
+                        onRefresh={()=>this.refreshList()}
+                        refreshing={this.props.isRefreshing}/>
+                )
+            }else{
+                return (
+                    <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
+                        <Text style={{alignSelf:'center', textAlign:'center', }}>{LS.str("NO_MESSAGES")}</Text>
+                    </View>);
+            }
 		}else{
             return (<FlatList
                         ref={ (component) => this.flatListView = component }

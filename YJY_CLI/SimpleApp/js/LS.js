@@ -113,7 +113,7 @@ var LS = {
     WATCHLIST:["关注的用户","Watchlist"],
     NEWS:["平台资讯","News"],
 
-
+    NO_MESSAGES: ["暂无消息", "No Messages"],
 
     
     

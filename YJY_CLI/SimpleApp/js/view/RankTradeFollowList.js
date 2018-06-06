@@ -18,6 +18,7 @@ var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
+import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var listData = []
 const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var itemOpen=[]
@@ -188,9 +189,13 @@ export default class  RankTradeFollowList extends React.Component {
             </View>
         )
     }
-    render() {  
+    render() {
             if(this.state.isDataLoading){
-                return(<View style={{flex:1,backgroundColor:'transparent'}}></View>)
+                return(
+                    <NetworkErrorIndicator 
+                    onRefresh={()=>this.onRefresh()}
+                    refreshing={this.state.isDataLoading}/>
+                )
             }else{
                 if(this.state.rankListData.length==0){
                     return(
