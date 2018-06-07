@@ -41,7 +41,7 @@ var stockNameFontSize = Math.round(17*width/375.0)
 
 const ROW_PADDING = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
-const SIMPLE_ROW_HEIGHT = UIConstants.ITEM_ROW_MARGIN_VERTICAL + ROW_PADDING + 2;
+const SIMPLE_ROW_HEIGHT = UIConstants.ITEM_ROW_HEIGHT + ROW_PADDING;
 const STOP_PROFIT_LOSS_SMALL_HEIGHT = 100;
 const FOLLOW_ROW_HEIGHT = 50;
 
@@ -1177,7 +1177,7 @@ export default class  MyPositionTabHold extends React.Component {
 
 	getItemLayout(data, index){
 		var smallItemHeight = SIMPLE_ROW_HEIGHT;
-		var bigItemHeight = 277 + UIConstants.ITEM_ROW_MARGIN_VERTICAL;
+		var bigItemHeight = SIMPLE_ROW_HEIGHT + 51 * 3 + 64 + UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 		var itemHeight = smallItemHeight;
 		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			bigItemHeight += STOP_PROFIT_LOSS_SMALL_HEIGHT;
