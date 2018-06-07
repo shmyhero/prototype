@@ -27,7 +27,7 @@ export default class TradeStyleCircleBlock extends Component {
   constructor(props) {
     super(props);
     this.state = { 
-      totalWinRate:0,
+      totalWinRate:'0',
       totalTradeCount:0,
       tradeType:'--',
       tradeTypePercent:'0',
@@ -91,7 +91,7 @@ export default class TradeStyleCircleBlock extends Component {
         },
         (responseJson) => { 
           this.setState({
-            tradeType:responseJson[0].symbol, 
+            tradeType:responseJson[0].name, 
             tradeTypePercent:this.state.totalTradeCount==0?0:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
           });
         },
@@ -127,7 +127,7 @@ export default class TradeStyleCircleBlock extends Component {
     var tradeTypePercent = Number(this.state.tradeTypePercent);
     console.log('WIN:' + totalWinRate + "TradeCount = " + totalTradeCount)
 
-    var leftRes = totalWinRate==0?require('../../../../images/blue_line2.png'):require('../../../../images/blue_line.png')
+    var leftRes = tradeTypePercent==0?require('../../../../images/blue_line2.png'):require('../../../../images/blue_line.png')
     var rightRes = totalWinRate==0?require('../../../../images/green_line2.png'):require('../../../../images/green_line.png')
 
     return ( 
@@ -145,10 +145,12 @@ export default class TradeStyleCircleBlock extends Component {
               innerText={''+totalTradeCount}
               innerText2={'TRADES'}/>  
             </View>  
-            <View style={{width:60,  position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-70}}>
+            <View style={{width:100,alignItems:'flex-start', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
+              <View style={{marginLeft:20,justifyContent:'center',alignItems:'flex-start' }}>
               <Text style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</Text>
-              <Text style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
-              <Image style={{width:70,height:12,marginLeft:8}} source={leftRes}></Image>
+              <Text numberOfLines={1} style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
+              </View>
+              <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
               <Text style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</Text>
