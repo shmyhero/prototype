@@ -12,6 +12,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 var ColorConstants = require('../ColorConstants');
+var UIConstants = require("../UIConstants");
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
 export default class  UserProfileTabPositionClosed extends React.Component {
@@ -37,23 +38,23 @@ export default class  UserProfileTabPositionClosed extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   container:{
-      flex:1,
-      backgroundColor:ColorConstants.BGBLUE,
-      marginTop:10,
-   },
-   topHead:{
-     backgroundColor:ColorConstants.BGBLUE,
-     height:40,
-   },
-   content:{
-    marginLeft:10,
-    marginRight:10,
+  container:{
     flex:1,
-    width:width-20,
+    backgroundColor:ColorConstants.BGBLUE,
+    marginTop:10,
+  },
+  topHead:{
+    backgroundColor:ColorConstants.BGBLUE,
+    height:40,
+  },
+  content:{
+    marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+    marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+    flex:1,
+    width:width-UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2,
     marginTop:-60,
     backgroundColor:'transparent'
-   }
+  }
 })
 
 

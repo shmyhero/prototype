@@ -24,6 +24,7 @@ var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
+var UIConstants = require("../UIConstants");
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
 var listRawData = [
 ] 
@@ -132,14 +133,14 @@ export default class  UserProfileTabDynamicState extends React.Component {
   renderList(){		
 		return (
 			<View style={{flex:1}}>
-			<ListView
-				contentContainerStyle={styles.list}
-				dataSource={this.state.listRawData}
-				enableEmptySections={true}
-				removeClippedSubviews={false}
-				showsVerticalScrollIndicator={false}
-				renderRow={this.renderRow.bind(this)} />
-				{/* {this.renderPraiseModal()} */}
+				<ListView
+					contentContainerStyle={styles.list}
+					dataSource={this.state.listRawData}
+					enableEmptySections={true}
+					removeClippedSubviews={false}
+					showsVerticalScrollIndicator={false}
+					renderRow={this.renderRow.bind(this)} />
+					{/* {this.renderPraiseModal()} */}
 			</View>
 		)	
   }
@@ -255,27 +256,25 @@ export default class  UserProfileTabDynamicState extends React.Component {
 }
 
 const styles = StyleSheet.create({
-   container:{
-      flex:1,
-			backgroundColor:ColorConstants.BGBLUE,
-			marginTop:10,
-   },
-   topHead:{
-     backgroundColor:ColorConstants.BGBLUE,
-     height:40,
-   },
+   	container:{
+      	flex:1,
+		marginTop:10,
+   	},
+   	topHead:{
+		height:40,
+	},
    content:{
-    marginLeft:10,
-    marginRight:10,
-    flex:1,
-    width:width-20,
-    marginTop:-60,
-    backgroundColor:'transparent'
-   },
-   separator: {
-    height: 0.5,
-    backgroundColor: '#f0f0f0',
-  },
+		marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+		marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+		flex:1,
+		width:width-UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2,
+		marginTop:-60,
+		backgroundColor:'transparent'
+	},
+	separator: {
+		height: 0.5,
+		backgroundColor: '#f0f0f0',
+	},
 
 	editView:{
 		width:48,
@@ -287,28 +286,28 @@ const styles = StyleSheet.create({
 		left:width*3/4,
 	}, 
 	list:{
-		marginLeft:5, 
-		marginRight:5, 
+		// marginLeft:5, 
+		// marginRight:5, 
 		justifyContent: 'flex-start',
-    flexWrap:'wrap',
-    paddingTop:24, 
-    paddingBottom:24,
+		flexWrap:'wrap',
+		paddingTop:25, 
+		paddingBottom:24,
 	},
 	itemLine:{ 
-    flexDirection:'row',
-    backgroundColor:'white',
-    paddingLeft:10,
-    paddingRight:10,
-    paddingBottom:8,
-    borderWidth:1,
-    borderRadius:16,
-    borderColor:'#EEEEEE',
-		marginBottom:16,
-	// 	shadowOffset: {width:2, height:2},
-    // shadowColor: '#F1F1F1',
-    // shadowOpacity: 0.75,
-	// 	shadowRadius: 0.5,
-	// 	elevation: 1.5,
+		flexDirection:'row',
+		backgroundColor:'white',
+		paddingLeft:10,
+		paddingRight:10,
+		paddingBottom:8,
+		// borderWidth:1,
+		borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
+		//borderColor:'#EEEEEE',
+		marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
+		// 	shadowOffset: {width:2, height:2},
+		// shadowColor: '#F1F1F1',
+		// shadowOpacity: 0.75,
+		// 	shadowRadius: 0.5,
+		// 	elevation: 1.5,
 	},
 	itemOperator:{
 		height:32,

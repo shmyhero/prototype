@@ -22,6 +22,7 @@ var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var ProfitBlock = require('./component/personalPages/ProfitBlock')
 var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
+var UIConstants = require('../UIConstants');
 var {height, width} = Dimensions.get('window');
 var LS = require('../LS')
 
@@ -58,24 +59,30 @@ export default class  UserProfileTabMain extends React.Component {
   }
 
   render() {
-    var bgWidth = width-20; 
+    var bgWidth = width-UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2; 
     return (
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>  
-          <View style={{height:240,width:bgWidth,padding:5,backgroundColor:'white',borderRadius:10}} resizeMode='stretch'  >  
+          <View style={{height:240,width:bgWidth,padding:5, paddingTop:0, marginTop:5, backgroundColor:'white',borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch'  >  
             <ProfitTrendCharts ref={'profitTrendCharts'} userId={this.props.userId}/>
           </View>
-          <View style={{marginTop:10,height:280,width:bgWidth,justifyContent:'center',alignContent:'center',backgroundColor:'white',borderRadius:10}} resizeMode='stretch' >  
+          <View style={{marginTop:UIConstants.ITEM_ROW_MARGIN_VERTICAL, height:280,width:bgWidth,justifyContent:'center',alignContent:'center',backgroundColor:'white',borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch' >  
             {/* <ProfitBlock userId={this.props.userId} isPrivate={false}/> */}
              <TradeStyleCircleBlock userId={this.props.userId}  viewHeight={180} isPrivate={false}/>
           </View>
           <View style={styles.TradeStyleContainer}>
-          <View style={{marginTop:10,height:'100%', width:"100%", justifyContent:'center',backgroundColor:'white',borderRadius:10}} resizeMode='stretch' > 
-            <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
+            <View style={{
+                flex:1,
+                //width:"100%", 
+                justifyContent:'center',
+                backgroundColor:'white',
+                borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS
+              }} resizeMode='stretch' > 
+              <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
+            </View>
           </View>
-          <View style={{height:20}}></View>
-          </View>
+          <View style={{height:UIConstants.ITEM_ROW_MARGIN_VERTICAL}}></View> 
         </ScrollView>
         <FollowBlock 
           currentFollowTrade={this.props.followTrade}
@@ -97,16 +104,16 @@ const styles = StyleSheet.create({
      height:40,
    },
    content:{
-    marginLeft:10,
-    marginRight:10,
+    marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+    marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
     flex:1,
-    width:width-20,
+    width:width-UIConstants.ITEM_ROW_MARGIN_HORIZONTAL*2,
     marginTop:-40,
     backgroundColor:'transparent'
    },
    TradeStyleContainer:{
     height:140,
-    marginTop:15,
+    marginTop:UIConstants.ITEM_ROW_MARGIN_VERTICAL,
     justifyContent:'center',
     alignContent:'center',
   },

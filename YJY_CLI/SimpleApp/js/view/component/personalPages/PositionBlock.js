@@ -134,30 +134,22 @@ export default class PositionBlock extends Component {
 
 	}
 
-  onRowPressed(rowData, rowID){
-    rowID = parseInt(rowID)
-    var newData = []
-    $.extend(true, newData, this.state.stockInfo)
-    if(this.state.selectedRow == rowID){
-      this.setState({
-        stockInfo: newData,
-        selectedRow: -1
-      })
-    }else{
-      this.setState({
-        stockInfo: newData,
-        selectedRow: rowID
-      })
+    onRowPressed(rowData, rowID){
+        rowID = parseInt(rowID)
+        var newData = []
+        $.extend(true, newData, this.state.stockInfo)
+        if(this.state.selectedRow == rowID){
+            this.setState({
+                stockInfo: newData,
+                selectedRow: -1
+            })
+        }else{
+            this.setState({
+                stockInfo: newData,
+                selectedRow: rowID
+            })
+        }
     }
-  }
-
-  renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-		return (
-			<View style={styles.line} key={rowID}>
-				<View style={styles.separator}/>
-			</View>
-		);
-	} 
 
 
   /*
@@ -211,14 +203,19 @@ export default class PositionBlock extends Component {
     var rowData = data.item;
     var rowID = data.index;
 
-		var profitPercentage = rowData.roi
+    var profitPercentage = rowData.roi
     var profitAmount = rowData.upl
     if(this.props.type == 'close'){
-      profitAmount = rowData.pl
+        profitAmount = rowData.pl
     }
-		var bgcolor = 'white'
-		return (
-        <TouchableOpacity style={styles.rowItem}          
+    var bgcolor = 'white'
+    
+    var additionalStyle = {};
+    if(rowID == 0){
+        additionalStyle.marginTop = 10;
+    }
+    return (
+        <TouchableOpacity style={[styles.rowItem, additionalStyle]}
           activeOpacity={0.7} onPress={()=>this.onRowPressed(rowData, rowID)}>
           <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
             <View style={styles.rowHeader}>
@@ -293,7 +290,6 @@ export default class PositionBlock extends Component {
                 keyExtractor={(item, index) => index}
                 showsVerticalScrollIndicator={false}
                 renderItem={(data)=>this.renderRow(data)}
-                // renderSeparator={this.renderSeparator}
                 />
             </View>
           );
@@ -330,9 +326,9 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     paddingTop: 10,
     backgroundColor: '#ffffff',
-    borderWidth:1,
     borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
-    borderColor:'#EEEEEE',
+    //borderWidth:1,
+    //borderColor:'#EEEEEE',
   },
   rowHeader:{
     height: 50,
@@ -384,7 +380,6 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: 'center',
 		justifyContent: 'center',
-		// borderWidth: 1,
 	},
 	headerText: {
 		fontSize: 14,
@@ -415,7 +410,7 @@ const styles = StyleSheet.create({
     // shadowOpacity: 0.75,
 		// shadowRadius: 0.5,
     //elevation: 1.5,
-    marginTop:15,
+    marginBottom:15,
   },
   extendLeft: {
 		flex: 1,

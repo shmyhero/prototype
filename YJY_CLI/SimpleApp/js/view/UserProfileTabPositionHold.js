@@ -12,7 +12,8 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 var ColorConstants = require('../ColorConstants');
-var PositionBlock = require('./component/personalPages/PositionBlock') 
+var PositionBlock = require('./component/personalPages/PositionBlock');
+var UIConstants = require("../UIConstants");
 var {height, width} = Dimensions.get('window');
 export default class  UserProfileTabPositionHold extends React.Component {
   static navigationOptions = {
@@ -46,10 +47,10 @@ const styles = StyleSheet.create({
      height:40,
    },
    content:{
-    marginLeft:10,
-    marginRight:10,
+    marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+    marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
     flex:1,
-    width:width-20,
+    width:width-UIConstants.ITEM_ROW_MARGIN_HORIZONTAL*2,
     marginTop:-60,
     backgroundColor:'transparent'
    }

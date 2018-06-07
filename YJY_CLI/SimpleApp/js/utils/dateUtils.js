@@ -36,7 +36,7 @@ Date.prototype.getDateString = function(){
     if(minute<10){
         minute='0'+minute
     }
-    today = yyyy+"."+mm+"."+dd+" "+hour+"."+minute;
+    today = yyyy+"."+mm+"."+dd+" "+hour+":"+minute;
     return today;
   }
 

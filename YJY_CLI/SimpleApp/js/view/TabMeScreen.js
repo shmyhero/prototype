@@ -163,11 +163,10 @@ class  TabMeScreen extends React.Component {
 
   renderChart(){
     return (
-      <View style={[styles.TradeStyleCycleContainer, styles.radiusBackground]}>
+      <View style={[styles.historyChartContainer, styles.radiusBackground]}>
         {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}> */}
-            <ProfitTrendCharts 
-              chartStyle={{marginLeft: Platform.OS == "ios" ? 5 : 20, marginBottom:10}}
+            <ProfitTrendCharts              
               ref={(ref)=>this.tradeStyleCicleBlock = ref}
               userId={this.props.userId}
               viewHeight={180}
@@ -300,6 +299,15 @@ const styles = StyleSheet.create({
       marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
       marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
       marginTop:15,
+    },
+    historyChartContainer:{
+      height:240,
+      marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+      marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+      marginTop:15,
+      justifyContent:'center',
+      alignContent:'center',
+      //backgroundColor:'white'
     },
     TradeStyleCycleContainer:{
       height:280,

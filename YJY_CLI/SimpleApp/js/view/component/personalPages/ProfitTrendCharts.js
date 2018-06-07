@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Alert,
   ViewPropTypes,
+  Platform,
 } from 'react-native';
 var UIConstants = require("../../../UIConstants");
 var ColorConstants = require('../../../ColorConstants');
@@ -96,7 +97,7 @@ export default class ProfitTrendCharts extends Component {
   renderChart(){
     if(this.state.stockInfo && this.state.stockInfo.priceData && this.state.stockInfo.priceData.length > 0){
       return (
-        <PriceChartView style={[{flex:1}, this.props.chartStyle]}
+        <PriceChartView style={[styles.chartStyle, this.props.chartStyle]}
             chartType={"userHomePage"}
             lineChartGradient={['#b8c6d4', '#fbfcfd']}
             dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
@@ -133,7 +134,10 @@ export default class ProfitTrendCharts extends Component {
     var textColorRight = this.state.chartType == TYPE_MONTH ? 'grey':'white'
     return (
       <View style={styles.container}>
-        <View style={{margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,flexDirection:'row',justifyContent:'space-between'}}>
+        <View style={{margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL, 
+            marginBottom: Platform.OS == "ios" ? 10 : 0,
+            flexDirection:'row',
+            justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,{backgroundColor:selectorLeftBgColor}]}>
               <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</Text>
@@ -192,6 +196,12 @@ const styles = StyleSheet.create({
     flex:1, 
     alignSelf:'stretch', 
     backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE
+  },
+  chartStyle:{
+    flex:1, 
+    marginLeft: Platform.OS == "ios" ? 0 : 20, 
+    marginBottom: Platform.OS == "ios" ? 5 : 0, 
+    marginRight: Platform.OS == "ios" ? 0 : 10
   },
 });
 
