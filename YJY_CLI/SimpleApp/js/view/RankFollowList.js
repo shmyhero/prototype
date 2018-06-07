@@ -107,7 +107,7 @@ export default class  RankFollowList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:16, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:10,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10,justifyContent:'center'}}>
@@ -145,7 +145,7 @@ export default class  RankFollowList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'transparent'}}>
+            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:5}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}

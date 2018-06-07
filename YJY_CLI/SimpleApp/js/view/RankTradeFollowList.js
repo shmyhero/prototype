@@ -139,7 +139,7 @@ export default class  RankTradeFollowList extends React.Component {
                 </View>
             </View>:null;    
             return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData,rowID)} style={{borderRadius:16,width:width-30,backgroundColor:'white',marginLeft:15,marginBottom:10,}}> 
+                <TouchableOpacity onPress={()=>this.onPressItem(rowData,rowID)} style={{borderRadius:10,width:width-30,backgroundColor:'white',marginLeft:15,marginBottom:15,}}> 
                     <View  style={{height:UIConstants.ITEM_ROW_HEIGHT,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
                         <View style={{flexDirection:'row',alignItems:'center'}}>
                             <TouchableOpacity onPress={()=>this.onPressItemHead(rowData,rowID)} >
@@ -185,7 +185,7 @@ export default class  RankTradeFollowList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'transparent'}}>
+            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:5}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
