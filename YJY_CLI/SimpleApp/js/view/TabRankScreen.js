@@ -8,7 +8,7 @@ import {
   Platform,
   Image,
   Dimensions,
-  TouchableOpacity,
+  TouchableOpacity, 
 } from 'react-native';
 
 import { StackNavigator } from 'react-navigation';
@@ -16,6 +16,7 @@ import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 import LogicData from '../LogicData';
 import LoginScreen from './LoginScreen';
+var ScrollTabView = require('./component/ScrollTabView')
 var {EventCenter, EventConst} = require('../EventCenter');
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
@@ -137,14 +138,14 @@ export default class  TabRankScreen extends React.Component {
       </View>   
       )
     }else{
-
-    }
-    return( 
+      return( 
         <View style={{width:width,height:36,justifyContent:'center',alignItems:'center'}}>
           <Text style={{fontSize:18,color:'white'}}>达人</Text>
         </View>
        
-    ) 
+      ) 
+    }
+    
   }
 
   renderRanks(){
@@ -179,10 +180,78 @@ export default class  TabRankScreen extends React.Component {
     return (
     <View style={styles.mainContainer}>
         <NavBar onlyShowStatusBar={true}/>
-        {this.renderRankTypeButton()}
-        {this.renderRanks()}
+        {/* {this.renderRankTypeButton()}
+        {this.renderRanks()} */}
+        {this.renderContent()}
     </View>
     );
+  }
+
+  onPageSelected(index) {
+		this.setState({
+      currentSelectedTab: index, 
+		}) 
+		if (this.refs['page' + index]) {
+			this.refs['page' + index].tabPressed(index);
+		}
+  } 
+
+  renderUnLoginedContent(){
+   
+      return(  
+        <View style={{flex:1}}>
+            <View style={{width:width,height:36,justifyContent:'center',alignItems:'center'}}>
+              <Text style={{fontSize:18,color:'white'}}>达人</Text>
+            </View>
+            <RankHeroList ref={RANK_LIST} showMeBlock={this.state.isLoggedIn} navigation={this.props.navigation}/> 
+        </View>  
+         )
+      
+       
+    
+  }
+
+  renderLoginedContent(){ 
+    var tabPages = [
+      <RankHeroList navigation={this.props.navigation} ref={'page0'}  showMeBlock={this.state.isLoggedIn}  />,
+      <RankFollowList navigation={this.props.navigation} ref={'page1'}  />,
+      <RankTradeFollowList navigation={this.props.navigation} ref={'page2'} /> 
+    ]
+
+    var tabNameShow = [LS.str("EXPERT"),LS.str("CONCERN"),LS.str("COPY_TRADE")]
+
+    var viewPages = tabNameShow.map(
+      (tabNameShow, i) =>
+      <View style={{width:width}} key={i}>
+        {tabPages[i]}
+      </View>
+    ) 
+
+    return ( 
+      <View style={{flex: 1, backgroundColor:'transparent'}}>
+        <ScrollTabView 
+          ref={"tabPages"} 
+          tabNames={tabNameShow} 
+          viewPages={viewPages} 
+          tabBgStyle={0}
+          tabFontSize={17}
+          removeClippedSubviews={true}
+          onPageSelected={(index) => this.onPageSelected(index)}
+          />
+      </View>
+    )
+  }
+
+  renderContent(){
+    if(this.state.isLoggedIn){
+      return( 
+         this.renderLoginedContent()
+      ) 
+    }else{
+      return(
+        this.renderUnLoginedContent()
+      )
+    }
   }
 }
 

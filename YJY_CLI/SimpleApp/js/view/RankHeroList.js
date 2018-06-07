@@ -66,6 +66,10 @@ export default class  RankHeroList extends React.Component {
         this.loadRankData()
         
     }
+
+    tabPressed(){ 
+		this.onRefresh()
+	}
  
 
     loadRankData(){   
@@ -278,7 +282,7 @@ export default class  RankHeroList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:ColorConstants.WHITE}}>
+            <View style={{flex:1,width:width,backgroundColor:ColorConstants.WHITE,marginTop:5}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}

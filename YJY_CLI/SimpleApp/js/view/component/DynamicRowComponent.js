@@ -95,17 +95,11 @@ class DynamicRowComponent extends Component {
 
     _onPressToSecurity(rowData){
         this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, {stockCode: rowData.security.id, stockName: rowData.security.name})
-    }
+    } 
 
     _onPressToUser(rowData){
-        var userData = {
-            userId:rowData.user.id,
-            nickName:rowData.user.nickname,
-        }
-        this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE, {userData:userData})
-    }
-
-    _onPressToUser(rowData){
+        
+        if(rowData.type == 'system'){return}
         var userData = {
             userId:rowData.user.id,
             nickName:rowData.user.nickname,

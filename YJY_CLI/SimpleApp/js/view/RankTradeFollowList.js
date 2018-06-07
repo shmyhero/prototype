@@ -63,6 +63,10 @@ export default class  RankTradeFollowList extends React.Component {
     }
  
 
+    tabPressed(){ 
+		this.onRefresh()
+	}
+
     loadRankData(){  
         if(LogicData.isLoggedIn()){
                 var userData = LogicData.getUserData();
@@ -150,7 +154,7 @@ export default class  RankTradeFollowList extends React.Component {
                                     <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
                                     {/* <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image>  */}
                                 </View>
-                                <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'flex-start'}}>
+                                <View style={{flexDirection:'row',marginBottom:0,alignItems:'center',justifyContent:'flex-start'}}>
                                     <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
                                     <Text style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</Text>
                                 </View>
@@ -185,7 +189,7 @@ export default class  RankTradeFollowList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:5}}>
+            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:15}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
