@@ -13,6 +13,8 @@ import {
   ScrollView,
   ImageBackground,
   TouchableOpacity,
+  KeyboardAvoidingView,
+  Keyboard
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
 import NavBar from './component/NavBar';
@@ -57,11 +59,39 @@ class LoginScreen extends Component {
         return state;
     }
 
+    componentWillMount() {
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', this.keyboardWillShow)
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', this.keyboardWillHide)
+    }
+
+
+    keyboardWillShow() {
+        // this.props.navigation.toggleTabs({
+        //     to: 'hidden',
+        //     animated: false
+        // });
+        // this.setState({
+        //     isVisible: false
+        // })
+    }
+
+    keyboardWillHide() {
+        // this.props.navigation.toggleTabs({
+        //     to: 'shown',
+        //     animated: false
+        // });
+        // this.setState({
+        //     isVisible: true
+        // })
+    }
+
     componentDidMount() {
         
     }
 
     componentWillUnmount() { 
+        this.keyboardWillShowSub.remove()
+        this.keyboardWillHideSub.remove()
     }
 
     componentWillReceiveProps(nextProps){
@@ -140,69 +170,69 @@ class LoginScreen extends Component {
         }
         console.log("HeightSub ", HeightSub)
         return (
-            <ImageBackground style={{width:width,height:height}} source={require('../../images/bg_login.jpg')} >
-            <ScrollView style={{width:width,height:height-HeightSub}}>
-             
-            <View style={[styles.container, {height:height-HeightSub}]}>
-                <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
-                <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
-                </View>
-                <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
-                    
-                    <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
-                    <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                        <TextInput 
-                        underlineColorAndroid='transparent'
-                        maxLength={11} 
-                        placeholderTextColor='white'
-                        placeholder={LS.str("PHONE_NUM")}
-                        keyboardType='numeric'  
-                        onChangeText={(text) => {
-                            this.setState({
-                                phoneNumber:text
-                            })}
-                        }
-                        style={{marginLeft:10,color:'white',flex:1}}/>
-                        <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                            <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
-                            <Text style={{marginRight:10,color:'white'}}>{LS.str("GET_VCODE")}</Text>
-                        </TouchableOpacity>  
-                    </View>
 
-                    <View style={{backgroundColor:'#3d6c9d',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                        <TextInput 
+            <KeyboardAvoidingView style={{width:width,flex:1}}>
+                <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
+                </ImageBackground>
+                <View style={[styles.container, {height:height-HeightSub}]}>
+                    <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
+                    <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                        <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
+                    </View>
+                    <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
+                        
+                        <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
+                        <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                            <TextInput 
                             underlineColorAndroid='transparent'
-                            maxLength={4} 
+                            maxLength={11} 
                             placeholderTextColor='white'
-                            placeholder={LS.str("VCODE")}
-                            keyboardType='numeric' 
+                            placeholder={LS.str("PHONE_NUM")}
+                            keyboardType='numeric'  
                             onChangeText={(text) => {
                                 this.setState({
-                                    verifyCode:text
-                                }) 
-                            }}
-                            style={{width:width,marginLeft:10,color:'white'}}/> 
-                    </View> 
-                    
-                    <TouchableOpacity 
-                        onPress={()=>this.onLoginClicked()}
-                        style={{
-                        alignItems:'center',
-                        justifyContent:'center', 
-                        width:width-50,height:40,backgroundColor:bgbtn,marginTop:20,borderRadius:7.5,}}>
-                        <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
-                    </TouchableOpacity>
+                                    phoneNumber:text
+                                })}
+                            }
+                            style={{marginLeft:10,color:'white',flex:1}}/>
+                            <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
+                                <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
+                                <Text style={{marginRight:10,color:'white'}}>{LS.str("GET_VCODE")}</Text>
+                            </TouchableOpacity>  
+                        </View>
+
+                        <View style={{backgroundColor:'#3d6c9d',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                            <TextInput 
+                                underlineColorAndroid='transparent'
+                                maxLength={4} 
+                                placeholderTextColor='white'
+                                placeholder={LS.str("VCODE")}
+                                keyboardType='numeric' 
+                                onChangeText={(text) => {
+                                    this.setState({
+                                        verifyCode:text
+                                    }) 
+                                }}
+                                style={{width:width,marginLeft:10,color:'white'}}/> 
+                        </View> 
+                        
+                        <TouchableOpacity 
+                            onPress={()=>this.onLoginClicked()}
+                            style={{
+                            alignItems:'center',
+                            justifyContent:'center', 
+                            width:width-50,height:40,backgroundColor:bgbtn,marginTop:20,borderRadius:7.5,}}>
+                            <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
+                        </TouchableOpacity>
+                    </View>
+                    {/* <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+                        <Text style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</Text>
+                        <TouchableOpacity onPress={()=>this.onWechatLogin()}>
+                        <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
+                        </TouchableOpacity>   
+                    </View>     */}
                 </View>
-                {/* <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                    <Text style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</Text>
-                    <TouchableOpacity onPress={()=>this.onWechatLogin()}>
-                     <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
-                    </TouchableOpacity>   
-                </View>     */}
-            </View>
-           </ScrollView>  
-           </ImageBackground>
+            </KeyboardAvoidingView>
         );
     } 
 }

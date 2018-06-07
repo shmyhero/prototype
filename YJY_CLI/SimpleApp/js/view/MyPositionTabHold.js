@@ -37,7 +37,7 @@ import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
 
-var stockNameFontSize = Math.round(17*width/375.0)
+var stockPriceFontSize = 15
 
 const ROW_PADDING = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
@@ -1435,7 +1435,7 @@ const styles = StyleSheet.create({
 	},
 
 	stockNameText: {
-		fontSize: stockNameFontSize,
+		fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
 		textAlign: 'center',
 		fontWeight: 'bold',
 		lineHeight: 22,
@@ -1450,7 +1450,7 @@ const styles = StyleSheet.create({
 	},
 
 	stockPercentText: {
-		fontSize: 18,
+		fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
 		color: '#ffffff',
 		fontWeight: 'normal',
 	},
@@ -1525,7 +1525,7 @@ const styles = StyleSheet.create({
 	okButton: {
 		color: 'white',
 		textAlign: 'center',
-		fontSize: 17,
+		fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
 	},
 
 	netIncomeText: {

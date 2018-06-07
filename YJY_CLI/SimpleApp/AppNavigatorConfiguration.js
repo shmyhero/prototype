@@ -1,5 +1,10 @@
 import React, {Component} from 'react';
-import { Image, StyleSheet,Platform, } from 'react-native';
+import {
+    Image,
+    StyleSheet,
+    Platform,
+    Keyboard,
+} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
 var {EventConst, EventCenter} = require('./js/EventCenter');
@@ -68,42 +73,71 @@ class CustomTabBar extends Component {
 
     updateTabbarSubscription = null
 
+    constructor(props){
+        super(props)
+
+        this.state = {
+            showTab: true,
+        }
+    }
+
     componentDidMount(){
         this.updateTabbarSubscription = EventCenter.getEventEmitter().addListener(EventConst.UPDATE_TABBAR, () => {
             console.log("UPDATE_TABBAR")
             this.forceUpdate()
         });
+
+        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', ()=>this.keyboardWillShow())
+        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', ()=>this.keyboardWillHide())
     }
     
     componentWillUnmount(){
         this.updateTabbarSubscription && this.updateTabbarSubscription.remove()
+        this.keyboardWillShowSub && this.keyboardWillShowSub.remove()
+        this.keyboardWillHideSub && this.keyboardWillHideSub.remove()
+    }
+
+    keyboardWillShow(){
+        this.setState({
+            showTab: false,
+        })
+    }
+
+    keyboardWillHide(){
+        this.setState({
+            showTab: true,
+        })
     }
 
     render(){
-        return (
-            <TabBarBottom
-                {...this.props}
-                getLabel={(scene)=>{
-                    try{
-                        console.log("scene.route.routeName", scene.route.routeName)
-                        switch(scene.route.routeName){
-                            case ViewKeys.TAB_MAIN:
-                                return LS.str('TAB_MAIN_TAB_LABEL');
-                            case ViewKeys.TAB_MARKET:
-                                return LS.str('TAB_MARKET_TAB_LABEL');
-                            case ViewKeys.TAB_RANK:
-                                return LS.str('TAB_RANK_TAB_LABEL');
-                            case ViewKeys.TAB_POSITION:
-                                return LS.str('TAB_POSITION_TAB_LABEL');
-                            case ViewKeys.TAB_ME:
-                                return LS.str('TAB_ME_TAB_LABEL');
+        if(this.state.showTab){
+            return (
+                <TabBarBottom
+                    {...this.props}
+                    getLabel={(scene)=>{
+                        try{
+                            console.log("scene.route.routeName", scene.route.routeName)
+                            switch(scene.route.routeName){
+                                case ViewKeys.TAB_MAIN:
+                                    return LS.str('TAB_MAIN_TAB_LABEL');
+                                case ViewKeys.TAB_MARKET:
+                                    return LS.str('TAB_MARKET_TAB_LABEL');
+                                case ViewKeys.TAB_RANK:
+                                    return LS.str('TAB_RANK_TAB_LABEL');
+                                case ViewKeys.TAB_POSITION:
+                                    return LS.str('TAB_POSITION_TAB_LABEL');
+                                case ViewKeys.TAB_ME:
+                                    return LS.str('TAB_ME_TAB_LABEL');
+                                return ""
+                            }
+                        }catch(e){
                             return ""
                         }
-                    }catch(e){
-                        return ""
-                    }
-                }}
-        />)
+                    }}
+            />);
+        }else{
+            return null;
+        }
     }
 }
 

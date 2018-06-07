@@ -7,9 +7,11 @@ import {
   View,
   StyleSheet,
   Platform,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from 'react-native';
 
+var {height, width} = Dimensions.get('window');
 require('./js/utils/dateUtils')
 require('./js/utils/numberUtils')
 import { NavigationActions } from 'react-navigation';
@@ -98,6 +100,7 @@ export default class App extends React.Component {
       StatusBar.setTranslucent(true);
     }
     return <SimpleApp 
+      style={{height: height, width: width}}
       ref={(ref)=>this.appNavigator = ref}
       uriPrefix={prefix}
       onNavigationStateChange={(prevState, currentState) => {        
