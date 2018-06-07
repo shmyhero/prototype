@@ -159,7 +159,7 @@ export default class  RankHeroList extends React.Component {
         if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
         if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
 
-        var viewOff = (index == 1)?2:-5
+        var viewOff = (index == 1)?0:-7
          
         if(data!==null){
             return(
@@ -255,7 +255,7 @@ export default class  RankHeroList extends React.Component {
             return (
                 <View style={styles.line} key={rowID}>
                     <View style={styles.separator}>
-                        <View style={styles.separatorShort}/>
+                        {/* <View style={styles.separatorShort}/> */}
                     </View>
                 </View>
             );
@@ -269,6 +269,7 @@ export default class  RankHeroList extends React.Component {
         return(
             <View style={{backgroundColor:ColorConstants.BGBLUE}}> 
                 {this.renderMe()}
+                <View style={{height:10}}></View>
                 {this.renderThreeHero()}
             </View>  
         )
@@ -276,7 +277,7 @@ export default class  RankHeroList extends React.Component {
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:ColorConstants.BGBLUE}}>
+            <View style={{flex:1,width:width,backgroundColor:ColorConstants.WHITE}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}
@@ -316,7 +317,7 @@ const styles = StyleSheet.create({
         height:46,
         borderRadius:23,
         alignSelf:'center',
-        marginBottom:5,
+        marginBottom:10,
         borderWidth:1,
         borderColor:ColorConstants.BORDER_LIGHT_BLUE
     },
@@ -324,8 +325,8 @@ const styles = StyleSheet.create({
         alignSelf:'center',
         marginTop:2,
         color:ColorConstants.BLUETEXT,
-        fontSize:14,
-        marginBottom:2,
+        fontSize:12,
+        marginBottom:0,
     },
     textTopUserScore:{
         alignSelf:'center',
@@ -345,17 +346,11 @@ const styles = StyleSheet.create({
         
     },
     separator: {
-        marginLeft: 0,
-        marginRight:0,
-        height: 0.5,
-        backgroundColor: 'white',
-    },
-    separatorShort: {
         marginLeft: 20,
         marginRight:20,
         height: 0.5,
-        backgroundColor:ColorConstants.SEPARATOR_GRAY,
-    },
+        backgroundColor: ColorConstants.SEPARATOR_GRAY,
+    }, 
     
 })
 
