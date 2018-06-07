@@ -10,7 +10,7 @@ import {
   Alert,
   ViewPropTypes,
 } from 'react-native';
-
+var UIConstants = require("../../../UIConstants");
 var ColorConstants = require('../../../ColorConstants');
 var NetConstants = require('../../../NetConstants');
 var NetworkModule = require('../../../module/NetworkModule')
@@ -133,7 +133,7 @@ export default class ProfitTrendCharts extends Component {
     var textColorRight = this.state.chartType == TYPE_MONTH ? 'grey':'white'
     return (
       <View style={styles.container}>
-        <View style={{margin:10,flexDirection:'row',justifyContent:'space-between'}}>
+        <View style={{margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,flexDirection:'row',justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,{backgroundColor:selectorLeftBgColor}]}>
               <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</Text>
@@ -158,6 +158,7 @@ export default class ProfitTrendCharts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex:1, 
+    marginBottom:5,
   },
   separator: {
     height: 0.5,
