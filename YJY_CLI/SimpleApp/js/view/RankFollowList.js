@@ -78,6 +78,7 @@ export default class  RankFollowList extends React.Component {
                                 'Content-Type': 'application/json; charset=utf-8',
                             },
                             showLoading: true,
+                            cache:'offline'
                         }, (responseJson) => { 
                             const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                             this.setState({

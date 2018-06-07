@@ -78,6 +78,7 @@ export default class  RankTradeFollowList extends React.Component {
                                 'Content-Type': 'application/json; charset=utf-8',
                             },
                             showLoading: true,
+                            cache:'offline'
                         }, (responseJson) => { 
                             // console.log(responseJson);
                             this.setState({
