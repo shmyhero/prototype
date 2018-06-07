@@ -18,6 +18,7 @@ export default (currentPage, itemCount) => {
                     'Content-Type': 'application/json; charset=utf-8',
                 },
                 showLoading: true,
+				cache: 'offline',
             }, (responseJson) => {
                 resolve(responseJson)
             }, (error) =>{

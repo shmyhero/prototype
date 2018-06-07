@@ -10,6 +10,7 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants');
+var UIConstants = require("../../UIConstants");
 var LS = require('../../LS')
 
 // create a component
@@ -97,12 +98,11 @@ const styles = StyleSheet.create({
         fontSize: 17
     },
     stockTouchableContainerStyle:{
-        borderRadius: 10,
+        borderRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
         backgroundColor: "white",
-        marginTop: 5,
-        marginRight: 15,
-        marginLeft:15,
-        marginBottom: 10,
+        marginRight: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+        marginLeft: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
         height:70,
     },
     statusLableContainer: {

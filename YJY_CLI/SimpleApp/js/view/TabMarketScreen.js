@@ -62,7 +62,8 @@ class TabMarketScreen extends Component {
             NetworkModule.fetchTHUrl(
                 NetConstants.CFD_API.GET_STOCK_LIST,
                 {
-                    method: 'GET',				
+                    method: 'GET',
+                    cache: 'offline',
                 },
                 (responseJson) => {                    
                     //Currently the order is stored in app locally.

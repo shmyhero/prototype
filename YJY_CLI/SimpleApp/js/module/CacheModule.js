@@ -55,9 +55,9 @@ StockListUrlCache.schema = {
 };
 
 const realm = new Realm(
-  {schema: [RequestCache, StockData, StockListUrlCache],
-    schemaVersion: 2,
-  });
+{schema: [RequestCache, StockData, StockListUrlCache],
+  schemaVersion: 2,
+});
 
 export async function storeCacheForUrl(url, responseString, isUserRelated){
   //console.log("storeCacheForUrl: " + url + " with resp: " + responseString + ", isUserRelated: " + isUserRelated);

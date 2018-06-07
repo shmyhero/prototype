@@ -141,6 +141,7 @@ export default class  MyPositionTabHold extends React.Component {
 						'Content-Type': 'application/json; charset=utf-8',
 					},
 					showLoading: true,
+					cache: 'offline',
 				}, (responseJson) => {
 					//TODO: Use real data!!!!!
 					// for (var i in responseJson){
