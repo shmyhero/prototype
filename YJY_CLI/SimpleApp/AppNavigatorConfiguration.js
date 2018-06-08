@@ -88,12 +88,13 @@ class CustomTabBar extends Component {
             this.forceUpdate()
         });
 
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', ()=>this.keyboardWillShow())
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', ()=>this.keyboardWillHide())
-
-        // if (Platform.OS == "ios") {
+        if (Platform.OS == "ios") {
             SplashScreen.hide();//关闭启动屏幕
-        // }
+        }
+        else {
+            this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', () => this.keyboardWillShow())
+            this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', () => this.keyboardWillHide())
+        }
     }
     
     componentWillUnmount(){
