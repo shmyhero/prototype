@@ -176,8 +176,9 @@ export default class TabMainScreen extends React.Component {
         //
  
         this.tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.HOME_TAB_RESS_EVENT, () => {
-            console.log("HOME_TAB_RESS_EVENT")
             WebSocketModule.cleanRegisteredCallbacks(); 
+
+            this.loadData()
         });
     }
 
