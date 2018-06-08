@@ -135,7 +135,13 @@ class StockChartView: UIView {
             }
             else if LineChartDataSource.isValidData(data!) {
                 // 行情页面
-                dataSource = LineChartDataSource.init(json:data!, rect: self.bounds)
+                if dataSource == nil || dataSource!.isEmpty() || !dataSource!.isKind(of: LineChartDataSource.self) {
+                    // 没有数据就新建datasource，否则只是更新数据
+                    dataSource = LineChartDataSource.init(json:data!, rect: self.bounds)
+                }
+                else {
+                    dataSource?.updateData(json: data!)
+                }
             }
             else {
                 dataSource = BaseDataSource.init(json: data!, rect: self.bounds)

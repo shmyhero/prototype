@@ -87,33 +87,33 @@ class LineChartRender: BaseRender {
 			context.restoreGState()
 		}
 		
-		self.drawBorderLines(context, lineColor: _colorSet.getBgLineColor())
-		self.drawMiddleLines(context)
+//        self.drawBorderLines(context, lineColor: _colorSet.getBgLineColor())
+//        self.drawMiddleLines(context)
 		
 		context.saveGState()
 		clippingBox.addClip()
 		
 		//draw the line on top of the clipped gradient
-		graphPath.lineWidth = 1.5
+		graphPath.lineWidth = 3
 		graphPath.stroke()
 		
 		context.restoreGState()
-		
-		//Draw the circles on right top of graph stroke
-		
-		let circleColors = [UIColor.white.cgColor,
-		                    UIColor(hexInt:0x1954B9, alpha:0.3).cgColor]
-		
-		let pointGradient = CGGradient(colorsSpace: colorSpace,
-		                                               colors: circleColors as CFArray, locations: colorLocations)
-		
-		let centerPoint = lineDataProvider!.findHighlightPoint()
-		let startRadius: CGFloat = 2
-		let endRadius: CGFloat = 6
-		
-		context.drawRadialGradient(pointGradient!, startCenter: centerPoint,
-									startRadius: startRadius, endCenter: centerPoint, endRadius: endRadius, options: .drawsBeforeStartLocation)
-		
+		if lineDataProvider!.pannedX() < 5 {
+            //Draw the circles on right top of graph stroke
+            
+            let circleColors = [UIColor.white.cgColor,
+                                UIColor(hexInt:0x1954B9, alpha:0.3).cgColor]
+            
+            let pointGradient = CGGradient(colorsSpace: colorSpace,
+                                                           colors: circleColors as CFArray, locations: colorLocations)
+            
+            let centerPoint = lineDataProvider!.findHighlightPoint()
+            let startRadius: CGFloat = 2
+            let endRadius: CGFloat = 6
+            
+            context.drawRadialGradient(pointGradient!, startCenter: centerPoint,
+                                        startRadius: startRadius, endCenter: centerPoint, endRadius: endRadius, options: .drawsBeforeStartLocation)
+        }
 		self.drawExtraText(context)
 	}
 	
@@ -168,32 +168,27 @@ class LineChartRender: BaseRender {
 		else {
 			dateFormatter.dateFormat = "HH:mm"
 		}
-		let timeStart:Date = (lineDataProvider!.firstTime())! as Date
-		let timeEnd:Date = (lineDataProvider!.lastTime())! as Date
-		
-		let leftText: NSString = dateFormatter.string(from: timeStart) as NSString
-		let rightText = dateFormatter.string(from: timeEnd)
-		let textColor = _colorSet.dateTextColor
-		let textFont = UIFont(name: "Helvetica Neue", size: 8)
-		let textStyle = NSMutableParagraphStyle()
-		textStyle.alignment = .center
-		let attributes: [String:AnyObject] = [
-			NSForegroundColorAttributeName: textColor,
-			//			NSBackgroundColorAttributeName: UIColor.blackColor(),
-			NSFontAttributeName: textFont!,
-			NSParagraphStyleAttributeName: textStyle,
-			]
-		let textY = height-_bottomMargin+2
-		leftText.draw(in: CGRect(x: 0, y: textY, width: textWidth, height: 10), withAttributes: attributes)
-		rightText.draw(in: CGRect(x: width-textWidth, y: textY, width: textWidth, height: 10), withAttributes: attributes)
+
+        // 固定显示4个时间
+        let textColor = _colorSet.dateTextColor
+        let textFont = UIFont(name: "Helvetica Neue", size: 8)
+        let textStyle = NSMutableParagraphStyle()
+        textStyle.alignment = .center
+        let attributes: [String:AnyObject] = [
+            NSForegroundColorAttributeName: textColor,
+            //            NSBackgroundColorAttributeName: UIColor.blackColor(),
+            NSFontAttributeName: textFont!,
+            NSParagraphStyleAttributeName: textStyle,
+            ]
+        let textY = height-_bottomMargin+2
 		
 		var lastX:CGFloat = textWidth/2	//center x of last text
 		let verticalLinesX = lineDataProvider!.xVerticalLines()
 		let verticalTimes = lineDataProvider!.timesOnBottom()
 		for i in 0..<verticalTimes.count {
-			if verticalLinesX[i] < lastX+textWidth-5 || verticalLinesX[i]>width-textWidth*1.5+8 {
-				continue
-			}
+//            if verticalLinesX[i] < lastX+textWidth-5 || verticalLinesX[i]>width-textWidth*1.5+8 {
+//                continue
+//            }
 			let text:NSString = dateFormatter.string(from: verticalTimes[i] as Date) as NSString
 			let rect = CGRect(x: verticalLinesX[i]-textWidth/2, y: textY, width: textWidth, height: 10)
 			text.draw(in: rect, withAttributes: attributes)
@@ -204,8 +199,13 @@ class LineChartRender: BaseRender {
 	}
     
     func drawCurrentText(_ context: CGContext) {
+        // 当前价格框和数值
         var lastPrice = lineDataProvider!.lastPrice()!
         if (lastPrice.isNaN) {
+            return
+        }
+        let panx = lineDataProvider!.pannedX()
+        if panx >= 5 {
             return
         }
         
@@ -221,12 +221,12 @@ class LineChartRender: BaseRender {
             ]
         
         let text: NSString = "\(lastPrice.roundTo(2))" as NSString
-        let textX = chartWidth() - 105
+        let textX = chartWidth() - 105+panx
         let textHeight:CGFloat = 14
         let centerPoint = lineDataProvider!.findHighlightPoint()
         let textY = centerPoint.y
         
-        let rectX = textX-5
+        let rectX = textX-5+panx
         let rectWidth:CGFloat = 70
         let rectHeight:CGFloat = 30
         
@@ -234,7 +234,7 @@ class LineChartRender: BaseRender {
         context.saveGState()
         let textBgRect = CGRect(x: rectX, y: textY-rectHeight/2, width: rectWidth, height: rectHeight)
         let path = UIBezierPath(roundedRect: textBgRect, cornerRadius: 20)
-        path.lineWidth = 1
+        path.lineWidth = 2
         _colorSet.currentPriceBgColor.setFill()
         _colorSet.currentPriceBorderColor.setStroke()
         path.fill()
