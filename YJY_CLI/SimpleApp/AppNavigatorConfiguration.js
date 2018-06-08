@@ -26,6 +26,7 @@ import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
 import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
 import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
+import SplashScreen from 'react-native-splash-screen'
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -35,7 +36,7 @@ var TabRankScreen = require('./js/view/TabRankScreen');
 import TabPositionScreen from './js/view/TabPositionScreen';
 import TabMeScreen from './js/view/TabMeScreen';
 import FollowScreen from './js/view/FollowScreen';
-var SplashScreen = require('./js/view/SplashScreen');
+var SplashScreenView = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
 var LS = require("./js/LS");
 
@@ -89,6 +90,10 @@ class CustomTabBar extends Component {
 
         this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', ()=>this.keyboardWillShow())
         this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', ()=>this.keyboardWillHide())
+
+        // if (Platform.OS == "ios") {
+            SplashScreen.hide();//关闭启动屏幕
+        // }
     }
     
     componentWillUnmount(){
@@ -243,7 +248,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
 });
 
 var mainAppStackNavigatorConfiguration = {}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = {screen: SplashScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = { screen: SplashScreenView}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HOME] = {screen: MainScreenNavigator}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {screen: StockDetailScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {screen: LoginScreen}
