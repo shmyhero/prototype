@@ -182,14 +182,14 @@ class DynamicRowComponent extends Component {
             title = this.props.rowData.title
             titleStyle = {fontSize:15,color:'#666666'}
          }
-
+         
         return(  
             <RN.Animated.View style={{transform:[{translateX:this.state.translateX}],flex:1}}> 
                 <View style={styles.thumbnailAll}> 
-                     <View>
+                    <View> 
                          <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#255180'}}></View>
                          <View style={{width:40,flexDirection:'row'}}>
-                             <Text style={{width:30,color:'#336ca1',marginLeft:5,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                             <Text style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
                              <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../../images/triangle.png')}></Image>
                          </View>
                          <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
