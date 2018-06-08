@@ -27,7 +27,7 @@ var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
 var LS = require('../LS')
 import LogicData from "../LogicData";
-
+const dismissKeyboard = require('dismissKeyboard');
 class LoginScreen extends Component {
     constructor(props){
         super(props);
@@ -161,6 +161,11 @@ class LoginScreen extends Component {
         }
     }
 
+    onCancel(){
+        console.log('OnCancel')
+        dismissKeyboard();
+    }
+
     renderContent(){
         var textLogin = this.isLoginable()?'white':'#6281a6'
         var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b' 
@@ -171,7 +176,7 @@ class LoginScreen extends Component {
         }
 
         return (
-            <View style={[styles.container, {height:height-HeightSub}]}>
+            <TouchableOpacity activeOpacity={1.0} onPress={()=>this.onCancel()} style={[styles.container, {height:height-HeightSub}]}>
                     <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                         <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
@@ -228,7 +233,7 @@ class LoginScreen extends Component {
                         <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
                         </TouchableOpacity>   
                     </View>     */}
-                </View>
+                </TouchableOpacity>
         );
     }
 
@@ -259,8 +264,7 @@ class LoginScreen extends Component {
 
 const styles = StyleSheet.create({
     container:{
-       flex:1,
-    //    backgroundColor:ColorConstants.BLUE2
+       flex:1, 
     }
 })
 
