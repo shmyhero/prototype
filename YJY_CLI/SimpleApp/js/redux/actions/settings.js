@@ -87,11 +87,11 @@ export function updateLocalNickName(nickName){
                 }
             });
 			return;
-		}else if(nickName.length > UIConstants.MAX_NICKNAME_LENGTH){
+		}else if(nickName.length > MAX_NICKNAME_LENGTH){
             dispatch({
                 type: SET_LOACL_NICKNAME_FAIL,
                 payload: {
-                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", UIConstants.MAX_NICKNAME_LENGTH),
+                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", MAX_NICKNAME_LENGTH),
                 }
             });
 			return;
@@ -113,11 +113,11 @@ export function setNickName(nickName){
                 }
             });
 			return;
-		}else if(nickName.length > UIConstants.MAX_NICKNAME_LENGTH){
+		}else if(nickName.length > MAX_NICKNAME_LENGTH){
             dispatch({
                 type: SET_NICKNAME_FAIL,
                 payload: {
-                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", UIConstants.MAX_NICKNAME_LENGTH),
+                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", MAX_NICKNAME_LENGTH),
                 }
             });
 			return;

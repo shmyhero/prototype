@@ -19,7 +19,6 @@ var UIConstants = require('../../../UIConstants');
 var NetworkModule = require('../../../module/NetworkModule');
 import NetworkErrorIndicator from '../NetworkErrorIndicator'; 
 var {height, width} = Dimensions.get('window');
-var stockNameFontSize = Math.round(15*width/375.0);
 var LogicData = require("../../../LogicData");
 var {height, width} = Dimensions.get('window');
 var LS = require('../../../LS')
@@ -341,7 +340,6 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
 	stockNameText: {
-		fontSize: stockNameFontSize,
 		textAlign: 'center',
 		fontWeight: 'bold',
     lineHeight: 22,
