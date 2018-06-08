@@ -127,6 +127,8 @@ export default class  RankHeroList extends React.Component {
      } 
 
     renderMe(){
+        var profit = (this.state.rankListData[0].roi*100).toFixed(0);
+        if(profit==-0){ profit = 0 }
         if(this.props.showMeBlock){
             // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
             return(
@@ -145,7 +147,7 @@ export default class  RankHeroList extends React.Component {
                             </View>
                         </View>     
                         <View style={{marginRight:30}}>
-                            <Text style={{color:'#d8effc',fontWeight: 'bold',}}>{(this.state.rankListData[0].roi*100).toFixed(0)}%</Text>
+                            <Text style={{color:'#d8effc',fontWeight: 'bold',}}>{profit}%</Text>
                         </View> 
                     </ImageBackground>
                 </TouchableOpacity>
@@ -225,6 +227,8 @@ export default class  RankHeroList extends React.Component {
 
     _renderRow = (rowData, sectionID, rowID) => {
         var offset = this.props.showMeBlock?1:0;
+        var profit = (rowData.roi*100).toFixed(0);
+        if(profit==-0){ profit = 0 }
         if(rowID>=3+offset){
             // var colorRoi = rowData.roi > 0?'#ca3538':'green'
             return( 
@@ -240,7 +244,7 @@ export default class  RankHeroList extends React.Component {
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(rowData.roi)}}>{(rowData.roi*100).toFixed(0)}%</Text>
+                        <Text style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</Text>
                     </View> 
                 </TouchableOpacity>
             )
