@@ -19,8 +19,9 @@ import setNickNameRequest from "../api/setNickNameRequest";
 import setPortraitRequest from "../api/setPortraitRequest";
 var RCTNativeAppEventEmitter = require('RCTNativeAppEventEmitter');
 var NativeDataModule = require('../../module/NativeDataModule');
-var UIConstants = require("../../UIConstants");
 var LS = require('../../LS');
+
+export let MAX_NICKNAME_LENGTH = 20;
 
 export function switchLanguage(){
     return (dispatch) => {

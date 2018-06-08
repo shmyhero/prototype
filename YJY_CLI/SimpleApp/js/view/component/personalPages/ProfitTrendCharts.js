@@ -173,8 +173,8 @@ const styles = StyleSheet.create({
     borderWidth:0.5,
     padding:5,
     width:72,
-    borderTopLeftRadius:10,
-    borderBottomLeftRadius:10,
+    borderTopLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
+    borderBottomLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
      
     borderColor:'#EEEEEE'
   },
@@ -183,8 +183,8 @@ const styles = StyleSheet.create({
     borderWidth:0.5,
     padding:5,
     width:72,
-    borderTopRightRadius:10,
-    borderBottomRightRadius:10,
+    borderTopRightRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
+    borderBottomRightRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
     borderColor:'#EEEEEE'
   } ,
   textChartSelector:{

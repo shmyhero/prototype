@@ -4,6 +4,10 @@ import {
     StyleSheet,
     Platform,
     Keyboard,
+    Animated,
+    Easing,
+    View,
+    Text,
 } from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
@@ -76,68 +80,113 @@ class CustomTabBar extends Component {
     constructor(props){
         super(props)
 
+        var height = 100;
+        if(props.style && props.style.height){
+            height = props.style.height
+        }
+
         this.state = {
             showTab: true,
+            tabbarOpacity: new Animated.Value(1),
+            originHeight: height,
+            height: new Animated.Value(height),
         }
     }
 
+    componentWillReceiveProps(props){
+        if(props.style && props.style.height && props.style.height != this.props.style.height){
+           this.setState({
+                height: new Animated.Value(props.height),
+            })
+        }
+    }
     componentDidMount(){
         this.updateTabbarSubscription = EventCenter.getEventEmitter().addListener(EventConst.UPDATE_TABBAR, () => {
             console.log("UPDATE_TABBAR")
             this.forceUpdate()
         });
 
-        this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', ()=>this.keyboardWillShow())
-        this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', ()=>this.keyboardWillHide())
+        if(Platform.OS == "android"){
+            this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', ()=>this.keyboardWillShow())
+            this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', ()=>this.keyboardWillHide())
+        }
     }
     
     componentWillUnmount(){
         this.updateTabbarSubscription && this.updateTabbarSubscription.remove()
-        this.keyboardWillShowSub && this.keyboardWillShowSub.remove()
-        this.keyboardWillHideSub && this.keyboardWillHideSub.remove()
+        if(Platform.OS == "android"){
+            this.keyboardWillShowSub && this.keyboardWillShowSub.remove()
+            this.keyboardWillHideSub && this.keyboardWillHideSub.remove()
+        }
     }
 
     keyboardWillShow(){
-        this.setState({
-            showTab: false,
-        })
+        // this.setState({
+        //     showTab: false,
+        // })
+        // this.props.navigator.toggleTabs({
+        //     to: 'hidden', // required, 'hidden' = hide tab bar, 'shown' = show tab bar
+        //     animated: true // does the toggle have transition animation or does it happen immediately (optional)
+        // });
+        Animated.timing(
+            // Animate value over time
+            this.state.height, // The value to drive
+            {
+                toValue: 0, // Animate to final value of 1
+                duration: 300,
+                easing: Easing.cubic
+            }
+        ).start(); // Start the animation
     }
 
     keyboardWillHide(){
-        this.setState({
-            showTab: true,
-        })
+        // this.setState({
+        //     showTab: true,
+        // })
+        Animated.timing(
+            // Animate value over time
+            this.state.height, // The value to drive
+            {
+                toValue: this.state.originHeight, // Animate to final value of 1
+                duration: 500,
+                easing: Easing.cubic
+            }
+        ).start(); // Start the animation
     }
 
     render(){
-        if(this.state.showTab){
+        console.log("this.props.style", this.props.style)
+        // if(this.state.showTab){
             return (
-                <TabBarBottom
-                    {...this.props}
-                    getLabel={(scene)=>{
-                        try{
-                            console.log("scene.route.routeName", scene.route.routeName)
-                            switch(scene.route.routeName){
-                                case ViewKeys.TAB_MAIN:
-                                    return LS.str('TAB_MAIN_TAB_LABEL');
-                                case ViewKeys.TAB_MARKET:
-                                    return LS.str('TAB_MARKET_TAB_LABEL');
-                                case ViewKeys.TAB_RANK:
-                                    return LS.str('TAB_RANK_TAB_LABEL');
-                                case ViewKeys.TAB_POSITION:
-                                    return LS.str('TAB_POSITION_TAB_LABEL');
-                                case ViewKeys.TAB_ME:
-                                    return LS.str('TAB_ME_TAB_LABEL');
+                <Animated.View style={{height:this.state.height}}>
+                    <TabBarBottom
+                        {...this.props}
+                        getLabel={(scene)=>{
+                            try{
+                                console.log("scene.route.routeName", scene.route.routeName)
+                                switch(scene.route.routeName){
+                                    case ViewKeys.TAB_MAIN:
+                                        return LS.str('TAB_MAIN_TAB_LABEL');
+                                    case ViewKeys.TAB_MARKET:
+                                        return LS.str('TAB_MARKET_TAB_LABEL');
+                                    case ViewKeys.TAB_RANK:
+                                        return LS.str('TAB_RANK_TAB_LABEL');
+                                    case ViewKeys.TAB_POSITION:
+                                        return LS.str('TAB_POSITION_TAB_LABEL');
+                                    case ViewKeys.TAB_ME:
+                                        return LS.str('TAB_ME_TAB_LABEL');
+                                    return ""
+                                }
+                            }catch(e){
                                 return ""
                             }
-                        }catch(e){
-                            return ""
-                        }
-                    }}
-            />);
-        }else{
-            return null;
-        }
+                        }}
+                    />
+                </Animated.View>           
+        );
+        // }else{
+        //     return null;
+        // }
     }
 }
 

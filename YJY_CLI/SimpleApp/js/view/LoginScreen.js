@@ -161,20 +161,17 @@ class LoginScreen extends Component {
         }
     }
 
-    render() {
+    renderContent(){
         var textLogin = this.isLoginable()?'white':'#6281a6'
         var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b' 
+
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;
         }
-        console.log("HeightSub ", HeightSub)
-        return (
 
-            <KeyboardAvoidingView style={{width:width,flex:1}}>
-                <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
-                </ImageBackground>
-                <View style={[styles.container, {height:height-HeightSub}]}>
+        return (
+            <View style={[styles.container, {height:height-HeightSub}]}>
                     <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                         <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
@@ -232,8 +229,31 @@ class LoginScreen extends Component {
                         </TouchableOpacity>   
                     </View>     */}
                 </View>
-            </KeyboardAvoidingView>
         );
+    }
+
+    render() {
+        if(Platform.OS == "ios"){
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    behavior={"padding"}>
+                    <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
+                    </ImageBackground>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        } else {
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    >
+                    <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
+                    </ImageBackground>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        }
     } 
 }
 
