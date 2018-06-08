@@ -12,7 +12,7 @@ import {
 } from "../constants/actionTypes";
 
 import fetchMeDataRequest from "../api/fetchMeDataRequest";
-import {checkIsLoggedIn, fetchBalanceData, logout} from "../actions";
+import {checkIsLoggedIn, fetchBalanceData} from "../actions";
 var UIConstants = require('../../UIConstants');
 var LS = require('../../LS');
 

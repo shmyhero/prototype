@@ -98,8 +98,8 @@ export default class  MyPositionTabClosed extends React.Component {
 						'Content-Type': 'application/json; charset=utf-8',
 					},
 					showLoading: true,
-					cache: 'offline',
-				}, (responseJson) => {
+					//cache: 'offline',
+				}, (responseJson, isCache) => {
 					//TODO: Use real data!!!!!
 					// for (var i in responseJson){
 					// 	responseJson[i].isFollowing = true;
@@ -112,7 +112,24 @@ export default class  MyPositionTabClosed extends React.Component {
 					if(this.pageNum == 1){
 						newStockInfoRowData = responseJson;
 					}else{
-						newStockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
+						if(!isCache){
+							//Real data! Refresh the data
+							newStockInfoRowData = this.state.stockInfoRowData;
+							for(var i = 0; i < responseJson.length; i++){
+								var dataExisted = false;
+								for(var j = 0; j < this.state.stockInfoRowData.length; j++){
+									if(responseJson[i].id == this.state.stockInfoRowData[j].id){
+										this.state.stockInfoRowData[j] = responseJson[i];
+										this.state.stockInfoRowData = true;
+									}
+								}
+								if(!dataExisted){
+									this.state.stockInfoRowData.concat(responseJson[i])
+								}
+							}
+						}else{
+							newStockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
+						}
 					}
 
 					this.setState({
@@ -121,8 +138,10 @@ export default class  MyPositionTabClosed extends React.Component {
 						contentLoaded: true,
 						hasMore: !(responseJson.length < PAGE_SIZE)
 					}, ()=>{
-						this.pageNum++;
-						onFinished && onFinished();
+						if(!isCache){
+							this.pageNum++;
+							onFinished && onFinished();
+						}
 					})
 				},
 				(exception) => {
