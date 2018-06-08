@@ -158,7 +158,7 @@ export default class  RankHeroList extends React.Component {
     }
 
     renderThreeOfOneItem(index,data){
-        var bgWidth = (width-39)/3;
+        var bgWidth = (width-38)/3;
         var bgHeight = bgWidth;
         var bgHeightLR = bgHeight*204/230;
 
