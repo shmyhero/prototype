@@ -96,6 +96,12 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
         minVal -= (maxVal - minVal) / 5;
         maxVal += (maxVal - minVal) / 5;
 
+        //If all data value are the same...
+        if(minVal == maxVal){
+            minVal -= 5;
+            maxVal += 5;
+        }
+
         formatRightAxisText(chart, maxVal, minVal);
 
 
