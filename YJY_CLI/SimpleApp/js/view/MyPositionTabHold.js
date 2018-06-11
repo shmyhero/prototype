@@ -77,6 +77,39 @@ export default class  MyPositionTabHold extends React.Component {
         this.state = state;
 	}
 	
+	componentWillMount(){
+		WebSocketModule.registerMessageCallback((closePositions)=>this.closePositionList(closePositions))
+	}
+
+	closePositionList(closePositions){
+		var changed = false;
+		for(i in this.state.stockInfoRowData){
+			var stock = this.state.stockInfoRowData[i];
+			for(j in closePositions){
+				if(stock.id == closePositions[j].posId){
+					this.state.stockInfoRowData.splice(i, 1);
+
+					if(this.state.selectedRow > i){
+						this.state.selectedRow -= 1;
+					}else if (this.state.selectedRow == i){
+						this.state.selectedRow = -1;
+						this.state.selectedSubItem = SUB_ACTION_NONE;
+					}
+					changed = true;
+					
+				}
+			}
+		}
+
+		if(changed){
+			this.setState({
+				selectedRow: this.state.selectedRow,
+				selectedSubItem: this.state.selectedSubItem,
+				stockInfoRowData: this.state.stockInfoRowData
+			});
+		}
+	}
+
 	getInitialState(){
 		this.stopProfitUpdated = false
 		this.stopLossUpdated = false
@@ -664,18 +697,18 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	useNativePropsToUpdate(type, value, rowData){
+		var displayValue = value.toFixed(2);
 		var price = this.percentToPriceWithRow(value, rowData, type)
 		if (type === TYPE_STOP_PROFIT){
-			this._text1.setNativeProps({text: value.toFixed(2)+'%'});
+			this._text1.setNativeProps({text: displayValue+'%'});
 			this._text3.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
 		}
 		else if (type === TYPE_STOP_LOSS) {
-			var props = {text: value.toFixed(2)+'%'};
+			var props = {text: displayValue+'%'};
 			if(Platform.OS === "ios"){
-				props.color = value >= 0
-				 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN;
+				props.color = displayValue >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN;
 			}else{
-				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN};
+				props.style = {color: displayValue >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN};
 			}
 			this._text2.setNativeProps(props);
 			this._text4.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})

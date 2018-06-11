@@ -25,6 +25,8 @@ var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var ColorConstants = require('../ColorConstants');
+var WebSocketModule = require("../module/WebSocketModule");
+
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
@@ -107,6 +109,8 @@ class LoginScreen extends Component {
     }
 
     loginSuccess(responseJson){
+        //Restart web socket.
+        WebSocketModule.start();
         LogicData.setUserData(responseJson);
 		StorageModule.setUserData(JSON.stringify(responseJson)).then(()=>{
             //Alert.alert("login success , token:"+responseJson.token)

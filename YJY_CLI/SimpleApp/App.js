@@ -43,7 +43,7 @@ function getCurrentRouteName(navigationState) {
   return route.routeName;
 }
 
-export default class App extends React.Component {
+class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
     Orientation.lockToPortrait();
@@ -67,13 +67,14 @@ export default class App extends React.Component {
       LogicData.setLanguage(locale);
     });    
 
+    WebSocketModule.start();
+    
     StorageModule.loadUserData().then((data)=>{
       if(data!=undefined){
-        var obj = JSON.parse(data)
-        LogicData.setUserData(obj);
+        var userData = JSON.parse(data)
+        LogicData.setUserData(userData);
       }
     });
-    WebSocketModule.start();
     
     const backAction = NavigationActions.back({});
 
@@ -144,3 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default App;

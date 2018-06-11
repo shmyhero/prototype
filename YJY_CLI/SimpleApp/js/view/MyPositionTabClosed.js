@@ -25,7 +25,6 @@ var PositionBlock = require('./component/personalPages/PositionBlock')
 var {height, width} = Dimensions.get('window');
 import NetworkErrorIndicator from "./component/NetworkErrorIndicator";
 
-var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
@@ -33,10 +32,10 @@ var LS = require("../LS");
 
 
 
-const SHADOW_LEFT = 2;
-const SHADOW_TOP = 2;
-const SHADOW_RIGHT = 2;
-const SHADOW_BOTTOM = 20;
+const SHADOW_LEFT = 7;
+const SHADOW_TOP = 6;
+const SHADOW_RIGHT = 7;
+const SHADOW_BOTTOM = 25;
 const OUTER_ROW_MARGIN_TOP = 0;
 
 var extendHeight = 204
@@ -321,26 +320,26 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 	}
 
-	renderProfit(pl) {
+	renderProfit(pl, color) {
 		var {height, width} = Dimensions.get('window');
 		var textSize = Math.round(18*width/375.0)
 		pl = pl.toFixed(2)
 		var add = (pl > 0)?'+':'';
 
 		return (
-			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(pl), fontSize:textSize}]}>
+			<Text style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
 				 {add}{pl}
 			</Text>
 		);
 	}
 
-	renderProfitPercentage(percentChange) {
+	renderProfitPercentage(percentChange, color) {
 		var {height, width} = Dimensions.get('window');
 		var textSize = Math.round(18*width/375.0)
 		percentChange = percentChange.toFixed(2)
 		var add = (percentChange > 0)?'+':'';
 		return (
-		<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange), fontSize:textSize}]}>
+		<Text style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
 		  			 {add}{percentChange} %
 		</Text>
 		)
@@ -369,11 +368,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	renderDetailInfo(rowData, rowHeight) {
 		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png')
-		var profitColor = rowData.pl > 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN
 
-		if (rowData.pl === 0) {
-			profitColor = 'black'
-		}
 		var openDate = new Date(rowData.createAt)
 		console.log("rowData.createAt ", rowData.createAt);
 		console.log("openDate ", openDate);
@@ -483,12 +478,13 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 
 		var rowHeight = UIConstants.ITEM_ROW_HEIGHT + SHADOW_TOP + SHADOW_BOTTOM;
-		var rowWidth = width - UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2 + 10;
+		var rowWidth = width - UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2 + SHADOW_LEFT + SHADOW_RIGHT;
 		var extendedRowHeight = rowData.followUser ? extendHeight + FOLLOW_ROW_HEIGHT : extendHeight
 		if(this.state.selectedRow == rowID ){
 			rowHeight += extendedRowHeight;
 		}
 
+		var color = ColorConstants.stock_color(rowData.pl);
 		return (
 			<View style={[styles.outerRowContainer, additionalOuterStyle]}>
 
@@ -500,7 +496,7 @@ export default class  MyPositionTabClosed extends React.Component {
 				<NinePatchView
 					style={{height: rowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
                     source={Platform.OS === 'android' ? {uri: 'row_background'} : require('../../images/row_background.png')}
-                    capInsets={{top: 30, left: 24, bottom: 55, right: 26}}/>
+                    capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>
 				<View style={[styles.rowContainer, additionalStyle]}>
 					<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT/* - 2*/, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
 						<View style={[styles.rowWrapper]} key={rowData.key}>
@@ -518,11 +514,11 @@ export default class  MyPositionTabClosed extends React.Component {
 							</View>
 
 							<View style={styles.rowCenterPart}>
-								{this.renderProfit(rowData.pl)}
+								{this.renderProfit(rowData.pl, color)}
 							</View>
 
 							<View style={styles.rowRightPart}>
-								{this.renderProfitPercentage(plPercent)}
+								{this.renderProfitPercentage(plPercent, color)}
 							</View>
 						</View>
 					</TouchableOpacity>
