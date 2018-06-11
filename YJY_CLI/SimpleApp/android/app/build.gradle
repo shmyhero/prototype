@@ -166,6 +166,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-9patch-image')
     implementation project(':react-native-orientation')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:23.0.1'

@@ -16,8 +16,8 @@ import {
 	ImageBackground,
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
+import NinePatchView from 'react-native-9patch-image';
+//import ImageCapInset from 'react-native-image-capinsets';
 import LogicData from "../LogicData";
 //import RefreshableFlatList from 'react-native-refreshable-flatlist';
 var ColorConstants = require('../ColorConstants');
@@ -30,6 +30,14 @@ var UIConstants = require('../UIConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');
 var LS = require("../LS");
+
+
+
+const SHADOW_LEFT = 2;
+const SHADOW_TOP = 2;
+const SHADOW_RIGHT = 2;
+const SHADOW_BOTTOM = 20;
+const OUTER_ROW_MARGIN_TOP = 0;
 
 var extendHeight = 204
 var rowHeight = 56
@@ -359,8 +367,8 @@ export default class  MyPositionTabClosed extends React.Component {
 		// }
 	}
 
-	renderDetailInfo(rowData) {
-		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')
+	renderDetailInfo(rowData, rowHeight) {
+		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png')
 		var profitColor = rowData.pl > 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN
 
 		if (rowData.pl === 0) {
@@ -372,7 +380,6 @@ export default class  MyPositionTabClosed extends React.Component {
 		var closeDate = new Date(rowData.closedAt)
 		console.log("closeDate ", closeDate);
 
-		var rowHeight = rowData.followUser ? extendHeight + FOLLOW_ROW_HEIGHT : extendHeight
 		return (
 			<View style={[{height: rowHeight}, styles.extendWrapper]} >
 				<View style={[styles.darkSeparator]} />
@@ -465,38 +472,63 @@ export default class  MyPositionTabClosed extends React.Component {
 		var topLine = rowData.security.name
 		var bottomLine = rowData.security.symbol
 		var additionalStyle = {}
+		var additionalOuterStyle = {};
 		if(rowID == 0){
-			additionalStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
+			additionalOuterStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL - SHADOW_TOP;
+			additionalStyle.marginTop = SHADOW_TOP;
+		}
+		if(this.state.stockInfoRowData && rowID == this.state.stockInfoRowData.length-1){
+			additionalOuterStyle.marginBottom = UIConstants.ITEM_ROW_MARGIN_VERTICAL - SHADOW_BOTTOM;
+			additionalStyle.marginBottom = SHADOW_BOTTOM;
+		}
+
+		var rowHeight = UIConstants.ITEM_ROW_HEIGHT + SHADOW_TOP + SHADOW_BOTTOM;
+		var rowWidth = width - UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2 + 10;
+		var extendedRowHeight = rowData.followUser ? extendHeight + FOLLOW_ROW_HEIGHT : extendHeight
+		if(this.state.selectedRow == rowID ){
+			rowHeight += extendedRowHeight;
 		}
 
 		return (
-			<View style={[styles.rowContainer, additionalStyle]}>
-				<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT - 2, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
-					<View style={[styles.rowWrapper]} key={rowData.key}>
-						<View style={styles.rowLeftPart}>
-							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{topLine}
-							</Text>
-						</View>
+			<View style={[styles.outerRowContainer, additionalOuterStyle]}>
 
-						<View style={{flexDirection: 'row', alignItems: 'center', 
-							position:'absolute',
-							bottom: 5,
-							left: ROW_PADDING}}>
-							{this.renderFollowStatus(rowData)}
-						</View>
+				{/* if(Platform.OS =="ios")
+					<ImageCapInset
+					source={require('../../images/row_background.png')}
+					capInsets={{ top: 15, left: 12, bottom: 28, right: 13}}
+					style={{position:'absolute', top:0, left:0, bottom:0, right:0, height: rowHeight, width:rowWidth}}/> */}
+				<NinePatchView
+					style={{height: rowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
+                    source={Platform.OS === 'android' ? {uri: 'row_background'} : require('../../images/row_background.png')}
+                    capInsets={{top: 30, left: 24, bottom: 55, right: 26}}/>
+				<View style={[styles.rowContainer, additionalStyle]}>
+					<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT/* - 2*/, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
+						<View style={[styles.rowWrapper]} key={rowData.key}>
+							<View style={styles.rowLeftPart}>
+								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+									{topLine}
+								</Text>
+							</View>
 
-						<View style={styles.rowCenterPart}>
-							{this.renderProfit(rowData.pl)}
-						</View>
+							<View style={{flexDirection: 'row', alignItems: 'center', 
+								position:'absolute',
+								bottom: 5,
+								left: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL}}>
+								{this.renderFollowStatus(rowData)}
+							</View>
 
-						<View style={styles.rowRightPart}>
-							{this.renderProfitPercentage(plPercent)}
-						</View>
-					</View>
-				</TouchableOpacity>
+							<View style={styles.rowCenterPart}>
+								{this.renderProfit(rowData.pl)}
+							</View>
 
-				{this.state.selectedRow == rowID ? this.renderDetailInfo(rowData): null}
+							<View style={styles.rowRightPart}>
+								{this.renderProfitPercentage(plPercent)}
+							</View>
+						</View>
+					</TouchableOpacity>
+
+					{this.state.selectedRow == rowID ? this.renderDetailInfo(rowData, extendedRowHeight): null}
+				</View>
 			</View>
 		);
 	}
@@ -591,13 +623,22 @@ var styles = StyleSheet.create({
 		backgroundColor: ColorConstants.SEPARATOR_GRAY,
 	},
 
+	outerRowContainer:{		
+		marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_LEFT,
+		marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_RIGHT,
+		marginTop: OUTER_ROW_MARGIN_TOP - SHADOW_TOP,
+        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL - OUTER_ROW_MARGIN_TOP - SHADOW_BOTTOM,
+	},
+
 	rowContainer: {
-        borderWidth:1,
-        borderColor:"#cccccc",
-        borderRadius:10,      
-		margin:ROW_PADDING,
-		marginTop: 0,
-        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
+        // borderWidth:1,
+        // borderColor:"#cccccc",
+		borderRadius:10,
+		//backgroundColor:"red",
+		marginLeft: SHADOW_LEFT,
+		marginRight: SHADOW_RIGHT,
+		marginTop: SHADOW_TOP,
+        marginBottom: SHADOW_BOTTOM,
     },
 
 	rowWrapper: {

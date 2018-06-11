@@ -1120,7 +1120,7 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderDetailInfo(rowData) {
-		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')
+		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png')
         var lastPrice = this.getLastPrice(rowData)
         
 		// console.log('RAMBO rowData.id = ' + rowData.security.id)		
