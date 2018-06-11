@@ -207,6 +207,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
         ),
     }
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
     screen: TabRankScreen,
     navigationOptions: {
@@ -219,6 +220,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
         ),
     }
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
     screen: TabPositionScreen,
     navigationOptions: {
@@ -231,6 +233,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
         )
     },
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_ME] = {
     screen: TabMeScreen,
     navigationOptions: {

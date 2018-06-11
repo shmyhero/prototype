@@ -45,8 +45,7 @@ export default class  UserProfileScreen extends React.Component {
       userId:this.props.navigation.state.params.userData.userId,
       followTraderCount:'0',
       followerCount:'0',
-    };  
-
+    };   
   }
 
   onPageSelected(index) {
@@ -100,8 +99,7 @@ export default class  UserProfileScreen extends React.Component {
   
   renderContent(){ 
         var tabPages = [
-          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'} userId={staticData.userId} 
-            followTrade={this.state.followTrade}/>,
+          <UserProfileTabMain navigation={this.props.navigation} ref={'page0'} userId={staticData.userId} followTrade={this.state.followTrade}/>,
           <UserProfileTabDynamicState navigation={this.props.navigation} ref={'page1'}  userId={staticData.userId}/>,
           <UserProfileTabPositionHold navigation={this.props.navigation} ref={'page2'}  userId={staticData.userId}/>,
           <UserProfileTabPositionClosed navigation={this.props.navigation} ref={'page3'}  userId={staticData.userId}/>,
@@ -145,8 +143,7 @@ export default class  UserProfileScreen extends React.Component {
       ) 
   }
 
-  followUser(){
-
+  followUser(){ 
     var api = NetConstants.CFD_API.USER_FOLLOW.replace('<id>',staticData.userId);
     if(this.state.isFollowing){
       api = NetConstants.CFD_API.USER_DEL_FOLLOW.replace('<id>',staticData.userId);
@@ -207,8 +204,7 @@ export default class  UserProfileScreen extends React.Component {
     }
   }
 
-  render() {
-
+  render() { 
     var picSource = require('../../images/head_portrait.png')
     if(this.state.picUrl.length > 0){
       picSource = {uri:this.state.picUrl}
@@ -221,7 +217,7 @@ export default class  UserProfileScreen extends React.Component {
                 <Text style={styles.textNum}>{this.state.followerCount}</Text>
                 <Text style={styles.textName}>{LS.str('WATCHS')}</Text>
               </View>
-            <Image style={{width:80,height:80,borderWidth:3,borderColor:ColorConstants.BORDER_LIGHT_BLUE,alignSelf:'center',marginTop:20,borderRadius:40}} source={picSource}></Image>
+            <Image style={styles.portraitStyle} source={picSource}></Image>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
                 <Text style={styles.textNum}>{this.state.followTraderCount}</Text>
                 <Text style={styles.textName}>{LS.str('COPYS')}</Text>
@@ -247,7 +243,17 @@ const styles = StyleSheet.create({
     fontSize:12,
     color:'#eeeeee',
     opacity:0.6,
+  },
+  portraitStyle:{
+    width:80,
+    height:80,
+    borderWidth:3,
+    borderColor:ColorConstants.BORDER_LIGHT_BLUE,
+    alignSelf:'center',
+    marginTop:20,
+    borderRadius:40
   }
+  
 })
 
 module.exports = UserProfileScreen;
