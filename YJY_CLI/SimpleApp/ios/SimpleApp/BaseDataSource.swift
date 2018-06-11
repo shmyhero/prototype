@@ -22,6 +22,7 @@ protocol BaseDataProvider : class
     func rightPadding() -> CGFloat
     func chartSetting() -> Dictionary<String, AnyObject>
     func pannedX() -> CGFloat
+    func longPressing() -> (Bool, CGPoint)
 }
 
 class BaseData: NSObject {
@@ -51,6 +52,8 @@ class BaseDataSource: NSObject, BaseDataProvider {
     
     var currentPanX:CGFloat = 0
     var lastPanX:CGFloat = 0
+    var _longPressPoint:CGPoint = .zero
+    var _isLongPressing = false
     
     init(json:String, rect:CGRect) {
         _jsonString = json
@@ -99,6 +102,11 @@ class BaseDataSource: NSObject, BaseDataProvider {
     }
     
     func pinchScale(_ scale:CGFloat, isEnd:Bool = false) {
+    }
+    
+    func longPressMove(_ location:CGPoint, isEnd:Bool = false) {
+        _isLongPressing = !isEnd
+        _longPressPoint = location
     }
     
     //	func needUpdate() -> Bool {
@@ -181,6 +189,10 @@ class BaseDataSource: NSObject, BaseDataProvider {
     }
         
     func maxPanX() -> CGFloat {
-        return chartWidth()
+        return chartWidth()-2*_margin
+    }
+    
+    func longPressing() -> (Bool, CGPoint) {
+        return (_isLongPressing, _longPressPoint)
     }
 }

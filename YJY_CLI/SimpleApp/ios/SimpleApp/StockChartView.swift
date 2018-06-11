@@ -16,7 +16,7 @@ class StockChartView: UIView {
     var dataSource:BaseDataSource?
     var panGesture:UIPanGestureRecognizer?
     var pinchGesture:UIPinchGestureRecognizer?
-    var tapGesture:UITapGestureRecognizer?
+    var longPressGesture:UILongPressGestureRecognizer?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -24,7 +24,9 @@ class StockChartView: UIView {
         self.isUserInteractionEnabled = true
         panGesture = UIPanGestureRecognizer(target: self, action: #selector(StockChartView.pan(_:)))
         pinchGesture = UIPinchGestureRecognizer(target: self, action: #selector(StockChartView.pinch(_:)))
-        tapGesture = UITapGestureRecognizer(target: self, action: #selector(StockChartView.tap(_:)))
+        longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(StockChartView.longPress(_:)))
+        longPressGesture!.minimumPressDuration = 1.0
+        longPressGesture!.allowableMovement = 100
         
         if panGesture != nil {
             self.addGestureRecognizer(panGesture!)
@@ -32,8 +34,8 @@ class StockChartView: UIView {
         if pinchGesture != nil {
             self.addGestureRecognizer(pinchGesture!)
         }
-        if tapGesture != nil {
-            self.addGestureRecognizer(tapGesture!)
+        if longPressGesture != nil {
+            self.addGestureRecognizer(longPressGesture!)
         }
     }
     required init?(coder aDecoder: NSCoder) {
@@ -47,8 +49,8 @@ class StockChartView: UIView {
         if pinchGesture != nil {
             self.removeGestureRecognizer(pinchGesture!)
         }
-        if tapGesture != nil {
-            self.removeGestureRecognizer(tapGesture!)
+        if longPressGesture != nil {
+            self.removeGestureRecognizer(longPressGesture!)
         }
     }
     
@@ -67,6 +69,14 @@ class StockChartView: UIView {
             let scale : CGFloat = sender.scale
             dataSource!.pinchScale(scale, isEnd: sender.state == UIGestureRecognizerState.ended)
             //			dataSource!.calculateData()
+            self.setNeedsDisplay()
+        }
+    }
+    
+    func longPress(_ sender: UILongPressGestureRecognizer) {
+        if dataSource != nil {
+            dataSource!.longPressMove(sender.location(in: self), isEnd: sender.state == .ended)
+            
             self.setNeedsDisplay()
         }
     }

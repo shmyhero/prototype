@@ -17,6 +17,7 @@ protocol LineChartDataProvider: BaseDataProvider
     func firstTime() -> Date?
     func lastTime() -> Date?
     func lastPrice() -> Double?
+    func pointedInfo(point: CGPoint) -> (LineData, CGPoint)
 }
 
 class LineData: BaseData {
@@ -90,7 +91,7 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
             return
         }
         let outWidth = maxPanX()
-        let width = chartWidth() + outWidth
+        let width = chartWidth() + outWidth - self._margin*2
         let height = chartHeight()
 //        print ("portrait:", AppDelegate.isPortrait())
 //        print ("width: ", width, "height: ", height)
@@ -120,7 +121,7 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
         let lastIndex = _lineData.count - 1
         let columnXPoint = { (column:Int) -> CGFloat in
             //Calculate gap between points
-            let spacer = (width - self._margin*2) /
+            let spacer = (width) /
                 CGFloat((lastIndex))
             var x:CGFloat = CGFloat(column) * spacer + self.pannedX() - outWidth
             x += self._margin
@@ -189,20 +190,6 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
             }
             verticalTimes.append(self._lineData[i].time!)
         }
-        
-//        if let time0 = _lineData.first?.time {
-//            var startTime = stockData?.lastOpen ?? Date()
-//            for i in 0 ..< _lineData.count {
-//                if let time = _lineData[i].time {
-//                    let interval:TimeInterval = time.timeIntervalSince(startTime)
-//                    if interval > gap*0.99 {
-//                        verticalLinesX.append(_pointData[i].x+0.5)
-//                        startTime = time
-//                        verticalTimes.append(self._lineData[i].time!)
-//                    }
-//                }
-//            }
-//        }
     }
     
     // MARK: delegate
@@ -245,6 +232,20 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
     
     override func rightPadding() ->CGFloat {
         return 0
+    }
+    
+    func pointedInfo(point: CGPoint) -> (LineData, CGPoint) {
+        let realx = point.x - _margin
+        let outWidth = maxPanX()
+        let width = chartWidth() + outWidth - self._margin*2
+        var i = Int((realx+outWidth-pannedX()) / width * CGFloat(_lineData.count))
+        if i >= _lineData.count {
+            i = _lineData.count - 1
+        }
+        if i < 0 {
+            i = 0
+        }
+        return (_lineData[i], _pointData[i])
     }
     
 }
