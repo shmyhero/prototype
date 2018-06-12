@@ -7,9 +7,11 @@ import {
   View,
   StyleSheet,
   Platform,
-  StatusBar
+  StatusBar,
+  Dimensions
 } from 'react-native';
 
+var {height, width} = Dimensions.get('window');
 require('./js/utils/dateUtils')
 require('./js/utils/numberUtils')
 import { NavigationActions } from 'react-navigation';
@@ -41,7 +43,7 @@ function getCurrentRouteName(navigationState) {
   return route.routeName;
 }
 
-export default class App extends React.Component {
+class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
     Orientation.lockToPortrait();
@@ -65,13 +67,14 @@ export default class App extends React.Component {
       LogicData.setLanguage(locale);
     });    
 
+    WebSocketModule.start();
+    
     StorageModule.loadUserData().then((data)=>{
       if(data!=undefined){
-        var obj = JSON.parse(data)
-        LogicData.setUserData(obj);
+        var userData = JSON.parse(data)
+        LogicData.setUserData(userData);
       }
     });
-    WebSocketModule.start();
     
     const backAction = NavigationActions.back({});
 
@@ -98,6 +101,7 @@ export default class App extends React.Component {
       StatusBar.setTranslucent(true);
     }
     return <SimpleApp 
+      style={{height: height, width: width}}
       ref={(ref)=>this.appNavigator = ref}
       uriPrefix={prefix}
       onNavigationStateChange={(prevState, currentState) => {        
@@ -141,3 +145,4 @@ const styles = StyleSheet.create({
   },
 });
 
+export default App;

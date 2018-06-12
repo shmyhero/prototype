@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
-        fontSize: 17
+        fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
     },
     stockTouchableContainerStyle:{
         borderRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
@@ -123,7 +123,7 @@ const styles = StyleSheet.create({
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
-        fontSize: 15
+        fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
     },
     UpPLStyle:{
         color: ColorConstants.STOCK_RISE,
@@ -136,12 +136,12 @@ const styles = StyleSheet.create({
     },
     titleStyle:{
         color:'#000000',
-        fontSize: 17,
+        fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
         fontWeight: 'bold'
     },
     symbolStyle:{
         color:'#666666',
-        fontSize: 15,
+        fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
     },
     statusIcon:{
 		width:22,

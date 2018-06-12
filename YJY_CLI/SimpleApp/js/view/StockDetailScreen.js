@@ -581,7 +581,7 @@ class StockDetailScreen extends Component {
                             {this.renderAmountButton(400)}
                         </View>
                     </ImageBackground>
-                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
+                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         source={LS.loadImage('stock_detail_multiple_container')}>
                         <View style={[styles.buttonsRowContainer]}>
                             {this.renderMultiplierButton(10)}

@@ -17,6 +17,7 @@ protocol LineChartDataProvider: BaseDataProvider
     func firstTime() -> Date?
     func lastTime() -> Date?
     func lastPrice() -> Double?
+    func pointedInfo(point: CGPoint) -> (LineData, CGPoint)
 }
 
 class LineData: BaseData {
@@ -89,10 +90,11 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
         if (_rect == CGRect.zero || _lineData.isEmpty) {
             return
         }
-        let width = chartWidth()
+        let outWidth = maxPanX()
+        let width = chartWidth() + outWidth - self._margin*2
         let height = chartHeight()
-        print ("portrait:", AppDelegate.isPortrait())
-        print ("width: ", width, "height: ", height)
+//        print ("portrait:", AppDelegate.isPortrait())
+//        print ("width: ", width, "height: ", height)
         
         if _lineData.count == 1 {
             // only 1 point data, duplicate it.(one line need two points)
@@ -119,9 +121,9 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
         let lastIndex = _lineData.count - 1
         let columnXPoint = { (column:Int) -> CGFloat in
             //Calculate gap between points
-            let spacer = (width - self._margin*2) /
+            let spacer = (width) /
                 CGFloat((lastIndex))
-            var x:CGFloat = CGFloat(column) * spacer
+            var x:CGFloat = CGFloat(column) * spacer + self.pannedX() - outWidth
             x += self._margin
             return x
         }
@@ -172,42 +174,21 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
         if (_rect == CGRect.zero || _lineData.isEmpty) {
             return
         }
-        verticalLinesX = []
+        // 固定显示4个时间
+        let width = chartWidth()-2*_margin
+        let outWidth = maxPanX()
+        verticalLinesX = [_margin, _margin+width/3, _margin+width*2/3, _margin+width]
         verticalTimes = []
-        
-        let gaps = ["today":3600.0, "2h":1800.0, "week":3600.0*24, "month":3600.0*24*7, "3month":3600.0*24*7*3, "6month":3600.0*24*7*6]
-        let gap = gaps[_chartType]!		// gap between two lines
-        
-        if let time0 = _lineData.first?.time {
-            var startTime = stockData?.lastOpen ?? Date()
-            
-            if _chartType == "week" {
-                // 1 day, 1 line
-                let interval:TimeInterval = time0.timeIntervalSince(startTime)
-                let days = floor(interval / gap)
-                startTime = Date(timeInterval: days*gap, since: startTime)
+        for x in verticalLinesX {
+            let realx = x - _margin
+            var i = Int((realx+outWidth-pannedX()) / (width+outWidth) * CGFloat(_lineData.count))
+            if i >= _lineData.count {
+                i = _lineData.count - 1
             }
-            else if _chartType == "month" {
-                // 1 week, 1 line
-                startTime = startTime.sameTimeOnLastSunday()
-                let interval:TimeInterval = time0.timeIntervalSince(startTime)
-                let weeks = floor(interval / gap)
-                startTime = Date(timeInterval: weeks*gap, since: startTime)
+            if i < 0 {
+                i = 0
             }
-            else {
-                startTime = (_lineData.first?.time)!
-            }
-            
-            for i in 0 ..< _lineData.count {
-                if let time = _lineData[i].time {
-                    let interval:TimeInterval = time.timeIntervalSince(startTime)
-                    if interval > gap*0.99 {
-                        verticalLinesX.append(_pointData[i].x+0.5)
-                        startTime = time
-                        verticalTimes.append(self._lineData[i].time!)
-                    }
-                }
-            }
+            verticalTimes.append(self._lineData[i].time!)
         }
     }
     
@@ -251,6 +232,20 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
     
     override func rightPadding() ->CGFloat {
         return 0
+    }
+    
+    func pointedInfo(point: CGPoint) -> (LineData, CGPoint) {
+        let realx = point.x - _margin
+        let outWidth = maxPanX()
+        let width = chartWidth() + outWidth - self._margin*2
+        var i = Int((realx+outWidth-pannedX()) / width * CGFloat(_lineData.count))
+        if i >= _lineData.count {
+            i = _lineData.count - 1
+        }
+        if i < 0 {
+            i = 0
+        }
+        return (_lineData[i], _pointData[i])
     }
     
 }

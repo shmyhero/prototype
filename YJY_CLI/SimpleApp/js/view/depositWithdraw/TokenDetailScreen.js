@@ -161,17 +161,18 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         width:width,
-        backgroundColor: 'white'
+        backgroundColor: '#f2f2f2'
     },
     rowContainer: {
         padding: 15, 
-        borderWidth: 1, 
-        borderColor: "#dddddd",
+        // borderWidth: 1, 
+        // borderColor: "#dddddd",
         borderRadius: 10,
         marginTop: 15,
         marginLeft: 15,
         marginRight: 15,
         flexDirection:'row',
+        backgroundColor: 'white',
         flex:1,
     },
     rowHeaderContainer:{

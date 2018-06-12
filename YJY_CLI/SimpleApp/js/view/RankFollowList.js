@@ -141,11 +141,14 @@ export default class  RankFollowList extends React.Component {
 		);
     }
     
+    tabPressed(){ 
+		this.onRefresh()
+	}
     
 
     renderListAll(){
         return(
-            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:5}}>
+            <View style={{flex:1,width:width,backgroundColor:'transparent',marginTop:15}}>
                 <ListView
                     enableEmptySections={true}
                     dataSource={this.state.dataSource}

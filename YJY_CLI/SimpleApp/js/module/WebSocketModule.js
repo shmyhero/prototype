@@ -19,16 +19,18 @@ var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require('../NetConstants');
 
 var serverURL = NetConstants.CFD_API_SERVER;
-var stockPriceServerName = 'Q'
-var subscribeStock = 'S';
-var alertServerName = 'A'
+var subscribeStockHubName = 'Q'
+var subscribeStockHubMethodName = 'S';
+var userMessageHubName = 'M'
+var userMessageHubMethodName = 'L'
 var serverListenerName = 'p'
 var previousInterestedStocks = null
 var webSocketConnection = null
 var stockPriceWebSocketProxy = null
+var userMessageWebSocketProxy = null
 var alertWebSocketProxy = null
 var wsStockInfoCallback = null
-var wsAlertCallback = null
+var wsMessageCallback = null
 
 var socketConnected = false;
 var networkConnectionStatus = DISCONNECTED;
@@ -108,8 +110,31 @@ export function start() {
 	webSocketConnection.error(function (error) {
 		wsErrorCallback('网络错误。' + error)
 	});
+	
+	createStockPriceProxy();
 
-	stockPriceWebSocketProxy = webSocketConnection.createHubProxy(stockPriceServerName);
+	createMessageProxy();
+
+	// atempt connection, and handle errors
+	startWebSocket(webSocketConnection);
+}
+
+function createMessageProxy(){
+	userMessageWebSocketProxy = webSocketConnection.createHubProxy(userMessageHubName);
+
+	//receives broadcast messages from a hub function, called "broadcastMessage"
+	// StockInfo data structure: {"Symbol":"MSFT","Price":31.97,"DayOpen":30.31,"Change":1.66,"PercentChange":0.0519}
+	userMessageWebSocketProxy.on(serverListenerName, (messageInfo) => {
+		console.log("userMessageWebSocketProxy! " + JSON.stringify(messageInfo))
+		if (wsMessageCallback !== null) {
+			//[{"posId":1400,"msgId":35}]
+			wsMessageCallback(messageInfo)
+		}
+	});
+}
+
+function createStockPriceProxy(){
+	stockPriceWebSocketProxy = webSocketConnection.createHubProxy(subscribeStockHubName);
 
 	//receives broadcast messages from a hub function, called "broadcastMessage"
 	// StockInfo data structure: {"Symbol":"MSFT","Price":31.97,"DayOpen":30.31,"Change":1.66,"PercentChange":0.0519}
@@ -132,22 +157,6 @@ export function start() {
 			wsStockInfoCallback(stockInfo)
 		}
 	});
-
-	// // Currently no alert service.
-	// alertWebSocketProxy = webSocketConnection.createHubProxy(alertServerName);
-	// alertWebSocketProxy.on(serverListenerName, (alertInfoArr) => {
-	// 	console.log('alert comes.')
-	// 	for (var i = 0; i < alertInfoArr.length; i++) {
-	// 		Alert.alert('', alertInfoArr[i])
-	// 	}
-
-	// 	if (wsAlertCallback) {
-	// 		wsAlertCallback(alertInfoArr)
-	// 	}
-	// });
-
-	// atempt connection, and handle errors
-	startWebSocket(webSocketConnection);
 }
 
 function handleConnectivityChange(reach){
@@ -191,8 +200,10 @@ function handleConnectivityChange(reach){
 }
 
 function startWebSocket(webSocketConnection){
+	console.log("webSocketConnection start")
 	webSocketConnection.start()
 		.done(() => {
+			console.log("webSocketConnection start success")
 			socketConnected = true;
 			networkConnectionStatus = CONNECTED;
 
@@ -203,7 +214,8 @@ function startWebSocket(webSocketConnection){
 
 			var userData = LogicData.getUserData()
 			if (userData != null) {
-				alertServiceLogin(userData.userId + '_' + userData.token)
+				console.log("messageServiceLogin")
+				messageServiceLogin(userData.userId + '_' + userData.token)
 			}
 		})
 		.fail((error) => {
@@ -230,10 +242,6 @@ export function registerInterestedStocksCallbacks(stockInfoCallback) {
 	wsStockInfoCallback = stockInfoCallback
 }
 
-export function registerAlertCallbacks(alertCallback) {
-	wsAlertCallback = alertCallback
-}
-
 export function registerInterestedStocks(stockList) {
 	// console.log("register interested backs")
 	console.log('registerInterestedStocks: ' + webSocketConnection)
@@ -244,22 +252,21 @@ export function registerInterestedStocks(stockList) {
 		) {
 		console.log('Send stockList to websocket server: ' + stockList)
 		previousInterestedStocks = stockList
-	    var messagePromise = stockPriceWebSocketProxy.invoke(subscribeStock, stockList);
-
-	    messagePromise
-	    	.done(() => {
-		    	console.log ('Send Message to server succeeded');
-			})
-			.fail(function (error) {
-		    	if (wsErrorCallback) {
-		    		wsErrorCallback(error.message)
-		    	}
-			});
+	    stockPriceWebSocketProxy.invoke(subscribeStockHubMethodName, stockList)
+		.done(() => {
+			console.log ('Send Message to server succeeded');
+		})
+		.fail(function (error) {
+			if (wsErrorCallback) {
+				wsErrorCallback(error.message)
+			}
+		});
 	}else{
 		console.log('Send stockList to websocket server later: ' + stockList)
 		previousInterestedStocks = stockList;
 	}
 }
+
 
 export function cleanRegisteredCallbacks() {
 	// console.log("clean registerCallbacks")
@@ -267,22 +274,28 @@ export function cleanRegisteredCallbacks() {
 	registerInterestedStocksCallbacks(null);
 }
 
-export function alertServiceLogin(token) {
-	if (webSocketConnection && webSocketConnection.state == 1 && alertWebSocketProxy !== null && token !== null) {
-		var messagePromise = alertWebSocketProxy.invoke('L', token);
+export function getPreviousInterestedStocks() {
+	return previousInterestedStocks
+}
 
-	    messagePromise
-	    	.done((result) => {
-		    	console.log ('Send Login to Alert server succeed: ' + result);
-			})
-			.fail(function (error) {
-		    	if (wsErrorCallback) {
-		    		wsErrorCallback(error.message)
-		    	}
-			});
+export function messageServiceLogin(token){
+	if (webSocketConnection && webSocketConnection.state == 1 && userMessageWebSocketProxy !== null && token !== null) {
+		userMessageWebSocketProxy.invoke(userMessageHubMethodName, token)
+		.done(() => {
+			console.log ('Send messageServiceLogin Message to server succeeded');		
+		})
+		.fail(function (error) {
+			if (wsErrorCallback) {
+				wsErrorCallback(error.message)
+			}
+		});
 	}
 }
 
-export function getPreviousInterestedStocks() {
-	return previousInterestedStocks
+export function registerMessageCallback(messageCallback){
+	wsMessageCallback = messageCallback;
+}
+
+export function cleanMessageCallbacks(){
+	wsMessageCallback = null;
 }

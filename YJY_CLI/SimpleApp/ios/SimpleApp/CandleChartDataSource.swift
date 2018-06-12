@@ -57,9 +57,6 @@ class CandleChartDataSource: BaseDataSource, CandleChartDataProvider {
 	var verticalLinesX:[CGFloat] = []
 	var verticalLinesTime:[Date] = []
 	
-	var currentPanX:CGFloat = 0
-	var lastPanX:CGFloat = 0
-	
 	var currentScale:CGFloat = 1
 	var lastScale:CGFloat = 1
 	let MIN_SCALE:CGFloat = 0.5
@@ -119,7 +116,7 @@ class CandleChartDataSource: BaseDataSource, CandleChartDataProvider {
         let height = chartHeight()
 		
 		let needRender = { (column: Int) -> Bool in
-			let x:CGFloat = width - CGFloat(column) * self.oneSpacer() - self._margin + self.panX()
+			let x:CGFloat = width - CGFloat(column) * self.oneSpacer() - self._margin + self.pannedX()
 			return x > self._margin && x < width - self._margin + self.oneSpacer()
 		}
 		var maxValue:Double = 0
@@ -143,7 +140,7 @@ class CandleChartDataSource: BaseDataSource, CandleChartDataProvider {
 		
 		let columnPosition = { (column:Int) -> CandlePositionData in
 			let candle:CandleData = self._candleData[column]
-			let x:CGFloat = width - CGFloat(column) * self.oneSpacer() - self._margin - self.oneSpacer()/2 + self.panX()
+			let x:CGFloat = width - CGFloat(column) * self.oneSpacer() - self._margin - self.oneSpacer()/2 + self.pannedX()
 			let y:CGFloat = height/2
 			var high:CGFloat=y,low:CGFloat=y,open:CGFloat=y,close:CGFloat=y
 			if (maxValue > minValue) {
@@ -191,19 +188,7 @@ class CandleChartDataSource: BaseDataSource, CandleChartDataProvider {
 		}
 	}
 	
-	override func panTranslation(_ translation: CGPoint, isEnd:Bool = false) {
-		currentPanX = translation.x	//pan right means go earlier
-		
-		if (isEnd) {
-			lastPanX = panX()
-			if lastPanX < 1 {
-				lastPanX = 0
-			}
-			currentPanX = 0
-		}
-	}
-	
-	func maxPanX() -> CGFloat {
+	override func maxPanX() -> CGFloat {
 		if (isEmpty()) {
 			return 0
 		}
@@ -217,16 +202,6 @@ class CandleChartDataSource: BaseDataSource, CandleChartDataProvider {
 				return 0
 			}
 		}
-	}
-	
-	func panX() -> CGFloat {
-		var panx = currentPanX + lastPanX
-		if panx < 0 {
-			panx = 0
-		} else if panx > maxPanX() {
-			panx = maxPanX()
-		}
-		return panx
 	}
 	
 	override func pinchScale(_ scale:CGFloat, isEnd:Bool = false) {

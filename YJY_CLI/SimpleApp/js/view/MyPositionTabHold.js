@@ -37,7 +37,7 @@ import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
 
-var stockNameFontSize = Math.round(17*width/375.0)
+var stockPriceFontSize = 15
 
 const ROW_PADDING = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
 const ROW_SIMPLE_CONTENT_PADDING = 10;
@@ -77,6 +77,39 @@ export default class  MyPositionTabHold extends React.Component {
         this.state = state;
 	}
 	
+	componentWillMount(){
+		WebSocketModule.registerMessageCallback((closePositions)=>this.closePositionList(closePositions))
+	}
+
+	closePositionList(closePositions){
+		var changed = false;
+		for(i in this.state.stockInfoRowData){
+			var stock = this.state.stockInfoRowData[i];
+			for(j in closePositions){
+				if(stock.id == closePositions[j].posId){
+					this.state.stockInfoRowData.splice(i, 1);
+
+					if(this.state.selectedRow > i){
+						this.state.selectedRow -= 1;
+					}else if (this.state.selectedRow == i){
+						this.state.selectedRow = -1;
+						this.state.selectedSubItem = SUB_ACTION_NONE;
+					}
+					changed = true;
+					
+				}
+			}
+		}
+
+		if(changed){
+			this.setState({
+				selectedRow: this.state.selectedRow,
+				selectedSubItem: this.state.selectedSubItem,
+				stockInfoRowData: this.state.stockInfoRowData
+			});
+		}
+	}
+
 	getInitialState(){
 		this.stopProfitUpdated = false
 		this.stopLossUpdated = false
@@ -664,18 +697,18 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	useNativePropsToUpdate(type, value, rowData){
+		var displayValue = value.toFixed(2);
 		var price = this.percentToPriceWithRow(value, rowData, type)
 		if (type === TYPE_STOP_PROFIT){
-			this._text1.setNativeProps({text: value.toFixed(2)+'%'});
+			this._text1.setNativeProps({text: displayValue+'%'});
 			this._text3.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
 		}
 		else if (type === TYPE_STOP_LOSS) {
-			var props = {text: value.toFixed(2)+'%'};
+			var props = {text: displayValue+'%'};
 			if(Platform.OS === "ios"){
-				props.color = value >= 0
-				 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN;
+				props.color = displayValue >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN;
 			}else{
-				props.style = {color: value >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN};
+				props.style = {color: displayValue >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN};
 			}
 			this._text2.setNativeProps(props);
 			this._text4.setNativeProps({text: price.toFixed(rowData.security.dcmCount)})
@@ -1120,7 +1153,7 @@ export default class  MyPositionTabHold extends React.Component {
 	}
 
 	renderDetailInfo(rowData) {
-		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_enabled.png') : require('../../images/stock_detail_direction_down_enabled.png')
+		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png')
         var lastPrice = this.getLastPrice(rowData)
         
 		// console.log('RAMBO rowData.id = ' + rowData.security.id)		
@@ -1435,7 +1468,7 @@ const styles = StyleSheet.create({
 	},
 
 	stockNameText: {
-		fontSize: stockNameFontSize,
+		fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
 		textAlign: 'center',
 		fontWeight: 'bold',
 		lineHeight: 22,
@@ -1450,7 +1483,7 @@ const styles = StyleSheet.create({
 	},
 
 	stockPercentText: {
-		fontSize: 18,
+		fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
 		color: '#ffffff',
 		fontWeight: 'normal',
 	},
@@ -1525,7 +1558,7 @@ const styles = StyleSheet.create({
 	okButton: {
 		color: 'white',
 		textAlign: 'center',
-		fontSize: 17,
+		fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
 	},
 
 	netIncomeText: {

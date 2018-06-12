@@ -1,5 +1,14 @@
 import React, {Component} from 'react';
-import { Image, StyleSheet,Platform, } from 'react-native';
+import {
+    Image,
+    StyleSheet,
+    Platform,
+    Keyboard,
+    Animated,
+    Easing,
+    View,
+    Text,
+} from 'react-native';
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
 var {EventConst, EventCenter} = require('./js/EventCenter');
@@ -21,6 +30,7 @@ import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
 import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
 import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
+import SplashScreen from 'react-native-splash-screen'
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -30,7 +40,7 @@ var TabRankScreen = require('./js/view/TabRankScreen');
 import TabPositionScreen from './js/view/TabPositionScreen';
 import TabMeScreen from './js/view/TabMeScreen';
 import FollowScreen from './js/view/FollowScreen';
-var SplashScreen = require('./js/view/SplashScreen');
+var SplashScreenView = require('./js/view/SplashScreen');
 var UserProfileScreen = require('./js/view/UserProfileScreen');
 var LS = require("./js/LS");
 
@@ -68,42 +78,106 @@ class CustomTabBar extends Component {
 
     updateTabbarSubscription = null
 
+    constructor(props){
+        super(props)
+
+        var height = 100;
+        if(props.style && props.style.height){
+            height = props.style.height
+        }
+
+        this.state = {
+            showTab: true,
+            tabbarOpacity: new Animated.Value(1),
+            originHeight: height,
+            height: new Animated.Value(height),
+        }
+    }
+
+    componentWillReceiveProps(props){
+        if(props.style && props.style.height && props.style.height != this.props.style.height){
+            this.setState({
+                height: new Animated.Value(props.height),
+            })
+        }
+    }
+
     componentDidMount(){
         this.updateTabbarSubscription = EventCenter.getEventEmitter().addListener(EventConst.UPDATE_TABBAR, () => {
             console.log("UPDATE_TABBAR")
             this.forceUpdate()
         });
+
+        if (Platform.OS == "ios") {
+            SplashScreen.hide();//关闭启动屏幕
+        }
+        else {
+            this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', () => this.keyboardWillShow())
+            this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', () => this.keyboardWillHide())
+        }
     }
     
     componentWillUnmount(){
         this.updateTabbarSubscription && this.updateTabbarSubscription.remove()
+        if (Platform.OS == "android"){
+            this.keyboardWillShowSub && this.keyboardWillShowSub.remove()
+            this.keyboardWillHideSub && this.keyboardWillHideSub.remove()
+        }
+    }
+
+    keyboardWillShow(){
+        Animated.timing(
+            this.state.height, // The value to drive
+            {
+                toValue: 0, // Animate to final value of 1
+                duration: 300,
+                easing: Easing.cubic
+            }
+        ).start(); // Start the animation
+    }
+
+    keyboardWillHide(){
+        Animated.timing(
+            this.state.height, // The value to drive
+            {
+                toValue: this.state.originHeight, // Animate to final value of 1
+                duration: 500,
+                easing: Easing.cubic
+            }
+        ).start(); // Start the animation
     }
 
     render(){
-        return (
-            <TabBarBottom
-                {...this.props}
-                getLabel={(scene)=>{
-                    try{
-                        console.log("scene.route.routeName", scene.route.routeName)
-                        switch(scene.route.routeName){
-                            case ViewKeys.TAB_MAIN:
-                                return LS.str('TAB_MAIN_TAB_LABEL');
-                            case ViewKeys.TAB_MARKET:
-                                return LS.str('TAB_MARKET_TAB_LABEL');
-                            case ViewKeys.TAB_RANK:
-                                return LS.str('TAB_RANK_TAB_LABEL');
-                            case ViewKeys.TAB_POSITION:
-                                return LS.str('TAB_POSITION_TAB_LABEL');
-                            case ViewKeys.TAB_ME:
-                                return LS.str('TAB_ME_TAB_LABEL');
-                            return ""
-                        }
-                    }catch(e){
-                        return ""
-                    }
-                }}
-        />)
+        if(this.state.showTab){
+            return (
+                <Animated.View style={{height:this.state.height}}>
+                    <TabBarBottom
+                        {...this.props}
+                        getLabel={(scene)=>{
+                            try{
+                                console.log("scene.route.routeName", scene.route.routeName)
+                                switch(scene.route.routeName){
+                                    case ViewKeys.TAB_MAIN:
+                                        return LS.str('TAB_MAIN_TAB_LABEL');
+                                    case ViewKeys.TAB_MARKET:
+                                        return LS.str('TAB_MARKET_TAB_LABEL');
+                                    case ViewKeys.TAB_RANK:
+                                        return LS.str('TAB_RANK_TAB_LABEL');
+                                    case ViewKeys.TAB_POSITION:
+                                        return LS.str('TAB_POSITION_TAB_LABEL');
+                                    case ViewKeys.TAB_ME:
+                                        return LS.str('TAB_ME_TAB_LABEL');
+                                    return ""
+                                }
+                            }catch(e){
+                                return ""
+                            }
+                        }}
+                />
+            </Animated.View>);
+        }else{
+            return null;
+        }
     }
 }
 
@@ -133,6 +207,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_MARKET] = {
         ),
     }
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
     screen: TabRankScreen,
     navigationOptions: {
@@ -145,6 +220,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_RANK] = {
         ),
     }
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
     screen: TabPositionScreen,
     navigationOptions: {
@@ -157,6 +233,7 @@ mainTabNavigatorConfiguration[ViewKeys.TAB_POSITION] = {
         )
     },
 };
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_ME] = {
     screen: TabMeScreen,
     navigationOptions: {
@@ -209,7 +286,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
 });
 
 var mainAppStackNavigatorConfiguration = {}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = {screen: SplashScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = { screen: SplashScreenView}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HOME] = {screen: MainScreenNavigator}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {screen: StockDetailScreen}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {screen: LoginScreen}

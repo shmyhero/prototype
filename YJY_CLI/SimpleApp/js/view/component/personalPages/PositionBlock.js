@@ -19,7 +19,6 @@ var UIConstants = require('../../../UIConstants');
 var NetworkModule = require('../../../module/NetworkModule');
 import NetworkErrorIndicator from '../NetworkErrorIndicator'; 
 var {height, width} = Dimensions.get('window');
-var stockNameFontSize = Math.round(15*width/375.0);
 var LogicData = require("../../../LogicData");
 var {height, width} = Dimensions.get('window');
 var LS = require('../../../LS')
@@ -241,11 +240,10 @@ export default class PositionBlock extends Component {
 	}
 
   renderProfit(percentChange, endMark) {
-    var textSize = Math.round(18*width/375.0) 
-		percentChange = percentChange.toFixed(2)
+    percentChange = percentChange.toFixed(2)
 		var startMark = percentChange > 0 ? "+":null
 		return (
-			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange), fontSize:textSize}]}>
+			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange)}]}>
 				 {startMark}{percentChange} {endMark}
 			</Text>
 		);
@@ -342,10 +340,10 @@ const styles = StyleSheet.create({
     paddingLeft: 0,
   },
 	stockNameText: {
-		fontSize: stockNameFontSize,
 		textAlign: 'center',
 		fontWeight: 'bold',
-		lineHeight: 22,
+    lineHeight: 22,
+    fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE
 	},
 	stockSymbolText: {
 		fontSize: 12,
@@ -403,6 +401,9 @@ const styles = StyleSheet.create({
   loadingText: {
     fontSize: 13,
     color: 'white'
+  },
+  stockPercentText:{
+    fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
   },
   rowItem:{
     // shadowOffset: {width:2, height:2},

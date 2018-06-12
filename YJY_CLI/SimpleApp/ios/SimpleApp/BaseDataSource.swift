@@ -21,6 +21,8 @@ protocol BaseDataProvider : class
     func chartHeight() -> CGFloat
     func rightPadding() -> CGFloat
     func chartSetting() -> Dictionary<String, AnyObject>
+    func pannedX() -> CGFloat
+    func longPressing() -> (Bool, CGPoint)
 }
 
 class BaseData: NSObject {
@@ -48,11 +50,21 @@ class BaseDataSource: NSObject, BaseDataProvider {
     var _chartType:String="undefined"
     var _chartSetting:Dictionary<String, AnyObject>=[:]
     
+    var currentPanX:CGFloat = 0
+    var lastPanX:CGFloat = 0
+    var _longPressPoint:CGPoint = .zero
+    var _isLongPressing = false
+    
     init(json:String, rect:CGRect) {
         _jsonString = json
         _rect = rect
         super.init()
         
+        self.parseJson()
+    }
+    
+    func updateData(json:String){
+        _jsonString = json
         self.parseJson()
     }
     
@@ -77,9 +89,24 @@ class BaseDataSource: NSObject, BaseDataProvider {
     }
     
     func panTranslation(_ translation:CGPoint, isEnd:Bool = false) {
+        currentPanX = translation.x    //pan right means go earlier
+        print(currentPanX)
+        
+        if (isEnd) {
+            lastPanX = pannedX()
+            if lastPanX < 1 {
+                lastPanX = 0
+            }
+            currentPanX = 0
+        }
     }
     
     func pinchScale(_ scale:CGFloat, isEnd:Bool = false) {
+    }
+    
+    func longPressMove(_ location:CGPoint, isEnd:Bool = false) {
+        _isLongPressing = !isEnd
+        _longPressPoint = location
     }
     
     //	func needUpdate() -> Bool {
@@ -148,5 +175,24 @@ class BaseDataSource: NSObject, BaseDataProvider {
     
     func chartSetting() -> Dictionary<String, AnyObject> {
         return _chartSetting
+    }
+    
+    func pannedX() -> CGFloat {
+        var panx = currentPanX + lastPanX
+        if panx < 0 {
+            panx = 0
+        } else if panx > maxPanX() {
+            panx = maxPanX()
+        }
+        
+        return panx
+    }
+        
+    func maxPanX() -> CGFloat {
+        return chartWidth()-2*_margin
+    }
+    
+    func longPressing() -> (Bool, CGPoint) {
+        return (_isLongPressing, _longPressPoint)
     }
 }

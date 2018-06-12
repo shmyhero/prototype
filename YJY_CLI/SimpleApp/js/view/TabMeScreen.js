@@ -241,13 +241,12 @@ class  TabMeScreen extends React.Component {
             leftPartOnClick={()=>this.goToMessage()}
             imageOnRight={require('../../images/me_settings.png')}
             rightPartOnClick={()=>this.goToSettings()}/>
-          
           {this.renderPortrait()}
           {this.renderBalance()} 
           {this.renderChart()}
           {this.renderTradeStyleCicleBlock()}
           {this.renderTradeStyleBlock()}
-          <View style={{height:15}}></View>
+          <View style={{height:15}}/>
         </ScrollView>);
     }else{
       return this.renderLogin();

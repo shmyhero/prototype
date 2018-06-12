@@ -49,7 +49,7 @@ class ColorSet: NSObject {
         dateTextColor = UIColor(hexInt: 0x62a5e0)
         dateTextBgColor = UIColor(hexInt: 0x1c4570)
         //线框
-        bgLineColor = UIColor(hexInt: 0xffffff, alpha: 0)
+        bgLineColor = UIColor(hexInt: 0xffffff, alpha: 1)
         //k线的颜色
         lineColor = UIColor(hexInt: 0x577fa2, alpha:1)
         //最大最小文字
