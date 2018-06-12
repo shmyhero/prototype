@@ -18,7 +18,7 @@ using YJY_COMMON.Localization;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Service;
-using YJY_SVR.DTO;
+using YJY_API.DTO;
 
 namespace YJY_API.Controllers
 {

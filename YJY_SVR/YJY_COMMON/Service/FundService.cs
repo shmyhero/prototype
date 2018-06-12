@@ -56,10 +56,16 @@ namespace YJY_COMMON.Service
                     var deposit = dbIsolated.THTDeposits.FirstOrDefault(o => o.Index == depositId);
                     if (deposit != null && deposit.PaidAt == null) //not paid yet
                     {
-                        var user = dbIsolated.Users.FirstOrDefault(o => o.THTAddress == deposit.From);
-                        if (user != null)
+                        var users = dbIsolated.Users.Where(o => o.THTAddress == deposit.From).ToList();
+
+                        if (users.Count > 1)
+                            YJYGlobal.LogWarning("duplicated THTAddress found " + deposit.From);
+
+                        if (users.Count > 0)
                         {
-                            var amount = ((decimal) deposit.Value)/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            var user = users.First();
+
+                            var amount = (decimal) deposit.Value/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
 
                             if (amount > 0)
                             {

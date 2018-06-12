@@ -6,9 +6,9 @@ using AutoMapper;
 using YJY_API.Controllers;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Service;
-using YJY_SVR.DTO;
+using YJY_API.DTO;
 
-namespace YJY_SVR.Controllers
+namespace YJY_API.Controllers
 {
     [RoutePrefix("api/admin")]
     public class AdminController : YJYController
