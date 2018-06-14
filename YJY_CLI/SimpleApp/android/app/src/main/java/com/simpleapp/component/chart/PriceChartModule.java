@@ -37,7 +37,7 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
     int chartOffsetTop = 0;
     int chartOffsetBottom = 0;
 
-
+    IChartDrawer drawer = null;
     @Override
     public String getName() {
         return REACT_CLASS;
@@ -93,6 +93,8 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         chart.getXAxis().setAvoidFirstLastClipping(true);
         //chart.setExtraLeftOffset(15);
 
+        drawer = null;
+
         return chart;
     }
 
@@ -108,13 +110,19 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
 
             //TODO: If you want to enable Drawer, undo-comment the following lines.
             Log.d("","setData chartType = " + mChartType);
-            IChartDrawer drawer = ChartDrawerBuilder.createDrawer(mChartType);
-            drawer.setTextColor(textColor);
-            drawer.setBorderColor(borderColor);
-            drawer.setPreCloseColor(preCloseColor);
+            if(drawer == null) {
+                drawer = ChartDrawerBuilder.createDrawer(mChartType);
+                drawer.setTextColor(textColor);
+                drawer.setBorderColor(borderColor);
+                drawer.setPreCloseColor(preCloseColor);
+                drawer.calculateZoom(chart, chartDataList);
+            }
 
-            int maxCount = stockInfoObject.getJSONArray("priceData").length();
-            chart.setMaxVisibleValueCount(maxCount/2);
+
+//            int maxCount = stockInfoObject.getJSONArray("priceData").length();
+//            chart.setMaxVisibleValueCount(maxCount/2);
+
+
             if(drawer != null){
                 drawer.draw(chart, stockInfoObject, chartDataList);
                 return;

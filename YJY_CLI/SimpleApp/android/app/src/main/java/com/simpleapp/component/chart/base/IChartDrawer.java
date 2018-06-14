@@ -13,6 +13,7 @@ public interface IChartDrawer {
     void setBorderColor(int color);
     void setPreCloseColor(int color);
     void setTextColor(int color);
+    void calculateZoom(CombinedChart chart, JSONArray chartDataList);
 
     void draw(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException;
 }

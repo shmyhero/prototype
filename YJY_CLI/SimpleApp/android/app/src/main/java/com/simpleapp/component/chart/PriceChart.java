@@ -2,9 +2,12 @@ package com.simpleapp.component.chart;
 
 import android.content.Context;
 import android.graphics.Canvas;
+import android.graphics.Matrix;
 import android.view.MotionEvent;
+import android.view.View;
 
 import com.github.mikephil.charting.charts.CombinedChart;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
@@ -29,10 +32,28 @@ public class PriceChart extends CombinedChart {
         super(context);
     }
 
+    //Fix the flash issue when ChartView zooms in and move to right border.
+    static class CustomViewPortHandler extends ViewPortHandler{
+        public Matrix noLimitRefresh(Matrix newMatrix, View chart, boolean invalidate)     {
+
+            mMatrixTouch.set(newMatrix);
+
+            // Removing the following line to fix the flash bug
+            // make sure scale and translation are within their bounds
+            //limitTransAndScale(mMatrixTouch, mContentRect);
+
+            if (invalidate)
+                chart.invalidate();
+
+            newMatrix.set(mMatrixTouch);
+            return newMatrix;
+        }
+    }
+
     @Override
     protected void init() {
 
-        mViewPortHandler = new ViewPortHandler() {
+        mViewPortHandler = new CustomViewPortHandler() {
             @Override
             public boolean isInBoundsRight(float x) {
                 if(drawDataUnderYAxis) {
@@ -275,5 +296,26 @@ public class PriceChart extends CombinedChart {
 
     public int getLineWidth(){
         return lineWidth;
+    }
+
+    //!!!!!!!!!!!!!!CAUSION!!!!!!!!!!!!!!
+    // The following Zoom method doesn't check the border limit!
+    // So be extra CAREFUL that this function will move the chart
+    // outside of the viewpoint
+    //!!!!!!!!!!!!!!CAUSION!!!!!!!!!!!!!!
+    public void nolimitZoom(float scaleX, float scaleY, float x, float y) {
+//        mZoomMatrixBuffer.reset();
+//        mZoomMatrixBuffer.preScale(scaleX, scaleY);
+//        mZoomMatrixBuffer.postTranslate(-x, -y);
+
+        mViewPortHandler.zoom(scaleX, scaleY, x, -y, mZoomMatrixBuffer);
+        //Use updated noLimitRefresh instead of original refresh with border check to fix the flass issue.
+        ((CustomViewPortHandler)mViewPortHandler).noLimitRefresh(mZoomMatrixBuffer, this, true);
+
+        // Range might have changed, which means that Y-axis labels
+        // could have changed in size, affecting Y-axis size.
+        // So we need to recalculate offsets.
+        calculateOffsets();
+        postInvalidate();
     }
 }

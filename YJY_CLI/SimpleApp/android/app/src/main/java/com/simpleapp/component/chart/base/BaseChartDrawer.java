@@ -97,9 +97,10 @@ public abstract class BaseChartDrawer implements IChartDrawer {
 
         chart.setData(data);
         drawLimitLine(chart, stockInfoObject, chartDataList);
-        if(((PriceChart)chart).getNeedReset()) {
-            calculateZoom(chart, data);
-        }
+
+//        if(((PriceChart)chart).getNeedReset()) {
+//            calculateZoom(chart, chartDataList);
+//        }
 
         if(isReset) {
             ((PriceChart)chart).setNeedReset(false);
@@ -122,7 +123,6 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         chart.getAxisLeft().removeAllLimitLines();
         chart.getAxisRight().removeAllLimitLines();
         chart.resetTracking();
-        chart.fitScreen();
 //        if (chart.getScaleX() != 1 && chart.getScaleX() > 0) {
 //            chart.zoom(1 / chart.getScaleX(), 1, 0, 0);
 //        }
@@ -316,9 +316,11 @@ public abstract class BaseChartDrawer implements IChartDrawer {
      * Zoom if necessary
      *
      * @param chart
-     * @param data
+     * @param chartDataList
      */
-    protected void calculateZoom(CombinedChart chart, CombinedData data) {
+
+    @Override
+    public void calculateZoom(CombinedChart chart, JSONArray chartDataList) {
         //Do nothing
     }
     //endregion

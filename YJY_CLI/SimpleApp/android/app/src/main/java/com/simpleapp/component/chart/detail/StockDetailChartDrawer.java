@@ -8,6 +8,7 @@ import android.view.WindowManager;
 
 import com.github.mikephil.charting.charts.CombinedChart;
 import com.github.mikephil.charting.components.LimitLine;
+import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.CombinedData;
 import com.github.mikephil.charting.utils.Utils;
 import com.simpleapp.R;
@@ -27,6 +28,8 @@ import java.util.Calendar;
  * Created by Neko on 2018/1/31.
  */
 public class StockDetailChartDrawer extends LineStickChartDrawer {
+    boolean isScaleSet = false;
+
     @Override
     protected void resetChart(CombinedChart chart) {
         super.resetChart(chart);
@@ -37,6 +40,7 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
         chart.setDragEnabled(true);
         chart.setScaleEnabled(false);
         chart.setTouchEnabled(true);
+
     }
 
     @Override
@@ -70,24 +74,34 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     }
 
     @Override
-    protected void calculateZoom(CombinedChart chart, CombinedData data) {
-        int totalSize = chart.getData().getDataSetByIndex(0).getEntryCount();
+    public void calculateZoom(CombinedChart chart, JSONArray chartDataList) {
+        //Make sure this function only be called once.
+
+        if(isScaleSet){
+            return;
+        }else {
+            isScaleSet = true;
+        }
+
+        int totalSize = chartDataList.length();
 
         float dotDistance = 10;
         float scale = 2;
-        if(chart.getWidth() > 0) {
+        int width = chart.getWidth();
+        if(width > 0) {
             scale = dotDistance * totalSize / chart.getWidth();
         }else{
             WindowManager wm = (WindowManager) chart.getContext().getSystemService(Context.WINDOW_SERVICE);
             Display display = wm.getDefaultDisplay();
             Point size = new Point();
             display.getSize(size);
-            int width = size.x;
+            width = size.x;
             scale = dotDistance * totalSize / width;
         }
         int xOffset = (int)(totalSize - totalSize / scale);
-        chart.zoom(scale, 1, xOffset, 0);
-        chart.moveViewToX(xOffset);
+
+        ((PriceChart)chart).nolimitZoom(scale, 1, width, 0);
+//        chart.moveViewToAnimated(totalSize, 0, YAxis.AxisDependency.LEFT,500);
     }
 
     @Override
