@@ -25,6 +25,7 @@ var UIConstants = require('../../UIConstants');
 import {ViewKeys} from '../../../AppNavigatorConfiguration';
 import BalanceBlock from '../component/BalanceBlock';
 
+import { fetchBalanceData } from "../../redux/actions/balance";
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
 var LS = require('../../LS')
@@ -148,17 +149,27 @@ class DepositWithdrawEntryScreen extends Component {
 
     goToDeposit(){
         if(this.props.thtAddress){
-            this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT);
+            this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT, {
+				onGoBack:()=>this.props.fetchBalanceData()
+			});
         }else{
-            this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE, {nextView: ViewKeys.SCREEN_DEPOSIT});
+            this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE, {
+				nextView: ViewKeys.SCREEN_DEPOSIT,
+				onGoBack:()=>this.props.fetchBalanceData()
+			});
         }
     }
 
     goToWithdraw(){
         if(this.props.thtAddress){
-            this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW);
+            this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW, {
+				onGoBack:()=>this.props.fetchBalanceData()
+			});
         }else{
-            this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE, {nextView: ViewKeys.SCREEN_WITHDRAW});
+            this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE, {
+				nextView: ViewKeys.SCREEN_WITHDRAW,
+				onGoBack:()=>this.props.fetchBalanceData()
+			});
         }
     }
 
@@ -172,7 +183,7 @@ class DepositWithdrawEntryScreen extends Component {
                 <Text style={styles.totalIncomeTitleText}>
                     {LS.str('DEPOSIT_WITHDRAW_ENTRY_AVAILABLE')}
                 </Text>
-                <BalanceBlock style={styles.totalIncomeText}/>
+                <BalanceBlock ref={(ref)=>this.balanceBlock = ref} style={styles.totalIncomeText}/>
             </View>
         );
     }
@@ -225,10 +236,10 @@ class DepositWithdrawEntryScreen extends Component {
 				)
 		}else{
 			return (
-        <View style={styles.line} key={rowID}>
+        		<View style={styles.line} key={rowID}>
 					<View style={[styles.separator]}/>
 				</View>
-      );
+			);
 		}
     }
     
@@ -372,7 +383,7 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-	
+	fetchBalanceData
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);

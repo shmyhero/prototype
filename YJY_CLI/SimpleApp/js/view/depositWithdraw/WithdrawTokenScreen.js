@@ -49,6 +49,7 @@ class WithdrawTokenScreen extends Component {
 
     isReadyToPay(){
         return this.state.withdrawValue > 0 
+                && this.state.withdrawValue <= this.props.balance
                 && this.state.isAgreementRead
                 && !this.state.isRequestSending
                 && this.props.thtAddress != undefined
@@ -97,10 +98,19 @@ class WithdrawTokenScreen extends Component {
                     },
                     (response )=>{
                         var backFrom = this.props.navigation.state.key;
-                        if(this.props.navigation.state.params && this.props.navigation.state.params.backFrom){
-                            backFrom = this.props.navigation.state.params.backFrom;
+                        var onGoBack = ()=>{};
+                        if(this.props.navigation.state.params){
+                            if(this.props.navigation.state.params.backFrom){
+                                backFrom = this.props.navigation.state.params.backFrom;
+                            }
+                            if(this.props.navigation.state.params.onGoBack){
+                                onGoBack = this.props.navigation.state.params.onGoBack
+                            }
                         }
-                        this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW_SUBMITTED, {backFrom: backFrom});
+                        this.props.navigation.navigate(ViewKeys.SCREEN_WITHDRAW_SUBMITTED, {
+                            backFrom: backFrom,
+                            onGoBack: onGoBack,
+                        });
                     },
                     (error)=>{
                         console.log("withdraw balance", error);

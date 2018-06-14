@@ -97,7 +97,11 @@ class BindPurseScreen extends Component {
                 (response)=>{
                     this.props.bindWallet(this.state.thtAddress);
                     var nextView = this.props.navigation.state.params.nextView;
-                    this.props.navigation.navigate(nextView, {backFrom: this.props.navigation.state.key});
+                    var onGoBack = this.props.navigation.state.params.onGoBack ? this.props.navigation.state.params.onGoBack : ()=>{};
+                    this.props.navigation.navigate(nextView, {
+                        backFrom: this.props.navigation.state.key,
+                        onGoBack: onGoBack,
+                    });
                 },
                 (error)=>{
                     alert(error.errorMessage)

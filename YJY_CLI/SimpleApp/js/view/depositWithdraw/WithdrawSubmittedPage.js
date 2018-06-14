@@ -52,9 +52,13 @@ class WithdrawSubmittedPage extends Component {
 
   gotoNext(){
     var backParam = null
-    if(this.props.navigation.state && this.props.navigation.state.params){
-      backParam = this.props.navigation.state.params.backFrom
+    if(this.props.navigation.state.params){
+      backParam = this.props.navigation.state.params.backFrom;
+      if(this.props.navigation.state.params.onGoBack){
+        this.props.navigation.state.params.onGoBack()
+      }
     }
+    
     this.props.navigation.goBack(backParam);
   }
 
