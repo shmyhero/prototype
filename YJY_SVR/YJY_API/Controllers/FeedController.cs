@@ -31,7 +31,7 @@ namespace YJY_API.Controllers
             {
                 //get system feed
                 var language = Thread.CurrentThread.CurrentUICulture.Name;
-                var systemFeedsWhereClause =db.Headlines.Where(o =>o.Language==null || o.Language.ToLower().StartsWith(language.ToLower()));
+                var systemFeedsWhereClause =db.Headlines.Where(o =>o.Language==null || language.ToLower().StartsWith(o.Language.ToLower()));
                 if (olderThan != null)
                     systemFeedsWhereClause = systemFeedsWhereClause.Where(o => o.CreateAt < olderThan);
                 if (newerThan != null)
@@ -129,7 +129,7 @@ namespace YJY_API.Controllers
             {
                 //get system feed
                 var language = Thread.CurrentThread.CurrentUICulture.Name;
-                var systemFeedsWhereClause = db.Headlines.Where(o => o.Language == null || o.Language.ToLower().StartsWith(language.ToLower()));
+                var systemFeedsWhereClause = db.Headlines.Where(o => o.Language == null || language.ToLower().StartsWith(o.Language.ToLower()));
                 if (olderThan != null)
                     systemFeedsWhereClause = systemFeedsWhereClause.Where(o => o.CreateAt < olderThan);
                 if (newerThan != null)
