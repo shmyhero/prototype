@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -53,7 +54,7 @@ namespace YJY_COMMON.Service
             {
                 using (var dbIsolated = YJYEntities.Create())
                 {
-                    var deposit = dbIsolated.THTDeposits.FirstOrDefault(o => o.Index == depositId);
+                    var deposit = dbIsolated.THTDeposits.FirstOrDefault(o => o.Id == depositId);
                     if (deposit != null && deposit.PaidAt == null) //not paid yet
                     {
                         var users = dbIsolated.Users.Where(o => o.THTAddress == deposit.From).ToList();
@@ -65,7 +66,10 @@ namespace YJY_COMMON.Service
                         {
                             var user = users.First();
 
-                            var amount = (decimal) deposit.Value/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            var biRaw=BigInteger.Parse(deposit.TokenAmount);
+                            var biAmount = biRaw / new BigInteger(1e18);
+                            //var amount = (decimal) deposit.TokenAmount/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            var amount = (decimal)biAmount * YJYGlobal.BALANCE_TO_TOKEN_RATIO;
 
                             if (amount > 0)
                             {
@@ -82,7 +86,7 @@ namespace YJY_COMMON.Service
                                     BalanceAfter = user.Balance,
                                     Type = TransferType.THTDeposit.ToString(),
                                     UserId = user.Id,
-                                    TransactionId = deposit.Index,
+                                    TransactionId = deposit.Id,
                                 };
                                 dbIsolated.Transfers.Add(transfer);
 
@@ -151,6 +155,43 @@ namespace YJY_COMMON.Service
             }
 
             return withdrawal.Id;
+        }
+
+        public static THTDeposit AddTHTDeposit(string transactionHash, string @from, string to, string tokenAmount)
+        {
+            if (string.IsNullOrWhiteSpace(transactionHash)) return null;
+
+            transactionHash = transactionHash.Trim();
+
+            THTDeposit result = null;
+
+            using (
+               var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                   new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var any = dbIsolated.THTDeposits.Any(o => o.TransHash == transactionHash);
+
+                    if (!any)
+                    {
+                        result = new THTDeposit()
+                        {
+                            TransHash = transactionHash,
+                            From = from,
+                            To = to,
+                            TokenAmount = tokenAmount,
+                            CreateAt = DateTime.UtcNow,
+                        };
+
+                        dbIsolated.THTDeposits.Add(result);
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
+            return result;
         }
     }
 }

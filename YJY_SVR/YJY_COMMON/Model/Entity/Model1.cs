@@ -12,10 +12,13 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<THTDeposit> THTDeposits { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<THTDeposit>()
+                .Property(e => e.PaidAmount)
+                .HasPrecision(18, 8);
         }
     }
 }

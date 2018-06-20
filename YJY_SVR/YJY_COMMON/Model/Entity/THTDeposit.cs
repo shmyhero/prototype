@@ -9,9 +9,10 @@ namespace YJY_COMMON.Model.Entity
     [Table("THTDeposit")]
     public partial class THTDeposit
     {
-        [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Index { get; set; }
+        public int Id { get; set; }
+
+        [StringLength(100)]
+        public string TransHash { get; set; }
 
         [StringLength(100)]
         public string From { get; set; }
@@ -19,7 +20,8 @@ namespace YJY_COMMON.Model.Entity
         [StringLength(100)]
         public string To { get; set; }
 
-        public int? Value { get; set; }
+        [StringLength(100)]
+        public string TokenAmount { get; set; }
 
         public DateTime? CreateAt { get; set; }
 

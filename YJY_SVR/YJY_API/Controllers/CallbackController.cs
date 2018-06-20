@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Numerics;
 using System.Web.Http;
 using YJY_COMMON;
 using YJY_COMMON.Model.Context;
@@ -24,29 +26,34 @@ namespace YJY_API.Controllers
         public bool THTDeposit(THTDepositFormDTO form)
         {
             var authorization = Request.Headers.Authorization;
-            
+
             if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
-                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized,
+                    "invalid auth token"));
 
-            if (form.index == 0 || string.IsNullOrWhiteSpace(form.from) || form.value<=0)
-                throw new ArgumentOutOfRangeException();
+            if (string.IsNullOrWhiteSpace(form.transactionHash) || string.IsNullOrWhiteSpace(form.from) ||
+                string.IsNullOrWhiteSpace(form.tokenAmount))
+                throw new ArgumentOutOfRangeException(nameof(form));
 
-            var deposit = new THTDeposit()
-            {
-                Index = form.index,
-                From = form.from,
-                To = form.to,
-                Value = form.value,
-                CreateAt = DateTime.UtcNow,
-            };
+            form.tokenAmount = form.tokenAmount.Trim();
+            form.transactionHash = form.transactionHash.Trim();
+            form.from = form.from.Trim();
+            form.to = form.to.Trim();
 
-            db.THTDeposits.Add(deposit);
-            db.SaveChanges();
+            BigInteger bi;
+            var tryParse = BigInteger.TryParse(form.tokenAmount, NumberStyles.None, null, out bi);
+            if (!tryParse || bi < new BigInteger(0.01m))
+                throw new ArgumentOutOfRangeException(nameof(form.tokenAmount));
+
+            var deposit = FundService.AddTHTDeposit(form.transactionHash, form.@from, form.to, form.tokenAmount);
+
+            if (deposit == null)
+                return false;
 
             try
             {
                 var fundService = new FundService(db);
-                fundService.AddUserBalanceByTHTDeposit(deposit.Index);
+                fundService.AddUserBalanceByTHTDeposit(deposit.Id);
             }
             catch (Exception e)
             {
