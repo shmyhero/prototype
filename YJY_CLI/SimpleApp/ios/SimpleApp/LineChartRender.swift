@@ -228,12 +228,12 @@ class LineChartRender: BaseRender {
             ]
         
         let text: NSString = "\(lastPrice.roundTo(2))" as NSString
-        let textX = chartWidth() - 105 + panx
+        let textX = chartWidth() - 90 + panx
         let textHeight:CGFloat = 14
         let centerPoint = lineDataProvider!.findHighlightPoint()
         let textY = centerPoint.y
         
-        let rectX = textX-5+panx
+        let rectX = textX-5
         let rectWidth:CGFloat = 70
         let rectHeight:CGFloat = 30
         
@@ -249,7 +249,7 @@ class LineChartRender: BaseRender {
         context.restoreGState()
         
         text.draw(in: CGRect(x: textX, y: textY-textHeight/2-1, width: textWidth, height: textHeight), withAttributes: attributes)
-        
+        // draw line between text and point
         _colorSet.currentPriceBorderColor.setFill()
         context.fill(CGRect(x: rectX+rectWidth, y: textY, width: 20, height: 1))
     }
