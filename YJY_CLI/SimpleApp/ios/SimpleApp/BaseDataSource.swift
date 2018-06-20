@@ -35,11 +35,13 @@ class BaseData: NSObject {
     }
 }
 
+let DEFAULT_PANX:CGFloat = -20
+
 class BaseDataSource: NSObject, BaseDataProvider {
     var _jsonString:String
     var _data = [BaseData]()
     var _rect = CGRect.zero
-    let _margin:CGFloat = 15.0
+    let _margin:CGFloat = 0.0
     let _topMargin:CGFloat = 2.0
     let _bottomMargin:CGFloat = 15.0
     
@@ -51,7 +53,7 @@ class BaseDataSource: NSObject, BaseDataProvider {
     var _chartSetting:Dictionary<String, AnyObject>=[:]
     
     var currentPanX:CGFloat = 0
-    var lastPanX:CGFloat = 0
+    var lastPanX:CGFloat = DEFAULT_PANX
     var _longPressPoint:CGPoint = .zero
     var _isLongPressing = false
     
@@ -94,9 +96,6 @@ class BaseDataSource: NSObject, BaseDataProvider {
         
         if (isEnd) {
             lastPanX = pannedX()
-            if lastPanX < 1 {
-                lastPanX = 0
-            }
             currentPanX = 0
         }
     }
@@ -179,8 +178,8 @@ class BaseDataSource: NSObject, BaseDataProvider {
     
     func pannedX() -> CGFloat {
         var panx = currentPanX + lastPanX
-        if panx < 0 {
-            panx = 0
+        if panx < DEFAULT_PANX {
+            panx = DEFAULT_PANX
         } else if panx > maxPanX() {
             panx = maxPanX()
         }
