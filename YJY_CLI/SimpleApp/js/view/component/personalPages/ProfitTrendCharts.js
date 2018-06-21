@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
   },
   chartStyle:{
     flex:1, 
-    marginLeft: Platform.OS == "ios" ? 0 : 20, 
+    marginLeft: 20, 
     marginBottom: Platform.OS == "ios" ? 5 : 0, 
     marginRight: Platform.OS == "ios" ? 0 : 10
   },

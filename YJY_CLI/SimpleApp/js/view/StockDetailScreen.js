@@ -687,6 +687,8 @@ const styles = StyleSheet.create({
         justifyContent:'center',
         flexDirection:'row',
         paddingBottom:3,
+        marginRight:2,
+        marginLeft:2,
     },
 
     numberButtonLabel:{
