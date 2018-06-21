@@ -128,8 +128,16 @@ export default class ProfitTrendCharts extends Component {
   }
 
   render() { 
-    var selectorLeftBgColor = this.state.chartType == TYPE_MONTH ? ColorConstants.BGBLUE:'transparent'
-    var selectorRightBgColor = this.state.chartType == TYPE_MONTH ? 'transparent':ColorConstants.BGBLUE
+    var leftStyle = {};
+    var rightStyle = {}
+    if(this.state.chartType == TYPE_MONTH){
+      leftStyle.backgroundColor = ColorConstants.BGBLUE
+      leftStyle.borderColor = ColorConstants.BGBLUE
+    }else{
+      rightStyle.backgroundColor = ColorConstants.BGBLUE
+      rightStyle.borderColor = ColorConstants.BGBLUE
+    }
+    
     var textColorLeft = this.state.chartType == TYPE_MONTH ? 'white':'grey'
     var textColorRight = this.state.chartType == TYPE_MONTH ? 'grey':'white'
     return (
@@ -139,10 +147,10 @@ export default class ProfitTrendCharts extends Component {
             flexDirection:'row',
             justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
-            <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,{backgroundColor:selectorLeftBgColor}]}>
+            <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,leftStyle]}>
               <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</Text>
             </TouchableOpacity>
-            <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_ALL)} style={[styles.selectorRight,{backgroundColor:selectorRightBgColor}]}>
+            <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_ALL)} style={[styles.selectorRight,rightStyle]}>
               <Text style = {[styles.textChartSelector,{color:textColorRight}]}>{LS.str("ALL")}</Text>
             </TouchableOpacity> 
           </View>
@@ -165,22 +173,23 @@ const styles = StyleSheet.create({
     marginBottom:5,
   },
   separator: {
-    height: 0.5,
+    height: 1,
     backgroundColor: ColorConstants.SEPARATOR_GRAY,
   },
   selectorLeft:{
     alignItems:'center',
-    borderWidth:0.5,
+    borderWidth:1,
+    borderRightWidth:0,
     padding:5,
     width:72,
     borderTopLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
     borderBottomLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
-     
     borderColor:'#EEEEEE'
   },
   selectorRight:{
     alignItems:'center',
-    borderWidth:0.5,
+    borderWidth:1,
+    borderLeftWidth:0,
     padding:5,
     width:72,
     borderTopRightRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
