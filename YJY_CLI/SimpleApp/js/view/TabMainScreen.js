@@ -513,14 +513,28 @@ export default class TabMainScreen extends React.Component {
                     }, 
                 },
                 (responseJson) => {
-                    for(var i = 0; i < responseJson.length; i++){
-                        responseJson[i].isNew = true;
-                    } 
-                    this.setState({ 
-                        cacheData: responseJson,
-                    }) 
+
+                    LogicData.getRemovedRynamicRow().then((delList)=>{  
+                        responseJson = responseJson.filter(function(item){
+                            for(var i = 0;i<delList.length;i++){ 
+                                if(delList[i] == item.time){
+                                    return false
+                                }
+                            }
+                            return true
+                        })  
     
-                    // console.log('loadCacheListData length is = ' + responseJson.length);
+                        // for(var i = 0; i < responseJson.length; i++){
+                        //     responseJson[i].isNew = true;
+                        // }  
+                         
+                        this.setState({ 
+                            cacheData: responseJson,
+                        }) 
+    
+                        this._pullToRefreshListView.endLoadMore()   
+    
+                        })     
                 },
                 (result) => {
                     //Alert.alert('提示', result.errorMessage);
@@ -552,18 +566,32 @@ export default class TabMainScreen extends React.Component {
                 headers:headerToken, 
             },
             (responseJson) => {  
-         
-                for(var i = 0; i < responseJson.length; i++){
-                    responseJson[i].isNew = false;
-                }
-    
+
+                LogicData.getRemovedRynamicRow().then((delList)=>{  
+                    responseJson = responseJson.filter(function(item){
+                        for(var i = 0;i<delList.length;i++){ 
+                            if(delList[i] == item.time){
+                                return false
+                            }
+                        }
+                        return true
+                    })  
+
+                    // for(var i = 0; i < responseJson.length; i++){
+                    //     responseJson[i].isNew = true;
+                    // } 
+
+                    this.setState({ 
+                        dataResponse: responseJson,
+                        dataSource: this._dataSource.cloneWithRows(responseJson),
+                        isLoading:false,
+                        isContentLoaded: true,
+                    })
+
+                })   
                 
-                this.setState({ 
-                    dataResponse: responseJson,
-                    dataSource: this._dataSource.cloneWithRows(responseJson),
-                    isLoading:false,
-                    isContentLoaded: true,
-                })
+                
+                
                 if(isRefresh){
                     this._pullToRefreshListView && this._pullToRefreshListView.endRefresh()
                 }
@@ -607,18 +635,30 @@ export default class TabMainScreen extends React.Component {
 			},
 			(responseJson) => {   
 
-                for(var i = 0; i < responseJson.length; i++){
-                    responseJson[i].isNew = false;
-                } 
+                LogicData.getRemovedRynamicRow().then((delList)=>{  
+                    responseJson = responseJson.filter(function(item){
+                        for(var i = 0;i<delList.length;i++){ 
+                            if(delList[i] == item.time){
+                                return false
+                            }
+                        }
+                        return true
+                    })  
 
-                var responseAll = this.state.dataResponse.concat(responseJson)
+                    // for(var i = 0; i < responseJson.length; i++){
+                    //     responseJson[i].isNew = true;
+                    // }  
 
-                this.setState({ 
-                    dataResponse: responseAll,
-                    dataSource: this._dataSource.cloneWithRows(responseAll), 
-                })
+                    var responseAll = this.state.dataResponse.concat(responseJson)
 
-                this._pullToRefreshListView.endLoadMore()   
+                    this.setState({ 
+                        dataResponse: responseAll,
+                        dataSource: this._dataSource.cloneWithRows(responseAll), 
+                    })
+
+                    this._pullToRefreshListView.endLoadMore()   
+
+                    })     
 			},
 			(result) => {
                 // Alert.alert('提示', result.errorMessage);
