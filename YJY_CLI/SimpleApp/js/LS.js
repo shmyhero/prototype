@@ -215,6 +215,10 @@ var LS = {
     ACCOUNT_NAME_MAXINUM_LENGTH: ["昵称不能超过{1}个字段", "Name cannot be longer than {1} characters.", "Name cannot be longer than {1} characters."],
 
     ERROR_HINT: ["错误提示", "Error Hint", "Error Hint"],
+    ADDED_TO_WATCH_LIST: ["已加入关注列表", "Added to watchlist", "Added to watchlist"],
+    DYNAMIC_OPEN_ASK: ["动态已全部关闭，是否前往开启？", "Dynamics have all been closed,Are you going to open?", "Dynamics have all been closed,Are you going to open?"],
+    GO: ["前往", "Go", "Go"],
+
   },
   str(key){
     if(LogicData.getLanguage() == 'zh-cn'){

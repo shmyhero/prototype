@@ -224,8 +224,11 @@ export default class TabMainScreen extends React.Component {
 		if(this.state.dataResponse&&this.state.dataResponse.length>0){
 		}else{
 			return(
-				<View style={{flex:1,alignItems:'center',justifyContent: 'center',}} >
-					<Image style={{width:230,height:230}} source={require('../../images/dynamic_empty.png')}></Image>
+				<View style={{height:height-150,alignItems:'center',justifyContent: 'center'}} >
+                    <Text style={{width:width-100,textAlign:'center',color:ColorConstants.BLUETEXT}}>{LS.str('DYNAMIC_OPEN_ASK')}</Text>
+                    <TouchableOpacity onPress={()=>this.onPressedConfig()} style={{alignItems:'center',justifyContent:'center',borderRadius:8, margin:15,borderColor:ColorConstants.BLUETEXT,borderWidth:1,width:120,height:32}}>
+                        <Text style={{color:'white',fontSize:16}}>{LS.str('GO')}</Text>
+                    </TouchableOpacity>
 			   </View>	  
 			) 
 		} 
@@ -237,7 +240,11 @@ export default class TabMainScreen extends React.Component {
      
     onPopOut(){
         console.log('i am onPopOut!!')
-        this.loadData(false)
+        this.loadData(false) 
+        // this.state = { 
+        //     isLoading:true,
+        //     isContentLoaded:false,
+        // } 
     }
 
     onPressedConfig(){
@@ -303,6 +310,7 @@ export default class TabMainScreen extends React.Component {
                 <View style = {styles.mainContainer}>
                     <NavBar onlyShowStatusBar={true}/>
                     {this.renderDateInfo()}
+                    {this.renderEmpty()}
                     <PullToRefreshListView
                         ref={ (component) => this._pullToRefreshListView = component }
                         viewType={PullToRefreshListView.constants.viewType.listView}

@@ -27,6 +27,7 @@ var {height,width} = Dimensions.get('window')
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var LS = require('../LS')
+var Toast = require('@remobile/react-native-toast');
  
 
 export default class  UserProfileScreen extends React.Component {
@@ -193,7 +194,7 @@ export default class  UserProfileScreen extends React.Component {
                     this.setState({
                       isFollowing:true,
                         
-                    });  
+                    },Toast.show(LS.str('ADDED_TO_WATCH_LIST')));  
                 },
                 (exception) => {
                     // alert(exception.errorMessage)
