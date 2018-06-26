@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Text.RegularExpressions;
 using System.Web.Http;
 using AutoMapper;
 using EntityFramework.Extensions;
@@ -112,8 +113,13 @@ namespace YJY_API.Controllers
                 return new ResultDTO {success = false};
 
             form.nickname = form.nickname.Trim();
-            if (form.nickname.Length > NICKNAME_MAX_LENGTH)
-                return new ResultDTO() { success = false, message = "nickname too long" };
+
+            //if (form.nickname.Length > NICKNAME_MAX_LENGTH)
+            //    return new ResultDTO() { success = false, message = "nickname too long" };
+
+            var regex = new Regex("^[\u4e00-\u9fa5a-zA-Z0-9]{2,10}$");
+            if (!regex.IsMatch(form.nickname))
+                return new ResultDTO() { success = false, message = "nickname does not meet criteria" };
 
             if (db.Users.Any(o => o.Id != UserId && o.Nickname == form.nickname))
                 return new ResultDTO
