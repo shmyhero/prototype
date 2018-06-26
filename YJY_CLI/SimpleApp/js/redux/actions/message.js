@@ -28,24 +28,25 @@ export function getMessageList(currentPage, data){
                     type: GET_MESSAGE_LIST_ATTACH,            
                 });
             }
-            fetchMessageListRequest(currentPage+1, LIST_PAGE_ITEM).then((messageList)=>{
-                var payload = {
-                    nextPage: currentPage+1,
-                    messageList,
-                    isEndReached: messageList.length != LIST_PAGE_ITEM
-                }
-                if(currentPage == 0){
-                    dispatch({
-                        type: GET_MESSAGE_LIST_SUCCESS,
-                        payload: payload
-                    })
-                }else{
-                    dispatch({
-                        type: GET_MESSAGE_LIST_ATTACH_SUCCESS,
-                        payload: payload
-                    })
-                }
-            }).catch((error)=>{
+            fetchMessageListRequest(currentPage+1, LIST_PAGE_ITEM,
+                (messageList)=>{
+                    var payload = {
+                        nextPage: currentPage+1,
+                        messageList,
+                        isEndReached: messageList.length != LIST_PAGE_ITEM
+                    }
+                    if(currentPage == 0){
+                        dispatch({
+                            type: GET_MESSAGE_LIST_SUCCESS,
+                            payload: payload
+                        })
+                    }else{
+                        dispatch({
+                            type: GET_MESSAGE_LIST_ATTACH_SUCCESS,
+                            payload: payload
+                        })
+                    }
+                }, (error)=>{
                 dispatch({
                     type: GET_MESSAGE_LIST_FAIL,
                     payload: {
