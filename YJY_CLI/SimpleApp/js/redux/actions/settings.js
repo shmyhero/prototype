@@ -77,7 +77,7 @@ export function getVersion(){
 }
 
 function validateNickName(nickName){
-    var re = new RegExp('^[\\w\\u4e00-\\u9eff]{' + MIN_NICKNAME_LENGTH + ',' + MAX_NICKNAME_LENGTH + '}$'); 
+    var re = new RegExp('^[\\u4e00-\\u9effa-zA-Z0-9]{' + MIN_NICKNAME_LENGTH + ',' + MAX_NICKNAME_LENGTH + '}$'); 
     return re.test(nickName)
 }
 
