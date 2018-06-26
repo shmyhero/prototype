@@ -4,6 +4,7 @@ import {
 } from 'react-native';
 
 var StorageModule = require('./module/StorageModule');
+var removedDynamicRow = null;
 
 
 class LogicData {
@@ -90,6 +91,34 @@ class LogicData {
 	static getLanguage(){
 		return this.language
 	}
+
+	static getRemovedRynamicRow() {
+		return new Promise(resolve=>{
+			if(removedDynamicRow == null){ 
+				StorageModule.loadRemovedDynamicRows()
+				.then((value) => {
+					if (value !== null) {
+						removedDynamicRow = JSON.parse(value);  
+						resolve(removedDynamicRow);
+					}else{ 
+						removedDynamicRow = [];
+						resolve(removedDynamicRow);
+					}
+				})
+			}else{ 
+				resolve(removedDynamicRow);
+			}
+		});
+  	}  
+  
+
+   static addRemovdedDynamicRow(item){
+		if(removedDynamicRow == null) return 
+		if(removedDynamicRow.indexOf(item) == -1){
+			removedDynamicRow.push(item);
+		} 
+		StorageModule.setRemovedDynamicRows(JSON.stringify(removedDynamicRow))
+	} 
 }
 
 export default LogicData;

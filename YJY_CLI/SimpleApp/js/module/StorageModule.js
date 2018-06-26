@@ -28,7 +28,8 @@ var DEBUG_SETTINGS = '@TH_CFD:debugSettings'
 var LAST_ACTIVITY_DATA = '@TH_CFD:lastActivityData'
 var MIFID_TEST_VERIFIED = '@TH_CFD:MIFIDTestVerified'
 var MARKET_LIST_ORDER = '@TH_CFD:MarketListOrder'
-var LANGUAGE = '@TH_CFD:Language'
+var LANGUAGE = '@TH_CFD:Language' 
+var REMOVED_DYNAMICROW = '@TH_CFD:removed_dynamicrow'
 
 export async function loadUserData() {
 	try {
@@ -493,4 +494,21 @@ export async function loadLanguage(){
 	} catch (error) {
 		console.log('AsyncStorage error: ' + error.message);
 	}
+}
+
+export async function setRemovedDynamicRows(value){
+	try {
+		  await AsyncStorage.setItem(REMOVED_DYNAMICROW, value);
+	  } catch (error) {
+		  console.log('AsyncStorage error: ' + error.message);
+	  }
+  }
+  
+export async function loadRemovedDynamicRows(){
+	try {
+			var value = await AsyncStorage.getItem(REMOVED_DYNAMICROW);
+			return value;
+		} catch (error) {
+			console.log('AsyncStorage error: ' + error.message);
+		}
 }

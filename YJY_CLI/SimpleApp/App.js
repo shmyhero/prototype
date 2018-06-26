@@ -65,6 +65,7 @@ class App extends React.Component {
         StorageModule.setLanguage(locale);
       }
       LogicData.setLanguage(locale);
+      LogicData.getRemovedRynamicRow();
     });    
 
     WebSocketModule.start();

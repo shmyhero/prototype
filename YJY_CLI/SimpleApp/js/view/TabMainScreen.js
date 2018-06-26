@@ -338,6 +338,44 @@ export default class TabMainScreen extends React.Component {
             )
         } 
     }
+
+    delItem(id){ 
+		LogicData.addRemovdedDynamicRow(id) 
+
+		LogicData.getRemovedRynamicRow().then((delList)=>{
+             
+            console.log("RAMBO:"+delList.length)
+            for(var i = 0;i<delList.length;i++){ 
+               console.log("RAMBO:"+delList[i])
+            }
+
+			var responseJson = this.state.dataResponse
+			responseJson = responseJson.filter(function(item){
+				for(var i = 0;i<delList.length;i++){ 
+					if(delList[i] == item.time){
+						return false
+					}
+				}
+				return true
+			}) 
+
+			this.setState({ 
+				dataResponse:responseJson,
+				dataSource: this._dataSource.cloneWithRows(responseJson),
+			})  
+
+		 }) 
+
+    }
+    
+    closeAllRows(){
+		if(this.state.currentOperatedRow != -1){
+			this.setState({
+				currentOperatedRow: -1,
+				dataSource: this._dataSource.cloneWithRows(this.state.dataResponse),
+			});
+		}
+	}
   
 
     _renderRow = (rowData, sectionID, rowID) => {     
@@ -349,7 +387,34 @@ export default class TabMainScreen extends React.Component {
 				// console.log('childHeights length2 = ' + childHeights.length)
 				}} 
 				>
-                <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/>
+                <DynamicRowComponent 
+					navigator={this.props.navigator}
+					rowData={rowData}
+					rowID={rowID}
+					delCallBack={(id)=>{this.delItem(id)}}
+					close={this.state.currentOperatedRow != rowID}
+					onRowPress={()=>{
+						this.closeAllRows();
+					}}
+					onClose={()=>{
+						if(this.state.currentOperatedRow == rowID){
+							this.setState({
+								currentOperatedRow: -1,
+								dataSource: this._dataSource.cloneWithRows(this.state.dataResponse),
+							});
+						}
+					}}
+					onOpen={()=>{
+						
+						if(this.state.currentOperatedRow != rowID){
+							this.setState({
+								currentOperatedRow: rowID,
+								dataSource: this._dataSource.cloneWithRows(this.state.dataResponse),
+							});
+						}
+					}}/>
+                    
+                {/* <DynamicRowComponent navigation={this.props.navigation} rowData={rowData}/> */}
             </View>
         ) 
     } 
@@ -454,7 +519,7 @@ export default class TabMainScreen extends React.Component {
                         cacheData: responseJson,
                     }) 
     
-                    console.log('loadCacheListData length is = ' + responseJson.length);
+                    // console.log('loadCacheListData length is = ' + responseJson.length);
                 },
                 (result) => {
                     //Alert.alert('提示', result.errorMessage);

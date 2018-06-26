@@ -20,6 +20,20 @@ import { ViewKeys } from '../../../AppNavigatorConfiguration';
 var LS = require("../../LS")
  
 class DynamicRowComponent extends Component {
+    static propTypes = {
+        onOpen: PropTypes.func,
+        onClose: PropTypes.func,
+        onRowPress: PropTypes.func,
+        close: PropTypes.bool,
+    }
+    
+    static defaultProps = {
+        onOpen: ()=>{},
+        onClose: ()=>{},
+        onRowPress: ()=>{},
+        close: false,
+    }    
+
     constructor(props) {
         super(props); 
          
@@ -87,18 +101,23 @@ class DynamicRowComponent extends Component {
     jump2Detail(name, id){ 
         this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, 
             {stockCode: id, stockName: name});
+
+        this.props.onRowPress && this.props.onRowPress();
     }
 
-    _onPressButton(){
-        
-    }
+    _onPressButton(rowData){
+        if(this.props.delCallBack){
+             this.props.delCallBack(rowData.time)
+        }
+     }
 
     _onPressToSecurity(rowData){
         this.props.navigation.navigate(ViewKeys.SCREEN_STOCK_DETAIL, {stockCode: rowData.security.id, stockName: rowData.security.name})
+        this.props.onRowPress && this.props.onRowPress();
     } 
 
     _onPressToUser(rowData){
-        
+        this.props.onRowPress && this.props.onRowPress();
         if(rowData.type == 'system'){return}
         var userData = {
             userId:rowData.user.id,
@@ -115,7 +134,7 @@ class DynamicRowComponent extends Component {
             return (
                 <TweetBlock
                 style={{fontSize:15,color:'#666666',lineHeight:20}}
-                value={text}
+                value={text} 
                 onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
             )
         }else if(rowData.type == 'open'){ 
@@ -144,7 +163,7 @@ class DynamicRowComponent extends Component {
             text = rowData.body
             text2 = rowData.title
 
-            console.log('text = ' + text)
+            // console.log('text = ' + text)
             if(text == text2){
                 return null
             }else{
@@ -153,10 +172,9 @@ class DynamicRowComponent extends Component {
                         style={{marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
                         value={text}
                         onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}} 
-                        // onPressed={()=>{
-                        //     this.props.onRowPress && this.props.onRowPress();
-                        // }}
-                        /> 
+                        onPressed={()=>{
+                            this.props.onRowPress && this.props.onRowPress();
+                        }}/>
                 ) 
             } 
         }
@@ -165,13 +183,13 @@ class DynamicRowComponent extends Component {
     render() { 
 
         var viewHero = this.props.rowData.isRankedUser ? <Image style={{width:21,height:12}} source={LS.loadImage("expert")}/> : null;
-          var swipeoutBtns = [
-             {
-                 backgroundColor:'#ff4240',  
-                 text:LS.str("DEL"), 
-                 onPress:()=>this._onPressButton(this.props.rowData)
-             }
-           ]
+        var swipeoutBtns = [
+            {
+                backgroundColor:'#ff4240',  
+                text:'删除', 
+                onPress:()=>this._onPressButton(this.props.rowData)
+            }
+          ] 
          var d = new Date(this.props.rowData.time);
          var timeText = d.getDateSimpleString()
 
@@ -194,30 +212,39 @@ class DynamicRowComponent extends Component {
                          </View>
                          <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
                      </View>
-                     {/* <View 
-                     right={swipeoutBtns} 
-                     autoClose={true}   
-                     scroll={()=>{}}
-                     sensitivity={50}
-                     style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}
-                     >  */}
-                     <View style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}>
-                         <View style={{flexDirection:'row',margin:5}}>
-                             <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
-                                 <Image source={{uri:this.props.rowData.user.picUrl}}
-                                     style={{height:34,width:34,margin:10,borderRadius:17}} >
-                                 </Image>
-                             </TouchableOpacity> 
-                             <View style={styles.textContainer}>
-                                 <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
-                                     <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
-                                     {viewHero}
-                                 </View>
-                                 {this.renderNewsText(this.props.rowData)}
-                             </View>
-                             {this.renderItemTrede(this.props.rowData)}
-                         </View>      
-                       </View>   
+                     <Swipeout
+                        ref={(ref)=>{this.swipeoutComponent = ref}}
+                        right={swipeoutBtns}
+                        autoClose={true}   
+                        sensitivity={50}
+                        close={this.props.close}
+                        onOpen={()=>{
+                            this.props.onOpen && this.props.onOpen();
+                            //console.log("onOpen()")
+                        }}
+                        onClose={()=>{
+                            this.props.onClose && this.props.onClose();
+                            //console.log("onClose()");
+                        }}
+                        style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:'white',flex:1}}> 
+                            <View style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}>
+                                <View style={{flexDirection:'row',margin:5}}>
+                                    <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
+                                        <Image source={{uri:this.props.rowData.user.picUrl}}
+                                            style={{height:34,width:34,margin:10,borderRadius:17}} >
+                                        </Image>
+                                    </TouchableOpacity> 
+                                    <View style={styles.textContainer}>
+                                        <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
+                                            <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
+                                            {viewHero}
+                                        </View>
+                                        {this.renderNewsText(this.props.rowData)}
+                                    </View>
+                                    {this.renderItemTrede(this.props.rowData)}
+                                </View>      
+                            </View>   
+                       </Swipeout> 
                </View>   
         </RN.Animated.View>
         )
