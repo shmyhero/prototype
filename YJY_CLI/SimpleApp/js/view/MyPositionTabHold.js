@@ -19,6 +19,7 @@ import {
 	Alert,
 } from 'react-native';
 
+import NinePatchView from 'react-native-9patch-image';
 var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
@@ -49,6 +50,19 @@ const SUB_ACTION_NONE = 0;
 const SUB_ACTION_STOP_LOSS_PROFIT = 2;
 const TYPE_STOP_PROFIT = 1;
 const TYPE_STOP_LOSS = 2;
+
+const SHADOW_LEFT = Platform.OS == "android" ? 10 : 12;
+const SHADOW_TOP = Platform.OS == "android" ? 6 : 7;
+const SHADOW_RIGHT = Platform.OS == "android" ? 10 : 12;
+const SHADOW_BOTTOM = Platform.OS == "android" ? 3 : 5;
+const OUTER_ROW_MARGIN_TOP = 0;
+
+const UNSELECTED_ROW_HEIGHT = 90
+const ROW_HEIGHT = 51
+const OK_ROW_HEIGHT = 64
+const EXTEND_HEIGHT_FIRST = ROW_HEIGHT * 3 + OK_ROW_HEIGHT
+const EXTEND_HEIGHT_SECOND = ROW_HEIGHT * 2 - 2
+const extendTPSLHeight = 50
 
 export default class  MyPositionTabHold extends React.Component {
     static navigationOptions = {
@@ -806,7 +820,7 @@ export default class  MyPositionTabHold extends React.Component {
 		return (
 			<View>
 				<View style={[styles.subDetailRowWrapper, {height:50}]}>
-					<Text style={styles.extendLeft}>{titleText}</Text>
+					<Text style={[styles.extendLeft, {minWidth:10}]}>{titleText}</Text>
 					{
 						switchIsOn ?
 						<View style={[styles.extendMiddle,
@@ -1152,7 +1166,21 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 	}
 
-	renderDetailInfo(rowData) {
+	getDetailContainerHeight(rowID){
+		var height = 0;
+		if(this.state.selectedRow == rowID){
+			if(this.state.selectedSubItem===SUB_ACTION_STOP_LOSS_PROFIT){
+				height = EXTEND_HEIGHT_FIRST + EXTEND_HEIGHT_SECOND;
+				height += this.state.stopLossSwitchIsOn ? 55 : 0
+				height += this.state.stopProfitSwitchIsOn ? 55 : 0
+			}else{
+				height = EXTEND_HEIGHT_FIRST;
+			}
+		}
+		return height;
+	}
+
+	renderDetailInfo(rowData, rowID) {
 		var tradeImage = rowData.isLong ? require('../../images/stock_detail_direction_up_disabled.png') : require('../../images/stock_detail_direction_down_disabled.png')
         var lastPrice = this.getLastPrice(rowData)
         
@@ -1168,8 +1196,10 @@ export default class  MyPositionTabHold extends React.Component {
 			financing_dividend_sum += rowData.dividendSum;
 		}
 
+		var containerStyle = {height: this.getDetailContainerHeight(rowID)}
+
 		return (
-			<View style={[styles.extendWrapper]} >				
+			<View style={[styles.extendWrapper, containerStyle]} >				
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
 						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
@@ -1271,9 +1301,12 @@ export default class  MyPositionTabHold extends React.Component {
 		var rowHeaderHeight = UIConstants.ITEM_ROW_HEIGHT;
 
 		var touchableStyle={height:rowHeaderHeight,
+			//borderWidth:0,
+			//borderColor: ColorConstants.stock_color(profitAmount),
 			backgroundColor:ColorConstants.stock_color(profitAmount),
 			justifyContent:'center'}
 		if(this.state.selectedRow == rowID){
+			//touchableStyle.borderBottomWidth = 0;
 			touchableStyle.borderTopLeftRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 			touchableStyle.borderTopRightRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 		}else{
@@ -1283,39 +1316,57 @@ export default class  MyPositionTabHold extends React.Component {
 		// var rowBackgroundColor = profitAmount > 0 ? "green" : profitAmount < 0 ? "red" : "gray";
 
 		var additionalStyle = {}
+		var additionalOuterStyle = {};
 		if(rowID == 0){
-			additionalStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
+			//additionalStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
+			additionalOuterStyle.marginTop = UIConstants.ITEM_ROW_MARGIN_VERTICAL - SHADOW_TOP;
 		}
+
+		if(this.state.stockInfoRowData && rowID == this.state.stockInfoRowData.length-1){
+			additionalOuterStyle.marginBottom = UIConstants.ITEM_ROW_MARGIN_VERTICAL - SHADOW_BOTTOM;
+			additionalStyle.marginBottom = SHADOW_BOTTOM;
+		}
+
+		var displayRowHeight = UNSELECTED_ROW_HEIGHT + SHADOW_TOP + SHADOW_BOTTOM + this.getDetailContainerHeight(rowID);
+		//var rowHeight = UIConstants.ITEM_ROW_HEIGHT + SHADOW_TOP + SHADOW_BOTTOM;
+		var rowWidth = width - UIConstants.ITEM_ROW_MARGIN_HORIZONTAL * 2 + SHADOW_LEFT + SHADOW_RIGHT;
+
 		return (
-			<View style={[styles.rowContainer, additionalStyle]}>
-				<TouchableOpacity style={[styles.rowTouchable,
-						touchableStyle
-					]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
-					<View style={[styles.rowWrapper]} key={rowData.key}>
-						<View style={styles.rowLeftPart}>							
-							<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
-								{topLine}
-							</Text>
-							{this.renderStockStatus(rowData)}
-						</View>
+			<View style={[styles.outerRowContainer, additionalOuterStyle]}>
+				<NinePatchView
+						style={{height: displayRowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
+						source={Platform.OS === 'android' ? {uri: 'row_background'} : require('../../images/row_background.png')}
+						capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>
+				<View style={[styles.rowContainer, additionalStyle]}>
+					<TouchableOpacity style={[styles.rowTouchable,
+							touchableStyle
+						]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
+						<View style={[styles.rowWrapper, {height: UNSELECTED_ROW_HEIGHT}]} key={rowData.key}>
+							<View style={styles.rowLeftPart}>							
+								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+									{topLine}
+								</Text>
+								{this.renderStockStatus(rowData)}
+							</View>
 
-						<View style={{flexDirection: 'row', alignItems: 'center', 
-							position:'absolute',
-							bottom: 0,
-							left: ROW_PADDING}}>
-							{this.renderFollowStatus(rowData)}
-						</View>
+							<View style={{flexDirection: 'row', alignItems: 'center', 
+								position:'absolute',
+								bottom: 0,
+								left: ROW_PADDING}}>
+								{this.renderFollowStatus(rowData)}
+							</View>
 
-						<View style={styles.rowCenterPart}>
-							{this.renderProfit(profitAmount, null)}
-						</View>
+							<View style={styles.rowCenterPart}>
+								{this.renderProfit(profitAmount, null)}
+							</View>
 
-						<View style={styles.rowRightPart}>
-							{this.renderProfit(profitPercentage * 100, "%")}
+							<View style={styles.rowRightPart}>
+								{this.renderProfit(profitPercentage * 100, "%")}
+							</View>
 						</View>
-					</View>
-				</TouchableOpacity>
-				{this.state.selectedRow == rowID ? this.renderDetailInfo(rowData): null}
+					</TouchableOpacity>
+					{this.state.selectedRow == rowID ? this.renderDetailInfo(rowData, rowID): null}
+				</View>
 			</View>
 		);
 	}
@@ -1417,10 +1468,22 @@ const styles = StyleSheet.create({
 		backgroundColor: ColorConstants.SEPARATOR_GRAY,
 	},
 
+	outerRowContainer:{		
+		marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_LEFT,
+		marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_RIGHT,
+		marginTop: OUTER_ROW_MARGIN_TOP - SHADOW_TOP,
+        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL - OUTER_ROW_MARGIN_TOP - SHADOW_BOTTOM,
+	},
+
     rowContainer: {    
-        margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
-        marginTop: 0,
-		marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
+        // margin:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
+        // marginTop: 0,
+		// marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
+
+		marginLeft: SHADOW_LEFT,
+		marginRight: SHADOW_RIGHT,
+		marginTop: SHADOW_TOP,
+        marginBottom: SHADOW_BOTTOM,
 	},
 	
 	rowTouchable: {
@@ -1496,9 +1559,9 @@ const styles = StyleSheet.create({
 	},
 
 	extendWrapper: {
-		borderWidth:1,
-		borderTopWidth:0,
-		borderColor:'#cccccc',
+		//borderWidth: 0,//Platform.OS == "android" ? 0 : 1,
+		// borderTopWidth:0,
+		// borderColor:'#f1f1f1',
 		borderBottomLeftRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
 		borderBottomRightRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
 		alignItems: 'stretch',
@@ -1509,11 +1572,12 @@ const styles = StyleSheet.create({
 		flexDirection: 'row',
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
-		height: 51,
+		height: ROW_HEIGHT,
 	},
 
 	extendLeft: {
 		flex: 1,
+		//minWidth:50,
 		alignItems: 'flex-start',
 		marginLeft: ROW_PADDING,
 		paddingTop: 8,

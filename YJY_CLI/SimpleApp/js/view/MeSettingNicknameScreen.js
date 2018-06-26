@@ -16,7 +16,7 @@ import {
 import LogicData from '../LogicData';
 import NavBar from "./component/NavBar";
 
-import { setNickName, updateLocalNickName} from '../redux/actions'
+import { setNickName, updateLocalNickName, getMaxNickNameLength} from '../redux/actions'
 import { connect } from 'react-redux';
 //var LocalDataUpdateModule = require('../module/LocalDataUpdateModule')
 var NetConstants = require('../NetConstants')
@@ -61,6 +61,7 @@ class MeSettingNicknameScreen extends Component {
 			nickName:this.props.nickname,
 		}
 
+		this.props.getMaxNickNameLength();
 		this.props.updateLocalNickName(this.props.nickname);
 	}
 
@@ -90,13 +91,14 @@ class MeSettingNicknameScreen extends Component {
 		return (
 			<View style={{flex:1,backgroundColor:'white'}}>
 
-				 {this.renderHeader()}
-
-				 <TextInput style={styles.nickNameInputView}
+				{this.renderHeader()}
+				
+				<TextInput style={styles.nickNameInputView}
+				 	underlineColorAndroid={'transparent'}
 					onChangeText={(text) => this.setNickName(text)}
 					placeholder={LS.str("ACCOUNT_NAME_INPUT_HINT")}
 					placeholderTextColor='grey'
-					maxLength={UIConstants.MAX_NICKNAME_LENGTH}
+					maxLength={this.props.maxNickNameLength}
 					value={this.state.nickName}/>
 
 				<View style={styles.line}>
@@ -181,7 +183,8 @@ const mapStateToProps = state => {
   
 const mapDispatchToProps = {
 	setNickName,
-	updateLocalNickName
+	updateLocalNickName,
+	getMaxNickNameLength
 };
   
 export default connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);

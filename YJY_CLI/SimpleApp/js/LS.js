@@ -212,7 +212,9 @@ var LS = {
     ACCOUNT_NAME_TITLE: ["我的昵称", "Name", "Name"],
     ACCOUNT_NAME_INPUT_HINT: ['请输入昵称', "Name", "Name"],
     ACCOUNT_NAME_CANNOT_BE_EMPTY: ["昵称不能为空", "Name cannot be empty", "Name cannot be empty"],
-    ACCOUNT_NAME_MAXINUM_LENGTH: ["昵称不能超过{1}个字段", "Name cannot be longer than {1} characters.", "Name cannot be longer than {1} characters."],
+    ACCOUNT_NAME_FORMAT_ERROR: ["昵称包含{1}-{2}位字符，支持中英文、数字", 
+      "Nickname contains {1}-{2} characters, supports Chinese and English, numbers", 
+      "Nickname contains {1}-{2} characters, supports Chinese and English, numbers"],
 
     ERROR_HINT: ["错误提示", "Error Hint", "Error Hint"],
     ADDED_TO_WATCH_LIST: ["已加入关注列表", "Added to watchlist", "Added to watchlist"],

@@ -11,7 +11,8 @@ import {
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE,
     SET_LOACL_NICKNAME,
-    SET_LOACL_NICKNAME_FAIL
+    SET_LOACL_NICKNAME_FAIL,
+    UPDATE_MAX_NICKNAME_LENGTH
 } from '../constants/actionTypes';
 var {EventCenter} = require("../../EventCenter");
 var DeviceInfo = require('react-native-device-info');
@@ -21,7 +22,8 @@ var RCTNativeAppEventEmitter = require('RCTNativeAppEventEmitter');
 var NativeDataModule = require('../../module/NativeDataModule');
 var LS = require('../../LS');
 
-export let MAX_NICKNAME_LENGTH = 20;
+export let MIN_NICKNAME_LENGTH = 2;
+export let MAX_NICKNAME_LENGTH = 10;
 
 export function switchLanguage(){
     return (dispatch) => {
@@ -74,6 +76,11 @@ export function getVersion(){
     }
 }
 
+function validateNickName(nickName){
+    var re = new RegExp('^[\\w\\u4e00-\\u9eff]{' + MIN_NICKNAME_LENGTH + ',' + MAX_NICKNAME_LENGTH + '}$'); 
+    return re.test(nickName)
+}
+
 export function updateLocalNickName(nickName){
     return (dispatch) => {
         dispatch({
@@ -87,11 +94,13 @@ export function updateLocalNickName(nickName){
                 }
             });
 			return;
-		}else if(nickName.length > MAX_NICKNAME_LENGTH){
+		}else if(!validateNickName(nickName)){
             dispatch({
                 type: SET_LOACL_NICKNAME_FAIL,
                 payload: {
-                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", MAX_NICKNAME_LENGTH),
+                    error: LS.str("ACCOUNT_NAME_FORMAT_ERROR")
+                        .replace("{1}", MIN_NICKNAME_LENGTH)
+                        .replace("{2}", MAX_NICKNAME_LENGTH),
                 }
             });
 			return;
@@ -113,11 +122,13 @@ export function setNickName(nickName){
                 }
             });
 			return;
-		}else if(nickName.length > MAX_NICKNAME_LENGTH){
+		}else if(!validateNickName(nickName)){
             dispatch({
                 type: SET_NICKNAME_FAIL,
                 payload: {
-                    error: LS.str("ACCOUNT_NAME_MAXINUM_LENGTH").replace("{1}", MAX_NICKNAME_LENGTH),
+                    error: LS.str("ACCOUNT_NAME_FORMAT_ERROR")
+                        .replace("{1}", MIN_NICKNAME_LENGTH)
+                        .replace("{2}", MAX_NICKNAME_LENGTH),
                 }
             });
 			return;
@@ -140,6 +151,17 @@ export function setNickName(nickName){
             });
             
         })      
+    }
+}
+
+export function getMaxNickNameLength(){
+    return (dispatch) => {
+        dispatch({
+            type: UPDATE_MAX_NICKNAME_LENGTH,
+            payload: {
+                maxLength: MAX_NICKNAME_LENGTH,
+            }
+        });
     }
 }
 

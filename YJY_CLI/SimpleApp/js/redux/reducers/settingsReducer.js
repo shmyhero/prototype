@@ -7,10 +7,12 @@ import {
     RESET_SETTINGS,
     SET_LOACL_NICKNAME,
     SET_LOACL_NICKNAME_SUCCESS,
-    SET_LOACL_NICKNAME_FAIL
+    SET_LOACL_NICKNAME_FAIL,
+    UPDATE_MAX_NICKNAME_LENGTH
 } from "../constants/actionTypes";
 
 var initializeState = {
+    maxNickNameLength: 0,
     isSettingNickName: false,
     isShowError: false,
     error: "",
@@ -20,10 +22,11 @@ var initializeState = {
 
 //Previous state, action => current state
 export default function settingsReducer(state = initializeState, action) {
-    console.log("settingsReducer action ", action)
-    console.log("settingsReducer state ", state)
     switch (action.type) {
-
+        case UPDATE_MAX_NICKNAME_LENGTH:
+            state = {...state,
+                maxNickNameLength: action.payload.maxLength};
+            return state;
         case SET_LOACL_NICKNAME:
             state = { ...state,
                 isShowError: false,

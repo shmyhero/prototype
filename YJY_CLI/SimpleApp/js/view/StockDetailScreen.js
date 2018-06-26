@@ -11,6 +11,7 @@ import {
   CheckBox,
   ImageBackground,
   Dimensions,
+  ScrollView
 } from 'react-native';
 
 import PriceChartView from './component/PriceChartView';
@@ -35,7 +36,9 @@ var {height, width} = Dimensions.get('window')
 
 var containerHorizontalPadding = 15;
 
+var BORDER_WIDTH = 2;
 var SMALL_BUTTON_ROW_CONTAINER_WIDTH = width - containerHorizontalPadding * 2;
+var SMALL_BUTTON_ROW_SCROLLER_WIDTH = SMALL_BUTTON_ROW_CONTAINER_WIDTH - BORDER_WIDTH * 2;
 var SMALL_BUTTON_ROW_CONTAINER_HEIGHT = SMALL_BUTTON_ROW_CONTAINER_WIDTH / 700 * 150;
 
 var BIG_BUTTON_ROW_CONTAINER_WIDTH = (width - containerHorizontalPadding * 3)/2;
@@ -62,6 +65,8 @@ class StockDetailScreen extends Component {
             dataStatus: DATA_STATUS_LOADING,
             chartStatus: CHART_STATUS_LOADING,
             stockInfo: {},
+            amountValueList: [50, 100, 200, 400, 700, 1000],
+            leverageValueList: [10, 30, 50, 100, 150, 200]
         }
         
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
@@ -353,6 +358,7 @@ class StockDetailScreen extends Component {
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
+        var index = parameters.index;
         var label = parameters.label;       
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
@@ -385,6 +391,7 @@ class StockDetailScreen extends Component {
 
         return (
             <TouchableOpacity style={containerStyleList}
+                index={index}
                 onPress={()=>this.onOptionSelected(groupName, value)}>
                 <ImageBackground source={backgroundImageSource}
                     resizeMode={'contain'}
@@ -421,22 +428,26 @@ class StockDetailScreen extends Component {
         )
     }
 
-    renderAmountButton(value){
+    renderAmountButton(value, index){
         return this.renderButtonInGroup({
+            index: index,
             value: value,
             label: value,
             groupName: "Amount", 
+            additionalContainerStyle: styles.smallNumberButton,
             customTextViewStyle: styles.SelectedAmountButton,            
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
             selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_blue.png")
         });            
     }
 
-    renderMultiplierButton(value){
+    renderMultiplierButton(value, index){
         return this.renderButtonInGroup({
+            index: index,
             value: value, 
             label: value,
             groupName: "Multiplier", 
+            additionalContainerStyle: styles.smallNumberButton,
             customTextViewStyle: styles.SelectedMultiplierButton,
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
             selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_green.png")});            
@@ -464,6 +475,7 @@ class StockDetailScreen extends Component {
             label: label,
             groupName: "Operation",
             imageSource: imageSource,
+            containerStyleList: {flex:1},
             customTextViewStyle: styles.SelectedOperationButton,
             selectedImageSource: selectedImageSource,
             backgroundImageSource:backgroundImageSource,
@@ -562,6 +574,15 @@ class StockDetailScreen extends Component {
 
     render() {
         const { params } = this.props.navigation.state;
+
+        var amountViews = this.state.amountValueList.map((value, index, array)=>{
+            return this.renderAmountButton(value, index);
+        })
+
+        var leverageViews = this.state.leverageValueList.map((value, index, array)=>{
+            return this.renderMultiplierButton(value, index);
+        })
+
         return (
             <View style={styles.container}>
                 <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
@@ -574,21 +595,23 @@ class StockDetailScreen extends Component {
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
                         source={require("../../images/stock_detail_amount_container.png")}>
-                        <View style={[styles.buttonsRowContainer]}>
-                            {this.renderAmountButton(50)}
-                            {this.renderAmountButton(100)}
-                            {this.renderAmountButton(200)}
-                            {this.renderAmountButton(400)}
-                        </View>
+                        <ScrollView
+                            showsHorizontalScrollIndicator={false}
+                            horizontal={true}
+                            contentContainerStyle={styles.buttonsRowContainer}
+                            style={styles.buttonsScroller}>                            
+                            {amountViews}
+                        </ScrollView>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         source={LS.loadImage('stock_detail_multiple_container')}>
-                        <View style={[styles.buttonsRowContainer]}>
-                            {this.renderMultiplierButton(10)}
-                            {this.renderMultiplierButton(30)}
-                            {this.renderMultiplierButton(50)}
-                            {this.renderMultiplierButton(100)}
-                        </View>
+                        <ScrollView
+                            showsHorizontalScrollIndicator={false}
+                            horizontal={true}
+                            contentContainerStyle={styles.buttonsRowContainer}
+                            style={styles.buttonsScroller}>    
+                            {leverageViews}
+                        </ScrollView>
                     </ImageBackground>
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
@@ -661,15 +684,20 @@ const styles = StyleSheet.create({
         height:SMALL_BUTTON_ROW_CONTAINER_HEIGHT,
     },
 
+    buttonsScroller:{
+        width: SMALL_BUTTON_ROW_SCROLLER_WIDTH,
+        marginLeft: BORDER_WIDTH,
+        marginRight: BORDER_WIDTH
+    },
+
     buttonsRowContainer:{
-        alignSelf:'stretch',
-        alignItems:'stretch',
-        flexDirection: 'row',
-        flex:1,
         paddingTop:5,
         paddingBottom:2,
         paddingLeft:10,
         paddingRight:10,
+        alignSelf:'stretch',
+        alignItems:'stretch',
+        flexDirection: 'row',        
     },
 
     bigButtonsContainer:{
@@ -681,14 +709,18 @@ const styles = StyleSheet.create({
     },
 
     numberButton:{
-        flex:1,
+        //flex:1,
         alignSelf:'center',
         alignItems:'stretch',
         justifyContent:'center',
         flexDirection:'row',
         paddingBottom:3,
-        marginRight:2,
-        marginLeft:2,
+        marginRight:3,
+        marginLeft:3,
+    },
+
+    smallNumberButton:{
+        width: (SMALL_BUTTON_ROW_CONTAINER_WIDTH - BORDER_WIDTH * 2 - 40) / 4 //- 20
     },
 
     numberButtonLabel:{
