@@ -96,6 +96,7 @@ export default class TabMainScreen extends React.Component {
             first: true,  
             isLoading:true,
             isContentLoaded:false,
+            currentOperatedRow: -1, 
         } 
 
     }
