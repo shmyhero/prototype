@@ -358,7 +358,8 @@ class StockDetailScreen extends Component {
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
-        var index = parameters.index;
+        var index = parameters.index ? parameters.index : parameters.value;
+
         var label = parameters.label;       
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
