@@ -389,7 +389,7 @@ export default class TabMainScreen extends React.Component {
 				}} 
 				>
                 <DynamicRowComponent 
-					navigator={this.props.navigator}
+					navigation={this.props.navigation}
 					rowData={rowData}
 					rowID={rowID}
 					delCallBack={(id)=>{this.delItem(id)}}
@@ -527,7 +527,7 @@ export default class TabMainScreen extends React.Component {
                         // for(var i = 0; i < responseJson.length; i++){
                         //     responseJson[i].isNew = true;
                         // }  
-                         
+
                         this.setState({ 
                             cacheData: responseJson,
                         }) 
