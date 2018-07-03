@@ -30,7 +30,7 @@ import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
 import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
 import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
 import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
-import SplashScreen from 'react-native-splash-screen'
+import SplashScreen from './js/module/SplashScreenModule'
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
@@ -108,10 +108,8 @@ class CustomTabBar extends Component {
             this.forceUpdate()
         });
 
-        if (Platform.OS == "ios") {
-            SplashScreen.hide();//关闭启动屏幕
-        }
-        else {
+        SplashScreen.hide();//关闭启动屏幕
+        if (Platform.OS == "android") {
             this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', () => this.keyboardWillShow())
             this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', () => this.keyboardWillHide())
         }

@@ -6,6 +6,7 @@ import com.facebook.react.ReactActivity;
 import com.simpleapp.RNNativeModules.NativeActions;
 import com.simpleapp.RNNativeModules.NativeDataModule;
 
+
 public class MainActivity extends ReactActivity {
 
     /**
@@ -21,9 +22,10 @@ public class MainActivity extends ReactActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        SplashScreen.show(this, true);
+
         super.onCreate(savedInstanceState);
         mInstance = this;
-
     }
 
     @Override

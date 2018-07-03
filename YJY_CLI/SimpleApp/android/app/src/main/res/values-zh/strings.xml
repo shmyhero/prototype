@@ -2,5 +2,5 @@
     <string name="app_name">BTH</string>
     <string name="splash_screen_line_1">Copyright 2018 BitHero.</string>
     <string name="splash_screen_line_2">All Rights Reserved</string>
-    <string name="splash_screen_line_3">v%1$s version</string>
+    <string name="splash_screen_line_3">v%1$s版本</string>
 </resources>
