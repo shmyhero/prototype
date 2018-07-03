@@ -359,7 +359,6 @@ class StockDetailScreen extends Component {
     renderButtonInGroup(parameters){
         var value = parameters.value;
         var index = parameters.index ? parameters.index : parameters.value;
-
         var label = parameters.label;       
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
@@ -408,7 +407,7 @@ class StockDetailScreen extends Component {
                         alignItems:'center',
                         flexDirection:'row',
                         }}>
-                        {imageSource? <Image style={{marginLeft:20, height: 22, width: 22}} source={imageSource}/> : null}
+                        {imageSource? <Image style={{marginLeft:15, height: 22, width: 22}} source={imageSource}/> : null}
                         <Text style={textViewStyleList}>{label}</Text>
                     </View>
                 </ImageBackground>
