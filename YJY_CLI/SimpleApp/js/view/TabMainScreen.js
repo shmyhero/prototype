@@ -19,18 +19,13 @@ import {
     PanResponder,
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
-import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
-import TweetBlock from './tweet/TweetBlock';
 import { ViewKeys } from '../../AppNavigatorConfiguration';
 var LS = require('../LS')
 
 var ColorConstants = require('../ColorConstants');
-var UIConstants = require('../UIConstants'); 
 require('../utils/dateUtils')
 var {height, width} = Dimensions.get('window');
 var {EventCenter, EventConst} = require('../EventCenter');

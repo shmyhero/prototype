@@ -391,7 +391,7 @@ export default class StockDetailScreen extends Component {
 
         return (
             <TouchableOpacity style={containerStyleList}
-                index={index}
+                key={index}
                 onPress={()=>this.onOptionSelected(groupName, value)}>
                 <ImageBackground source={backgroundImageSource}
                     resizeMode={'contain'}

@@ -33,7 +33,6 @@ class NetworkErrorIndicator extends Component {
   constructor(props) {
     super(props);
 
-    console.log("NetworkErrorIndicator this.props.refreshing " + this.props.refreshing)
     this.state = {
       isLoading: this.props.refreshing ? true : false,
       loadingDot: 0,
@@ -42,14 +41,22 @@ class NetworkErrorIndicator extends Component {
     this.runAnimation();
   }
 
+  componentDidMount(){
+    console.log("NetworkErrorIndicator componentDidMount")
+  }
+
+  componentWillUnmount(){
+    console.log("NetworkErrorIndicator componentWillUnmount")
+    this.stopAnimation();
+  }
+
   componentWillReceiveProps(nextProps){
     if(nextProps){
       if(nextProps.refreshing != this.state.isLoading){
         if(nextProps.refreshing){
           this.runAnimation();
         }else{
-          clearInterval(this.refreshIntervalId);
-          this.refreshIntervalId = null;
+          this.stopAnimation();
         }
         
 
@@ -72,6 +79,11 @@ class NetworkErrorIndicator extends Component {
         this.setState({loadingDot: newLoadingDot})
       }, 500);
     }
+  }
+
+  stopAnimation(){
+    clearInterval(this.refreshIntervalId);
+    this.refreshIntervalId = null;
   }
 
   doRefresh(){
