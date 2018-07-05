@@ -1,6 +1,7 @@
 package com.simpleapp;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.react.ReactActivity;
 import com.simpleapp.RNNativeModules.NativeActions;
@@ -20,8 +21,11 @@ public class MainActivity extends ReactActivity {
 
     public static MainActivity mInstance;
 
+    final static String TAG = "Main";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "Splash onCreate");
         SplashScreen.show(this, true);
 
         super.onCreate(savedInstanceState);

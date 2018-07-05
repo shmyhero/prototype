@@ -386,5 +386,7 @@ const mapDispatchToProps = {
 	fetchBalanceData
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

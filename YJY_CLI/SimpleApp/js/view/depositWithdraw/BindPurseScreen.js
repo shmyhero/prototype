@@ -216,12 +216,13 @@ const mapStateToProps = state => {
     return {
         ...state.meData,
     };
-  };
+};
   
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     bindWallet
-  };
+};
   
-  export default connect(mapStateToProps, mapDispatchToProps)(BindPurseScreen);
-  
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(BindPurseScreen);  
+
+export default connectedComponent;
+module.exports = connectedComponent;

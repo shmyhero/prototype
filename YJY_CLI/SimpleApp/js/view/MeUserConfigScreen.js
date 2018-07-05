@@ -205,6 +205,7 @@ const mapDispatchToProps = {
     setPortrait
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(MeUserConfigScreen);
-  
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeUserConfigScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

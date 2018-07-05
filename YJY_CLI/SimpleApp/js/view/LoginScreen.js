@@ -30,7 +30,7 @@ var WebSocketModule = require("../module/WebSocketModule");
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
-class LoginScreen extends Component {
+export default class LoginScreen extends Component {
     constructor(props){
         super(props);
 
@@ -272,5 +272,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LoginScreen;
-
+module.exports = LoginScreen;

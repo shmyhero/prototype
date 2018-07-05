@@ -163,7 +163,8 @@ const mapDispatchToProps = {
     switchLanguage,
     getVersion,
 };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(MeSettingsScreen);
-  
-  
+
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeSettingsScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

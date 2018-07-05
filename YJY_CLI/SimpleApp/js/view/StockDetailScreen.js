@@ -53,7 +53,7 @@ var CHART_STATUS_LOADING = 2;
 
 const DEFAULT_MULTIPLIER = 1;
 
-class StockDetailScreen extends Component {
+export default class StockDetailScreen extends Component {
     constructor(props){
         super(props)
 
@@ -757,5 +757,6 @@ const styles = StyleSheet.create({
     },
 })
 
-export default StockDetailScreen;
+module.exports = StockDetailScreen;
+
 

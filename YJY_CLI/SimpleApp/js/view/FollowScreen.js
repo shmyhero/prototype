@@ -263,4 +263,7 @@ const mapDispatchToProps = {
     getCurrentFollowConfig
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(FollowScreen);
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(FollowScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

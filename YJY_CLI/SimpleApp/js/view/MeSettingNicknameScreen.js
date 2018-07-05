@@ -190,5 +190,7 @@ const mapDispatchToProps = {
 	updateLocalNickName,
 	getMaxNickNameLength
 };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);
+
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);
+export default connectedComponent;
+module.exports = connectedComponent;

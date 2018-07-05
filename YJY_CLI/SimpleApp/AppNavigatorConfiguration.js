@@ -13,35 +13,16 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator,TabBarBottom } from 'react-navigation';
 var {EventConst, EventCenter} = require('./js/EventCenter');
 var ColorConstants = require("./js/ColorConstants");
-import LoginScreen from './js/view/LoginScreen';
-import HelpScreen from "./js/view/HelpScreen"
-import AboutScreen from "./js/view/AboutScreen"
-import StockDetailScreen from './js/view/StockDetailScreen';
-import MessageScreen from './js/view/MessageScreen';
-import DepositTokenScreen from './js/view/depositWithdraw/DepositTokenScreen';
-import WithdrawTokenScreen from './js/view/depositWithdraw/WithdrawTokenScreen';
-import PublishTweetScreen from './js/view/tweet/PublishTweetScreen';
-import StockSearchScreen from './js/view/StockSearchScreen';
-import MeSettingsScreen from './js/view/MeSettingsScreen';
-import MeUserConfigScreen from './js/view/MeUserConfigScreen';
-import DynamicStatusConfig from './js/view/DynamicStatusConfig';
-import BindPurseScreen from './js/view/depositWithdraw/BindPurseScreen';
-import TokenDetailScreen from './js/view/depositWithdraw/TokenDetailScreen';
-import WithdrawSubmittedPage from './js/view/depositWithdraw/WithdrawSubmittedPage';
-import DepositWithdrawEntryScreen from './js/view/depositWithdraw/DepositWithdrawEntryScreen';
-import MeSettingNicknameScreen from './js/view/MeSettingNicknameScreen';
 import SplashScreen from './js/module/SplashScreenModule'
 
 var MyHomeScreen = require('./js/view/MyHomeScreen');
 var MyHomeScreen3 = require('./js/view/MyHome3Screen');
+
 var TabMainScreen = require('./js/view/TabMainScreen');
 import TabMarketScreen from './js/view/TabMarketScreen';
 var TabRankScreen = require('./js/view/TabRankScreen');
 import TabPositionScreen from './js/view/TabPositionScreen';
 import TabMeScreen from './js/view/TabMeScreen';
-import FollowScreen from './js/view/FollowScreen';
-var SplashScreenView = require('./js/view/SplashScreen');
-var UserProfileScreen = require('./js/view/UserProfileScreen');
 var LS = require("./js/LS");
 
 const ViewKeys = {
@@ -108,6 +89,7 @@ class CustomTabBar extends Component {
             this.forceUpdate()
         });
 
+        console.log("Splash hide");
         SplashScreen.hide();//关闭启动屏幕
         if (Platform.OS == "android") {
             this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', () => this.keyboardWillShow())
@@ -284,32 +266,32 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
 });
 
 var mainAppStackNavigatorConfiguration = {}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = { screen: SplashScreenView}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SPLASH] = { getScreen: ()=> require('./js/view/SplashScreen')}
 mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HOME] = {screen: MainScreenNavigator}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {screen: StockDetailScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {screen: LoginScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {screen: UserProfileScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {screen: HelpScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {screen: AboutScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {screen: MessageScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT_WITHDRAW] = {screen: DepositWithdrawEntryScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {screen: DepositTokenScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {screen: WithdrawTokenScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW_SUBMITTED] = {screen: WithdrawSubmittedPage}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {screen: PublishTweetScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {screen: StockSearchScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {screen: DynamicStatusConfig}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_BIND_PURSE] = {screen: BindPurseScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TOKEN_DETAIL] = {screen: TokenDetailScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {screen: FollowScreen,
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_DETAIL] = {getScreen: ()=> require('./js/view/StockDetailScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_LOGIN] = {getScreen: ()=> require('./js/view/LoginScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_PROFILE] = {getScreen: ()=> require('./js/view/UserProfileScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_HELP] = {getScreen: ()=> require("./js/view/HelpScreen")}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_ABOUT] = {getScreen: ()=> require("./js/view/AboutScreen")}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_MESSAGE] = {getScreen: ()=> require("./js/view/MessageScreen")}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT_WITHDRAW] = {getScreen: ()=> require("./js/view/depositWithdraw/DepositWithdrawEntryScreen")}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DEPOSIT] = {getScreen: ()=> require('./js/view/depositWithdraw/DepositTokenScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW] = {getScreen: ()=> require('./js/view/depositWithdraw/WithdrawTokenScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_WITHDRAW_SUBMITTED] = {getScreen: ()=> require("./js/view/depositWithdraw/WithdrawSubmittedPage")}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TWEET] = {getScreen: ()=> require('./js/view/tweet/PublishTweetScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_STOCK_SEARCH] = {getScreen: ()=> require('./js/view/StockSearchScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_DYNAMIC_STATUS_CONFIG] = {getScreen: ()=> require('./js/view/DynamicStatusConfig')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_BIND_PURSE] = {getScreen: ()=> require('./js/view/depositWithdraw/BindPurseScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_TOKEN_DETAIL] = {getScreen: ()=> require('./js/view/depositWithdraw/TokenDetailScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {getScreen: ()=> require("./js/view/FollowScreen"),
     navigationOptions: {
         mode: 'modal', // Remember to set the root navigator to display modally.
         headerMode: 'none', // This ensures we don't get two top bars.
     }
 }
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {screen: MeSettingsScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_CONFIG] = {screen: MeUserConfigScreen}
-mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_NICKNAME] = {screen: MeSettingNicknameScreen}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {getScreen: ()=> require('./js/view/MeSettingsScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_CONFIG] = {screen: ()=> require('./js/view/MeUserConfigScreen')}
+mainAppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_NICKNAME] = {getScreen: ()=> require("./js/view/MeSettingNicknameScreen")}
 
 
 

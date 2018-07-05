@@ -216,3 +216,4 @@ var styles = StyleSheet.create({
 });
 
 export default StockSearchScreen;
+module.exports = StockSearchScreen;

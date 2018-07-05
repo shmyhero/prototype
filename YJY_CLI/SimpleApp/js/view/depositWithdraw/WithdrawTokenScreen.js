@@ -238,6 +238,7 @@ const mapDispatchToProps = {
     fetchBalanceData
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(WithdrawTokenScreen);
-  
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(WithdrawTokenScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;
