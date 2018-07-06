@@ -244,7 +244,7 @@ var LS = {
     // stock_detail_option_up_unselected: [require("../images/zh-cn/stock_detail_option_up_unselected.png"), require("../images/en-us/stock_detail_option_up_unselected.png")],
     stock_detail_trading_container:[require("../images/zh-cn/stock_detail_trading_container.png"), require("../images/en-us/stock_detail_trading_container.png")],
     bind_purse_address_hint: [require("../images/zh-cn/bind_purse_address_hint.png"), require("../images/en-us/bind_purse_address_hint.png")],
-    splash: [require('../images/zh-cn/splash.jpg'), require('../images/en-us/splash.jpg')],
+    //splash: [require('../images/zh-cn/splash.jpg'), require('../images/en-us/splash.jpg')],
     expert:[require('../images/zh-cn/expert.png'), require('../images/en-us/expert.png')],
   },
 

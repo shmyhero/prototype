@@ -22,7 +22,7 @@ import {
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
-import { ViewKeys } from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 var LS = require('../LS')
 
 var ColorConstants = require('../ColorConstants');
@@ -104,8 +104,10 @@ export default class TabMainScreen extends React.Component {
     }
  
     componentDidMount () {
-        this.fetchMeData();
-        this.loadData()
+        this.startUpInitializeFinishedSubscription = EventCenter.getEventEmitter().addListener(EventConst.START_UP_INITIALIZE_FINISHED, () => {
+            this.loadData()
+            this.startUpInitializeFinishedSubscription && this.startUpInitializeFinishedSubscription.remove();
+        });
 
         // this.timer = setInterval(
         //     () => {  
@@ -182,6 +184,7 @@ export default class TabMainScreen extends React.Component {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
         this.tabSwitchedSubscription && this.tabSwitchedSubscription.remove();
+        this.startUpInitializeFinishedSubscription && this.startUpInitializeFinishedSubscription.remove();
         this.timer && clearTimeout(this.timer);
         this.timerCacheList && clearTimeout(this.timerCacheList);
     }

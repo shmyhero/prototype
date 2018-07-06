@@ -13,7 +13,6 @@ import { View,
 import NavBar from "../component/NavBar";
 var ColorConstants = require("../../ColorConstants");
 var {height,width} = Dimensions.get('window');
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
 import LinearGradient from 'react-native-linear-gradient'
 var UIConstants = require("../../UIConstants");
 var NetworkModule = require("../../module/NetworkModule");

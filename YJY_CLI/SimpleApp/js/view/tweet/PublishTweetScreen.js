@@ -13,7 +13,7 @@ import { View, Text, StyleSheet,
 import KeyboardSpacer from '../component/KeyboardSpacer';
 import NavBar from '../component/NavBar';
 import TweetComponent from './TweetComponent';
-import {ViewKeys} from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 import LogicData from '../../LogicData';
 
 var LS = require("../../LS");

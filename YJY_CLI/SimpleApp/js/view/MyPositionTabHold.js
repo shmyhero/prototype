@@ -28,7 +28,7 @@ var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 var LS = require("../LS");
-import { ViewKeys } from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";

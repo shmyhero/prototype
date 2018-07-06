@@ -16,13 +16,11 @@ import {
 
 import PriceChartView from './component/PriceChartView';
 import NavBar from './component/NavBar';
-import {ViewKeys} from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 
-import { StackNavigator, TabNavigator } from 'react-navigation';
 import LogicData from "../LogicData";
 import deepCopyUtil from '../utils/deepCopyUtil';
 
-var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");

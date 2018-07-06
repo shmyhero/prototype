@@ -18,9 +18,7 @@ var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
 var BIG_BUTTON_HEIGHT = BUTTON_WIDTH / 722 * 380;
 var bgWidth = width-20; 
-import { ViewKeys } from '../../AppNavigatorConfiguration';
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
+import ViewKeys from '../ViewKeys';
 import NavBar from './component/NavBar';
 import BalanceBlock from './component/BalanceBlock';
 
@@ -28,16 +26,12 @@ var UIConstants = require('../UIConstants');
 var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
-import LogicData from "../LogicData";
 import LoginScreen from './LoginScreen';
 
 import { fetchMeData, updateUnread } from '../redux/actions'
 import { connect } from 'react-redux';
 import SubmitButton from './component/SubmitButton';
 
-var ProfitStatisticsBlock = require('./component/personalPages/ProfitStatisticsBlock')
-var NetConstants = require('../NetConstants')
-var NetworkModule = require('../module/NetworkModule');
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
 var WebSocketModule = require('../module/WebSocketModule');

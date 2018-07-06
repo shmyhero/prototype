@@ -16,7 +16,7 @@ require('../../utils/dateUtils')
 import TweetBlock from '../tweet/TweetBlock';
 import Swipeout from 'react-native-swipeout';
 var ColorConstants = require('../../ColorConstants');
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 var LS = require("../../LS")
  
 class DynamicRowComponent extends Component {

@@ -16,9 +16,8 @@ import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants');
 var ScrollTabView = require('./component/ScrollTabView')
 var MyPositionTabHold = require('./MyPositionTabHold')  
-var MyPositionTabClosed = require('./MyPositionTabClosed')  
-var MyPositionTabStatistics = require('./MyPositionTabStatistics')  
-import TraingleShapeTabBarItem from './component/TriangleShapeTabBarItem';
+var MyPositionTabClosed = require('./MyPositionTabClosed')
+//import TraingleShapeTabBarItem from './component/TriangleShapeTabBarItem';
 
 var {height,width} = Dimensions.get('window');
 var LS = require('../LS')
@@ -92,7 +91,6 @@ class TabPositionScreen extends Component {
       var tabPages = [ 
         <MyPositionTabHold navigation={this.props.navigation} ref={'page0'}/>,
         <MyPositionTabClosed navigation={this.props.navigation} ref={'page1'}/>,
-        // <MyPositionTabStatistics navigation={this.props.navigation} ref={'page2'}/>,
       ]
   
       var tabNameShow = [

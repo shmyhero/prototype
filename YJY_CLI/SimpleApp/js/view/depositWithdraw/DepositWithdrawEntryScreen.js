@@ -22,7 +22,7 @@ import NavBar from '../component/NavBar'
 var NetConstants = require('../../NetConstants')
 import LogicData from '../../LogicData'
 var UIConstants = require('../../UIConstants');
-import {ViewKeys} from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 import BalanceBlock from '../component/BalanceBlock';
 
 import { fetchBalanceData } from "../../redux/actions/balance";

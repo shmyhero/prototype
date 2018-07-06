@@ -18,7 +18,7 @@ import SubmitButton from '../component/SubmitButton';
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 import LogicData from '../../LogicData';
-var Toast = require('@remobile/react-native-toast');
+import LibraryImporter from '../../LibraryImporter';
 var LS = require("../../LS")
 // create a component
 class DepositScreen extends Component {
@@ -50,7 +50,7 @@ class DepositScreen extends Component {
     
     copyAddress(){
         Clipboard.setString(this.state.tokenAddress)
-        Toast.show(LS.str("DEPOSIT_COPY_SUCCESS"))
+        LibraryImporter.getToast().show(LS.str("DEPOSIT_COPY_SUCCESS"))
     }
 
     renderTopPart(){

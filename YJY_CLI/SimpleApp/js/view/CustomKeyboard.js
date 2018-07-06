@@ -12,6 +12,7 @@ import {
   TextInput,
   Image,
 } from 'react-native';
+import AnimatedView from './component/AnimatedView';
 
 var {height, width} = Dimensions.get('window');
 var SHARE_CONTAINER_HEIGHT = 290;
@@ -26,12 +27,11 @@ export default class CustomKeyboard extends Component {
 
     this.state = {
       modalVisible: false,
-      fadeAnim: new Animated.Value(0),
     }
   }
 
-  _setModalVisible(visible) {
-    this.setState({modalVisible: visible});
+  _setModalVisible(visible, callback) {
+    this.setState({modalVisible: visible}, ()=> callback && callback());
   }
 
   showWithData(data){
@@ -47,30 +47,15 @@ export default class CustomKeyboard extends Component {
       dcmCount: data.dcmCount,
       error: null,
     })
-    this._setModalVisible(true);
-    Animated.timing(       // Uses easing functions
-      this.state.fadeAnim, // The value to drive
-      {
-        toValue: 1,        // Target
-        duration: 200,    // Configuration
-      },
-    ).start();
+    this._setModalVisible(true, ()=>{     
+      this.fadeViewRef.fadeIn(400);
+    });
   }
 
   hide(){
-    var callbackId = this.state.fadeAnim.addListener(function(){
-			if(this.state.fadeAnim._value == 0){
-				this.state.fadeAnim.removeListener(callbackId)
-				this._setModalVisible(false);
-			}
-		}.bind(this))
-		Animated.timing(       // Uses easing functions
-			this.state.fadeAnim, // The value to drive
-			{
-				toValue: 0,        // Target
-				duration: 200,    // Configuration
-			},
-		).start();
+    this.fadeViewRef.fadeOut(210, ()=>{
+      this._setModalVisible(false)
+    });
   }
 
   getIsShown(){
@@ -191,16 +176,23 @@ export default class CustomKeyboard extends Component {
         transparent={true}
         visible={this.state.modalVisible}
         onRequestClose={() => {this._setModalVisible(!this.state.modalVisible)}}
-        style={{height: height, width: width}}
+        style={{height: height * 2, width: width}}
         >
-        <TouchableOpacity style={{flex:1, width: width, backgroundColor: 'rgba(0,0,0,0.7)',}}
-          onPress={() => {
-            this.hide();
-          }}>
-          <View style={{flex:1, width: width}}/>
-        </TouchableOpacity>
+        <AnimatedView style={{flex:1, width: width}}
+          ref={(ref)=> this.fadeViewRef = ref}>
+          <TouchableOpacity activeOpacity={1} style={{
+              flex:1, 
+              width: width,
+              backgroundColor: 'rgba(0,0,0,0.7)',              
+            }}
+            onPress={() => {
+              this.hide();
+            }}>
+            <View style={{flex:1, width: width}}/>
+          </TouchableOpacity>
+        </AnimatedView>
 
-        <Animated.View style={styles.keyboardContainer}>
+        <View style={styles.keyboardContainer}>
           <View style={styles.inputBarContainer}>
             <Text style={[styles.keyboardTextInput, this.state.error == null ? {} : styles.error]}
               ellipsizeMode="tail" numberOfLines={1}>
@@ -236,24 +228,7 @@ export default class CustomKeyboard extends Component {
               {this.renderOKButton()}
             </View>
           </View>
-          {/* <View style={{flex: 2, flexDirection:'row'}}>
-            <View style={{flex: 3,}}>
-              <View style={styles.keyboardRowContainer}>
-                {this.renderButton(4)}
-                {this.renderButton(5)}
-                {this.renderButton(6)}
-              </View>
-              <View style={styles.keyboardRowContainer}>
-                {this.renderButton(7)}
-                {this.renderButton(8)}
-                {this.renderButton(9)}
-              </View>
-            </View>
-            <View style={{flex:1}}>
-              {this.renderButton('确认')}
-            </View>
-          </View> */}
-        </Animated.View>
+        </View>
       </Modal>
     );
   }

@@ -16,7 +16,6 @@ import {
   KeyboardAvoidingView,
   Keyboard
 } from 'react-native';
-import { NavigationActions } from 'react-navigation'
 import NavBar from './component/NavBar';
 
 var {height, width} = Dimensions.get('window')
@@ -24,7 +23,6 @@ var heightRate = height/667.0
 var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
-var ColorConstants = require('../ColorConstants');
 var WebSocketModule = require("../module/WebSocketModule");
 
 var LS = require('../LS')

@@ -20,7 +20,8 @@ var UIConstants = require('../UIConstants');
 var NetworkModule = require('../module/NetworkModule');
 var StockOrderInfoBar = require('./StockOrderInfoBar')
 var {height, width} = Dimensions.get('window');
-import {ViewKeys} from '../../AppNavigatorConfiguration';
+import AnimatedView from './component/AnimatedView';
+import ViewKeys from '../ViewKeys';;
 
 const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
 const BODY_TOP_MARGIN = 0;
@@ -46,14 +47,16 @@ class StockOrderInfoModal extends Component {
 		if (orderData !== null) {
 			state.orderData = orderData;
 		}
-		this.setState(state);
+		this.setState(state, ()=>{
+			this.fadeViewRef.fadeIn(500)
+		});
 	}
 
 	hide() {
+		this.state.hideCallback && this.state.hideCallback();
 		this.setState({
 			modalVisible: false,
 		});
-		this.state.hideCallback && this.state.hideCallback();
 	}
 
 	onContainerPress(){
@@ -64,6 +67,21 @@ class StockOrderInfoModal extends Component {
 	_setModalVisible(visible) {
         this.setState({modalVisible: visible});
     }
+
+	renderDialog(){
+		return(
+			<AnimatedView style={{flex:1, width: width}}
+				ref={(ref)=> this.fadeViewRef = ref}>
+				<TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>
+					<View style={styles.modalContainer}>
+						<TouchableOpacity onPress={()=>this.onContainerPress()}>
+							{this.renderContent()}
+						</TouchableOpacity>
+					</View>
+				</TouchableOpacity>
+			</AnimatedView>
+		)
+	}
 
 	renderContent(){
 		return (
@@ -82,13 +100,7 @@ class StockOrderInfoModal extends Component {
                 animationType={"slide"}
                 style={{height: height, width: width}}
                 onRequestClose={() => {this._setModalVisible(false)}}>
-                    <TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>
-                        <View style={styles.modalContainer}>
-                            <TouchableOpacity onPress={()=>this.onContainerPress()}>
-                                {this.renderContent()}
-                            </TouchableOpacity>
-                        </View>
-                    </TouchableOpacity>
+				{this.state.modalVisible ? this.renderDialog() : null}
             </Modal>
 		);
     }

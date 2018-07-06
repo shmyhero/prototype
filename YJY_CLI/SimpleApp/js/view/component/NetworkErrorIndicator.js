@@ -41,12 +41,7 @@ class NetworkErrorIndicator extends Component {
     this.runAnimation();
   }
 
-  componentDidMount(){
-    console.log("NetworkErrorIndicator componentDidMount")
-  }
-
   componentWillUnmount(){
-    console.log("NetworkErrorIndicator componentWillUnmount")
     this.stopAnimation();
   }
 

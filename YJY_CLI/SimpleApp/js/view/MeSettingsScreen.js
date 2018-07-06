@@ -15,7 +15,7 @@ import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
-import { ViewKeys } from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 
 var configListData = [
     {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},

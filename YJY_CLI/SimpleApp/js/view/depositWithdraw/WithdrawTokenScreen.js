@@ -13,7 +13,7 @@ var ColorConstants = require('../../ColorConstants');
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
 import LogicData from "../../LogicData";
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 import SubmitButton from '../component/SubmitButton';
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");

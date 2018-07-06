@@ -17,7 +17,7 @@ import { TabNavigator } from "react-navigation";
 import NavBar from './component/NavBar';
 import LogicData from '../LogicData';
 import StockRowComponent from './component/StockRowComponent';
-import {ViewKeys} from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';;
 
 var WebSocketModule = require('../module/WebSocketModule');
 var AppStateModule = require('../module/AppStateModule');
