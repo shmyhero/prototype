@@ -10,7 +10,7 @@ const SimpleAppNavigator = StackNavigator(AppStackNavigatorConfiguration,
 {
     cardStyle: {
         shadowColor: 'transparent',
-        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
+        backgroundColor: 'transparent',//ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
     navigationOptions: {
         headerStyle: {

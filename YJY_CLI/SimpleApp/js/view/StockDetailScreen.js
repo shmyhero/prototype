@@ -582,13 +582,19 @@ export default class StockDetailScreen extends Component {
         })
 
         return (
-            <View style={styles.container}>
+            <View style={styles.container}>                
                 <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
                     navigation={this.props.navigation}/>
-                {this.renderDetailRow()}
-                <View style={styles.chartContainer}>
-                    {this.renderPriceChart()}
-                    {/* <Image style={{position:'absolute', bottom:0, right:0}} source={require('../../images/dot.gif')}/> */}
+                <View style={{backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE, 
+                    alignSelf:'stretch',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1}}>
+                    {this.renderDetailRow()}
+                    <View style={styles.chartContainer}>
+                        {this.renderPriceChart()}
+                        {/* <Image style={{position:'absolute', bottom:0, right:0}} source={require('../../images/dot.gif')}/> */}
+                    </View>
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}

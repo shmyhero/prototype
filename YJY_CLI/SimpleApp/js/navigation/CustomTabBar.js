@@ -45,8 +45,11 @@ class CustomTabBar extends Component {
             this.forceUpdate()
         });
 
-        console.log("Splash hide");
-        SplashScreen.hide();//关闭启动屏幕
+        setTimeout(()=>{
+            console.log("Splash hide");
+            SplashScreen.hide();//关闭启动屏幕
+        }, 300);
+
         if (Platform.OS == "android") {
             this.keyboardWillShowSub = Keyboard.addListener('keyboardDidShow', () => this.keyboardWillShow())
             this.keyboardWillHideSub = Keyboard.addListener('keyboardDidHide', () => this.keyboardWillHide())

@@ -301,9 +301,11 @@ export default class TabMainScreen extends React.Component {
             //     <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             // </View>);
             return (
-				<NetworkErrorIndicator 
-					onRefresh={()=>this._onRefresh()}
-					refreshing={this.state.isLoading}/>
+                <View style = {styles.mainContainer}>
+                    <NetworkErrorIndicator 
+                        onRefresh={()=>this._onRefresh()}
+                        refreshing={this.state.isLoading}/>
+                </View>
 			)
         }else{
             return (

@@ -190,7 +190,7 @@ class DynamicRowComponentContent extends Component {
                         //console.log("onClose()");
                     }}
                     style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:'white',flex:1}}> 
-                    <View style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}>
+                    <View style={{margin:5,borderRadius:8,width:width-60,/*backgroundColor:'white',*/flex:1}}>
                         <View style={{flexDirection:'row',margin:5}}>
                             <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
                                 <Image source={{uri:this.props.rowData.user.picUrl}}

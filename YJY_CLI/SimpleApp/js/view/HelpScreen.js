@@ -26,6 +26,7 @@ export default class HelpScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white'
     },
 });
 
