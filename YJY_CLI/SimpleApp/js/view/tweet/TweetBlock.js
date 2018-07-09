@@ -1,7 +1,9 @@
 //import liraries
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, 
+    TouchableOpacity
+} from 'react-native';
 var TweetParser = require("./TweetParser")
 var ColorConstants = require("../../ColorConstants")
 // create a component
@@ -38,6 +40,19 @@ class TweetBlock extends Component {
         }
     }
 
+    shouldComponentUpdate(nextProps, nextState){
+        //For better performance
+        if(nextProps != this.props){
+            return true;
+        }else{
+            if(this.state.textNodes != nextState.textNodes
+            ||this.state.maxLine != nextState.maxLine){
+                return true;
+            }
+        }
+        return false;
+    }
+
     render() {
         var fontSize = 15;
         if(this.props.style && this.props.style.fontSize){
@@ -65,7 +80,7 @@ class TweetBlock extends Component {
 
         return (     
             <TouchableOpacity onPress={()=>this.onPressed()}>      
-                <Text  style={[styles.container, this.props.style]} numberOfLines={this.state.maxLine}>
+                <Text style={[styles.container, this.props.style]} numberOfLines={this.state.maxLine}>
                     {parsedListView}
                 </Text>
             </TouchableOpacity>

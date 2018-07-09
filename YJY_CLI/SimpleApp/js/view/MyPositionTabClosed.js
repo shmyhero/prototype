@@ -121,19 +121,19 @@ export default class  MyPositionTabClosed extends React.Component {
 					}else{
 						if(!isCache){
 							//Real data! Refresh the data
-							newStockInfoRowData = this.state.stockInfoRowData;
 							for(var i = 0; i < responseJson.length; i++){
 								var dataExisted = false;
 								for(var j = 0; j < this.state.stockInfoRowData.length; j++){
 									if(responseJson[i].id == this.state.stockInfoRowData[j].id){
 										this.state.stockInfoRowData[j] = responseJson[i];
-										this.state.stockInfoRowData = true;
+										dataExisted = true;
 									}
 								}
 								if(!dataExisted){
 									this.state.stockInfoRowData.concat(responseJson[i])
 								}
 							}
+							newStockInfoRowData = this.state.stockInfoRowData;
 						}else{
 							newStockInfoRowData = this.state.stockInfoRowData.concat(responseJson);
 						}

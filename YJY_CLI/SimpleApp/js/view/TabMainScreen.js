@@ -91,7 +91,8 @@ export default class TabMainScreen extends React.Component {
             first: true,  
             isLoading:true,
             isContentLoaded:false,
-            currentOperatedRow: -1, 
+            currentOperatedRow: -1,
+            isAllowScroll: true,
         } 
 
     }
@@ -402,9 +403,14 @@ export default class TabMainScreen extends React.Component {
 								dataSource: this._dataSource.cloneWithRows(this.state.dataResponse),
 							});
 						}
-					}}
+                    }}
+                    scrollEventThrottle={50}
+                    allowScroll={(value)=>{
+                        this.setState({
+                            isAllowScroll: value,
+                        })
+                    }}
 					onOpen={()=>{
-						
 						if(this.state.currentOperatedRow != rowID){
 							this.setState({
 								currentOperatedRow: rowID,
