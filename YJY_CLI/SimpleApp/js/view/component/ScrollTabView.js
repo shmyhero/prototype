@@ -41,9 +41,9 @@ export default class  ScrollTabView extends React.Component {
 
 	tabClicked (index) {
 		if (Platform.OS === 'ios') {
-			this.refs.viewPages && this.refs.viewPages.scrollTo({x: index * width, y: 0, animated: false})
+			this.refs.viewPages && this.refs.viewPages.scrollTo({x: index * width, y: 0, animated: true})
 		} else {
-			this.refs.viewPages && this.refs.viewPages.setPageWithoutAnimation(index)
+			this.refs.viewPages && this.refs.viewPages.setPage(index)
 		}
 		 
 		if (index !== this.state.currentSelectedTab) {
@@ -57,16 +57,27 @@ export default class  ScrollTabView extends React.Component {
 
 	viewPageScrolled (event) {
 		var targetTabPosition = event.nativeEvent.position
-		if (event.nativeEvent.offset > 0.5) {
-			targetTabPosition ++
-		} 
- 
-		if (targetTabPosition !== this.state.currentSelectedTab) {
-			this.setState({
-				currentSelectedTab: targetTabPosition
-			})
-			this.props.onPageSelected && this.props.onPageSelected(targetTabPosition)
-		}
+		if (this.state.skipOnScrollEvent) {
+			if (targetTabPosition == this.state.currentSelectedTab) {
+				setTimeout(()=>{
+					this.setState({
+						skipOnScrollEvent: false,
+					})
+				}, 500);
+				
+			}
+		}else{			
+			if (event.nativeEvent.offset > 0.5) {
+				targetTabPosition ++
+			} 
+	 
+			if (targetTabPosition !== this.state.currentSelectedTab) {
+				this.setState({
+					currentSelectedTab: targetTabPosition
+				})
+				this.props.onPageSelected && this.props.onPageSelected(targetTabPosition)
+			}
+		}		
 	}
 
 	onScroll (event) {
