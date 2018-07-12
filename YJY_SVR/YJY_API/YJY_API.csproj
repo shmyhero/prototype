@@ -256,6 +256,7 @@
     <Compile Include="Controllers\Attributes\BasicAuth.cs" />
     <Compile Include="Controllers\Attributes\CultureHandler.cs" />
     <Compile Include="Controllers\Attributes\Elmah.cs" />
+    <Compile Include="Controllers\Attributes\TimestampNonceAuth.cs" />
     <Compile Include="Controllers\CallbackController.cs" />
     <Compile Include="Controllers\FeedController.cs" />
     <Compile Include="Controllers\FundController.cs" />
@@ -269,6 +270,7 @@
     <Compile Include="Controllers\StatController.cs" />
     <Compile Include="Controllers\StatusController.cs" />
     <Compile Include="Controllers\UserController.cs" />
+    <Compile Include="Controllers\UtilController.cs" />
     <Compile Include="Controllers\YJYController.cs" />
     <Compile Include="DTO\AdminDTO.cs" />
     <Compile Include="DTO\FeedDTO.cs" />
