@@ -4,28 +4,19 @@ import React, { Component } from 'react';
 import {
 	StyleSheet,
 	View,
-	Text,
-	Image,
-	Animated,
 	Dimensions,
-	PanResponder,
 	Modal,
     TouchableOpacity,
 	Platform,
 } from 'react-native';
 
-var merge = require('merge');
-var ColorConstants = require('../ColorConstants')
-var UIConstants = require('../UIConstants');
-var NetworkModule = require('../module/NetworkModule');
 var StockOrderInfoBar = require('./StockOrderInfoBar')
-var {height, width} = Dimensions.get('window');
+var {height, width} = Dimensions.get('screen');
 import AnimatedView from './component/AnimatedView';
 import AnimatedCoinView from './component/AnimatedCoinView';
-import ViewKeys from '../ViewKeys';;
 
+var UIConstants = require('../UIConstants');
 const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
-const BODY_TOP_MARGIN = 0;
 const BODY_BOTTOM_MARGIN = 30;
 const CONTENT_WIDTH = width - BODY_HORIZON_MARGIN * 2 - 2 - BODY_BOTTOM_MARGIN * 2;
 
@@ -50,10 +41,10 @@ class StockOrderInfoModal extends Component {
 			state.orderData = orderData;
 		}
 		this.setState(state, ()=>{
-			this.fadeViewRef.fadeIn(500)
 			this.setState({
 				showCoinView: true,
 			})
+			this.fadeViewRef.fadeIn(500)			
 		});
 	}
 
@@ -90,15 +81,20 @@ class StockOrderInfoModal extends Component {
 	}
 
 	renderCoinView(){
-        console.log("renderCoinView", this.state.showCoinView)
-        if(this.state.showCoinView)
-            return <AnimatedCoinView style={{position:'absolute', top:0, left:0, right:0, bottom:0}}
-                onAnimationFinished={()=>{
-                    console.log("renderCoinView onAnimationFinished")
-                    this.setState({
-                        showCoinView:false,
-                    })
-                }}/>;
+        if(this.state.showCoinView){
+			console.log("renderCoinView")
+			return (
+				<AnimatedCoinView 
+					style={{position:'absolute', top:0, left:0, right:0, bottom:0}}
+                	onAnimationFinished={()=>{
+                    	console.log("renderCoinView onAnimationFinished")
+                    	this.setState({
+                        	showCoinView:false,
+	                    })
+					}}
+					contentHeight={height - UIConstants.STATUS_BAR_ACTUAL_HEIGHT}
+				/>);
+		}
     }
 
 	renderContent(){

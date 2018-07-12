@@ -16,12 +16,14 @@ class FallingCoin extends Component {
         size: PropTypes.number,
         left: PropTypes.number,
         timeout: PropTypes.number,
+        contentHeight: PropTypes.number,
     };
 
     static defaultProps = {
         size: 50,
         left: width/2,
         timeout: 10,
+        contentHeight: height
     }
 
     constructor(props){
@@ -47,11 +49,12 @@ class FallingCoin extends Component {
     }
 
     start(){
+        console.log("this.props.contentHeight", this.props.contentHeight)
         setTimeout(() => {            
             Animated.sequence([
                 Animated.parallel([
                     Animated.timing(this.state.position, {
-                        toValue: height - this.props.size, // return to start
+                        toValue: this.props.contentHeight - this.props.size, // return to start
                         easing: Easing.bounce,
                         duration:1200
                     }),
@@ -85,9 +88,15 @@ class FallingCoin extends Component {
 }
 
 class AnimatedCoinView extends Component {
+    static propTypes = {
+        contentHeight: PropTypes.number,
+    };
+
+    static defaultProps = {
+        contentHeight: height
+    }
 
     coinCount = 20;
-
     
     static propTypes = {
         onAnimationFinished: PropTypes.func,
@@ -119,7 +128,7 @@ class AnimatedCoinView extends Component {
         Animated.timing(this.state.opacity, {
             toValue: 1,
             duration:0
-        }).start()    
+        }).start()
         for(var i = 0; i < this.coinCount; i ++){
             this["coin"+i].reset();
             this["coin"+i].start();
@@ -131,7 +140,7 @@ class AnimatedCoinView extends Component {
             }).start(()=>{
                 this.props.onAnimationFinished && this.props.onAnimationFinished();
             })
-        }, 2000);
+        }, 1500);
     }
 
     _generateCoin(){
@@ -144,9 +153,13 @@ class AnimatedCoinView extends Component {
                 const size =(Math.random() * 50) + 20;
                 const left =(Math.random() * (width - size));
                 const timeout =(Math.random() * 500);
-                yield (<FallingCoin key={index} ref={(ref)=>{
-                    that["coin"+index] = ref
-                }} size={size} left={left} timeout={timeout}/>)
+                yield (<FallingCoin 
+                    key={index} 
+                    ref={(ref)=>{
+                        that["coin"+index] = ref
+                    }} 
+                    contentHeight={this.props.contentHeight}
+                    size={size} left={left} timeout={timeout}/>)
             }
         }.bind(this);
 
@@ -156,18 +169,9 @@ class AnimatedCoinView extends Component {
 
     render() {
         return (
-            // <View style={[this.props.style, styles.container]}>
-                <Animated.View style={[this.props.style, styles.container, {opacity: this.state.opacity}]} >
-                    {this.coinList}               
-                </Animated.View>
-            //  <TouchableOpacity onPress={()=>{this.start()}} style={{height:50}}>
-            //         <Text>start</Text>
-            //     </TouchableOpacity>
-            //     <TouchableOpacity onPress={()=>{this._regenerate()}} style={{height:50}}>
-            //         <Text>gen</Text>
-            //     </TouchableOpacity>
-            // </View>
-            //}
+            <Animated.View style={[this.props.style, styles.container, {opacity: this.state.opacity}]} >
+                {this.coinList}               
+            </Animated.View>
         );
     }
 }
