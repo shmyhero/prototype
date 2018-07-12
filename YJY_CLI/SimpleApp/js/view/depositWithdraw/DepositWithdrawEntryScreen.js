@@ -212,12 +212,20 @@ class DepositWithdrawEntryScreen extends Component {
                 );
             }
             else {
+				var enabled = true;
+				var style = {}
+				if(rowData.subtype == 'withdraw' && !this.props.thtAddress){
+					enabled = false;
+				}
+				if(!enabled){
+					style.color = "gray"
+				}
                 return(
-                    <TouchableOpacity activeOpacity={0.5} onPress={()=>this.onSelectNormalRow(rowData)}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={()=> enabled ? this.onSelectNormalRow(rowData) : null}>
                         <View style={[styles.rowWrapper, {height:Math.round(64*heightRate)}]}>
-                        <Image source={rowData.image} style={styles.image} />
-                        <Text style={styles.title}>{LS.str(rowData.title)}</Text>
-                                        {this.renderRowRightPart(rowData)}
+							<Image source={rowData.image} style={styles.image} />
+							<Text style={[styles.title, style]}>{LS.str(rowData.title)}</Text>
+							{this.renderRowRightPart(rowData)}
                         </View>
                     </TouchableOpacity>
                 );

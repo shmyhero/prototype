@@ -21,6 +21,7 @@ var NetworkModule = require('../module/NetworkModule');
 var StockOrderInfoBar = require('./StockOrderInfoBar')
 var {height, width} = Dimensions.get('window');
 import AnimatedView from './component/AnimatedView';
+import AnimatedCoinView from './component/AnimatedCoinView';
 import ViewKeys from '../ViewKeys';;
 
 const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
@@ -35,7 +36,8 @@ class StockOrderInfoModal extends Component {
 
         this.state = {
             modalVisible: false,
-            orderData: null,
+			orderData: null,
+			showCoinView: false,
         };
     }
 
@@ -49,6 +51,9 @@ class StockOrderInfoModal extends Component {
 		}
 		this.setState(state, ()=>{
 			this.fadeViewRef.fadeIn(500)
+			this.setState({
+				showCoinView: true,
+			})
 		});
 	}
 
@@ -77,11 +82,24 @@ class StockOrderInfoModal extends Component {
 						<TouchableOpacity onPress={()=>this.onContainerPress()}>
 							{this.renderContent()}
 						</TouchableOpacity>
+						{this.renderCoinView()}
 					</View>
 				</TouchableOpacity>
 			</AnimatedView>
 		)
 	}
+
+	renderCoinView(){
+        console.log("renderCoinView", this.state.showCoinView)
+        if(this.state.showCoinView)
+            return <AnimatedCoinView style={{position:'absolute', top:0, left:0, right:0, bottom:0}}
+                onAnimationFinished={()=>{
+                    console.log("renderCoinView onAnimationFinished")
+                    this.setState({
+                        showCoinView:false,
+                    })
+                }}/>;
+    }
 
 	renderContent(){
 		return (

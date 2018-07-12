@@ -27,6 +27,7 @@ var ColorConstants = require("../ColorConstants");
 var WebSocketModule = require("../module/WebSocketModule");
 var LS = require('../LS');
 
+import AnimatedCoinView from './component/AnimatedCoinView';
 import { NavigationActions } from 'react-navigation';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 
@@ -64,7 +65,8 @@ export default class StockDetailScreen extends Component {
             chartStatus: CHART_STATUS_LOADING,
             stockInfo: {},
             amountValueList: [50, 100, 200, 400, 700, 1000],
-            leverageValueList: [10, 30, 50, 100, 150, 200]
+            leverageValueList: [10, 30, 50, 100, 150, 200],
+            showCoinView: false,
         }
         
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
@@ -318,7 +320,8 @@ export default class StockDetailScreen extends Component {
                         const { params } = this.props.navigation.state;
                         showData.stockName = params.stockName;
                         showData.isCreate = true;
-                        showData.time = new Date(responseJson.createAt);
+                        showData.time = new Date(responseJson.createAt);                       
+                        showData.showCoin = true
                         this.refs["orderFinishedModal"].show(showData, ()=>{
                             this.setState({
                                 Amount: undefined,
@@ -562,7 +565,6 @@ export default class StockDetailScreen extends Component {
             var text = "" + this.state.stockInfo.last + " " + percent;
         }
 
-        //this.state.data + " " + this.props.currentPrice
         return (
             <View style={styles.detailTextRow}>
                 <Text style={styles.detailText}>{text}</Text>
