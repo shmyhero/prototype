@@ -28,7 +28,7 @@ var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var WebSocketModule = require('../module/WebSocketModule');
 var LS = require("../LS");
-import { ViewKeys } from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";
@@ -560,18 +560,6 @@ export default class  MyPositionTabHold extends React.Component {
 		return rowData.security.last 
 	}
 
-	renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-        return null
-		// if(rowID == this.state.selectedRow - 1) {
-		// 	return null
-		// }
-		// return (
-		// 	<View style={styles.line} key={rowID}>
-		// 		<View style={styles.separator}/>
-		// 	</View>
-		// );
-	}
-
 	renderFollowStatus(rowData){
 		if(rowData.followUser){
 			var statusTxt = LS.str("COPY_TRADE")
@@ -1085,8 +1073,6 @@ export default class  MyPositionTabHold extends React.Component {
 		}
 
 		var separatorStyle = styles.darkSeparator;
-        var buttonStyle = [styles.okView];
-		var buttonTextStyle = [styles.okButton];
 		var buttonEnabled = true;
 		if(this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT){
 			var buttonText = LS.str("POSITION_CONFIRM")
@@ -1094,12 +1080,8 @@ export default class  MyPositionTabHold extends React.Component {
 				buttonText = LS.str("POSITION_SETTED")
 			}
 			//separatorStyle = {backgroundColor: 'pink'};
-			buttonStyle = [styles.okView]
-			buttonTextStyle = [styles.okButton];
 			if(rowData.isSettingProfitLoss){
 				buttonText = LS.str("WITHDRAW_WITHDRAW");
-				buttonStyle = [styles.okView];
-				buttonTextStyle = [styles.okButton];
 			}
 			console.log("this.stopLossUpdated", this.stopLossUpdated)
 			console.log("this.stopProfitUpdated", this.stopProfitUpdated)
@@ -1119,17 +1101,6 @@ export default class  MyPositionTabHold extends React.Component {
 					enable={buttonEnabled}
 					onPress={()=>this.onOKButtonPressed(rowData)}
 					text={buttonText}/>
-				{/* <TouchableOpacity
-					onPress={()=>this.state.selectedSubItem === SUB_ACTION_STOP_LOSS_PROFIT ? this.switchConfrim(rowData) : this.okPress(rowData)}
-					style={buttonStyle}
-					>
-                    <ImageBackground source={require("../../images/position_confirm_button_enabled.png")}
-                        style={{width: '100%', height: '100%', alignItems:'center', justifyContent:"center"}}>
-                        <Text style={buttonTextStyle}>
-                            {buttonText}
-                        </Text>
-                    </ImageBackground>
-				</TouchableOpacity> */}
 			</View>)
 	}
 
@@ -1457,11 +1428,6 @@ const styles = StyleSheet.create({
 		margin:0
 	},
 
-	line: {
-		height: 0.5,
-		backgroundColor: 'white',
-	},
-
 	separator: {
 		marginLeft: 15,
 		height: 0.5,
@@ -1499,12 +1465,6 @@ const styles = StyleSheet.create({
         paddingLeft: ROW_PADDING,
 		paddingRight: ROW_PADDING,
 		flex:1,
-	},
-
-	stockCountryFlagText: {
-		fontSize: 10,
-		textAlign: 'center',
-		color: '#ffffff',
 	},
 
 	rowLeftPart: {
@@ -1610,20 +1570,6 @@ const styles = StyleSheet.create({
 		width: 24,
 		height: 24,
     },
-
-	okView: {
-		width: 332,
-        height: 60,
-        justifyContent: 'center',
-        alignItems: 'center',
-		alignSelf: 'center',
-	},
-    
-	okButton: {
-		color: 'white',
-		textAlign: 'center',
-		fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
-	},
 
 	netIncomeText: {
 		fontSize: 14,
@@ -1791,7 +1737,6 @@ const styles = StyleSheet.create({
 		height: 31,
 		borderWidth:1,
 		borderRadius:10,
-		backgroundColor:'white',
         marginLeft: 15,
         borderColor: ColorConstants.COLOR_MAIN_THEME_BLUE
 	},

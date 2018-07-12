@@ -15,7 +15,7 @@ import {
 	TouchableOpacity,
 } from 'react-native';
 import LogicData from '../LogicData';
-import ViewKeys from '../../AppNavigatorConfiguration';
+import ViewKeys from '../../js/navigation/SimpleAppNavigator';
 import SortableListView from 'react-native-sortable-listview';
 import NavBar from './component/NavBar';
 import StockRowComponent from './component/StockRowComponent';
@@ -216,3 +216,4 @@ var styles = StyleSheet.create({
 });
 
 export default StockSearchScreen;
+module.exports = StockSearchScreen;

@@ -6,14 +6,14 @@ import { View,
     Image,
     Dimensions,
     TextInput,
-    TouchableOpacity,
+    TouchableWithoutFeedback,
     ImageBackground,
+    Keyboard,
     Platform
 } from 'react-native';
 import NavBar from "../component/NavBar";
 var ColorConstants = require("../../ColorConstants");
 var {height,width} = Dimensions.get('window');
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
 import LinearGradient from 'react-native-linear-gradient'
 var UIConstants = require("../../UIConstants");
 var NetworkModule = require("../../module/NetworkModule");
@@ -113,55 +113,63 @@ class BindPurseScreen extends Component {
                 });
         });
     }
+
+    dismissKeyboard(){
+        Keyboard.dismiss()
+    }
     
     render() {
         return (
             <View style={styles.container}>                
-                <View style={{flex:1}}>
-                    <LinearGradient
-                        start={{x:0.0, y:0}}
-                        end={{x:1.0, y:0.0}}
-                        style={{height: UIConstants.HEADER_HEIGHT + 50, width:width, alignItems:'center', justifyContent:'flex-end'}}
-                        colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-                        <View style={{height:50, alignItems:'center', justifyContent:'center'}}>
-                            <Image style={{height:35, width:170}} source={
-                                //require("../../../images/zh-cn/bind_purse_address_hint.png")
-                                //require("../../../images/en-us/bind_purse_address_hint.png")
-                                LS.loadImage("bind_purse_address_hint")
-                                }/>
+                <TouchableWithoutFeedback style={{flex:1}} onPress={()=>this.dismissKeyboard()}>
+                    <View style={{flex:1}}>
+                        <View style={{flex:1}}>
+                            <LinearGradient
+                                start={{x:0.0, y:0}}
+                                end={{x:1.0, y:0.0}}
+                                style={{height: UIConstants.HEADER_HEIGHT + 50, width:width, alignItems:'center', justifyContent:'flex-end'}}
+                                colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
+                                <View style={{height:50, alignItems:'center', justifyContent:'center'}}>
+                                    <Image style={{height:35, width:170}} source={
+                                        //require("../../../images/zh-cn/bind_purse_address_hint.png")
+                                        //require("../../../images/en-us/bind_purse_address_hint.png")
+                                        LS.loadImage("bind_purse_address_hint")
+                                        }/>
+                                </View>
+                            </LinearGradient>
+                            <View style={styles.contentContainer}>
+                                <View style={styles.rowContainer}>
+                                    <Text style={{fontSize:13, color:"#5a5a5a"}}>{LS.str("BIND_PURSE_ADDRESS_HINT")}</Text>
+                                    <TextInput
+                                        ref={(ref)=>this.textInputRef = ref}
+                                        underlineColorAndroid={"transparent"}
+                                        style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:13, color:"#000000"}}
+                                        multiline={true}
+                                        maxLength={necessaryAddressLength}
+                                        onChangeText={(thtAddress)=>this.updateAddress(thtAddress)}
+                                        value={this.state.thtAddress}/>
+                                </View>
+                                <View style={styles.hintContainer}>
+                                    <Text style={{fontSize:13, color:"#cccccc"}}>
+                                        {LS.str("BIND_PURSE_HINT")}
+                                    </Text>
+                                </View>
+                                <View style={{flex:1}}></View>
+                                <SubmitButton onPress={()=>this.bindCard()}
+                                    enable={this.state.isButtonEnable}
+                                    text={LS.str("BIND_CONFIRM")} />
+                            </View>
                         </View>
-                    </LinearGradient>
-                    <View style={styles.contentContainer}>
-                        <View style={styles.rowContainer}>
-                            <Text style={{fontSize:13, color:"#5a5a5a"}}>{LS.str("BIND_PURSE_ADDRESS_HINT")}</Text>
-                            <TextInput
-                                ref={(ref)=>this.textInputRef = ref}
-                                underlineColorAndroid={"transparent"}
-                                style={{height: Platform.OS === "ios" ? 50 : 70, fontSize:13, color:"#000000"}}
-                                multiline={true}
-                                maxLength={necessaryAddressLength}
-                                onChangeText={(thtAddress)=>this.updateAddress(thtAddress)}
-                                value={this.state.thtAddress}/>
+                        <View style={{position:'absolute', top:0, left:0, right:0, width: width, height:100}}>
+                            <NavBar 
+                                title={LS.str("BIND_PURSE_HEADER")}
+                                showBackButton={true}
+                                backgroundColor="transparent"
+                                navigation={this.props.navigation}
+                            />
                         </View>
-                        <View style={styles.hintContainer}>
-                            <Text style={{fontSize:13, color:"#cccccc"}}>
-                                {LS.str("BIND_PURSE_HINT")}
-                            </Text>
-                        </View>
-                        <View style={{flex:1}}></View>
-                        <SubmitButton onPress={()=>this.bindCard()}
-                            enable={this.state.isButtonEnable}
-                            text={LS.str("BIND_CONFIRM")} />
                     </View>
-                </View>
-                <View style={{position:'absolute', top:0, left:0, right:0, width: width, height:100}}>
-                    <NavBar 
-                        title={LS.str("BIND_PURSE_HEADER")}
-                        showBackButton={true}
-                        backgroundColor="transparent"
-                        navigation={this.props.navigation}
-                    />
-                </View>
+                </TouchableWithoutFeedback>
             </View>
         );
     }
@@ -216,12 +224,13 @@ const mapStateToProps = state => {
     return {
         ...state.meData,
     };
-  };
+};
   
-  const mapDispatchToProps = {
+const mapDispatchToProps = {
     bindWallet
-  };
+};
   
-  export default connect(mapStateToProps, mapDispatchToProps)(BindPurseScreen);
-  
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(BindPurseScreen);  
+
+export default connectedComponent;
+module.exports = connectedComponent;

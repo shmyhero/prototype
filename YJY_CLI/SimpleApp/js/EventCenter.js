@@ -20,6 +20,7 @@ const EventConst = {
 	CHART_CLICKED: 'chart_clicked',
 	DISABLE_TABBAR: 'disable_tabbar',
 	UPDATE_TABBAR: 'update_tabbar',
+	START_UP_INITIALIZE_FINISHED: 'start_up_initialize_finished',
 }
 
 var EventCenter = {
@@ -84,7 +85,12 @@ var EventCenter = {
 
 	emitUpdateTabbarEvent: function(){
 		eventEmitter.emit(EventConst.UPDATE_TABBAR);
+	},
+
+	emitStartUpInitializeFinishedEvent: function(){
+		eventEmitter.emit(EventConst.START_UP_INITIALIZE_FINISHED);
 	}
+	
 }
 
 module.exports = {EventCenter, EventConst};

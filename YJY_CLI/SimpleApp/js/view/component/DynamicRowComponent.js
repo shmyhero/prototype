@@ -7,6 +7,7 @@ import {
     Text, 
     StyleSheet,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     Image,
     Dimensions,
     Alert
@@ -16,86 +17,34 @@ require('../../utils/dateUtils')
 import TweetBlock from '../tweet/TweetBlock';
 import Swipeout from 'react-native-swipeout';
 var ColorConstants = require('../../ColorConstants');
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 var LS = require("../../LS")
- 
-class DynamicRowComponent extends Component {
+
+class DynamicRowComponentContent extends Component {
     static propTypes = {
         onOpen: PropTypes.func,
         onClose: PropTypes.func,
         onRowPress: PropTypes.func,
+        allowScroll: PropTypes.func,
         close: PropTypes.bool,
+        rowData: PropTypes.object
     }
     
     static defaultProps = {
         onOpen: ()=>{},
         onClose: ()=>{},
+        allowScroll: (v)=>{},
         onRowPress: ()=>{},
         close: false,
-    }    
+        rowData: {},
+    }
 
-    constructor(props) {
-        super(props); 
-         
-        this.state={
-            translateX: new RN.Animated.Value(0-width*2), 
+    shouldComponentUpdate(nextProps, nextState){
+        //For better performance
+        if(this.props.rowData!=nextProps.rowData || this.props.close!=nextProps.close) {     
+            return true;
         }
-    }
-
-    initAnimate(){
-        this.setState( {
-            translateX: new RN.Animated.Value(0-width*2), 
-        });
-    }
-
-    componentDidMount() { 
-        if(this.props.rowData.isNew){
-            this.animate() 
-        }else{
-            this.setState( {
-                translateX: new RN.Animated.Value(0), 
-            });
-        }
-    } 
-
-    componentWillReceiveProps(props){ 
-        // console.log('componentWillReceiveProps + '+this.props.rowData.user.id)
-        //console.log("componentWillReceiveProps", props)
-        if(props.rowData.isNew){
-            this.setState( {
-                translateX: new RN.Animated.Value(0-width*2), 
-            }, ()=>{
-                this.animate()
-            });
-        }
-    }
-
-    componentWillUpdate(){
-        // this.initAnimate()
-        // this.animate() 
-    }
-
-    animate(){ 
-        RN.Animated.timing(this.state.translateX, {
-            toValue: 0,
-            duration: 500,
-            easing: RN.Easing.linear
-        }).start();
-    }
-
-    renderItemTrede(rowData){
-        if(rowData.type=='open' || rowData.type=='close' ){
-            return (
-                <TouchableOpacity onPress={()=>this._onPressToSecurity(rowData)} style={{marginRight:10,alignItems:'flex-end',justifyContent:'center'}}>
-                    <Image source={rowData.position.isLong ? require('../../../images/stock_detail_direction_up_enabled.png') : require('../../../images/stock_detail_direction_down_enabled.png')}
-                        style={{width:22,height:22,marginBottom:-3}}>
-                    </Image>
-                    <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.security.name}</Text>
-                </TouchableOpacity>
-            )
-        }else{
-            return null;
-        } 
+        return false;
     }
 
     jump2Detail(name, id){ 
@@ -124,6 +73,22 @@ class DynamicRowComponent extends Component {
             nickName:rowData.user.nickname,
         }
         this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE, {userData:userData})
+    }
+
+    renderItemTrede(rowData){
+        if(rowData.type=='open' || rowData.type=='close' ){
+            return (
+                <TouchableOpacity 
+                    onPress={()=>this._onPressToSecurity(rowData)} style={{marginRight:10,alignItems:'flex-end',justifyContent:'center'}}>
+                    <Image source={rowData.position.isLong ? require('../../../images/stock_detail_direction_up_enabled.png') : require('../../../images/stock_detail_direction_down_enabled.png')}
+                        style={{width:22,height:22,marginBottom:-3}}>
+                    </Image>
+                    <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.security.name}</Text>
+                </TouchableOpacity>
+            )
+        }else{
+            return null;
+        } 
     }
 
     renderNewsText(rowData){    
@@ -178,75 +143,155 @@ class DynamicRowComponent extends Component {
                 ) 
             } 
         }
-    } 
+    }
 
-    render() { 
-
+    render(){
         var viewHero = this.props.rowData.isRankedUser ? <Image style={{width:21,height:12}} source={LS.loadImage("expert")}/> : null;
-        var swipeoutBtns = [
-            {
-                backgroundColor:'#ff4240',  
-                text:'删除', 
-                onPress:()=>this._onPressButton(this.props.rowData)
-            }
-          ] 
-         var d = new Date(this.props.rowData.time);
-         var timeText = d.getDateSimpleString()
+        var swipeoutBtns = [{
+            backgroundColor:'#ff4240',  
+            text:LS.str("DEL"), 
+            onPress:()=>this._onPressButton(this.props.rowData)
+        }];
+        var d = new Date(this.props.rowData.time);
+        var timeText = d.getDateSimpleString();
 
-
-         var title = this.props.rowData.user.nickname;
-         var titleStyle = null
-         if(this.props.rowData.type == 'system'){
+        var title = this.props.rowData.user.nickname;
+        var titleStyle = null
+        if(this.props.rowData.type == 'system'){
             title = this.props.rowData.title
             titleStyle = {fontSize:15,color:'#666666'}
-         }
+        }
+
+        return (
+            <View style={styles.thumbnailAll}> 
+                <View> 
+                    <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#255180'}}></View>
+                    <View style={{width:40,flexDirection:'row'}}>
+                        <Text style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                        <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../../images/triangle.png')}></Image>
+                    </View>
+                    <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
+                </View>
+                <Swipeout
+                    ref={(ref)=>{this.swipeoutComponent = ref}}
+                    right={swipeoutBtns}
+                    autoClose={true}   
+                    sensitivity={50}                        
+                    close={this.props.close}
+                    onOpen={()=>{
+                        this.props.onOpen && this.props.onOpen();
+                        //console.log("onOpen()")
+                    }}
+                    scroll={(value)=>{
+                        this.props.allowScroll && this.props.allowScroll(value);
+                    }}
+                    onClose={()=>{
+                        this.props.onClose && this.props.onClose();
+                        //console.log("onClose()");
+                    }}
+                    style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:'white',flex:1}}> 
+                    <View style={{margin:5,borderRadius:8,width:width-60,/*backgroundColor:'white',*/flex:1}}>
+                        <View style={{flexDirection:'row',margin:5}}>
+                            <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
+                                <Image source={{uri:this.props.rowData.user.picUrl}}
+                                    style={{height:34,width:34,margin:10,borderRadius:17}} >
+                                </Image>
+                            </TouchableOpacity> 
+                            <View style={styles.textContainer}>
+                                <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
+                                    <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
+                                    {viewHero}
+                                </View>
+                                {this.renderNewsText(this.props.rowData)}
+                            </View>
+                            {this.renderItemTrede(this.props.rowData)}
+                        </View>      
+                    </View>   
+                </Swipeout> 
+            </View>   
+        )
+    }
+}
+
+class DynamicRowComponent extends Component {
+    static propTypes = {
+        onOpen: PropTypes.func,
+        onClose: PropTypes.func,
+        onRowPress: PropTypes.func,
+        allowScroll: PropTypes.func,
+        close: PropTypes.bool,
+    }
+    
+    static defaultProps = {
+        onOpen: ()=>{},
+        onClose: ()=>{},
+        allowScroll: (v)=>{},
+        onRowPress: ()=>{},
+        close: false,
+    }    
+
+    constructor(props) {
+        super(props); 
          
+        this.state={
+            translateX: new RN.Animated.Value(0-width*2), 
+        }
+    }
+    
+    initAnimate(){
+        this.setState( {
+            translateX: new RN.Animated.Value(0-width*2), 
+        });
+    }
+
+    componentDidMount() { 
+        if(this.props.rowData.isNew){
+            this.animate() 
+        }else{
+            this.setState( {
+                translateX: new RN.Animated.Value(0), 
+            });
+        }
+    } 
+
+    componentWillReceiveProps(props){ 
+        // console.log('componentWillReceiveProps + '+this.props.rowData.user.id)
+        //console.log("componentWillReceiveProps", props)
+        if(props.rowData.isNew){
+            this.setState( {
+                translateX: new RN.Animated.Value(0-width*2), 
+            }, ()=>{
+                this.animate()
+            });
+        }
+    }
+
+    componentWillUpdate(){
+        // this.initAnimate()
+        // this.animate() 
+    }
+
+    animate(){ 
+        RN.Animated.timing(this.state.translateX, {
+            toValue: 0,
+            duration: 500,
+            easing: RN.Easing.linear
+        }).start();
+    }
+
+    render() {          
         return(  
             <RN.Animated.View style={{transform:[{translateX:this.state.translateX}],flex:1}}> 
-                <View style={styles.thumbnailAll}> 
-                    <View> 
-                         <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#255180'}}></View>
-                         <View style={{width:40,flexDirection:'row'}}>
-                             <Text style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
-                             <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../../images/triangle.png')}></Image>
-                         </View>
-                         <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
-                     </View>
-                     <Swipeout
-                        ref={(ref)=>{this.swipeoutComponent = ref}}
-                        right={swipeoutBtns}
-                        autoClose={true}   
-                        sensitivity={50}
-                        close={this.props.close}
-                        onOpen={()=>{
-                            this.props.onOpen && this.props.onOpen();
-                            //console.log("onOpen()")
-                        }}
-                        onClose={()=>{
-                            this.props.onClose && this.props.onClose();
-                            //console.log("onClose()");
-                        }}
-                        style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:'white',flex:1}}> 
-                            <View style={{margin:5,borderRadius:8,width:width-60,backgroundColor:'white',flex:1}}>
-                                <View style={{flexDirection:'row',margin:5}}>
-                                    <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
-                                        <Image source={{uri:this.props.rowData.user.picUrl}}
-                                            style={{height:34,width:34,margin:10,borderRadius:17}} >
-                                        </Image>
-                                    </TouchableOpacity> 
-                                    <View style={styles.textContainer}>
-                                        <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
-                                            <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
-                                            {viewHero}
-                                        </View>
-                                        {this.renderNewsText(this.props.rowData)}
-                                    </View>
-                                    {this.renderItemTrede(this.props.rowData)}
-                                </View>      
-                            </View>   
-                       </Swipeout> 
-               </View>   
-        </RN.Animated.View>
+                <DynamicRowComponentContent
+                    rowData={this.props.rowData}
+                    onOpen={this.props.onOpen}
+                    onClose={this.props.onClose}
+                    onRowPress={this.props.onRowPress}
+                    allowScroll={this.props.allowScroll}
+                    close={this.props.close}
+                    navigation={this.props.navigation}
+                />
+            </RN.Animated.View>
         )
     }
 }

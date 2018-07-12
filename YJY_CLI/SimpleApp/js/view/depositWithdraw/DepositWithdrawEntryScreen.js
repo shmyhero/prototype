@@ -22,7 +22,7 @@ import NavBar from '../component/NavBar'
 var NetConstants = require('../../NetConstants')
 import LogicData from '../../LogicData'
 var UIConstants = require('../../UIConstants');
-import {ViewKeys} from '../../../AppNavigatorConfiguration';
+import ViewKeys from '../../ViewKeys';
 import BalanceBlock from '../component/BalanceBlock';
 
 import { fetchBalanceData } from "../../redux/actions/balance";
@@ -212,12 +212,20 @@ class DepositWithdrawEntryScreen extends Component {
                 );
             }
             else {
+				var enabled = true;
+				var style = {}
+				if(rowData.subtype == 'withdraw' && !this.props.thtAddress){
+					enabled = false;
+				}
+				if(!enabled){
+					style.color = "gray"
+				}
                 return(
-                    <TouchableOpacity activeOpacity={0.5} onPress={()=>this.onSelectNormalRow(rowData)}>
+                    <TouchableOpacity activeOpacity={0.5} onPress={()=> enabled ? this.onSelectNormalRow(rowData) : null}>
                         <View style={[styles.rowWrapper, {height:Math.round(64*heightRate)}]}>
-                        <Image source={rowData.image} style={styles.image} />
-                        <Text style={styles.title}>{LS.str(rowData.title)}</Text>
-                                        {this.renderRowRightPart(rowData)}
+							<Image source={rowData.image} style={styles.image} />
+							<Text style={[styles.title, style]}>{LS.str(rowData.title)}</Text>
+							{this.renderRowRightPart(rowData)}
                         </View>
                     </TouchableOpacity>
                 );
@@ -386,5 +394,7 @@ const mapDispatchToProps = {
 	fetchBalanceData
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(DepositWithdrawEntryScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

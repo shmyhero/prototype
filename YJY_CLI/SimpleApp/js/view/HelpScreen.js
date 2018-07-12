@@ -5,7 +5,7 @@ import NavBar from './component/NavBar';
 var LS = require("../LS");
 
 // create a component
-class HelpScreen extends Component {
+export default class HelpScreen extends Component {
     render() {
         return (
             <View style={styles.container}>
@@ -26,8 +26,9 @@ class HelpScreen extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white'
     },
 });
 
 //make this component available to the app
-export default HelpScreen;
+module.exports = HelpScreen;

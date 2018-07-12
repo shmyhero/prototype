@@ -16,19 +16,18 @@ import {
 
 import PriceChartView from './component/PriceChartView';
 import NavBar from './component/NavBar';
-import {ViewKeys} from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 
-import { StackNavigator, TabNavigator } from 'react-navigation';
 import LogicData from "../LogicData";
 import deepCopyUtil from '../utils/deepCopyUtil';
 
-var {EventCenter, EventConst} = require('../EventCenter');
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var WebSocketModule = require("../module/WebSocketModule");
 var LS = require('../LS');
 
+import AnimatedCoinView from './component/AnimatedCoinView';
 import { NavigationActions } from 'react-navigation';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 
@@ -53,7 +52,7 @@ var CHART_STATUS_LOADING = 2;
 
 const DEFAULT_MULTIPLIER = 1;
 
-class StockDetailScreen extends Component {
+export default class StockDetailScreen extends Component {
     constructor(props){
         super(props)
 
@@ -66,7 +65,8 @@ class StockDetailScreen extends Component {
             chartStatus: CHART_STATUS_LOADING,
             stockInfo: {},
             amountValueList: [50, 100, 200, 400, 700, 1000],
-            leverageValueList: [10, 30, 50, 100, 150, 200]
+            leverageValueList: [10, 30, 50, 100, 150, 200],
+            showCoinView: false,
         }
         
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
@@ -320,7 +320,8 @@ class StockDetailScreen extends Component {
                         const { params } = this.props.navigation.state;
                         showData.stockName = params.stockName;
                         showData.isCreate = true;
-                        showData.time = new Date(responseJson.createAt);
+                        showData.time = new Date(responseJson.createAt);                       
+                        showData.showCoin = true
                         this.refs["orderFinishedModal"].show(showData, ()=>{
                             this.setState({
                                 Amount: undefined,
@@ -358,7 +359,7 @@ class StockDetailScreen extends Component {
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
-        var index = parameters.index;
+        var index = parameters.index ? parameters.index : parameters.value;
         var label = parameters.label;       
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
@@ -391,7 +392,7 @@ class StockDetailScreen extends Component {
 
         return (
             <TouchableOpacity style={containerStyleList}
-                index={index}
+                key={index}
                 onPress={()=>this.onOptionSelected(groupName, value)}>
                 <ImageBackground source={backgroundImageSource}
                     resizeMode={'contain'}
@@ -407,7 +408,7 @@ class StockDetailScreen extends Component {
                         alignItems:'center',
                         flexDirection:'row',
                         }}>
-                        {imageSource? <Image style={{marginLeft:20, height: 22, width: 22}} source={imageSource}/> : null}
+                        {imageSource? <Image style={{marginLeft:15, height: 22, width: 22}} source={imageSource}/> : null}
                         <Text style={textViewStyleList}>{label}</Text>
                     </View>
                 </ImageBackground>
@@ -564,7 +565,6 @@ class StockDetailScreen extends Component {
             var text = "" + this.state.stockInfo.last + " " + percent;
         }
 
-        //this.state.data + " " + this.props.currentPrice
         return (
             <View style={styles.detailTextRow}>
                 <Text style={styles.detailText}>{text}</Text>
@@ -584,13 +584,19 @@ class StockDetailScreen extends Component {
         })
 
         return (
-            <View style={styles.container}>
+            <View style={styles.container}>                
                 <NavBar title={params ? params.stockName : LS.str("STOCK_DETAIL")}
                     navigation={this.props.navigation}/>
-                {this.renderDetailRow()}
-                <View style={styles.chartContainer}>
-                    {this.renderPriceChart()}
-                    {/* <Image style={{position:'absolute', bottom:0, right:0}} source={require('../../images/dot.gif')}/> */}
+                <View style={{backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE, 
+                    alignSelf:'stretch',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    flex: 1}}>
+                    {this.renderDetailRow()}
+                    <View style={styles.chartContainer}>
+                        {this.renderPriceChart()}
+                        {/* <Image style={{position:'absolute', bottom:0, right:0}} source={require('../../images/dot.gif')}/> */}
+                    </View>
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
@@ -757,5 +763,6 @@ const styles = StyleSheet.create({
     },
 })
 
-export default StockDetailScreen;
+module.exports = StockDetailScreen;
+
 

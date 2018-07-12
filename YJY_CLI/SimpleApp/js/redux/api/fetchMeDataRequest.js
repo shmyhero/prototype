@@ -1,6 +1,7 @@
 import LogicData from '../../LogicData';
 var NetworkModule = require('../../module/NetworkModule');
 var NetConstants = require("../../NetConstants");
+var StorageModule = require("../../module/StorageModule");
 
 export default () => {
     return new Promise((resolve, reject) => {
@@ -16,6 +17,7 @@ export default () => {
                 showLoading: true,
             }, (responseJson) => {                
                 LogicData.setMeData(responseJson);
+                StorageModule.setMeData(JSON.stringify(responseJson));
                 resolve(responseJson)
             }, (error) =>{
                 reject(error.errorMessage);

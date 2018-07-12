@@ -19,18 +19,13 @@ import {
     PanResponder,
 } from 'react-native';
 
-import { StackNavigator } from 'react-navigation';
-import { TabNavigator } from "react-navigation";
-import Swipeout from 'react-native-swipeout';
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
-import TweetBlock from './tweet/TweetBlock';
-import { ViewKeys } from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 var LS = require('../LS')
 
 var ColorConstants = require('../ColorConstants');
-var UIConstants = require('../UIConstants'); 
 require('../utils/dateUtils')
 var {height, width} = Dimensions.get('window');
 var {EventCenter, EventConst} = require('../EventCenter');
@@ -96,7 +91,8 @@ export default class TabMainScreen extends React.Component {
             first: true,  
             isLoading:true,
             isContentLoaded:false,
-            currentOperatedRow: -1, 
+            currentOperatedRow: -1,
+            isAllowScroll: true,
         } 
 
     }
@@ -109,8 +105,10 @@ export default class TabMainScreen extends React.Component {
     }
  
     componentDidMount () {
-        this.fetchMeData();
-        this.loadData()
+        this.startUpInitializeFinishedSubscription = EventCenter.getEventEmitter().addListener(EventConst.START_UP_INITIALIZE_FINISHED, () => {
+            this.loadData()
+            this.startUpInitializeFinishedSubscription && this.startUpInitializeFinishedSubscription.remove();
+        });
 
         // this.timer = setInterval(
         //     () => {  
@@ -187,6 +185,7 @@ export default class TabMainScreen extends React.Component {
         // 如果存在this.timer，则使用clearTimeout清空。
         // 如果你使用多个timer，那么用多个变量，或者用个数组来保存引用，然后逐个clear
         this.tabSwitchedSubscription && this.tabSwitchedSubscription.remove();
+        this.startUpInitializeFinishedSubscription && this.startUpInitializeFinishedSubscription.remove();
         this.timer && clearTimeout(this.timer);
         this.timerCacheList && clearTimeout(this.timerCacheList);
     }
@@ -295,6 +294,34 @@ export default class TabMainScreen extends React.Component {
     }
 
     render() {
+        console.log("TabMainScreen!!!!!!")
+        let go = function*(x) {
+            console.log('1 xxxx', x)
+            let a = yield x
+            console.log('2 xxxx', x)
+      
+            console.log('3 xxxx', a)
+      
+            let b = yield x + 1
+      
+            sum = a + b
+      
+            yield a + b
+      
+            return a + b
+          }
+          go(10)
+      
+          let g = go(10)
+          console.log("aaa", g.next())
+          console.log("aaa2")
+          console.log("bbb", g.next(1000))
+          console.log("bbb2")
+          console.log("ccc", g.next(50).value)
+          console.log("ccc")
+          console.log("ddd", g.next().value)
+          console.log("ddd")
+
         //if(this.state.isLoading){
         if(!this.state.isContentLoaded){
             // return (
@@ -302,9 +329,11 @@ export default class TabMainScreen extends React.Component {
             //     <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
             // </View>);
             return (
-				<NetworkErrorIndicator 
-					onRefresh={()=>this._onRefresh()}
-					refreshing={this.state.isLoading}/>
+                <View style = {styles.mainContainer}>
+                    <NetworkErrorIndicator 
+                        onRefresh={()=>this._onRefresh()}
+                        refreshing={this.state.isLoading}/>
+                </View>
 			)
         }else{
             return (
@@ -389,7 +418,7 @@ export default class TabMainScreen extends React.Component {
 				}} 
 				>
                 <DynamicRowComponent 
-					navigator={this.props.navigator}
+					navigation={this.props.navigation}
 					rowData={rowData}
 					rowID={rowID}
 					delCallBack={(id)=>{this.delItem(id)}}
@@ -404,9 +433,14 @@ export default class TabMainScreen extends React.Component {
 								dataSource: this._dataSource.cloneWithRows(this.state.dataResponse),
 							});
 						}
-					}}
+                    }}
+                    scrollEventThrottle={50}
+                    allowScroll={(value)=>{
+                        this.setState({
+                            isAllowScroll: value,
+                        })
+                    }}
 					onOpen={()=>{
-						
 						if(this.state.currentOperatedRow != rowID){
 							this.setState({
 								currentOperatedRow: rowID,
@@ -527,7 +561,7 @@ export default class TabMainScreen extends React.Component {
                         // for(var i = 0; i < responseJson.length; i++){
                         //     responseJson[i].isNew = true;
                         // }  
-                         
+
                         this.setState({ 
                             cacheData: responseJson,
                         }) 

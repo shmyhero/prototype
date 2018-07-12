@@ -286,7 +286,8 @@ const mapDispatchToProps = {
     getMessageList,
     setMessageRead
 };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(MessageScreen);
-  
-  
+
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MessageScreen);
+export default connectedComponent;
+
+module.exports = connectedComponent;

@@ -1,4 +1,3 @@
-
 import React, { Component } from 'react';
 import {
   AppRegistry,
@@ -11,19 +10,24 @@ import {
   Dimensions
 } from 'react-native';
 
-var {height, width} = Dimensions.get('window');
-require('./js/utils/dateUtils')
-require('./js/utils/numberUtils')
 import { NavigationActions } from 'react-navigation';
-var StorageModule = require('./js/module/StorageModule');
 import LogicData from './js/LogicData';
 import Orientation from 'react-native-orientation';
+import ViewKeys from './js/ViewKeys';
+import SplashScreen from './js/module/SplashScreenModule';
+import SimpleAppNavigator from './js/navigation/SimpleAppNavigator';
 
+var {height, width} = Dimensions.get('window');
+
+require('./js/utils/dateUtils')
+require('./js/utils/numberUtils')
+
+var StorageModule = require('./js/module/StorageModule');
 var WebSocketModule = require('./js/module/WebSocketModule');
 var {EventCenter, EventConst} = require('./js/EventCenter');
 
 var Locale = require('react-native-locale');
-import {SimpleApp, ViewKeys} from './AppNavigatorConfiguration';
+
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
 
@@ -51,31 +55,41 @@ class App extends React.Component {
     this.startupJobs()
   }
 
-  startupJobs(){
+  startupJobs(){    
     StorageModule.loadLanguage().then((locale)=>{
       if(locale==undefined){
         var localConstants = Locale.constants();
         locale = localConstants.localeIdentifier;
         if(Platform.OS == "ios"){
-          var language;
           if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
             locale = localConstants.preferredLanguages[0];
           }
         }
         StorageModule.setLanguage(locale);
-      }
+      }      
       LogicData.setLanguage(locale);
-      LogicData.getRemovedRynamicRow();
-    });    
+    })
+    .finally(()=>{
+      StorageModule.loadMeData().then((value)=>{
+        if(value != undefined){
+          var meData = JSON.parse(value);
+          LogicData.setMeData(meData);
+        }
+      }).finally(()=>{
+        StorageModule.loadUserData().then((data)=>{
+          if(data!=undefined){
+            var userData = JSON.parse(data)
+            LogicData.setUserData(userData);
+          }
+        }).finally(()=>{
+          LogicData.getRemovedRynamicRow();
 
-    WebSocketModule.start();
-    
-    StorageModule.loadUserData().then((data)=>{
-      if(data!=undefined){
-        var userData = JSON.parse(data)
-        LogicData.setUserData(userData);
-      }
+          EventCenter.emitStartUpInitializeFinishedEvent();
+        });
+      })
     });
+  
+    WebSocketModule.start();
     
     const backAction = NavigationActions.back({});
 
@@ -101,7 +115,7 @@ class App extends React.Component {
       StatusBar.setBarStyle("light-content");
       StatusBar.setTranslucent(true);
     }
-    return <SimpleApp 
+    return <SimpleAppNavigator 
       style={{height: height, width: width}}
       ref={(ref)=>this.appNavigator = ref}
       uriPrefix={prefix}

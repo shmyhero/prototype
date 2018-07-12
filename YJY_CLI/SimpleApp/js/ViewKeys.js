@@ -1,0 +1,31 @@
+const ViewKeys = {
+    TAB_MAIN: "TabMain",
+    TAB_MARKET: "TabMarket",
+    TAB_RANK: "TabRank",
+    TAB_POSITION: "TabPosition",
+    TAB_ME: "TabMe",
+
+    SCREEN_SPLASH: "SplashScreen",
+    SCREEN_HOME: "Home",
+    SCREEN_STOCK_DETAIL: "StockDetail",
+    SCREEN_LOGIN: "Login",
+    SCREEN_USER_PROFILE: "UserProfileScreen",
+    SCREEN_HELP: "Help",
+    SCREEN_ABOUT: "AboutScreen",
+    SCREEN_MESSAGE: "MessageScreen",
+    SCREEN_DEPOSIT_WITHDRAW: "DepositWithdraw",
+    SCREEN_DEPOSIT: "DepositTokenScreen",
+    SCREEN_WITHDRAW: "WithdrawTokenScreen",
+    SCREEN_WITHDRAW_SUBMITTED: "WithdrawSubmittedPage",
+    SCREEN_TWEET: "TweetScreen",
+    SCREEN_STOCK_SEARCH: "StockSearchScreen",
+    SCREEN_DYNAMIC_STATUS_CONFIG:"DynamicStatusConfig",
+    SCREEN_BIND_PURSE: "BindPurseScreen",
+    SCREEN_TOKEN_DETAIL: "TokenDetailScreen",
+    SCREEN_FOLLOW: "FollowScreen",
+    SCREEN_SETTINGS: "MeSettingsScreen",
+    SCREEN_USER_CONFIG: "MeUserConfigScreen",
+    SCREEN_SET_NICKNAME: "MeSettingNicknameScreen",
+}
+
+export default ViewKeys

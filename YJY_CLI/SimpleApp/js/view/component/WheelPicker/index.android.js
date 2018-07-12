@@ -8,8 +8,6 @@ import {
 	requireNativeComponent,
 } from 'react-native';
 
-const defaultItemStyle = { color: 'white', fontSize: 26 };
-
 const WheelCurvedPickerNativeInterface = {
 	name: 'WheelPicker',
 	propTypes: {

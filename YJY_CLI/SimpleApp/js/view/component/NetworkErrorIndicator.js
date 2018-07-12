@@ -12,6 +12,7 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants')
+import JumpBeanText from './JumpBeanText';
 var LS = require('../../LS');
 
 class NetworkErrorIndicator extends Component {
@@ -33,13 +34,22 @@ class NetworkErrorIndicator extends Component {
   constructor(props) {
     super(props);
 
-    console.log("NetworkErrorIndicator this.props.refreshing " + this.props.refreshing)
     this.state = {
       isLoading: this.props.refreshing ? true : false,
-      loadingDot: 0,
+      //loadingDot: 0,
     }
 
-    this.runAnimation();
+    //this.runAnimation();
+  }
+
+  componentDidMount(){
+    if(this.state.isLoading){
+      this.runAnimation();
+    }
+  }
+
+  componentWillUnmount(){
+    this.stopAnimation();
   }
 
   componentWillReceiveProps(nextProps){
@@ -48,29 +58,43 @@ class NetworkErrorIndicator extends Component {
         if(nextProps.refreshing){
           this.runAnimation();
         }else{
-          clearInterval(this.refreshIntervalId);
-          this.refreshIntervalId = null;
+          this.stopAnimation();
         }
         
-
         this.setState({
           isLoading: nextProps.refreshing,
+        }, ()=>{
+          if(this.state.isLoading){
+            this.runAnimation();
+          }
         })
       }     
     }
   }
 
   runAnimation(){
-    if(this.refreshIntervalId == null){
-      this.refreshIntervalId = setInterval(() => {
-        var newLoadingDot = this.state.loadingDot;
-        if(this.state.loadingDot == 3){
-          newLoadingDot = 0
-        }else{
-          newLoadingDot++;
-        }
-        this.setState({loadingDot: newLoadingDot})
-      }, 500);
+    // if(this.refreshIntervalId == null){
+    //   this.refreshIntervalId = setInterval(() => {
+    //     var newLoadingDot = this.state.loadingDot;
+    //     if(this.state.loadingDot == 3){
+    //       newLoadingDot = 0
+    //     }else{
+    //       newLoadingDot++;
+    //     }
+    //     this.setState({loadingDot: newLoadingDot})
+    //   }, 500);
+    // }
+
+    if(this.JumpBeanTextRef){
+      this.JumpBeanTextRef.start();
+    }
+  }
+
+  stopAnimation(){
+    // clearInterval(this.refreshIntervalId);
+    // this.refreshIntervalId = null;
+    if(this.JumpBeanTextRef){
+      this.JumpBeanTextRef.stop();
     }
   }
 
@@ -95,11 +119,9 @@ class NetworkErrorIndicator extends Component {
       var textStyle = this.props.isBlue ? {color: '#dfe3e8'} : {};
       return (
         <TouchableOpacity style={[styles.refreshButton, borderStyle ]} onPress={()=>this.doRefresh()}>
-          <View>
             <Text style={[styles.refreshButtonText, textStyle]} >
               {LS.str("REFRESH")}
             </Text>
-          </View>
         </TouchableOpacity>
       );
     }
@@ -108,13 +130,13 @@ class NetworkErrorIndicator extends Component {
     }
   }
 
-  renderLoadingDot(textColor){
-    return (<View style={{flexDirection:'row'}}>
-      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 0 ? textColor: 'transparent'}]}></View>
-      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 1 ? textColor: 'transparent'}]}></View>
-      <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 2 ? textColor: 'transparent'}]}></View>
-    </View>)
-  }
+  // renderLoadingDot(textColor){
+  //   return (<View style={{flexDirection:'row'}}>
+  //     <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 0 ? textColor: 'transparent'}]}></View>
+  //     <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 1 ? textColor: 'transparent'}]}></View>
+  //     <View style={[styles.dot, {backgroundColor: this.state.loadingDot > 2 ? textColor: 'transparent'}]}></View>
+  //   </View>)
+  // }
 
   render() {
     var textColor = this.props.isBlue ? "#4f81b6" : "#acacac";
@@ -127,8 +149,8 @@ class NetworkErrorIndicator extends Component {
           <View style={styles.contentWrapper}>
             <Image style={styles.loadingImage} source={loadingImage}/>
             <View style={{flexDirection:'row', justifyContent:'center'}}>
-              <Text style={[styles.hintText, textStyle]}>{LS.str("LOADING_WITHOUT_DOT")}</Text>
-              {this.renderLoadingDot(textColor)}
+              <JumpBeanText ref={(ref)=>this.JumpBeanTextRef = ref} style={styles.refreshButtonContainer} textStyle={[styles.refreshButtonText, textStyle]}
+                text={LS.str("LOADING")}/> 
             </View>
             
           </View>
@@ -182,10 +204,14 @@ const styles = StyleSheet.create({
     marginTop: 31,
     marginBottom: 20,
     alignSelf: 'center',
+    justifyContent:'center',
+  },
+
+  refreshButtonContainer:{
+    padding: 10,
   },
 
   refreshButtonText:{
-    padding: 10,
     alignItems: 'stretch',
     textAlign: 'center',
     fontSize: 18,

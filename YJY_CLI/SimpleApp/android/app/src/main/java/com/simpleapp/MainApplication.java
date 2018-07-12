@@ -1,6 +1,7 @@
 package com.simpleapp;
 
 import android.app.Application;
+import android.util.Log;
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
@@ -63,5 +64,12 @@ public class MainApplication extends Application implements ReactApplication {
   public void onCreate() {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
+
+    Thread.setDefaultUncaughtExceptionHandler(new Thread.UncaughtExceptionHandler() {
+      @Override
+      public void uncaughtException(Thread t, Throwable e) {
+        Log.e("com.simpleapp", e.getMessage(), e);
+      }
+    });
   }
 }

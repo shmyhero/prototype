@@ -17,7 +17,7 @@ import {
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
-import {ViewKeys} from '../../AppNavigatorConfiguration'
+import ViewKeys from '../ViewKeys';
 import TweetBlock from './tweet/TweetBlock';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var ColorConstants = require('../ColorConstants');

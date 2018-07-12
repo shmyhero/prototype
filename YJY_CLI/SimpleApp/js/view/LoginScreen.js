@@ -16,7 +16,6 @@ import {
   KeyboardAvoidingView,
   Keyboard
 } from 'react-native';
-import { NavigationActions } from 'react-navigation'
 import NavBar from './component/NavBar';
 
 var {height, width} = Dimensions.get('window')
@@ -24,13 +23,12 @@ var heightRate = height/667.0
 var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
-var ColorConstants = require('../ColorConstants');
 var WebSocketModule = require("../module/WebSocketModule");
 
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
-class LoginScreen extends Component {
+export default class LoginScreen extends Component {
     constructor(props){
         super(props);
 
@@ -272,5 +270,4 @@ const styles = StyleSheet.create({
     }
 })
 
-export default LoginScreen;
-
+module.exports = LoginScreen;

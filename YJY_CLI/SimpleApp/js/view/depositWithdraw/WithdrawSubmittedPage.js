@@ -138,3 +138,5 @@ const styles = StyleSheet.create({
 });
 
 export default WithdrawSubmittedPage;
+
+module.exports = WithdrawSubmittedPage;

@@ -16,6 +16,7 @@ import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation"; 
 import NavBar from "./component/NavBar"
 import LogicData from '../LogicData';
+import LibraryImporter from '../LibraryImporter';
 
 var ScrollTabView = require('./component/ScrollTabView')
 var UserProfileTabMain = require('./UserProfileTabMain')
@@ -27,7 +28,6 @@ var {height,width} = Dimensions.get('window')
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var LS = require('../LS')
-var Toast = require('@remobile/react-native-toast');
  
 
 export default class  UserProfileScreen extends React.Component {
@@ -194,7 +194,7 @@ export default class  UserProfileScreen extends React.Component {
                     this.setState({
                       isFollowing:true,
                         
-                    },Toast.show(LS.str('ADDED_TO_WATCH_LIST')));  
+                    }, LibraryImporter.getToast().show(LS.str('ADDED_TO_WATCH_LIST')));  
                 },
                 (exception) => {
                     // alert(exception.errorMessage)

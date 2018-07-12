@@ -9,7 +9,6 @@ import {
     TouchableOpacity,
     Image } from 'react-native';
 import NavBar from '../component/NavBar';
-import { ViewKeys } from '../../../AppNavigatorConfiguration';
 var ColorConstants = require('../../ColorConstants')
 var PAYMENT_TYPE_WECHAT = "wechat";
 var PAYMENT_TYPE_ALIPAY = "alipay";

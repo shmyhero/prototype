@@ -14,13 +14,8 @@ import {
 
 var {height, width} = Dimensions.get("window");
 var ColorConstants = require('../ColorConstants');
-import WheelPicker from "./component/WheelPicker";
-import LinearGradient from 'react-native-linear-gradient';
 import SubmitButton from './component/SubmitButton';
-import LogicData from '../LogicData';
 import BalanceBlock from './component/BalanceBlock';
-var NetworkModule = require("../module/NetworkModule");
-var NetConstants = require("../NetConstants");
 
 import {
     showFollowDialog,
@@ -30,6 +25,7 @@ import {
     getCurrentFollowConfig
 } from '../redux/actions'
 import { connect } from 'react-redux';
+import LibraryImporter from '../LibraryImporter';
 
 var LS = require("../LS");
 
@@ -87,6 +83,8 @@ class FollowScreen extends Component {
     }
 
     renderPicker(title, stateKey, availableKey){
+        var WheelPicker = LibraryImporter.getWheelPicker();
+
         var pickerItems = this.props[availableKey].map( (value, index, array)=>{
             return (
                 <WheelPicker.Item label={""+value} value={value} key={index}/>
@@ -109,65 +107,69 @@ class FollowScreen extends Component {
 
     renderContent(){
         return (
-            <View style={{flex:1, alignSelf:'stretch', alignItems:'stretch'}}>
-                <View style={styles.mainContent}>
-                    {/* <ImageBackground 
-                        source={require('../../images/remain_tokens_border.jpg')}
-                        style={{
-                            height:60, //450 × 120,
-                            width: 225,
-                            alignItems: 'center',
-                            justifyContent: 'center'
-                        }}> */}
-                        <View style={{
-                                height:50, //450 × 120,
-                                width: 225,
-                                marginTop:15}}>
-                            <View style={{
-                                flex:1,
-                                marginTop:10,                                
-                                borderColor: ColorConstants.SEPARATOR_GRAY,
-                                borderWidth: 1,
-                                borderRadius:10,
-                                alignItems:'center',
-                                justifyContent:'center',
-                            }}>
-                                <BalanceBlock style={styles.balanceText}/>
-                            </View>
-                            <View style={{position:'absolute', 
-                                    top:0,
-                                    left:0,
-                                    right:0,}}>
+            <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
+                <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
+                    <View style={{flex:1, alignSelf:'stretch', alignItems:'stretch'}}>
+                        <View style={styles.mainContent}>
+                            {/* <ImageBackground 
+                                source={require('../../images/remain_tokens_border.jpg')}
+                                style={{
+                                    height:60, //450 × 120,
+                                    width: 225,
+                                    alignItems: 'center',
+                                    justifyContent: 'center'
+                                }}> */}
                                 <View style={{
-                                    backgroundColor:'white',
-                                    alignSelf:'center',
-                                    paddingLeft:10,
-                                    paddingRight:10
-                                }}>
-                                    <Text style={{
-                                        fontSize: 15,
-                                        color: ColorConstants.SEPARATOR_GRAY,
-                                        textAlign:'center'
-                                    }}>{LS.str('REMAIN_MOUNT')}</Text>
+                                        height:50, //450 × 120,
+                                        width: 225,
+                                        marginTop:15}}>
+                                    <View style={{
+                                        flex:1,
+                                        marginTop:10,                                
+                                        borderColor: ColorConstants.SEPARATOR_GRAY,
+                                        borderWidth: 1,
+                                        borderRadius:10,
+                                        alignItems:'center',
+                                        justifyContent:'center',
+                                    }}>
+                                        <BalanceBlock style={styles.balanceText}/>
+                                    </View>
+                                    <View style={{position:'absolute', 
+                                            top:0,
+                                            left:0,
+                                            right:0,}}>
+                                        <View style={{
+                                            backgroundColor:'white',
+                                            alignSelf:'center',
+                                            paddingLeft:10,
+                                            paddingRight:10
+                                        }}>
+                                            <Text style={{
+                                                fontSize: 15,
+                                                color: ColorConstants.SEPARATOR_GRAY,
+                                                textAlign:'center'
+                                            }}>{LS.str('REMAIN_MOUNT')}</Text>
+                                        </View>
+                                    </View>
+                                    
                                 </View>
-                            </View>
                             
+                            {/* </ImageBackground> */}
+                            <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
+                                {this.renderPicker(LS.str("COPY_AMOUNT"), "investFixed", "availableInvestFixed")}
+                                {this.renderPicker(LS.str("COPY_COUNT"), "stopAfterCount", "availableStopAfterCount")}
+                            </View>
+                            {this.renderHint()}
                         </View>
-                       
-                    {/* </ImageBackground> */}
-                    <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                        {this.renderPicker(LS.str("COPY_AMOUNT"), "investFixed", "availableInvestFixed")}
-                        {this.renderPicker(LS.str("COPY_COUNT"), "stopAfterCount", "availableStopAfterCount")}
+                        <SubmitButton 
+                            style={{marginTop:10, marginBottom:10}}
+                            onPress={()=>this.setFollowConfig()}
+                            enable={this.props.followConfigButtonEnable}
+                            text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}
+                        />
                     </View>
-                    {this.renderHint()}
-                </View>
-                <SubmitButton 
-                    style={{marginTop:10, marginBottom:10}}
-                    onPress={()=>this.setFollowConfig()}
-                    enable={this.props.followConfigButtonEnable}
-                    text={this.props.isLoading ? LS.str("VERIFING") : LS.str("POSITION_CONFIRM")}
-                />
-            </View>
+                </TouchableOpacity>
+            </TouchableOpacity>
             );
     }
 
@@ -177,11 +179,7 @@ class FollowScreen extends Component {
                 transparent={true}
                 visible={this.props.modalVisible}
                 onRequestClose={()=>{this.hide()}}>
-                <TouchableOpacity activeOpacity={1} style={styles.modalBackground} onPress={()=>this.hide()}>
-                    <TouchableOpacity activeOpacity={1} style={styles.contentContainer}>
-                        {this.renderContent()}
-                    </TouchableOpacity>
-                </TouchableOpacity>
+                {this.props.modalVisible ? this.renderContent() : null}  
             </Modal>
         )
     }
@@ -263,4 +261,7 @@ const mapDispatchToProps = {
     getCurrentFollowConfig
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(FollowScreen);
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(FollowScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

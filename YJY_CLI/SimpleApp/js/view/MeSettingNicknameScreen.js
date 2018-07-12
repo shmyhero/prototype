@@ -132,6 +132,7 @@ const styles = StyleSheet.create({
 	nickNameInputView:{
 		color:'#303030',
 		height:64,
+		width:width,
 		backgroundColor:'transparent',
 		marginLeft: 15,
 	},
@@ -155,7 +156,9 @@ const styles = StyleSheet.create({
 	errorText:{
 		fontSize:12,
 		color:'red',
-		marginLeft:10
+		flex:1,
+		marginLeft:10,
+		marginRight: 15,
 	},
 
 	subTitle: {
@@ -168,7 +171,8 @@ const styles = StyleSheet.create({
 	errorMsg:{
 		flexDirection: 'row',
 		alignItems: 'center',
-		marginTop: 10
+		marginTop: 10,
+		width:width,
 	},
 
 });
@@ -186,5 +190,7 @@ const mapDispatchToProps = {
 	updateLocalNickName,
 	getMaxNickNameLength
 };
-  
-export default connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);
+
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeSettingNicknameScreen);
+export default connectedComponent;
+module.exports = connectedComponent;

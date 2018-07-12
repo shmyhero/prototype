@@ -15,16 +15,15 @@ import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
-import { ViewKeys } from '../../AppNavigatorConfiguration';
-var ImagePicker = require('react-native-image-picker');
-var Toast = require('@remobile/react-native-toast');
+import ViewKeys from '../ViewKeys';
+
+import LibraryImporter from '../LibraryImporter';
 
 var configListData = [
     {'type':'normal','title':'SETTINGS_PORTRAIT', 'subtype': 'portrait'},
     {'type':'normal','title':'SETTINGS_NICKNAME', 'subtype': 'nickname'},
     {'type':'normal','title':'SETTINGS_MOBILE', 'subtype': 'mobile'},
 ];
-
 // create a component
 class MeUserConfigScreen extends Component {
     componentWillReceiveProps(props){
@@ -48,6 +47,8 @@ class MeUserConfigScreen extends Component {
     }
 
     selectPortrait(){
+        var ImagePicker = LibraryImporter.getImagePicker()
+
         var Options = {
             title: null, // specify null or empty string to remove the title
             cancelButtonTitle: LS.str('CANCLE'),
@@ -76,7 +77,7 @@ class MeUserConfigScreen extends Component {
                 console.log('User cancelled image picker');
             }
             else if (response.error) {
-                Toast.show(response.error)
+                LibraryImporter.getToast().show(response.error)
             }
             else {
                 // You can display the image using either data:                
@@ -205,6 +206,7 @@ const mapDispatchToProps = {
     setPortrait
 };
   
-export default connect(mapStateToProps, mapDispatchToProps)(MeUserConfigScreen);
-  
-  
+var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeUserConfigScreen);
+
+export default connectedComponent;
+module.exports = connectedComponent;

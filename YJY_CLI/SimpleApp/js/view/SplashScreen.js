@@ -11,7 +11,7 @@ import {
   StatusBar
 } from 'react-native';
 import { NavigationActions } from 'react-navigation'
-import {ViewKeys} from '../../AppNavigatorConfiguration';
+import ViewKeys from '../ViewKeys';
 var LS = require("../LS");
 var ColorConstants = require("../ColorConstants")
 var {height, width} = Dimensions.get('window')
@@ -26,13 +26,13 @@ export default class SplashScreen extends React.Component {
     }
 
     componentDidMount() {
-        this.timer = setTimeout(
-        () => { 
-            console.log('把一个定时器的引用挂在this上'); 
-            this.jump2Home();
-        },
-        1500
-        );
+        // this.timer = setTimeout(
+        // () => { 
+        //     console.log('把一个定时器的引用挂在this上'); 
+        //     this.jump2Home();
+        // },
+        // 1500
+        // );
     }
     componentWillUnmount() {
         // 如果存在this.timer，则使用clearTimeout清空。
