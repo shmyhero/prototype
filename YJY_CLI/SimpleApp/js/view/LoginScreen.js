@@ -48,7 +48,7 @@ export default class LoginScreen extends Component {
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
             var params = this.props.navigation.state.params;
             state = this.convertParametersToState(params, state);
-        }
+        } 
 
         this.state = state;
     }
@@ -93,7 +93,14 @@ export default class LoginScreen extends Component {
     }
 
     componentDidMount() {
-        
+        StorageModule.loadCountryCode()
+				.then((value) => {
+					if (value !== null) {
+						this.setState({
+                            countryCode:value
+                        }) 
+					} 
+				})
     }
 
     componentWillUnmount() { 

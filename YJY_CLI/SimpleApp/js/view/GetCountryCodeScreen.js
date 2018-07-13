@@ -8,6 +8,7 @@ import {
   ListView
 } from 'react-native'; 
 import NavBar from './component/NavBar';
+var StorageModule = require('./../module/StorageModule');
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0 
@@ -56,6 +57,8 @@ export default class GetCountryCodeScreen extends Component {
         if(this.props.navigation.state.params.onGoBack){
             this.props.navigation.state.params.onGoBack(code);
         } 
+
+        StorageModule.setCountryCoda(code)
     }
 
     renderRow(rowData, sectionID, rowID){
