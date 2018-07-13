@@ -25,7 +25,8 @@ var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var WebSocketModule = require("../module/WebSocketModule");
 import ViewKeys from '../ViewKeys';
-var MAX_ValidationCodeCountdown = 15
+var MAX_ValidationCodeCountdown = 60
+import LibraryImporter from '../LibraryImporter';
  
 var LS = require('../LS')
 import LogicData from "../LogicData";
@@ -163,7 +164,9 @@ export default class LoginScreen extends Component {
                 (result) => {
                     this.setState({
                         getValidationCodeButtonEnabled: true,
-                    }); 
+                    });
+                    
+                    LibraryImporter.getToast().show(result.error)
                 }
             )
 
@@ -237,7 +240,7 @@ export default class LoginScreen extends Component {
 				this.loginSuccess(responseJson);
 			},
 			(result) => {
-				Alert.alert('提示', result.errorMessage);
+				Alert.alert(LS.str('HINT'), result.errorMessage);
 			}
 		)
     }
