@@ -50,6 +50,8 @@ export let CFD_API = {
   GET_UNREAD_MESSAGE_COUNT: CFD_API_SERVER + '/api/message/unreadCount',
   GET_MESSAGES: CFD_API_SERVER + '/api/message?pageNum=<pageNum>&pageSize=<pageSize>',
   SET_MESSAGE_READ: CFD_API_SERVER + '/api/message/<id>/read',
+  GET_PHONE_VERIFY_CODE_API: CFD_API_SERVER + '/api/util/sendVerifyCode',
+  TIMESTAMP_LOCAL:CFD_API_SERVER + '/api/util/timestampNonce',//Local ok
 }
     
  

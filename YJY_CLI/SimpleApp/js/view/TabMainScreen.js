@@ -76,7 +76,7 @@ var tabSwitchedSubscription = null;
 
 
 //Tab0:动态
-export default class TabMainScreen extends React.Component {
+class TabMainScreen extends React.Component {
      
     constructor(props){
         super()
@@ -370,6 +370,7 @@ export default class TabMainScreen extends React.Component {
     }
 
     delItem(id){ 
+        console.log('del = '+id)
 		LogicData.addRemovdedDynamicRow(id) 
 
 		LogicData.getRemovedRynamicRow().then((delList)=>{
@@ -767,6 +768,5 @@ const styles = StyleSheet.create({
 
 })
 
-
-module.exports = TabMainScreen;
+export default TabMainScreen;
 

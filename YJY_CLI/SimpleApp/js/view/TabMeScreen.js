@@ -101,6 +101,7 @@ class  TabMeScreen extends React.Component {
 
   renderLogin(){
     return <LoginScreen 
+              navigation={this.props.navigation}
               hideBackButton={true} 
               onLoginFinished={()=>{this.refresh()}}
               />;

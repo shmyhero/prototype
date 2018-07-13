@@ -24,7 +24,9 @@ var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var WebSocketModule = require("../module/WebSocketModule");
-
+import ViewKeys from '../ViewKeys';
+var MAX_ValidationCodeCountdown = 15
+ 
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
@@ -32,7 +34,12 @@ export default class LoginScreen extends Component {
     constructor(props){
         super(props);
 
-        var state = {hideBackButton:false};
+        var state = {
+            hideBackButton:false ,
+            validationCodeCountdown: -1, 
+            getValidationCodeButtonEnabled: false,
+            countryCode:'86'
+        };
 
         if(props){
             state = this.convertParametersToState(props, state);
@@ -91,7 +98,8 @@ export default class LoginScreen extends Component {
 
     componentWillUnmount() { 
         this.keyboardWillShowSub.remove()
-        this.keyboardWillHideSub.remove()
+        this.keyboardWillHideSub.remove() 
+        this.timer && clearTimeout(this.timer);
     }
 
     componentWillReceiveProps(nextProps){
@@ -102,8 +110,85 @@ export default class LoginScreen extends Component {
     }
 
     getValidationCode(){
-        
+        var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
 
+        if(this.isPhoneNumberChecked()){ 
+            NetworkModule.fetchLocalEncryptedUrl(
+                NetConstants.CFD_API.GET_PHONE_VERIFY_CODE_API, //+ '?' + "phone=" + this.state.phoneNumber,
+                {
+                    method: 'POST',
+                    headers: { 
+                        'Content-Type': 'application/json; charset=UTF-8'
+                    },
+                    body: JSON.stringify({
+                        "phone": sendPhone,
+                    }),
+                },
+                (responseJson) => {
+                    // Nothing to do.
+                    this.setState({
+                        validationCodeCountdown: MAX_ValidationCodeCountdown,
+                        getValidationCodeButtonEnabled: false
+                    })
+    
+                    this.timer = setInterval(
+                        () => {
+                            var currentCountDown = this.state.validationCodeCountdown
+        
+                            if (currentCountDown > 0) {
+                                this.setState({
+                                    validationCodeCountdown: this.state.validationCodeCountdown - 1
+                                })
+                            } else {
+        
+                                if (this.isPhoneNumberChecked()) {
+                                    this.setState({
+                                        getValidationCodeButtonEnabled: true,
+                                        validationCodeCountdown: -1
+                                    })
+                                }
+                                this.timer && clearTimeout(this.timer);
+                            }
+                        },
+                        1000
+                    );
+                },
+                (result) => {
+                    this.setState({
+                        getValidationCodeButtonEnabled: true,
+                    }); 
+                }
+            )
+
+
+            // this.setState({
+            //     validationCodeCountdown: MAX_ValidationCodeCountdown,
+            //     getValidationCodeButtonEnabled: false
+            // })
+
+            // this.timer = setInterval(
+            //     () => {
+            //         var currentCountDown = this.state.validationCodeCountdown
+
+            //         if (currentCountDown > 0) {
+            //             this.setState({
+            //                 validationCodeCountdown: this.state.validationCodeCountdown - 1
+            //             })
+            //         } else {
+
+            //             if (this.isPhoneNumberChecked()) {
+            //                 this.setState({
+            //                     getValidationCodeButtonEnabled: true,
+            //                     validationCodeCountdown: -1
+            //                 })
+            //             }
+            //             this.timer && clearTimeout(this.timer);
+            //         }
+            //     },
+            //     1000
+            // ); 
+
+        } 
     }
 
     loginSuccess(responseJson){
@@ -121,7 +206,7 @@ export default class LoginScreen extends Component {
     onLoginClicked(){
 
         if(!this.isLoginable()){
-            Alert.alert('温馨提示','请输入手机号码和验证码')
+            Alert.alert(LS.str('WARNING'),LS.str('PLEASE_INPUT_FOR_LOGIN'))
             return
         }
 
@@ -154,13 +239,39 @@ export default class LoginScreen extends Component {
         
     }
 
+    isPhoneNumberChecked(){
+        if(this.state.phoneNumber&&this.state.phoneNumber.length>6){
+            return true
+        } 
+
+        return false
+    }
+
+    isVerfyCodeChecked(){
+        if(this.state.verifyCode&&this.state.verifyCode.length==4){
+            return true
+        }
+
+        return false
+    }
 
     isLoginable(){
-        if((this.state.phoneNumber&&this.state.phoneNumber.length==11) && (this.state.verifyCode&&this.state.verifyCode.length==4)){
+        if(this.isPhoneNumberChecked() && this.isVerfyCodeChecked()){
             return true;
         }else{
             return false;
         }
+    }
+
+    onPopOut(code){
+        this.setState({
+            countryCode:code
+        })
+    }
+
+    getCountryCode(){
+        console.log(this.props.navigation)
+        this.props.navigation.navigate(ViewKeys.SCREEN_GET_COUNTRY_CODE,{onGoBack:(countryCode)=>this.onPopOut(countryCode)})
     }
 
     onCancel(){
@@ -169,9 +280,9 @@ export default class LoginScreen extends Component {
     }
 
     renderContent(){
+        
         var textLogin = this.isLoginable()?'white':'#6281a6'
-        var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b' 
-
+        var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b'  
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;
@@ -187,9 +298,15 @@ export default class LoginScreen extends Component {
                         
                         <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
                         <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                            <TouchableOpacity  onPress={()=>this.getCountryCode()} style={{flexDirection:'row'}}>
+                                <Text style={{marginLeft:10,color:'white'}}>+</Text>
+                                <Text style={{marginLeft:2,color:'white'}}>{this.state.countryCode}</Text>
+                                <Text style={{fontSize:10,marginTop:2, marginLeft:5,color:'white'}}>v</Text> 
+                            </TouchableOpacity>
+                            
                             <TextInput 
                             underlineColorAndroid='transparent'
-                            maxLength={11} 
+                            maxLength={16}
                             placeholderTextColor='white'
                             placeholder={LS.str("PHONE_NUM")}
                             keyboardType='numeric'  
@@ -199,10 +316,7 @@ export default class LoginScreen extends Component {
                                 })}
                             }
                             style={{marginLeft:10,color:'white',flex:1}}/>
-                            <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                                <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
-                                <Text style={{marginRight:10,color:'white'}}>{LS.str("GET_VCODE")}</Text>
-                            </TouchableOpacity>  
+                            {this.renderGetValidationCodeButton()}
                         </View>
 
                         <View style={{backgroundColor:'#3d6c9d',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
@@ -238,6 +352,32 @@ export default class LoginScreen extends Component {
                 </TouchableOpacity>
         );
     }
+
+    renderGetValidationCodeButton(){
+
+        var textLogin = this.isPhoneNumberChecked()?'white':'#6281a6'
+        
+        if(this.state.getValidationCodeButtonEnabled||this.state.validationCodeCountdown<0){
+            return(
+                <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',width:100}}>
+                                    <View style={{width:1,height:40,backgroundColor:'#4e85bf' }}></View>
+                                    <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
+                                        <Text style={{color:textLogin,alignSelf:'center'}}>{LS.str("GET_VCODE")}</Text>
+                                    </View> 
+                </TouchableOpacity>
+            )
+        }else{
+            return(
+                <TouchableOpacity style={{flexDirection:'row',justifyContent:'center',width:100}}>
+                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
+                    <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
+                        <Text style={{marginRight:10,color:'white',alignSelf:'center' }}>{this.state.validationCodeCountdown}</Text>
+                    </View> 
+                </TouchableOpacity>
+            )  
+        } 
+    }
+
 
     render() {
         if(Platform.OS == "ios"){
