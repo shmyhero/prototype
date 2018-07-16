@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
+import com.zmxv.RNSound.RNSoundPackage;
 import su.rusfearuth.reactnative.native9patch.RCTImageCapInsetPackage;
 import com.reactnativecomponent.swiperefreshlayout.RCTSwipeRefreshLayoutPackage;
 import com.github.yamill.orientation.OrientationPackage;
@@ -34,6 +35,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+          new RNSoundPackage(),
           new RCTImageCapInsetPackage(),
           //new ReactNativeWheelPickerPackage(),
           //new RCTSwipeRefreshLayoutPackage(),

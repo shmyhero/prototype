@@ -8,6 +8,7 @@ import { View, Text, StyleSheet,
     TouchableOpacity
 } from 'react-native';
 
+var Sound = require('react-native-sound');
 const {height, width} = Dimensions.get("window");
 // create a component
 
@@ -141,6 +142,26 @@ class AnimatedCoinView extends Component {
                 this.props.onAnimationFinished && this.props.onAnimationFinished();
             })
         }, 1500);
+
+        this._playSound()
+    }
+
+    _playSound(){
+        var coinSound = new Sound('coin.mp3', Sound.MAIN_BUNDLE, (error) => {
+            if (error) {
+              console.log('failed to load the sound', error);
+              coinSound.release();
+              return;
+            }
+           
+            // Play the sound with an onEnd callback
+            coinSound.play((success) => {
+                console.log('_playSound success', success);
+                coinSound.release();
+                //if(success){                    
+                //}
+              });
+        });
     }
 
     _generateCoin(){
