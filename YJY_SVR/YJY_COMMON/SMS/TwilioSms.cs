@@ -29,7 +29,7 @@ namespace YJY_COMMON.SMS
             try
             {
                 var message = MessageResource.Create(
-                    body: "Bithero verification code: " + code,
+                    body: "BitHero verification code: " + code,
                     from: new Twilio.Types.PhoneNumber(From),
                     to: new Twilio.Types.PhoneNumber(to),
                     client:_client
