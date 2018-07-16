@@ -17,6 +17,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
         public virtual DbSet<Headline> Headlines { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StatusLike> StatusLikes { get; set; }

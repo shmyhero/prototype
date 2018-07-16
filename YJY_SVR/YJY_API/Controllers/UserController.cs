@@ -28,6 +28,7 @@ namespace YJY_API.Controllers
         {
         }
 
+        private static readonly TimeSpan VERIFY_CODE_PERIOD = TimeSpan.FromHours(1);
         private const int NICKNAME_MAX_LENGTH = 8;
 
         [HttpPost]
@@ -36,60 +37,102 @@ namespace YJY_API.Controllers
         {
             var result = new SignupResultDTO();
 
-            var user = db.Users.FirstOrDefault(o => o.Phone == form.phone);
-
-            if (user == null) //phone doesn't exist
+            if (IsLoginBlocked(form.phone))
             {
-                var userService = new UserService(db);
-                userService.CreateUserByPhone(form.phone);
-
-                //refetch
-                user = db.Users.FirstOrDefault(o => o.Phone == form.phone);
-
-                //default nickname
-                var nickname = "u" + user.Id.ToString("000000");
-                user.Nickname = nickname;
-
-                //check duplicate nickname and generate random suffix
-                int tryCount = 0;
-                while (db.Users.Any(o => o.Id != user.Id && o.Nickname == user.Nickname))
-                {
-                    user.Nickname = nickname.TruncateMax(4) + Randoms.GetRandomAlphabeticString(4);
-
-                    tryCount++;
-
-                    if (tryCount > 10)
-                    {
-                        YJYGlobal.LogError(
-                            "Tryout exceeded: signupByPhone - check duplicate nickname and generate random suffix. userid: " +
-                            user.Id);
-                        break;
-                    }
-                }
-
-                //default avatar
-                user.PicUrl = Blob.GetRandomUserDefaultPicUrl();
-
-                db.SaveChanges();
-
-                result.success = true;
-                result.isNewUser = true;
-                result.userId = user.Id;
-                result.token = user.AuthToken;
+                result.success = false;
+                result.message = Resources.Resource.PhoneSignupForbidden;
+                return result;
             }
-            else //phone exists
+
+            //verify this login
+            var dtValidSince = DateTime.UtcNow - VERIFY_CODE_PERIOD;
+            var verifyCodes = db.VerifyCodes.Where(o => o.Phone == form.phone && o.Code == form.verifyCode && o.SentAt > dtValidSince);
+
+            //auth success
+            if ( verifyCodes.Any() )
             {
-                //generate a new token
-                user.AuthToken = UserService.NewToken();
+                var user = db.Users.FirstOrDefault(o => o.Phone == form.phone);
+
+                if (user == null) //phone doesn't exist
+                {
+                    var userService = new UserService(db);
+                    userService.CreateUserByPhone(form.phone);
+
+                    //refetch
+                    user = db.Users.FirstOrDefault(o => o.Phone == form.phone);
+
+                    //default nickname
+                    var nickname = "u" + user.Id.ToString("000000");
+                    user.Nickname = nickname;
+
+                    //check duplicate nickname and generate random suffix
+                    int tryCount = 0;
+                    while (db.Users.Any(o => o.Id != user.Id && o.Nickname == user.Nickname))
+                    {
+                        user.Nickname = nickname.TruncateMax(4) + Randoms.GetRandomAlphabeticString(4);
+
+                        tryCount++;
+
+                        if (tryCount > 10)
+                        {
+                            YJYGlobal.LogError(
+                                "Tryout exceeded: signupByPhone - check duplicate nickname and generate random suffix. userid: " +
+                                user.Id);
+                            break;
+                        }
+                    }
+
+                    //default avatar
+                    user.PicUrl = Blob.GetRandomUserDefaultPicUrl();
+
+                    db.SaveChanges();
+
+                    result.success = true;
+                    result.isNewUser = true;
+                    result.userId = user.Id;
+                    result.token = user.AuthToken;
+                }
+                else //phone exists
+                {
+                    //generate a new token
+                    user.AuthToken = UserService.NewToken();
+                    db.SaveChanges();
+
+                    result.success = true;
+                    result.isNewUser = false;
+                    result.userId = user.Id;
+                    result.token = user.AuthToken;
+                }
+            }
+            else
+            {
+                //add login history ONLY WHEN AUTH FAILED
+                db.PhoneSignupHistories.Add(new PhoneSignupHistory() { CreateAt = DateTime.UtcNow, Phone = form.phone });
                 db.SaveChanges();
 
-                result.success = true;
-                result.isNewUser = false;
-                result.userId = user.Id;
-                result.token = user.AuthToken;
+                result.success = false;
+                result.message = Resources.Resource.InvalidVerifyCode;
             }
 
             return result;
+        }
+
+        private bool IsLoginBlocked(string phone)
+        {
+            var oneDayAgo = DateTime.UtcNow.AddDays(-1);
+            var phoneList = db.PhoneSignupHistories.Where(item => item.CreateAt >= oneDayAgo && item.Phone == phone).ToList();
+
+            //3 in 1 minute
+            //10 in 1 hour
+            //20 in 1 day
+            if (phoneList.Count(item => (DateTime.UtcNow - item.CreateAt) <= TimeSpan.FromMinutes(1)) >= 3
+                || phoneList.Count(item => (DateTime.UtcNow - item.CreateAt) <= TimeSpan.FromHours(1)) >= 10
+                || phoneList.Count >= 20)
+            {
+                return true;
+            }
+
+            return false;
         }
 
         [HttpGet]

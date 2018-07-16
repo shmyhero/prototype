@@ -28,6 +28,8 @@ namespace YJY_API.Controllers
         {
         }
 
+        private const decimal MAX_LEVERAGE = 200;
+
         [HttpPost]
         [Route("")]
         [BasicAuth]
@@ -53,7 +55,8 @@ namespace YJY_API.Controllers
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     Resources.Resource.ProductClosed));
 
-            if (form.leverage > prodDef.MaxLeverage)
+            //if (form.leverage > prodDef.MaxLeverage)
+            if (form.leverage > MAX_LEVERAGE)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     "exceeded max leverage"));
 

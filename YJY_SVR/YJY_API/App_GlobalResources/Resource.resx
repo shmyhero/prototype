@@ -120,6 +120,9 @@
   <data name="Earn" xml:space="preserve">
     <value>earn</value>
   </data>
+  <data name="InvalidVerifyCode" xml:space="preserve">
+    <value>Invalid verify code.</value>
+  </data>
   <data name="Lose" xml:space="preserve">
     <value>lose</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="NotEnoughBalance" xml:space="preserve">
     <value>Insufficient funds.</value>
+  </data>
+  <data name="PhoneSignupForbidden" xml:space="preserve">
+    <value>Too many login attempts. Try again later.</value>
   </data>
   <data name="ProductClosed" xml:space="preserve">
     <value>Security is closed.</value>

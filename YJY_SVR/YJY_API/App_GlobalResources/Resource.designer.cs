@@ -70,6 +70,15 @@ namespace Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Invalid verify code..
+        /// </summary>
+        internal static string InvalidVerifyCode {
+            get {
+                return ResourceManager.GetString("InvalidVerifyCode", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to lose.
         /// </summary>
         internal static string Lose {
@@ -165,6 +174,15 @@ namespace Resources {
         internal static string NotEnoughBalance {
             get {
                 return ResourceManager.GetString("NotEnoughBalance", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Too many login attempts. Try again later..
+        /// </summary>
+        internal static string PhoneSignupForbidden {
+            get {
+                return ResourceManager.GetString("PhoneSignupForbidden", resourceCulture);
             }
         }
         

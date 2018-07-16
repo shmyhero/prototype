@@ -120,6 +120,9 @@
   <data name="Earn" xml:space="preserve">
     <value>获利</value>
   </data>
+  <data name="InvalidVerifyCode" xml:space="preserve">
+    <value>验证码错误</value>
+  </data>
   <data name="Lose" xml:space="preserve">
     <value>亏损</value>
   </data>
@@ -152,6 +155,9 @@
   </data>
   <data name="NotEnoughBalance" xml:space="preserve">
     <value>余额不足</value>
+  </data>
+  <data name="PhoneSignupForbidden" xml:space="preserve">
+    <value>手机验证过于频繁，请稍后再试</value>
   </data>
   <data name="ProductClosed" xml:space="preserve">
     <value>产品闭市中</value>

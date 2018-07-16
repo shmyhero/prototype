@@ -9,9 +9,9 @@ namespace YJY_COMMON.SMS
     public class TwilioSMS
     {
         // Find your Account Sid and Token at twilio.com/console
-        private const string AccountSid = "ACbb1717760f8c7b5a0cd57bdcc587c3db";
-        private const string AuthToken = "85436388cba253152fbb6092af544c83";
-        private const string From = "+18325582007";
+        private const string AccountSid = "AC11ba79a56d435dbe6a76dff5762b7c1e";
+        private const string AuthToken = "c3a2e0b62a6d2709c5d823d25bf3f0fe";
+        private const string From = "+18448556615";
 
         private static TwilioRestClient _client;
 

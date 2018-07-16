@@ -12,7 +12,7 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<VerifyCode> VerifyCodes { get; set; }
+        public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {

@@ -122,6 +122,7 @@
     <Compile Include="Model\Entity\Headline.cs" />
     <Compile Include="Model\Entity\Message.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
+    <Compile Include="Model\Entity\PhoneSignupHistory.cs" />
     <Compile Include="Model\Entity\Position.cs" />
     <Compile Include="Model\Entity\Status.cs" />
     <Compile Include="Model\Entity\StatusLike.cs" />
