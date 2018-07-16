@@ -220,6 +220,8 @@ export default class LoginScreen extends Component {
             return
         }
 
+        var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
+
         if(NetConstants.CFD_API.POST_USER_SIGNUP_BY_PHONE == undefined){
             Alert.alert(
                 'undefined')
@@ -232,7 +234,7 @@ export default class LoginScreen extends Component {
 					'Content-Type': 'application/json; charset=UTF-8'
 				},
 				body: JSON.stringify({
-					phone: this.state.phoneNumber,
+					phone: sendPhone,
 					verifyCode: this.state.verifyCode,
 				}),
 			},
