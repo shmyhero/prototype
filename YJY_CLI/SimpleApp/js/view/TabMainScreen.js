@@ -283,9 +283,9 @@ class TabMainScreen extends React.Component {
     renderConfigEnter(){
         if(LogicData.isLoggedIn()){
             return (
-                <TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
+                <TouchableOpacity onPress={()=>{this.onPressedConfig()}} style={{height:24,width:32,justifyContent:'center'}}>
                         <Image style = {{width:26.5,height:5,}} source={require('../../images/three_point.png')}></Image>
-                    </TouchableOpacity>
+                </TouchableOpacity>
             )
         }else{
             return null;

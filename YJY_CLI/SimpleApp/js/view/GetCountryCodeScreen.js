@@ -72,20 +72,14 @@ export default class GetCountryCodeScreen extends Component {
 		) 
     }
     
-    renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-      
-        if(rowID>=4){
-            return (
-                <View style={styles.line} key={rowID}>
-                    <View style={styles.separator}>
-                        {/* <View style={styles.separatorShort}/> */}
-                    </View>
+    renderSeparator(sectionID, rowID, adjacentRowHighlighted) { 
+        return (
+            <View style={styles.line} key={rowID}>
+                <View style={styles.separator}>
+                    {/* <View style={styles.separatorShort}/> */}
                 </View>
-            );
-        }else{
-            return null;
-        }
-		
+            </View>
+        ); 
     }
 
 
@@ -115,7 +109,7 @@ const styles = StyleSheet.create({
     separator: {
         marginLeft: 10,
         marginRight:10,
-        height: 0.5,
+        height: 1,
         backgroundColor: ColorConstants.SEPARATOR_GRAY,
     }, 
 })
