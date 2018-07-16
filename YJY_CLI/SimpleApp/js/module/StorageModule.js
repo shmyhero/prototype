@@ -30,6 +30,7 @@ var MIFID_TEST_VERIFIED = '@TH_CFD:MIFIDTestVerified'
 var MARKET_LIST_ORDER = '@TH_CFD:MarketListOrder'
 var LANGUAGE = '@TH_CFD:Language' 
 var REMOVED_DYNAMICROW = '@TH_CFD:removed_dynamicrow'
+var COUNTRY_CODE = '@TH_CFD:country_code'
 
 export async function loadUserData() {
 	try {
@@ -505,10 +506,27 @@ export async function setRemovedDynamicRows(value){
   }
   
 export async function loadRemovedDynamicRows(){
-	try {
+		try {
 			var value = await AsyncStorage.getItem(REMOVED_DYNAMICROW);
 			return value;
 		} catch (error) {
 			console.log('AsyncStorage error: ' + error.message);
 		}
+}
+
+export async function setCountryCoda(value){
+	try {
+		await AsyncStorage.setItem(COUNTRY_CODE, value);
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
+}
+
+export async function loadCountryCode(){
+	try {
+		var value = await AsyncStorage.getItem(COUNTRY_CODE);
+		return value;
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
 }

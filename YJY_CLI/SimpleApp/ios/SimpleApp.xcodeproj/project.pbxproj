@@ -25,6 +25,7 @@
 		16944A88429D421D8BE9A993 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1EF178894B564C6884768377 /* libc++.tbd */; };
 		23987F301FA07BAA0016C95F /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		23E327F620BBE793002B8F88 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E327C820BBE750002B8F88 /* libART.a */; };
+		2D419C5C10D54993A8032BA8 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F847B06B8F9424DAEEB9650 /* libRNSound.a */; };
 		3D2157F6209C113F008C8CDE /* StockChartViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F5209C113F008C8CDE /* StockChartViewManager.m */; };
 		3D2157F9209C12D2008C8CDE /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F8209C12D2008C8CDE /* StockChartView.swift */; };
 		3D2157FC209C13CD008C8CDE /* BaseRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FA209C13CC008C8CDE /* BaseRender.swift */; };
@@ -46,6 +47,7 @@
 		3D4045CE20CA678A004C8984 /* libSplashScreen.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D4045CD20CA6770004C8984 /* libSplashScreen.a */; };
 		418E693A20BD4F8D005EC789 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 418E693920BD4F76005EC789 /* libRNImagePicker.a */; };
 		41B1E85320C66B360006F889 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B1E84F20C66B230006F889 /* libRNDeviceInfo.a */; };
+		41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 41C6B49420FC473A004A3400 /* coin.mp3 */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
 		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
 		82957684C79A42F3B32AF98C /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DC94D2363F4E46AED99507 /* libRealmReact.a */; };
@@ -293,6 +295,13 @@
 			remoteGlobalIDString = 3D3CD9181DE5FBD800167DC4;
 			remoteInfo = "jschelpers-tvOS";
 		};
+		410EFDEA20FC46EA00D7814F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 3A38591D8D124532B27B7B62 /* RNSound.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 19825A1E1BD4A89800EE0337;
+			remoteInfo = RNSound;
+		};
 		418E693820BD4F76005EC789 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 418E690720BD4F75005EC789 /* RNImagePicker.xcodeproj */;
@@ -429,6 +438,7 @@
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
 		1EF178894B564C6884768377 /* libc++.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
 		23E327C220BBE750002B8F88 /* ART.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ART.xcodeproj; path = "../node_modules/react-native/Libraries/ART/ART.xcodeproj"; sourceTree = "<group>"; };
+		3A38591D8D124532B27B7B62 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
 		3D2157F4209C113F008C8CDE /* StockChartViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StockChartViewManager.h; path = SimpleApp/StockChartViewManager.h; sourceTree = "<group>"; };
 		3D2157F5209C113F008C8CDE /* StockChartViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StockChartViewManager.m; path = SimpleApp/StockChartViewManager.m; sourceTree = "<group>"; };
 		3D2157F7209C12D1008C8CDE /* SimpleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -452,10 +462,12 @@
 		3D4045C820CA676F004C8984 /* SplashScreen.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SplashScreen.xcodeproj; path = "../node_modules/react-native-splash-screen/ios/SplashScreen.xcodeproj"; sourceTree = "<group>"; };
 		418E690720BD4F75005EC789 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		41B1E81C20C66B230006F889 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
+		41C6B49420FC473A004A3400 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = coin.mp3; path = ../resource/coin.mp3; sourceTree = "<group>"; };
 		41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4637A3510A384E83BAD572A4 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		48DC94D2363F4E46AED99507 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
+		6F847B06B8F9424DAEEB9650 /* libRNSound.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSound.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTOrientation.a; sourceTree = "<group>"; };
@@ -500,6 +512,7 @@
 				16944A88429D421D8BE9A993 /* libc++.tbd in Frameworks */,
 				AF25D94A63664A3E8DB5AC93 /* libz.tbd in Frameworks */,
 				6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */,
+				2D419C5C10D54993A8032BA8 /* libRNSound.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -681,6 +694,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		410EFDE720FC46EA00D7814F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				410EFDEB20FC46EA00D7814F /* libRNSound.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		418E690820BD4F75005EC789 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -703,6 +724,7 @@
 			children = (
 				48DC94D2363F4E46AED99507 /* libRealmReact.a */,
 				85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */,
+				6F847B06B8F9424DAEEB9650 /* libRNSound.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -783,6 +805,7 @@
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
 				FFCA42F69A16491BB39C1237 /* RealmReact.xcodeproj */,
 				ACA40F29BB07453094250F39 /* RCTOrientation.xcodeproj */,
+				3A38591D8D124532B27B7B62 /* RNSound.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -799,6 +822,7 @@
 		83CBB9F61A601CBA00E9B192 = {
 			isa = PBXGroup;
 			children = (
+				41C6B49420FC473A004A3400 /* coin.mp3 */,
 				13B07FAE1A68108700A75B9A /* SimpleApp */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				00E356EF1AD99517003FC87E /* SimpleAppTests */,
@@ -883,7 +907,7 @@
 					};
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = Z288KMGX4C;
-						LastSwiftMigration = 0920;
+						LastSwiftMigration = 920;
 					};
 				};
 			};
@@ -978,6 +1002,10 @@
 				{
 					ProductGroup = 418E690820BD4F75005EC789 /* Products */;
 					ProjectRef = 418E690720BD4F75005EC789 /* RNImagePicker.xcodeproj */;
+				},
+				{
+					ProductGroup = 410EFDE720FC46EA00D7814F /* Products */;
+					ProjectRef = 3A38591D8D124532B27B7B62 /* RNSound.xcodeproj */;
 				},
 				{
 					ProductGroup = 3D4045C920CA676F004C8984 /* Products */;
@@ -1224,6 +1252,13 @@
 			remoteRef = 3DAD3EAE1DF850E9000B6D8A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		410EFDEB20FC46EA00D7814F /* libRNSound.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSound.a;
+			remoteRef = 410EFDEA20FC46EA00D7814F /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		418E693920BD4F76005EC789 /* libRNImagePicker.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1353,6 +1388,7 @@
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3D37883920C639360057682C /* 启动页面.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
+				41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1444,12 +1480,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = SimpleAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1473,12 +1511,14 @@
 					"$(inherited)",
 					"$(SRCROOT)/../node_modules/realm/src/**",
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = SimpleAppTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
@@ -1506,6 +1546,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native/React",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = SimpleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1536,6 +1577,7 @@
 					"$(SRCROOT)/../node_modules/react-native-orientation/iOS/RCTOrientation/**",
 					"$(SRCROOT)/../node_modules/react-native/React",
 					"$(SRCROOT)/../node_modules/react-native-splash-screen/ios",
+					"$(SRCROOT)/../node_modules/react-native-sound/RNSound",
 				);
 				INFOPLIST_FILE = SimpleApp/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";

@@ -76,7 +76,7 @@ var tabSwitchedSubscription = null;
 
 
 //Tab0:动态
-export default class TabMainScreen extends React.Component {
+class TabMainScreen extends React.Component {
      
     constructor(props){
         super()
@@ -283,9 +283,9 @@ export default class TabMainScreen extends React.Component {
     renderConfigEnter(){
         if(LogicData.isLoggedIn()){
             return (
-                <TouchableOpacity onPress={()=>{this.onPressedConfig()}}>
+                <TouchableOpacity onPress={()=>{this.onPressedConfig()}} style={{height:24,width:32,justifyContent:'center'}}>
                         <Image style = {{width:26.5,height:5,}} source={require('../../images/three_point.png')}></Image>
-                    </TouchableOpacity>
+                </TouchableOpacity>
             )
         }else{
             return null;
@@ -370,6 +370,7 @@ export default class TabMainScreen extends React.Component {
     }
 
     delItem(id){ 
+        console.log('del = '+id)
 		LogicData.addRemovdedDynamicRow(id) 
 
 		LogicData.getRemovedRynamicRow().then((delList)=>{
@@ -767,6 +768,5 @@ const styles = StyleSheet.create({
 
 })
 
-
-module.exports = TabMainScreen;
+export default TabMainScreen;
 

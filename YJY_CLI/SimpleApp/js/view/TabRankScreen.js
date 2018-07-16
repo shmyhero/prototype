@@ -34,7 +34,7 @@ var LS = require('../LS')
 
 const RANK_LIST = 'rankList'
 //Tab2:榜单
-export default class  TabRankScreen extends React.Component {
+class  TabRankScreen extends React.Component {
   tabSwitchedSubscription = null;
 
   constructor(props){
@@ -277,5 +277,5 @@ const styles = StyleSheet.create({
 
 })
 
-module.exports = TabRankScreen;
+export default TabRankScreen;
 

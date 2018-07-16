@@ -27,6 +27,7 @@ class DynamicRowComponentContent extends Component {
         onRowPress: PropTypes.func,
         allowScroll: PropTypes.func,
         close: PropTypes.bool,
+        delCallBack: PropTypes.func,
         rowData: PropTypes.object
     }
     
@@ -36,6 +37,7 @@ class DynamicRowComponentContent extends Component {
         allowScroll: (v)=>{},
         onRowPress: ()=>{},
         close: false,
+        delCallBack:()=>{},
         rowData: {},
     }
 
@@ -54,8 +56,10 @@ class DynamicRowComponentContent extends Component {
         this.props.onRowPress && this.props.onRowPress();
     }
 
-    _onPressButton(rowData){
+    _onPressButton(rowData){ 
+        console.log('this.props.delCallBack = ' + this.props.delCallBack)
         if(this.props.delCallBack){
+            console.log('_onPressButton'+rowData.time)
              this.props.delCallBack(rowData.time)
         }
      }
@@ -220,6 +224,7 @@ class DynamicRowComponent extends Component {
         onRowPress: PropTypes.func,
         allowScroll: PropTypes.func,
         close: PropTypes.bool,
+        delCallBack: PropTypes.func,
     }
     
     static defaultProps = {
@@ -227,6 +232,7 @@ class DynamicRowComponent extends Component {
         onClose: ()=>{},
         allowScroll: (v)=>{},
         onRowPress: ()=>{},
+        delCallBack: ()=>{},
         close: false,
     }    
 
@@ -288,6 +294,7 @@ class DynamicRowComponent extends Component {
                     onClose={this.props.onClose}
                     onRowPress={this.props.onRowPress}
                     allowScroll={this.props.allowScroll}
+                    delCallBack={this.props.delCallBack}
                     close={this.props.close}
                     navigation={this.props.navigation}
                 />

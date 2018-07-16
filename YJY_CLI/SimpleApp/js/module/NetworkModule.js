@@ -9,11 +9,14 @@ import {
 
 import LogicData from "../LogicData";
 export const API_ERROR = 'apiError';
+var Encryptor = require('./Encryptor')
 export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
 
+var NetConstants = require('../NetConstants')
 var {EventCenter, EventConst} = require('../EventCenter');
 
 var loginOutsideAlertShown = false
+
 export function fetchTHUrl(url, params, successCallback, errorCallback, notShowResponseLog) {
 	var requestSuccess = true;
 
@@ -147,4 +150,28 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 		.done(() => {
 			
 		});
+}
+
+
+export function fetchLocalEncryptedUrl(url, params, successCallback, errorCallback, notShowResponseLog){
+	 
+	fetchTHUrl(NetConstants.CFD_API.TIMESTAMP_LOCAL,
+		{
+			method: 'GET', 
+		},
+		(response)=>{
+			console.log("TIMESTAMP " + JSON.stringify(response));
+			var data = "" +response.timeStamp + response.nonce;
+			var encryptedData = Encryptor.DESLocalEncrypt(data);
+			console.log("encryptedData " + encryptedData)
+			if(!params.headers){
+				params.headers = {}
+			}
+			params.headers.signature = encryptedData;
+
+			fetchTHUrl(url, params, successCallback, errorCallback, true);
+
+		}, (result)=>{
+			errorCallback(result)
+		}, true);
 }

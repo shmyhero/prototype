@@ -99,6 +99,11 @@ var LS = {
     GET_VCODE:["获取验证码","Get VCode", "確認コードを発送"],
     YOU_ARE_LOGIN:["您正在登录BTH市场","You are login BTH market", "ログイン"],
     FAST_LOGIN:["快速登录","Fast Login", "簡単ログイン"],
+    
+    WARNING:["温馨提示","TIPS", "温馨提示"],
+    PLEASE_INPUT_FOR_LOGIN:["请输入手机号码和验证码","PLEASE_INPUT_FOR_LOGIN", "请输入手机号码和验证码"],
+    SELECT_COUNTRY_CODE:["选择国家/地区","Country/Area Code", "选择国家/地区"],
+
     LOGIN:["登录","Login", "ログイン"],
     TOTAL_MOUNT:["总BTH","Total BTH", "BTH"],
     REMAIN_MOUNT:["剩余BTH","Remain BTH", "BTH残高"],

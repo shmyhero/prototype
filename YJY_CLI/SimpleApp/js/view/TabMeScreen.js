@@ -86,11 +86,22 @@ class  TabMeScreen extends React.Component {
   }
 
   onBalancePressed(){
-    this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT_WITHDRAW);
+    //this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT_WITHDRAW);
+    if(this.props.thtAddress){
+      this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT_WITHDRAW, {
+        onGoBack:()=>this.refresh()
+      });
+    }else{
+      this.props.navigation.navigate(ViewKeys.SCREEN_BIND_PURSE, {
+        nextView: ViewKeys.SCREEN_DEPOSIT_WITHDRAW,
+        onGoBack:()=>this.refresh()
+      });
+    }
   }
 
   renderLogin(){
     return <LoginScreen 
+              navigation={this.props.navigation}
               hideBackButton={true} 
               onLoginFinished={()=>{this.refresh()}}
               />;

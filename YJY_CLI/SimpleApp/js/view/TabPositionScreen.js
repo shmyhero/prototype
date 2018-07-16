@@ -83,6 +83,7 @@ class TabPositionScreen extends Component {
     return <LoginScreen 
               hideBackButton={true}
               onLoginFinished={()=>{this.refresh()}}
+              navigation={this.props.navigation}
               />;
   }
 
