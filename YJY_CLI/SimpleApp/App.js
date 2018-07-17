@@ -14,7 +14,6 @@ import { NavigationActions } from 'react-navigation';
 import LogicData from './js/LogicData';
 import Orientation from 'react-native-orientation';
 import ViewKeys from './js/ViewKeys';
-import SplashScreen from './js/module/SplashScreenModule';
 import SimpleAppNavigator from './js/navigation/SimpleAppNavigator';
 
 var {height, width} = Dimensions.get('window');
@@ -51,12 +50,12 @@ class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
     Orientation.lockToPortrait();
-    
     this.startupJobs()
   }
 
-  startupJobs(){    
-    StorageModule.loadLanguage().then((locale)=>{
+  async startupJobs(){
+    try{
+      var locale = await StorageModule.loadLanguage()
       if(locale==undefined){
         var localConstants = Locale.constants();
         locale = localConstants.localeIdentifier;
@@ -65,29 +64,31 @@ class App extends React.Component {
             locale = localConstants.preferredLanguages[0];
           }
         }
-        StorageModule.setLanguage(locale);
+        await StorageModule.setLanguage(locale);
       }      
       LogicData.setLanguage(locale);
-    })
-    .finally(()=>{
-      StorageModule.loadMeData().then((value)=>{
-        if(value != undefined){
-          var meData = JSON.parse(value);
-          LogicData.setMeData(meData);
-        }
-      }).finally(()=>{
-        StorageModule.loadUserData().then((data)=>{
-          if(data!=undefined){
-            var userData = JSON.parse(data)
-            LogicData.setUserData(userData);
-          }
-        }).finally(()=>{
-          LogicData.getRemovedRynamicRow();
+    }catch(error){
+      console.log("loadLanguage", error);
+    }
 
-          EventCenter.emitStartUpInitializeFinishedEvent();
-        });
-      })
-    });
+    var value = await StorageModule.loadMeData();
+    if(value != undefined){
+      var meData = JSON.parse(value);
+      LogicData.setMeData(meData);
+    }
+    
+    try{
+      var data = await StorageModule.loadUserData()
+      if(data!=undefined){
+        var userData = JSON.parse(data)
+        LogicData.setUserData(userData);
+      }
+    } catch(error){
+      console.log("loadUserData", error);
+    }
+
+    LogicData.getRemovedRynamicRow();
+    EventCenter.emitStartUpInitializeFinishedEvent();
   
     WebSocketModule.start();
     

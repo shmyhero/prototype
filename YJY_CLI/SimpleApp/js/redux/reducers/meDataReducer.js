@@ -8,7 +8,9 @@ import {
     SET_PORTRAIT,
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE,
-    SET_NICKNAME_SUCCESS
+    SET_NICKNAME_SUCCESS,
+    SET_BALANCE_TYPE,
+    GET_BALANCE_TYPE
 } from "../constants/actionTypes";
 
 var initializeState = {
@@ -20,11 +22,22 @@ var initializeState = {
     errorMessage: null,
     thtAddress: "",
     phone: "",
+    balanceType: "bth",
 }
 
 //Previous state, action => current state
 export default function meDataReducer(state = initializeState, action) {
     switch (action.type) {
+        case SET_BALANCE_TYPE:
+            state = { ...state,
+                balanceType: action.payload.balanceType,
+            }
+            return state;
+        case GET_BALANCE_TYPE:
+            state = { ...state,
+                balanceType: action.payload.balanceType,
+            }
+            return state;
         case SET_PORTRAIT:
             state = { ...state,
                 avatarSource: action.payload.avatarSource,
