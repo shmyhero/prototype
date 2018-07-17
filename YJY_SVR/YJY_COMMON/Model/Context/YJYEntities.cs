@@ -15,6 +15,7 @@ namespace YJY_COMMON.Model.Context
         }
 
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
+        public virtual DbSet<ETHDeposit> ETHDeposits { get; set; }
         public virtual DbSet<Headline> Headlines { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
@@ -32,6 +33,10 @@ namespace YJY_COMMON.Model.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<ETHDeposit>()
+                .Property(e => e.PaidAmount)
+                .HasPrecision(28, 18);
+
             modelBuilder.Entity<Position>()
                 .Property(e => e.SettlePrice)
                 .HasPrecision(18, 8);
@@ -79,6 +84,10 @@ namespace YJY_COMMON.Model.Context
             modelBuilder.Entity<User>()
                 .Property(e => e.Balance)
                 .HasPrecision(18, 8);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.BalanceEth)
+                .HasPrecision(28, 18);
 
             modelBuilder.Entity<UserTradeFollow>()
                 .Property(e => e.InvestFixed)

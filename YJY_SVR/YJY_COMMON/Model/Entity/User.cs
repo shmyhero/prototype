@@ -43,5 +43,20 @@ namespace YJY_COMMON.Model.Entity
         public bool? ShowTradeFollowingFeed { get; set; }
 
         public bool? ShowHeadlineFeed { get; set; }
+
+        public decimal? BalanceEth { get; set; }
+
+        [StringLength(100)]
+        public string ETHAddress { get; set; }
+
+        [StringLength(10)]
+        public string BalanceType { get; set; }
+    }
+
+    public enum BalanceType
+    {
+        BTH,
+        ETH,
+        BTC,
     }
 }

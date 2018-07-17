@@ -239,5 +239,14 @@ namespace Resources {
                 return ResourceManager.GetString("TransferType_THTWithdrawal", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to BitHero verification code: {0}. Available for 1 hour..
+        /// </summary>
+        internal static string VerificationCode {
+            get {
+                return ResourceManager.GetString("VerificationCode", resourceCulture);
+            }
+        }
     }
 }

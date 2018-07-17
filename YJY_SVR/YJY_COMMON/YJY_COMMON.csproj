@@ -119,6 +119,7 @@
     <Compile Include="Model\Context\YJYEntities.cs" />
     <Compile Include="Model\Entity\AdminUser.cs" />
     <Compile Include="Model\Entity\ApiHit.cs" />
+    <Compile Include="Model\Entity\ETHDeposit.cs" />
     <Compile Include="Model\Entity\Headline.cs" />
     <Compile Include="Model\Entity\Message.cs" />
     <Compile Include="Model\Entity\Model1.cs" />

@@ -33,6 +33,7 @@ namespace YJY_COMMON
         public const string CALLBACK_AUTH_TOKEN = "jR7cB9s6n2I0C4zP1xZ6b92Mki0Q3Ae7G1L3vU5hoT8xD5Fy3Ux9bR1wO5Hb7ec4HJ6Es2oC";
 
         public const decimal NEW_USER_INIT_BALANCE = 100000;
+        public const decimal NEW_USER_INIT_BALANCE_ETH = 100;
         public const decimal BALANCE_TO_TOKEN_RATIO = 1;
 
         /// <summary>

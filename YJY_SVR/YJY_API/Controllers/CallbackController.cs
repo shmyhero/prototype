@@ -42,7 +42,7 @@ namespace YJY_API.Controllers
 
             BigInteger bi;
             var tryParse = BigInteger.TryParse(form.tokenAmount, NumberStyles.None, null, out bi);
-            if (!tryParse || bi < new BigInteger(0.01m))
+            if (!tryParse || bi < new BigInteger(0))
                 throw new ArgumentOutOfRangeException(nameof(form.tokenAmount));
 
             var deposit = FundService.AddTHTDeposit(form.transactionHash, form.@from, form.to, form.tokenAmount);
@@ -84,6 +84,48 @@ namespace YJY_API.Controllers
             withdrawal.CallbackValue = form.value;
             
             db.SaveChanges();
+
+            return true;
+        }
+
+        [HttpPost]
+        [Route("ETH/deposit")]
+        public bool ETHDeposit(ETHDepositFormDTO form)
+        {
+            var authorization = Request.Headers.Authorization;
+
+            if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized,
+                    "invalid auth token"));
+
+            if (string.IsNullOrWhiteSpace(form.transactionHash) || string.IsNullOrWhiteSpace(form.from) ||
+                string.IsNullOrWhiteSpace(form.ethAmount))
+                throw new ArgumentOutOfRangeException(nameof(form));
+
+            form.ethAmount = form.ethAmount.Trim();
+            form.transactionHash = form.transactionHash.Trim();
+            form.from = form.from.Trim();
+            form.to = form.to.Trim();
+
+            BigInteger bi;
+            var tryParse = BigInteger.TryParse(form.ethAmount, NumberStyles.None, null, out bi);
+            if (!tryParse || bi < new BigInteger(0) || bi > (new BigInteger(1e18) * new BigInteger(1e8)))
+                throw new ArgumentOutOfRangeException(nameof(form.ethAmount));
+
+            var deposit = FundService.AddETHDeposit(form.transactionHash, form.@from, form.to, form.ethAmount);
+
+            if (deposit == null)
+                return false;
+
+            try
+            {
+                var fundService = new FundService(db);
+                fundService.AddUserBalanceByETHDeposit(deposit.Id);
+            }
+            catch (Exception e)
+            {
+                YJYGlobal.LogExceptionAsWarning(e);
+            }
 
             return true;
         }

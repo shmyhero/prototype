@@ -77,7 +77,7 @@ namespace YJY_SVR.Controllers
 
 
             string failMsg;
-            var sendSuccess = TwilioSMS.SendVerificationCode(phone, code, out failMsg);
+            var sendSuccess = TwilioSMS.SendSMS(phone, Resources.Resource.VerificationCode.FormatWith(code), out failMsg);
 
             if (sendSuccess)
             {

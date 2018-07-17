@@ -177,4 +177,7 @@
   <data name="TransferType_THTWithdrawal" xml:space="preserve">
     <value>Withdrawal</value>
   </data>
+  <data name="VerificationCode" xml:space="preserve">
+    <value>BitHero verification code: {0}. Available for 1 hour.</value>
+  </data>
 </root>

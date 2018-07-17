@@ -12,10 +12,17 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
+        public virtual DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<User>()
+                .Property(e => e.Balance)
+                .HasPrecision(18, 8);
+
+            modelBuilder.Entity<User>()
+                .Property(e => e.BalanceEth)
+                .HasPrecision(28, 18);
         }
     }
 }
