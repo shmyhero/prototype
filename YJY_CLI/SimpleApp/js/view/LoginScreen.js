@@ -39,7 +39,8 @@ export default class LoginScreen extends Component {
             hideBackButton:false ,
             validationCodeCountdown: -1, 
             getValidationCodeButtonEnabled: false,
-            countryCode:'86'
+            countryCode:'86',
+            isRequesting:false,
         };
 
         if(props){
@@ -118,9 +119,16 @@ export default class LoginScreen extends Component {
     }
 
     getValidationCode(){
+        if(this.state.isRequesting || this.state.validationCodeCountdown!==-1){return}
+
         var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
 
         if(this.isPhoneNumberChecked()){ 
+            this.setState({
+                isRequesting:true
+            })
+
+
             NetworkModule.fetchLocalEncryptedUrl(
                 NetConstants.CFD_API.GET_PHONE_VERIFY_CODE_API, //+ '?' + "phone=" + this.state.phoneNumber,
                 {
@@ -136,7 +144,8 @@ export default class LoginScreen extends Component {
                     // Nothing to do.
                     this.setState({
                         validationCodeCountdown: MAX_ValidationCodeCountdown,
-                        getValidationCodeButtonEnabled: false
+                        getValidationCodeButtonEnabled: false,
+                        isRequesting:false
                     })
     
                     this.timer = setInterval(
@@ -151,7 +160,7 @@ export default class LoginScreen extends Component {
         
                                 if (this.isPhoneNumberChecked()) {
                                     this.setState({
-                                        getValidationCodeButtonEnabled: true,
+                                        getValidationCodeButtonEnabled: true, 
                                         validationCodeCountdown: -1
                                     })
                                 }
@@ -164,39 +173,12 @@ export default class LoginScreen extends Component {
                 (result) => {
                     this.setState({
                         getValidationCodeButtonEnabled: true,
+                        isRequesting:false,
                     });
                     
                     LibraryImporter.getToast().show(result.error)
                 }
-            )
-
-
-            // this.setState({
-            //     validationCodeCountdown: MAX_ValidationCodeCountdown,
-            //     getValidationCodeButtonEnabled: false
-            // })
-
-            // this.timer = setInterval(
-            //     () => {
-            //         var currentCountDown = this.state.validationCodeCountdown
-
-            //         if (currentCountDown > 0) {
-            //             this.setState({
-            //                 validationCodeCountdown: this.state.validationCodeCountdown - 1
-            //             })
-            //         } else {
-
-            //             if (this.isPhoneNumberChecked()) {
-            //                 this.setState({
-            //                     getValidationCodeButtonEnabled: true,
-            //                     validationCodeCountdown: -1
-            //                 })
-            //             }
-            //             this.timer && clearTimeout(this.timer);
-            //         }
-            //     },
-            //     1000
-            // ); 
+            ) 
 
         } 
     }
