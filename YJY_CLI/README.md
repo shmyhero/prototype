@@ -5,3 +5,6 @@ For YJY Client ProtoType
 #解决方法：生成assets目录下文件
 1.mkdir android/app/src/main/assets
 2.react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res
+
+#iOS生成bundle文件
+react-native bundle --dev false --entry-file index.js --bundle-output ios/main.jsbundle --platform ios
