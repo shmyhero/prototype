@@ -18,6 +18,7 @@ import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
+var ColorConstants = require('../ColorConstants')
 import ViewKeys from '../ViewKeys';
 
 var configListData = [
@@ -30,8 +31,8 @@ var configListData = [
 ];
 
 var balanceType = [
-    {'type': 'BTH', displayText: 'BTH'},
-    {'type': 'ETH', displayText: 'ETH'}
+    {'type': 'BTH', displayText: 'BTH',icon:require('../../images/icon_bth.png')},
+    {'type': 'ETH', displayText: 'ETH',icon:require('../../images/icon_eth.png')}
 ]
 
 // create a component
@@ -42,6 +43,7 @@ class MeSettingsScreen extends Component {
 
         this.state = {
             displayBalanceTypePicker: false,
+            
         }
     }
 
@@ -49,6 +51,7 @@ class MeSettingsScreen extends Component {
         if(this.props.version == ""){
             this.props.getVersion()
             this.props.getBalanceType();
+
         }
     }
 
@@ -56,7 +59,7 @@ class MeSettingsScreen extends Component {
         if(!props.userLoggedin){
             this.props.navigation.goBack(null)
         }
-    }
+    } 
 
     onSelectNormalRow(rowData){
         switch(rowData.item.subtype){
@@ -73,7 +76,8 @@ class MeSettingsScreen extends Component {
                 break
             case "balanceType":
                 this.setState({
-                    displayBalanceTypePicker: true
+                    displayBalanceTypePicker: true,
+                    coinType : this.props.balanceType
                 })
                 break
             case "logOut":
@@ -82,41 +86,96 @@ class MeSettingsScreen extends Component {
         }
     }
 
+    confirm(){
+        this.props.setBalanceType(this.state.coinType);
+        this.setState({
+            displayBalanceTypePicker: false
+        })
+    }
+
     renderPicker(){
         if(this.state.displayBalanceTypePicker){
             var items = balanceType.map((item, index)=>{
-                return (<Picker.Item label={item.displayText} value={item.type} key={index}/>)
-            })
-
-            return (
-                <TouchableOpacity style={{
+                            return ( 
+                                    <TouchableOpacity onPress={()=>{
+                                        // this.props.setBalanceType(item.type);
+                                        this.setState({
+                                            coinType:item.type
+                                        }) 
+                                    }} style={styles.itemLine} key={index}>
+                                        <View style={{flexDirection:'row', alignItems:'center',}}>
+                                            <Image style={{width:28,height:28}} source={item.icon}></Image>
+                                            <Text style={styles.itemText}>{item.displayText}</Text>
+                                        </View>     
+                                        <Image style={{width:22,height:22}} source={this.state.coinType==item.type?require('../../images/selector_selected.png'):require('../../images/selector_unselected.png')}></Image>
+                                    </TouchableOpacity>   
+                            )
+                        })
+            return(
+                <View>
+                    <TouchableOpacity style={{
                         position:'absolute', 
                         bottom:0,
                         backgroundColor:'rgba(0,0,0,0.7)', 
                         height: height,
                         width: width}}
-                    onPress={()=>{
+                        onPress={()=>{
                         this.setState({
                             displayBalanceTypePicker: false,
                         })
                     }}>
-                    <Picker
-                        style={{position:'absolute', backgroundColor:'white', bottom:0, height: 200, width: width}}
-                        selectedValue={this.props.balanceType}
+                    <View style={{position:'absolute', backgroundColor:'white', bottom:0, height: 188, width: width}}>
                         
-                        onValueChange={(itemValue, itemIndex) => {
-                            this.props.setBalanceType(itemValue);
-
-                            this.setState({
-                                displayBalanceTypePicker: false
-                            })
-                        }}>
                         {items}
-                    </Picker>
-                </TouchableOpacity>
-            );
+                        <View style={{width:width,height:68,justifyContent:'center',alignItems:'center'}}>
+                            <TouchableOpacity onPress={()=>this.confirm()} style={{width:width-20,height:44,justifyContent:'center',alignItems:'center',backgroundColor:ColorConstants.BGBLUE}}>
+                                <Text style={{fontSize:15,color:'white'}}>{LS.str('CONFIRM')}</Text>
+                            </TouchableOpacity>    
+                        </View>
+                    </View>
+
+                    </TouchableOpacity>
+                    
+                </View>    
+            )
         }
     }
+
+    // renderPicker(){
+    //     if(this.state.displayBalanceTypePicker){
+    //         var items = balanceType.map((item, index)=>{
+    //             return (<Picker.Item label={item.displayText} value={item.type} key={index}/>)
+    //         })
+
+    //         return (
+    //             <TouchableOpacity style={{
+    //                     position:'absolute', 
+    //                     bottom:0,
+    //                     backgroundColor:'rgba(0,0,0,0.7)', 
+    //                     height: height,
+    //                     width: width}}
+    //                 onPress={()=>{
+    //                     this.setState({
+    //                         displayBalanceTypePicker: false,
+    //                     })
+    //                 }}>
+    //                 <Picker
+    //                     style={{position:'absolute', backgroundColor:'white', bottom:0, height: 200, width: width}}
+    //                     selectedValue={this.props.balanceType}
+                        
+    //                     onValueChange={(itemValue, itemIndex) => {
+    //                         this.props.setBalanceType(itemValue);
+
+    //                         this.setState({
+    //                             displayBalanceTypePicker: false
+    //                         })
+    //                     }}>
+    //                     {items}
+    //                 </Picker>
+    //             </TouchableOpacity>
+    //         );
+    //     }
+    // }
 
     renderSeparator(){
         return <View style={styles.separator}></View>
@@ -211,6 +270,19 @@ const styles = StyleSheet.create({
     value:{       
         marginRight:20,
     },
+    itemLine:{
+        height:60,
+        width:width, 
+        paddingLeft:10,
+        paddingRight:10,
+        flexDirection:'row', 
+        alignItems:'center',
+        justifyContent:'space-between'
+    },
+    itemText:{
+        marginLeft:10,
+        fontSize:15
+    }
 });
 
 //make this component available to the app

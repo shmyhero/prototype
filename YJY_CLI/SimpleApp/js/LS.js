@@ -226,6 +226,7 @@ var LS = {
     ADDED_TO_WATCH_LIST: ["已加入关注列表", "Added to watchlist", "Added to watchlist"],
     DYNAMIC_OPEN_ASK: ["动态已全部关闭，是否前往开启？", "Dynamics have all been closed,Are you going to open?", "Dynamics have all been closed,Are you going to open?"],
     GO: ["前往", "Go", "Go"],
+    CONFIRM: ['确认','Confirm', "はい"],
 
   },
   str(key){
