@@ -45,6 +45,7 @@ namespace YJY_COMMON.Service
                             AuthToken = NewToken(),
 
                             Balance = YJYGlobal.NEW_USER_INIT_BALANCE,
+                            BalanceEth = YJYGlobal.NEW_USER_INIT_BALANCE_ETH,
                         };
                         dbIsolated.Users.Add(userIsolated);
 

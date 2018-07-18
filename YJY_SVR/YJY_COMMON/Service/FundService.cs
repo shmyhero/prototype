@@ -99,6 +99,61 @@ namespace YJY_COMMON.Service
             }
         }
 
+        public void AddUserBalanceByETHDeposit(int depositId)
+        {
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var deposit = dbIsolated.ETHDeposits.FirstOrDefault(o => o.Id == depositId);
+                    if (deposit != null && deposit.PaidAt == null) //not paid yet
+                    {
+                        var users = dbIsolated.Users.Where(o => o.ETHAddress == deposit.From).ToList();
+
+                        if (users.Count > 1)
+                            YJYGlobal.LogWarning("duplicated EthAddress found " + deposit.From);
+
+                        if (users.Count > 0)
+                        {
+                            var user = users.First();
+
+                            //var biRaw = BigInteger.Parse(deposit.TokenAmount);
+                            //var biAmount = biRaw / new BigInteger(1e18);
+                            ////var amount = (decimal) deposit.TokenAmount/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            //var amount = (decimal)biAmount * YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+
+                            var amount = decimal.Parse(deposit.TokenAmount);
+
+                            if (amount > 0)
+                            {
+                                user.BalanceEth = user.BalanceEth + amount;
+
+                                deposit.PaidAt = DateTime.UtcNow;
+                                deposit.PaidAmount = amount;
+                                deposit.PaidToUserId = user.Id;
+
+                                var transfer = new Transfer()
+                                {
+                                    Time = DateTime.UtcNow,
+                                    Amount = amount,
+                                    BalanceAfter = user.BalanceEth,
+                                    Type = TransferType.ETHDeposit.ToString(),
+                                    UserId = user.Id,
+                                    TransactionId = deposit.Id,
+                                };
+                                dbIsolated.Transfers.Add(transfer);
+
+                                dbIsolated.SaveChanges();
+                            }
+                        }
+                    }
+                }
+                scope.Complete();
+            }
+        }
+
         public int NewTHTWithdrawal(int userId, decimal amount)
         {
             if(amount <= 0)
@@ -185,6 +240,43 @@ namespace YJY_COMMON.Service
                         };
 
                         dbIsolated.THTDeposits.Add(result);
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
+            return result;
+        }
+
+        public static ETHDeposit AddETHDeposit(string transactionHash, string @from, string to, string tokenAmount)
+        {
+            if (string.IsNullOrWhiteSpace(transactionHash)) return null;
+
+            transactionHash = transactionHash.Trim();
+
+            ETHDeposit result = null;
+
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var any = dbIsolated.ETHDeposits.Any(o => o.TransHash == transactionHash);
+
+                    if (!any)
+                    {
+                        result = new ETHDeposit()
+                        {
+                            TransHash = transactionHash,
+                            From = from,
+                            To = to,
+                            TokenAmount = tokenAmount,
+                            CreateAt = DateTime.UtcNow,
+                        };
+
+                        dbIsolated.ETHDeposits.Add(result);
                         dbIsolated.SaveChanges();
                     }
                 }

@@ -1,14 +1,29 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet,Animated } from 'react-native';
-
+import PropTypes from "prop-types";
+import { View, Text, StyleSheet,Animated, Dimensions } from 'react-native';
+var {height, width} = Dimensions.get("window");
 // create a component
 
 class AnimatedView extends React.Component {
-    state = {
-        fadeAnim: new Animated.Value(0),  // Initial value for opacity: 0
-        transformAnim: new Animated.Value(0),  // Initial value for opacity: 0
-    }  
+    static propTypes = {
+        opacity: PropTypes.number,
+        transformY: PropTypes.number,
+    };
+
+    static defaultProps = {
+        opacity: 1,
+        transformY: 0,
+    }
+
+    constructor(props){
+        super(props)
+
+        this.state = {
+            fadeAnim: new Animated.Value(props.opacity),  // Initial value for opacity: 0
+            transformAnim: new Animated.Value(props.transformY),  // Initial value for opacity: 0
+        }  
+    }
 
     fadeIn(duration){
         Animated.timing(                  // Animate over time
@@ -38,23 +53,25 @@ class AnimatedView extends React.Component {
         ).start();
     }
 
-    slideUp(duration){
+    slideUp(duration, easing){
         console.log("slideUp")
         console.log("duration: ", duration)
-        Animated.timing(                  // Animate over time
-            this.state.transformAnim,            // The animated value to drive
-            {
-                toValue: 0,                   // Animate to opacity: 1 (opaque)
-                duration: duration,              // Make it take a while
-            }
-        ).start();
+        var animationSetting = {
+            toValue: 0,                   // Animate to opacity: 1 (opaque)
+            duration: duration,              // Make it take a while
+        }
+        if(easing){
+            animationSetting.easing = easing;
+        }
+
+        Animated.timing(this.state.transformAnim, animationSetting).start();
     }
 
     slideDown(){
         Animated.timing(                  // Animate over time
             this.state.transformAnim,            // The animated value to drive
             {
-                toValue: 100,                   // Animate to opacity: 1 (opaque)
+                toValue: height,                   // Animate to opacity: 1 (opaque)
                 duration: duration,              // Make it take a while
             }
         ).start();
@@ -68,12 +85,9 @@ class AnimatedView extends React.Component {
                 style={{
                     ...this.props.style,
                     opacity: fadeAnim,         // Bind opacity to animated value
-                    // transform: [{
-                    //     translateY: this.state.transformAnim.interpolate({
-                    //         inputRange: [0, 1],
-                    //         outputRange: [150, 0]  // 0 : 150, 0.5 : 75, 1 : 0
-                    //     }),
-                    // }],
+                    transform: [{
+                        translateY: this.state.transformAnim,
+                    }],
                 }}>
             {this.props.children}
             </Animated.View>

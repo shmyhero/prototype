@@ -16,5 +16,8 @@ namespace YJY_COMMON.Model.Entity
         public string Phone { get; set; }
 
         public DateTime CreateAt { get; set; }
+
+        [StringLength(50)]
+        public string InputCode { get; set; }
     }
 }

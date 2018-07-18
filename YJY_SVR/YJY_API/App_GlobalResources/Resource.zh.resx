@@ -177,4 +177,7 @@
   <data name="TransferType_THTWithdrawal" xml:space="preserve">
     <value>出金</value>
   </data>
+  <data name="VerificationCode" xml:space="preserve">
+    <value>BitHero验证码：{0}。1小时内有效。</value>
+  </data>
 </root>

@@ -1,5 +1,6 @@
 ﻿using System;
 using Twilio;
+using Twilio.Base;
 using Twilio.Clients;
 using Twilio.Exceptions;
 using Twilio.Rest.Api.V2010.Account;
@@ -20,7 +21,7 @@ namespace YJY_COMMON.SMS
             _client = new TwilioRestClient(AccountSid, AuthToken);
         }
 
-        public static bool SendVerificationCode(string to, string code, out string failMsg)
+        public static bool SendSMS(string to, string text, out string failMsg)
         {
             failMsg = null;
 
@@ -29,7 +30,7 @@ namespace YJY_COMMON.SMS
             try
             {
                 var message = MessageResource.Create(
-                    body: "BitHero verification code: " + code,
+                    body: text,
                     from: new Twilio.Types.PhoneNumber(From),
                     to: new Twilio.Types.PhoneNumber(to),
                     client:_client

@@ -64,4 +64,9 @@ namespace YJY_API.DTO
         public int likeCount { get; set; }
         public bool? isLiked { get; set; }
     }
+
+    public class BalanceTypeFormDTO
+    {
+        public string balanceType { get; set; }
+    }
 }

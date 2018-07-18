@@ -37,6 +37,16 @@ namespace YJY_API.Controllers
         {
             var result = new SignupResultDTO();
 
+            if (string.IsNullOrWhiteSpace(form.phone) || string.IsNullOrWhiteSpace(form.verifyCode))
+            {
+                result.success = false;
+                result.message = "invalid form data";
+                return result;
+            }
+
+            form.phone = form.phone.Trim();
+            form.verifyCode = form.verifyCode.Trim();
+
             if (IsLoginBlocked(form.phone))
             {
                 result.success = false;
@@ -107,7 +117,7 @@ namespace YJY_API.Controllers
             else
             {
                 //add login history ONLY WHEN AUTH FAILED
-                db.PhoneSignupHistories.Add(new PhoneSignupHistory() { CreateAt = DateTime.UtcNow, Phone = form.phone });
+                db.PhoneSignupHistories.Add(new PhoneSignupHistory() { CreateAt = DateTime.UtcNow, Phone = form.phone, InputCode = form.verifyCode});
                 db.SaveChanges();
 
                 result.success = false;
@@ -326,6 +336,36 @@ namespace YJY_API.Controllers
                 investFixed = new int[] {10,20,30,40,50,60,70,80,90,100},
                 stopAfterCount = new int[] {1,2,3,4,5},
             };
+        }
+
+        [HttpGet]
+        [Route("balanceType")]
+        [BasicAuth]
+        public string GetBalanceType()
+        {
+            var user = GetUser();
+            return user.BalanceType?? BalanceType.BTH.ToString();
+        }
+
+        [HttpPut]
+        [Route("balanceType")]
+        [BasicAuth]
+        public ResultDTO SetBalanceType(BalanceTypeFormDTO form)
+        {
+            BalanceType type;
+            var tryParse = Enum.TryParse(form.balanceType, true, out type);
+
+            if (tryParse)
+            {
+                var user = GetUser();
+                user.BalanceType = type.ToString();
+                db.SaveChanges();
+                return new ResultDTO(true);
+            }
+            else
+            {
+                return new ResultDTO(false);
+            }
         }
     }
 }

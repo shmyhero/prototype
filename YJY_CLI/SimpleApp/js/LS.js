@@ -211,6 +211,7 @@ var LS = {
     SETTINGS_PORTRAIT: ["头像", "Portrait", "Portrait"],
     SETTINGS_NICKNAME: ["昵称", "Nickname", "Nickname"],
     SETTINGS_MOBILE: ["手机号", "Mobile", "Mobile"],
+    SETTINGS_BALANCE_TYPE: ["货币类型", "Coin Type", "Coin Type"],
 
     MY_MESSAGES:['我的消息','Messages', "Messages"],
 

@@ -8,12 +8,14 @@ import {
 	Modal,
     TouchableOpacity,
 	Platform,
+	Image,
+	Easing,
 } from 'react-native';
 
 var StockOrderInfoBar = require('./StockOrderInfoBar')
 var {height, width} = Dimensions.get('screen');
 import AnimatedView from './component/AnimatedView';
-import AnimatedCoinView from './component/AnimatedCoinView';
+//import AnimatedCoinView from './component/AnimatedCoinView';
 
 var UIConstants = require('../UIConstants');
 const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
@@ -41,10 +43,16 @@ class StockOrderInfoModal extends Component {
 			state.orderData = orderData;
 		}
 		this.setState(state, ()=>{
-			this.setState({
-				showCoinView: true,
-			})
-			this.fadeViewRef.fadeIn(500)			
+			this.fadeViewRef && this.fadeViewRef.fadeIn(300);
+			this.heroAnimatedViewRef && this.heroAnimatedViewRef.slideUp(500);
+			this.slideUpRef && this.slideUpRef.slideUp(500, Easing.ease);
+			setTimeout(()=>{
+				this.strideAnimatedViewRef && this.strideAnimatedViewRef.fadeOut(300);
+			},200)
+			setTimeout(()=>{
+				this.heroAnimatedViewRef && this.heroAnimatedViewRef.fadeOut(500);
+			}, 500);
+		
 		});
 	}
 
@@ -62,40 +70,80 @@ class StockOrderInfoModal extends Component {
 
 	_setModalVisible(visible) {
         this.setState({modalVisible: visible});
-    }
+	}
+	
+	renderHero(){
+		return (
+			<AnimatedView transformY={height/2} 
+				ref={(ref)=> this.heroAnimatedViewRef = ref}
+				style={{position:'absolute', top:0,left:0,right:0, 
+					flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+				<Image source={require("../../images/hero.png")} 
+					resizeMode={"contain"}
+					style={{width: width/12, marginTop:30}}/>
+
+				<AnimatedView 
+					ref={(ref)=> this.strideAnimatedViewRef = ref}
+					style={{position:'absolute', top:0,left:0,right:0, 
+						flexDirection:'column', justifyContent:'center', alignItems:'center'}}>
+					<Image source={require("../../images/light.png")}
+						resizeMode={"contain"}
+						style={{
+							position:'absolute', 
+							top:0,
+							bottom:0,
+							left:0,
+							right:0,
+							width: width,
+							marginTop: height/3,
+							height: height/3*2
+						}}/>
+				</AnimatedView>
+			</AnimatedView>
+		)
+	}
 
 	renderDialog(){
 		return(
-			<AnimatedView style={{flex:1, width: width}}
+			<AnimatedView 
+				opacity={0} 
+				style={{backgroundColor:'rgba(0, 0, 0, 0.7)', width: width, height: height}}
 				ref={(ref)=> this.fadeViewRef = ref}>
-				<TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>
-					<View style={styles.modalContainer}>
-						<TouchableOpacity onPress={()=>this.onContainerPress()}>
-							{this.renderContent()}
-						</TouchableOpacity>
-						{this.renderCoinView()}
-					</View>
+				<TouchableOpacity style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>						
+					{this.renderHero()}
+					<AnimatedView style={{flex:1, width: width}}
+						transformY={height / 2}
+						ref={(ref)=> this.slideUpRef = ref}>
+						<View style={styles.modalBackground} activeOpacity={1} onPress={()=>this.hide()}>						
+							<View style={styles.modalContainer}>							
+								<TouchableOpacity onPress={()=>this.onContainerPress()}>
+									{this.renderContent()}
+								</TouchableOpacity>
+								{/* {this.renderCoinView()} */}
+							</View>
+						</View>
+					</AnimatedView>
 				</TouchableOpacity>
 			</AnimatedView>
 		)
 	}
 
-	renderCoinView(){
-        if(this.state.showCoinView){
-			console.log("renderCoinView")
-			return (
-				<AnimatedCoinView 
-					style={{position:'absolute', top:0, left:0, right:0, bottom:0}}
-                	onAnimationFinished={()=>{
-                    	console.log("renderCoinView onAnimationFinished")
-                    	this.setState({
-                        	showCoinView:false,
-	                    })
-					}}
-					contentHeight={height - UIConstants.STATUS_BAR_ACTUAL_HEIGHT}
-				/>);
-		}
-    }
+	// renderCoinView(){
+    //     if(this.state.showCoinView){
+	// 		console.log("renderCoinView")
+	// 		return (
+	// 			<AnimatedCoinView 
+	// 				style={{position:'absolute', top:0, left:0, right:0, bottom:0}}
+    //             	onAnimationFinished={()=>{
+    //                 	console.log("renderCoinView onAnimationFinished")
+    //                 	this.setState({
+    //                     	showCoinView:false,
+	//                     })
+	// 				}}
+	// 				contentHeight={height - UIConstants.STATUS_BAR_ACTUAL_HEIGHT}
+	// 			/>);
+	// 	}
+    // }
 
 	renderContent(){
 		return (
@@ -110,8 +158,7 @@ class StockOrderInfoModal extends Component {
         return (        
             <Modal
                 transparent={true}
-                visible={this.state.modalVisible}
-                animationType={"slide"}
+                visible={this.state.modalVisible}               
                 style={{height: height, width: width}}
                 onRequestClose={() => {this._setModalVisible(false)}}>
 				{this.state.modalVisible ? this.renderDialog() : null}
@@ -132,7 +179,6 @@ var styles = StyleSheet.create({
     modalBackground: {
         width:width,
         height:height,
-		backgroundColor:'rgba(0, 0, 0, 0.7)',
     },
 
 	modalContainer:{
