@@ -37,6 +37,9 @@ export function logOut(){
 
             //Restart the web socket.
             WebSocketModule.start();
+            var balanceType = LogicData.getDefaultBalanceType();
+            LogicData.setBalanceType(balanceType);
+            StorageModule.setBalanceType(balanceType);
         });
     }
 }

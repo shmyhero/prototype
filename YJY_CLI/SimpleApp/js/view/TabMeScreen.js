@@ -31,6 +31,7 @@ import LoginScreen from './LoginScreen';
 import { fetchMeData, updateUnread } from '../redux/actions'
 import { connect } from 'react-redux';
 import SubmitButton from './component/SubmitButton';
+import LogicData from '../LogicData';
 
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
@@ -124,6 +125,9 @@ class  TabMeScreen extends React.Component {
   }
 
   renderBalance(){
+
+    console.log("getBalanceType", LogicData.getBalanceType())
+
     return (
       <View style={[styles.bigButtonContainer, styles.radiusBackground]}>
         {/* <ImageBackground source={require('../../images/me_balance_border.png')}
@@ -142,11 +146,13 @@ class  TabMeScreen extends React.Component {
               </View>
               <View style={styles.balanceBlock}>
                 <Text style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.total.toFixed(2)}</Text>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT")}</Text>
+                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
               </View>
               <View style={styles.balanceBlock}>
                 <BalanceBlock style={styles.balanceValueText}/>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AVAILABLE")}</Text>
+                <Text style={styles.balanceLabelText}>
+                  {LS.str("SUGAR_AVAILABLE").replace("{1}", LS.getBalanceTypeDisplayText())}
+                </Text>
               </View>
             </View>     
             {this.renderSeparator()}        

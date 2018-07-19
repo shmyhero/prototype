@@ -14,6 +14,7 @@ import {
     SET_LOACL_NICKNAME_FAIL,
     UPDATE_MAX_NICKNAME_LENGTH,
     GET_BALANCE_TYPE,
+    GET_BALANCE_TYPE_FAILURE,
     SET_BALANCE_TYPE,
     SET_BALANCE_TYPE_SUCCESS,
     SET_BALANCE_TYPE_FAILURE
@@ -211,6 +212,8 @@ export function getBalanceType(){
                     balanceType: balanceType,
                 }
             });
+            LogicData.setBalanceType(balanceType);
+            StorageModule.setBalanceType(balanceType);
         }catch(error){
             dispatch({
                 type: GET_BALANCE_TYPE_FAILURE,

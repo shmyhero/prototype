@@ -19,8 +19,8 @@ var LS = {
     VERIFING: ["信息检查中...", "Verifying...", "検証中..."],    
     FINISH: ["完成", "Done", "完成"],
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
-    SUGAR_AMOUNT: ["总BTH数", "Total BTH", "総資産"],
-    SUGAR_AVAILABLE: ["可出BTH数", "Available", "残高"],
+    SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
+    SUGAR_AVAILABLE: ["可出{1}数", "Available {1}", "残高({1})"],
     LONG_OPERATION: ["上升", "RISING", "上昇"],
     SHORT_OPERATION: ["下降", "FALLING", "下落"],
 
@@ -105,8 +105,8 @@ var LS = {
     SELECT_COUNTRY_CODE:["选择国家/地区","Country/Area Code", "选择国家/地区"],
 
     LOGIN:["登录","Login", "ログイン"],
-    TOTAL_MOUNT:["总BTH","Total BTH", "BTH"],
-    REMAIN_MOUNT:["剩余BTH","Remain BTH", "BTH残高"],
+    TOTAL_MOUNT:["总{1}","Total {1}", "{1}"],
+    REMAIN_MOUNT:["剩余{1}","Remain {1}", "{1}残高"],
     SHARE:["分享","Share", "シェア"],
     NO_DYNAMIC:["暂无动态","No Data", "データがありません"],
     NO_COPY:["没有跟随记录","No Copy", "データがありません"],
@@ -143,11 +143,11 @@ var LS = {
     STOCK_MARKET_CLOSED:['闭市','closed', "クローズ中"],
     STOCK_DETAIL: ['详情', "Detail", "詳細"],
 
-    TWEET_HINT: ["今天你怎么看？", "What's your opinion today?", "BTH"],
-    TWEET_PUBLISH_TITLE: ["发布动态", "Publish Tweet", "BTH"],
-    TWEET_PUBLISH: ["发布", "Publish", "BTH"],
-    TWEET_PUBLISH_FAILED_TITLE: ["发布失败", "Publish failed", "BTH"],
-    TWEET_PUBLISH_PRODUCTS: ["产品", "Products", "BTH"],
+    TWEET_HINT: ["今天你怎么看？", "What's your opinion today?", "What's your opinion today?"],
+    TWEET_PUBLISH_TITLE: ["发布动态", "Publish Tweet", "Publish Tweet"],
+    TWEET_PUBLISH: ["发布", "Publish", "Publish"],
+    TWEET_PUBLISH_FAILED_TITLE: ["发布失败", "Publish failed", "Publish failed"],
+    TWEET_PUBLISH_PRODUCTS: ["产品", "Products", "Products"],
 
     POSITION_HOLD_NO_ITEMS: ["暂无持仓记录", "There are no open positions", "今どう思いますか"],
     POSITION_CLOSED_NO_ITEMS: ["暂无平仓记录", "There are no closed positions", "データがありません"],
@@ -157,7 +157,7 @@ var LS = {
     SELECT_PRODUCT: ["选择产品", "Choose Products", "商品を選択"],
      
     DEPOSIT_WITHDRAW_ENTRY_HEADER:['存取资金','Wallet', "Wallet"],
-    DEPOSIT_WITHDRAW_ENTRY_AVAILABLE:['剩余BTH','Remaining BTH', "Remaining BTH"],
+    DEPOSIT_WITHDRAW_ENTRY_AVAILABLE:['剩余{1}','Remaining {1}', "Remaining {1}"],
     BIND_PURSE_ADDRESS_HINT: ["请输入/粘贴钱包地址", "Please enter/paste wallet address", "Please enter/paste wallet address"],
     BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和BTH账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account.", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
     BIND_CONFIRM: ["确认绑定", "Confirm binding", "Confirm binding"],
@@ -186,7 +186,7 @@ var LS = {
     COPY_COUNT: ["跟随笔数", "Times", "Times"],
 
     ORDER_TYPE:['类型','type', "type"],
-    ORDER_SUGAR_AMOUNT: ["BTH", "BTH", "BTH"],
+    ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
     ORDER_MULTIPLE: ["倍数", "Multiple", "Multiple"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],
     ORDER_MAX_RISK: ["最大风险（BTH）", "Maximum Risk", "Maximum Risk"],
@@ -211,7 +211,7 @@ var LS = {
     SETTINGS_PORTRAIT: ["头像", "Portrait", "Portrait"],
     SETTINGS_NICKNAME: ["昵称", "Nickname", "Nickname"],
     SETTINGS_MOBILE: ["手机号", "Mobile", "Mobile"],
-    SETTINGS_BALANCE_TYPE: ["货币类型", "Coin Type", "Coin Type"],
+    SETTINGS_BALANCE_TYPE: ["交易账户", "Transaction Account", "Transaction Account"],
 
     MY_MESSAGES:['我的消息','Messages', "Messages"],
 
@@ -263,7 +263,11 @@ var LS = {
     }else{
       return LS.imageList[imageFileName][1]
     }
-  }
+  },
+
+	getBalanceTypeDisplayText(){
+		return LogicData.getBalanceType();
+	}
 }
 
 module.exports = LS;

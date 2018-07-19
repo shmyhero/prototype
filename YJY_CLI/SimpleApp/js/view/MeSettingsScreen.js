@@ -25,9 +25,9 @@ var configListData = [
     {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
     {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
     {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
+    {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
     {'type':'normal','title':'SETTINGS_VERSION', 'subtype': 'version'},
     {'type':'normal','title':'SETTINGS_LOG_OUT', 'subtype': 'logOut'},
-    {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
 ];
 
 var balanceType = [
@@ -188,7 +188,11 @@ class MeSettingsScreen extends Component {
             )
         }else if(rowData.item.subtype == "balanceType"){
             return (
-                <Text style={styles.value}>{this.props.balanceType}</Text>
+                <View style={{flexDirection:'row'}}>
+                    <Text style={[styles.balanceTypeValue]}>{this.props.balanceType}</Text>
+                    <Image source={require("../../images/icon_arrow_right.png")}
+                            style={styles.arrowIcon}/>
+                </View>
             )
         }else{
             return (
@@ -269,6 +273,9 @@ const styles = StyleSheet.create({
     },
     value:{       
         marginRight:20,
+    },
+    balanceTypeValue: {
+        color: ColorConstants.COLOR_MAIN_THEME_BLUE
     },
     itemLine:{
         height:60,

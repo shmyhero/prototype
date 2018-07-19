@@ -10,6 +10,8 @@ import {
   Dimensions
 } from 'react-native';
 
+import { getBalanceType } from './js/redux/actions';
+import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import LogicData from './js/LogicData';
 import Orientation from 'react-native-orientation';
@@ -82,6 +84,7 @@ class App extends React.Component {
       if(data!=undefined){
         var userData = JSON.parse(data)
         LogicData.setUserData(userData);
+        this.props.getBalanceType();
       }
     } catch(error){
       console.log("loadUserData", error);
@@ -161,4 +164,13 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
+const mapStateToProps = state => {
+  return {
+  };
+};
+
+const mapDispatchToProps = {
+  getBalanceType
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(App);

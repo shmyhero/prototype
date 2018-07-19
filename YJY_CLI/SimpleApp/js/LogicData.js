@@ -123,6 +123,10 @@ class LogicData {
 	static getBalanceType(){
 		return this.balanceType;
 	}
+
+	static getDefaultBalanceType(){
+		return "BTH";
+	}
 }
 
 export default LogicData;

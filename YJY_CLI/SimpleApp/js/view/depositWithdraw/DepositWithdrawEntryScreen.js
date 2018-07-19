@@ -181,7 +181,7 @@ class DepositWithdrawEntryScreen extends Component {
         return(
             <View style={styles.totalTextContainer}>
                 <Text style={styles.totalIncomeTitleText}>
-                    {LS.str('DEPOSIT_WITHDRAW_ENTRY_AVAILABLE')}
+                    {LS.str('DEPOSIT_WITHDRAW_ENTRY_AVAILABLE').replace("{1}", LS.getBalanceTypeDisplayText())}
                 </Text>
                 <BalanceBlock ref={(ref)=>this.balanceBlock = ref} style={styles.totalIncomeText}/>
             </View>

@@ -9,6 +9,7 @@ import {
     Dimensions,
     Image,
 } from 'react-native';
+import LogicData from '../LogicData';
 
 var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
@@ -131,7 +132,7 @@ export default class StockOrderInfoBar extends Component {
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            {LS.str("ORDER_SUGAR_AMOUNT")}
+                            {LS.str("ORDER_SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.invest.toFixed(2)}

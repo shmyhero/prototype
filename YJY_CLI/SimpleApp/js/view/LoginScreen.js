@@ -18,6 +18,9 @@ import {
 } from 'react-native';
 import NavBar from './component/NavBar';
 
+
+import { getBalanceType } from '../redux/actions';
+import { connect } from 'react-redux';
 var {height, width} = Dimensions.get('window')
 var heightRate = height/667.0
 var NetworkModule = require('../module/NetworkModule');
@@ -193,6 +196,7 @@ export default class LoginScreen extends Component {
                 this.state.onLoginFinished();
             }
         });
+        this.props.getBalanceType();
     }
 
     onLoginClicked(){
@@ -404,4 +408,14 @@ const styles = StyleSheet.create({
     }
 })
 
-module.exports = LoginScreen;
+
+const mapStateToProps = state => {
+    return {
+    };
+};
+
+const mapDispatchToProps = {
+    getBalanceType
+};
+  
+module.exports = connect(mapStateToProps, mapDispatchToProps)(LoginScreen);
