@@ -190,13 +190,13 @@ export default class LoginScreen extends Component {
         //Restart web socket.
         WebSocketModule.start();
         LogicData.setUserData(responseJson);
+        this.props.getBalanceType();
 		StorageModule.setUserData(JSON.stringify(responseJson)).then(()=>{
             //Alert.alert("login success , token:"+responseJson.token)
             if(this.state.onLoginFinished){
                 this.state.onLoginFinished();
             }
         });
-        this.props.getBalanceType();
     }
 
     onLoginClicked(){
