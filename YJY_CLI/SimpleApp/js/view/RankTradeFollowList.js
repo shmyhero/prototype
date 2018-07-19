@@ -133,7 +133,7 @@ export default class  RankTradeFollowList extends React.Component {
                         <Text style={styles.textItemValue}>{createAt}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_COPY")}</Text>
+                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_COPY").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
                         <Text style={styles.textItemValue}>{rowData.followTrade.investFixed}</Text>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>

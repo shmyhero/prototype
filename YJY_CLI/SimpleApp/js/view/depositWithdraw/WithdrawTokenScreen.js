@@ -178,7 +178,7 @@ class WithdrawTokenScreen extends Component {
                     <View style={styles.rowContainer}>
                         <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
                         <View style={styles.withdrawValueRow}>
-                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH")}</Text>
+                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
                             <TextInput 
                                 underlineColorAndroid={"transparent"}
                                 style={{fontSize:40, flex:1,}}
@@ -187,7 +187,7 @@ class WithdrawTokenScreen extends Component {
                                 value={this.state.withdrawStringValue}/>
                         </View>
                         <Text style={{color:"#7d7d7d", fontSize:14}}>
-                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue)}
+                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue).replace("{2}", LS.getBalanceTypeDisplayText())}
                             <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
                         </Text>
                     </View>

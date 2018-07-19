@@ -151,7 +151,7 @@ class BindPurseScreen extends Component {
                                 </View>
                                 <View style={styles.hintContainer}>
                                     <Text style={{fontSize:13, color:"#cccccc"}}>
-                                        {LS.str("BIND_PURSE_HINT")}
+                                        {LS.str("BIND_PURSE_HINT").replace("{1}", LS.getBalanceTypeDisplayText())}
                                     </Text>
                                 </View>
                                 <View style={{flex:1}}></View>

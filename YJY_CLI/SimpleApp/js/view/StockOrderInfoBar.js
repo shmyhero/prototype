@@ -159,7 +159,7 @@ export default class StockOrderInfoBar extends Component {
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
                         <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
-                            {this.state.isCreate? LS.str("ORDER_MAX_RISK") : LS.str("ORDER_PROFIT_AND_LOSS")}
+                            {this.state.isCreate? LS.str("ORDER_MAX_RISK").replace("{1}", LS.getBalanceTypeDisplayText()) : LS.str("ORDER_PROFIT_AND_LOSS").replace("{1}", LS.getBalanceTypeDisplayText())}
                         </Text>
                         <Text style={[styles.itemValueText, itemValueTextStyle, {color: plColor}]}>
                         {this.state.isCreate ? this.state.invest.toFixed(2) : this.state.pl.toFixed(2)}
