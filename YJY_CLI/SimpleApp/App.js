@@ -85,8 +85,12 @@ class App extends React.Component {
         var userData = JSON.parse(data)
         LogicData.setUserData(userData);
         this.props.getBalanceType();
+      }else{
+        var defaultBalanceType = LogicData.getDefaultBalanceType()
+        LogicData.setBalanceType(defaultBalanceType);
+        StorageModule.setBalanceType(defaultBalanceType);
       }
-    } catch(error){
+    } catch(error){      
       console.log("loadUserData", error);
     }
 
