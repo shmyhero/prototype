@@ -294,34 +294,6 @@ class TabMainScreen extends React.Component {
     }
 
     render() {
-        console.log("TabMainScreen!!!!!!")
-        let go = function*(x) {
-            console.log('1 xxxx', x)
-            let a = yield x
-            console.log('2 xxxx', x)
-      
-            console.log('3 xxxx', a)
-      
-            let b = yield x + 1
-      
-            sum = a + b
-      
-            yield a + b
-      
-            return a + b
-          }
-          go(10)
-      
-          let g = go(10)
-          console.log("aaa", g.next())
-          console.log("aaa2")
-          console.log("bbb", g.next(1000))
-          console.log("bbb2")
-          console.log("ccc", g.next(50).value)
-          console.log("ccc")
-          console.log("ddd", g.next().value)
-          console.log("ddd")
-
         //if(this.state.isLoading){
         if(!this.state.isContentLoaded){
             // return (

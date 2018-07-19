@@ -12,6 +12,7 @@ import {
     SET_BALANCE_TYPE,
     GET_BALANCE_TYPE
 } from "../constants/actionTypes";
+import LogicData from "../../LogicData";
 
 var initializeState = {
     userId: 0,
@@ -22,7 +23,7 @@ var initializeState = {
     errorMessage: null,
     thtAddress: "",
     phone: "",
-    balanceType: "bth",
+    balanceType: LogicData.getDefaultBalanceType(),
 }
 
 //Previous state, action => current state
