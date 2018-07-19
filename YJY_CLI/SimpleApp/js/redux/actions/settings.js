@@ -238,7 +238,7 @@ export function setBalanceType(balanceType){
         try{
             await setBalanceTypeRequest(balanceType);
             LogicData.setBalanceType(balanceType);
-
+            await StorageModule.setBalanceType(balanceType);
             dispatch({
                 type: SET_BALANCE_TYPE_SUCCESS,
             });

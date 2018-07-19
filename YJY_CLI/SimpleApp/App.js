@@ -78,17 +78,23 @@ class App extends React.Component {
       var meData = JSON.parse(value);
       LogicData.setMeData(meData);
     }
+
+    //First read the balanceType in local storage
+    var balanceType = await StorageModule.loadBalanceType();
+    if(balanceType != undefined){
+      LogicData.setBalanceType(balanceType);
+    }else{
+      var defaultBalanceType = LogicData.getDefaultBalanceType();
+      LogicData.setBalanceType(defaultBalanceType);
+    }
     
     try{
       var data = await StorageModule.loadUserData()
       if(data!=undefined){
         var userData = JSON.parse(data)
         LogicData.setUserData(userData);
+        //When user is login, get balance type from server.
         this.props.getBalanceType();
-      }else{
-        var defaultBalanceType = LogicData.getDefaultBalanceType()
-        LogicData.setBalanceType(defaultBalanceType);
-        StorageModule.setBalanceType(defaultBalanceType);
       }
     } catch(error){      
       console.log("loadUserData", error);
