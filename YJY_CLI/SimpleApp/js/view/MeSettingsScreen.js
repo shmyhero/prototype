@@ -50,9 +50,8 @@ class MeSettingsScreen extends Component {
     componentWillMount(){
         if(this.props.version == ""){
             this.props.getVersion()
-            this.props.getBalanceType();
-
         }
+        this.props.getBalanceType();
     }
 
     componentWillReceiveProps(props){

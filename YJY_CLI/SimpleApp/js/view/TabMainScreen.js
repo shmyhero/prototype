@@ -333,8 +333,10 @@ class TabMainScreen extends React.Component {
                         pullUpStayDistance={50} 
                         removeClippedSubviews={false}
                         pullDownDistance={35}
-                        pullDownStayDistance={50} 
-                        scrollEnabled={this.state.isAllowScroll}  
+                        pullDownStayDistance={50}
+                        scrollEnabled={this.state.isAllowScroll}
+                        enabledPullUp={this.state.isAllowScroll}
+                        enabledPullDown={this.state.isAllowScroll}
                     />
                 </View>
             )
