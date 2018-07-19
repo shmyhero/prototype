@@ -123,7 +123,7 @@ export default class TradeStyleBlock extends Component {
     var strPJGG = LS.str('PJGG')
     var strLJXD = LS.str('LJXD')
     var strPJCCSJ = LS.str('PJCCSJ')
-    var strPJBJ = LS.str('PJBJ').replace("{1}", LS.getBalanceTypeDisplayText());
+    var strPJBJ = LS.str('PJBJ').replace("{1}", LS.getBalanceTypeDisplayText())
     var strPJMBHL = LS.str('PJMBHL')
     var strZSL = LS.str('ZSL')
 
