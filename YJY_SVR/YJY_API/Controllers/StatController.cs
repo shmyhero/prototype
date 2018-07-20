@@ -24,7 +24,13 @@ namespace YJY_API.Controllers
         [Route("~/api/user/{userId}/stat/tradeStyle")]
         public TradeStyleDTO GetTradeStyle(int userId)
         {
-            var positions = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null).ToList();
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
+            var positions = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null && o.BalanceTypeId==balanceTypeId).ToList();
 
             if(positions.Count==0)
                 return new TradeStyleDTO();
@@ -44,11 +50,17 @@ namespace YJY_API.Controllers
         [Route("~/api/user/{userId}/stat/chart/plClosed")]
         public List<PosChartDTO> PLChartClosed(int userId)
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             //var user = db.Users.FirstOrDefault(o => o.Id == userId);
             //if (!(user.ShowData ?? true) && userId != UserId)//not showing data && not myself
             //    return new List<PosChartDTO>();
 
-            var dbList = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null)
+            var dbList = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null && o.BalanceTypeId==balanceTypeId)
                     .OrderBy(o => o.ClosedAt)
                     .ToList();
 
@@ -109,6 +121,12 @@ namespace YJY_API.Controllers
         [Route("~/api/user/{userId}/stat/chart/plClosed/1month")]
         public List<PosChartDTO> PLChartClosed1m(int userId)
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             //var user = db.Users.FirstOrDefault(o => o.Id == userId);
             //if (!(user.ShowData ?? true) && userId != UserId)//not showing data && not myself
             //    return new List<PosChartDTO>();
@@ -116,7 +134,7 @@ namespace YJY_API.Controllers
             var beginTime = DateTimes.GetChinaToday().AddMonths(-1);
             var beginTimeUtc = beginTime.AddHours(-8);
 
-            var dbList = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null && o.ClosedAt >= beginTimeUtc)
+            var dbList = db.Positions.Where(o => o.UserId == userId && o.ClosedAt != null && o.ClosedAt >= beginTimeUtc && o.BalanceTypeId==balanceTypeId)
                     .OrderBy(o => o.ClosedAt)
                     .ToList();
 
@@ -184,6 +202,12 @@ namespace YJY_API.Controllers
         {
             List<PLSpreadDTO> spreads = new List<PLSpreadDTO>();
 
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             //var user = db.Users.FirstOrDefault(o => o.Id == userID);
             //if (!(user.ShowData ?? CFDUsers.DEFAULT_SHOW_DATA))
             //{
@@ -191,7 +215,7 @@ namespace YJY_API.Controllers
             //}
 
             //找出平仓笔数最多的三个产品
-            var prodIDs = db.Positions.Where(n => n.UserId == userID && n.Invest.HasValue && n.PL.HasValue && n.ClosedAt.HasValue)
+            var prodIDs = db.Positions.Where(n => n.UserId == userID && n.Invest.HasValue && n.PL.HasValue && n.ClosedAt.HasValue && n.BalanceTypeId==balanceTypeId)
                 .GroupBy(n => n.SecurityId).Select(s => new {
                     prodID = s.Key,
                     count = s.Count(),

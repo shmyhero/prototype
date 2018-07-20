@@ -20,7 +20,7 @@ namespace YJY_COMMON.Model.Entity
 
         public decimal? Amount { get; set; }
 
-        public int? Value { get; set; }
+        public decimal? Value { get; set; }
 
         public DateTime? SendAt { get; set; }
 
@@ -29,7 +29,7 @@ namespace YJY_COMMON.Model.Entity
 
         public DateTime? CallbackAt { get; set; }
 
-        public int? CallbackValue { get; set; }
+        public decimal? CallbackValue { get; set; }
 
         [StringLength(100)]
         public string CallbackTo { get; set; }
@@ -37,5 +37,9 @@ namespace YJY_COMMON.Model.Entity
         public DateTime? CancelAt { get; set; }
 
         public int? CancelRefundValue { get; set; }
+
+        public int? BalanceId { get; set; }
+
+        public int? BalanceTypeId { get; set; }
     }
 }

@@ -15,6 +15,8 @@ namespace YJY_COMMON.Model.Context
         }
 
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
+        public virtual DbSet<Balance> Balances { get; set; }
+        public virtual DbSet<BalanceType> BalanceTypes { get; set; }
         public virtual DbSet<ETHDeposit> ETHDeposits { get; set; }
         public virtual DbSet<Headline> Headlines { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
@@ -33,6 +35,14 @@ namespace YJY_COMMON.Model.Context
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Balance>()
+                .Property(e => e.Amount)
+                .HasPrecision(28, 18);
+
+            modelBuilder.Entity<BalanceType>()
+                .Property(e => e.InitAmount)
+                .HasPrecision(28, 18);
+
             modelBuilder.Entity<ETHDeposit>()
                 .Property(e => e.PaidAmount)
                 .HasPrecision(28, 18);
@@ -43,7 +53,7 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.Invest)
-                .HasPrecision(18, 8);
+                .HasPrecision(28, 18);
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.Leverage)
@@ -51,7 +61,7 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.PL)
-                .HasPrecision(18, 8);
+                .HasPrecision(28, 18);
 
             modelBuilder.Entity<Position>()
                 .Property(e => e.ClosePrice)
@@ -67,27 +77,35 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<THTDeposit>()
                 .Property(e => e.PaidAmount)
-                .HasPrecision(18, 8);
+                .HasPrecision(28, 18);
 
             modelBuilder.Entity<THTWithdrawal>()
                 .Property(e => e.Amount)
-                .HasPrecision(18, 8);
+                .HasPrecision(28, 18);
+
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.Value)
+                .HasPrecision(28, 0);
+
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.CallbackValue)
+                .HasPrecision(28, 0);
 
             modelBuilder.Entity<Transfer>()
                 .Property(e => e.Amount)
-                .HasPrecision(18, 8);
+                .HasPrecision(28, 18);
 
             modelBuilder.Entity<Transfer>()
                 .Property(e => e.BalanceAfter)
-                .HasPrecision(18, 8);
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.Balance)
-                .HasPrecision(18, 8);
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.BalanceEth)
                 .HasPrecision(28, 18);
+
+            //modelBuilder.Entity<User>()
+            //    .Property(e => e.Balance)
+            //    .HasPrecision(18, 8);
+
+            //modelBuilder.Entity<User>()
+            //    .Property(e => e.BalanceEth)
+            //    .HasPrecision(28, 18);
 
             modelBuilder.Entity<UserTradeFollow>()
                 .Property(e => e.InvestFixed)

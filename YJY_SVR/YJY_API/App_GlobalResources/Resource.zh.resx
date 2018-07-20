@@ -178,6 +178,6 @@
     <value>出金</value>
   </data>
   <data name="VerificationCode" xml:space="preserve">
-    <value>BitHero验证码：{0}。1小时内有效。</value>
+    <value>BitHero verification code: {0}. Available for 1 hour.</value>
   </data>
 </root>

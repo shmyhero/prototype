@@ -44,7 +44,8 @@ namespace YJY_API.Controllers
                     "invalid leverage"));
 
             var user = GetUser();
-            if (user.Balance < form.invest)
+            var balance = db.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+            if (balance.Amount < form.invest)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     Resources.Resource.NotEnoughBalance));
 
@@ -121,9 +122,9 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public List<PositionDTO> GetOpenPositions(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
-            //var user = GetUser();
+            var me = GetUser();
 
-            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null)
+            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null && o.BalanceId==me.ActiveBalanceId)
                 .OrderByDescending(o => o.CreateTime)
                 .Skip((pageNum-1)*pageSize).Take(pageSize)
                 .ToList();
@@ -178,7 +179,9 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public List<PositionDTO> GetClosedPositions(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
-            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt != null)
+            var me = GetUser();
+
+            var positions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt != null && o.BalanceId == me.ActiveBalanceId)
                 .OrderByDescending(o => o.ClosedAt)
                 .Skip((pageNum - 1) * pageSize).Take(pageSize)
                 .ToList();
@@ -269,8 +272,14 @@ namespace YJY_API.Controllers
         [Route("~/api/user/{userId}/position/open")]
         public List<PositionBaseDTO> GetUserOpenPositions(int userId)
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             var positions =
-                db.Positions.Where(p => p.UserId == userId && p.ClosedAt == null)
+                db.Positions.Where(p => p.UserId == userId && p.ClosedAt == null && p.BalanceTypeId==balanceTypeId)
                     .OrderByDescending(p => p.CreateTime)
                     .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                     .ToList();
@@ -311,8 +320,14 @@ namespace YJY_API.Controllers
         [Route("~/api/user/{userId}/position/closed")]
         public List<PositionBaseDTO> GetUserClosedPositions(int userId)
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             var positions =
-                db.Positions.Where(p => p.UserId == userId && p.ClosedAt != null)
+                db.Positions.Where(p => p.UserId == userId && p.ClosedAt != null && p.BalanceTypeId == balanceTypeId)
                     .OrderByDescending(p => p.ClosedAt)
                     .Take(YJYGlobal.DEFAULT_PAGE_SIZE)
                     .ToList();

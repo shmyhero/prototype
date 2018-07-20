@@ -35,7 +35,9 @@ namespace YJY_API.Controllers
         {
             var user = GetUser();
 
-            var openPositions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null).ToList();
+            var balance = db.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
+            var openPositions = db.Positions.Where(o => o.UserId == UserId && o.ClosedAt == null && o.BalanceId==balance.Id).ToList();
             var quotes = WebCache.Instance.Quotes;
             var sumOfPositionValue =
                 openPositions.Sum(
@@ -43,8 +45,8 @@ namespace YJY_API.Controllers
 
             return new BalanceDTO()
             {
-                balance = user.Balance.Value,
-                total = user.Balance.Value + sumOfPositionValue,
+                balance = balance.Amount.Value,
+                total = balance.Amount.Value + sumOfPositionValue,
             };
         }
 
@@ -53,8 +55,10 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public List<TransferDTO> GetTransferHistory(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
         {
+            var user = GetUser();
+
             var transfers =
-                db.Transfers.Where(o => o.UserId == UserId)
+                db.Transfers.Where(o => o.UserId == UserId && o.BalanceId==user.ActiveBalanceId)
                     .OrderByDescending(o => o.Time)
                     .Skip((pageNum - 1)*pageSize)
                     .Take(pageSize)
@@ -115,13 +119,13 @@ namespace YJY_API.Controllers
 
             var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == withdrawalId);
 
-            var request =
-                WebRequest.CreateHttp(YJYGlobal.THT_BC_API_HOST + "refund?index=" + withdrawal.Id + "&to=" + withdrawal.To +
-                                      "&value=" + withdrawal.Value);
-            request.Method = "GET";
-            request.Headers.Add("Authorization",
-                "Bearer "+YJYGlobal.CALLBACK_AUTH_TOKEN);
+            var balanceType = db.BalanceTypes.FirstOrDefault(o => o.Id == withdrawal.BalanceTypeId);
 
+            var request =
+                WebRequest.CreateHttp(YJYGlobal.THT_BC_API_HOST + "refund?type=" + balanceType.Code.ToLower() + "&id=" +
+                                      withdrawal.Id + "&to=" + withdrawal.To + "&value=" + withdrawal.Value);
+            request.Method = "GET";
+            request.Headers.Add("Authorization", "Bearer " + YJYGlobal.CALLBACK_AUTH_TOKEN);
 
             withdrawal.SendAt = DateTime.UtcNow;
             try

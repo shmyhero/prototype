@@ -9,6 +9,7 @@ using Microsoft.Azure;
 using Microsoft.WindowsAzure.ServiceRuntime;
 using Microsoft.WindowsAzure.Storage;
 using ServiceStack.Redis;
+using YJY_COMMON.Model.Entity;
 
 namespace YJY_COMMON
 {
@@ -32,16 +33,18 @@ namespace YJY_COMMON
 
         public const string CALLBACK_AUTH_TOKEN = "jR7cB9s6n2I0C4zP1xZ6b92Mki0Q3Ae7G1L3vU5hoT8xD5Fy3Ux9bR1wO5Hb7ec4HJ6Es2oC";
 
-        public const decimal NEW_USER_INIT_BALANCE = 100000;
-        public const decimal NEW_USER_INIT_BALANCE_ETH = 100;
+        //public const decimal NEW_USER_INIT_BALANCE = 100000;
+        //public const decimal NEW_USER_INIT_BALANCE_ETH = 100;
         public const decimal BALANCE_TO_TOKEN_RATIO = 1;
+
+        //public static readonly string DEFAULT_BALANCE_TYPE = BalanceType.BTH.ToString();
 
         /// <summary>
         /// the default application-wide PooledRedisClientsManager
         /// </summary>
         public static IRedisClientsManager PooledRedisClientsManager;
 
-        public const string THT_BC_API_HOST= "http://139.217.205.9:9527/";
+        public const string THT_BC_API_HOST= "http://139.217.205.9:9528/";
 
         static YJYGlobal()
         {

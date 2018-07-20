@@ -30,5 +30,7 @@ namespace YJY_COMMON.Model.Entity
         public decimal? PaidAmount { get; set; }
 
         public DateTime? PaidAt { get; set; }
+
+        public int? PaidToBalanceId { get; set; }
     }
 }

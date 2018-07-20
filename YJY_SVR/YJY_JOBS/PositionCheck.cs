@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.Azure.ServiceBus;
 using YJY_COMMON;
+using YJY_COMMON.Enums;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;

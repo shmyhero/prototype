@@ -25,17 +25,7 @@ namespace YJY_COMMON.Model.Entity
         public int? PositionId { get; set; }
 
         public int? TransactionId { get; set; }
-    }
 
-    public enum TransferType
-    {
-        Open,
-        Close,
-        THTDeposit,
-        THTWithdrawal,
-        ETHDeposit,
-        ETHWithdrawal,
-        //OpenFollow,
-        //CloseFollow,
+        public int? BalanceId { get; set; }
     }
 }

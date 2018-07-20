@@ -33,7 +33,7 @@ namespace YJY_COMMON.Model.Entity
         [StringLength(50)]
         public string WeChatUnionId { get; set; }
 
-        public decimal? Balance { get; set; }
+        //public decimal? Balance { get; set; }
 
         [StringLength(100)]
         public string THTAddress { get; set; }
@@ -44,19 +44,14 @@ namespace YJY_COMMON.Model.Entity
 
         public bool? ShowHeadlineFeed { get; set; }
 
-        public decimal? BalanceEth { get; set; }
+        //public decimal? BalanceEth { get; set; }
 
-        [StringLength(100)]
-        public string ETHAddress { get; set; }
+        //[StringLength(100)]
+        //public string ETHAddress { get; set; }
 
-        [StringLength(10)]
-        public string BalanceType { get; set; }
-    }
+        //[StringLength(10)]
+        //public string BalanceType { get; set; }
 
-    public enum BalanceType
-    {
-        BTH,
-        ETH,
-        BTC,
+        public int? ActiveBalanceId { get; set; }
     }
 }

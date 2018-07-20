@@ -106,6 +106,8 @@
   <ItemGroup>
     <Compile Include="Azure\Blob.cs" />
     <Compile Include="Encryption\DESUtil.cs" />
+    <Compile Include="Enums\PositionCloseType.cs" />
+    <Compile Include="Enums\TransferType.cs" />
     <Compile Include="Localization\TransKey.cs" />
     <Compile Include="Localization\Translations.cs" />
     <Compile Include="Localization\Translator.cs" />
@@ -119,6 +121,8 @@
     <Compile Include="Model\Context\YJYEntities.cs" />
     <Compile Include="Model\Entity\AdminUser.cs" />
     <Compile Include="Model\Entity\ApiHit.cs" />
+    <Compile Include="Model\Entity\Balance.cs" />
+    <Compile Include="Model\Entity\BalanceType.cs" />
     <Compile Include="Model\Entity\ETHDeposit.cs" />
     <Compile Include="Model\Entity\Headline.cs" />
     <Compile Include="Model\Entity\Message.cs" />

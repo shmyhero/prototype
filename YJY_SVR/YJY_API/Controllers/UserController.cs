@@ -108,6 +108,26 @@ namespace YJY_API.Controllers
                     user.AuthToken = UserService.NewToken();
                     db.SaveChanges();
 
+                    if (user.ActiveBalanceId == null) //do this for existing users' data in the db (after the multi-balance update)
+                    {
+                        var balance = db.Balances.FirstOrDefault(o => o.UserId == user.Id);
+                        if (balance == null)
+                        {
+                            var balanceType = db.BalanceTypes.FirstOrDefault(o => o.Id == 1);
+                            balance = new Balance()
+                            {
+                                Amount = balanceType.InitAmount,
+                                TypeId = balanceType.Id,
+                                UserId = user.Id,
+                            };
+                            db.Balances.Add(balance);
+                            db.SaveChanges();
+                        }
+
+                        user.ActiveBalanceId = balance.Id;
+                        db.SaveChanges();
+                    }
+
                     result.success = true;
                     result.isNewUser = false;
                     result.userId = user.Id;
@@ -344,7 +364,9 @@ namespace YJY_API.Controllers
         public string GetBalanceType()
         {
             var user = GetUser();
-            return user.BalanceType?? BalanceType.BTH.ToString();
+            var balance = db.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+            var balanceType = db.BalanceTypes.FirstOrDefault(o => o.Id == balance.TypeId);
+            return balanceType.Code;
         }
 
         [HttpPut]
@@ -352,20 +374,32 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public ResultDTO SetBalanceType(BalanceTypeFormDTO form)
         {
-            BalanceType type;
-            var tryParse = Enum.TryParse(form.balanceType, true, out type);
+            var balanceType = db.BalanceTypes.FirstOrDefault(o => o.Code == form.balanceType);
 
-            if (tryParse)
-            {
-                var user = GetUser();
-                user.BalanceType = type.ToString();
-                db.SaveChanges();
-                return new ResultDTO(true);
-            }
-            else
-            {
+            if(balanceType==null)
                 return new ResultDTO(false);
+
+            var user = GetUser();
+            if(user.ActiveBalanceId==balanceType.Id)
+                return new ResultDTO(true);
+
+            var balance = db.Balances.FirstOrDefault(o => o.UserId == user.Id && o.TypeId == balanceType.Id);
+            if (balance == null)
+            {
+                balance = new Balance()
+                {
+                    Amount = balanceType.InitAmount,
+                    TypeId = balanceType.Id,
+                    UserId = user.Id,
+                };
+                db.Balances.Add(balance);
+                db.SaveChanges();
             }
+
+            user.ActiveBalanceId = balance.Id;
+            db.SaveChanges();
+
+            return new ResultDTO(true);
         }
     }
 }

@@ -72,17 +72,18 @@ namespace YJY_API.Controllers
             if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
 
-            if (form.index == 0)
+            int id;
+            if (string.IsNullOrWhiteSpace(form.id) || !int.TryParse(form.id, out id))
                 throw new ArgumentOutOfRangeException();
 
-            var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == form.index);
+            var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == id);
             if(withdrawal==null)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no such index"));
 
             withdrawal.CallbackAt=DateTime.UtcNow;
             withdrawal.CallbackTo = form.to;
-            withdrawal.CallbackValue = form.value;
-            
+            withdrawal.CallbackValue = decimal.Parse(form.value);
+
             db.SaveChanges();
 
             return true;
@@ -129,5 +130,31 @@ namespace YJY_API.Controllers
 
             return true;
         }
+
+        //[HttpPost]
+        //[Route("ETH/withdrawal")]
+        //public bool ETHWithdrawalConfirm(ETHWithdrawalFormDTO form)
+        //{
+        //    var authorization = Request.Headers.Authorization;
+
+        //    if (authorization?.Parameter == null || authorization.Parameter != YJYGlobal.CALLBACK_AUTH_TOKEN)
+        //        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.Unauthorized, "invalid auth token"));
+
+        //    int id;
+        //    if (string.IsNullOrWhiteSpace(form.id) || !int.TryParse(form.id,out id))
+        //        throw new ArgumentOutOfRangeException();
+
+        //    var withdrawal = db.THTWithdrawals.FirstOrDefault(o => o.Id == id);
+        //    if (withdrawal == null)
+        //        throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no such index"));
+
+        //    withdrawal.CallbackAt = DateTime.UtcNow;
+        //    withdrawal.CallbackTo = form.to;
+        //    withdrawal.CallbackValue = decimal.Parse(form.value);
+
+        //    db.SaveChanges();
+
+        //    return true;
+        //}
     }
 }

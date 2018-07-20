@@ -12,16 +12,12 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<BalanceType> BalanceTypes { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>()
-                .Property(e => e.Balance)
-                .HasPrecision(18, 8);
-
-            modelBuilder.Entity<User>()
-                .Property(e => e.BalanceEth)
+            modelBuilder.Entity<BalanceType>()
+                .Property(e => e.InitAmount)
                 .HasPrecision(28, 18);
         }
     }

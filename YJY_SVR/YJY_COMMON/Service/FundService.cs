@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Transactions;
 using Microsoft.WindowsAzure.Storage;
 using YJY_COMMON.Azure;
+using YJY_COMMON.Enums;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
 
@@ -66,27 +67,34 @@ namespace YJY_COMMON.Service
                         {
                             var user = users.First();
 
-                            var biRaw=BigInteger.Parse(deposit.TokenAmount);
-                            var biAmount = biRaw / new BigInteger(1e18);
-                            //var amount = (decimal) deposit.TokenAmount/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
-                            var amount = (decimal)biAmount * YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
+                            //var biRaw=BigInteger.Parse(deposit.TokenAmount);
+                            //var biAmount = biRaw / new BigInteger(1e18);
+                            ////var amount = (decimal) deposit.TokenAmount/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+                            //var amount = (decimal)biAmount * YJYGlobal.BALANCE_TO_TOKEN_RATIO;
+
+                            var amount= decimal.Parse(deposit.TokenAmount)/1e18m;
 
                             if (amount > 0)
                             {
-                                user.Balance = user.Balance + amount;
+                                balance.Amount = balance.Amount + amount;
 
                                 deposit.PaidAt = DateTime.UtcNow;
                                 deposit.PaidAmount = amount;
                                 deposit.PaidToUserId = user.Id;
+                                deposit.PaidToBalanceId = balance.Id;
 
                                 var transfer = new Transfer()
                                 {
                                     Time = DateTime.UtcNow,
                                     Amount = amount,
-                                    BalanceAfter = user.Balance,
+                                    BalanceAfter = balance.Amount,
                                     Type = TransferType.THTDeposit.ToString(),
                                     UserId = user.Id,
                                     TransactionId = deposit.Id,
+
+                                    BalanceId = balance.Id,
                                 };
                                 dbIsolated.Transfers.Add(transfer);
 
@@ -110,7 +118,7 @@ namespace YJY_COMMON.Service
                     var deposit = dbIsolated.ETHDeposits.FirstOrDefault(o => o.Id == depositId);
                     if (deposit != null && deposit.PaidAt == null) //not paid yet
                     {
-                        var users = dbIsolated.Users.Where(o => o.ETHAddress == deposit.From).ToList();
+                        var users = dbIsolated.Users.Where(o => o.THTAddress == deposit.From).ToList();
 
                         if (users.Count > 1)
                             YJYGlobal.LogWarning("duplicated EthAddress found " + deposit.From);
@@ -124,24 +132,29 @@ namespace YJY_COMMON.Service
                             ////var amount = (decimal) deposit.TokenAmount/100*YJYGlobal.BALANCE_TO_TOKEN_RATIO;
                             //var amount = (decimal)biAmount * YJYGlobal.BALANCE_TO_TOKEN_RATIO;
 
+                            var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
                             var amount = decimal.Parse(deposit.TokenAmount);
 
                             if (amount > 0)
                             {
-                                user.BalanceEth = user.BalanceEth + amount;
+                                balance.Amount = balance.Amount + amount;
 
                                 deposit.PaidAt = DateTime.UtcNow;
                                 deposit.PaidAmount = amount;
                                 deposit.PaidToUserId = user.Id;
+                                deposit.PaidToBalanceId = balance.Id;
 
                                 var transfer = new Transfer()
                                 {
                                     Time = DateTime.UtcNow,
                                     Amount = amount,
-                                    BalanceAfter = user.BalanceEth,
-                                    Type = TransferType.ETHDeposit.ToString(),
+                                    BalanceAfter = balance.Amount,
+                                    Type = TransferType.THTDeposit.ToString(),
                                     UserId = user.Id,
                                     TransactionId = deposit.Id,
+
+                                    BalanceId = balance.Id,
                                 };
                                 dbIsolated.Transfers.Add(transfer);
 
@@ -172,13 +185,15 @@ namespace YJY_COMMON.Service
                     var user = dbIsolated.Users.FirstOrDefault(o => o.Id == userId);
                     if (user != null)
                     {
-                        if (user.Balance < amount)
+                        var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
+                        if (balance.Amount < amount)
                             throw new Exception("insufficient balance");
 
                         if (string.IsNullOrWhiteSpace(user.THTAddress))
                             throw new Exception("empty THT address");
 
-                        user.Balance = user.Balance - amount;
+                        balance.Amount = balance.Amount - amount;
 
                         withdrawal = new THTWithdrawal()
                         {
@@ -186,7 +201,10 @@ namespace YJY_COMMON.Service
                             To = user.THTAddress,
                             UserId = user.Id,
                             Amount = amount,
-                            Value = (int?) (amount*100/YJYGlobal.BALANCE_TO_TOKEN_RATIO),
+                            Value =(decimal?) new BigInteger (amount*1e18m/*/YJYGlobal.BALANCE_TO_TOKEN_RATIO*/),
+
+                            BalanceId = balance.Id,
+                            BalanceTypeId = balance.TypeId,
                         };
                         dbIsolated.THTWithdrawals.Add(withdrawal);
 
@@ -195,11 +213,13 @@ namespace YJY_COMMON.Service
                         var transfer = new Transfer()
                         {
                             Time = DateTime.UtcNow,
-                            Amount = amount,
-                            BalanceAfter = user.Balance,
+                            Amount = -amount,
+                            BalanceAfter = balance.Amount,
                             Type = TransferType.THTWithdrawal.ToString(),
                             UserId = user.Id,
                             TransactionId = withdrawal.Id, //withdrawal id should be populated
+
+                            BalanceId = balance.Id,
                         };
                         dbIsolated.Transfers.Add(transfer);
 

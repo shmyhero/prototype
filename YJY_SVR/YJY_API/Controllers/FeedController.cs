@@ -27,6 +27,7 @@ namespace YJY_API.Controllers
         public List<FeedDTO> GetDefaultFeeds(int count = 50, DateTime? newerThan = null, DateTime? olderThan = null)
         {
             var tryGetAuthUser = TryGetAuthUser();
+
             if (tryGetAuthUser == null)
             {
                 //get system feed
@@ -76,8 +77,13 @@ namespace YJY_API.Controllers
                 feedUserIds = feedUserIds.Concat(tradeFollowingUserIds).ToList();
             }
 
+            //-------------------balance type -------------------
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             //get open feeds
-            var openFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value));
+            var openFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value) && o.BalanceTypeId == balanceTypeId);
             if (olderThan != null) openFeedsWhereClause = openFeedsWhereClause.Where(o => o.CreateTime < olderThan);
             var openFeeds = openFeedsWhereClause
                 .OrderByDescending(o => o.CreateTime).Take(count)
@@ -93,7 +99,7 @@ namespace YJY_API.Controllers
                 .ToList();
 
             //get close feeds
-            var closeFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null);
+            var closeFeedsWhereClause = db.Positions.Where(o => o.FollowPosId == null && feedUserIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.BalanceTypeId == balanceTypeId);
             if (olderThan != null) closeFeedsWhereClause = closeFeedsWhereClause.Where(o => o.ClosedAt < olderThan);
             var closeFeeds = closeFeedsWhereClause
                 .OrderByDescending(o => o.ClosedAt).Take(count)
@@ -164,7 +170,7 @@ namespace YJY_API.Controllers
             //get ranked users
             var beginTimeUtc = DateTimes.GetRankingBeginTimeUTC();
             var rankedUsers =
-                db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= beginTimeUtc)
+                db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= beginTimeUtc && o.BalanceTypeId == balanceTypeId)
                     .GroupBy(o => o.UserId)
                     .Select(g => new
                     {

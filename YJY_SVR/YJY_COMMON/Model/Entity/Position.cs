@@ -47,13 +47,9 @@ namespace YJY_COMMON.Model.Entity
         public int? FollowPosId { get; set; }
 
         public int? FollowUserId { get; set; }
-    }
 
-    public enum PositionCloseType
-    {
-        Liquidate,
-        Stop,
-        Take,
-        Follow,
+        public int? BalanceId { get; set; }
+
+        public int? BalanceTypeId { get; set; }
     }
 }

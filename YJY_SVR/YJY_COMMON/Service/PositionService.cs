@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Transactions;
+using YJY_COMMON.Enums;
 using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Context;
 using YJY_COMMON.Model.Entity;
@@ -32,39 +33,50 @@ namespace YJY_COMMON.Service
                 {
                     var userIsolated = dbIsolated.Users.FirstOrDefault(o => o.Id == userId);
 
-                    if (userIsolated != null && userIsolated.Balance >= invest)
+                    if (userIsolated != null)
                     {
-                        userIsolated.Balance = userIsolated.Balance - invest;
+                        var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == userIsolated.ActiveBalanceId);
 
-                        position = new Position()
+                        if (balance.Amount >= invest)
                         {
-                            CreateTime = DateTime.UtcNow,
-                            Invest = invest,
-                            Leverage = leverage,
-                            UserId = userId,
-                            Side = isLong,
-                            SecurityId = secId,
-                            SettlePrice = settlePrice
-                        };
+                            balance.Amount = balance.Amount - invest;
 
-                        dbIsolated.Positions.Add(position);
+                            position = new Position()
+                            {
+                                CreateTime = DateTime.UtcNow,
+                                Invest = invest,
+                                Leverage = leverage,
+                                UserId = userId,
+                                Side = isLong,
+                                SecurityId = secId,
+                                SettlePrice = settlePrice,
 
-                        dbIsolated.SaveChanges();//to get position auto id
+                                BalanceId = balance.Id,
+                                BalanceTypeId = balance.TypeId,
+                            };
 
-                        //add a new transfer
-                        dbIsolated.Transfers.Add(new Transfer()
-                        {
-                            Amount = -invest,
-                            BalanceAfter = userIsolated.Balance,
-                            Time = DateTime.UtcNow,
-                            Type = TransferType.Open.ToString(),
-                            UserId = userIsolated.Id,
-                            PositionId = position.Id,//position id should be populated
-                        });
+                            dbIsolated.Positions.Add(position);
 
-                        dbIsolated.SaveChanges();
+                            dbIsolated.SaveChanges(); //to get position auto id
+
+                            //add a new transfer
+                            dbIsolated.Transfers.Add(new Transfer()
+                            {
+                                Amount = -invest,
+                                BalanceAfter = balance.Amount,
+                                Time = DateTime.UtcNow,
+                                Type = TransferType.Open.ToString(),
+                                UserId = userIsolated.Id,
+                                PositionId = position.Id, //position id should be populated
+
+                                BalanceId = balance.Id,
+                            });
+
+                            dbIsolated.SaveChanges();
+                        }
                     }
                 }
+
                 scope.Complete();
             }
 
@@ -87,6 +99,10 @@ namespace YJY_COMMON.Service
                     if (user == null || position == null)
                         throw new ObjectNotFoundException();
 
+
+                    //position's balance, not user's current active balance
+                    var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == position.BalanceId && o.UserId==user.Id);
+
                     if (position.ClosedAt == null)
                     {
                         var pl = Trades.CalculatePL(position, closePrice);
@@ -98,18 +114,20 @@ namespace YJY_COMMON.Service
                         var pValue = position.Invest + pl;
                         if (pValue > 0)
                         {
-                            user.Balance = user.Balance + pValue;
+                            balance.Amount = balance.Amount + pValue;
                         }
 
                         //add a new transfer
                         dbIsolated.Transfers.Add(new Transfer()
                         {
                             Amount = pValue,
-                            BalanceAfter = user.Balance,
+                            BalanceAfter = balance.Amount,
                             Time = DateTime.UtcNow,
                             Type = TransferType.Close.ToString(),
                             UserId = user.Id,
                             PositionId = position.Id,
+
+                            BalanceId = balance.Id,
                         });
 
                         dbIsolated.SaveChanges();
@@ -137,6 +155,8 @@ namespace YJY_COMMON.Service
                     if (user == null || position == null)
                         throw new ObjectNotFoundException();
 
+                    var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
                     if (position.ClosedAt == null)
                     {
                         var pl = Trades.CalculatePL(position, posToClose.closePx);
@@ -151,18 +171,20 @@ namespace YJY_COMMON.Service
                         var pValue = position.Invest + pl;
                         if (pValue > 0)
                         {
-                            user.Balance = user.Balance + pValue;
+                            balance.Amount = balance.Amount + pValue;
                         }
 
                         //add a new transfer
                         dbIsolated.Transfers.Add(new Transfer()
                         {
                             Amount = pValue,
-                            BalanceAfter = user.Balance,
+                            BalanceAfter = balance.Amount,
                             Time = DateTime.UtcNow,
                             Type = TransferType.Close.ToString(),
                             UserId = user.Id,
                             PositionId = position.Id,
+
+                            BalanceId = balance.Id,
                         });
 
                         dbIsolated.SaveChanges();
@@ -197,60 +219,70 @@ namespace YJY_COMMON.Service
 
                                     if (u != null)
                                     {
-                                        if (u.Balance < tFollow.InvestFixed)//not enough balance
+                                        var b = dbIsolated.Balances.FirstOrDefault(o => o.Id == u.ActiveBalanceId);
+
+                                        if (b.TypeId == basePosition.BalanceTypeId)//ONLY WHEN trade-follower's active balance type == base position's balance type
                                         {
-                                            tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
-
-                                            tFollow.LastTriggerAt = DateTime.UtcNow;
-
-                                            if (tFollow.StopAfterCount == 0) //stop following if count == 0
-                                                dbIsolated.UserTradeFollows.Remove(tFollow);
-
-                                            dbIsolated.SaveChanges();
-                                        }
-                                        else
-                                        {
-                                            u.Balance = u.Balance - tFollow.InvestFixed;
-
-                                            var p = new Position()
+                                            if (b.Amount < tFollow.InvestFixed) //not enough balance
                                             {
-                                                CreateTime = DateTime.UtcNow,
-                                                Invest = tFollow.InvestFixed,
-                                                Leverage = basePosition.Leverage,
-                                                UserId = u.Id,
-                                                Side = basePosition.Side,
-                                                SecurityId = basePosition.SecurityId,
-                                                SettlePrice = basePosition.SettlePrice,
+                                                tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
 
-                                                FollowPosId = basePosition.Id,
-                                                FollowUserId = basePosition.UserId,
-                                            };
+                                                tFollow.LastTriggerAt = DateTime.UtcNow;
 
-                                            dbIsolated.Positions.Add(p);
+                                                if (tFollow.StopAfterCount == 0) //stop following if count == 0
+                                                    dbIsolated.UserTradeFollows.Remove(tFollow);
 
-                                            dbIsolated.SaveChanges(); //to get position auto id
-
-                                            //add a new transfer
-                                            dbIsolated.Transfers.Add(new Transfer()
+                                                dbIsolated.SaveChanges();
+                                            }
+                                            else
                                             {
-                                                Amount = -tFollow.InvestFixed,
-                                                BalanceAfter = u.Balance,
-                                                Time = DateTime.UtcNow,
-                                                Type = TransferType.Open.ToString(),
-                                                UserId = u.Id,
-                                                PositionId = p.Id, //position id should be populated
-                                            });
+                                                b.Amount = b.Amount - tFollow.InvestFixed;
+
+                                                var p = new Position()
+                                                {
+                                                    CreateTime = DateTime.UtcNow,
+                                                    Invest = tFollow.InvestFixed,
+                                                    Leverage = basePosition.Leverage,
+                                                    UserId = u.Id,
+                                                    Side = basePosition.Side,
+                                                    SecurityId = basePosition.SecurityId,
+                                                    SettlePrice = basePosition.SettlePrice,
+
+                                                    FollowPosId = basePosition.Id,
+                                                    FollowUserId = basePosition.UserId,
+
+                                                    BalanceId = b.Id,
+                                                    BalanceTypeId = b.TypeId,
+                                                };
+
+                                                dbIsolated.Positions.Add(p);
+
+                                                dbIsolated.SaveChanges(); //to get position auto id
+
+                                                //add a new transfer
+                                                dbIsolated.Transfers.Add(new Transfer()
+                                                {
+                                                    Amount = -tFollow.InvestFixed,
+                                                    BalanceAfter = b.Amount,
+                                                    Time = DateTime.UtcNow,
+                                                    Type = TransferType.Open.ToString(),
+                                                    UserId = u.Id,
+                                                    PositionId = p.Id, //position id should be populated
+
+                                                    BalanceId = b.Id,
+                                                });
 
 
-                                            tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
+                                                tFollow.StopAfterCount = tFollow.StopAfterCount - 1; //count--
 
-                                            tFollow.LastTriggerAt = DateTime.UtcNow;
+                                                tFollow.LastTriggerAt = DateTime.UtcNow;
 
-                                            if (tFollow.StopAfterCount == 0) //stop following if count == 0
-                                                dbIsolated.UserTradeFollows.Remove(tFollow);
-                                            
+                                                if (tFollow.StopAfterCount == 0) //stop following if count == 0
+                                                    dbIsolated.UserTradeFollows.Remove(tFollow);
 
-                                            dbIsolated.SaveChanges();
+
+                                                dbIsolated.SaveChanges();
+                                            }
                                         }
                                     }
                                 }
@@ -295,6 +327,8 @@ namespace YJY_COMMON.Service
                                     if (u == null || p == null)
                                         throw new ObjectNotFoundException();
 
+                                    var b = dbIsolated.Balances.FirstOrDefault(o => o.Id == u.ActiveBalanceId);
+
                                     if (p.ClosedAt == null)
                                     {
                                         var pl = Trades.CalculatePL(p, basePosition.ClosePrice.Value);
@@ -308,18 +342,20 @@ namespace YJY_COMMON.Service
                                         var pValue = p.Invest + pl;
                                         if (pValue > 0)
                                         {
-                                            u.Balance = u.Balance + pValue;
+                                            b.Amount = b.Amount + pValue;
                                         }
 
                                         //add a new transfer
                                         dbIsolated.Transfers.Add(new Transfer()
                                         {
                                             Amount = pValue,
-                                            BalanceAfter = u.Balance,
+                                            BalanceAfter = b.Amount,
                                             Time = DateTime.UtcNow,
                                             Type = TransferType.Close.ToString(),
                                             UserId = u.Id,
                                             PositionId = p.Id,
+
+                                            BalanceId = b.Id,
                                         });
 
                                         dbIsolated.SaveChanges();

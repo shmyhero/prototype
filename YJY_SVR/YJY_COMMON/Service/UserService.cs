@@ -44,11 +44,24 @@ namespace YJY_COMMON.Service
                             Phone = phone,
                             AuthToken = NewToken(),
 
-                            Balance = YJYGlobal.NEW_USER_INIT_BALANCE,
-                            BalanceEth = YJYGlobal.NEW_USER_INIT_BALANCE_ETH,
+                            //Balance = YJYGlobal.NEW_USER_INIT_BALANCE,
+                            //BalanceEth = YJYGlobal.NEW_USER_INIT_BALANCE_ETH,
                         };
                         dbIsolated.Users.Add(userIsolated);
 
+                        dbIsolated.SaveChanges();
+
+                        var balanceType = dbIsolated.BalanceTypes.FirstOrDefault(o => o.Id == 1);
+                        var balance = new Balance()
+                        {
+                            Amount = balanceType.InitAmount,
+                            TypeId = balanceType.Id,
+                            UserId = userIsolated.Id,
+                        };
+                        dbIsolated.Balances.Add(balance);
+                        dbIsolated.SaveChanges();
+
+                        userIsolated.ActiveBalanceId = balance.Id;
                         dbIsolated.SaveChanges();
                     }
                 }

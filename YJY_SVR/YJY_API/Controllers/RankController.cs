@@ -23,10 +23,16 @@ namespace YJY_API.Controllers
         [Route("user/plClosed/2w")]
         public List<UserRankDTO> GetUserRankPL2w()
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
             var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
 
-            var userDTOs = db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
+            var userDTOs = db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc && o.BalanceTypeId==balanceTypeId)
                 .GroupBy(o => o.UserId)
                 .Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                 {
@@ -40,7 +46,7 @@ namespace YJY_API.Controllers
                     roi = g.Sum(p => p.PL.Value)/g.Sum(p => p.Invest.Value),
                 }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
 
-            var tryGetAuthUser = TryGetAuthUser();
+            //var tryGetAuthUser = TryGetAuthUser();
             if (tryGetAuthUser != null)
             {
                 ////move myself to the top
@@ -101,9 +107,15 @@ namespace YJY_API.Controllers
         [Route("user/plClosed")]
         public List<UserRankDTO> GetUserRankClosedPL()
         {
+            var tryGetAuthUser = TryGetAuthUser();
+
+            int balanceTypeId = 1;
+            if (tryGetAuthUser != null)
+                balanceTypeId = db.Balances.FirstOrDefault(o => o.Id == tryGetAuthUser.ActiveBalanceId).TypeId;
+
             var beginTimeUtc = DateTimes.GetRankingBeginTimeUTC();
 
-            var userDTOs = db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= beginTimeUtc)
+            var userDTOs = db.Positions.Where(o => o.ClosedAt != null && o.ClosedAt >= beginTimeUtc && o.BalanceTypeId==balanceTypeId)
                 .GroupBy(o => o.UserId)
                 .Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                 {
@@ -117,7 +129,7 @@ namespace YJY_API.Controllers
                     roi = g.Sum(p => p.PL.Value) / g.Sum(p => p.Invest.Value),
                 }).OrderByDescending(o => o.roi).Take(YJYGlobal.DEFAULT_PAGE_SIZE).ToList();
 
-            var tryGetAuthUser = TryGetAuthUser();
+            //var tryGetAuthUser = TryGetAuthUser();
             if (tryGetAuthUser != null)
             {
                 ////move myself to the top
@@ -199,9 +211,12 @@ namespace YJY_API.Controllers
                 var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
                 var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
 
+                var user = GetUser();
+                var balance = db.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
                 var datas =
                     db.Positions.Where(
-                        o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
+                        o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc && o.BalanceTypeId == balance.TypeId)
                         .GroupBy(o => o.UserId).Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                         {
                             id = g.Key.Value,
@@ -270,9 +285,12 @@ namespace YJY_API.Controllers
                 var twoWeeksAgo = DateTimes.GetChinaToday().AddDays(-13);
                 var twoWeeksAgoUtc = twoWeeksAgo.AddHours(-8);
 
+                var user = GetUser();
+                var balance = db.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+
                 var datas =
                     db.Positions.Where(
-                        o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc)
+                        o => userIds.Contains(o.UserId.Value) && o.ClosedAt != null && o.ClosedAt >= twoWeeksAgoUtc && o.BalanceTypeId == balance.TypeId)
                         .GroupBy(o => o.UserId).Join(db.Users, g => g.Key, u => u.Id, (g, u) => new UserRankDTO()
                         {
                             id = g.Key.Value,

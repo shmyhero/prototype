@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YJY_COMMON.Enums;
 using YJY_COMMON.Model.Entity;
 
 namespace YJY_COMMON.Model.Queue
