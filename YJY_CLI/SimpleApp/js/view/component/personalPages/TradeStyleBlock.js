@@ -11,7 +11,7 @@ var LS = require('../../../LS')
 var ColorConstants = require('../../../ColorConstants');  
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
-
+import LogicData from '../../../LogicData';
 export default class TradeStyleBlock extends Component {
   static propTypes = {
     // userId: PropTypes.number,
@@ -56,6 +56,10 @@ export default class TradeStyleBlock extends Component {
       var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
       url = url.replace('<id>', userId)
       console.log('url='+url);
+ 
+
+      var userData = LogicData.getUserData()
+
       this.setState({
           isDataLoading: true,
       }, ()=>{
@@ -64,6 +68,10 @@ export default class TradeStyleBlock extends Component {
               {
                   method: 'GET', 
                   showLoading: true,
+                  headers: {
+                        'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                        'Content-Type': 'application/json; charset=utf-8',
+                      }
               }, (responseJson) => { 
                    this.setState({
                     totalWinRate:(responseJson.winRate*100).toFixed(2), //总胜率
