@@ -14,7 +14,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   KeyboardAvoidingView,
-  Keyboard
+  Keyboard,
+  ActivityIndicator,
+  ProgressBarAndroid,
+  ActivityIndicatorIOS,
 } from 'react-native';
 import NavBar from './component/NavBar';
 
@@ -30,7 +33,7 @@ var WebSocketModule = require("../module/WebSocketModule");
 import ViewKeys from '../ViewKeys';
 var MAX_ValidationCodeCountdown = 60
 import LibraryImporter from '../LibraryImporter';
- 
+var ColorConstants = require('../ColorConstants');
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
@@ -351,11 +354,43 @@ export default class LoginScreen extends Component {
         );
     }
 
+    _renderActivityIndicator() {
+        return ActivityIndicator ? (
+            <ActivityIndicator
+                style={{marginRight: 10,}}
+                animating={true}
+                color='white'
+                size={'small'}/>
+        ) : Platform.OS == 'android' ?
+            (
+                <ProgressBarAndroid
+                    style={{marginRight: 10,}}
+                    color='white'
+                    styleAttr={'Small'}/>
+
+            ) :  (
+            <ActivityIndicatorIOS
+                style={{marginRight: 10,}}
+                animating={true}
+                color='white'
+                size={'small'}/>
+        )
+    } 
+
     renderGetValidationCodeButton(){
 
         var textLogin = this.isPhoneNumberChecked()?'white':'#6281a6'
         
-        if(this.state.getValidationCodeButtonEnabled||this.state.validationCodeCountdown<0){
+        if(this.state.isRequesting){
+            return(
+                <View style={{flexDirection:'row',justifyContent:'center',width:100}}>
+                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
+                    <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
+                    {this._renderActivityIndicator()}
+                    </View>
+                </View>
+            )  
+        }else if(this.state.getValidationCodeButtonEnabled||this.state.validationCodeCountdown<0){
             return(
                 <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',width:100}}>
                                     <View style={{width:1,height:40,backgroundColor:'#4e85bf' }}></View>

@@ -96,8 +96,12 @@ class  TabMeScreen extends React.Component {
   }
 
   goToSettings(){
-    this.props.navigation.navigate(ViewKeys.SCREEN_SETTINGS);
-  }
+    this.props.navigation.navigate(ViewKeys.SCREEN_SETTINGS,{onGoBack:()=>{
+      this.tradeStyleCicleBlock.refresh()
+    }});
+
+  } 
+   
 
   onBalancePressed(){
     //this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT_WITHDRAW);
@@ -191,7 +195,7 @@ class  TabMeScreen extends React.Component {
         {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}> */}
             <ProfitTrendCharts              
-              ref={(ref)=>this.tradeStyleCicleBlock = ref}
+              ref={(ref)=>this.ProfitTrendCharts = ref}
               userId={this.props.userId}
               viewHeight={180}
               isPrivate={false}/>          

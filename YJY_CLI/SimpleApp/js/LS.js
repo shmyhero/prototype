@@ -57,6 +57,9 @@ var LS = {
     CANCLE_COPY_ALERT_CANCLE:["暂不", "Not Now", "いいえ"],
     MINE:["我的","Mine", "私"],
     WINRATE:["胜率:","WinRate:", "勝率"],
+    WINRATE_:["胜率","WinRate", "勝率"],
+    TRADES:["交易笔数","TRADES", "交易笔数"],
+    
     APPLY_COPY:["申请跟随:","Apply Copy", "コピー"],
     AVG_MOUNT_COPY:["每笔跟随{1}","{1} per time", "1つトレードあたりの{1}"],
     COPY_TIMES:["跟随笔数","Copy times", "トレード数"],

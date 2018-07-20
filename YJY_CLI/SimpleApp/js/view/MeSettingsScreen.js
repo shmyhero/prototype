@@ -60,6 +60,12 @@ class MeSettingsScreen extends Component {
         }
     } 
 
+    componentWillUnmount(){
+        if(this.props.navigation.state.params.onGoBack){
+            this.props.navigation.state.params.onGoBack();
+        } 
+    }
+
     onSelectNormalRow(rowData){
         switch(rowData.item.subtype){
             case "helpCenter":
