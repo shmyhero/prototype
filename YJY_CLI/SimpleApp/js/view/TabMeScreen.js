@@ -44,6 +44,10 @@ var layoutSizeChangedSubscription = null;
 class  TabMeScreen extends React.Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      userLoggedin: false,
+    }
   }
 
   componentDidMount() {
@@ -62,8 +66,17 @@ class  TabMeScreen extends React.Component {
 
   refresh(){
     console.log("Mepage refresh")
-    this.props.fetchMeData();
-    this.props.updateUnread();
+    if(!LogicData.isLoggedIn()){
+      this.setState({
+        userLoggedin: false,
+      })
+    }else{
+      this.setState({
+        userLoggedin: true,
+      })
+      this.props.fetchMeData();
+      this.props.updateUnread();
+    }
   }
 
   goToUserConfig(){
@@ -236,7 +249,7 @@ class  TabMeScreen extends React.Component {
   }
 
   renderContent(){
-    if(this.props.userLoggedin){
+    if(this.state.userLoggedin){
       return (
         <ScrollView style={styles.mainContainer}>         
           <View style={styles.backgroundContainer}>

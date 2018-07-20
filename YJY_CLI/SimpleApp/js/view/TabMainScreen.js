@@ -38,8 +38,6 @@ var listViewOffY = 0;
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 import LogicData from '../LogicData';
-import { CHECK_LOGIN_STATE_NOT_LOGGED_IN } from '../redux/constants/actionTypes';
-var tabSwitchedSubscription = null;
 
   /*
   { time: '2018-03-05T01:58:31.263',
