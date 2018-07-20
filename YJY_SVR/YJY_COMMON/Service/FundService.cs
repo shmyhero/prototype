@@ -134,7 +134,7 @@ namespace YJY_COMMON.Service
 
                             var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
 
-                            var amount = decimal.Parse(deposit.TokenAmount);
+                            var amount = decimal.Parse(deposit.TokenAmount) / 1e18m;
 
                             if (amount > 0)
                             {

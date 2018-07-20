@@ -35,7 +35,7 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public PositionDTO NewPosition(NewPositionFormDTO form)
         {
-            if (form.invest <= 0)
+            if (form.invest <= 0 || form.invest>10000)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
                     "invalid invest"));
 

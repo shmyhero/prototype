@@ -121,6 +121,10 @@ namespace YJY_API.Controllers
         [BasicAuth]
         public ResultDTO NewTHTWithdrawal(NewTHTWithdrawalFormDTO form)
         {
+            if(form.amount>10000000)
+                throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
+                    "invalid amount"));
+
             var fundService = new FundService(db);
             var withdrawalId = fundService.NewTHTWithdrawal(UserId, form.amount);
 

@@ -303,7 +303,7 @@ namespace YJY_API.Controllers
             if (UserId == followingId)
                 return new ResultDTO(false);
 
-            if(form.investFixed<=0)
+            if(form.investFixed<=0 || form.investFixed>10000)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,"invalid invest"));
 
             if (form.stopAfterCount <= 0)
