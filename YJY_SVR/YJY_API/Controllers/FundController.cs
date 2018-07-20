@@ -51,6 +51,13 @@ namespace YJY_API.Controllers
         }
 
         [HttpGet]
+        [Route("balance/type")]
+        public List<BalanceTypeDTO> GetBalanceTypes()
+        {
+            return db.BalanceTypes.ToList().Select(o => Mapper.Map<BalanceTypeDTO>(o)).ToList();
+        }
+
+        [HttpGet]
         [Route("transfer")]
         [BasicAuth]
         public List<TransferDTO> GetTransferHistory(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)

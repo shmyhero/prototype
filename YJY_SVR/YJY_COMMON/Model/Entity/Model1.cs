@@ -12,13 +12,21 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<BalanceType> BalanceTypes { get; set; }
+        public virtual DbSet<THTWithdrawal> THTWithdrawals { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<BalanceType>()
-                .Property(e => e.InitAmount)
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.Amount)
                 .HasPrecision(28, 18);
+
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.Value)
+                .HasPrecision(28, 0);
+
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.CallbackValue)
+                .HasPrecision(28, 0);
         }
     }
 }

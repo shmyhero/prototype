@@ -11,6 +11,12 @@ namespace YJY_API.DTO
 
         public decimal total { get; set; }
     }
+    public class BalanceTypeDTO
+    {
+        public int id { get; set; }
+        public string code { get; set; }
+        public int precision { get; set; }
+    }
     public class THTAddressDTO
     {
         public string address { get; set; }

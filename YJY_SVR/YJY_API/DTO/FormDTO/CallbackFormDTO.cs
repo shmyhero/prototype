@@ -24,7 +24,11 @@ namespace YJY_API.DTO.FormDTO
         //public string from { get; set; }
         public string to { get; set; }
         public string value { get; set; }
+
+        public bool success { get; set; }
+        public string message { get; set; }
     }
+
     public class ETHDepositFormDTO
     {
         public string transactionHash { get; set; }

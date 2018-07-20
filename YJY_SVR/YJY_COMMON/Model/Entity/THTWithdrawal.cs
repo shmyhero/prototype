@@ -29,10 +29,15 @@ namespace YJY_COMMON.Model.Entity
 
         public DateTime? CallbackAt { get; set; }
 
+        public bool? CallbackResult { get; set; }
+
         public decimal? CallbackValue { get; set; }
 
         [StringLength(100)]
         public string CallbackTo { get; set; }
+
+        [Column(TypeName = "ntext")]
+        public string CallbackMessage { get; set; }
 
         public DateTime? CancelAt { get; set; }
 

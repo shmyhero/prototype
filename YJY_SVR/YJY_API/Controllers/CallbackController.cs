@@ -81,8 +81,10 @@ namespace YJY_API.Controllers
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest, "no such index"));
 
             withdrawal.CallbackAt=DateTime.UtcNow;
+            withdrawal.CallbackResult = form.success;
             withdrawal.CallbackTo = form.to;
             withdrawal.CallbackValue = decimal.Parse(form.value);
+            withdrawal.CallbackMessage = form.message;
 
             db.SaveChanges();
 

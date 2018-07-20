@@ -25,5 +25,7 @@ namespace YJY_COMMON.Model.Entity
         [Key]
         [Column(Order = 2)]
         public decimal InitAmount { get; set; }
+
+        public int? Precision { get; set; }
     }
 }
