@@ -1,5 +1,7 @@
 package com.simpleapp;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
