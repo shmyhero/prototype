@@ -15,6 +15,7 @@ var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
 var MyPie = require('../../component/Pie/MyPie')
 var {height, width} = Dimensions.get('window')
+import LogicData from '../../../LogicData';
 export default class TradeStyleCircleBlock extends Component {
   static propTypes = {
     
@@ -49,6 +50,9 @@ export default class TradeStyleCircleBlock extends Component {
   loadData(userId){   
     var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
     url = url.replace('<id>', userId)
+
+    var userData = LogicData.getUserData() 
+
     console.log('url='+url);
     this.setState({
         isDataLoading: true,
@@ -58,6 +62,10 @@ export default class TradeStyleCircleBlock extends Component {
             {
                 method: 'GET', 
                 showLoading: true,
+                headers: {
+                  'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                  'Content-Type': 'application/json; charset=utf-8',
+                }
             }, (responseJson) => { 
                  this.setState({
                   totalWinRate:(responseJson.winRate*100).toFixed(0), //总胜率
@@ -82,12 +90,16 @@ export default class TradeStyleCircleBlock extends Component {
   loadData2(userId){ 
       var url = NetConstants.CFD_API.PERSONAL_PAGE_PLDIST; 
       url = url.replace("<id>", userId); 
-
+      var userData = LogicData.getUserData() 
       NetworkModule.fetchTHUrl(
         url,
         {
           method: 'GET', 
           cache: 'none',
+          headers: {
+            'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+            'Content-Type': 'application/json; charset=utf-8',
+          }
         },
         (responseJson) => { 
           this.setState({

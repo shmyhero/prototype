@@ -231,6 +231,10 @@ var LS = {
     GO: ["前往", "Go", "Go"],
     CONFIRM: ['确认','Confirm', "はい"],
 
+    RISK_WARNING: ["风险提示！", "Warning!","Warning!"],
+    LOGIN_OUTSIDE: ["盈交易账号已登录其他设备", "Your account is logged in on another device.", "Your account is logged in on another device."],
+    I_SEE: ["我知道了", "I see", "I see"]
+
   },
   str(key){
     if(LogicData.getLanguage() == 'zh-cn'){

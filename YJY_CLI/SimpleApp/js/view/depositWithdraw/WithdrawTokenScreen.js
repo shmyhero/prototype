@@ -21,8 +21,6 @@ var NetConstants = require("../../NetConstants");
 import LogicData from "../../LogicData";
 import ViewKeys from '../../ViewKeys';
 import SubmitButton from '../component/SubmitButton';
-var NetworkModule = require("../../module/NetworkModule");
-var NetConstants = require("../../NetConstants");
 var LS = require("../../LS");
 import { connect } from 'react-redux';
 
@@ -40,11 +38,13 @@ class WithdrawTokenScreen extends Component {
             isAgreementRead: false,
             isButtonEnable: false,
             isRequestSending: false,
+            precision:0,
         }
     }
 
     componentWillMount(){
         this.props.fetchBalanceData();
+        this.getDecimalPlace();
     }
 
     updateButtonStatus(){
@@ -63,23 +63,90 @@ class WithdrawTokenScreen extends Component {
     }
 
     onWithdrawAllPressed(){
-        var state = {
-            withdrawStringValue: "" + this.props.balance,
-            withdrawValue: this.props.balance,
-        };
-        this.setState(state, ()=>this.updateButtonStatus())
+        this.updatePaymentAmount("" + this.props.balance)
+    }
+
+    cutToDecimal(inputValue){
+        var re = new RegExp('^\\d+\\.?\\d{0,' + this.state.precision + '}');
+        if(this.state.precision == 0 ){
+            re = new RegExp('^[0-9]+');
+        }
+        var cutWithdrawValue = inputValue.match(re);
+        if(cutWithdrawValue && cutWithdrawValue.length > 0){
+            return cutWithdrawValue[0];
+        }else{
+            var floatValue = parseFloat(inputValue);
+            return "" + floatValue;
+        }
     }
 
     updatePaymentAmount(withdrawValue){
         var state = {
             withdrawStringValue: withdrawValue
         };
+
         if(withdrawValue){
-            state.withdrawValue = parseInt(withdrawValue);
+            console.log("this.state.precision", this.state.precision)
+
+            state.withdrawStringValue = this.cutToDecimal(withdrawValue);
+            state.withdrawValue = parseFloat(state.withdrawStringValue);
+
+            // var re = new RegExp('^\\d+\\.?\\d{0,' + this.state.precision + '}');
+            // if(this.state.precision == 0 ){
+            //     re = new RegExp('^[0-9]+');
+            // }
+
+
+            // var cutWithdrawValue = withdrawValue.match(re);
+            // if(cutWithdrawValue && cutWithdrawValue.length > 0){
+            //     state.withdrawValue = parseFloat(cutWithdrawValue[0]);
+            //     if(!state.withdrawValue){
+            //         state.withdrawValue = 0
+            //     }
+            //     state.withdrawStringValue = cutWithdrawValue[0];
+            // }else{
+            //     state.withdrawValue = parseFloat(withdrawValue);
+            //     if(!state.withdrawValue){
+            //         state.withdrawValue = 0
+            //     }
+            //     state.withdrawStringValue = "" + state.withdrawValue;
+            // }
+            
+
+            // // console.log("cutWithdrawValue", cutWithdrawValue);
+            // // console.log("withdrawValue", cutWithdrawValue)
+            // console.log("state.withdrawValue", state.withdrawValue);
+            // console.log("state.withdrawStringValue", state.withdrawStringValue);
         }else{
             state.withdrawValue = 0;
-        }
+        }     
+
         this.setState(state, ()=>this.updateButtonStatus())
+    }
+
+    getDecimalPlace(){
+        var userData = LogicData.getUserData();
+        NetworkModule.fetchTHUrl(
+            NetConstants.CFD_API.WITHDRAW_DECIMAL_PLACE,
+            {
+                method: 'GET',
+                headers: {
+                    'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                },
+            },
+            (response )=>{
+                for(var i in response){
+                    if(response[i].code == LogicData.getBalanceType()){
+                        this.setState({
+                            precision:response[i].precision
+                        });
+                    }
+                }
+            },
+            (error)=>{
+                console.log("WITHDRAW_DECIMAL_PLACE error", error);
+                
+            });
     }
 
     withdraw(){
@@ -191,7 +258,13 @@ class WithdrawTokenScreen extends Component {
     }
 
     renderContent() {
-        var balanceValue = this.props.isBalanceLoading ? "--" : this.props.balance;
+        var balanceValue;
+        if(this.props.isBalanceLoading){
+            balanceValue = "--";
+        }else{
+            balanceValue = this.cutToDecimal(""+this.props.balance);
+        }
+
         return (
             <TouchableWithoutFeedback style={styles.container} 
                 onPress={()=>{

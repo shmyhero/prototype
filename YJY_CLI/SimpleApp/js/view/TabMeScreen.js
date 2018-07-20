@@ -76,6 +76,10 @@ class  TabMeScreen extends React.Component {
       })
       this.props.fetchMeData();
       this.props.updateUnread();
+      
+      this.ProfitTrendCharts && this.ProfitTrendCharts.refresh();
+      this.tradeStyleCicleBlock && this.tradeStyleCicleBlock.refresh();
+      this.tradeStyleBlock && this.tradeStyleBlock.refreshData();
     }
   }
 
