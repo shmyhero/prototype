@@ -9,7 +9,8 @@ import { View,
     TouchableWithoutFeedback,
     ImageBackground,
     Keyboard,
-    Platform
+    Platform,
+    KeyboardAvoidingView
 } from 'react-native';
 import NavBar from "../component/NavBar";
 var ColorConstants = require("../../ColorConstants");
@@ -117,8 +118,8 @@ class BindPurseScreen extends Component {
     dismissKeyboard(){
         Keyboard.dismiss()
     }
-    
-    render() {
+
+    renderContent(){
         return (
             <View style={styles.container}>                
                 <TouchableWithoutFeedback style={{flex:1}} onPress={()=>this.dismissKeyboard()}>
@@ -172,6 +173,29 @@ class BindPurseScreen extends Component {
                 </TouchableWithoutFeedback>
             </View>
         );
+    }
+    
+    render() {
+        if(Platform.OS == "ios"){
+            return (
+                <KeyboardAvoidingView style={{
+                        width:width,
+                        flex:1
+                    }}
+                    behavior={"padding"}>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        } else {
+            return (            
+                <KeyboardAvoidingView style={{
+                        width:width,
+                        flex:1
+                        }}>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        }
     }
 }
 

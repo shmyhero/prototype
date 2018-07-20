@@ -8,9 +8,13 @@ import { View,
     TouchableWithoutFeedback,
     ImageBackground,
     Keyboard,
-    Image
+    Platform,
+    Image,
+    Dimensions,
+    KeyboardAvoidingView
 } from 'react-native';
 import NavBar from '../component/NavBar';
+var {height,width} = Dimensions.get('window');
 var ColorConstants = require('../../ColorConstants');
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
@@ -166,7 +170,27 @@ class WithdrawTokenScreen extends Component {
         }
     }
 
-    render() {
+    render(){
+        if(Platform.OS == "ios"){
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    behavior={"padding"}>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        } else {
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    >
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        }
+    }
+
+    renderContent() {
         var balanceValue = this.props.isBalanceLoading ? "--" : this.props.balance;
         return (
             <TouchableWithoutFeedback style={styles.container} 
@@ -178,7 +202,7 @@ class WithdrawTokenScreen extends Component {
                         showBackButton={true}
                         backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
                         navigation={this.props.navigation}
-                        />
+                    />
                     <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
                         {this.renderPurseAddress()}
                         <View style={styles.rowContainer}>
