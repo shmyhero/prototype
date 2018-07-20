@@ -106,11 +106,14 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 				if (Object.keys(userData).length !== 0) {
 					console.log('多点登录 = ' + e);
 					if (!loginOutsideAlertShown) {
-						loginOutsideAlertShown = true
-	 					Alert.alert('风险提示！', '盈交易账号已登录其他设备', [{text: '我知道了', onPress: () => {
-							loginOutsideAlertShown = false;
-	 						EventCenter.emitAccountLoginOutSideEvent();
-						}}],{cancelable:false})
+						loginOutsideAlertShown = true;
+						Alert.alert(LS.str("RISK_WARNING"), 
+						 	LS.str("LOGIN_OUTSIDE"), [{
+							text: LS.str("I_SEE"), 
+							onPress: () => {
+								loginOutsideAlertShown = false;
+								EventCenter.emitAccountLoginOutSideEvent();
+							}}],{cancelable:false})
 					};
 				}
 			}
