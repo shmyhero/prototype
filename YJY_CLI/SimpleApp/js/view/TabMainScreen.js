@@ -38,8 +38,6 @@ var listViewOffY = 0;
 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 import LogicData from '../LogicData';
-import { CHECK_LOGIN_STATE_NOT_LOGGED_IN } from '../redux/constants/actionTypes';
-var tabSwitchedSubscription = null;
 
   /*
   { time: '2018-03-05T01:58:31.263',
@@ -294,34 +292,6 @@ class TabMainScreen extends React.Component {
     }
 
     render() {
-        console.log("TabMainScreen!!!!!!")
-        let go = function*(x) {
-            console.log('1 xxxx', x)
-            let a = yield x
-            console.log('2 xxxx', x)
-      
-            console.log('3 xxxx', a)
-      
-            let b = yield x + 1
-      
-            sum = a + b
-      
-            yield a + b
-      
-            return a + b
-          }
-          go(10)
-      
-          let g = go(10)
-          console.log("aaa", g.next())
-          console.log("aaa2")
-          console.log("bbb", g.next(1000))
-          console.log("bbb2")
-          console.log("ccc", g.next(50).value)
-          console.log("ccc")
-          console.log("ddd", g.next().value)
-          console.log("ddd")
-
         //if(this.state.isLoading){
         if(!this.state.isContentLoaded){
             // return (
@@ -361,8 +331,10 @@ class TabMainScreen extends React.Component {
                         pullUpStayDistance={50} 
                         removeClippedSubviews={false}
                         pullDownDistance={35}
-                        pullDownStayDistance={50} 
-                        scrollEnabled={this.state.isAllowScroll}  
+                        pullDownStayDistance={50}
+                        scrollEnabled={this.state.isAllowScroll}
+                        enabledPullUp={this.state.isAllowScroll}
+                        enabledPullDown={this.state.isAllowScroll}
                     />
                 </View>
             )

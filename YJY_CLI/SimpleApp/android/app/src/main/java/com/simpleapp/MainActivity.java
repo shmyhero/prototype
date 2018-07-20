@@ -1,5 +1,7 @@
 package com.simpleapp;
 
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -30,6 +32,14 @@ public class MainActivity extends ReactActivity {
 
         super.onCreate(savedInstanceState);
         mInstance = this;
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        Intent intent = new Intent("onConfigurationChanged");
+        intent.putExtra("newConfig", newConfig);
+        this.sendBroadcast(intent);
     }
 
     @Override

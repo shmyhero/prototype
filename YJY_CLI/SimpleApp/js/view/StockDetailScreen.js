@@ -407,7 +407,7 @@ export default class StockDetailScreen extends Component {
                         flexDirection:'row',
                         }}>
                         {imageSource? <Image style={{marginLeft:15, height: 22, width: 22}} source={imageSource}/> : null}
-                        <Text style={textViewStyleList}>{label}</Text>
+                        <Text style={textViewStyleList}>{label}</Text>                        
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
@@ -606,6 +606,8 @@ export default class StockDetailScreen extends Component {
                             style={styles.buttonsScroller}>                            
                             {amountViews}
                         </ScrollView>
+                        <Text style={{position:'absolute', top:0, left:0, right:0,
+                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</Text>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         source={LS.loadImage('stock_detail_multiple_container')}>

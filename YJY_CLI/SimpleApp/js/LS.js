@@ -19,8 +19,8 @@ var LS = {
     VERIFING: ["信息检查中...", "Verifying...", "検証中..."],    
     FINISH: ["完成", "Done", "完成"],
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
-    SUGAR_AMOUNT: ["总BTH数", "Total BTH", "総資産"],
-    SUGAR_AVAILABLE: ["可出BTH数", "Available", "残高"],
+    SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
+    SUGAR_AVAILABLE: ["可出{1}数", "Available {1}", "残高({1})"],
     LONG_OPERATION: ["上升", "RISING", "上昇"],
     SHORT_OPERATION: ["下降", "FALLING", "下落"],
 
@@ -41,7 +41,7 @@ var LS = {
     RELEASE_FOR_LOAD_MORE:["释放加载更多","release to load more...", "リリースしてください"],
     NO_MORE:["没有更多","no more data", "データはこれ以上ありません"],
     DEL:["删除","Remove", "削除"],
-    MOUNT_X:["BTH x","BTH x", "BTH x"],
+    MOUNT_X:["{1} x","{1} x", "{1} x"],
     MULTIPLE:["倍数","multiple", "乗数"],//テコ入れ
     PROFIT:["盈利","Profit", "獲得"],
     LOSS:["亏损","Loss", "損失"],    
@@ -57,8 +57,11 @@ var LS = {
     CANCLE_COPY_ALERT_CANCLE:["暂不", "Not Now", "いいえ"],
     MINE:["我的","Mine", "私"],
     WINRATE:["胜率:","WinRate:", "勝率"],
+    WINRATE_:["胜率","WinRate", "勝率"],
+    TRADES:["交易笔数","TRADES", "交易笔数"],
+    
     APPLY_COPY:["申请跟随:","Apply Copy", "コピー"],
-    AVG_MOUNT_COPY:["每笔跟随BTH","BTH per time", "1つトレードあたりのBTH"],
+    AVG_MOUNT_COPY:["每笔跟随{1}","{1} per time", "1つトレードあたりの{1}"],
     COPY_TIMES:["跟随笔数","Copy times", "トレード数"],
     SUNDAY:["星期日","Sun", "日"],
     MONDAY:["星期一","Mon", "月"],
@@ -87,7 +90,7 @@ var LS = {
     PJGG:["平均倍数","AVG.Multiple", "平均乗数"],
     LJXD:["累积下单(次)","Total trades", "トレード数"],
   
-    PJBJ:["平均BTH","AVG.BTH", "平均BTH"],  
+    PJBJ:["平均{1}","AVG.{1}", "平均{1}"],  
     PJCCSJ:["平均持仓(天)","AVG. hold days", "平均期間"], 
     PJMBHL:["平均每笔获利","AVG.Profit", "平均獲得"],
  
@@ -105,8 +108,8 @@ var LS = {
     SELECT_COUNTRY_CODE:["选择国家/地区","Country/Area Code", "选择国家/地区"],
 
     LOGIN:["登录","Login", "ログイン"],
-    TOTAL_MOUNT:["总BTH","Total BTH", "BTH"],
-    REMAIN_MOUNT:["剩余BTH","Remain BTH", "BTH残高"],
+    TOTAL_MOUNT:["总{1}","Total {1}", "{1}"],
+    REMAIN_MOUNT:["剩余{1}","Remain {1}", "{1}残高"],
     SHARE:["分享","Share", "シェア"],
     NO_DYNAMIC:["暂无动态","No Data", "データがありません"],
     NO_COPY:["没有跟随记录","No Copy", "データがありません"],
@@ -143,11 +146,11 @@ var LS = {
     STOCK_MARKET_CLOSED:['闭市','closed', "クローズ中"],
     STOCK_DETAIL: ['详情', "Detail", "詳細"],
 
-    TWEET_HINT: ["今天你怎么看？", "What's your opinion today?", "BTH"],
-    TWEET_PUBLISH_TITLE: ["发布动态", "Publish Tweet", "BTH"],
-    TWEET_PUBLISH: ["发布", "Publish", "BTH"],
-    TWEET_PUBLISH_FAILED_TITLE: ["发布失败", "Publish failed", "BTH"],
-    TWEET_PUBLISH_PRODUCTS: ["产品", "Products", "BTH"],
+    TWEET_HINT: ["今天你怎么看？", "What's your opinion today?", "What's your opinion today?"],
+    TWEET_PUBLISH_TITLE: ["发布动态", "Publish Tweet", "Publish Tweet"],
+    TWEET_PUBLISH: ["发布", "Publish", "Publish"],
+    TWEET_PUBLISH_FAILED_TITLE: ["发布失败", "Publish failed", "Publish failed"],
+    TWEET_PUBLISH_PRODUCTS: ["产品", "Products", "Products"],
 
     POSITION_HOLD_NO_ITEMS: ["暂无持仓记录", "There are no open positions", "今どう思いますか"],
     POSITION_CLOSED_NO_ITEMS: ["暂无平仓记录", "There are no closed positions", "データがありません"],
@@ -157,40 +160,40 @@ var LS = {
     SELECT_PRODUCT: ["选择产品", "Choose Products", "商品を選択"],
      
     DEPOSIT_WITHDRAW_ENTRY_HEADER:['存取资金','Wallet', "Wallet"],
-    DEPOSIT_WITHDRAW_ENTRY_AVAILABLE:['剩余BTH','Remaining BTH', "Remaining BTH"],
+    DEPOSIT_WITHDRAW_ENTRY_AVAILABLE:['剩余{1}','Remaining {1}', "Remaining {1}"],
     BIND_PURSE_ADDRESS_HINT: ["请输入/粘贴钱包地址", "Please enter/paste wallet address", "Please enter/paste wallet address"],
-    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和BTH账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account.", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
+    BIND_PURSE_HINT: ["绑定须知：入金前需要绑定您的钱包地址，钱包地址绑定后，入金才能和{1}账户关联起来！", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account.", "Binding Notice: You need to bind your wallet address before Deposit, After binding, funds can be associated with the token account."],
     BIND_CONFIRM: ["确认绑定", "Confirm binding", "Confirm binding"],
     BIND_PURSE_HEADER: ["绑定钱包地址", "Bind wallet address", "Bind wallet address"],
-    DEPOSIT_COPY_YJY_ADDRESS: ["复制BTH收款地址", "Copy wallet address of BTH", "Copy wallet address of BTH"],
-    DEPOSIT_YJY_ADDRESS: ["BTH收款地址: ", "Wallet address of BTH: ", "Wallet address of BTH: "],
+    DEPOSIT_COPY_YJY_ADDRESS: ["复制{1}收款地址", "Copy wallet address of {1}", "Copy wallet address of {1}"],
+    DEPOSIT_YJY_ADDRESS: ["{1}收款地址: ", "Wallet address of {1}: ", "Wallet address of {1}: "],
     DEPOSIT_HINT_1: ["注册以太坊钱包: ", "Registered Ethereum Wallet: ", "Registered Ethereum Wallet: "],
     DEPOSIT_HINT_2: ["以太坊官网: ", "Ethereum Website: ", "Ethereum Website: "],
-    DEPOSIT_HINT_3: ["用户把自己的Token转入BTH: ", "Users transfer their Token to BTH", "Users transfer their Token to BTH"],
+    DEPOSIT_HINT_3: ["用户把自己的Token转入{1}: ", "Users transfer their Token to {1}", "Users transfer their Token to {1}"],
     DEPOSIT_COPY_SUCCESS: ["复制成功", "Successful", "Successful"],
-    DEPOSIT_AGREEMENT: ["《购买BTH协议内容》", "《BTH clause》", "《BTH clause》"],
+    DEPOSIT_AGREEMENT: ["《购买{1}协议内容》", "{1} clause》", "{1} clause》"],
 
     WITHDRAW_ADDRESS_HINT: ["我的收款地址", "My wallet address", "My wallet address"],
     WITHDRAW_READ_AGREEMENT: ["我已经阅读并同意", "Accept ", "Accept"],
     WITHDRAW_AGREEMENT: ["出金协议内容", "the Agreement", "the Agreement"],
     WITHDRAW_AMOUNT: ["出金金额", "Withdraw Limit", "Withdraw Limit"],
-    WITHDRAW_BTH: ["BTH", "BTH", "BTH"],
+    WITHDRAW_BTH: ["{1}", "{1}", "{1}"],
     WITHDRAW_ALL: ['全部出金', 'Withdraw all', "Withdraw all"],
-    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}BTH，', 'Withdraw Limit :{1} BTH,', "Withdraw Limit :{1} BTH,"],
+    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}{2}，', 'Withdraw Limit :{1} {2},', "Withdraw Limit :{1} {2},"],
     WITHDRAW_WITHDRAW: ["确认出金", "withdraw", "withdraw"],
     WITHDRAW_REQUEST_SUBMITED: ["出金提交成功", "Submitted", "Submitted"],
     WITHDRAW_ETA_MESSAGE: ["预计资金到账时间为1小时，具体以钱包余额为准！", "Funds may arrive within one hour.", "Funds may arrive within one hour."],
 
     COPY_AGREEMENT: ["《跟随规则》", "Copy Agreement", "Copy Agreement"],
-    COPY_AMOUNT: ["每笔跟随BTH", "BTH", "BTH"],
+    COPY_AMOUNT: ["每笔跟随{1}", "{1}", "{1}"],
     COPY_COUNT: ["跟随笔数", "Times", "Times"],
 
     ORDER_TYPE:['类型','type', "type"],
-    ORDER_SUGAR_AMOUNT: ["BTH", "BTH", "BTH"],
+    ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
     ORDER_MULTIPLE: ["倍数", "Multiple", "Multiple"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],
-    ORDER_MAX_RISK: ["最大风险（BTH）", "Maximum Risk", "Maximum Risk"],
-    ORDER_PROFIT_AND_LOSS: ["盈亏（BTH）", "Profit / loss (BTH)", "Profit / loss (BTH)"],
+    ORDER_MAX_RISK: ["最大风险（{1}）", "Maximum Risk", "Maximum Risk"],
+    ORDER_PROFIT_AND_LOSS: ["盈亏（{1}）", "Profit / loss ({1})", "Profit / loss ({1})"],
     
     ORDER_CURRENT_BUY_PRICE:['当前买价','Current Price', "Current Price"],
     ORDER_CURRENT_SELL_PRICE:['当前卖价','Current Price', "Current Price"],
@@ -211,6 +214,7 @@ var LS = {
     SETTINGS_PORTRAIT: ["头像", "Portrait", "Portrait"],
     SETTINGS_NICKNAME: ["昵称", "Nickname", "Nickname"],
     SETTINGS_MOBILE: ["手机号", "Mobile", "Mobile"],
+    SETTINGS_BALANCE_TYPE: ["交易账户", "Transaction Account", "Transaction Account"],
 
     MY_MESSAGES:['我的消息','Messages', "Messages"],
 
@@ -225,6 +229,7 @@ var LS = {
     ADDED_TO_WATCH_LIST: ["已加入关注列表", "Added to watchlist", "Added to watchlist"],
     DYNAMIC_OPEN_ASK: ["动态已全部关闭，是否前往开启？", "Dynamics have all been closed,Are you going to open?", "Dynamics have all been closed,Are you going to open?"],
     GO: ["前往", "Go", "Go"],
+    CONFIRM: ['确认','Confirm', "はい"],
 
   },
   str(key){
@@ -261,7 +266,11 @@ var LS = {
     }else{
       return LS.imageList[imageFileName][1]
     }
-  }
+  },
+
+	getBalanceTypeDisplayText(){
+		return LogicData.getBalanceType();
+	}
 }
 
 module.exports = LS;

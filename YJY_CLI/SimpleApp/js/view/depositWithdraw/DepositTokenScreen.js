@@ -68,9 +68,9 @@ class DepositScreen extends Component {
                 </View>
                 <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, right:10,
                     width:imageWidth * 0.8, flex:1}}>
-                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_3")}</Text>
+                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_3").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
                     <Text style={styles.bodyText} numberOfLines={3}>
-                        {LS.str("DEPOSIT_YJY_ADDRESS")}
+                        {LS.str("DEPOSIT_YJY_ADDRESS").replace("{1}", LS.getBalanceTypeDisplayText())}
                         <Text style={styles.linkText}>{this.state.tokenAddress}</Text>
                     </Text>
                 </View>
@@ -89,7 +89,7 @@ class DepositScreen extends Component {
                 <View style={styles.contentContainer}>
                     {this.renderTopPart()}
                     <SubmitButton onPress={()=>this.copyAddress()}
-                        text={LS.str("DEPOSIT_COPY_YJY_ADDRESS")} />
+                        text={LS.str("DEPOSIT_COPY_YJY_ADDRESS").replace("{1}", LS.getBalanceTypeDisplayText())} />
                 </View>
                
             </View>

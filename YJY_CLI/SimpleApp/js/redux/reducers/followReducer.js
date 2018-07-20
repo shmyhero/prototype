@@ -108,10 +108,11 @@ export default function followReducer(state = initializeState, action) {
             };
             break;
         case CHECK_AGREEMENT:
-            var isAgreementRead = action.payload.isAgreementRead;
+            var isAgreementRead = action.payload.isAgreementRead;           
             newState = { ...newState, 
                 isAgreementRead: isAgreementRead,
             };
+            break;
         case SHOW_FOLLOW_CONFIG_MODAL:
             newState = { ...newState,
                 modalVisible: action.payload.show,

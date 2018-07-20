@@ -12,12 +12,19 @@ import {
     UPLOAD_PORTRAIT_FAILURE,
     SET_LOACL_NICKNAME,
     SET_LOACL_NICKNAME_FAIL,
-    UPDATE_MAX_NICKNAME_LENGTH
+    UPDATE_MAX_NICKNAME_LENGTH,
+    GET_BALANCE_TYPE,
+    GET_BALANCE_TYPE_FAILURE,
+    SET_BALANCE_TYPE,
+    SET_BALANCE_TYPE_SUCCESS,
+    SET_BALANCE_TYPE_FAILURE
 } from '../constants/actionTypes';
 var {EventCenter} = require("../../EventCenter");
 var DeviceInfo = require('react-native-device-info');
 import setNickNameRequest from "../api/setNickNameRequest";
 import setPortraitRequest from "../api/setPortraitRequest";
+import fetchBalanceTypeRequest from "../api/fetchBalanceTypeRequest";
+import setBalanceTypeRequest from "../api/setBalanceTypeRequest";
 var RCTNativeAppEventEmitter = require('RCTNativeAppEventEmitter');
 var NativeDataModule = require('../../module/NativeDataModule');
 var LS = require('../../LS');
@@ -191,5 +198,57 @@ export function setPortrait(portrait){
             
         })
 
+    }
+}
+
+export function getBalanceType(){
+    return async (dispatch) => {
+        //TODO!!!
+        try{
+            var balanceType = await fetchBalanceTypeRequest()
+            dispatch({
+                type: GET_BALANCE_TYPE,
+                payload: {
+                    balanceType: balanceType,
+                }
+            });
+            LogicData.setBalanceType(balanceType);
+            StorageModule.setBalanceType(balanceType);
+        }catch(error){
+            dispatch({
+                type: GET_BALANCE_TYPE_FAILURE,
+                payload: {
+                    error: error,
+                }
+            });
+        }        
+    }
+}
+
+export function setBalanceType(balanceType){
+    return async (dispatch) => {
+        //TODO!!!
+        dispatch({
+            type: SET_BALANCE_TYPE,
+            payload: {
+                balanceType: balanceType,
+            }
+        });
+        
+        try{
+            await setBalanceTypeRequest(balanceType);
+            LogicData.setBalanceType(balanceType);
+            await StorageModule.setBalanceType(balanceType);
+            dispatch({
+                type: SET_BALANCE_TYPE_SUCCESS,
+            });
+        }catch(error){
+            dispatch({
+                type: SET_BALANCE_TYPE_FAILURE,
+                payload: {
+                    error: error,
+                }
+            });
+        }        
     }
 }

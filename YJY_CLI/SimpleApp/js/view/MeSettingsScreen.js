@@ -7,37 +7,63 @@ import {
     Dimensions,
     FlatList,
     TouchableOpacity,
-    Image
+    Image,
+    Picker,
 } from 'react-native';
 
-import { logOut, switchLanguage, getVersion } from '../redux/actions'
+import { logOut, switchLanguage, getVersion, 
+    getBalanceType, 
+    setBalanceType } from '../redux/actions'
 import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
+var ColorConstants = require('../ColorConstants')
 import ViewKeys from '../ViewKeys';
 
 var configListData = [
     {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
     {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
     {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
+    {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
     {'type':'normal','title':'SETTINGS_VERSION', 'subtype': 'version'},
     {'type':'normal','title':'SETTINGS_LOG_OUT', 'subtype': 'logOut'},
 ];
 
+var balanceType = [
+    {'type': 'BTH', displayText: 'BTH',icon:require('../../images/icon_bth.png')},
+    {'type': 'ETH', displayText: 'ETH',icon:require('../../images/icon_eth.png')}
+]
+
 // create a component
 class MeSettingsScreen extends Component {
+
+    constructor(props){
+        super(props);
+
+        this.state = {
+            displayBalanceTypePicker: false,
+            
+        }
+    }
 
     componentWillMount(){
         if(this.props.version == ""){
             this.props.getVersion()
         }
+        this.props.getBalanceType();
     }
 
     componentWillReceiveProps(props){
         if(!props.userLoggedin){
             this.props.navigation.goBack(null)
         }
+    } 
+
+    componentWillUnmount(){
+        if(this.props.navigation.state.params.onGoBack){
+            this.props.navigation.state.params.onGoBack();
+        } 
     }
 
     onSelectNormalRow(rowData){
@@ -53,11 +79,108 @@ class MeSettingsScreen extends Component {
                 break
             case "version":
                 break
+            case "balanceType":
+                this.setState({
+                    displayBalanceTypePicker: true,
+                    coinType : this.props.balanceType
+                })
+                break
             case "logOut":
                 this.props.logOut();
                 break
         }
     }
+
+    confirm(){
+        this.props.setBalanceType(this.state.coinType);
+        this.setState({
+            displayBalanceTypePicker: false
+        })
+    }
+
+    renderPicker(){
+        if(this.state.displayBalanceTypePicker){
+            var items = balanceType.map((item, index)=>{
+                            return ( 
+                                    <TouchableOpacity onPress={()=>{
+                                        // this.props.setBalanceType(item.type);
+                                        this.setState({
+                                            coinType:item.type
+                                        }) 
+                                    }} style={styles.itemLine} key={index}>
+                                        <View style={{flexDirection:'row', alignItems:'center',}}>
+                                            <Image style={{width:28,height:28}} source={item.icon}></Image>
+                                            <Text style={styles.itemText}>{item.displayText}</Text>
+                                        </View>     
+                                        <Image style={{width:22,height:22}} source={this.state.coinType==item.type?require('../../images/selector_selected.png'):require('../../images/selector_unselected.png')}></Image>
+                                    </TouchableOpacity>   
+                            )
+                        })
+            return(
+                <View>
+                    <TouchableOpacity style={{
+                        position:'absolute', 
+                        bottom:0,
+                        backgroundColor:'rgba(0,0,0,0.7)', 
+                        height: height,
+                        width: width}}
+                        onPress={()=>{
+                        this.setState({
+                            displayBalanceTypePicker: false,
+                        })
+                    }}>
+                    <View style={{position:'absolute', backgroundColor:'white', bottom:0, height: 188, width: width}}>
+                        
+                        {items}
+                        <View style={{width:width,height:68,justifyContent:'center',alignItems:'center'}}>
+                            <TouchableOpacity onPress={()=>this.confirm()} style={{width:width-20,height:44,justifyContent:'center',alignItems:'center',backgroundColor:ColorConstants.BGBLUE}}>
+                                <Text style={{fontSize:15,color:'white'}}>{LS.str('CONFIRM')}</Text>
+                            </TouchableOpacity>    
+                        </View>
+                    </View>
+
+                    </TouchableOpacity>
+                    
+                </View>    
+            )
+        }
+    }
+
+    // renderPicker(){
+    //     if(this.state.displayBalanceTypePicker){
+    //         var items = balanceType.map((item, index)=>{
+    //             return (<Picker.Item label={item.displayText} value={item.type} key={index}/>)
+    //         })
+
+    //         return (
+    //             <TouchableOpacity style={{
+    //                     position:'absolute', 
+    //                     bottom:0,
+    //                     backgroundColor:'rgba(0,0,0,0.7)', 
+    //                     height: height,
+    //                     width: width}}
+    //                 onPress={()=>{
+    //                     this.setState({
+    //                         displayBalanceTypePicker: false,
+    //                     })
+    //                 }}>
+    //                 <Picker
+    //                     style={{position:'absolute', backgroundColor:'white', bottom:0, height: 200, width: width}}
+    //                     selectedValue={this.props.balanceType}
+                        
+    //                     onValueChange={(itemValue, itemIndex) => {
+    //                         this.props.setBalanceType(itemValue);
+
+    //                         this.setState({
+    //                             displayBalanceTypePicker: false
+    //                         })
+    //                     }}>
+    //                     {items}
+    //                 </Picker>
+    //             </TouchableOpacity>
+    //         );
+    //     }
+    // }
 
     renderSeparator(){
         return <View style={styles.separator}></View>
@@ -67,6 +190,14 @@ class MeSettingsScreen extends Component {
         if(rowData.item.subtype == "version"){
             return (
                 <Text style={styles.value}>{this.props.version}</Text>
+            )
+        }else if(rowData.item.subtype == "balanceType"){
+            return (
+                <View style={{flexDirection:'row'}}>
+                    <Text style={[styles.balanceTypeValue]}>{this.props.balanceType}</Text>
+                    <Image source={require("../../images/icon_arrow_right.png")}
+                            style={styles.arrowIcon}/>
+                </View>
             )
         }else{
             return (
@@ -106,6 +237,7 @@ class MeSettingsScreen extends Component {
                     keyExtractor={(item, index) => index}
                     renderItem={(data)=>this.renderItem(data)}
                     />
+                {this.renderPicker()}
             </View>
         );
     }
@@ -147,6 +279,22 @@ const styles = StyleSheet.create({
     value:{       
         marginRight:20,
     },
+    balanceTypeValue: {
+        color: ColorConstants.COLOR_MAIN_THEME_BLUE
+    },
+    itemLine:{
+        height:60,
+        width:width, 
+        paddingLeft:10,
+        paddingRight:10,
+        flexDirection:'row', 
+        alignItems:'center',
+        justifyContent:'space-between'
+    },
+    itemText:{
+        marginLeft:10,
+        fontSize:15
+    }
 });
 
 //make this component available to the app
@@ -162,6 +310,8 @@ const mapDispatchToProps = {
     logOut,
     switchLanguage,
     getVersion,
+    getBalanceType,
+    setBalanceType,
 };
 
 var connectedComponent = connect(mapStateToProps, mapDispatchToProps)(MeSettingsScreen);

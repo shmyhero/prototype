@@ -52,6 +52,7 @@ export let CFD_API = {
   SET_MESSAGE_READ: CFD_API_SERVER + '/api/message/<id>/read',
   GET_PHONE_VERIFY_CODE_API: CFD_API_SERVER + '/api/util/sendVerifyCode',
   TIMESTAMP_LOCAL:CFD_API_SERVER + '/api/util/timestampNonce',//Local ok
+  BALANCE_TYPE: CFD_API_SERVER + '/api/user/balanceType',
 }
     
  

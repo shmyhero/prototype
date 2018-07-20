@@ -59,6 +59,7 @@ class FollowScreen extends Component {
     }
 
     renderHint(){
+        console.log("renderHint CHECK_AGREEMENT")
         var checkIcon;
         if(this.props.isAgreementRead){
             checkIcon = require("../../images/selection_small_selected.png");
@@ -68,7 +69,7 @@ class FollowScreen extends Component {
         return(
             <TouchableOpacity style={{flexDirection:'row', marginTop:10, marginBottom:10}}
                 onPress={()=>{
-                    this.props.checkAgreement(this.props.isAgreementRead);
+                    this.props.checkAgreement(!this.props.isAgreementRead);
                 }}>
                 <View style={{flexDirection:'row', flex:1, alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
@@ -76,7 +77,7 @@ class FollowScreen extends Component {
                     <Text style={{color:"#858585", fontSize:13}}>
                         {LS.str("WITHDRAW_READ_AGREEMENT")}
                         <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("COPY_AGREEMENT")}</Text>
-                    </Text>                   
+                    </Text>
                 </View>
             </TouchableOpacity>
         )
@@ -148,7 +149,7 @@ class FollowScreen extends Component {
                                                 fontSize: 15,
                                                 color: ColorConstants.SEPARATOR_GRAY,
                                                 textAlign:'center'
-                                            }}>{LS.str('REMAIN_MOUNT')}</Text>
+                                            }}>{LS.str('REMAIN_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
                                         </View>
                                     </View>
                                     
@@ -156,7 +157,7 @@ class FollowScreen extends Component {
                             
                             {/* </ImageBackground> */}
                             <View style={{flexDirection:'row', justifyContent:'space-between', marginTop:30, flex:1}}>
-                                {this.renderPicker(LS.str("COPY_AMOUNT"), "investFixed", "availableInvestFixed")}
+                                {this.renderPicker(LS.str("COPY_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText()), "investFixed", "availableInvestFixed")}
                                 {this.renderPicker(LS.str("COPY_COUNT"), "stopAfterCount", "availableStopAfterCount")}
                             </View>
                             {this.renderHint()}

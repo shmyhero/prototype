@@ -102,13 +102,7 @@ export default class TradeStyleCircleBlock extends Component {
 
 
   refresh(tradeStyle){
-    console.log("tradeStyle isPrivate = " + tradeStyle.isPrivate);
-    //TODO: add api
-    if(tradeStyle.isPrivate){
-      this.setState({
-         
-      })
-    }  
+    this.loadData(this.props.userId);
   }
 
   clear(){
@@ -143,18 +137,18 @@ export default class TradeStyleCircleBlock extends Component {
               colors2={[ColorConstants.BGBLUE,'#c8e2f4',]} 
               series2={[tradeTypePercent, 100-tradeTypePercent]}
               innerText={''+totalTradeCount}
-              innerText2={'TRADES'}/>  
+              innerText2={LS.str('TRADES')}/>  
             </View>  
             <View style={{width:100,alignItems:'flex-start', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
               <View style={{marginLeft:20,justifyContent:'center',alignItems:'flex-start' }}>
               <Text style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</Text>
-              <Text numberOfLines={1} style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
+              <Text numberOfLines={1} ellipsizeMode={'tail'} style={{width:70, fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
               </View>
               <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
               <Text style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</Text>
-              <Text style={{fontSize:12,color:'#3dcc24'}}>WinRate</Text>
+              <Text style={{fontSize:12,color:'#3dcc24'}}>{LS.str('WINRATE_')}</Text>
               <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>
             </View>  
 

@@ -31,6 +31,7 @@ import LoginScreen from './LoginScreen';
 import { fetchMeData, updateUnread } from '../redux/actions'
 import { connect } from 'react-redux';
 import SubmitButton from './component/SubmitButton';
+import LogicData from '../LogicData';
 
 var ColorConstants = require('../ColorConstants');
 var {EventCenter, EventConst} = require('../EventCenter')
@@ -43,6 +44,10 @@ var layoutSizeChangedSubscription = null;
 class  TabMeScreen extends React.Component {
   constructor(props){
     super(props)
+
+    this.state = {
+      userLoggedin: false,
+    }
   }
 
   componentDidMount() {
@@ -61,8 +66,17 @@ class  TabMeScreen extends React.Component {
 
   refresh(){
     console.log("Mepage refresh")
-    this.props.fetchMeData();
-    this.props.updateUnread();
+    if(!LogicData.isLoggedIn()){
+      this.setState({
+        userLoggedin: false,
+      })
+    }else{
+      this.setState({
+        userLoggedin: true,
+      })
+      this.props.fetchMeData();
+      this.props.updateUnread();
+    }
   }
 
   goToUserConfig(){
@@ -82,8 +96,12 @@ class  TabMeScreen extends React.Component {
   }
 
   goToSettings(){
-    this.props.navigation.navigate(ViewKeys.SCREEN_SETTINGS);
-  }
+    this.props.navigation.navigate(ViewKeys.SCREEN_SETTINGS,{onGoBack:()=>{
+      this.tradeStyleCicleBlock.refresh()
+    }});
+
+  } 
+   
 
   onBalancePressed(){
     //this.props.navigation.navigate(ViewKeys.SCREEN_DEPOSIT_WITHDRAW);
@@ -124,6 +142,9 @@ class  TabMeScreen extends React.Component {
   }
 
   renderBalance(){
+
+    console.log("getBalanceType", LogicData.getBalanceType())
+
     return (
       <View style={[styles.bigButtonContainer, styles.radiusBackground]}>
         {/* <ImageBackground source={require('../../images/me_balance_border.png')}
@@ -142,11 +163,13 @@ class  TabMeScreen extends React.Component {
               </View>
               <View style={styles.balanceBlock}>
                 <Text style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.total.toFixed(2)}</Text>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT")}</Text>
+                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
               </View>
               <View style={styles.balanceBlock}>
                 <BalanceBlock style={styles.balanceValueText}/>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AVAILABLE")}</Text>
+                <Text style={styles.balanceLabelText}>
+                  {LS.str("SUGAR_AVAILABLE").replace("{1}", LS.getBalanceTypeDisplayText())}
+                </Text>
               </View>
             </View>     
             {this.renderSeparator()}        
@@ -172,7 +195,7 @@ class  TabMeScreen extends React.Component {
         {/* <ImageBackground style={{height:"100%", width:"100%", justifyContent:'center'}}
           resizeMode='stretch' source={require('../../images/bg_block.png')}> */}
             <ProfitTrendCharts              
-              ref={(ref)=>this.tradeStyleCicleBlock = ref}
+              ref={(ref)=>this.ProfitTrendCharts = ref}
               userId={this.props.userId}
               viewHeight={180}
               isPrivate={false}/>          
@@ -230,7 +253,7 @@ class  TabMeScreen extends React.Component {
   }
 
   renderContent(){
-    if(this.props.userLoggedin){
+    if(this.state.userLoggedin){
       return (
         <ScrollView style={styles.mainContainer}>         
           <View style={styles.backgroundContainer}>

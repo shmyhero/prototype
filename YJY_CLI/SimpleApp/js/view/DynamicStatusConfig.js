@@ -28,9 +28,9 @@ const FOCUS_TRADE_FOLLOW = 1
 const FOCUS_SYSTEM = 2
 
 var listRawData = [ 
-	{type:FOCUS_FOLLOW,"title":LS.str('WATCHLIST'),"desciption":'关注用户的交易动态'},
-	{type:FOCUS_TRADE_FOLLOW,"title":LS.str('COPIERS'),"desciption":'自己的交易动态'},
-	{type:FOCUS_SYSTEM,"title":LS.str('NEWS'),"desciption":'系统推送的每日资讯'},
+	{type:FOCUS_FOLLOW,"title":'WATCHLIST',"desciption":'关注用户的交易动态'},
+	{type:FOCUS_TRADE_FOLLOW,"title":'COPIERS',"desciption":'自己的交易动态'},
+	{type:FOCUS_SYSTEM,"title":'NEWS',"desciption":'系统推送的每日资讯'},
 ] 
 var {height, width} = Dimensions.get('window')
 var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
@@ -101,7 +101,7 @@ export default class DynamicStatusConfig extends Component {
 		return(
 			<View style={styles.viewWapper}>
 				<View style={styles.leftWapper}>
-					<Text style={styles.titleText}>{rowData.title}</Text>
+					<Text style={styles.titleText}>{LS.str(rowData.title)}</Text>
 					{/* <Text style={styles.desciptionText}>{rowData.desciption}</Text> */}
 				</View> 
 				<Switch

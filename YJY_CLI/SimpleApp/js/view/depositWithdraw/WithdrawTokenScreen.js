@@ -5,10 +5,16 @@ import { View,
     StyleSheet,
     TextInput,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     ImageBackground,
-    Image
+    Keyboard,
+    Platform,
+    Image,
+    Dimensions,
+    KeyboardAvoidingView
 } from 'react-native';
 import NavBar from '../component/NavBar';
+var {height,width} = Dimensions.get('window');
 var ColorConstants = require('../../ColorConstants');
 var NetworkModule = require("../../module/NetworkModule");
 var NetConstants = require("../../NetConstants");
@@ -164,42 +170,67 @@ class WithdrawTokenScreen extends Component {
         }
     }
 
-    render() {
+    render(){
+        if(Platform.OS == "ios"){
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    behavior={"padding"}>
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        } else {
+            return (            
+                <KeyboardAvoidingView style={{width:width,
+                    flex:1}}
+                    >
+                    {this.renderContent()}
+                </KeyboardAvoidingView>
+            );
+        }
+    }
+
+    renderContent() {
         var balanceValue = this.props.isBalanceLoading ? "--" : this.props.balance;
         return (
-            <View style={styles.container}>
-                <NavBar title={LS.str("ME_WITHDRAW_TITLE")}
-                    showBackButton={true}
-                    backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
-                    navigation={this.props.navigation}
+            <TouchableWithoutFeedback style={styles.container} 
+                onPress={()=>{
+                    Keyboard.dismiss()
+                }}>
+                <View style={styles.container} >
+                    <NavBar title={LS.str("ME_WITHDRAW_TITLE")}
+                        showBackButton={true}
+                        backgroundGradientColor={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}
+                        navigation={this.props.navigation}
                     />
-                <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
-                    {this.renderPurseAddress()}
-                    <View style={styles.rowContainer}>
-                        <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
-                        <View style={styles.withdrawValueRow}>
-                            <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH")}</Text>
-                            <TextInput 
-                                underlineColorAndroid={"transparent"}
-                                style={{fontSize:40, flex:1,}}
-                                keyboardType='numeric' 
-                                onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
-                                value={this.state.withdrawStringValue}/>
+                    <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
+                        {this.renderPurseAddress()}
+                        <View style={styles.rowContainer}>
+                            <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
+                            <View style={styles.withdrawValueRow}>
+                                <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
+                                <TextInput 
+                                    underlineColorAndroid={"transparent"}
+                                    style={{fontSize:40, flex:1,}}
+                                    keyboardType='numeric' 
+                                    onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
+                                    value={this.state.withdrawStringValue}/>
+                            </View>
+                            <Text style={{color:"#7d7d7d", fontSize:14}}>
+                                {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue).replace("{2}", LS.getBalanceTypeDisplayText())}
+                                <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
+                            </Text>
                         </View>
-                        <Text style={{color:"#7d7d7d", fontSize:14}}>
-                            {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue)}
-                            <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
-                        </Text>
+                        <View style={{flex:1}}/>
+                        {this.renderAgreement()}
+                        <SubmitButton 
+                            style={{marginBottom:10}}
+                            enable={this.state.isButtonEnable}
+                            onPress={()=>this.withdraw()}
+                            text={this.state.isRequestSending ? LS.str("VERIFING") : LS.str("WITHDRAW_WITHDRAW")} />
                     </View>
-                    <View style={{flex:1}}/>
-                    {this.renderAgreement()}
-                    <SubmitButton 
-                        style={{marginBottom:10}}
-                        enable={this.state.isButtonEnable}
-                        onPress={()=>this.withdraw()}
-                        text={this.state.isRequestSending ? LS.str("VERIFING") : LS.str("WITHDRAW_WITHDRAW")} />
                 </View>
-            </View>
+            </TouchableWithoutFeedback>
         );
     }
 }

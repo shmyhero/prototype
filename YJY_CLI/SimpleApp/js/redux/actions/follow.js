@@ -93,6 +93,7 @@ function unFollowFailure(errorMessage) {
 
 export function checkAgreement(isAgreementRead){
     return (dispatch) => {
+        console.log("action CHECK_AGREEMENT")
         dispatch({
             type: CHECK_AGREEMENT,
             payload:{

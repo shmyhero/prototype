@@ -384,7 +384,9 @@ export default class  MyPositionTabClosed extends React.Component {
 						<Image style={styles.extendImageBottom} source={tradeImage}/>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_SUGAR_AMOUNT")}</Text>
+						<Text style={styles.extendTextTop}>
+						{LS.str("ORDER_SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}
+						</Text>
 						<Text style={styles.extendTextBottom}>{rowData.invest && rowData.invest.toFixed(2)}</Text>
 					</View>
 					<View style={styles.extendRight}>

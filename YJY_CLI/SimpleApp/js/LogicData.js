@@ -11,6 +11,7 @@ class LogicData {
 	static userData = {};
 	static meData = {};
 	static language = "en-us" // "zh-cn";
+	static balanceType = "";
 	
 	static isLoggedIn(){
 		console.log("isLoggedIn", this.userData)
@@ -46,13 +47,9 @@ class LogicData {
 	}
 
 	static async setMarketListOrder(value){
-		return new Promise((resolve)=>{
-			this.marketListOrder = value
-			var data = JSON.stringify(value)
-			StorageModule.setMarketListOrder(data).then(()=>{
-				resolve();
-			})
-		});
+		this.marketListOrder = value
+		var data = JSON.stringify(value)
+		return await StorageModule.setMarketListOrder(data);		
 	}
 
 	static async loadMarketListOrder(){
@@ -109,16 +106,27 @@ class LogicData {
 				resolve(removedDynamicRow);
 			}
 		});
-  	}  
-  
-
-   static addRemovdedDynamicRow(item){
+	}
+	
+	static addRemovdedDynamicRow(item){
 		if(removedDynamicRow == null) return 
 		if(removedDynamicRow.indexOf(item) == -1){
 			removedDynamicRow.push(item);
 		} 
 		StorageModule.setRemovedDynamicRows(JSON.stringify(removedDynamicRow))
 	} 
+
+	static setBalanceType(type){
+		this.balanceType = type;
+	}
+
+	static getBalanceType(){
+		return this.balanceType;
+	}
+
+	static getDefaultBalanceType(){
+		return "BTH";
+	}
 }
 
 export default LogicData;
