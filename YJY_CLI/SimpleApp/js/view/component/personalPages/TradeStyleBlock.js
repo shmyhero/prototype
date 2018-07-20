@@ -44,6 +44,10 @@ export default class TradeStyleBlock extends Component {
       this.loadData(props.userId);
     }
   }
+
+  refreshData(){
+    this.loadData(this.props.userId);
+  }
   /*
   { winRate: 0,
     posCount: 12,

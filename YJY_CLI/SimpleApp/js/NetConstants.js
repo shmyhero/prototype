@@ -53,6 +53,7 @@ export let CFD_API = {
   GET_PHONE_VERIFY_CODE_API: CFD_API_SERVER + '/api/util/sendVerifyCode',
   TIMESTAMP_LOCAL:CFD_API_SERVER + '/api/util/timestampNonce',//Local ok
   BALANCE_TYPE: CFD_API_SERVER + '/api/user/balanceType',
+  WITHDRAW_DECIMAL_PLACE: CFD_API_SERVER + '/api/fund/balance/type',
 }
     
  
