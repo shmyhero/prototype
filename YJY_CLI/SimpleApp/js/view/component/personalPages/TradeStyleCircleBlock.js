@@ -142,7 +142,7 @@ export default class TradeStyleCircleBlock extends Component {
             <View style={{width:100,alignItems:'flex-start', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
               <View style={{marginLeft:20,justifyContent:'center',alignItems:'flex-start' }}>
               <Text style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</Text>
-              <Text numberOfLines={1} style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
+              <Text numberOfLines={1} ellipsizeMode={'tail'} style={{width:70, fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
               </View>
               <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
