@@ -97,7 +97,7 @@ class  TabMeScreen extends React.Component {
 
   goToSettings(){
     this.props.navigation.navigate(ViewKeys.SCREEN_SETTINGS,{onGoBack:()=>{
-      this.tradeStyleCicleBlock.refresh()
+      this.tradeStyleCicleBlock && this.tradeStyleCicleBlock.refresh()
     }});
 
   } 
