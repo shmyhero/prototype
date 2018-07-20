@@ -63,39 +63,59 @@ class WithdrawTokenScreen extends Component {
     }
 
     onWithdrawAllPressed(){
-        var state = {
-            withdrawStringValue: "" + this.props.balance,
-            withdrawValue: this.props.balance,
-        };
-        this.setState(state, ()=>this.updateButtonStatus())
+        this.updatePaymentAmount("" + this.props.balance)
+    }
+
+    cutToDecimal(inputValue){
+        var re = new RegExp('^\\d+\\.?\\d{0,' + this.state.precision + '}');
+        if(this.state.precision == 0 ){
+            re = new RegExp('^[0-9]+');
+        }
+        var cutWithdrawValue = inputValue.match(re);
+        if(cutWithdrawValue && cutWithdrawValue.length > 0){
+            return cutWithdrawValue[0];
+        }else{
+            var floatValue = parseFloat(inputValue);
+            return "" + floatValue;
+        }
     }
 
     updatePaymentAmount(withdrawValue){
         var state = {
             withdrawStringValue: withdrawValue
-        };1.1
+        };
 
         if(withdrawValue){
             console.log("this.state.precision", this.state.precision)
 
-            var re = new RegExp('^\\d+\\.?\\d{0,' + this.state.precision + '}');
-            if(this.state.precision == 0 ){
-                re = new RegExp('^\\d+');
-            }
+            state.withdrawStringValue = this.cutToDecimal(withdrawValue);
+            state.withdrawValue = parseFloat(state.withdrawStringValue);
 
-            var cutWithdrawValue = withdrawValue.match(re);
-            if(cutWithdrawValue && cutWithdrawValue.length > 0){
-                state.withdrawValue = parseFloat(cutWithdrawValue[0]);
-                state.withdrawStringValue = cutWithdrawValue[0];
-            }else{
-                state.withdrawValue = parseFloat(withdrawValue);
-                state.withdrawStringValue = "" + withdrawValue;
-            }
+            // var re = new RegExp('^\\d+\\.?\\d{0,' + this.state.precision + '}');
+            // if(this.state.precision == 0 ){
+            //     re = new RegExp('^[0-9]+');
+            // }
+
+
+            // var cutWithdrawValue = withdrawValue.match(re);
+            // if(cutWithdrawValue && cutWithdrawValue.length > 0){
+            //     state.withdrawValue = parseFloat(cutWithdrawValue[0]);
+            //     if(!state.withdrawValue){
+            //         state.withdrawValue = 0
+            //     }
+            //     state.withdrawStringValue = cutWithdrawValue[0];
+            // }else{
+            //     state.withdrawValue = parseFloat(withdrawValue);
+            //     if(!state.withdrawValue){
+            //         state.withdrawValue = 0
+            //     }
+            //     state.withdrawStringValue = "" + state.withdrawValue;
+            // }
             
 
-            // console.log("cutWithdrawValue", cutWithdrawValue);
+            // // console.log("cutWithdrawValue", cutWithdrawValue);
+            // // console.log("withdrawValue", cutWithdrawValue)
             // console.log("state.withdrawValue", state.withdrawValue);
-            // console.log("withdrawValue", cutWithdrawValue)
             // console.log("state.withdrawStringValue", state.withdrawStringValue);
         }else{
             state.withdrawValue = 0;
@@ -238,7 +258,13 @@ class WithdrawTokenScreen extends Component {
     }
 
     renderContent() {
-        var balanceValue = this.props.isBalanceLoading ? "--" : this.props.balance;
+        var balanceValue;
+        if(this.props.isBalanceLoading){
+            balanceValue = "--";
+        }else{
+            balanceValue = this.cutToDecimal(""+this.props.balance);
+        }
+
         return (
             <TouchableWithoutFeedback style={styles.container} 
                 onPress={()=>{
