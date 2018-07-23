@@ -98,8 +98,7 @@ namespace YJY_COMMON.Service
 
                     if (user == null || position == null)
                         throw new ObjectNotFoundException();
-
-
+                    
                     //position's balance, not user's current active balance
                     var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == position.BalanceId && o.UserId==user.Id);
 
@@ -155,7 +154,8 @@ namespace YJY_COMMON.Service
                     if (user == null || position == null)
                         throw new ObjectNotFoundException();
 
-                    var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == user.ActiveBalanceId);
+                    //position's balance, not user's current active balance
+                    var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == position.BalanceId && o.UserId==user.Id);
 
                     if (position.ClosedAt == null)
                     {
@@ -327,7 +327,8 @@ namespace YJY_COMMON.Service
                                     if (u == null || p == null)
                                         throw new ObjectNotFoundException();
 
-                                    var b = dbIsolated.Balances.FirstOrDefault(o => o.Id == u.ActiveBalanceId);
+                                    //position's balance, not user's current active balance
+                                    var b = dbIsolated.Balances.FirstOrDefault(o => o.Id == p.BalanceId && o.UserId == u.Id);
 
                                     if (p.ClosedAt == null)
                                     {
