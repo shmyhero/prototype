@@ -234,32 +234,34 @@ export default class StockDetailScreen extends Component {
 					if (this.state.stockCode == realtimeStockInfo[i].id ) {
 						if(this.state.stockInfo.last !== realtimeStockInfo[i].last) {
                             var stockInfo = deepCopyUtil(this.state.stockInfo);
-                            stockInfo.last = realtimeStockInfo[i].last;
-                            //'2018-05-11T05:22:01.051Z'
-                            var lastPriceData = stockInfo.priceData[stockInfo.priceData.length-1];
-                            var lastDate = new Date(lastPriceData.t);
-                            var currentDate = new Date(realtimeStockInfo[i].time);
-                            console.log("lastPriceData.t", lastPriceData.t);
-                            console.log("realtimeStockInfo[i].time", realtimeStockInfo[i].time);
-                            var newPriceData = { p: stockInfo.last, t: realtimeStockInfo[i].time};                            
-                            if(lastDate.getFullYear() == currentDate.getFullYear()
-                                && lastDate.getMonth() == currentDate.getMonth()
-                                && lastDate.getDate() == currentDate.getDate()
-                                && lastDate.getHours() == currentDate.getHours()
-                                && lastDate.getMinutes() == currentDate.getMinutes()
-                            ){                               
-                                console.log("remove last");
-                                stockInfo.priceData.splice(stockInfo.priceData.length-1, 1);
-                                console.log("stockInfo.priceData last", stockInfo.priceData[stockInfo.priceData.length-1])
-                            }else{
-                                console.log("remove head");
-                                stockInfo.priceData.splice(0, 1);
+                            if(stockInfo && stockInfo.priceData){
+                                stockInfo.last = realtimeStockInfo[i].last;
+                                //'2018-05-11T05:22:01.051Z'
+                                var lastPriceData = stockInfo.priceData[stockInfo.priceData.length-1];
+                                var lastDate = new Date(lastPriceData.t);
+                                var currentDate = new Date(realtimeStockInfo[i].time);
+                                console.log("lastPriceData.t", lastPriceData.t);
+                                console.log("realtimeStockInfo[i].time", realtimeStockInfo[i].time);
+                                var newPriceData = { p: stockInfo.last, t: realtimeStockInfo[i].time};                            
+                                if(lastDate.getFullYear() == currentDate.getFullYear()
+                                    && lastDate.getMonth() == currentDate.getMonth()
+                                    && lastDate.getDate() == currentDate.getDate()
+                                    && lastDate.getHours() == currentDate.getHours()
+                                    && lastDate.getMinutes() == currentDate.getMinutes()
+                                ){                               
+                                    console.log("remove last");
+                                    stockInfo.priceData.splice(stockInfo.priceData.length-1, 1);
+                                    console.log("stockInfo.priceData last", stockInfo.priceData[stockInfo.priceData.length-1])
+                                }else{
+                                    console.log("remove head");
+                                    stockInfo.priceData.splice(0, 1);
+                                }
+                                
+                                stockInfo.priceData.push(newPriceData);
+                                this.setState({
+                                    stockInfo: stockInfo
+                                });
                             }
-                            
-                            stockInfo.priceData.push(newPriceData);
-							this.setState({
-                                stockInfo: stockInfo
-							});
 						}
 						break;
 					}

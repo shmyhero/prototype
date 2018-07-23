@@ -67,9 +67,10 @@ export default class CustomKeyboard extends Component {
   }
 
   onTextButtonPressed(textValue){
-    if (textValue == "." && this.state.currentDisplayText.contains(".")){
+     
+    if (textValue == "." && this.state.currentDisplayText.indexOf(".")!=-1){
       return
-    }
+    } 
 
     this.setState({
       currentDisplayText: this.state.currentDisplayText + textValue.toString(),

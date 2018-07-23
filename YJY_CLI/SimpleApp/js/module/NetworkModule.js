@@ -11,7 +11,7 @@ import LogicData from "../LogicData";
 export const API_ERROR = 'apiError';
 var Encryptor = require('./Encryptor')
 export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
-
+var LS = require("../LS");
 var NetConstants = require('../NetConstants')
 var {EventCenter, EventConst} = require('../EventCenter');
 

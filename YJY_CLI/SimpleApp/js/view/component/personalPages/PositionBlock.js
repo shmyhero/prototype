@@ -19,7 +19,7 @@ var UIConstants = require('../../../UIConstants');
 var NetworkModule = require('../../../module/NetworkModule');
 import NetworkErrorIndicator from '../NetworkErrorIndicator'; 
 var {height, width} = Dimensions.get('window');
-var LogicData = require("../../../LogicData");
+import LogicData from '../../../LogicData';
 var {height, width} = Dimensions.get('window');
 var LS = require('../../../LS')
 
@@ -84,6 +84,8 @@ export default class PositionBlock extends Component {
 
   loadData(){
 
+    var userData = LogicData.getUserData()
+
 		this.setState({
 			isRefreshing: true,
 		}, ()=>{
@@ -105,11 +107,12 @@ export default class PositionBlock extends Component {
       NetworkModule.fetchTHUrl(
         url,
         {
-          method: 'GET',
-          // headers: {
-          //   'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-          // },
+          method: 'GET', 
           cache: 'none',
+          headers: {
+            'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+            'Content-Type': 'application/json; charset=utf-8',
+          }
         },
         (responseJson) => {
           this.setState({
