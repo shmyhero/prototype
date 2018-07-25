@@ -91,6 +91,10 @@ namespace YJY_COMMON.Model.Context
                 .Property(e => e.CallbackValue)
                 .HasPrecision(28, 0);
 
+            modelBuilder.Entity<THTWithdrawal>()
+                .Property(e => e.CancelRefundValue)
+                .HasPrecision(28, 18);
+
             modelBuilder.Entity<Transfer>()
                 .Property(e => e.Amount)
                 .HasPrecision(28, 18);

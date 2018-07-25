@@ -232,6 +232,60 @@ namespace YJY_COMMON.Service
             return withdrawal.Id;
         }
 
+        public void CancelWithdrawal(int adminUserId, int withdrawalId)
+        {
+            if (withdrawalId <= 0)
+                throw new ArgumentOutOfRangeException();
+
+            //var amount = ((decimal) value)/100;
+
+            //THTWithdrawal withdrawal = null;
+
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var withdrawal = dbIsolated.THTWithdrawals.FirstOrDefault(o => o.Id == withdrawalId);
+                    if (withdrawal != null
+                        && (withdrawal.CallbackAt == null || withdrawal.CallbackResult == false)
+                        && withdrawal.CancelAt == null)
+                    {
+                        var balance = dbIsolated.Balances.FirstOrDefault(o => o.Id == withdrawal.BalanceId);
+
+                        balance.Amount = balance.Amount + withdrawal.Amount;
+
+                        withdrawal.CancelAt = DateTime.UtcNow;
+                        withdrawal.CancelRefundValue = withdrawal.Amount;
+                        withdrawal.CancelAdminUserId = adminUserId;
+
+                        dbIsolated.SaveChanges();
+
+                        var transfer = new Transfer()
+                        {
+                            Time = DateTime.UtcNow,
+                            Amount = withdrawal.Amount,
+                            BalanceAfter = balance.Amount,
+                            Type = TransferType.WithdrawalCancel.ToString(),
+                            UserId = balance.UserId,
+                            TransactionId = withdrawal.Id, //withdrawal id should be populated
+
+                            AdminUserId = adminUserId,
+
+                            BalanceId = balance.Id,
+                        };
+                        dbIsolated.Transfers.Add(transfer);
+
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
+            //return withdrawal.Id;
+        }
+
         public static THTDeposit AddTHTDeposit(string transactionHash, string @from, string to, string tokenAmount)
         {
             if (string.IsNullOrWhiteSpace(transactionHash)) return null;
@@ -304,6 +358,48 @@ namespace YJY_COMMON.Service
             }
 
             return result;
+        }
+
+        public void ManualAdjust(int adminUserId, int userId, int balanceTypeId, decimal amount)
+        {
+            if (userId <= 0 || balanceTypeId<=0)
+                throw new ArgumentOutOfRangeException();
+
+            if (amount == 0) return;
+
+            //THTWithdrawal withdrawal = null;
+
+            using (
+                var scope = new TransactionScope(TransactionScopeOption.RequiresNew,
+                    new TransactionOptions { IsolationLevel = IsolationLevel.Serializable }))
+            {
+                using (var dbIsolated = YJYEntities.Create())
+                {
+                    var balance = dbIsolated.Balances.FirstOrDefault(o => o.UserId==userId && o.TypeId==balanceTypeId);
+                    if (balance != null )
+                    {
+                        balance.Amount = balance.Amount + amount;
+
+                        var transfer = new Transfer()
+                        {
+                            Time = DateTime.UtcNow,
+                            Amount = amount,
+                            BalanceAfter = balance.Amount,
+                            Type = TransferType.Manual.ToString(),
+                            UserId = balance.UserId,
+                            //TransactionId = withdrawal.Id, 
+                            AdminUserId = adminUserId,
+
+                            BalanceId = balance.Id,
+                        };
+                        dbIsolated.Transfers.Add(transfer);
+
+                        dbIsolated.SaveChanges();
+                    }
+                }
+                scope.Complete();
+            }
+
         }
     }
 }

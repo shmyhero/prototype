@@ -8,6 +8,7 @@ using YJY_COMMON.Model.Cache;
 using YJY_COMMON.Model.Entity;
 using YJY_COMMON.Util;
 using YJY_API.DTO;
+using YJY_API.DTO.FormDTO;
 
 namespace YJY_API
 {
@@ -41,6 +42,8 @@ namespace YJY_API
                 .ForMember(dest=>dest.createAt,opt=>opt.MapFrom(src=>src.CreateTime));
 
                 cfg.CreateMap<User, UserDTO>();
+                
+                cfg.CreateMap<THTWithdrawal, WithdrawalDTO>();
 
                 ////cfg.CreateMap<Transfer, TransferDTO>()
                 ////.ForMember(dest=>dest.type, opt => opt.MapFrom(src =>Translator.GetTransferTypeDescription(src.Type)));

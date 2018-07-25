@@ -51,6 +51,38 @@ namespace YJY_API.Controllers
         }
 
         [HttpGet]
+        [Route("~/api/user/{userId}/balance")]
+        [AdminAuth]
+        public List<BalanceDTO> GetUserBalance(int userId)
+        {
+            var balances = db.Balances.Where(o => o.UserId == userId).ToList();
+
+            var balanceTypes = db.BalanceTypes.ToList();
+
+            var result = new List<BalanceDTO>();
+
+            balances.ForEach(o =>
+            {
+                var b=new BalanceDTO()
+                {
+                    balance = o.Amount.Value,
+                    id = o.Id,
+                };
+                var t = balanceTypes.FirstOrDefault(p => p.Id == o.TypeId);
+                b.type=new BalanceTypeDTO()
+                {
+                    id = t.Id,
+                    code = t.Code,
+                    precision = t.Precision,
+                };
+
+                result.Add(b);
+            });
+
+            return result;
+        }
+
+        [HttpGet]
         [Route("balance/type")]
         public List<BalanceTypeDTO> GetBalanceTypes()
         {
@@ -155,6 +187,50 @@ namespace YJY_API.Controllers
             db.SaveChanges();
 
             return new ResultDTO(true);
+        }
+
+        [HttpPost]
+        [Route("manual")]
+        [AdminAuth]
+        public ResultDTO FundManualAdjust(FundManualAdjustFormDTO form)
+        {
+            var fundService = new FundService(db);
+            fundService.ManualAdjust(UserId, form.userId,form.balanceTypeId,form.amount);
+
+            return new ResultDTO(true);
+        }
+
+        [HttpPut]
+        [Route("withdrawal/{withdrawalId}/cancel")]
+        [AdminAuth]
+        public ResultDTO WithdrawalCancel( int withdrawalId)
+        {
+            var fundService = new FundService(db);
+            fundService.CancelWithdrawal(UserId, withdrawalId);
+
+            return new ResultDTO(true);
+        }
+
+        [HttpGet]
+        [Route("withdrawal")]
+        [AdminAuth]
+        public List<WithdrawalDTO> WithdrawalCancel(int pageNum = 1, int pageSize = YJYGlobal.DEFAULT_PAGE_SIZE)
+        {
+            var data = db.THTWithdrawals.Join(db.Users,w=>w.UserId,u=>u.Id,(w,u)=>new
+                {
+                    w=w,u=u
+                })
+                .OrderByDescending(o => o.w.CreateAt).Skip((pageNum - 1) * pageSize).Take(pageSize)
+                .ToList();
+
+           var result = new List<WithdrawalDTO>();
+            data.ForEach(o =>
+            {
+                var d = Mapper.Map<WithdrawalDTO>(o.w);
+                d.user = Mapper.Map<UserBaseDTO>(o.u);
+                result.Add(d);
+            });
+            return result;
         }
     }
 }

@@ -41,7 +41,9 @@ namespace YJY_COMMON.Model.Entity
 
         public DateTime? CancelAt { get; set; }
 
-        public int? CancelRefundValue { get; set; }
+        public decimal? CancelRefundValue { get; set; }
+
+        public int? CancelAdminUserId { get; set; }
 
         public int? BalanceId { get; set; }
 

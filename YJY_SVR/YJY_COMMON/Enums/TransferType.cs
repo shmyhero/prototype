@@ -12,6 +12,8 @@ namespace YJY_COMMON.Enums
         Close,
         THTDeposit,
         THTWithdrawal,
+        Manual,
+        WithdrawalCancel,
         //ETHDeposit,
         //ETHWithdrawal,
         //OpenFollow,

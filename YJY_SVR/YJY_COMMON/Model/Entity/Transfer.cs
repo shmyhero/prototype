@@ -27,5 +27,7 @@ namespace YJY_COMMON.Model.Entity
         public int? TransactionId { get; set; }
 
         public int? BalanceId { get; set; }
+
+        public int? AdminUserId { get; set; }
     }
 }
