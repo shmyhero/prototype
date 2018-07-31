@@ -7,7 +7,8 @@ import {
   StyleSheet,
   Platform,
   StatusBar,
-  Dimensions
+  Dimensions,
+  YellowBox
 } from 'react-native';
 
 import { getBalanceType } from './js/redux/actions';
@@ -17,6 +18,9 @@ import LogicData from './js/LogicData';
 import Orientation from 'react-native-orientation';
 import ViewKeys from './js/ViewKeys';
 import SimpleAppNavigator from './js/navigation/SimpleAppNavigator';
+
+YellowBox.ignoreWarnings(['Class RCTCxxModule']);
+YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
 
 var {height, width} = Dimensions.get('window');
 
