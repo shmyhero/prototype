@@ -21,6 +21,8 @@ import ViewKeys from '../ViewKeys';
 import LogicData from "../LogicData";
 import deepCopyUtil from '../utils/deepCopyUtil';
 
+import { fetchBalanceData } from '../redux/actions'
+import { connect } from 'react-redux';
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
@@ -51,7 +53,7 @@ var CHART_STATUS_LOADING = 2;
 
 const DEFAULT_MULTIPLIER = 1;
 
-export default class StockDetailScreen extends Component {
+class StockDetailScreen extends Component {
     constructor(props){
         super(props)
 
@@ -77,6 +79,11 @@ export default class StockDetailScreen extends Component {
 
     componentDidMount(){
         this.loadStockInfo()
+        this.refresh()
+    }
+
+    refresh(){
+        this.props.fetchBalanceData();
     }
 
     loadStockInfo() {
@@ -328,6 +335,7 @@ export default class StockDetailScreen extends Component {
                                 Multiplier: DEFAULT_MULTIPLIER,
                                 Operation: undefined,
                             })
+                            this.refresh();
                         });
                     },
                     (exception) => {
@@ -338,6 +346,7 @@ export default class StockDetailScreen extends Component {
                 this.props.navigation.navigate(ViewKeys.SCREEN_LOGIN, {
                     onLoginFinished: ()=>{
                         this.props.navigation.goBack(null);
+                        this.refresh();
                     }
                 })
             }
@@ -345,22 +354,33 @@ export default class StockDetailScreen extends Component {
         }
     }
 
-    onOptionSelected(groupName, value){
-        var newState = {};
+    onOptionSelected(groupName, value, enable){
+        if(enable){
+            var newState = {};
 
-        if(groupName == "Multiplier" && value == this.state[groupName]){
-            newState[groupName] = DEFAULT_MULTIPLIER
-        }else{
-            newState[groupName] = value
+            if(groupName == "Multiplier" && value == this.state[groupName]){
+                newState[groupName] = DEFAULT_MULTIPLIER
+            }else{
+                newState[groupName] = value
+            }
+    
+            this.setState(newState);
+        }       
+    }
+
+    componentWillReceiveProps(newProps){
+        if(newProps.balance < this.state.Amount){
+            this.setState({
+                Amount: undefined,
+            })
         }
-
-        this.setState(newState);
     }
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
         var index = parameters.index ? parameters.index : parameters.value;
-        var label = parameters.label;       
+        var label = parameters.label;   
+        var enable = parameters.enable == undefined ? true : parameters.enable;
         var groupName = parameters.groupName;
         var additionalTextStyle = parameters.additionalTextStyle;
         var additionalContainerStyle = parameters.additionalContainerStyle;
@@ -389,11 +409,14 @@ export default class StockDetailScreen extends Component {
         if (additionalTextStyle){
             textViewStyleList.push(additionalTextStyle)
         }
+        if (!enable){
+            textViewStyleList.push({color:'#cccccc'});
+        }
 
         return (
             <TouchableOpacity style={containerStyleList}
                 key={index}
-                onPress={()=>this.onOptionSelected(groupName, value)}>
+                onPress={()=>this.onOptionSelected(groupName, value, enable)}>
                 <ImageBackground source={backgroundImageSource}
                     resizeMode={'contain'}
                     style={{
@@ -429,17 +452,18 @@ export default class StockDetailScreen extends Component {
         )
     }
 
-    renderAmountButton(value, index){
+    renderAmountButton(value, index, isLogin){
         return this.renderButtonInGroup({
             index: index,
             value: value,
             label: value,
+            enable: !isLogin || value <= this.props.balance,
             groupName: "Amount", 
             additionalContainerStyle: styles.smallNumberButton,
             customTextViewStyle: styles.SelectedAmountButton,            
             backgroundImageSource: require("../../images/stock_detail_action_unselected.png"),
             selectedBackgroundImageSource: require("../../images/stock_detail_action_selected_blue.png")
-        });            
+        });
     }
 
     renderMultiplierButton(value, index){
@@ -575,8 +599,12 @@ export default class StockDetailScreen extends Component {
     render() {
         const { params } = this.props.navigation.state;
 
+        var userData = LogicData.getUserData();
+        var isUserLogin = Object.keys(userData).length !== 0
+                
+        console.log("render")
         var amountViews = this.state.amountValueList.map((value, index, array)=>{
-            return this.renderAmountButton(value, index);
+            return this.renderAmountButton(value, index, isUserLogin);
         })
 
         var leverageViews = this.state.leverageValueList.map((value, index, array)=>{
@@ -765,6 +793,16 @@ const styles = StyleSheet.create({
     },
 })
 
-module.exports = StockDetailScreen;
+const mapStateToProps = state => {
+    return {
+        ...state.balance
+    };
+};
 
+const mapDispatchToProps = {
+    fetchBalanceData    
+};
 
+var exportStockDetailScreen = connect(mapStateToProps, mapDispatchToProps)(StockDetailScreen);
+export default exportStockDetailScreen;
+module.exports = exportStockDetailScreen;
