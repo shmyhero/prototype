@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { View, Text, StyleSheet, 
     TouchableOpacity
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText'
 var TweetParser = require("./TweetParser")
 var ColorConstants = require("../../ColorConstants")
 // create a component
@@ -60,10 +61,10 @@ class TweetBlock extends Component {
         }
         var parsedListView = this.state.textNodes.map((node, index, array)=>{
             if(node.type == "text"){
-                return (<Text key={index}
+                return (<CustomStyleText key={index}
                         style={[styles.textPart, {fontSize:fontSize}]}>
                         {node.text}
-                    </Text>);
+                    </CustomStyleText>);
             }else if(node.type == "link"){
                 return (<Text key={index}
                         onPress={()=>{

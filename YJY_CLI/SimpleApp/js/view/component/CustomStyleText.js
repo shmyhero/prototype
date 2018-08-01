@@ -16,9 +16,12 @@ class CustomStyleText extends Component {
 
     render() {       
         return (
-            <Text style={[
-                GlobalStyles.defaultTextStyle,
-                this.props.style]}>
+            <Text             
+                {...this.props}
+                style={[
+                    GlobalStyles.defaultTextStyle,
+                    this.props.style]}
+                >
                 {this.props.children}
             </Text>
         );

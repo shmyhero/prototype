@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component} from 'react';
 import PropTypes from 'prop-types';
-import { View, Text, StyleSheet,
+import { View, StyleSheet,
     Dimensions,
     TextInput, 
     TouchableHighlight,
@@ -10,6 +10,7 @@ import { View, Text, StyleSheet,
     Alert,
     Keyboard
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import KeyboardSpacer from '../component/KeyboardSpacer';
 import NavBar from '../component/NavBar';
 import TweetComponent from './TweetComponent';
@@ -139,8 +140,8 @@ class PublishTweetScreen extends Component {
                 
                     <TouchableHighlight onPress={()=>this.addLinkBlock()} >
                         <View style={styles.bottomActionBar}>
-                            <Text style={{color:'#666666', fontSize:30}}>@</Text>
-                            <Text style={{color:'#666666'}}>{LS.str("TWEET_PUBLISH_PRODUCTS")}</Text>
+                            <CustomStyleText style={{color:'#666666', fontSize:30}}>@</CustomStyleText>
+                            <CustomStyleText style={{color:'#666666'}}>{LS.str("TWEET_PUBLISH_PRODUCTS")}</CustomStyleText>
                         </View>
                     </TouchableHighlight>
 

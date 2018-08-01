@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import CustomStyleText from './component/CustomStyleText';
 import { LIST_HEADER_BAR_HEIGHT } from '../UIConstants';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
@@ -139,15 +140,15 @@ export default class  RankHeroList extends React.Component {
                                 <Image style={{height:46,width:46,borderRadius:23,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
                             </View>    
                             <View style={{marginLeft:10}}>
-                                <Text style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</Text>
+                                <CustomStyleText style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</CustomStyleText>
                                 <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
-                                    <Text style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</Text>
-                                    <Text style={{fontSize:16,color:'#d8effc',fontWeight:'bold'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</Text>
+                                    <CustomStyleText style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</CustomStyleText>
+                                    <CustomStyleText style={{fontSize:16,color:'#d8effc',fontWeight:'bold'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</CustomStyleText>
                                 </View>
                             </View>
                         </View>     
                         <View style={{marginRight:30}}>
-                            <Text style={{color:'#d8effc',fontWeight: 'bold',}}>{profit}%</Text>
+                            <CustomStyleText style={{color:'#d8effc',fontWeight: 'bold',}}>{profit}%</CustomStyleText>
                         </View> 
                     </ImageBackground>
                 </TouchableOpacity>
@@ -172,13 +173,13 @@ export default class  RankHeroList extends React.Component {
             return(
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(data.id,data.nickname)} activeOpacity={0.9} style={{flex:1}}>
                     <Image style={styles.headPortrait} source={{uri:data.picUrl}}></Image>
-                    <Text style={styles.textTopUserName}>{data.nickname}</Text>
+                    <CustomStyleText style={styles.textTopUserName}>{data.nickname}</CustomStyleText>
                     <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
-                        <Text style={styles.textTopUserScore}>{(data.winRate*100).toFixed(0)}%</Text>
+                        <CustomStyleText style={styles.textWinRate}>{LS.str("WINRATE")}</CustomStyleText>
+                        <CustomStyleText style={styles.textTopUserScore}>{(data.winRate*100).toFixed(0)}%</CustomStyleText>
                     </View>  
                     <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
-                        <Text style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</Text>
+                        <CustomStyleText style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</CustomStyleText>
                     </ImageBackground>
                 </TouchableOpacity>
             ) 
@@ -186,13 +187,13 @@ export default class  RankHeroList extends React.Component {
             return(
                 <TouchableOpacity  activeOpacity={0.9} style={{flex:1}}>
                     <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
-                    <Text style={styles.textTopUserName}>--</Text>
+                    <CustomStyleText style={styles.textTopUserName}>--</CustomStyleText>
                     <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textWinRate}>{LS.str("WINRATE")}</Text>
-                        <Text style={styles.textTopUserScore}>--</Text>
+                        <CustomStyleText style={styles.textWinRate}>{LS.str("WINRATE")}</CustomStyleText>
+                        <CustomStyleText style={styles.textTopUserScore}>--</CustomStyleText>
                     </View>  
                     <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
-                        <Text style={styles.textProfit}>--</Text>
+                        <CustomStyleText style={styles.textProfit}>--</CustomStyleText>
                     </ImageBackground>
                 </TouchableOpacity>
             ) 
@@ -236,15 +237,15 @@ export default class  RankHeroList extends React.Component {
                     <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
                         <Image style={{height:46,width:46,marginLeft:28,marginBottom:5,borderRadius:23 }} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10}}>
-                            <Text style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</Text>
+                            <CustomStyleText style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</CustomStyleText>
                             <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
-                                <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                <Text style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</Text>
+                                <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
+                                <CustomStyleText style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</CustomStyleText>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:30}}>
-                        <Text style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</Text>
+                        <CustomStyleText style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</CustomStyleText>
                     </View> 
                 </TouchableOpacity>
             )

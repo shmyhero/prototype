@@ -11,6 +11,7 @@ var LS = require('../../../LS')
 var ColorConstants = require('../../../ColorConstants');  
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
+import CustomStyleText from '../CustomStyleText';
 import LogicData from '../../../LogicData';
 export default class TradeStyleBlock extends Component {
   static propTypes = {
@@ -153,15 +154,15 @@ export default class TradeStyleBlock extends Component {
            </View>   */}
 
            <View style={styles.contentBlock}>
-            <Text style={styles.contentTitleBlock}>{strPJCCSJ}</Text>
-            <Text style={styles.contentValueBlock}>{this.state.averageOpenTime}</Text>
+            <CustomStyleText style={styles.contentTitleBlock}>{strPJCCSJ}</CustomStyleText>
+            <CustomStyleText style={styles.contentValueBlock}>{this.state.averageOpenTime}</CustomStyleText>
           </View>
 
           <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
 
            <View style={styles.contentBlock}>
-            <Text style={styles.contentTitleBlock}>{strPJMBHL}</Text>
-            <Text style={styles.contentValueBlock}>{this.state.averageProfile}</Text>
+            <CustomStyleText style={styles.contentTitleBlock}>{strPJMBHL}</CustomStyleText>
+            <CustomStyleText style={styles.contentValueBlock}>{this.state.averageProfile}</CustomStyleText>
            </View>
          
             {/* <View style={styles.contentBlock}>
@@ -179,14 +180,14 @@ export default class TradeStyleBlock extends Component {
           </View> */}
 
           <View style={styles.contentBlock}>
-            <Text style={styles.contentTitleBlock}>{strPJGG}</Text> 
-            <Text style={styles.contentValueBlock}>{this.state.averageLeverage}</Text>
+            <CustomStyleText style={styles.contentTitleBlock}>{strPJGG}</CustomStyleText> 
+            <CustomStyleText style={styles.contentValueBlock}>{this.state.averageLeverage}</CustomStyleText>
           </View>
           <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
           
           <View style={styles.contentBlock}>
-            <Text style={styles.contentTitleBlock}>{strPJBJ}</Text>
-            <Text style={styles.contentValueBlock}>{this.state.averageInvestUSD}</Text>
+            <CustomStyleText style={styles.contentTitleBlock}>{strPJBJ}</CustomStyleText>
+            <CustomStyleText style={styles.contentValueBlock}>{this.state.averageInvestUSD}</CustomStyleText>
           </View>
         </View>
       </View>

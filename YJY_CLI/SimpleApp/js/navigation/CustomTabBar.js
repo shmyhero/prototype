@@ -9,7 +9,7 @@ import { TabBarBottom } from 'react-navigation';
 var {EventConst, EventCenter} = require('../EventCenter');
 import SplashScreen from '../module/SplashScreenModule'
 import ViewKeys from '../ViewKeys';
-
+import GlobleStyles from '../GlobleStyles';
 var LS = require("../LS");
 
 class CustomTabBar extends Component {
@@ -92,6 +92,7 @@ class CustomTabBar extends Component {
                 <Animated.View style={{height:this.state.height}}>
                     <TabBarBottom
                         {...this.props}
+                        labelStyle={GlobleStyles.defaultTextStyle}
                         getLabel={(scene)=>{
                             try{
                                 console.log("scene.route.routeName", scene.route.routeName)
