@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text,
   View,
   StyleSheet,
   Image,
@@ -13,6 +12,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import CustomStyleText from './component/CustomStyleText';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var UIConstants = require('../UIConstants');
@@ -111,15 +111,15 @@ export default class  RankFollowList extends React.Component {
                     <View style={{flexDirection:'row',alignItems:'center'}}>
                         <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
                         <View style={{marginLeft:10,justifyContent:'center'}}>
-                            <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
+                            <CustomStyleText style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</CustomStyleText>
                             <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                                <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                <Text style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</Text>
+                                <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
+                                <CustomStyleText style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</CustomStyleText>
                             </View>
                         </View>
                     </View>
                     <View style={{marginRight:15}}>
-                        <Text style={{fontSize:17, fontWeight:'bold',color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
+                        <CustomStyleText style={{fontSize:17, fontWeight:'bold',color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</CustomStyleText>
                     </View> 
                 </TouchableOpacity>
             )

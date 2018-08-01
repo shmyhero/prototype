@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    Text,
     Button,
     View,
     StyleSheet,
@@ -19,6 +18,7 @@ import {
     PanResponder,
 } from 'react-native';
 
+import CustomStyleText from './component/CustomStyleText';
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
@@ -223,9 +223,9 @@ class TabMainScreen extends React.Component {
 		}else{
 			return(
 				<View style={{height:height-150,alignItems:'center',justifyContent: 'center'}} >
-                    <Text style={{width:width-100,textAlign:'center',color:ColorConstants.BLUETEXT}}>{LS.str('DYNAMIC_OPEN_ASK')}</Text>
+                    <CustomStyleText style={{width:width-100,textAlign:'center',color:ColorConstants.BLUETEXT}}>{LS.str('DYNAMIC_OPEN_ASK')}</CustomStyleText>
                     <TouchableOpacity onPress={()=>this.onPressedConfig()} style={{alignItems:'center',justifyContent:'center',borderRadius:8, margin:15,borderColor:ColorConstants.BLUETEXT,borderWidth:1,width:120,height:32}}>
-                        <Text style={{color:'white',fontSize:16}}>{LS.str('GO')}</Text>
+                        <CustomStyleText style={{color:'white',fontSize:16}}>{LS.str('GO')}</CustomStyleText>
                     </TouchableOpacity>
 			   </View>	  
 			) 
@@ -272,7 +272,7 @@ class TabMainScreen extends React.Component {
 		return(
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
-				<Text style={{color:ColorConstants.BLUE2}}>{dataTime}</Text> 
+				<CustomStyleText style={{color:ColorConstants.BLUE2}}>{dataTime}</CustomStyleText> 
 				{this.renderConfigEnter()}
 			</View>	
 		)
@@ -435,26 +435,26 @@ class TabMainScreen extends React.Component {
             case refresh_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</CustomStyleText>
                     </View>
                 )
             case refresh_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("PULL_TO_REFRESH")}</CustomStyleText>
                     </View>
                 )
             case will_refresh:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("RELEASE_TO_REFRESH")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("RELEASE_TO_REFRESH")}</CustomStyleText>
                     </View>
                 )
             case refreshing:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}
-                        <Text style={styles.loadText}>{LS.str("REFRESHING")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("REFRESHING")}</CustomStyleText>
                     </View>
                 )
         }
@@ -468,32 +468,32 @@ class TabMainScreen extends React.Component {
             case load_more_none:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("LOAD_MORE")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("LOAD_MORE")}</CustomStyleText>
                     </View>
                 )
             case load_more_idle:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("LOAD_MORE")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("LOAD_MORE")}</CustomStyleText>
                     </View>
                 )
             case will_load_more:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("RELEASE_FOR_LOAD_MORE")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("RELEASE_FOR_LOAD_MORE")}</CustomStyleText>
                     </View>
                 )
             case loading_more:
                 return (
                     <View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
                         {this._renderActivityIndicator()}
-                        <Text style={styles.loadText}>{LS.str("LOADING")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("LOADING")}</CustomStyleText>
                     </View>
                 )
             case loaded_all:
                 return (
                     <View style={{height: 35, justifyContent: 'center', alignItems: 'center', backgroundColor: 'transparent',}}>
-                        <Text style={styles.loadText}>{LS.str("NO_MORE")}</Text>
+                        <CustomStyleText style={styles.loadText}>{LS.str("NO_MORE")}</CustomStyleText>
                     </View>
                 )
         }

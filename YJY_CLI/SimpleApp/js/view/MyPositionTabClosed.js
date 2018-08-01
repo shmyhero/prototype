@@ -4,7 +4,6 @@ import {
     StyleSheet,
     Button,
     View,
-    Text,
     ListView,
     TouchableOpacity,
     Dimensions,
@@ -19,6 +18,7 @@ import {
 import NinePatchView from 'react-native-9patch-image';
 //import ImageCapInset from 'react-native-image-capinsets';
 import LogicData from "../LogicData";
+import CustomStyleText from './component/CustomStyleText';
 //import RefreshableFlatList from 'react-native-refreshable-flatlist';
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
@@ -281,13 +281,13 @@ export default class  MyPositionTabClosed extends React.Component {
 			case will_load_more:
 				return (
 					<View style={{height: 35, justifyContent: 'center', alignItems: 'center'}}>
-						<Text style={styles.refreshTextStyle}>{LS.str("LOAD_MORE")}</Text>
+						<CustomStyleText style={styles.refreshTextStyle}>{LS.str("LOAD_MORE")}</CustomStyleText>
 					</View>
 				)
 			case loading_more:
 				return (
 					<View style={{flexDirection: 'row', height: 35, justifyContent: 'center', alignItems: 'center'}}>
-						<Text style={styles.refreshTextStyle}>{LS.str("DATA_LOADING")}</Text>
+						<CustomStyleText style={styles.refreshTextStyle}>{LS.str("DATA_LOADING")}</CustomStyleText>
 					</View>
 				)
 			case loaded_all:
@@ -301,9 +301,9 @@ export default class  MyPositionTabClosed extends React.Component {
 		var color = "#7a7987";
 		var styleAttr = 'small' //or "large"
 		return (
-			<Text style={{color:color}}>
+			<CustomStyleText style={{color:color}}>
 				{LS.str("DATA_LOADING")}
-			</Text>
+			</CustomStyleText>
 			// <WaitingRing color={color} styleAttr={styleAttr}/>
 		);
 	}
@@ -312,9 +312,9 @@ export default class  MyPositionTabClosed extends React.Component {
 		if (rowData.tag !== undefined) {
 			return (
 				<View style={styles.stockCountryFlagContainer}>
-					<Text style={styles.stockCountryFlagText}>
+					<CustomStyleText style={styles.stockCountryFlagText}>
 						{rowData.tag}
-					</Text>
+					</CustomStyleText>
 				</View>
 			);
 		}
@@ -327,9 +327,9 @@ export default class  MyPositionTabClosed extends React.Component {
 		var add = (pl > 0)?'+':'';
 
 		return (
-			<Text style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
+			<CustomStyleText style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
 				 {add}{pl}
-			</Text>
+			</CustomStyleText>
 		);
 	}
 
@@ -339,29 +339,29 @@ export default class  MyPositionTabClosed extends React.Component {
 		percentChange = percentChange.toFixed(2)
 		var add = (percentChange > 0)?'+':'';
 		return (
-		<Text style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
+		<CustomStyleText style={[styles.stockPercentText, {color: color, fontSize:textSize}]}>
 		  			 {add}{percentChange} %
-		</Text>
+		</CustomStyleText>
 		)
 
 		// if (percentChange > 0) {
 		// 	return (
-		// 		<Text style={[styles.stockPercentText, {color: '#f19296', fontSize:textSize}]}>
+		// 		<CustomStyleText style={[styles.stockPercentText, {color: '#f19296', fontSize:textSize}]}>
 		// 			 +{percentChange} %
-		// 		</Text>
+		// 		</CustomStyleText>
 		// 	);
 		// } else if (percentChange < 0) {
 		// 	return (
-		// 		<Text style={[styles.stockPercentText, {color: '#82d2bb', fontSize:textSize}]}>
+		// 		<CustomStyleText style={[styles.stockPercentText, {color: '#82d2bb', fontSize:textSize}]}>
 		// 			 {percentChange} %
-		// 		</Text>
+		// 		</CustomStyleText>
 		// 	);
 		//
 		// } else {
 		// 	return (
-		// 		<Text style={[styles.stockPercentText, {color: '#c5c5c5', fontSize:textSize}]}>
+		// 		<CustomStyleText style={[styles.stockPercentText, {color: '#c5c5c5', fontSize:textSize}]}>
 		// 			 {percentChange} %
-		// 		</Text>
+		// 		</CustomStyleText>
 		// 	);
 		// }
 	}
@@ -380,45 +380,45 @@ export default class  MyPositionTabClosed extends React.Component {
 				<View style={[styles.darkSeparator]} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</CustomStyleText>
 						<Image style={styles.extendImageBottom} source={tradeImage}/>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>
+						<CustomStyleText style={styles.extendTextTop}>
 						{LS.str("ORDER_SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}
-						</Text>
-						<Text style={styles.extendTextBottom}>{rowData.invest && rowData.invest.toFixed(2)}</Text>
+						</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{rowData.invest && rowData.invest.toFixed(2)}</CustomStyleText>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
-						<Text style={styles.extendTextBottom}>{"x"+rowData.leverage}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{"x"+rowData.leverage}</CustomStyleText>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_OPEN_PRICE")}</Text>
-						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_OPEN_PRICE")}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</CustomStyleText>
 					</View>
 					<View style={styles.extendMiddle}>
 						
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{openDate.Format('yy/MM/dd')}</Text>
-						<Text style={styles.extendTextBottom}>{openDate.Format('hh:mm')}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{openDate.Format('yy/MM/dd')}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{openDate.Format('hh:mm')}</CustomStyleText>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_CLOSE_PRICE")}</Text>
-						<Text style={styles.extendTextBottom}>{rowData.closePrice.maxDecimal(5)}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_CLOSE_PRICE")}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{rowData.closePrice.maxDecimal(5)}</CustomStyleText>
 					</View>
 					<View style={styles.extendMiddle}>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{closeDate.Format('yy/MM/dd')}</Text>
-						<Text style={styles.extendTextBottom}>{closeDate.Format('hh:mm')}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{closeDate.Format('yy/MM/dd')}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{closeDate.Format('hh:mm')}</CustomStyleText>
 					</View>
 				</View>
 				{rowData.followUser ? <View style={styles.darkSeparator} /> : null}
@@ -432,13 +432,13 @@ export default class  MyPositionTabClosed extends React.Component {
 			return (
 				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT, justifyContent:'center', alignItems:'center'}]}>
 					<View style={{justifyContent:'center', alignItems:'center'}}>
-						<Text style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</Text>					
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</CustomStyleText>					
 						<Image source={{uri:rowData.followUser.picUrl}} 
 							style={{height:20,width:20, borderRadius:10}}></Image>
 					</View>
 					{/* <ImageBackground style={{height:25,width:25 / 84 * 140}} source={require('../../images/bg_btn_blue.png')}>
 						<View style={{justifyContent:'center', alignItems:'center', flex:1}}>
-						<Text style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</Text>
+						<CustomStyleText style={{color:'white', fontSize:10}}>{LS.str("COPY_TRADE")}</CustomStyleText>
 						</View>
 					</ImageBackground> */}
 				</View>
@@ -503,9 +503,9 @@ export default class  MyPositionTabClosed extends React.Component {
 					<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT/* - 2*/, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
 						<View style={[styles.rowWrapper]} key={rowData.key}>
 							<View style={styles.rowLeftPart}>
-								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+								<CustomStyleText style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
 									{topLine}
-								</Text>
+								</CustomStyleText>
 							</View>
 
 							<View style={{flexDirection: 'row', alignItems: 'center', 
@@ -536,13 +536,13 @@ export default class  MyPositionTabClosed extends React.Component {
 			if(this.state.isDataLoading){
 				return (
 					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>{LS.str("DATA_LOADING")}</Text>
+						<CustomStyleText style={styles.loadingText}>{LS.str("DATA_LOADING")}</CustomStyleText>
 					</View>
 				);
 			}else{
 				return (
 					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>{LS.str("POSITION_CLOSED_NO_ITEMS")}</Text>
+						<CustomStyleText style={styles.loadingText}>{LS.str("POSITION_CLOSED_NO_ITEMS")}</CustomStyleText>
 					</View>
 					)
 			}

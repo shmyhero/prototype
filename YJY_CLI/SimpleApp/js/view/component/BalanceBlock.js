@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, FlatList, StyleSheet } from 'react-native';
+import { View, FlatList, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 var ColorPropType = require('ColorPropType');
+import CustomStyleText from './CustomStyleText'
 
 import { fetchBalanceData } from "../../redux/actions/balance";
 
 class BalanceBlock extends Component {
     static propTypes = {
         errorTextColor: ColorPropType,
-        ...Text.propTypes
+        ...CustomStyleText.propTypes
     };
 
     static defaultProps = {
@@ -23,7 +24,7 @@ class BalanceBlock extends Component {
         const { balance, isLoading, errorMessage } = this.props;
         if(isLoading){
             return (
-                <Text {...this.props}>--</Text>
+                <CustomStyleText {...this.props}>--</CustomStyleText>
             );
         } else if (errorMessage){
             var style={}
@@ -31,19 +32,19 @@ class BalanceBlock extends Component {
                 style={color:this.props.errorTextColor}
             }
             return(
-                // <Text
+                // <CustomStyleText
                 //     {...this.props}
-                //     style={style}>{errorMessage}</Text>
-                <Text
-                    {...this.props}>--</Text>
+                //     style={style}>{errorMessage}</CustomStyleText>
+                <CustomStyleText
+                    {...this.props}>--</CustomStyleText>
             )
         }else{
             //balance.maxDecimal(2)
             return (
-                <Text 
+                <CustomStyleText 
                     {...this.props}>
                         {balance.toFixed(2)}
-                </Text>
+                </CustomStyleText>
             );
         }
     }

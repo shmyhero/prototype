@@ -4,13 +4,13 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   ListView,
   TouchableHighlight,
   Dimensions,
 } from 'react-native';
 
+import CustomStyleText from '../CustomStyleText';
 var ColorConstants = require('../../../ColorConstants');  
 var UIConstants = require('../../../UIConstants');
 var NetworkModule = require('../../../module/NetworkModule');
@@ -161,13 +161,13 @@ export default class ProfitBlock extends Component {
     return (
       <View style={styles.headerBar}>
         <View style={[styles.rowLeftPart, {	paddingTop: 5,}]}>
-          <Text style={styles.headerTextLeft}>{strCP}</Text>
+          <CustomStyleText style={styles.headerTextLeft}>{strCP}</CustomStyleText>
         </View>
         <View style={[styles.rowCenterPart]}>
-          <Text style={[styles.headerTextLeft]}>{strPJSY}</Text>
+          <CustomStyleText style={[styles.headerTextLeft]}>{strPJSY}</CustomStyleText>
         </View>
         <View style={styles.rowRightPart}>
-          <Text style={styles.headerTextLeft}>{strZSL}</Text>
+          <CustomStyleText style={styles.headerTextLeft}>{strZSL}</CustomStyleText>
         </View>
       </View>
     );
@@ -185,14 +185,14 @@ export default class ProfitBlock extends Component {
 					<View style={[styles.rowWrapper, {backgroundColor: bgcolor}]} key={rowID}>
 						<View style={styles.rowLeftPart}>
 						    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+                                <CustomStyleText style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                                     {topLine}
-                                </Text> 
+                                </CustomStyleText> 
                             </View>
 							<View style={{flexDirection: 'row', alignItems: 'center'}}>
-								<Text style={styles.stockSymbolText}>
+								<CustomStyleText style={styles.stockSymbolText}>
 									{bottomLine}
-								</Text>
+								</CustomStyleText>
 							</View>
 						</View>
 
@@ -214,9 +214,9 @@ export default class ProfitBlock extends Component {
 		percentChange = percentChange.toFixed(2)
 		var startMark = percentChange > 0 ? "+":null
 		return (
-			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange), fontSize:textSize}]}>
+			<CustomStyleText style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange), fontSize:textSize}]}>
 				 {startMark}{percentChange} {endMark}
-			</Text>
+			</CustomStyleText>
 		);
 
 	}
@@ -226,9 +226,9 @@ export default class ProfitBlock extends Component {
             percentChange = percentChange.toFixed(2)
             var startMark = percentChange > 0 ? "+":null
             return (
-                <Text style={[styles.stockPercentText, {fontSize:textSize}]}>
+                <CustomStyleText style={[styles.stockPercentText, {fontSize:textSize}]}>
                      {startMark}{percentChange} {endMark}
-                </Text>
+                </CustomStyleText>
             );
 
         }
@@ -237,7 +237,7 @@ export default class ProfitBlock extends Component {
     var strYHWGKSJ = LS.str('YHWGKSJ')
     return(
         <View style={styles.emptyView}>
-           <Text style={styles.loadingText}>{strYHWGKSJ}</Text>
+           <CustomStyleText style={styles.loadingText}>{strYHWGKSJ}</CustomStyleText>
         </View>
         )
   }
@@ -253,7 +253,7 @@ export default class ProfitBlock extends Component {
         if(this.state.stockInfo.length === 0) {
             return (
                 <View style={styles.emptyView}>
-                    <Text style={styles.loadingText}>{strZWYKFB}</Text>
+                    <CustomStyleText style={styles.loadingText}>{strZWYKFB}</CustomStyleText>
                 </View>
                 )
         }else{
@@ -290,7 +290,7 @@ export default class ProfitBlock extends Component {
         <View style={{backgroundColor:'transparent'}}>
             <View>
                 <View style={styles.titleRow}>
-                    <Text style={styles.titleText}>{strYKFB}</Text>
+                    <CustomStyleText style={styles.titleText}>{strYKFB}</CustomStyleText>
                 </View>
             </View>
             {/* <View style={styles.separator}/> */}

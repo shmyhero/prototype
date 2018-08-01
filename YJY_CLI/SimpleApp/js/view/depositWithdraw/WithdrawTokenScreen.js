@@ -1,7 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
 import { View,
-    Text,
     StyleSheet,
     TextInput,
     TouchableOpacity,
@@ -13,6 +12,7 @@ import { View,
     Dimensions,
     KeyboardAvoidingView
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import NavBar from '../component/NavBar';
 var {height,width} = Dimensions.get('window');
 var ColorConstants = require('../../ColorConstants');
@@ -214,13 +214,13 @@ class WithdrawTokenScreen extends Component {
                 <View style={{flexDirection:'row', alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
-                    <Text>
+                    <CustomStyleText>
                         {LS.str("WITHDRAW_READ_AGREEMENT")}
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>
+                        <CustomStyleText onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>
                         {LS.str("WITHDRAW_AGREEMENT")}
-                        </Text>
+                        </CustomStyleText>
                         。
-                    </Text>                   
+                    </CustomStyleText>                   
                 </View>
             </TouchableOpacity>);
     }
@@ -229,8 +229,8 @@ class WithdrawTokenScreen extends Component {
         if(this.props.thtAddress && this.props.thtAddress != ""){
             return (
                 <View style={styles.rowContainer}>
-                    <Text style={{fontSize:17}}>{LS.str("WITHDRAW_ADDRESS_HINT")}</Text>
-                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.props.thtAddress}</Text>
+                    <CustomStyleText style={{fontSize:17}}>{LS.str("WITHDRAW_ADDRESS_HINT")}</CustomStyleText>
+                    <CustomStyleText style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{this.props.thtAddress}</CustomStyleText>
                 </View>);
         }else{
             return null;
@@ -279,9 +279,9 @@ class WithdrawTokenScreen extends Component {
                     <View style={{flex:1, paddingLeft: 15, paddingRight: 15}}>
                         {this.renderPurseAddress()}
                         <View style={styles.rowContainer}>
-                            <Text style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</Text>
+                            <CustomStyleText style={{fontSize:15, color:"#7d7d7d"}}>{LS.str("WITHDRAW_AMOUNT")}</CustomStyleText>
                             <View style={styles.withdrawValueRow}>
-                                <Text style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
+                                <CustomStyleText style={{fontSize:20, fontWeight:"bold", marginRight:15}}>{LS.str("WITHDRAW_BTH").replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
                                 <TextInput 
                                     underlineColorAndroid={"transparent"}
                                     style={{fontSize:40, flex:1,}}
@@ -289,10 +289,10 @@ class WithdrawTokenScreen extends Component {
                                     onChangeText={(withdrawValue)=>this.updatePaymentAmount(withdrawValue)}
                                     value={this.state.withdrawStringValue}/>
                             </View>
-                            <Text style={{color:"#7d7d7d", fontSize:14}}>
+                            <CustomStyleText style={{color:"#7d7d7d", fontSize:14}}>
                                 {LS.str("WITHDRAW_AVAILABLE_AMOUNT").replace("{1}", balanceValue).replace("{2}", LS.getBalanceTypeDisplayText())}
-                                <Text onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</Text>
-                            </Text>
+                                <CustomStyleText onPress={()=>this.onWithdrawAllPressed()} style={{color:ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("WITHDRAW_ALL")}</CustomStyleText>
+                            </CustomStyleText>
                         </View>
                         <View style={{flex:1}}/>
                         {this.renderAgreement()}

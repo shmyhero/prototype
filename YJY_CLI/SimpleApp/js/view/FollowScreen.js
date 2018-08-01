@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {
     View, 
-    Text, 
     StyleSheet,
     TouchableOpacity,
     Modal,
@@ -16,6 +15,7 @@ var {height, width} = Dimensions.get("window");
 var ColorConstants = require('../ColorConstants');
 import SubmitButton from './component/SubmitButton';
 import BalanceBlock from './component/BalanceBlock';
+import CustomStyleText from './component/CustomStyleText';
 
 import {
     showFollowDialog,
@@ -74,10 +74,10 @@ class FollowScreen extends Component {
                 <View style={{flexDirection:'row', flex:1, alignItems:'center'}}>
                     <Image style={{height:15, width:15}}
                         source={checkIcon}/>
-                    <Text style={{color:"#858585", fontSize:13}}>
+                    <CustomStyleText style={{color:"#858585", fontSize:13}}>
                         {LS.str("WITHDRAW_READ_AGREEMENT")}
-                        <Text onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("COPY_AGREEMENT")}</Text>
-                    </Text>
+                        <CustomStyleText onPress={this.onLinkPress} style={{color: ColorConstants.COLOR_MAIN_THEME_BLUE}}>{LS.str("COPY_AGREEMENT")}</CustomStyleText>
+                    </CustomStyleText>
                 </View>
             </TouchableOpacity>
         )
@@ -93,7 +93,7 @@ class FollowScreen extends Component {
         })
         return(
             <View style={{alignItems:'center', flex:1}}>
-                <Text style={styles.pickerTitle}>{title}</Text>
+                <CustomStyleText style={styles.pickerTitle}>{title}</CustomStyleText>
                 <WheelPicker
                     selectedValue={this.props.newFollowTrade[stateKey]}
                     selectedTextColor={"#333333"}
@@ -145,11 +145,11 @@ class FollowScreen extends Component {
                                             paddingLeft:10,
                                             paddingRight:10
                                         }}>
-                                            <Text style={{
+                                            <CustomStyleText style={{
                                                 fontSize: 15,
                                                 color: ColorConstants.SEPARATOR_GRAY,
                                                 textAlign:'center'
-                                            }}>{LS.str('REMAIN_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
+                                            }}>{LS.str('REMAIN_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
                                         </View>
                                     </View>
                                     

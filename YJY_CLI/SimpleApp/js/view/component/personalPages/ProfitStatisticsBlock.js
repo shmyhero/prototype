@@ -4,7 +4,6 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Alert,
@@ -13,6 +12,7 @@ import {
   ImageBackground
 } from 'react-native';
 
+import CustomStyleText from '../CustomStyleText'
 import LogicData from '../../../LogicData';
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
@@ -81,12 +81,12 @@ export default class ProfitStatisticsBlock extends Component {
     return (  
           <ImageBackground style={styles.gifBg} source={require('../../../../images/statistics.gif')}>
             <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-              <Text style={{marginTop:30,color:'#666666'}}>{LS.str('TOTAL_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
-              <Text style={{marginTop:0,fontSize:50,color:ColorConstants.BGBLUE}}>{this.state.total.toFixed(2)}</Text>
+              <CustomStyleText style={{marginTop:30,color:'#666666'}}>{LS.str('TOTAL_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
+              <CustomStyleText style={{marginTop:0,fontSize:50,color:ColorConstants.BGBLUE}}>{this.state.total.toFixed(2)}</CustomStyleText>
             </View>  
             <View style={{flex:1,justifyContent:'flex-end',alignItems:'center'}}>
-              <Text style={{fontSize:15, color:'#89cff7'}}>{LS.str('REMAIN_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
-              <Text style={{color:'#c1e5fc',fontSize:20,marginBottom:10}}>{this.state.balance.toFixed(2)}</Text>
+              <CustomStyleText style={{fontSize:15, color:'#89cff7'}}>{LS.str('REMAIN_MOUNT').replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
+              <CustomStyleText style={{color:'#c1e5fc',fontSize:20,marginBottom:10}}>{this.state.balance.toFixed(2)}</CustomStyleText>
             </View>
           </ImageBackground>
     );

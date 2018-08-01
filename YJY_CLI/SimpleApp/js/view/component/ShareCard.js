@@ -2,12 +2,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text,
   View,
   StyleSheet,
   Image,
   TouchableOpacity,
 } from 'react-native';
+import CustomStyleText from './CustomStyleText';
 
 export default class ShareCard extends React.Component {
     static propTypes = {
@@ -25,7 +25,7 @@ export default class ShareCard extends React.Component {
     render() {
         return (
             <View style={{borderWidth:1,borderColor:'white',borderRadius:4,padding:5,height:this.props.cardHeight,width:this.props.cardWidth}}>
-                <Text style={{color:'white'}}>{this.props.cardId}</Text>
+                <CustomStyleText style={{color:'white'}}>{this.props.cardId}</CustomStyleText>
             </View>
         );
     }

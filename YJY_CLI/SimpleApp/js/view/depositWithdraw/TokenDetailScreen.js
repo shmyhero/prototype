@@ -2,11 +2,11 @@
 import React, { Component } from 'react';
 import {
     View, 
-    Text,
     StyleSheet,
     FlatList,
     Dimensions,
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import NavBar from '../component/NavBar';
 var ColorConstants = require('../../ColorConstants')
 import LogicData from "../../LogicData";
@@ -108,11 +108,11 @@ class TokenDetailScreen extends Component {
         return (
             <View style={styles.rowContainer}>
                 <View style={styles.rowHeaderContainer}>
-                    <Text style={{fontSize:17}}>{rowData.item.type}</Text>
-                    <Text style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{dateString}</Text>
+                    <CustomStyleText style={{fontSize:17}}>{rowData.item.type}</CustomStyleText>
+                    <CustomStyleText style={{color:"#7d7d7d", fontSize:15, marginTop:10}}>{dateString}</CustomStyleText>
                 </View>
                 <View style={{alignItems:'flex-end', justifyContent:'center', flex:1, flexDirection:'column'}}>
-                    <Text style={{fontSize:17, color: rowData.item.color}}>{rowData.item.amount.toFixed(2)}</Text>
+                    <CustomStyleText style={{fontSize:17, color: rowData.item.color}}>{rowData.item.amount.toFixed(2)}</CustomStyleText>
                 </View>
             </View>
         )
@@ -122,7 +122,7 @@ class TokenDetailScreen extends Component {
         if(this.state.stockInfoRowData == undefined || this.state.stockInfoRowData.length == 0){
             return (
                 <View style={styles.loadingTextView}>
-                    <Text style={styles.loadingText}>{LS.str("NO_TRANSACTIONS")}</Text>
+                    <CustomStyleText style={styles.loadingText}>{LS.str("NO_TRANSACTIONS")}</CustomStyleText>
                 </View>);
         }else{
             

@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet,Animated, Dimensions } from 'react-native';
+import { View, StyleSheet,Animated, Dimensions } from 'react-native';
 var {height, width} = Dimensions.get("window");
 // create a component
 

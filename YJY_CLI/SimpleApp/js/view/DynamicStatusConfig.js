@@ -6,7 +6,6 @@ import {
 	View,
 	Dimensions,
 	ListView,
-	Text,
 	Image,
 	TouchableOpacity,
 	Alert,
@@ -15,7 +14,7 @@ import {
 	Platform, 
 	Switch,
 } from 'react-native' 
-
+import CustomStyleText from './component/CustomStyleText';
 import LogicData from "../LogicData";
 import NavBar from './component/NavBar';
 var ColorConstants = require('../ColorConstants') 
@@ -101,8 +100,8 @@ export default class DynamicStatusConfig extends Component {
 		return(
 			<View style={styles.viewWapper}>
 				<View style={styles.leftWapper}>
-					<Text style={styles.titleText}>{LS.str(rowData.title)}</Text>
-					{/* <Text style={styles.desciptionText}>{rowData.desciption}</Text> */}
+					<CustomStyleText style={styles.titleText}>{LS.str(rowData.title)}</CustomStyleText>
+					{/* <CustomStyleText style={styles.desciptionText}>{rowData.desciption}</CustomStyleText> */}
 				</View> 
 				<Switch
 					onValueChange={(value) => this.onSwitchPressed(value, rowData)}

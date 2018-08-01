@@ -4,8 +4,7 @@ import PropTypes from 'prop-types';
 var ColorPropType = require('ColorPropType');
 import LinearGradient from 'react-native-linear-gradient'
 import {
-    View, 
-    Text,
+    View,     
 	StyleSheet,
 	ViewPropTypes,
     Platform,
@@ -14,6 +13,7 @@ import {
     Dimensions,
     Image
 } from 'react-native';
+import CustomStyleText from './CustomStyleText'
 var ColorConstants = require('../../ColorConstants');
 var UIConstants = require('../../UIConstants');
 
@@ -38,10 +38,10 @@ class NavBar extends Component {
         backButtonOnClick: PropTypes.func,
         title: PropTypes.string,
         titleColor: ColorPropType,
-		titleStyle: Text.propTypes.style,
+		titleStyle: CustomStyleText.propTypes.style,
 		titleOpacity: PropTypes.number,
 		subTitle: PropTypes.string,
-		subTitleStyle: Text.propTypes.style,
+		subTitleStyle: CustomStyleText.propTypes.style,
 		barStyle: ViewPropTypes.style,		
 		hideStatusBar: PropTypes.bool,
 		onlyShowStatusBar: PropTypes.bool,
@@ -159,9 +159,9 @@ class NavBar extends Component {
 			}
 			return(
 				<View style={styles.centerContainer}>
-					<Text style={[styles.title, titleStyle, this.props.titleStyle, {opacity: this.props.titleOpacity}]}>
+					<CustomStyleText style={[styles.title, titleStyle, this.props.titleStyle, {opacity: this.props.titleOpacity}]}>
 						{this.props.title}
-					</Text>
+					</CustomStyleText>
 					{this.renderSubTitle()}
 				</View>
 			);
@@ -254,9 +254,9 @@ class NavBar extends Component {
 				<TouchableOpacity
 					onPress={()=>this.backOnClick()}>
 
-					<Text style={styles.textOnLeft}>
+					<CustomStyleText style={styles.textOnLeft}>
 						{this.props.textOnLeft}
-					</Text>
+					</CustomStyleText>
 
 				</TouchableOpacity>
 			);
@@ -288,18 +288,18 @@ class NavBar extends Component {
 				return (
 					<TouchableOpacity
 						onPress={()=> this.props.rightPartOnClick && this.props.rightPartOnClick()}>
-						<Text style={[styles.textOnRight, textOnRightStyle]}>
+						<CustomStyleText style={[styles.textOnRight, textOnRightStyle]}>
 							{this.props.textOnRight}
-						</Text>
+						</CustomStyleText>
 
 					</TouchableOpacity>
 				);
 			}
 			else {
 				return (
-					<Text style={[styles.disabledTextOnRight,textOnRightStyle]}>
+					<CustomStyleText style={[styles.disabledTextOnRight,textOnRightStyle]}>
 						{this.props.textOnRight}
-					</Text>
+					</CustomStyleText>
 					)
 			}
 		}
@@ -331,9 +331,9 @@ class NavBar extends Component {
 	renderSubTitle() {
 		if (this.props.subTitle !== null) {
 			return (
-				<Text style={this.props.subTitleStyle}>
+				<CustomStyleText style={this.props.subTitleStyle}>
 					{this.props.subTitle}
-				</Text>
+				</CustomStyleText>
 			)
 		}
 	}

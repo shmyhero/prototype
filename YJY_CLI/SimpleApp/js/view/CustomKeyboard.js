@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
   Animated,
   Modal,
@@ -13,6 +12,7 @@ import {
   Image,
 } from 'react-native';
 import AnimatedView from './component/AnimatedView';
+import CustomStyleText from './component/CustomStyleText';
 
 var {height, width} = Dimensions.get('window');
 var SHARE_CONTAINER_HEIGHT = 290;
@@ -136,9 +136,9 @@ export default class CustomKeyboard extends Component {
     return (
       <TouchableOpacity style={[styles.keyboardButton, {flex: flex}]}
         onPress={()=>this.onTextButtonPressed(value)}>
-        <Text style={styles.buttonTextStyle}>
+        <CustomStyleText style={styles.buttonTextStyle}>
           {value}
-        </Text>
+        </CustomStyleText>
       </TouchableOpacity>
     )
   }
@@ -163,9 +163,9 @@ export default class CustomKeyboard extends Component {
     return (
       <TouchableOpacity style={styles.keyboardButton}
         onPress={()=>this.onOKButtonPressed()}>
-        <Text style={[styles.buttonTextStyle, {fontSize: 27}]}>
+        <CustomStyleText style={[styles.buttonTextStyle, {fontSize: 27}]}>
           确定
-        </Text>
+        </CustomStyleText>
       </TouchableOpacity>
     )
   }
@@ -195,11 +195,11 @@ export default class CustomKeyboard extends Component {
 
         <View style={styles.keyboardContainer}>
           <View style={styles.inputBarContainer}>
-            <Text style={[styles.keyboardTextInput, this.state.error == null ? {} : styles.error]}
+            <CustomStyleText style={[styles.keyboardTextInput, this.state.error == null ? {} : styles.error]}
               ellipsizeMode="tail" numberOfLines={1}>
               {this.state.currentDisplayText}
-            </Text>
-            <Text style={styles.errorHint}>{this.state.error}</Text>
+            </CustomStyleText>
+            <CustomStyleText style={styles.errorHint}>{this.state.error}</CustomStyleText>
           </View>
 
           <View style={styles.keyboardButtonsContainer}>

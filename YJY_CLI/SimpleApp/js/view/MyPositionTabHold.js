@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
     AppRegistry,
-    Text,
     Button,
     View,
     StyleSheet,
@@ -22,6 +21,7 @@ import {
 import NinePatchView from 'react-native-9patch-image';
 var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants');
+import CustomStyleText from './component/CustomStyleText';
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
 var NetworkModule = require('../module/NetworkModule');
@@ -590,11 +590,11 @@ export default class  MyPositionTabHold extends React.Component {
 		percentChange = percentChange.toFixed(2)
 		var startMark = percentChange > 0 ? "+":null
 		return (
-			<Text style={[styles.stockPercentText, 
+			<CustomStyleText style={[styles.stockPercentText, 
 			//{color: ColorConstants.stock_color(percentChange), fontSize:textSize}
 			]}>
 				 {startMark}{percentChange} {endMark}
-			</Text>
+			</CustomStyleText>
 		);
 	}
 
@@ -604,15 +604,15 @@ export default class  MyPositionTabHold extends React.Component {
 			return (
 				<View style={{flexDirection: 'row'}}>
 					<View style={{flex: 1, alignItems: 'flex-start', marginLeft: 20}}>
-						<Text style={[styles.priceText, isTop && {color:'black'}]}>
+						<CustomStyleText style={[styles.priceText, isTop && {color:'black'}]}>
 							{maxPrice}
-						</Text>
+						</CustomStyleText>
 					</View>
 
 					<View style={{flex: 1, alignItems: 'flex-end', marginRight: 20}}>
-						<Text style={[styles.priceText, isTop && {color:'black'}]}>
+						<CustomStyleText style={[styles.priceText, isTop && {color:'black'}]}>
 							{maxPercentage} %
-						</Text>
+						</CustomStyleText>
 					</View>
 				</View>
 			);
@@ -691,8 +691,8 @@ export default class  MyPositionTabHold extends React.Component {
 					onSlidingComplete={(value) => this.setState({profitLossUpdated: true})}
 					onValueChange={(value) => this.setSliderValue(type, value, rowData)} />
 				<View style = {styles.subDetailRowWrapper}>
-					<Text style={styles.sliderLeftText}>{startPercent.toFixed(2)}%</Text>
-					<Text style={styles.sliderRightText}>{endPercent.toFixed(2)}%</Text>
+					<CustomStyleText style={styles.sliderLeftText}>{startPercent.toFixed(2)}%</CustomStyleText>
+					<CustomStyleText style={styles.sliderRightText}>{endPercent.toFixed(2)}%</CustomStyleText>
 				</View>
 			</View>
 			)
@@ -808,7 +808,7 @@ export default class  MyPositionTabHold extends React.Component {
 		return (
 			<View>
 				<View style={[styles.subDetailRowWrapper, {height:50}]}>
-					<Text style={[styles.extendLeft, {minWidth:10}]}>{titleText}</Text>
+					<CustomStyleText style={[styles.extendLeft, {minWidth:10}]}>{titleText}</CustomStyleText>
 					{
 						switchIsOn ?
 						<View style={[styles.extendMiddle,
@@ -1124,7 +1124,7 @@ export default class  MyPositionTabHold extends React.Component {
 								{borderLeftColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 								{borderRightColor:ColorConstants.COLOR_MAIN_THEME_BLUE},
 							]}>
-						<Text style={styles.extendTextTop}>{LS.str("TAKE_PROFIT_STOP_LOSS_TITLE")}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("TAKE_PROFIT_STOP_LOSS_TITLE")}</CustomStyleText>
 						<Image style={styles.extendImageBottom} source={stopLossImage}/>
 					</TouchableOpacity>
 
@@ -1173,33 +1173,33 @@ export default class  MyPositionTabHold extends React.Component {
 			<View style={[styles.extendWrapper, containerStyle]} >				
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_TYPE")}</CustomStyleText>
 						<Image style={styles.extendImageBottom} source={tradeImage}/>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>
+						<CustomStyleText style={styles.extendTextTop}>
                             {LS.str("ORDER_SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}
-						</Text>
-						<Text style={styles.extendTextBottom}>{rowData.invest.toFixed(2)}</Text>
+						</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{rowData.invest.toFixed(2)}</CustomStyleText>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</Text>
-						<Text style={styles.extendTextBottom}>{"x"+rowData.leverage}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_MULTIPLE")}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{"x"+rowData.leverage}</CustomStyleText>
 					</View>
 				</View>
 				<View style={styles.darkSeparator} />
 				<View style={styles.extendRowWrapper}>
 					<View style={styles.extendLeft}>
-						<Text style={styles.extendTextTop}>{LS.str("ORDER_TRADE_PRICE")}</Text>
-						<Text style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("ORDER_TRADE_PRICE")}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{rowData.settlePrice.maxDecimal(5)}</CustomStyleText>
 					</View>
 					<View style={styles.extendMiddle}>
-						<Text style={styles.extendTextTop}>{currentPriceLabel}</Text>
-						<Text style={styles.extendTextBottom}>{lastPrice.maxDecimal(5)}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{currentPriceLabel}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{lastPrice.maxDecimal(5)}</CustomStyleText>
 					</View>
 					<View style={styles.extendRight}>
-						<Text style={styles.extendTextTop}>{openDate.Format('yy/MM/dd')}</Text>
-						<Text style={styles.extendTextBottom}>{openDate.Format('hh:mm')}</Text>
+						<CustomStyleText style={styles.extendTextTop}>{openDate.Format('yy/MM/dd')}</CustomStyleText>
+						<CustomStyleText style={styles.extendTextBottom}>{openDate.Format('hh:mm')}</CustomStyleText>
 					</View>
 				</View>
                 <View style={styles.darkSeparator} />
@@ -1246,7 +1246,7 @@ export default class  MyPositionTabHold extends React.Component {
 			return (
 				<View style={[styles.rowWrapper, {height:FOLLOW_ROW_HEIGHT, flex:1, justifyContent:'center', alignItems:'center'}]}>
 					<View style={{justifyContent:'center', alignItems:'center'}}>
-						<Text style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</Text>					
+						<CustomStyleText style={styles.extendTextTop}>{LS.str("POSITION_COPY_TRADE").replace("{1}", rowData.followUser.nickname)}</CustomStyleText>					
 						<Image source={{uri:rowData.followUser.picUrl}} 
 							style={{height:20,width:20, borderRadius:10}}></Image>
 					</View>
@@ -1316,9 +1316,9 @@ export default class  MyPositionTabHold extends React.Component {
 						]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
 						<View style={[styles.rowWrapper, {height: UNSELECTED_ROW_HEIGHT}]} key={rowData.key}>
 							<View style={styles.rowLeftPart}>							
-								<Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+								<CustomStyleText style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
 									{topLine}
-								</Text>
+								</CustomStyleText>
 								{this.renderStockStatus(rowData)}
 							</View>
 
@@ -1349,7 +1349,7 @@ export default class  MyPositionTabHold extends React.Component {
 			if(this.state.isDataLoading) {
 				return (
 					<View style={styles.loadingTextView}>
-						<Text style={styles.loadingText}>{LS.str("DATA_LOADING")}</Text>
+						<CustomStyleText style={styles.loadingText}>{LS.str("DATA_LOADING")}</CustomStyleText>
 					</View>
 				);
 			}else{
@@ -1361,7 +1361,7 @@ export default class  MyPositionTabHold extends React.Component {
 	renderEmpty(){
 		return (
 			<View style={styles.loadingTextView}>
-				<Text style={styles.loadingText}>{LS.str("POSITION_HOLD_NO_ITEMS")}</Text>
+				<CustomStyleText style={styles.loadingText}>{LS.str("POSITION_HOLD_NO_ITEMS")}</CustomStyleText>
 			</View>
 		);
 	}

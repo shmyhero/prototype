@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text, 
     StyleSheet,
     Dimensions,
     FlatList,
@@ -15,6 +14,7 @@ import { logOut, switchLanguage, getVersion,
     getBalanceType, 
     setBalanceType } from '../redux/actions'
 import { connect } from 'react-redux';
+import CustomStyleText from './component/CustomStyleText';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
@@ -110,7 +110,7 @@ class MeSettingsScreen extends Component {
                                     }} style={styles.itemLine} key={index}>
                                         <View style={{flexDirection:'row', alignItems:'center',}}>
                                             <Image style={{width:28,height:28}} source={item.icon}></Image>
-                                            <Text style={styles.itemText}>{item.displayText}</Text>
+                                            <CustomStyleText style={styles.itemText}>{item.displayText}</CustomStyleText>
                                         </View>     
                                         <Image style={{width:22,height:22}} source={this.state.coinType==item.type?require('../../images/selector_selected.png'):require('../../images/selector_unselected.png')}></Image>
                                     </TouchableOpacity>   
@@ -134,7 +134,7 @@ class MeSettingsScreen extends Component {
                         {items}
                         <View style={{width:width,height:68,justifyContent:'center',alignItems:'center'}}>
                             <TouchableOpacity onPress={()=>this.confirm()} style={{width:width-20,height:44,justifyContent:'center',alignItems:'center',backgroundColor:ColorConstants.BGBLUE}}>
-                                <Text style={{fontSize:15,color:'white'}}>{LS.str('CONFIRM')}</Text>
+                                <CustomStyleText style={{fontSize:15,color:'white'}}>{LS.str('CONFIRM')}</CustomStyleText>
                             </TouchableOpacity>    
                         </View>
                     </View>
@@ -189,12 +189,12 @@ class MeSettingsScreen extends Component {
     renderRightPart(rowData){
         if(rowData.item.subtype == "version"){
             return (
-                <Text style={styles.value}>{this.props.version}</Text>
+                <CustomStyleText style={styles.value}>{this.props.version}</CustomStyleText>
             )
         }else if(rowData.item.subtype == "balanceType"){
             return (
                 <View style={{flexDirection:'row'}}>
-                    <Text style={[styles.balanceTypeValue]}>{this.props.balanceType}</Text>
+                    <CustomStyleText style={[styles.balanceTypeValue]}>{this.props.balanceType}</CustomStyleText>
                     <Image source={require("../../images/icon_arrow_right.png")}
                             style={styles.arrowIcon}/>
                 </View>
@@ -216,7 +216,7 @@ class MeSettingsScreen extends Component {
                 <View>
                     <View style={styles.rowContainer}>
                         <View style={styles.rowLeftTextContainer}>
-                            <Text style={styles.title}>{LS.str(rowData.item.title)}</Text>
+                            <CustomStyleText style={styles.title}>{LS.str(rowData.item.title)}</CustomStyleText>
                         </View>
                         {this.renderRightPart(rowData)}
                     </View>

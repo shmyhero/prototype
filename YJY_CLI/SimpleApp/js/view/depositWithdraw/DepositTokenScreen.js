@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import {
     View, 
-    Text,
     StyleSheet,
     ImageBackground,
     TextInput,
@@ -11,6 +10,7 @@ import {
     Dimensions,
     Clipboard,
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import NavBar from '../component/NavBar';
 var ColorConstants = require('../../ColorConstants')
 var {height,width} = Dimensions.get('window');
@@ -60,19 +60,19 @@ class DepositScreen extends Component {
         return (
             <ImageBackground style={{height:imageHeight, width:imageWidth, marginBottom:15}} source={LS.loadImage("deposit_token_image")}>
                 <View style={{position:'absolute', top: imageHeight* 0.6, left: imageWidth * 0.15, right:10,}}>
-                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_1")}</Text>
-                    <Text style={styles.bodyText}>
+                    <CustomStyleText style={styles.titleText}>{LS.str("DEPOSIT_HINT_1")}</CustomStyleText>
+                    <CustomStyleText style={styles.bodyText}>
                         {LS.str("DEPOSIT_HINT_2")}
-                        <Text style={styles.linkText}>{"https://wallet.ethereum.org"}</Text>
-                    </Text>
+                        <CustomStyleText style={styles.linkText}>{"https://wallet.ethereum.org"}</CustomStyleText>
+                    </CustomStyleText>
                 </View>
                 <View style={{position:'absolute', top: imageHeight* 0.785, left: imageWidth * 0.15, right:10,
                     width:imageWidth * 0.8, flex:1}}>
-                    <Text style={styles.titleText}>{LS.str("DEPOSIT_HINT_3").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
-                    <Text style={styles.bodyText} numberOfLines={3}>
+                    <CustomStyleText style={styles.titleText}>{LS.str("DEPOSIT_HINT_3").replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
+                    <CustomStyleText style={styles.bodyText} numberOfLines={3}>
                         {LS.str("DEPOSIT_YJY_ADDRESS").replace("{1}", LS.getBalanceTypeDisplayText())}
-                        <Text style={styles.linkText}>{this.state.tokenAddress}</Text>
-                    </Text>
+                        <CustomStyleText style={styles.linkText}>{this.state.tokenAddress}</CustomStyleText>
+                    </CustomStyleText>
                 </View>
             </ImageBackground>);
     }

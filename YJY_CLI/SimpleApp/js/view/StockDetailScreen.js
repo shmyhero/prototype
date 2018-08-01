@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -14,6 +13,7 @@ import {
   ScrollView
 } from 'react-native';
 
+import CustomStyleText from './component/CustomStyleText';
 import PriceChartView from './component/PriceChartView';
 import NavBar from './component/NavBar';
 import ViewKeys from '../ViewKeys';
@@ -409,7 +409,7 @@ export default class StockDetailScreen extends Component {
                         flexDirection:'row',
                         }}>
                         {imageSource? <Image style={{marginLeft:15, height: 22, width: 22}} source={imageSource}/> : null}
-                        <Text style={textViewStyleList}>{label}</Text>                        
+                        <CustomStyleText style={textViewStyleList}>{label}</CustomStyleText>                        
                     </View>
                 </ImageBackground>
             </TouchableOpacity>
@@ -421,10 +421,10 @@ export default class StockDetailScreen extends Component {
             <View style={{position:'absolute', left:0, right: 0, top:0, height:30, 
                         justifyContent:'center',
                         alignItems:'center'}}>
-                <Text style={{backgroundColor:'white', paddingLeft:20, paddingRight:20, textAlign:'center',
+                <CustomStyleText style={{backgroundColor:'white', paddingLeft:20, paddingRight:20, textAlign:'center',
                                 color:'#cccccc'}}>
                     {title}
-                </Text>
+                </CustomStyleText>
             </View>
         )
     }
@@ -505,7 +505,7 @@ export default class StockDetailScreen extends Component {
             <TouchableOpacity onPress={()=>this.onSubmitButtonPressed()}>
                 <ImageBackground style={{width:120,height:120, alignItems:'center', justifyContent:'center'}} source={source}
                     resizeMode={"contain"}>
-                    <Text style={buttonTextStyle}>{buttonLabel}</Text>
+                    <CustomStyleText style={buttonTextStyle}>{buttonLabel}</CustomStyleText>
                 </ImageBackground>
             </TouchableOpacity>
         )
@@ -522,14 +522,14 @@ export default class StockDetailScreen extends Component {
         if (this.state.dataStatus == DATA_STATUS_FAILED){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOAD_FAILED")}</Text>
+                    <CustomStyleText style={styles.chartStatusText}>{LS.str("DATA_LOAD_FAILED")}</CustomStyleText>
                 </View>
             );
         }
         else if (this.state.dataStatus == DATA_STATUS_LOADING){
             return (
                 <View style={styles.centerTextContainer}>
-                    <Text style={styles.chartStatusText}>{LS.str("DATA_LOADING")}</Text>
+                    <CustomStyleText style={styles.chartStatusText}>{LS.str("DATA_LOADING")}</CustomStyleText>
                 </View>
             );
         }
@@ -567,7 +567,7 @@ export default class StockDetailScreen extends Component {
 
         return (
             <View style={styles.detailTextRow}>
-                <Text style={styles.detailText}>{text}</Text>
+                <CustomStyleText style={styles.detailText}>{text}</CustomStyleText>
             </View>
         )
     }
@@ -608,8 +608,8 @@ export default class StockDetailScreen extends Component {
                             style={styles.buttonsScroller}>                            
                             {amountViews}
                         </ScrollView>
-                        <Text style={{position:'absolute', top:0, left:0, right:0,
-                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</Text>
+                        <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
+                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         source={LS.loadImage('stock_detail_multiple_container')}>

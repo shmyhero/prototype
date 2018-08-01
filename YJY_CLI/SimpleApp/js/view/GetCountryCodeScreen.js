@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
 import { 
-  Text, 
   View,
   StyleSheet, 
   Dimensions, 
   TouchableOpacity, 
   ListView
 } from 'react-native'; 
+import CustomStyleText from './component/CustomStyleText';
 import NavBar from './component/NavBar';
 var StorageModule = require('./../module/StorageModule');
 var LS = require("../LS");
@@ -65,8 +65,8 @@ export default class GetCountryCodeScreen extends Component {
 		var countryName = LogicData.getLanguage() == 'zh-cn'?rowData.name:rowData.nameE;
 		return(
 			<TouchableOpacity onPress={()=>this.onCompleted(rowData.code)} style={{flexDirection:'row',justifyContent: 'space-between',height:48,alignItems:'center',paddingLeft:10,paddingRight:10}}>
-                <Text style={{fontSize:15}}>{countryName}</Text>
-                <Text style={{fontSize:15,color:'#6693c2'}}>{rowData.code}</Text>
+                <CustomStyleText style={{fontSize:15}}>{countryName}</CustomStyleText>
+                <CustomStyleText style={{fontSize:15,color:'#6693c2'}}>{rowData.code}</CustomStyleText>
 			</TouchableOpacity>
 			
 		) 

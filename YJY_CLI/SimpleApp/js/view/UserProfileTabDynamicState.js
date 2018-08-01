@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -19,6 +18,7 @@ import { TabNavigator } from "react-navigation";
 import LogicData from '../LogicData';
 import ViewKeys from '../ViewKeys';
 import TweetBlock from './tweet/TweetBlock';
+import CustomStyleText from './component/CustomStyleText';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 var ColorConstants = require('../ColorConstants');
 var {height, width} = Dimensions.get('window');
@@ -149,7 +149,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		var emptyTip = LS.str("NO_DYNAMIC")  
 		return(
 			<View style={{flex:1,width:width,justifyContent:'center',alignItems:'center'}}>
-				<Text style={{color:'white',fontSize:14}}>{emptyTip}</Text>
+				<CustomStyleText style={{color:'white',fontSize:14}}>{emptyTip}</CustomStyleText>
 			</View>
 		)
 	}
@@ -215,7 +215,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 		return(
 			<View style={styles.itemLine}> 
 			  <View style={{width:width-20,paddingRight:24}}>  
-				  <Text style={styles.timeStyle}>{timeText}</Text>
+				<CustomStyleText style={styles.timeStyle}>{timeText}</CustomStyleText>
 					<TweetBlock
 							style={{fontSize:15,color:'#999999',lineHeight:18}}
 							value={rowData.text}
@@ -226,13 +226,13 @@ export default class  UserProfileTabDynamicState extends React.Component {
 							<View style={{flexDirection:'row'}}>
 								<TouchableOpacity style={styles.operatorItem} onPress={()=>this.onPressedPraise(rowData)}>
 										 <Image style={styles.iconOperator} source={iconPraise}/>
-										 <Text style={[styles.textOperator,textPraise]}>{rowData.likeCount}</Text>
+										 <CustomStyleText style={[styles.textOperator,textPraise]}>{rowData.likeCount}</CustomStyleText>
 								</TouchableOpacity>
 								<View style={styles.operatorSepator}/> 
 
 								<TouchableOpacity style={styles.operatorItem} onPress={()=>this.onPressedShare(rowData)}>
 										<Image style={styles.iconOperator} source={require('../../images/icon_share.png')}/>
-										<Text style={styles.textOperator}>{strFX}</Text>
+										<CustomStyleText style={styles.textOperator}>{strFX}</CustomStyleText>
 								</TouchableOpacity>
 							</View>
 						<View style={styles.separator}></View>

@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	View,
 	Image,
-	Text,
 	TouchableHighlight,
 	Platform,
 	TextInput,
@@ -17,6 +16,7 @@ import {
 import LogicData from '../LogicData';
 import ViewKeys from '../../js/navigation/SimpleAppNavigator';
 import SortableListView from 'react-native-sortable-listview';
+import CustomStyleText from './component/CustomStyleText'
 import NavBar from './component/NavBar';
 import StockRowComponent from './component/StockRowComponent';
 
@@ -159,7 +159,7 @@ class StockSearchScreen extends Component {
     renderContent(){
         if(this.state.isLoading){
             return (<View style={{ flex: 1, justifyContent:'center'}}>
-                <Text style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
+                <CustomStyleText style={{textAlign:'center', color: 'white', fontSize:20}}>{LS.str("DATA_LOADING")}</CustomStyleText>
             </View>);
         }else{
             return (

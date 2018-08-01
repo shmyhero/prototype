@@ -1,7 +1,7 @@
 //import liraries
 import React, { Component } from 'react';
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet,
+import { View, StyleSheet,
     Animated,
     Dimensions,
     Easing,
