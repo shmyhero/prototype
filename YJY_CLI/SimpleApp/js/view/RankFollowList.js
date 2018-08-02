@@ -12,6 +12,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import UserBlock from './component/UserBlock';
 import CustomStyleText from './component/CustomStyleText';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
@@ -106,23 +107,29 @@ export default class  RankFollowList extends React.Component {
 
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
-            return( 
-                <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
-                    <View style={{flexDirection:'row',alignItems:'center'}}>
-                        <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
-                        <View style={{marginLeft:10,justifyContent:'center'}}>
-                            <CustomStyleText style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</CustomStyleText>
-                            <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
-                                <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
-                                <CustomStyleText style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</CustomStyleText>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{marginRight:15}}>
-                        <CustomStyleText style={{fontSize:17, fontWeight:'bold',color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</CustomStyleText>
-                    </View> 
-                </TouchableOpacity>
-            )
+            return (<UserBlock 
+                style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}
+                rowData={rowData} 
+                key={rowID}
+                onPressItem={(v)=>this.onPressItem(v)}/>);
+                 
+            // return( 
+            //     <TouchableOpacity onPress={()=>this.onPressItem(rowData)} style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            //         <View style={{flexDirection:'row',alignItems:'center'}}>
+            //             <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23}} source={{uri:rowData.picUrl}}></Image>
+            //             <View style={{marginLeft:10,justifyContent:'center'}}>
+            //                 <CustomStyleText style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</CustomStyleText>
+            //                 <View style={{flexDirection:'row',alignItems:'center',justifyContent:'center'}}>
+            //                     <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
+            //                     <CustomStyleText style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</CustomStyleText>
+            //                 </View>
+            //             </View>
+            //         </View>
+            //         <View style={{marginRight:15}}>
+            //             <CustomStyleText style={{fontSize:17, fontWeight:'bold',color: ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</CustomStyleText>
+            //         </View> 
+            //     </TouchableOpacity>
+            // )
         }else{
             return null
         }

@@ -9,16 +9,19 @@ import {
   TouchableOpacity,
   Dimensions,
   ImageBackground,
-  ListView,
+  FlatList,
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
 import CustomStyleText from './component/CustomStyleText';
+import UserBlock from './component/UserBlock'
 import { LIST_HEADER_BAR_HEIGHT } from '../UIConstants';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
+import LottieView from 'lottie-react-native';
+
 var LS = require("../LS")
 var listData = []
 
@@ -33,22 +36,20 @@ export default class  RankHeroList extends React.Component {
 
     constructor(props){
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
         this.state = {
-            dataSource: ds.cloneWithRows(listData),
+            dataSource: listData,
             rankListData:[
                 {   roi: 0,winRate: 0,id: 7,nickname: '--' },
                 {   roi: 0, winRate: 0, id: 1, nickname: '--' },
                 {   roi: 0,winRate: 0,id: 2,nickname: '--'},
                 {   roi: 0,winRate: 0,id: 2,nickname: '--'}
-            ], 
-        };
- 
+            ],
+        }; 
     }
     
 
     componentDidMount () {
-         this.onRefresh()
+        this.onRefresh()
     }
 
     componentWillUnmount() {
@@ -65,7 +66,6 @@ export default class  RankHeroList extends React.Component {
 
     onRefresh(){
         this.loadRankData()
-        
     }
 
     tabPressed(){ 
@@ -90,11 +90,10 @@ export default class  RankHeroList extends React.Component {
                             showLoading: true,
                             cache:'offline'
                         }, (responseJson) => { 
-                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                             this.setState({
                                 rankListData: responseJson,
                                 isDataLoading: false,
-                                dataSource: ds.cloneWithRows(responseJson),
+                                dataSource: responseJson,
                             });  
                         },
                         (exception) => {
@@ -112,11 +111,10 @@ export default class  RankHeroList extends React.Component {
                             method: 'GET', 
                             showLoading: true,
                         }, (responseJson) => { 
-                            const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
                             this.setState({
                                 rankListData: responseJson,
                                 isDataLoading: false,
-                                dataSource: ds.cloneWithRows(responseJson),
+                                dataSource: responseJson,
                             });  
                         },
                         (exception) => {
@@ -127,34 +125,40 @@ export default class  RankHeroList extends React.Component {
             }
      } 
 
-    renderMe(){
-        var profit = (this.state.rankListData[0].roi*100).toFixed(0);
-        if(profit==-0){ profit = 0 }
+    renderMe(rowData, rowID){       
         if(this.props.showMeBlock){
-            // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
-            return(
-                <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
-                    <ImageBackground style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}>
-                        <View style={{flexDirection:'row',alignItems:'center'}}> 
-                            <View style={{height:46,width:46,marginLeft:28,marginBottom:5,}}>
-                                <Image style={{height:46,width:46,borderRadius:23,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
-                            </View>    
-                            <View style={{marginLeft:10}}>
-                                <CustomStyleText style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</CustomStyleText>
-                                <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
-                                    <CustomStyleText style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</CustomStyleText>
-                                    <CustomStyleText style={{fontSize:16,color:'#d8effc',fontWeight:'bold'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</CustomStyleText>
-                                </View>
-                            </View>
-                        </View>     
-                        <View style={{marginRight:30}}>
-                            <CustomStyleText style={{color:'#d8effc',fontWeight: 'bold',}}>{profit}%</CustomStyleText>
-                        </View> 
-                    </ImageBackground>
-                </TouchableOpacity>
+            return (
+                <View >
+                    {this.renderUserRow(rowData, rowID)}
+                    <View style={{height:10, backgroundColor:'#cccccc'}}></View>
+                </View>
             )
+            // // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'
+            // return(
+            //     <TouchableOpacity onPress={()=>this.gotoUserProfile(this.state.rankListData[0].id,this.state.rankListData[0].nickname)}>
+            //         <View style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}>
+            //         {/* <ImageBackground style={{height:80,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}} source={require('../../images/rank_bg_me.png')}> */}
+            //             <View style={{flexDirection:'row',alignItems:'center'}}> 
+            //                 <View style={{height:46,width:46,marginLeft:28,marginBottom:5,}}>
+            //                     <Image style={{height:46,width:46,borderRadius:23,borderWidth:1,borderColor:ColorConstants.BORDER_LIGHT_BLUE}} source={{uri:this.state.rankListData[0].picUrl}}></Image>
+            //                 </View>    
+            //                 <View style={{marginLeft:10}}>
+            //                     <CustomStyleText style={{color:'white',fontSize:15,color:'#6693c2'}}>{LogicData.getMeData().nickname}</CustomStyleText>
+            //                     <View style={{flexDirection:'row',marginBottom:5,alignItems:'center'}}>
+            //                         <CustomStyleText style={{fontSize:12,color:ColorConstants.BLUETEXT}}>{LS.str("WINRATE")}</CustomStyleText>
+            //                         <CustomStyleText style={{fontSize:16,color:'#d8effc',fontWeight:'bold'}}>{(this.state.rankListData[0].winRate*100).toFixed(0)}%</CustomStyleText>
+            //                     </View>
+            //                 </View>
+            //             </View>     
+            //             <View style={{marginRight:30}}>
+            //                 <CustomStyleText style={{color:'#d8effc',fontWeight: 'bold',}}>{profit}%</CustomStyleText>
+            //             </View> 
+            //         {/* </ImageBackground> */}
+            //         </View>
+            //     </TouchableOpacity>
+            // )
         }else{
-            return <View style={{width:width,height:20}}></View>;
+            return <View style={{width:width,height:20}} ></View>;
         }
     }
 
@@ -226,75 +230,101 @@ export default class  RankHeroList extends React.Component {
        this.gotoUserProfile(rowData.id,rowData.nickname)
     }
 
-    _renderRow = (rowData, sectionID, rowID) => {
+    renderUserRow(rowData, id){
+        return (
+            <UserBlock 
+                style={{width:width}}
+                rowData={rowData} 
+                key={id}
+                onPressItem={(v)=>this.onPressItem(v)}/>
+         );
+    }
+
+    _renderRow = (data) => {
+        var rowData = data.item;
+		var rowID = data.index;
+
         var offset = this.props.showMeBlock?1:0;
-        var profit = (rowData.roi*100).toFixed(0);
-        if(profit==-0){ profit = 0 }
-        if(rowID>=3+offset){
-            // var colorRoi = rowData.roi > 0?'#ca3538':'green'
-            return( 
-                <TouchableOpacity  activeOpacity={0.9} onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:'white'}}>
-                    <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
-                        <Image style={{height:46,width:46,marginLeft:28,marginBottom:5,borderRadius:23 }} source={{uri:rowData.picUrl}}></Image>
-                        <View style={{marginLeft:10}}>
-                            <CustomStyleText style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</CustomStyleText>
-                            <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
-                                <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
-                                <CustomStyleText style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</CustomStyleText>
-                            </View>
-                        </View>
-                    </View>
-                    <View style={{marginRight:30}}>
-                        <CustomStyleText style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</CustomStyleText>
-                    </View> 
-                </TouchableOpacity>
-            )
+        if(rowID == 0 && this.props.showMeBlock){
+            return this.renderMe(rowData, rowID);
+        }else if(rowID>=offset && rowData.id != this.state.rankListData[0].id){
+            return this.renderUserRow(rowData, rowID);
+        //     // var colorRoi = rowData.roi > 0?'#ca3538':'green'
+        //     return( 
+        //         <TouchableOpacity  activeOpacity={0.9} onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:'white'}}>
+        //             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
+        //                 <Image style={{height:46,width:46,marginLeft:28,marginBottom:5,borderRadius:23 }} source={{uri:rowData.picUrl}}></Image>
+        //                 <View style={{marginLeft:10}}>
+        //                     <CustomStyleText style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</CustomStyleText>
+        //                     <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
+        //                         <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
+        //                         <CustomStyleText style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</CustomStyleText>
+        //                     </View>
+        //                 </View>
+        //             </View>
+        //             <View style={{marginRight:30}}>
+        //                 <CustomStyleText style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</CustomStyleText>
+        //             </View> 
+        //         </TouchableOpacity>
+        //     )
         }else{
             return null
         }
-        
     }
 
     renderFooter(){
 
     }
 
-    renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
-      
-        if(rowID>=4){
-            return (
-                <View style={styles.line} key={rowID}>
-                    <View style={styles.separator}>
-                        {/* <View style={styles.separatorShort}/> */}
-                    </View>
+    renderSeparator(data) {
+        var rowData = data.item;
+		var rowID = data.index;
+        return (
+            <View style={styles.line}>
+                <View style={styles.separator}>
+                    {/* <View style={styles.separatorShort}/> */}
                 </View>
-            );
-        }else{
-            return null;
-        }
-		
+            </View>
+        );
     }
     
+    renderHeaderImage(){
+        return (
+            <View style={{height:300, width:width}}>
+                <CustomStyleText>STOCK</CustomStyleText>
+                <LottieView 
+                    ref={animation => {
+                        this.animation = animation;
+                    }}
+                    style={{height:300, width:width}}
+                    source={require('../../images/animation/ranking.json')}/>
+            </View>
+        )
+    }
+
     renderHeader(){
         return(
             <View style={{backgroundColor:ColorConstants.BGBLUE}}> 
-                {this.renderMe()}
-                <View style={{height:10}}></View>
-                {this.renderThreeHero()}
+                {this.renderHeaderImage()}
+                {/* <View style={{height:10}}></View>
+                {this.renderThreeHero()} */}
             </View>  
         )
     }
 
     renderListAll(){
+        console.log("this.state.dataSource")
         return(
-            <View style={{flex:1,width:width,backgroundColor:ColorConstants.WHITE,marginTop:5}}>
-                <ListView
+            <View style={{flex:1,width:width,marginTop:5}}>
+                <FlatList
+                    style={{backgroundColor:'white'}}
                     enableEmptySections={true}
-                    dataSource={this.state.dataSource}
-                    renderRow={this._renderRow}
-                    renderSeparator={this.renderSeparator}
+                    data={this.state.dataSource}
+                    renderItem={(data)=>this._renderRow(data)}
+                    ItemSeparatorComponent={(data)=>this.renderSeparator(data)}
                     removeClippedSubviews={false}
-                    renderHeader={this.renderHeader.bind(this)}
+                    ListHeaderComponent={this.renderHeader.bind(this)}
+                    keyExtractor={(item, index) => index.toString()}
                 />
             </View>
         )

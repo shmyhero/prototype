@@ -8,7 +8,9 @@ import {
     SET_LOACL_NICKNAME,
     SET_LOACL_NICKNAME_SUCCESS,
     SET_LOACL_NICKNAME_FAIL,
-    UPDATE_MAX_NICKNAME_LENGTH
+    UPDATE_MAX_NICKNAME_LENGTH,
+    SET_BALANCE_TYPE,
+    GET_BALANCE_TYPE_SETTING_SUCCESS
 } from "../constants/actionTypes";
 
 var initializeState = {
@@ -18,11 +20,22 @@ var initializeState = {
     error: "",
     language: "",
     version: "",
+    balanceType: "BTH",
 }
 
 //Previous state, action => current state
 export default function settingsReducer(state = initializeState, action) {
     switch (action.type) {
+        case SET_BALANCE_TYPE:
+            state = {...state,
+                balanceType: action.payload.balanceType
+            };
+            return state;
+        case GET_BALANCE_TYPE_SETTING_SUCCESS:
+            state = {...state,
+                balanceTypeSettings: action.payload.balanceTypeSettings
+            };
+            return state;
         case UPDATE_MAX_NICKNAME_LENGTH:
             state = {...state,
                 maxNickNameLength: action.payload.maxLength};

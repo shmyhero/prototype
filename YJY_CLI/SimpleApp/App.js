@@ -10,7 +10,7 @@ import {
   YellowBox
 } from 'react-native';
 
-import { getBalanceType } from './js/redux/actions';
+import { getBalanceType, getBalanceTypeSetting } from './js/redux/actions';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import LogicData from './js/LogicData';
@@ -103,6 +103,8 @@ class App extends React.Component {
       console.log("loadUserData", error);
     }
 
+    this.props.getBalanceTypeSetting();
+
     LogicData.getRemovedRynamicRow();
     EventCenter.emitStartUpInitializeFinishedEvent();
   
@@ -183,7 +185,8 @@ const mapStateToProps = state => {
 };
 
 const mapDispatchToProps = {
-  getBalanceType
+  getBalanceType,
+  getBalanceTypeSetting,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

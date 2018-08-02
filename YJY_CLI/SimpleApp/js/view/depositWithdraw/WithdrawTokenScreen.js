@@ -127,7 +127,7 @@ class WithdrawTokenScreen extends Component {
     getDecimalPlace(){
         var userData = LogicData.getUserData();
         NetworkModule.fetchTHUrl(
-            NetConstants.CFD_API.WITHDRAW_DECIMAL_PLACE,
+            NetConstants.CFD_API.BALANCE_TYPE_SETTINGS,
             {
                 method: 'GET',
                 headers: {
@@ -144,7 +144,7 @@ class WithdrawTokenScreen extends Component {
                 }
             },
             (error)=>{
-                console.log("WITHDRAW_DECIMAL_PLACE error", error);
+                console.log("BALANCE_TYPE_SETTINGS error", error);
                 
             });
     }

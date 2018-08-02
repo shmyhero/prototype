@@ -215,13 +215,13 @@ export default class  UserProfileScreen extends React.Component {
           <NavBar title={this.state.nickName} rightCustomContent={this.rightCustomContent.bind(this)} showBackButton={true} navigation={this.props.navigation}/>
           <View style={{flexDirection:'row',justifyContent:'center'}}>
               <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <CustomStyleText style={styles.textNum}>{this.state.followerCount}</CustomStyleText>
-                <CustomStyleText style={styles.textName}>{LS.str('WATCHS')}</CustomStyleText>
+                {/* <CustomStyleText style={styles.textNum}>{this.state.followerCount}</CustomStyleText>
+                <CustomStyleText style={styles.textName}>{LS.str('WATCHS')}</CustomStyleText> */}
               </View>
             <Image style={styles.portraitStyle} source={picSource}></Image>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <CustomStyleText style={styles.textNum}>{this.state.followTraderCount}</CustomStyleText>
-                <CustomStyleText style={styles.textName}>{LS.str('COPYS')}</CustomStyleText>
+                {/* <CustomStyleText style={styles.textNum}>{this.state.followTraderCount}</CustomStyleText>
+                <CustomStyleText style={styles.textName}>{LS.str('COPYS')}</CustomStyleText> */}
               </View>
           </View>  
           {this.renderContent()}

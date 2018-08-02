@@ -84,6 +84,9 @@ class StockDetailScreen extends Component {
 
     refresh(){
         this.props.fetchBalanceData();
+        if(this.props.balanceTypeSettings){
+            this.updateAmountValueList(this.props.balanceType, this.props.balanceTypeSettings)
+        }
     }
 
     loadStockInfo() {
@@ -372,6 +375,19 @@ class StockDetailScreen extends Component {
         if(newProps.balance < this.state.Amount){
             this.setState({
                 Amount: undefined,
+            })
+        }
+        
+        if(newProps.balanceType != this.props.balanceType){
+            this.updateAmountValueList(newProps.balanceType, this.props.balanceTypeSettings)
+        }
+    }
+
+    updateAmountValueList(balanceType, balanceTypeSettings){
+        if(balanceTypeSettings && balanceTypeSettings[balanceType]){
+            this.setState({
+                Amount: undefined,
+                amountValueList: balanceTypeSettings[balanceType]
             })
         }
     }
@@ -795,7 +811,8 @@ const styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return {
-        ...state.balance
+        ...state.settings,
+        ...state.balance,
     };
 };
 

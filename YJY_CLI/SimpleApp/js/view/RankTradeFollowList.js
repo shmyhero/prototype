@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import UserBlock from './component/UserBlock';
 import CustomStyleText from './component/CustomStyleText'
 var LS = require("../LS")
 var NetworkModule = require('../module/NetworkModule');
@@ -153,18 +154,23 @@ export default class  RankTradeFollowList extends React.Component {
                             <View style={{marginLeft:10}}>
                                 <View style={{flexDirection:'row',alignItems:'center'}}>
                                     <CustomStyleText style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</CustomStyleText>
-                                    {/* <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image>  */}
+                                    
                                 </View>
-                                <View style={{flexDirection:'row',marginBottom:0,alignItems:'center',justifyContent:'flex-start'}}>
+                                {/* <View style={{flexDirection:'row',marginBottom:0,alignItems:'center',justifyContent:'flex-start'}}>
                                     <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
                                     <CustomStyleText style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</CustomStyleText>
-                                </View>
+                                </View> */}
                             </View>
                         </View>
                         <View style={{marginRight:15}}>
                             <CustomStyleText style={{fontSize:17,fontWeight:'bold',color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</CustomStyleText>
-                        </View> 
-                    </View>
+                        </View>
+                    </View> 
+                    {/* <UserBlock 
+                        style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}
+                        rowData={rowData} 
+                        key={rowID}
+                        onPressItem={(v)=>this.onPressItem(rowData,rowID)}/> */}
                     {openView}
                 </TouchableOpacity>
             )

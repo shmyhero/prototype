@@ -99,7 +99,7 @@ def propFile
 
 android {
 
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion '25.4.0'
 
     defaultConfig {
@@ -169,7 +169,7 @@ android {
 }
 
 dependencies {
-    compile project(':react-native-sound')
+    implementation project(':lottie-react-native')
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation "com.android.support:appcompat-v7:${rootProject.ext.buildToolsVersion}"
     implementation 'com.facebook.react:react-native:+'

@@ -17,7 +17,10 @@ import {
     GET_BALANCE_TYPE_FAILURE,
     SET_BALANCE_TYPE,
     SET_BALANCE_TYPE_SUCCESS,
-    SET_BALANCE_TYPE_FAILURE
+    SET_BALANCE_TYPE_FAILURE,
+    GET_BALANCE_TYPE_SETTING,
+    GET_BALANCE_TYPE_SETTING_SUCCESS,
+    GET_BALANCE_TYPE_SETTING_FAILURE
 } from '../constants/actionTypes';
 var {EventCenter} = require("../../EventCenter");
 var DeviceInfo = require('react-native-device-info');
@@ -25,6 +28,7 @@ import setNickNameRequest from "../api/setNickNameRequest";
 import setPortraitRequest from "../api/setPortraitRequest";
 import fetchBalanceTypeRequest from "../api/fetchBalanceTypeRequest";
 import setBalanceTypeRequest from "../api/setBalanceTypeRequest";
+import fetchBalanceTypeSettingsRequest from "../api/fetchBalanceTypeSettingsRequest";
 var RCTNativeAppEventEmitter = require('RCTNativeAppEventEmitter');
 var NativeDataModule = require('../../module/NativeDataModule');
 var LS = require('../../LS');
@@ -207,7 +211,7 @@ export function getBalanceType(){
         try{
             var balanceType = await fetchBalanceTypeRequest()
             dispatch({
-                type: GET_BALANCE_TYPE,
+                type: SET_BALANCE_TYPE,
                 payload: {
                     balanceType: balanceType,
                 }
@@ -227,7 +231,6 @@ export function getBalanceType(){
 
 export function setBalanceType(balanceType){
     return async (dispatch) => {
-        //TODO!!!
         dispatch({
             type: SET_BALANCE_TYPE,
             payload: {
@@ -249,6 +252,36 @@ export function setBalanceType(balanceType){
                     error: error,
                 }
             });
+        }        
+    }
+}
+
+export function getBalanceTypeSetting(){
+    return async (dispatch) => {
+        //TODO!!!
+        dispatch({
+            type: GET_BALANCE_TYPE_SETTING,
+        });
+        
+        try{
+            fetchBalanceTypeSettingsRequest((response)=>{
+                var settings = {}
+                for(var i in response){
+                    settings[response[i].code] = response[i].investValues;
+                }
+                dispatch({
+                    type: GET_BALANCE_TYPE_SETTING_SUCCESS,
+                    payload: {
+                        balanceTypeSettings: settings,
+                    }
+                });
+            }, ()=>{
+                dispatch({
+                    type: GET_BALANCE_TYPE_SETTING_FAILURE,
+                });
+            });            
+        }catch(error){
+            
         }        
     }
 }
