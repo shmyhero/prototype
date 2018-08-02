@@ -45,6 +45,8 @@ namespace YJY_API
                 
                 cfg.CreateMap<THTWithdrawal, WithdrawalDTO>();
 
+                cfg.CreateMap<BalanceType, BalanceTypeDTO>();
+
                 ////cfg.CreateMap<Transfer, TransferDTO>()
                 ////.ForMember(dest=>dest.type, opt => opt.MapFrom(src =>Translator.GetTransferTypeDescription(src.Type)));
             });

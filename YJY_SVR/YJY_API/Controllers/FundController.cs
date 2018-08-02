@@ -86,7 +86,14 @@ namespace YJY_API.Controllers
         [Route("balance/type")]
         public List<BalanceTypeDTO> GetBalanceTypes()
         {
-            return db.BalanceTypes.ToList().Select(o => Mapper.Map<BalanceTypeDTO>(o)).ToList();
+            var balanceTypes= db.BalanceTypes.ToList().Select(o => Mapper.Map<BalanceTypeDTO>(o)).ToList();
+            var investSettings = db.InvestSettings.ToList();
+            foreach (var type in balanceTypes)
+            {
+                type.investValues = investSettings.Where(o => o.BalanceTypeId == type.id).OrderBy(o => o.DisplayOrder)
+                    .Select(o =>o.Amount.Value).ToArray();
+            }
+            return balanceTypes;
         }
 
         [HttpGet]

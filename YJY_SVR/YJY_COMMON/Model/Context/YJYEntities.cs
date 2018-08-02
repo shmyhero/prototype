@@ -19,6 +19,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<BalanceType> BalanceTypes { get; set; }
         public virtual DbSet<ETHDeposit> ETHDeposits { get; set; }
         public virtual DbSet<Headline> Headlines { get; set; }
+        public virtual DbSet<InvestSetting> InvestSettings { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
         public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
@@ -45,6 +46,10 @@ namespace YJY_COMMON.Model.Context
 
             modelBuilder.Entity<ETHDeposit>()
                 .Property(e => e.PaidAmount)
+                .HasPrecision(28, 18);
+
+            modelBuilder.Entity<InvestSetting>()
+                .Property(e => e.Amount)
                 .HasPrecision(28, 18);
 
             modelBuilder.Entity<Position>()

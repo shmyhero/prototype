@@ -125,6 +125,7 @@
     <Compile Include="Model\Entity\BalanceType.cs" />
     <Compile Include="Model\Entity\ETHDeposit.cs" />
     <Compile Include="Model\Entity\Headline.cs" />
+    <Compile Include="Model\Entity\InvestSetting.cs" />
     <Compile Include="Model\Entity\Message.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
     <Compile Include="Model\Entity\PhoneSignupHistory.cs" />

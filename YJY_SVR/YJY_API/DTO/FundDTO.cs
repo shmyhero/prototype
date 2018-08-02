@@ -19,7 +19,14 @@ namespace YJY_API.DTO
         public int id { get; set; }
         public string code { get; set; }
         public int? precision { get; set; }
+
+        public decimal[] investValues { get; set; }
     }
+    //public class InvestSettingDTO
+    //{
+    //    //public int displayOrder { get; set; }
+    //    public decimal amount { get; set; }
+    //}
     public class THTAddressDTO
     {
         public string address { get; set; }

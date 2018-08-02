@@ -12,21 +12,13 @@ namespace YJY_COMMON.Model.Entity
         {
         }
 
-        public virtual DbSet<THTWithdrawal> THTWithdrawals { get; set; }
+        public virtual DbSet<InvestSetting> InvestSettings { get; set; }
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<THTWithdrawal>()
+            modelBuilder.Entity<InvestSetting>()
                 .Property(e => e.Amount)
                 .HasPrecision(28, 18);
-
-            modelBuilder.Entity<THTWithdrawal>()
-                .Property(e => e.Value)
-                .HasPrecision(28, 0);
-
-            modelBuilder.Entity<THTWithdrawal>()
-                .Property(e => e.CallbackValue)
-                .HasPrecision(28, 0);
         }
     }
 }
