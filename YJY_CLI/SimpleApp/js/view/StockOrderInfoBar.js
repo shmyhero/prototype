@@ -4,13 +4,12 @@ import React, {Component} from 'react';
 import PropTypes from "prop-types";
 import {
     View,
-    Text,
     StyleSheet,
     Dimensions,
     Image,
 } from 'react-native';
 import LogicData from '../LogicData';
-
+import CustomStyleText from './component/CustomStyleText';
 var ColorConstants = require('../ColorConstants')
 var UIConstants = require('../UIConstants');
 var LS = require("../LS");
@@ -112,66 +111,66 @@ export default class StockOrderInfoBar extends Component {
                 {extraTitleImageBackground}
                 <View style={[styles.titleContainer, {justifyContent:'center'}]}>
                     <View style={{flexDirection: 'row', justifyContent: 'space-between', alignSelf: 'stretch'}}>
-                        <Text style={[styles.titleText, {flex:1, marginLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}, titleTextStyle]} numberOfLines={1} ellipsizeMode={'head'}>
+                        <CustomStyleText style={[styles.titleText, {flex:1, marginLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}, titleTextStyle]} numberOfLines={1} ellipsizeMode={'head'}>
                             {this.state.name} - {this.state.isCreate? LS.str("ORDER_OPEN") : LS.str("ORDER_CLOSE")}
-                        </Text>
+                        </CustomStyleText>
                         {this.state.isCreate ?
                             null :
-                            <Text style={[styles.titleText, {marginRight: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, marginLeft: 5}, titleTextStyle]}>
+                            <CustomStyleText style={[styles.titleText, {marginRight: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, marginLeft: 5}, titleTextStyle]}>
                                 {(plRate).toFixed(2)} %
-                            </Text>
+                            </CustomStyleText>
                         }
                     </View>
                 </View>
                 <View style={[styles.centerContainer]}>
                     <View style={{flex: 1, alignItems: 'flex-start', paddingLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, paddingVertical: 8}}>
-                        <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemTitleTextStyle]}>
                             {LS.str("ORDER_TYPE")}
-                        </Text>
+                        </CustomStyleText>
                         <Image style={[styles.longImage, longImageStyle]} source={longImageSrc}/>
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
-                        <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemTitleTextStyle]}>
                             {LS.str("ORDER_SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}
-                        </Text>
-                        <Text style={[styles.itemValueText, itemValueTextStyle]}>
+                        </CustomStyleText>
+                        <CustomStyleText style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.invest.toFixed(2)}
-                        </Text>
+                        </CustomStyleText>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end', paddingRight: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}}>
-                        <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemTitleTextStyle]}>
                             {LS.str("ORDER_MULTIPLE")}
-                        </Text>
-                        <Text style={[styles.itemValueText, itemValueTextStyle]}>
+                        </CustomStyleText>
+                        <CustomStyleText style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.leverage}
-                        </Text>
+                        </CustomStyleText>
                     </View>
                 </View>
                 <View style={[styles.line, lineStyle]}/>
                 <View style={[styles.bottomContainer]}>
                     <View style={{flex: 1, alignItems: 'flex-start', paddingLeft: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN, paddingVertical: 8}}>
-                        <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemTitleTextStyle]}>
                             {LS.str("ORDER_TRADE_PRICE")}
-                        </Text>
-                        <Text style={[styles.itemValueText, itemValueTextStyle]}>
+                        </CustomStyleText>
+                        <CustomStyleText style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.settlePrice}
-                        </Text>
+                        </CustomStyleText>
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
-                        <Text style={[styles.itemTitleText, itemTitleTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemTitleTextStyle]}>
                             {this.state.isCreate? LS.str("ORDER_MAX_RISK").replace("{1}", LS.getBalanceTypeDisplayText()) : LS.str("ORDER_PROFIT_AND_LOSS").replace("{1}", LS.getBalanceTypeDisplayText())}
-                        </Text>
-                        <Text style={[styles.itemValueText, itemValueTextStyle, {color: plColor}]}>
+                        </CustomStyleText>
+                        <CustomStyleText style={[styles.itemValueText, itemValueTextStyle, {color: plColor}]}>
                         {this.state.isCreate ? this.state.invest.toFixed(2) : this.state.pl.toFixed(2)}
-                        </Text>
+                        </CustomStyleText>
                     </View>
                     <View style={{flex: 1, alignItems: 'flex-end', paddingRight: this.props.bigMargin ? HORIZONTAL_BIG_MARGIN : HORIZONTAL_SMALL_MARGIN}}>
-                        <Text style={[styles.itemTitleText, itemValueTextStyle]}>
+                        <CustomStyleText style={[styles.itemTitleText, itemValueTextStyle]}>
                         {this.state.time.Format('yy/MM/dd')}
-                        </Text>
-                        <Text style={[styles.itemValueText, itemValueTextStyle]}>
+                        </CustomStyleText>
+                        <CustomStyleText style={[styles.itemValueText, itemValueTextStyle]}>
                         {this.state.time.Format('hh:mm')}
-                        </Text>
+                        </CustomStyleText>
                     </View>
                 </View>
             </View>

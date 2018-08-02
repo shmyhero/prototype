@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -20,7 +19,7 @@ import {
   ActivityIndicatorIOS,
 } from 'react-native';
 import NavBar from './component/NavBar';
-
+import CustomStyleText from './component/CustomStyleText';
 
 import { getBalanceType } from '../redux/actions';
 import { connect } from 'react-redux';
@@ -30,6 +29,8 @@ var NetworkModule = require('../module/NetworkModule');
 var StorageModule = require('../module/StorageModule');
 var NetConstants = require('../NetConstants')
 var WebSocketModule = require("../module/WebSocketModule");
+var UIConstants = require("../UIConstants");
+import GlobalStyles from '../GlobleStyles';
 import ViewKeys from '../ViewKeys';
 var MAX_ValidationCodeCountdown = 60
 import LibraryImporter from '../LibraryImporter';
@@ -297,12 +298,12 @@ export default class LoginScreen extends Component {
                     </View>
                     <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                         
-                        <Text style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</Text>
+                        <CustomStyleText style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</CustomStyleText>
                         <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                             <TouchableOpacity  onPress={()=>this.getCountryCode()} style={{flexDirection:'row'}}>
-                                <Text style={{marginLeft:10,color:'white'}}>+</Text>
-                                <Text style={{marginLeft:2,color:'white'}}>{this.state.countryCode}</Text>
-                                <Text style={{fontSize:10,marginTop:2, marginLeft:5,color:'white'}}>v</Text> 
+                                <CustomStyleText style={{marginLeft:10,color:'white'}}>+</CustomStyleText>
+                                <CustomStyleText style={{marginLeft:2,color:'white'}}>{this.state.countryCode}</CustomStyleText>
+                                <CustomStyleText style={{fontSize:10,marginTop:2, marginLeft:5,color:'white'}}>v</CustomStyleText> 
                             </TouchableOpacity>
                             
                             <TextInput 
@@ -316,7 +317,7 @@ export default class LoginScreen extends Component {
                                     phoneNumber:text
                                 })}
                             }
-                            style={{marginLeft:10,color:'white',flex:1}}/>
+                            style={[GlobalStyles.defaultTextStyle,{marginLeft:10,color:'white',flex:1}]}/>
                             {this.renderGetValidationCodeButton()}
                         </View>
 
@@ -332,7 +333,7 @@ export default class LoginScreen extends Component {
                                         verifyCode:text
                                     }) 
                                 }}
-                                style={{width:width,marginLeft:10,color:'white'}}/> 
+                                style={[GlobalStyles.defaultTextStyle, {width:width,marginLeft:10,color:'white'}]}/> 
                         </View> 
                         
                         <TouchableOpacity 
@@ -341,11 +342,11 @@ export default class LoginScreen extends Component {
                             alignItems:'center',
                             justifyContent:'center', 
                             width:width-50,height:40,backgroundColor:bgbtn,marginTop:20,borderRadius:7.5,}}>
-                            <Text style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</Text>
+                            <CustomStyleText style={{fontSize:17, color:textLogin}}>{LS.str("LOGIN")}</CustomStyleText>
                         </TouchableOpacity>
                     </View>
                     {/* <View  style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</Text>
+                        <CustomStyleText style={{fontSize:17, color:'#40b7f8'}}>{LS.str("FAST_LOGIN")}</CustomStyleText>
                         <TouchableOpacity onPress={()=>this.onWechatLogin()}>
                         <Image style={{width:48,height:48}} source={require('../../images/icon_wechat.png')}/>
                         </TouchableOpacity>   
@@ -395,7 +396,7 @@ export default class LoginScreen extends Component {
                 <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',width:100}}>
                                     <View style={{width:1,height:40,backgroundColor:'#4e85bf' }}></View>
                                     <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
-                                        <Text style={{color:textLogin,alignSelf:'center'}}>{LS.str("GET_VCODE")}</Text>
+                                        <CustomStyleText style={{color:textLogin,alignSelf:'center'}}>{LS.str("GET_VCODE")}</CustomStyleText>
                                     </View> 
                 </TouchableOpacity>
             )
@@ -404,7 +405,7 @@ export default class LoginScreen extends Component {
                 <TouchableOpacity style={{flexDirection:'row',justifyContent:'center',width:100}}>
                     <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
                     <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
-                        <Text style={{marginRight:10,color:'white',alignSelf:'center' }}>{this.state.validationCodeCountdown}</Text>
+                        <CustomStyleText style={{marginRight:10,color:'white',alignSelf:'center' }}>{this.state.validationCodeCountdown}</CustomStyleText>
                     </View> 
                 </TouchableOpacity>
             )  

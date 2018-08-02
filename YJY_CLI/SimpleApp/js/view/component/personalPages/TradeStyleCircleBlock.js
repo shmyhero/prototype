@@ -4,11 +4,11 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   Dimensions,
   Image
 } from 'react-native';
+import CustomStyleText from '../CustomStyleText';
 var LS = require('../../../LS')
 var ColorConstants = require('../../../ColorConstants');  
 var NetworkModule = require('../../../module/NetworkModule');
@@ -153,14 +153,14 @@ export default class TradeStyleCircleBlock extends Component {
             </View>  
             <View style={{width:100,alignItems:'flex-start', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
               <View style={{marginLeft:20,justifyContent:'center',alignItems:'flex-start' }}>
-              <Text style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</Text>
-              <Text numberOfLines={1} ellipsizeMode={'tail'} style={{width:70, fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</Text>
+              <CustomStyleText style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</CustomStyleText>
+              <CustomStyleText numberOfLines={1} ellipsizeMode={'tail'} style={{width:70, fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</CustomStyleText>
               </View>
               <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
             <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
-              <Text style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</Text>
-              <Text style={{fontSize:12,color:'#3dcc24'}}>{LS.str('WINRATE_')}</Text>
+              <CustomStyleText style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</CustomStyleText>
+              <CustomStyleText style={{fontSize:12,color:'#3dcc24'}}>{LS.str('WINRATE_')}</CustomStyleText>
               <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>
             </View>  
 

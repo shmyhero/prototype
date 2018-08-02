@@ -3,13 +3,14 @@ import React, {
     Component,
 } from 'react';
 import PropTypes from "prop-types";
-import { View, Text, StyleSheet,
+import { View, StyleSheet,
     TouchableOpacity,
     ImageBackground,
 	ViewPropTypes,
     Image,
     Dimensions
 } from 'react-native';
+import CustomStyleText from './CustomStyleText'
 import LinearGradient from 'react-native-linear-gradient'
 var ColorPropType = require('ColorPropType');
 var LS = require("../../LS");
@@ -96,9 +97,9 @@ class SubmitButton extends Component {
                     end={{x:1.0, y:0.0}}
                     style={[styles.okView]}
                     colors={colorGradient}>
-                    <Text style={[styles.okButton, {color: textColor}]}>
+                    <CustomStyleText style={[styles.okButton, {color: textColor}]}>
                         {this.props.text}
-                    </Text>
+                    </CustomStyleText>
                 </LinearGradient>
                 {/* <ImageBackground source={buttonImage}
                     resizeMode={"stretch"}
@@ -117,9 +118,9 @@ class SubmitButton extends Component {
         //         <ImageBackground source={buttonImage}
         //             resizeMode={"stretch"}
         //             style={styles.okView}>
-        //             <Text style={styles.okButton}>
+        //             <CustomStyleText style={styles.okButton}>
         //                 {this.props.text}
-        //             </Text>
+        //             </CustomStyleText>
         //         </ImageBackground>
         //     </TouchableOpacity>
         // );

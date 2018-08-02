@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -13,6 +12,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation";
+import CustomStyleText from './component/CustomStyleText';
 import NavBar from './component/NavBar';
 import LogicData from '../LogicData';
 import LoginScreen from './LoginScreen';
@@ -195,7 +195,7 @@ class  TabRankScreen extends React.Component {
       return(  
         <View style={{flex:1}}>
             <View style={{width:width,height:36,justifyContent:'center',alignItems:'center'}}>
-              <Text style={{fontSize:18,color:'white'}}>达人</Text>
+              <CustomStyleText style={{fontSize:18,color:'white'}}>达人</CustomStyleText>
             </View>
             <RankHeroList ref={RANK_LIST} showMeBlock={this.state.isLoggedIn} navigation={this.props.navigation}/> 
         </View>  

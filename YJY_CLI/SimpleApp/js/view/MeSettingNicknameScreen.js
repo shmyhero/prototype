@@ -4,7 +4,6 @@ import React, { Component } from 'react';
 import {
 	StyleSheet,
 	View,
-	Text,
 	ScrollView,
 	Dimensions,
 	Image,
@@ -12,7 +11,7 @@ import {
 	Platform,
 	TouchableOpacity,
 } from 'react-native';
-
+import CustomStyleText from './component/CustomStyleText'
 import LogicData from '../LogicData';
 import NavBar from "./component/NavBar";
 
@@ -36,7 +35,7 @@ class ErrorMsg extends Component{
 			return (
 				<View style={styles.errorMsg}>
 						<Image source={require('../../images/error_dot.png')} style={[styles.errorDot]}/>
-						<Text style={styles.errorText}>{this.props.showText}</Text>
+						<CustomStyleText style={styles.errorText}>{this.props.showText}</CustomStyleText>
 				</View>
 			);
 		}else {

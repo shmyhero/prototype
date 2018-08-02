@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 var RN = require('react-native');
 import PropTypes from "prop-types";
 import {
-    View, 
-    Text, 
+    View,
     StyleSheet,
     TouchableOpacity,
     TouchableWithoutFeedback,
@@ -19,6 +18,7 @@ import Swipeout from 'react-native-swipeout';
 var ColorConstants = require('../../ColorConstants');
 import ViewKeys from '../../ViewKeys';
 var LS = require("../../LS")
+import CustomStyleText from './CustomStyleText';
 
 class DynamicRowComponentContent extends Component {
     static propTypes = {
@@ -87,7 +87,7 @@ class DynamicRowComponentContent extends Component {
                     <Image source={rowData.position.isLong ? require('../../../images/stock_detail_direction_up_enabled.png') : require('../../../images/stock_detail_direction_down_enabled.png')}
                         style={{width:22,height:22,marginBottom:-3}}>
                     </Image>
-                    <Text style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.security.name}</Text>
+                    <CustomStyleText style={{marginRight:2,fontSize:9,color:'#a9a9a9'}}>{rowData.security.name}</CustomStyleText>
                 </TouchableOpacity>
             )
         }else{
@@ -109,9 +109,9 @@ class DynamicRowComponentContent extends Component {
         }else if(rowData.type == 'open'){ 
             text = rowData.position.invest +" "+ LS.str("MOUNT_X").replace("{1}", LS.getBalanceTypeDisplayText())+" "+rowData.position.leverage
             return (
-                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                <CustomStyleText style={{fontSize:15,color:'#666666',lineHeight:20}}>
                     {text}
-                </Text>
+                </CustomStyleText>
             )
         }else if(rowData.type == 'close'){
             var winOrLoss = rowData.position.roi>=0 ? LS.str("PROFIT"):LS.str("LOSS")
@@ -121,12 +121,12 @@ class DynamicRowComponentContent extends Component {
             text = LS.str("CLOSE_POSITION")+" "+winOrLoss;
 
             return (
-                <Text style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                <CustomStyleText style={{fontSize:15,color:'#666666',lineHeight:20}}>
                     {text+' '}
-                    <Text style={{color: valueColor}}>
+                    <CustomStyleText style={{color: valueColor}}>
                          {value}
-                    </Text>
-                </Text>
+                    </CustomStyleText>
+                </CustomStyleText>
             )
         }else if(rowData.type == 'system'){
             text = rowData.body
@@ -171,7 +171,7 @@ class DynamicRowComponentContent extends Component {
                 <View> 
                     <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#255180'}}></View>
                     <View style={{width:40,flexDirection:'row'}}>
-                        <Text style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</Text>
+                        <CustomStyleText style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</CustomStyleText>
                         <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../../images/triangle.png')}></Image>
                     </View>
                     <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
@@ -203,7 +203,7 @@ class DynamicRowComponentContent extends Component {
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
                                 <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
-                                    <Text style={[styles.textUserName,titleStyle]}>{title}</Text>
+                                    <CustomStyleText style={[styles.textUserName,titleStyle]}>{title}</CustomStyleText>
                                     {viewHero}
                                 </View>
                                 {this.renderNewsText(this.props.rowData)}

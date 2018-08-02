@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -12,7 +11,7 @@ import {
   Dimensions,
   ScrollView,
 } from 'react-native';
-
+import CustomStyleText from './component/CustomStyleText';
 var {height,width} = Dimensions.get('window');
 var BUTTON_WIDTH = width - 20;
 var BUTTON_HEIGHT = BUTTON_WIDTH / 701 * 132;
@@ -139,7 +138,7 @@ class  TabMeScreen extends React.Component {
         onPress={()=>this.goToUserConfig()}>
         <View>
           <Image style={styles.headPortrait} source={this.props.avatarSource}></Image>
-          <Text style={styles.nickName}>{this.props.nickname}</Text>
+          <CustomStyleText style={styles.nickName}>{this.props.nickname}</CustomStyleText>
         </View>
       </TouchableOpacity>
     )
@@ -162,18 +161,18 @@ class  TabMeScreen extends React.Component {
           <View style={styles.topBlockContainer}>
             <View style={styles.balanceRow}>
               <View style={styles.balanceBlock}>
-                <Text style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.totalProfit.toFixed(2)}</Text>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_PROFIT")}</Text>
+                <CustomStyleText style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.totalProfit.toFixed(2)}</CustomStyleText>
+                <CustomStyleText style={styles.balanceLabelText}>{LS.str("SUGAR_PROFIT")}</CustomStyleText>
               </View>
               <View style={styles.balanceBlock}>
-                <Text style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.total.toFixed(2)}</Text>
-                <Text style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
+                <CustomStyleText style={styles.balanceValueText}>{this.props.errorMessage ? "--" : this.props.total.toFixed(2)}</CustomStyleText>
+                <CustomStyleText style={styles.balanceLabelText}>{LS.str("SUGAR_AMOUNT").replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
               </View>
               <View style={styles.balanceBlock}>
                 <BalanceBlock style={styles.balanceValueText}/>
-                <Text style={styles.balanceLabelText}>
+                <CustomStyleText style={styles.balanceLabelText}>
                   {LS.str("SUGAR_AVAILABLE").replace("{1}", LS.getBalanceTypeDisplayText())}
-                </Text>
+                </CustomStyleText>
               </View>
             </View>     
             {this.renderSeparator()}        
@@ -244,7 +243,7 @@ class  TabMeScreen extends React.Component {
     if(this.props.unread > 0){
       var unreadCount = this.props.unread > 9 ? "9+" : this.props.unread;
       view = (<View style={styles.unreadMessageCount}>
-        <Text style={{textAlign:'center', fontSize:8, color:'white'}}>{unreadCount}</Text>
+        <CustomStyleText style={{textAlign:'center', fontSize:8, color:'white'}}>{unreadCount}</CustomStyleText>
       </View>);
     }
     return (

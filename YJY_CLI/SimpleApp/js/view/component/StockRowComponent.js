@@ -3,12 +3,11 @@ import React, { Component } from 'react';
 import PropTypes from "prop-types";
 import {
     View, 
-    Text, 
     StyleSheet,
     TouchableOpacity,
     Image
 } from 'react-native';
-
+import CustomStyleText from './CustomStyleText'
 var ColorConstants = require('../../ColorConstants');
 var UIConstants = require("../../UIConstants");
 var LS = require('../../LS')
@@ -67,13 +66,13 @@ class StockRowComponent extends Component {
                 <View style={styles.stockRowContainer}>
                     <View style={styles.titleContainerStyle}>                        
                         <View style={{flexDirection:'row'}}>
-                            <Text style={styles.titleStyle}>{this.props.data.name}</Text>
+                            <CustomStyleText style={styles.titleStyle}>{this.props.data.name}</CustomStyleText>
                             {this.renderStockStatus(this.props.data)}
-                            {/* <Text style={styles.symbolStyle}>{this.props.data.symbol}</Text> */}
+                            {/* <CustomStyleText style={styles.symbolStyle}>{this.props.data.symbol}</CustomStyleText> */}
                         </View>
                     </View>
-                    <Text style={styles.priceStyle}>{this.props.data.last}</Text>
-                    <Text style={plStyleList}>{plStr}</Text>
+                    <CustomStyleText style={styles.priceStyle}>{this.props.data.last}</CustomStyleText>
+                    <CustomStyleText style={plStyleList}>{plStr}</CustomStyleText>
                 </View>
             </TouchableOpacity>
         )

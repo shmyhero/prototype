@@ -4,7 +4,6 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   FlatList,
   TouchableOpacity,
@@ -22,6 +21,7 @@ var {height, width} = Dimensions.get('window');
 import LogicData from '../../../LogicData';
 var {height, width} = Dimensions.get('window');
 var LS = require('../../../LS')
+import CustomStyleText from '../CustomStyleText';
 
 // var ds = new ListView.DataSource({rowHasChanged: (r1, r2) => {
 // 		if(r1.security && r2.security){
@@ -188,12 +188,12 @@ export default class PositionBlock extends Component {
       return (
         <View style={styles.extendRowWrapper}>
           <View style={styles.extendLeft}>
-            <Text style={styles.extendTextTop}>{LS.str('ORDER_TYPE')}</Text>
+            <CustomStyleText style={styles.extendTextTop}>{LS.str('ORDER_TYPE')}</CustomStyleText>
             <Image style={styles.extendImageBottom} source={tradeImage}/>
           </View>
           <View style={styles.extendRight}>
-            <Text style={styles.extendTextTop}>{timeSubTitle}</Text>
-            <Text style={styles.extendTextBottom}>{timeString}</Text>
+            <CustomStyleText style={styles.extendTextTop}>{timeSubTitle}</CustomStyleText>
+            <CustomStyleText style={styles.extendTextBottom}>{timeString}</CustomStyleText>
           </View>
         </View>);
     }else{
@@ -222,9 +222,9 @@ export default class PositionBlock extends Component {
           <View style={[styles.rowWrapper, {backgroundColor: bgcolor}]}>
             <View style={styles.rowHeader}>
               <View style={styles.rowLeftPart}>
-                <Text style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
+                <CustomStyleText style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
                   {rowData.security.name}
-                </Text>
+                </CustomStyleText>
               </View>
 
               <View style={styles.rowCenterPart}>
@@ -246,9 +246,9 @@ export default class PositionBlock extends Component {
     percentChange = percentChange.toFixed(2)
 		var startMark = percentChange > 0 ? "+":null
 		return (
-			<Text style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange)}]}>
+			<CustomStyleText style={[styles.stockPercentText, {color: ColorConstants.stock_color(percentChange)}]}>
 				 {startMark}{percentChange} {endMark}
-			</Text>
+			</CustomStyleText>
 		);
 
 	}
@@ -261,7 +261,7 @@ export default class PositionBlock extends Component {
     if(this.props.isPrivate){
       return (
         <View style={styles.emptyView}>
-          <Text style={styles.loadingText}>{strYHWGKSJ}</Text>
+          <CustomStyleText style={styles.loadingText}>{strYHWGKSJ}</CustomStyleText>
         </View>
       )
     }else{
@@ -275,7 +275,7 @@ export default class PositionBlock extends Component {
 
   			return (
   				<View style={styles.emptyView}>
-  					<Text style={styles.loadingText}>{ this.props.type== "open" ? strZWCCJL:strZWPCJL}</Text>
+  					<CustomStyleText style={styles.loadingText}>{ this.props.type== "open" ? strZWCCJL:strZWPCJL}</CustomStyleText>
   				</View>
   				)
         }else{

@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import {
   AppRegistry,
-  Text,
   Button,
   View,
   StyleSheet,
@@ -14,6 +13,7 @@ import {
 
 import { StackNavigator } from 'react-navigation';
 import { TabNavigator } from "react-navigation"; 
+import CustomStyleText from "./component/CustomStyleText";
 import NavBar from "./component/NavBar"
 import LogicData from '../LogicData';
 import LibraryImporter from '../LibraryImporter';
@@ -215,13 +215,13 @@ export default class  UserProfileScreen extends React.Component {
           <NavBar title={this.state.nickName} rightCustomContent={this.rightCustomContent.bind(this)} showBackButton={true} navigation={this.props.navigation}/>
           <View style={{flexDirection:'row',justifyContent:'center'}}>
               <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={styles.textNum}>{this.state.followerCount}</Text>
-                <Text style={styles.textName}>{LS.str('WATCHS')}</Text>
+                <CustomStyleText style={styles.textNum}>{this.state.followerCount}</CustomStyleText>
+                <CustomStyleText style={styles.textName}>{LS.str('WATCHS')}</CustomStyleText>
               </View>
             <Image style={styles.portraitStyle} source={picSource}></Image>
                 <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                <Text style={styles.textNum}>{this.state.followTraderCount}</Text>
-                <Text style={styles.textName}>{LS.str('COPYS')}</Text>
+                <CustomStyleText style={styles.textNum}>{this.state.followTraderCount}</CustomStyleText>
+                <CustomStyleText style={styles.textName}>{LS.str('COPYS')}</CustomStyleText>
               </View>
           </View>  
           {this.renderContent()}

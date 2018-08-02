@@ -4,13 +4,12 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   Image,
   TouchableOpacity,
   Animated
 } from 'react-native';
-
+import CustomStyleText from './CustomStyleText';
 var ColorConstants = require('../../ColorConstants')
 import JumpBeanText from './JumpBeanText';
 var LS = require('../../LS');
@@ -119,9 +118,9 @@ class NetworkErrorIndicator extends Component {
       var textStyle = this.props.isBlue ? {color: '#dfe3e8'} : {};
       return (
         <TouchableOpacity style={[styles.refreshButton, borderStyle ]} onPress={()=>this.doRefresh()}>
-            <Text style={[styles.refreshButtonText, textStyle]} >
+            <CustomStyleText style={[styles.refreshButtonText, textStyle]} >
               {LS.str("REFRESH")}
-            </Text>
+            </CustomStyleText>
         </TouchableOpacity>
       );
     }
@@ -165,9 +164,9 @@ class NetworkErrorIndicator extends Component {
         <View style={styles.container}>
           <View style={styles.contentWrapper}>
             <Image style={styles.noNetworkImage} source={loadingImage}/>
-            <Text style={[styles.hintText, additionalText]}>
+            <CustomStyleText style={[styles.hintText, additionalText]}>
               {LS.str("NETWORK_ERROR")}
-            </Text>
+            </CustomStyleText>
             {this.renderRefreshButton()}
           </View>
         </View>

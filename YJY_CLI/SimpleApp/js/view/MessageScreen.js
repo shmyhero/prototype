@@ -2,14 +2,13 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text,
     StyleSheet,
     FlatList,
     TouchableOpacity,
     Dimensions,
     Image
 } from 'react-native';
-
+import CustomStyleText from './component/CustomStyleText'
 import { getMessageList, setMessageRead } from '../redux/actions'
 import { connect } from 'react-redux';
 import NetworkErrorIndicator from './component/NetworkErrorIndicator'
@@ -47,10 +46,10 @@ class MessageScreen extends Component {
             // var timeString = dateFormat(dt, "HH:MM")
             return (
                 <View style={styles.datetime}>
-                    <Text style={styles.date}>
+                    <CustomStyleText style={styles.date}>
                         {dateString}
-                        <Text style={styles.time}>{timeString}</Text>
-                    </Text>
+                        <CustomStyleText style={styles.time}>{timeString}</CustomStyleText>
+                    </CustomStyleText>
                 </View>
             );
         }else{
@@ -87,8 +86,8 @@ class MessageScreen extends Component {
                 <View style={styles.rowWrapper}>
                     {this.renderNewHint(rowData)}
                     <View style={styles.messageWrapper}>
-                    <Text style={styles.title}>{rowData.header}</Text>
-                        <Text style={styles.message}>{rowData.body}</Text>
+                    <CustomStyleText style={styles.title}>{rowData.header}</CustomStyleText>
+                    <CustomStyleText style={styles.message}>{rowData.body}</CustomStyleText>
                     {this.renderDateTime(rowData)}
                     </View>
                 </View>
@@ -107,7 +106,7 @@ class MessageScreen extends Component {
             }else{
                 return (
                     <View style={{flex:1, justifyContent:'center', alignItems:'center'}}>
-                        <Text style={{alignSelf:'center', textAlign:'center', }}>{LS.str("NO_MESSAGES")}</Text>
+                        <CustomStyleText style={{alignSelf:'center', textAlign:'center', }}>{LS.str("NO_MESSAGES")}</CustomStyleText>
                     </View>);
             }
 		}else{

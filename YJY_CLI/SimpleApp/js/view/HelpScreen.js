@@ -1,8 +1,15 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View,
+    Text,
+    StyleSheet,
+    Dimensions,
+    Image,
+    ScrollView
+} from 'react-native';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
+var {height, width} = Dimensions.get('window');
 
 // create a component
 export default class HelpScreen extends Component {
@@ -10,13 +17,9 @@ export default class HelpScreen extends Component {
         return (
             <View style={styles.container}>
                 <NavBar title={LS.str("SETTINGS_CENTER_TITLE")} showBackButton={true} navigation={this.props.navigation}/>
-                <View style={{
-                    flex:1,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    }}>
-                    <Text>HelpScreen</Text>
-                </View>
+                <ScrollView style={{flex:1}}>
+                    <Image style={{width:width, height: width / 750 * 9456}} resizeMode="contain" source={require('../../images/instruction.png')}/>
+                </ScrollView>
             </View>
         );
     }

@@ -2,12 +2,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import {
-  Text,
   View,
   StyleSheet,
 } from 'react-native';
 import Pie from './Pie';
-
+import CustomStyleText from '../CustomStyleText';
 
 export default class  MyPie extends React.Component {
 
@@ -86,8 +85,8 @@ export default class  MyPie extends React.Component {
                             colors2={colors2}   
                         />  
                     </View> 
-                    <Text style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</Text>
-                    <Text style={{color:'#9c9c9c', fontSize:topFontSize-4, position:'absolute',top:radius}}>{this.props.innerText2}</Text>
+                    <CustomStyleText style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</CustomStyleText>
+                    <CustomStyleText style={{color:'#9c9c9c', fontSize:topFontSize-4, position:'absolute',top:radius}}>{this.props.innerText2}</CustomStyleText>
             </View>
         );
     }

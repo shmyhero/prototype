@@ -2,14 +2,13 @@
 import React, { Component } from 'react';
 import {
     View,
-    Text, 
     StyleSheet,
     Dimensions,
     FlatList,
     TouchableOpacity,
     Image
 } from 'react-native';
-
+import CustomStyleText from './component/CustomStyleText';
 import { setNickName, setPortrait } from '../redux/actions'
 import { connect } from 'react-redux';
 import NavBar from './component/NavBar';
@@ -97,9 +96,9 @@ class MeUserConfigScreen extends Component {
         if(rowData.item.subtype == "portrait"){
             view = (<Image style={styles.headPortrait} source={this.props.avatarSource}></Image>);
         }else if(rowData.item.subtype == "nickname"){
-            view = (<Text style={[styles.value, {marginRight:10}]}>{this.props.nickname}</Text>);
+            view = (<CustomStyleText style={[styles.value, {marginRight:10}]}>{this.props.nickname}</CustomStyleText>);
         }else if(rowData.item.subtype == "mobile"){
-            view = (<Text style={styles.value}>{this.props.phone}</Text>);
+            view = (<CustomStyleText style={styles.value}>{this.props.phone}</CustomStyleText>);
             showArrow = false;
         }
 
@@ -121,7 +120,7 @@ class MeUserConfigScreen extends Component {
                 <View>
                     <View style={styles.rowContainer}>
                         <View style={styles.rowLeftTextContainer}>
-                            <Text style={styles.title}>{LS.str(rowData.item.title)}</Text>
+                            <CustomStyleText style={styles.title}>{LS.str(rowData.item.title)}</CustomStyleText>
                         </View>
                         {this.renderRightItem(rowData)}
                     </View>

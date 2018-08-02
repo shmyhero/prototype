@@ -1,7 +1,6 @@
 //import liraries
 import React, { Component } from 'react';
-import { View, 
-    Text, 
+import { View,
     StyleSheet,
     Image,
     Dimensions,
@@ -12,6 +11,7 @@ import { View,
     Platform,
     KeyboardAvoidingView
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import NavBar from "../component/NavBar";
 var ColorConstants = require("../../ColorConstants");
 var {height,width} = Dimensions.get('window');
@@ -140,7 +140,7 @@ class BindPurseScreen extends Component {
                             </LinearGradient>
                             <View style={styles.contentContainer}>
                                 <View style={styles.rowContainer}>
-                                    <Text style={{fontSize:13, color:"#5a5a5a"}}>{LS.str("BIND_PURSE_ADDRESS_HINT")}</Text>
+                                    <CustomStyleText style={{fontSize:13, color:"#5a5a5a"}}>{LS.str("BIND_PURSE_ADDRESS_HINT")}</CustomStyleText>
                                     <TextInput
                                         ref={(ref)=>this.textInputRef = ref}
                                         underlineColorAndroid={"transparent"}
@@ -151,9 +151,9 @@ class BindPurseScreen extends Component {
                                         value={this.state.thtAddress}/>
                                 </View>
                                 <View style={styles.hintContainer}>
-                                    <Text style={{fontSize:13, color:"#cccccc"}}>
+                                    <CustomStyleText style={{fontSize:13, color:"#cccccc"}}>
                                         {LS.str("BIND_PURSE_HINT").replace("{1}", LS.getBalanceTypeDisplayText())}
-                                    </Text>
+                                    </CustomStyleText>
                                 </View>
                                 <View style={{flex:1}}></View>
                                 <SubmitButton onPress={()=>this.bindCard()}

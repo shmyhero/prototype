@@ -3,8 +3,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { 
     Alert,
-    View,
-    Text,
+    View,    
     StyleSheet,
     TouchableOpacity,
     Dimensions
@@ -16,6 +15,8 @@ import LinearGradient from 'react-native-linear-gradient';
 var ColorConstants = require("../../ColorConstants");
 var {height, width} = Dimensions.get('window');
 import { connect } from 'react-redux';
+import CustomStyleText from "./CustomStyleText";
+
 // create a component
 class FollowBlock extends Component {
     static propTypes = {
@@ -74,9 +75,9 @@ class FollowBlock extends Component {
                 end={{x:1.0, y:0.0}}
                 style={{flex:1, alignItems:'center', justifyContent:'center'}}
                 colors={ColorConstants.COLOR_GRADIENT_BLUE}>
-                    <Text style={{color:'white', fontSize:20}}>
+                    <CustomStyleText style={{color:'white', fontSize:20}}>
                         {LS.str("COPY_TRADE")}
-                    </Text>
+                    </CustomStyleText>
                 </LinearGradient>
             </TouchableOpacity>
         );
@@ -92,9 +93,9 @@ class FollowBlock extends Component {
                     end={{x:1.0, y:0.0}}
                     style={{flex:1, alignItems:'center', justifyContent:'center'}}
                     colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-                    <Text style={{color:'white', fontSize:20}}>
+                    <CustomStyleText style={{color:'white', fontSize:20}}>
                         {LS.str("CANCLE_COPY").replace("{1}", this.props.followTrade.stopAfterCount)}
-                    </Text>
+                    </CustomStyleText>
                 </LinearGradient>
             </TouchableOpacity>
         );
@@ -107,9 +108,9 @@ class FollowBlock extends Component {
                     end={{x:1.0, y:0.0}}
                     style={{height: 60, width:width, alignItems:'center', justifyContent:'center'}}
                     colors={ColorConstants.COLOR_NAVBAR_BLUE_GRADIENT}>
-                <Text style={{color:'white', fontSize:20}}>
+                <CustomStyleText style={{color:'white', fontSize:20}}>
                     {LS.str("VERIFING")}
-                </Text>
+                </CustomStyleText>
             </LinearGradient>
         );
     }

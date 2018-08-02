@@ -3,7 +3,6 @@
 import React, { Component } from 'react';
 import {
   View,
-  Text,
   StyleSheet,
 	Dimensions,
 	ListView,
@@ -13,7 +12,7 @@ import {
 	Platform,
 	ScrollView,
 } from 'react-native';
-
+import CustomStyleText from '../component/CustomStyleText';
 import NavBar from '../component/NavBar';
 import LogicData from '../../LogicData';
 import SubmitButton from '../component/SubmitButton';
@@ -78,7 +77,7 @@ class WithdrawSubmittedPage extends Component {
           navigator={this.props.navigator}
           />
         <Image source={require('../../../images/withdraw_submitted.png')} style={styles.checkImage}/>
-        <Text style={styles.hintText}>{LS.str("WITHDRAW_ETA_MESSAGE").replace("{1}", this.state.refundETA)}</Text>
+        <CustomStyleText style={styles.hintText}>{LS.str("WITHDRAW_ETA_MESSAGE").replace("{1}", this.state.refundETA)}</CustomStyleText>
 
         <View style={{flex:1}}/>
 

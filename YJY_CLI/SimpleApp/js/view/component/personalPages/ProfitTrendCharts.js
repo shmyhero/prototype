@@ -4,13 +4,13 @@ import React, { Component} from 'react';
 import PropTypes from 'prop-types';
 import {
   View,
-  Text,
   StyleSheet,
   TouchableOpacity,
   Alert,
   ViewPropTypes,
   Platform,
 } from 'react-native';
+import CustomStyleText from '../CustomStyleText';
 var UIConstants = require("../../../UIConstants");
 var ColorConstants = require('../../../ColorConstants');
 var NetConstants = require('../../../NetConstants');
@@ -122,7 +122,7 @@ export default class ProfitTrendCharts extends Component {
       )
     }else{
       return (<View style={{alignItems:'center', justifyContent:'center', flex:1}}>
-        <Text style={{color:'#666666'}}>{LS.str('ZWJYJL')}</Text>
+        <CustomStyleText style={{color:'#666666'}}>{LS.str('ZWJYJL')}</CustomStyleText>
       </View>);
     }
   }
@@ -148,15 +148,15 @@ export default class ProfitTrendCharts extends Component {
             justifyContent:'space-between'}}>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_MONTH)} style={[styles.selectorLeft,leftStyle]}>
-              <Text style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</Text>
+              <CustomStyleText style = {[styles.textChartSelector,{color:textColorLeft}]}>{LS.str('MONTHLY')}</CustomStyleText>
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_ALL)} style={[styles.selectorRight,rightStyle]}>
-              <Text style = {[styles.textChartSelector,{color:textColorRight}]}>{LS.str("ALL")}</Text>
+              <CustomStyleText style = {[styles.textChartSelector,{color:textColorRight}]}>{LS.str("ALL")}</CustomStyleText>
             </TouchableOpacity> 
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
             <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/>
-            <Text style={{fontSize:12,color:'#666666'}}>{LS.str('INVESTMENT_TREND')}</Text>
+            <CustomStyleText style={{fontSize:12,color:'#666666'}}>{LS.str('INVESTMENT_TREND')}</CustomStyleText>
           </View>
         </View> 
         <View style={[styles.chartContainer, {backgroundColor: 'transparent'}]}>

@@ -13,6 +13,7 @@ import {
   Alert,
 } from 'react-native'; 
 import LogicData from '../LogicData';
+import CustomStyleText from './component/CustomStyleText'
 var LS = require("../LS")
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
@@ -129,16 +130,16 @@ export default class  RankTradeFollowList extends React.Component {
                 <View style = {{width:width-60,height:0.5,marginTop:-5, backgroundColor:'#eeeeee'}}></View>
                     <View style={{height:64,width:width-60,flexDirection:'row'}}>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-start'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("APPLY_COPY")}</Text>
-                        <Text style={styles.textItemValue}>{createAt}</Text>
+                        <CustomStyleText style={styles.textItemTitle}>{LS.str("APPLY_COPY")}</CustomStyleText>
+                        <CustomStyleText style={styles.textItemValue}>{createAt}</CustomStyleText>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("AVG_MOUNT_COPY").replace("{1}", LS.getBalanceTypeDisplayText())}</Text>
-                        <Text style={styles.textItemValue}>{rowData.followTrade.investFixed}</Text>
+                        <CustomStyleText style={styles.textItemTitle}>{LS.str("AVG_MOUNT_COPY").replace("{1}", LS.getBalanceTypeDisplayText())}</CustomStyleText>
+                        <CustomStyleText style={styles.textItemValue}>{rowData.followTrade.investFixed}</CustomStyleText>
                     </View>
                     <View style={{flex:1,justifyContent:'center',alignItems:'flex-end'}}>
-                        <Text style={styles.textItemTitle}>{LS.str("COPY_TIMES")}</Text>
-                        <Text style={styles.textItemValue}>{rowData.followTrade.stopAfterCount}</Text>
+                        <CustomStyleText style={styles.textItemTitle}>{LS.str("COPY_TIMES")}</CustomStyleText>
+                        <CustomStyleText style={styles.textItemValue}>{rowData.followTrade.stopAfterCount}</CustomStyleText>
                     </View>
                 </View>
             </View>:null;    
@@ -151,17 +152,17 @@ export default class  RankTradeFollowList extends React.Component {
                             </TouchableOpacity>
                             <View style={{marginLeft:10}}>
                                 <View style={{flexDirection:'row',alignItems:'center'}}>
-                                    <Text style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</Text>
+                                    <CustomStyleText style={{fontSize:15,color:'#999999'}}>{rowData.nickname}</CustomStyleText>
                                     {/* <Image style={{width:40,height:15.5,marginLeft:2}} source={require('../../images/following.png')}></Image>  */}
                                 </View>
                                 <View style={{flexDirection:'row',marginBottom:0,alignItems:'center',justifyContent:'flex-start'}}>
-                                    <Text style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</Text>
-                                    <Text style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</Text>
+                                    <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
+                                    <CustomStyleText style={{fontSize:14, color:'#666666',fontWeight:'bold'}}>{rowData.winRate.toFixed(2)}%</CustomStyleText>
                                 </View>
                             </View>
                         </View>
                         <View style={{marginRight:15}}>
-                            <Text style={{fontSize:17,fontWeight:'bold',color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</Text>
+                            <CustomStyleText style={{fontSize:17,fontWeight:'bold',color:ColorConstants.stock_color(rowData.roi)}}>{rowData.roi.toFixed(2)}%</CustomStyleText>
                         </View> 
                     </View>
                     {openView}
@@ -211,7 +212,7 @@ export default class  RankTradeFollowList extends React.Component {
                     return(
                         <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
                             {/* <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image> */}
-                            <Text style={{color:'white'}}>{LS.str("NO_COPY")}</Text> 
+                            <CustomStyleText style={{color:'white'}}>{LS.str("NO_COPY")}</CustomStyleText> 
                         </View>
                     )
                 }else{

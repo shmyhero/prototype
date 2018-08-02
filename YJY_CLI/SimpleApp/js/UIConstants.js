@@ -21,4 +21,6 @@ export let ITEM_ROW_BORDER_RADIUS = 10;
 export let STOCK_ROW_NAME_FONT_SIZE = 17;
 export let STOCK_ROW_PRICE_FONT_SIZE = 15;
 
+export let DEFAULT_FONT_FAMILY = 'Helvetica';
+
  

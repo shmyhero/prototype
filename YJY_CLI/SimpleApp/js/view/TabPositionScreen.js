@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {
   AppRegistry,
   StatusBar,
-  Text,
   Button,
   View,
   StyleSheet,

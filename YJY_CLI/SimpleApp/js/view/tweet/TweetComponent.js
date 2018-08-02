@@ -2,7 +2,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { View,
-    Text,
     StyleSheet,
     Dimensions,
     Clipboard,
@@ -11,6 +10,7 @@ import { View,
     Platform
 } from 'react-native';
 var TweetParser = require('./TweetParser');
+import CustomStyleText from '../component/CustomStyleText'
 import CustomTextInput from '../component/CustomTextInput';
 var {height, width} = Dimensions.get('window');
 var LS = require("../../LS");
@@ -372,15 +372,15 @@ class TweetComponent extends Component {
                 // <TextInput style={[styles.textPart, styles.inputLayout]}
                 //     multiline={true}
                 //     editable={false}>
-                <Text style={[styles.inputLayout]}>
+                <CustomStyleText style={[styles.inputLayout]}>
                     {childViewList}
-                </Text>
+                </CustomStyleText>
                 // </TextInput>);
             );
         }else{
             //console.log("renderShadowText with empty")
             return (
-                <Text style={[styles.textPart, styles.inputLayout, {color: 'gray', lineHeight:20}]}>{LS.str("TWEET_HINT")}</Text>)
+                <CustomStyleText style={[styles.textPart, styles.inputLayout, {color: 'gray', lineHeight:20}]}>{LS.str("TWEET_HINT")}</CustomStyleText>)
         }
     }
 

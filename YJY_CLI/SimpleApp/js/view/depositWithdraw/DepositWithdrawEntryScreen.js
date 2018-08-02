@@ -5,7 +5,6 @@ import {
 	StyleSheet,
 	View,
 	Dimensions,
-	Text,
 	TextInput,
 	Switch,
 	UIManager,
@@ -15,6 +14,7 @@ import {
 	//BackAndroid,
 	ScrollView,
 } from 'react-native';
+import CustomStyleText from '../component/CustomStyleText';
 import { connect } from 'react-redux';
 var NetworkModule = require('../../module/NetworkModule')
 var ColorConstants = require('../../ColorConstants')
@@ -180,9 +180,9 @@ class DepositWithdrawEntryScreen extends Component {
     renderHeader(){
         return(
             <View style={styles.totalTextContainer}>
-                <Text style={styles.totalIncomeTitleText}>
+                <CustomStyleText style={styles.totalIncomeTitleText}>
                     {LS.str('DEPOSIT_WITHDRAW_ENTRY_AVAILABLE').replace("{1}", LS.getBalanceTypeDisplayText())}
-                </Text>
+                </CustomStyleText>
                 <BalanceBlock ref={(ref)=>this.balanceBlock = ref} style={styles.totalIncomeText}/>
             </View>
         );
@@ -224,7 +224,7 @@ class DepositWithdrawEntryScreen extends Component {
                     <TouchableOpacity activeOpacity={0.5} onPress={()=> enabled ? this.onSelectNormalRow(rowData) : null}>
                         <View style={[styles.rowWrapper, {height:Math.round(64*heightRate)}]}>
 							<Image source={rowData.image} style={styles.image} />
-							<Text style={[styles.title, style]}>{LS.str(rowData.title)}</Text>
+							<CustomStyleText style={[styles.title, style]}>{LS.str(rowData.title)}</CustomStyleText>
 							{this.renderRowRightPart(rowData)}
                         </View>
                     </TouchableOpacity>
