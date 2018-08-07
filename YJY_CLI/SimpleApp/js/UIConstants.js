@@ -19,7 +19,7 @@ export let ITEM_ROW_MARGIN_HORIZONTAL = 15;
 export let ITEM_ROW_MARGIN_VERTICAL = 15;
 export let ITEM_ROW_BORDER_RADIUS = 10;
 export let STOCK_ROW_NAME_FONT_SIZE = 17;
-export let STOCK_ROW_PRICE_FONT_SIZE = 15;
+export let STOCK_ROW_PRICE_FONT_SIZE = 16;
 
 export let DEFAULT_FONT_FAMILY = 'Helvetica';
 

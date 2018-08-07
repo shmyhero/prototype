@@ -25,6 +25,7 @@ class RankingTitleAnimatedText extends Component {
     start(force){
         if(!this.animation || force){
             this.timer = setTimeout(()=>{
+                this.timer && clearTimeout(this.timer);
                 this.animation = Animated.timing(
                     this.state.changingTextOpacityAnim,
                     {
@@ -72,7 +73,7 @@ class RankingTitleAnimatedText extends Component {
                 <Text style={{                   
                     fontFamily: "Abolition",
                     //fontWeight: 'bold',   //RN 0.55.3 has a bug. If set this, fontFamily won't work.
-                    fontSize: 60,
+                    fontSize: 30,
                     textAlign: "left",
                     color: "white",
                     }}>

@@ -402,10 +402,10 @@ export default class RankHeroList extends React.Component {
         return (
             <TouchableOpacity style={{position:'absolute', top:0, left:0}} onPress={()=>this.showMarket()}>
                {/* <Image source={require("../../images/animation/trade_changes.gif")}/> */}
-               <RankingTitleAnimatedText style={{margin:10}} ref={(animatedText)=>{
+               <RankingTitleAnimatedText style={{margin:30}} ref={(animatedText)=>{
                     if(animatedText){
                         this.animatedText = animatedText;
-                        //this.animatedText.start()
+                        this.animatedText.start()
                     }
                }}/>
             </TouchableOpacity>

@@ -1510,7 +1510,7 @@ const styles = StyleSheet.create({
 	stockPercentText: {
 		fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
 		color: '#ffffff',
-		fontWeight: 'normal',
+		//fontWeight: 'normal',
 	},
 
 	darkSeparator: {
