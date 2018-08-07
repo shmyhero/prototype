@@ -85,14 +85,16 @@ export default class  RankHeroList extends React.Component {
         
         //this.animation && this.animation.reset()
         if(this.animation){
-            console.log("play")
+            console.log("play this.animation", this.animation == null)
             if(Platform.OS == "ios"){
                 setTimeout(()=>{
-                    this.animation.play();
+                    console.log("this.animation", this.animation == null)
+                    this.animation && this.animation.play();
                 }, 1000)
             }else{
                 setTimeout(()=>{
-                    this.animation.play();
+                    console.log("this.animation", this.animation == null)
+                    this.animation && this.animation.play();
                 }, 500)
             }
         }
@@ -325,13 +327,14 @@ export default class  RankHeroList extends React.Component {
                 <LottieView 
                     ref={animation => {
                         this.animation = animation;
+                        console.log("set this.animation", this.animation == null)
                     }}
-                    progress={0.1}
+                    //progress={0.1}
                     loop={false}
                     style={{height: imageHeight, width:width}}
-                    //source={require('../../images/animation/soda_loader.json')}
-                    source={anim}
-                    />
+                    source={require('../../images/animation/soda_loader.json')}
+                    //source={anim}
+                />
                 <TouchableOpacity style={{position:'absolute', top:0, left:0}} onPress={()=>this.showMarket()}>
                     <CustomStyleText style={{color:'white', fontSize:50}}>TRADE STOCK WITH CRYPO</CustomStyleText>
                 </TouchableOpacity>
