@@ -18,7 +18,6 @@ import {
     PanResponder,
 } from 'react-native';
 
-import LottieView from 'lottie-react-native';
 import CustomStyleText from './component/CustomStyleText';
 import NavBar from './component/NavBar';
 import DynamicRowComponent from './component/DynamicRowComponent';
@@ -309,29 +308,7 @@ class TabMainScreen extends React.Component {
         }else{
             return (
                 <View style = {styles.mainContainer}>
-                    <NavBar onlyShowStatusBar={true}/>
-                    <TouchableHighlight onPress={()=>{
-                        this.animation.play()
-                        this.animation2.play()
-                    }}>
-                        <CustomStyleText>PLAY</CustomStyleText>
-                    </TouchableHighlight>
-                    <LottieView 
-                    ref={animation => {
-                        this.animation = animation;
-                    }}
-                    loop={false}
-                    style={{height:200, width:200}}
-                    source={require('../../images/animation/ranking.json')}/>
-                    <LottieView 
-                    ref={animation => {
-                        this.animation2 = animation;
-                    }}
-                    loop={false}
-                    style={{height:200, width:200}}
-                    source={require('../../images/animation/soda_loader.json')}/>
-                    <Image style={{height:400, width:width}}
-                    source={require("../../images/animation/bg.gif")}/>
+                    <NavBar onlyShowStatusBar={true}/>                                
                     {this.renderDateInfo()}
                     {this.renderEmpty()}
                     <PullToRefreshListView

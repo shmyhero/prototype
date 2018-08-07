@@ -28,7 +28,7 @@ class UserBlock extends Component {
     }
 
     render() {
-        var profit = (this.props.rowData.roi*100).toFixed(0);
+        var profit = (this.props.rowData.roi*100).toFixed(2);
         if(profit==-0){ profit = 0 }
         if(profit >= 0){
             profit = "+" + profit

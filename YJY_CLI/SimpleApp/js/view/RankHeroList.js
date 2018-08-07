@@ -11,16 +11,20 @@ import {
   ImageBackground,
   FlatList,
   Alert,
+  Platform
 } from 'react-native'; 
 import LogicData from '../LogicData';
 import CustomStyleText from './component/CustomStyleText';
 import UserBlock from './component/UserBlock'
+import ViewKeys from '../ViewKeys';
 import { LIST_HEADER_BAR_HEIGHT } from '../UIConstants';
 var NetworkModule = require('../module/NetworkModule');
 var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 import LottieView from 'lottie-react-native';
+import anim from '../../images/animation/data.json';
+var {EventCenter,EventConst} = require('../EventCenter');
 
 var LS = require("../LS")
 var listData = []
@@ -47,13 +51,19 @@ export default class  RankHeroList extends React.Component {
         }; 
     }
     
+    componentWillMount(){
+        tabSwitchedSubscription = EventCenter.getEventEmitter().addListener(EventConst.RANKING_TAB_PRESS_EVENT, () => {
+            console.log("RANKING_TAB_PRESS_EVENT")
+            this.tabPressed();
+        });
+    }
 
     componentDidMount () {
         this.onRefresh()
     }
 
-    componentWillUnmount() {
-        
+    componentWillUnmount(){
+        tabSwitchedSubscription && tabSwitchedSubscription.remove();
     }
 
     gotoUserProfile(uid,name){ 
@@ -61,15 +71,31 @@ export default class  RankHeroList extends React.Component {
             userId:uid,
             nickName:name,
         }
-        this.props.navigation.navigate('UserProfileScreen',{userData:userData})
+        
+        this.props.navigation.navigate(ViewKeys.SCREEN_USER_PROFILE,{userData:userData})
     }
 
     onRefresh(){
+        console.log("onRefresh")
         this.loadRankData()
     }
 
     tabPressed(){ 
-		this.onRefresh()
+        this.onRefresh()
+        
+        //this.animation && this.animation.reset()
+        if(this.animation){
+            console.log("play")
+            if(Platform.OS == "ios"){
+                setTimeout(()=>{
+                    this.animation.play();
+                }, 1000)
+            }else{
+                setTimeout(()=>{
+                    this.animation.play();
+                }, 500)
+            }
+        }
 	}
  
 
@@ -288,16 +314,27 @@ export default class  RankHeroList extends React.Component {
         );
     }
     
+    showMarket(){
+        this.props.navigation.navigate(ViewKeys.TAB_MARKET)
+    }
+
     renderHeaderImage(){
+        var imageHeight = width/75*42;
         return (
-            <View style={{height:300, width:width}}>
-                <CustomStyleText>STOCK</CustomStyleText>
+            <View style={{height: imageHeight, width:width}}>               
                 <LottieView 
                     ref={animation => {
                         this.animation = animation;
                     }}
-                    style={{height:300, width:width}}
-                    source={require('../../images/animation/ranking.json')}/>
+                    progress={0.1}
+                    loop={false}
+                    style={{height: imageHeight, width:width}}
+                    //source={require('../../images/animation/soda_loader.json')}
+                    source={anim}
+                    />
+                <TouchableOpacity style={{position:'absolute', top:0, left:0}} onPress={()=>this.showMarket()}>
+                    <CustomStyleText style={{color:'white', fontSize:50}}>TRADE STOCK WITH CRYPO</CustomStyleText>
+                </TouchableOpacity>
             </View>
         )
     }
