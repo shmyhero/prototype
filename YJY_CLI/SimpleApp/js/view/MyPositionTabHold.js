@@ -1387,7 +1387,7 @@ export default class  MyPositionTabHold extends React.Component {
 						refreshing={this.state.isRefreshing}
 						onRefresh={()=>this.refresh()}
 						getItemLayout={(data, index) => this.getItemLayout(data, index)}
-						keyExtractor={(item, index) => index}
+						keyExtractor={(item, index) => index.toString()}
 						renderItem={(data)=>this.renderItem(data)}
 						//RefreshableFlatList configuration
 						// onRefreshing={()=>this.refresh()}

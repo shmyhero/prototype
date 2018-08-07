@@ -193,7 +193,9 @@ class  TabRankScreen extends React.Component {
     console.log("onPageSelected", index)
     console.log("onPageSelected lastSelectedTabIndex", lastSelectedTabIndex)
 
-    this.refs['page' + lastSelectedTabIndex].outSideTab && this.refs['page' + lastSelectedTabIndex].outSideTab();
+    if(lastSelectedTabIndex){
+      this.refs['page' + lastSelectedTabIndex].outSideTab && this.refs['page' + lastSelectedTabIndex].outSideTab();
+    }
   } 
 
   renderUnLoginedContent(){ 

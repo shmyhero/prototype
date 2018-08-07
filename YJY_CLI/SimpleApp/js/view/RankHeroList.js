@@ -94,7 +94,7 @@ export default class RankHeroList extends React.Component {
     }
 
     componentDidMount () {
-        this.onRefresh()
+        this.tabPressed()
     }
 
     componentWillUnmount(){
@@ -103,7 +103,7 @@ export default class RankHeroList extends React.Component {
         this.animatedText && this.animatedText.stop();
     }
 
-    gotoUserProfile(uid,name){ 
+    gotoUserProfile(uid,name){
         var userData = {
             userId:uid,
             nickName:name,
@@ -125,6 +125,7 @@ export default class RankHeroList extends React.Component {
     tabPressed(){ 
         this.onRefresh()
         
+        this.animation && this.animation.reset && this.animation.reset()
         this.animation && this.animation.play();
         this.animatedText && this.animatedText.start();
 	}
