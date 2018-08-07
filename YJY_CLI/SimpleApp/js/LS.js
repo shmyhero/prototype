@@ -188,7 +188,8 @@ var LS = {
     COPY_AMOUNT: ["每笔跟随{1}", "{1}", "{1}"],
     COPY_COUNT: ["跟随笔数", "Times", "Times"],
 
-    ORDER_TYPE:['类型','type', "type"],
+    ORDER_TYPE:['类型','Type', "Type"],
+    ORDER_TRADING:['交易','Trading', "Trading"],
     ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
     ORDER_MULTIPLE: ["倍数", "Multiple", "Multiple"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],

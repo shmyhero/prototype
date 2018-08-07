@@ -125,23 +125,8 @@ export default class RankHeroList extends React.Component {
     tabPressed(){ 
         this.onRefresh()
         
-        //this.animation && this.animation.reset()
-        // if(this.animation){
-        //     console.log("play this.animation", this.animation == null)
-        //     if(Platform.OS == "ios"){
-        //         setTimeout(()=>{
-        // console.log("this.animation", this.animation == null)
         this.animation && this.animation.play();
         this.animatedText && this.animatedText.start();
-        //         }, 1000)
-        //     }else{
-        //         /*setTimeout(()=>{
-        //             console.log("this.animation", this.animation == null)
-        //             this.animation && this.animation.play();
-        //         }, 500)*/
-        //         this.animation && this.animation.play();
-        //     }
-        // }
 	}
  
 
@@ -202,7 +187,7 @@ export default class RankHeroList extends React.Component {
             return (
                 <View >
                     {this.renderUserRow(rowData, rowID)}
-                    <View style={{height:10, backgroundColor:'#cccccc'}}></View>
+                    <View style={{height:10, backgroundColor:'#eeeeee'}}></View>
                 </View>
             )
             // // var roiColor=this.state.rankListData[0].roi > 0?'#ff9999':'green'

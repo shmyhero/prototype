@@ -656,7 +656,7 @@ class StockDetailScreen extends Component {
                             textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
-                        source={LS.loadImage('stock_detail_multiple_container')}>
+                        source={require("../../images/stock_detail_amount_container.png")}>
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
@@ -664,23 +664,29 @@ class StockDetailScreen extends Component {
                             style={styles.buttonsScroller}>    
                             {leverageViews}
                         </ScrollView>
+                        <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
+                            textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_MULTIPLE')}</CustomStyleText>
                     </ImageBackground>
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
                         <ImageBackground style={{flex:1, marginRight: containerHorizontalPadding/2}}
-                            source={LS.loadImage('stock_detail_direction_container')}>
+                            source={require("../../images/stock_detail_trading_container.png")}>
                             <View style={[styles.buttonsContainer, styles.bigButtonsContainer,
                                 {justifyContent:'center', alignItems:'center'}]}>
                                 {this.renderOperationButton(1)}
                                 {this.renderOperationButton(0)}
                             </View>
+                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,
+                                textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TYPE')}</CustomStyleText>
                         </ImageBackground>
                         <ImageBackground style={{flex:1, marginLeft: containerHorizontalPadding/2}}
-                            source={LS.loadImage("stock_detail_trading_container")}>
+                            source={require("../../images/stock_detail_trading_container.png")}>
                             <View style={[styles.buttonsContainer, styles.bigButtonsContainer, 
                                 {justifyContent:'center', alignItems:'center'}]}>                               
                                 {this.renderSubmitButton()}                            
                             </View>
+                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,
+                                textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TRADING')}</CustomStyleText>
                         </ImageBackground>
                     </View>
                 </View>

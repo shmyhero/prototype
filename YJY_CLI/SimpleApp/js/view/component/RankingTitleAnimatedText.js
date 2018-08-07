@@ -24,6 +24,7 @@ class RankingTitleAnimatedText extends Component {
 
     start(force){
         if(!this.animation || force){
+            this.timer && clearTimeout(this.timer);
             this.timer = setTimeout(()=>{
                 this.timer && clearTimeout(this.timer);
                 this.animation = Animated.timing(
