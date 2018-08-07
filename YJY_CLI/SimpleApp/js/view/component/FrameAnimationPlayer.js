@@ -43,6 +43,14 @@ class FrameAnimationPlayer extends Component {
         
     }
 
+    reset(){
+        var frameIndex = 0;
+        this.setState({
+            frameIndex: frameIndex,
+            frame: this.props.frames[frameIndex]
+        });
+    }
+
     play(){
         console.log("this.isPlaying", this.isPlaying)
         if(!this.isPlaying){
@@ -53,7 +61,7 @@ class FrameAnimationPlayer extends Component {
 
     next(){
         if(this.props.framesPerSeconds > 0 && this.isPlaying){
-            setTimeout(() => {
+            this.timer = setTimeout(() => {
                 var frameIndex = this.state.frameIndex+1;
                 if(frameIndex < this.props.frames.length){
                     this.setState({
@@ -70,6 +78,8 @@ class FrameAnimationPlayer extends Component {
 
     stop(){
         this.isPlaying = false;
+        this.timer && clearTimeout(this.timer)
+        this.timer = null;
     }
 
     render() {

@@ -117,7 +117,9 @@ export default class RankHeroList extends React.Component {
     }
 
     outSideTab(){
-        this.animatedText.stop()
+        this.animatedText && this.animatedText.stop()
+        this.animation && this.animation.stop && this.animation.stop()
+        this.animation && this.animation.reset && this.animation.reset()
     }
 
     tabPressed(){ 
@@ -129,7 +131,8 @@ export default class RankHeroList extends React.Component {
         //     if(Platform.OS == "ios"){
         //         setTimeout(()=>{
         // console.log("this.animation", this.animation == null)
-        // this.animation && this.animation.play();
+        this.animation && this.animation.play();
+        this.animatedText && this.animatedText.start();
         //         }, 1000)
         //     }else{
         //         /*setTimeout(()=>{
@@ -371,7 +374,7 @@ export default class RankHeroList extends React.Component {
                         if(animation){
                             console.log("FrameAnimationPlayer set ref")
                             this.animation = animation;
-                            this.animation.play()
+                            //this.animation.play()
                         }
                     }}
                     style={{height: imageHeight, width:width}}/>
@@ -402,7 +405,7 @@ export default class RankHeroList extends React.Component {
                <RankingTitleAnimatedText style={{margin:10}} ref={(animatedText)=>{
                     if(animatedText){
                         this.animatedText = animatedText;
-                        this.animatedText.start()
+                        //this.animatedText.start()
                     }
                }}/>
             </TouchableOpacity>
@@ -435,6 +438,7 @@ export default class RankHeroList extends React.Component {
         console.log("this.state.dataSource")
         return(
             <View style={{flex:1,width:width,marginTop:5}}>
+                {this.renderHeader()}
                 <FlatList
                     style={{backgroundColor:'white'}}
                     enableEmptySections={true}
@@ -442,7 +446,7 @@ export default class RankHeroList extends React.Component {
                     renderItem={(data)=>this._renderRow(data)}
                     ItemSeparatorComponent={(data)=>this.renderSeparator(data)}
                     removeClippedSubviews={false}
-                    ListHeaderComponent={this.renderHeader.bind(this)}
+                    //ListHeaderComponent={()=>this.renderHeader()}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>

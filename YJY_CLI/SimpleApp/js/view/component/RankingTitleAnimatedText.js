@@ -9,6 +9,7 @@ class RankingTitleAnimatedText extends Component {
 
     isAnimationRunning = false;
     animation = null;
+    timer = null;
     changeTextList = ["STOCK", "FOREX", "INDICES", "COMMODITIES"]
 
     constructor(props){
@@ -23,7 +24,7 @@ class RankingTitleAnimatedText extends Component {
 
     start(force){
         if(!this.animation || force){
-            setTimeout(()=>{
+            this.timer = setTimeout(()=>{
                 this.animation = Animated.timing(
                     this.state.changingTextOpacityAnim,
                     {
@@ -61,6 +62,8 @@ class RankingTitleAnimatedText extends Component {
     stop(){
         this.animation && this.animation.stop()
         this.animation = null;
+        this.timer && clearTimeout(this.timer);
+        this.timer = null;
     }
 
     render() {
