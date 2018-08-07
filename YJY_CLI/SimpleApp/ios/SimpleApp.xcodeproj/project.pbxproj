@@ -5,7 +5,6 @@
 	};
 	objectVersion = 46;
 	objects = {
-
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -57,6 +56,7 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AF25D94A63664A3E8DB5AC93 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4637A3510A384E83BAD572A4 /* libz.tbd */; };
+		E76B808A99B54AC89128E3C2 /* abolition-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -516,6 +516,7 @@
 		D3B0F65B62F9476485BF33A0 /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		E5ECFCAB01CF45E895260477 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = System/Library/Frameworks/Lottie.framework; sourceTree = SDKROOT; };
 		FFCA42F69A16491BB39C1237 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
+		74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */ = {isa = PBXFileReference; name = "abolition-regular-webfont.ttf"; path = "../assets/fonts/abolition-regular-webfont.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -897,6 +898,7 @@
 				83CBBA001A601CBA00E9B192 /* Products */,
 				76F017EE781740BFB6E7FF82 /* Frameworks */,
 				41D59268204FCB31005DBDA8 /* Recovered References */,
+				A7FAFC5C63324F99B465BB20 /* Resources */,
 			);
 			indentWidth = 4;
 			sourceTree = "<group>";
@@ -920,6 +922,15 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
+		};
+		A7FAFC5C63324F99B465BB20 /* Resources */ = {
+			isa = "PBXGroup";
+			children = (
+				74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1500,6 +1511,7 @@
 				3D37883920C639360057682C /* 启动页面.jpg in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */,
+				E76B808A99B54AC89128E3C2 /* abolition-regular-webfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
