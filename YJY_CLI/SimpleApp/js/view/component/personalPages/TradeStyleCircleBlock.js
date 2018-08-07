@@ -151,14 +151,14 @@ export default class TradeStyleCircleBlock extends Component {
               innerText={''+totalTradeCount}
               innerText2={LS.str('TRADES')}/>  
             </View>  
-            <View style={{width:100,alignItems:'flex-start', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
-              <View style={{marginLeft:20,justifyContent:'center',alignItems:'flex-start' }}>
+            <View style={{width:100,alignItems:'center', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
+              <View style={{alignItems:'center',width:70,marginRight:40}}>
               <CustomStyleText style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</CustomStyleText>
-              <CustomStyleText numberOfLines={1} ellipsizeMode={'tail'} style={{width:70, fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</CustomStyleText>
+              <CustomStyleText numberOfLines={1} ellipsizeMode={'tail'} style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</CustomStyleText>
               </View>
               <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
-            <View style={{ width:60,alignItems:'flex-end', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
+            <View style={{width:60,alignItems:'center', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
               <CustomStyleText style={{fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</CustomStyleText>
               <CustomStyleText style={{fontSize:12,color:'#3dcc24'}}>{LS.str('WINRATE_')}</CustomStyleText>
               <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>
