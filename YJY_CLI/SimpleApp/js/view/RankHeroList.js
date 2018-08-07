@@ -15,6 +15,8 @@ import {
 } from 'react-native'; 
 import LogicData from '../LogicData';
 import CustomStyleText from './component/CustomStyleText';
+import FrameAnimationPlayer from './component/FrameAnimationPlayer';
+import RankingTitleAnimatedText from './component/RankingTitleAnimatedText';
 import UserBlock from './component/UserBlock'
 import ViewKeys from '../ViewKeys';
 import { LIST_HEADER_BAR_HEIGHT } from '../UIConstants';
@@ -23,13 +25,12 @@ var NetConstants = require('../NetConstants');
 var ColorConstants = require('../ColorConstants')
 var {height, width} = Dimensions.get('window');
 import LottieView from 'lottie-react-native';
-import anim from '../../images/animation/data.json';
 var {EventCenter,EventConst} = require('../EventCenter');
 
 var LS = require("../LS")
 var listData = []
 
-export default class  RankHeroList extends React.Component {
+export default class RankHeroList extends React.Component {
     static propTypes = {
         showMeBlock: PropTypes.bool,
     }
@@ -40,7 +41,36 @@ export default class  RankHeroList extends React.Component {
 
     constructor(props){
         super(props);
+        var animationFrames = [
+            require('../../images/animation/user_page_frames/apngframe01.png'),
+            require('../../images/animation/user_page_frames/apngframe02.png'),
+            require('../../images/animation/user_page_frames/apngframe03.png'),
+            require('../../images/animation/user_page_frames/apngframe04.png'),
+            require('../../images/animation/user_page_frames/apngframe05.png'),
+            require('../../images/animation/user_page_frames/apngframe06.png'),
+            require('../../images/animation/user_page_frames/apngframe07.png'),
+            require('../../images/animation/user_page_frames/apngframe08.png'),
+            require('../../images/animation/user_page_frames/apngframe09.png'),
+            require('../../images/animation/user_page_frames/apngframe10.png'),
+            require('../../images/animation/user_page_frames/apngframe11.png'),
+            require('../../images/animation/user_page_frames/apngframe12.png'),
+            require('../../images/animation/user_page_frames/apngframe13.png'),
+            require('../../images/animation/user_page_frames/apngframe14.png'),
+            require('../../images/animation/user_page_frames/apngframe15.png'),
+            require('../../images/animation/user_page_frames/apngframe16.png'),
+            require('../../images/animation/user_page_frames/apngframe17.png'),
+            require('../../images/animation/user_page_frames/apngframe18.png'),
+            require('../../images/animation/user_page_frames/apngframe19.png'),
+            require('../../images/animation/user_page_frames/apngframe20.png'),
+            require('../../images/animation/user_page_frames/apngframe21.png'),
+            require('../../images/animation/user_page_frames/apngframe22.png'),
+            require('../../images/animation/user_page_frames/apngframe23.png'),
+            require('../../images/animation/user_page_frames/apngframe24.png'),
+            require('../../images/animation/user_page_frames/apngframe25.png'),
+            require('../../images/animation/user_page_frames/apngframe26.png'),
+        ];
         this.state = {
+            frames: animationFrames,
             dataSource: listData,
             rankListData:[
                 {   roi: 0,winRate: 0,id: 7,nickname: '--' },
@@ -56,6 +86,11 @@ export default class  RankHeroList extends React.Component {
             console.log("RANKING_TAB_PRESS_EVENT")
             this.tabPressed();
         });
+
+        outsideTabSubscription = EventCenter.getEventEmitter().addListener(EventConst.OUTSIDE_RANKING_TAB_EVENT, ()=>{
+            console.log("OUTSIDE_RANKING_TAB_EVENT")
+            this.outSideTab();
+        })
     }
 
     componentDidMount () {
@@ -64,6 +99,8 @@ export default class  RankHeroList extends React.Component {
 
     componentWillUnmount(){
         tabSwitchedSubscription && tabSwitchedSubscription.remove();
+        outsideTabSubscription && outsideTabSubscription.remove();
+        this.animatedText && this.animatedText.stop();
     }
 
     gotoUserProfile(uid,name){ 
@@ -76,28 +113,32 @@ export default class  RankHeroList extends React.Component {
     }
 
     onRefresh(){
-        console.log("onRefresh")
         this.loadRankData()
+    }
+
+    outSideTab(){
+        this.animatedText.stop()
     }
 
     tabPressed(){ 
         this.onRefresh()
         
         //this.animation && this.animation.reset()
-        if(this.animation){
-            console.log("play this.animation", this.animation == null)
-            if(Platform.OS == "ios"){
-                setTimeout(()=>{
-                    console.log("this.animation", this.animation == null)
-                    this.animation && this.animation.play();
-                }, 1000)
-            }else{
-                setTimeout(()=>{
-                    console.log("this.animation", this.animation == null)
-                    this.animation && this.animation.play();
-                }, 500)
-            }
-        }
+        // if(this.animation){
+        //     console.log("play this.animation", this.animation == null)
+        //     if(Platform.OS == "ios"){
+        //         setTimeout(()=>{
+        // console.log("this.animation", this.animation == null)
+        // this.animation && this.animation.play();
+        //         }, 1000)
+        //     }else{
+        //         /*setTimeout(()=>{
+        //             console.log("this.animation", this.animation == null)
+        //             this.animation && this.animation.play();
+        //         }, 500)*/
+        //         this.animation && this.animation.play();
+        //     }
+        // }
 	}
  
 
@@ -320,24 +361,60 @@ export default class  RankHeroList extends React.Component {
         this.props.navigation.navigate(ViewKeys.TAB_MARKET)
     }
 
+    renderHeaderAnimationBackground(imageHeight){
+        if(Platform.OS == "ios"){
+            console.log("renderHeaderAnimationBackground")
+            return (
+                <FrameAnimationPlayer 
+                    frames={this.state.frames}
+                    ref={animation => {
+                        if(animation){
+                            console.log("FrameAnimationPlayer set ref")
+                            this.animation = animation;
+                            this.animation.play()
+                        }
+                    }}
+                    style={{height: imageHeight, width:width}}/>
+            );
+        }else{
+            return (
+                <LottieView 
+                ref={animation => {
+                    if(animation){
+                        this.animation = animation;
+                        this.animation.play()
+                    }
+                }}
+                imageAssetsFolder={"../../images/animation/images"}
+                progress={0.1}
+                loop={false}
+                style={{height: imageHeight, width:width}}
+                source={require('../../images/animation/data.json')}
+            />
+            )
+        }
+    }
+
+    renderAnimatedText(){
+        return (
+            <TouchableOpacity style={{position:'absolute', top:0, left:0}} onPress={()=>this.showMarket()}>
+               {/* <Image source={require("../../images/animation/trade_changes.gif")}/> */}
+               <RankingTitleAnimatedText style={{margin:10}} ref={(animatedText)=>{
+                    if(animatedText){
+                        this.animatedText = animatedText;
+                        this.animatedText.start()
+                    }
+               }}/>
+            </TouchableOpacity>
+        )
+    }
+
     renderHeaderImage(){
         var imageHeight = width/75*42;
         return (
             <View style={{height: imageHeight, width:width}}>               
-                <LottieView 
-                    ref={animation => {
-                        this.animation = animation;
-                        console.log("set this.animation", this.animation == null)
-                    }}
-                    //progress={0.1}
-                    loop={false}
-                    style={{height: imageHeight, width:width}}
-                    source={require('../../images/animation/soda_loader.json')}
-                    //source={anim}
-                />
-                <TouchableOpacity style={{position:'absolute', top:0, left:0}} onPress={()=>this.showMarket()}>
-                    <CustomStyleText style={{color:'white', fontSize:50}}>TRADE STOCK WITH CRYPO</CustomStyleText>
-                </TouchableOpacity>
+                {this.renderHeaderAnimationBackground(imageHeight)}
+                {this.renderAnimatedText()}
             </View>
         )
     }
@@ -351,6 +428,8 @@ export default class  RankHeroList extends React.Component {
             </View>  
         )
     }
+
+    
 
     renderListAll(){
         console.log("this.state.dataSource")
@@ -370,9 +449,10 @@ export default class  RankHeroList extends React.Component {
         )
     }
     render() {
+        console.log('render state: ', this.props.navigation.state)
         return (
             <View style={{flex:1}}> 
-                 {this.renderListAll()}
+                {this.renderListAll()}
             </View>
         );
     }

@@ -5,6 +5,7 @@
 	};
 	objectVersion = 46;
 	objects = {
+
 /* Begin PBXBuildFile section */
 		00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302AC1ABCB8CE00DB3ED1 /* libRCTActionSheet.a */; };
 		00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302BA1ABCB90400DB3ED1 /* libRCTGeolocation.a */; };
@@ -48,6 +49,7 @@
 		418E693A20BD4F8D005EC789 /* libRNImagePicker.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 418E693920BD4F76005EC789 /* libRNImagePicker.a */; };
 		41B1E85320C66B360006F889 /* libRNDeviceInfo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41B1E84F20C66B230006F889 /* libRNDeviceInfo.a */; };
 		41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 41C6B49420FC473A004A3400 /* coin.mp3 */; };
+		41E1AE4D211965060038569E /* Abolition.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41E1AE15211965060038569E /* Abolition.ttf */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
 		6C0C01BFA5CE40C0990A1FCD /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 208F8BDD72B44B60A376BDC1 /* libLottie.a */; };
 		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
@@ -56,7 +58,6 @@
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AF25D94A63664A3E8DB5AC93 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4637A3510A384E83BAD572A4 /* libz.tbd */; };
-		E76B808A99B54AC89128E3C2 /* abolition-regular-webfont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -503,6 +504,7 @@
 		418E690720BD4F75005EC789 /* RNImagePicker.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNImagePicker.xcodeproj; path = "../node_modules/react-native-image-picker/ios/RNImagePicker.xcodeproj"; sourceTree = "<group>"; };
 		41B1E81C20C66B230006F889 /* RNDeviceInfo.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RNDeviceInfo.xcodeproj; path = "../node_modules/react-native-device-info/ios/RNDeviceInfo.xcodeproj"; sourceTree = "<group>"; };
 		41C6B49420FC473A004A3400 /* coin.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; name = coin.mp3; path = ../resource/coin.mp3; sourceTree = "<group>"; };
+		41E1AE15211965060038569E /* Abolition.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = Abolition.ttf; path = ../assets/fonts/Abolition.ttf; sourceTree = "<group>"; };
 		41F878492092E60A005D04CF /* BVLinearGradient.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BVLinearGradient.xcodeproj; path = "../node_modules/react-native-linear-gradient/BVLinearGradient.xcodeproj"; sourceTree = "<group>"; };
 		4637A3510A384E83BAD572A4 /* libz.tbd */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
 		48DC94D2363F4E46AED99507 /* libRealmReact.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRealmReact.a; sourceTree = "<group>"; };
@@ -516,7 +518,6 @@
 		D3B0F65B62F9476485BF33A0 /* Lottie.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = Lottie.xcodeproj; path = "../node_modules/lottie-ios/Lottie.xcodeproj"; sourceTree = "<group>"; };
 		E5ECFCAB01CF45E895260477 /* Lottie.framework */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = wrapper.framework; name = Lottie.framework; path = System/Library/Frameworks/Lottie.framework; sourceTree = SDKROOT; };
 		FFCA42F69A16491BB39C1237 /* RealmReact.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RealmReact.xcodeproj; path = "../node_modules/realm/react-native/ios/RealmReact.xcodeproj"; sourceTree = "<group>"; };
-		74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */ = {isa = PBXFileReference; name = "abolition-regular-webfont.ttf"; path = "../assets/fonts/abolition-regular-webfont.ttf"; sourceTree = "<group>"; fileEncoding = undefined; lastKnownFileType = unknown; explicitFileType = undefined; includeInIndex = 0; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -914,6 +915,14 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		A7FAFC5C63324F99B465BB20 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				41E1AE15211965060038569E /* Abolition.ttf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		ADBDB9201DFEBF0600ED6528 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -922,15 +931,6 @@
 			);
 			name = Products;
 			sourceTree = "<group>";
-		};
-		A7FAFC5C63324F99B465BB20 /* Resources */ = {
-			isa = "PBXGroup";
-			children = (
-				74267E51E7324F8DAB5F4BC4 /* abolition-regular-webfont.ttf */,
-			);
-			name = Resources;
-			sourceTree = "<group>";
-			path = "";
 		};
 /* End PBXGroup section */
 
@@ -1509,9 +1509,9 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				3D37883920C639360057682C /* 启动页面.jpg in Resources */,
+				41E1AE4D211965060038569E /* Abolition.ttf in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
 				41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */,
-				E76B808A99B54AC89128E3C2 /* abolition-regular-webfont.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

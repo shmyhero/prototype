@@ -262,7 +262,7 @@ class  TabMeScreen extends React.Component {
           <View style={styles.backgroundContainer}>
             <Image
               style={styles.backgroundImage}
-              source={require("../../images/me_top_background.jpg")}
+              source={require("../../images/me_top_background.png")}
               resizeMode={'contain'}/>
           </View>
           <NavBar 

@@ -11,6 +11,7 @@ const EventConst = {
 	POSITON_TAB_PRESS_EVENT : 'exchangeTabEvent',
 	RANKING_TAB_PRESS_EVENT : 'rankingTabEvent',
 	ME_TAB_PRESS_EVENT : 'meTabEvent',
+	OUTSIDE_RANKING_TAB_EVENT: 'outsideRankingTabEvent',
 	ACCOUNT_STATE_CHANGE : 'account_state_change',
 	NETWORK_CONNECTION_CHANGED: 'network_connection_changed',
 	ACCOUNT_LOGIN_OUT_SIDE: 'account_login_out_side',
@@ -49,6 +50,11 @@ var EventCenter = {
 
 	emitMeTabPressEvent: function(){
 		eventEmitter.emit(EventConst.ME_TAB_PRESS_EVENT)
+	},
+
+	emitOutSideRankingTabEvent: function() {
+		// this.eventEmitter.emit('eventname', { someArg: 'argValue' });
+		eventEmitter.emit(EventConst.OUTSIDE_RANKING_TAB_EVENT)
 	},
 
 	emitAccountStateChangeEvent: function(){

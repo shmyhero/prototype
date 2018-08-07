@@ -142,6 +142,14 @@ class App extends React.Component {
         StatusBar.setBarStyle("light-content");
         var routeName = getCurrentRouteName(currentState);
         console.log("routeName ", routeName)
+
+        var lastRouteName = getCurrentRouteName(prevState);
+
+        //TODO: Find a better way for all routes...
+        if(lastRouteName == ViewKeys.TAB_RANK && routeName != ViewKeys.TAB_RANK){
+          EventCenter.emitOutSideRankingTabEvent();
+        }
+
         switch(routeName){
           case ViewKeys.TAB_MAIN:
             EventCenter.emitHomeTabPressEvent();
