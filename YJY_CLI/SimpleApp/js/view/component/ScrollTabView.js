@@ -16,7 +16,7 @@ import {
 } from 'react-native';
 
 var ColorConstants = require('../../ColorConstants')
-
+import CustomStyleText from './CustomStyleText';
 var {height, width} = Dimensions.get('window');
  
 export default class  ScrollTabView extends React.Component {
@@ -113,9 +113,9 @@ export default class  ScrollTabView extends React.Component {
 					onPress={() => this.tabClicked(i)}>
  
 				<View style={{width:80,height:40,alignItems:'center',justifyContent:'center'}}>
-					<Text style={[this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected,{fontSize:this.props.tabFontSize}]}>
+					<CustomStyleText style={[this.state.currentSelectedTab==i?styles.tabItemTextSelected:styles.tabItemTextUnSelected,{fontSize:this.props.tabFontSize}]}>
 						{tabName}
-					</Text>
+					</CustomStyleText>
 				</View> 
 			</TouchableHighlight>
 		)
