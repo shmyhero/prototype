@@ -138,7 +138,7 @@ class DynamicRowComponentContent extends Component {
             }else{
                 return (
                     <TweetBlock  
-                        style={{marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
+                        style={{marginTop:8,marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
                         value={text}
                         onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}} 
                         onPressed={()=>{
@@ -198,7 +198,7 @@ class DynamicRowComponentContent extends Component {
                         <View style={{flexDirection:'row',margin:5}}>
                             <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
                                 <Image source={{uri:this.props.rowData.user.picUrl}}
-                                    style={{height:34,width:34,margin:10,borderRadius:17}} >
+                                    style={{height:34,width:34,marginTop:10,marginBottom:10,marginRight:10,borderRadius:17}} >
                                 </Image>
                             </TouchableOpacity> 
                             <View style={styles.textContainer}>
@@ -206,6 +206,7 @@ class DynamicRowComponentContent extends Component {
                                     <CustomStyleText style={[styles.textUserName,titleStyle]}>{title}</CustomStyleText>
                                     {viewHero}
                                 </View>
+                                 
                                 {this.renderNewsText(this.props.rowData)}
                             </View>
                             {this.renderItemTrede(this.props.rowData)}
