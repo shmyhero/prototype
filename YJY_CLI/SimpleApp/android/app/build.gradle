@@ -112,7 +112,11 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
-        manifestPlaceholders = [buildToolsVersion:rootProject.ext.buildToolsVersion]
+        manifestPlaceholders = [
+                buildToolsVersion:rootProject.ext.buildToolsVersion,
+                TD_APP_ID: "E33BDC6704C94B0EA208E36D57FD3E10",
+                TD_CHANNEL_ID: "default",
+        ]
     }
     dexOptions {
         jumboMode = true
@@ -178,27 +182,23 @@ dependencies {
     implementation project(':react-native-smart-swipe-refresh-layout')
     //Chart
     implementation "com.github.PhilJay:MPAndroidChart:${rootProject.ext.MPAndroidChartVersion}"
-
     //Gif
     // For animated GIF support
     implementation "com.facebook.fresco:animated-gif:${rootProject.ext.frescoGifVersion}"
-
     implementation project(':react-native-linear-gradient')
     implementation project(':react-native-toast')
     implementation project(':react-native-locale')
-
     //Picker
     implementation "cn.aigestudio.wheelpicker:WheelPicker:${rootProject.ext.wheelPickerVersion}"
-
     implementation project(':react-native-image-picker')
     implementation project(':react-native-device-info')
     implementation "com.android.support.constraint:constraint-layout:${rootProject.ext.constraintLayoutVersion}"
-
     implementation "com.google.android:flexbox:${rootProject.ext.flexboxVersion}"
-
     implementation project(':react-native-sound')
     implementation project(':react-native-9patch-image')
     implementation project(':react-native-orientation')
+    implementation files('libs/TalkingData_AdTracking_SDK_Android_v2.3.12.jar')
+    implementation files('libs/TalkingData_Analytics_Android_SDK_V2.2.30.jar')
 }
 
 // Run this once to be able to run the application with BUCK

@@ -9,6 +9,11 @@
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"  />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"  />
+    <uses-permission android:name="android.permission.GET_TASKS"  />
+
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="22" />
@@ -37,6 +42,42 @@
         </intent-filter>
       </activity>
       <activity android:name="com.facebook.react.devsupport.DevSettingsActivity" />
+
+
+        <service
+            android:name="com.apptalkingdata.push.service.PushService"
+            android:process=":push"
+            android:exported="true">
+        </service>
+
+        <receiver android:name="com.apptalkingdata.push.service.PushServiceReceiver" android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.CMD"></action>
+                <action android:name="android.talkingdata.action.notification.SHOW"></action>
+                <action android:name="android.talkingdata.action.media.MESSAGE"></action>
+                <action android:name="android.intent.action.BOOT_COMPLETED"></action>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE"></action>
+                <action android:name="android.intent.action.USER_PRESENT"></action>
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.tendcloud.tenddata.TalkingDataAppMessageReceiver" android:enabled="true">
+            <intent-filter>
+                <action android:name="android.talkingdata.action.media.SILENT"></action>
+                <action android:name="android.talkingdata.action.media.TD.TOKEN"></action>
+            </intent-filter>
+            <intent-filter>
+                <action android:name="com.talkingdata.notification.click"></action>
+                <action android:name="com.talkingdata.message.click"></action>
+            </intent-filter>
+        </receiver>
+
+        <meta-data
+            android:name="TD_APP_ID"
+            android:value="${TD_APP_ID}"/>
+        <meta-data
+            android:name="TD_CHANNEL_ID"
+            android:value="${TD_CHANNEL_ID}" />
+
     </application>
 
 </manifest>

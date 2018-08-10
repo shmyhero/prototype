@@ -38,6 +38,8 @@ var ColorConstants = require('../ColorConstants');
 var LS = require('../LS')
 import LogicData from "../LogicData";
 const dismissKeyboard = require('dismissKeyboard');
+var TalkingdataModule = require('../module/TalkingdataModule')
+
 export default class LoginScreen extends Component {
     constructor(props){
         super(props);
@@ -201,6 +203,10 @@ export default class LoginScreen extends Component {
                 this.state.onLoginFinished();
             }
         });
+
+        var trackingData = {};
+        trackingData[TalkingdataModule.AD_TRACKING_KEY_USER_ID] = responseJson.userId;
+        TalkingdataModule.trackADEvent(TalkingdataModule.AD_TRACKING_EVENT_LOGIN, trackingData);
     }
 
     onLoginClicked(){

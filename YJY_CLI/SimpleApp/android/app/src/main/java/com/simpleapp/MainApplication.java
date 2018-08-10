@@ -6,6 +6,7 @@ import android.util.Log;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.simpleapp.talkingdata.TalkingDataPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import su.rusfearuth.reactnative.native9patch.RCTImageCapInsetPackage;
 import com.reactnativecomponent.swiperefreshlayout.RCTSwipeRefreshLayoutPackage;
@@ -49,7 +50,8 @@ public class MainApplication extends Application implements ReactApplication {
           new LinearGradientPackage(),
           new RCTLocalePackage(), // add package
           new ImagePickerPackage(),
-          new RNDeviceInfo()
+          new RNDeviceInfo(),
+          new TalkingDataPackage()
       );
     }
 

@@ -8,6 +8,8 @@ import android.util.Log;
 import com.facebook.react.ReactActivity;
 import com.simpleapp.RNNativeModules.NativeActions;
 import com.simpleapp.RNNativeModules.NativeDataModule;
+import com.simpleapp.talkingdata.TalkingDataModule;
+import com.tendcloud.appcpa.TalkingDataAppCpa;
 
 
 public class MainActivity extends ReactActivity {
@@ -32,6 +34,10 @@ public class MainActivity extends ReactActivity {
 
         super.onCreate(savedInstanceState);
         mInstance = this;
+
+        TalkingDataModule.register(getApplicationContext(), null, null, true);
+        TalkingDataAppCpa.init(this.getApplicationContext(), "E33BDC6704C94B0EA208E36D57FD3E10", null);
+
     }
 
     @Override
