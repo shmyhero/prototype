@@ -21,8 +21,8 @@ var LS = {
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
     SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
     SUGAR_AVAILABLE: ["可出{1}数", "Available {1}", "残高({1})"],
-    LONG_OPERATION: ["上升", "RISING", "上昇"],
-    SHORT_OPERATION: ["下降", "FALLING", "下落"],
+    LONG_OPERATION: ["做多", "BULLISH", "上昇"],
+    SHORT_OPERATION: ["做空", "BEARISH", "下落"],
 
     NETWORK_ERROR: ["溜走的不是网络，是真金白银呀！", "Something went wrong...", "エラーが発生しました"],
     CANCLE: ["取消", "Cancle", "キャンセル"],
@@ -42,7 +42,7 @@ var LS = {
     NO_MORE:["没有更多","no more data", "データはこれ以上ありません"],
     DEL:["删除","Remove", "削除"],
     MOUNT_X:["{1} x","{1} x", "{1} x"],
-    MULTIPLE:["倍数","multiple", "乗数"],//テコ入れ
+    MULTIPLE:["杠杆","Leverage", "乗数"],//テコ入れ
     PROFIT:["盈利","Profit", "獲得"],
     LOSS:["亏损","Loss", "損失"],    
     CLOSE_POSITION:["平仓","Position", "クローズポジション"],
@@ -87,7 +87,7 @@ var LS = {
     ALL:["全部","ALL", "すべて"],
     INVESTMENT_TREND:["TA的收益走势","Investment Trend", "獲得"],
     JYFG:["交易风格","Trade Style", "トレードスタイル"],
-    PJGG:["平均倍数","AVG.Multiple", "平均乗数"],
+    PJGG:["平均杠杆","AVG.Leverage", "平均乗数"],
     LJXD:["累积下单(次)","Total trades", "トレード数"],
   
     PJBJ:["平均{1}","AVG.{1}", "平均{1}"],  
@@ -156,7 +156,7 @@ var LS = {
     POSITION_CLOSED_NO_ITEMS: ["暂无平仓记录", "There are no closed positions", "データがありません"],
     BUY_LONG: ["上升","LONG", "上昇"],
     BUY_SHORT: ["下降","SHORT", "下落"],
-    BUY: ["开始", "Start", "スタート"],
+    BUY: ["交易", "Trade", "スタート"],
     SELECT_PRODUCT: ["选择产品", "Choose Products", "商品を選択"],
      
     DEPOSIT_WITHDRAW_ENTRY_HEADER:['存取资金','Wallet', "Wallet"],
@@ -189,9 +189,9 @@ var LS = {
     COPY_COUNT: ["跟随笔数", "Times", "Times"],
 
     ORDER_TYPE:['类型','Type', "Type"],
-    ORDER_TRADING:['交易','Trading', "Trading"],
+    ORDER_TRADING:['开始','Start', "Start"],
     ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
-    ORDER_MULTIPLE: ["倍数", "Multiple", "Multiple"],
+    ORDER_MULTIPLE: ["杠杆", "Leverage", "Leverage"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],
     ORDER_MAX_RISK: ["最大风险（{1}）", "Maximum Risk", "Maximum Risk"],
     ORDER_PROFIT_AND_LOSS: ["盈亏（{1}）", "Profit / loss ({1})", "Profit / loss ({1})"],
