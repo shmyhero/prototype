@@ -72,7 +72,7 @@ var LS = {
     SATURDAY:["星期六","Sat", "土"],
     MAIN:["首页","MAIN", "ホーム"],
     DYNAMIC:["动态","DYNAMIC", "フィード"],
-    OPEN:["持仓","OPEN ", "オープンポジション"],
+    OPEN:["持仓","OPEN", "オープンポジション"],
     CLOSED:["平仓","CLOSED", "クローズポジション"],
     YHWGKSJ:["用户未公开数据","no public data", "データが公開していません"],
     ZWCCJL:["暂无持仓记录","There are no open positions", "データがありません"],
