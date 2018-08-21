@@ -138,7 +138,7 @@ class DynamicRowComponentContent extends Component {
             }else{
                 return (
                     <TweetBlock  
-                        style={{marginTop:8,marginBottom:5, fontSize:13,color:'#999999',lineHeight:26}}
+                        style={{marginTop:8,marginBottom:5, fontSize:13,color:'#999999',lineHeight:16}}
                         value={text}
                         onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}} 
                         onPressed={()=>{
