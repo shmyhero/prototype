@@ -26,6 +26,7 @@ import java.util.Calendar;
 
 /**
  * Created by Neko on 2018/1/31.
+ * Draws the chart displays on stock detail page.
  */
 public class StockDetailChartDrawer extends LineStickChartDrawer {
     boolean isScaleSet = false;

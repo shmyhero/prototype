@@ -86,11 +86,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
 
         }
 
-        boolean isReset = false;
-        if(((PriceChart)chart).getNeedReset()) {
-            resetChart(chart);
-            isReset = true;
-        }
+        resetChart(chart);
 
         CombinedData data = generateData(chart, stockInfoObject, chartDataList);
         calculateAxis(chart, chartDataList, data);
@@ -98,12 +94,8 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         chart.setData(data);
         drawLimitLine(chart, stockInfoObject, chartDataList);
 
-//        if(((PriceChart)chart).getNeedReset()) {
-//            calculateZoom(chart, chartDataList);
-//        }
-
-        if(isReset) {
-            ((PriceChart)chart).setNeedReset(false);
+        if(((PriceChart)chart).getNeedReset()) {
+            calculateZoom(chart, chartDataList);
         }
 
         chart.notifyDataSetChanged();

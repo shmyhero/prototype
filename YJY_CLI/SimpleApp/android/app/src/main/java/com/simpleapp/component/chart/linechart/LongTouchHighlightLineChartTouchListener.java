@@ -32,6 +32,8 @@ import com.github.mikephil.charting.utils.Utils;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 /**
  * Created by Neko on 2018/3/13.
+ * Copied from /com/github/mikephil/charting/listener/BarLineChartTouchListener.java.
+ * Add long press fix since the original one has issues when combines long press and drag gesture.
  */
 
 public class LongTouchHighlightLineChartTouchListener  extends ChartTouchListener<BarLineChartBase<? extends BarLineScatterCandleBubbleData<?

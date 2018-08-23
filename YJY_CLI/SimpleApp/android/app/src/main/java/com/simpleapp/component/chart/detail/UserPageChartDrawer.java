@@ -24,6 +24,7 @@ import java.util.TimeZone;
 
 /**
  * Created by Neko on 2018/2/2.
+ * Draws the chart displays on user page.
  */
 
 public class UserPageChartDrawer extends LineStickChartDrawer {

@@ -24,6 +24,7 @@ import java.util.TimeZone;
 
 /**
  * Created by Neko on 2018/1/31.
+ * Draw the marker which contains a cross and price/date labels when long press on StockDetailChart.
  */
 
 public class LineChartMarkerView extends MarkerView {

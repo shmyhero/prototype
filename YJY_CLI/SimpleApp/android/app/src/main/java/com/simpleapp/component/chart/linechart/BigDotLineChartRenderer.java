@@ -58,6 +58,7 @@ import java.util.List;
 
 /**
  * Created by Neko on 2018/1/31.
+ * Draw the last price dot and the animation!
  */
 public class BigDotLineChartRenderer extends LineRadarRenderer {
 
@@ -88,7 +89,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 //    /**
 //     * Bitmap object used for drawing last price array
 //     */
-//    protected WeakReference<Bitmap> mArrowBitmap;
+//    protected WeakReference<Bitmap> mArrowBitmap;a
 
     /**
      * Bitmap object used for drawing shadowed circle
@@ -111,6 +112,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
     private Context mContext;
 
+    private Animator mCurrentAnimator;
 
     private int valueRectWidth = (int)Utils.convertDpToPixel(70);
     private int valueRectHeight = (int)Utils.convertDpToPixel(31);
@@ -892,9 +894,6 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             createAnimator(imageView);
         }
     }
-
-
-    private Animator mCurrentAnimator;
 
     private void createAnimator(View view) {
         if (mCurrentAnimator != null) {

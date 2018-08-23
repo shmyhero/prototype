@@ -96,30 +96,38 @@ export default class ProfitTrendCharts extends Component {
 
   renderChart(){
     if(this.state.stockInfo && this.state.stockInfo.priceData && this.state.stockInfo.priceData.length > 0){
-      return (
-        <PriceChartView style={[styles.chartStyle, this.props.chartStyle]}
-            chartType={"userHomePage"}
-            lineChartGradient={['#b8c6d4', '#fbfcfd']}
-            dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
-            textColor={"#9e9e9e"}
-            lineWidth={10}
-            borderColor={ColorConstants.SEPARATOR_GRAY}
-            xAxisPosition="BOTTOM"
-            leftAxisEnabled={false}
-            rightAxisEnabled={true}
-            rightAxisDrawLabel={true}
-            rightAxisLabelCount={4}
-            chartPaddingLeft={0}
-            chartPaddingTop={20}
-            xAxisPaddingBottom={20}
-            xAxisPaddingTop={20}
-            paddingRightAxis={10}
-            drawBorders={true}
-            data={JSON.stringify(this.state.stockInfo)}
-            drawDataUnderYAxis={false}
-            xAxisTextSize={10}
-        />
-      )
+      try{
+        console.log("JSON.stringify(this.state.stockInfo)", JSON.stringify(this.state.stockInfo))
+        var view = (<PriceChartView style={[styles.chartStyle, this.props.chartStyle]}
+          chartType={"userHomePage"}
+          lineChartGradient={['#b8c6d4', '#fbfcfd']}
+          dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
+          textColor={"#9e9e9e"}
+          lineWidth={10}
+          borderColor={ColorConstants.SEPARATOR_GRAY}
+          xAxisPosition="BOTTOM"
+          leftAxisEnabled={false}
+          rightAxisEnabled={true}
+          rightAxisDrawLabel={true}
+          rightAxisLabelCount={4}
+          chartPaddingLeft={0}
+          chartPaddingTop={20}
+          xAxisPaddingBottom={20}
+          xAxisPaddingTop={20}
+          paddingRightAxis={10}
+          drawBorders={true}
+          data={JSON.stringify(this.state.stockInfo)}
+          drawDataUnderYAxis={false}
+          xAxisTextSize={10}
+      />)
+      }catch(e){
+
+      console.log("JSON.stringify(this.state.stockInfo) error")
+        console.log(e)
+      }
+      console.log("JSON.stringify(this.state.stockInfo)2")        
+      return view;
+
     }else{
       return (<View style={{alignItems:'center', justifyContent:'center', flex:1}}>
         <CustomStyleText style={{color:'#666666'}}>{LS.str('ZWJYJL')}</CustomStyleText>
