@@ -352,7 +352,6 @@ export default class RankHeroList extends React.Component {
 
     renderHeaderAnimationBackground(imageHeight){
         if(Platform.OS == "ios"){
-            console.log("renderHeaderAnimationBackground")
             return (
                 <FrameAnimationPlayer 
                     frames={this.state.frames}
@@ -371,7 +370,7 @@ export default class RankHeroList extends React.Component {
                 ref={animation => {
                     if(animation){
                         this.animation = animation;
-                        this.animation.play()
+                        //this.animation.play()
                     }
                 }}
                 imageAssetsFolder={"../../images/animation/images"}
