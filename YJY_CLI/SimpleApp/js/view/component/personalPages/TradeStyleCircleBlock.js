@@ -6,7 +6,8 @@ import {
   View,
   StyleSheet,
   Dimensions,
-  Image
+  Image,
+  Alert
 } from 'react-native';
 import CustomStyleText from '../CustomStyleText';
 var LS = require('../../../LS')
@@ -46,48 +47,36 @@ export default class TradeStyleCircleBlock extends Component {
     this.loadData(this.props.userId);
     // this.loadData2(this.props.userId);
   }
+ 
 
-  loadData(userId){   
-    var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
-    url = url.replace('<id>', userId)
 
-    var userData = LogicData.getUserData() 
+  loadData(userId){  
 
-    console.log('url='+url);
-    this.setState({
-        isDataLoading: true,
-    }, ()=>{
-        NetworkModule.fetchTHUrl(
-          url,
-            {
-                method: 'GET', 
-                showLoading: true,
-                headers: {
-                  'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
-                  'Content-Type': 'application/json; charset=utf-8',
-                }
-            }, (responseJson) => { 
-                 this.setState({
-                  totalWinRate:(responseJson.winRate*100).toFixed(0), //总胜率
-                  averageProfile:responseJson.avgPl.toFixed(2),//平均每笔获利
-                  totalTradeCount: responseJson.posCount,//累积下单
-                  averageOpenTime: responseJson.avgDur.toFixed(2),//平均持仓
-                  averageLeverage: responseJson.avgLev.toFixed(2),//平均倍数
-                  averageInvestUSD: responseJson.avgInv.toFixed(2),//平均糖果
-                 }) 
-                 console.log('responseJson is ='+responseJson)
+    var p1 = new Promise( function(resolve,reject){
+      var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
+      url = url.replace('<id>', userId) 
+      var userData = LogicData.getUserData()  
+      NetworkModule.fetchTHUrl(
+        url,
+          {
+              method: 'GET', 
+              showLoading: true,
+              headers: {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                'Content-Type': 'application/json; charset=utf-8',
+              }
+          }, (responseJson) => {  
+            
+                resolve(responseJson) 
+          },
+          (exception) => {
+              reject(exception)
+          }
+      );
+          
+    })
 
-                 this.loadData2(this.props.userId);
-            },
-            (exception) => {
-              //alert(exception.errorMessage)
-            }
-        );
-    })  
-  }
-
-  //获取交易品种的比例
-  loadData2(userId){ 
+    var p2 = new Promise( function(resolve,reject){ 
       var url = NetConstants.CFD_API.PERSONAL_PAGE_PLDIST; 
       url = url.replace("<id>", userId); 
       var userData = LogicData.getUserData() 
@@ -101,16 +90,99 @@ export default class TradeStyleCircleBlock extends Component {
             'Content-Type': 'application/json; charset=utf-8',
           }
         },
-        (responseJson) => { 
-          this.setState({
-            tradeType:responseJson[0].name, 
-            tradeTypePercent:this.state.totalTradeCount==0?0:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
-          });
+        (responseJson) => {   
+          
+          resolve(responseJson)
         },
         (result) => {
+          reject(result)
         }
-	   ) 
-   }
+	    ) 
+    }) 
+
+    Promise.all([p1,p2]).then(results=>{  
+      this.setState({
+          totalWinRate:(results[0].winRate*100).toFixed(0), //总胜率
+          averageProfile:results[0].avgPl.toFixed(2),//平均每笔获利
+          totalTradeCount:results[0].posCount,//累积下单
+          averageOpenTime:results[0].avgDur.toFixed(2),//平均持仓
+          averageLeverage:results[0].avgLev.toFixed(2),//平均倍数
+          averageInvestUSD:results[0].avgInv.toFixed(2),//平均糖果
+
+          tradeType:results[1][0].name, 
+          tradeTypePercent:results[0].posCount==0?0:(results[1][0].count/results[0].posCount*100).toFixed(0)
+         })  
+    }).catch(function(error){ 
+       
+    })
+  }
+
+  
+
+  // loadData(userId){   
+  //   var url = NetConstants.CFD_API.PERSONAL_PAGE_TRADESTYLE
+  //   url = url.replace('<id>', userId)
+
+  //   var userData = LogicData.getUserData() 
+
+  //   console.log('url='+url);
+  //   this.setState({
+  //       isDataLoading: true,
+  //   }, ()=>{
+  //       NetworkModule.fetchTHUrl(
+  //         url,
+  //           {
+  //               method: 'GET', 
+  //               showLoading: true,
+  //               headers: {
+  //                 'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+  //                 'Content-Type': 'application/json; charset=utf-8',
+  //               }
+  //           }, (responseJson) => { 
+  //                this.setState({
+  //                 totalWinRate:(responseJson.winRate*100).toFixed(0), //总胜率
+  //                 averageProfile:responseJson.avgPl.toFixed(2),//平均每笔获利
+  //                 totalTradeCount: responseJson.posCount,//累积下单
+  //                 averageOpenTime: responseJson.avgDur.toFixed(2),//平均持仓
+  //                 averageLeverage: responseJson.avgLev.toFixed(2),//平均倍数
+  //                 averageInvestUSD: responseJson.avgInv.toFixed(2),//平均糖果
+  //                }) 
+  //                console.log('responseJson is ='+responseJson)
+
+  //                this.loadData2(this.props.userId);
+  //           },
+  //           (exception) => {
+               
+  //           }
+  //       );
+  //   })  
+  // }
+
+  // //获取交易品种的比例
+  // loadData2(userId){ 
+  //     var url = NetConstants.CFD_API.PERSONAL_PAGE_PLDIST; 
+  //     url = url.replace("<id>", userId); 
+  //     var userData = LogicData.getUserData() 
+  //     NetworkModule.fetchTHUrl(
+  //       url,
+  //       {
+  //         method: 'GET', 
+  //         cache: 'none',
+  //         headers: {
+  //           'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+  //           'Content-Type': 'application/json; charset=utf-8',
+  //         }
+  //       },
+  //       (responseJson) => { 
+  //         this.setState({
+  //           tradeType:responseJson[0].name, 
+  //           tradeTypePercent:this.state.totalTradeCount==0?0:(responseJson[0].count/this.state.totalTradeCount*100).toFixed(0)
+  //         });
+  //       },
+  //       (result) => {
+  //       }
+	//    ) 
+  //  }
 
 
   refresh(tradeStyle){
