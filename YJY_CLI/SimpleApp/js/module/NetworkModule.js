@@ -1,5 +1,4 @@
 
-var CacheModule = require('./CacheModule')
 
 import React from 'react';
 import {
@@ -8,14 +7,16 @@ import {
 } from 'react-native';
 
 import LogicData from "../LogicData";
-export const API_ERROR = 'apiError';
+
+var CacheModule = require('./CacheModule')
 var Encryptor = require('./Encryptor')
-export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
 var LS = require("../LS");
 var NetConstants = require('../NetConstants')
 var {EventCenter, EventConst} = require('../EventCenter');
-
 var loginOutsideAlertShown = false
+
+export const API_ERROR = 'apiError';
+export const NETWORK_CONNECTION_ERROR = 'networkConnectionError';
 
 export function fetchTHUrl(url, params, successCallback, errorCallback, notShowResponseLog) {
 	var requestSuccess = true;
@@ -41,7 +42,7 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 		});
 	}
 
-	if(! params.headers){
+	if(!params.headers){
 		params.headers = {};
 	}
 	
@@ -117,28 +118,7 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 					};
 				}
 			}
-			var message = e.message
-
-			// if(params.cache === "offline"){
-			// 	CacheModule.loadCacheForUrl(url)
-			// 	.then((value)=>{
-			// 		if(value){
-			// 			var respJson = JSON.parse(value);
-			// 			successCallback(respJson);
-			// 		}else{
-			// 			if(message.toLowerCase() === "network request failed"){
-			// 				message = "网络连接已断开，请检查设置"
-			// 			}
-			// 			if(internetErrorCallback){
-			// 				internetErrorCallback(message);
-			// 			}
-			// 			else if (!alertShow) {
-			// 				alertShow = true
-			// 				Alert.alert('', message, [{text: 'OK', onPress: () => alertShow=false}])
-			// 			};
-			// 		}
-			// 	});
-			// }
+			var message = e.message 
 
 			if(message.toLowerCase() === "network request failed"){
 				message = "网络连接已断开，请检查设置"
@@ -153,27 +133,23 @@ export function fetchTHUrl(url, params, successCallback, errorCallback, notShowR
 		.done(() => {
 			
 		});
-}
-
+} 
 
 export function fetchLocalEncryptedUrl(url, params, successCallback, errorCallback, notShowResponseLog){
-	 
 	fetchTHUrl(NetConstants.CFD_API.TIMESTAMP_LOCAL,
 		{
 			method: 'GET', 
 		},
 		(response)=>{
-			console.log("TIMESTAMP " + JSON.stringify(response));
+			// console.log("TIMESTAMP " + JSON.stringify(response));
 			var data = "" +response.timeStamp + response.nonce;
 			var encryptedData = Encryptor.DESLocalEncrypt(data);
-			console.log("encryptedData " + encryptedData)
+			// console.log("encryptedData " + encryptedData)
 			if(!params.headers){
 				params.headers = {}
 			}
-			params.headers.signature = encryptedData;
-
-			fetchTHUrl(url, params, successCallback, errorCallback, true);
-
+			params.headers.signature = encryptedData; 
+			fetchTHUrl(url, params, successCallback, errorCallback, true); 
 		}, (result)=>{
 			errorCallback(result)
 		}, true);

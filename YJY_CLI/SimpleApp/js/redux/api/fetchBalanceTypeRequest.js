@@ -14,7 +14,6 @@ export default async () => {
                     'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
                     'Content-Type': 'application/json; charset=utf-8',
                 },
-                showLoading: true,
             }, (response) => {
                 resolve(response);
             }, (error) =>{

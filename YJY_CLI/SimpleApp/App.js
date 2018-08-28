@@ -142,7 +142,6 @@ class App extends React.Component {
         StatusBar.setBarStyle("light-content");
         var routeName = getCurrentRouteName(currentState);
         console.log("routeName ", routeName)
-
         var lastRouteName = getCurrentRouteName(prevState);
 
         //TODO: Find a better way for all routes...

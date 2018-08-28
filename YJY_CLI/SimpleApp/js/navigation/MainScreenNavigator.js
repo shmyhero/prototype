@@ -4,21 +4,20 @@ import {
     StyleSheet,
     Platform,    
 } from 'react-native';
+
 import { TabNavigator } from 'react-navigation';
-var ColorConstants = require("../ColorConstants"); 
-
-var LS = require("../LS");
-
-var CustomTabBar = require('./CustomTabBar'); 
 import TabMainScreen from '../view/TabMainScreen';
 import TabRankScreen from '../view/TabRankScreen';
 import TabMarketScreen from '../view/TabMarketScreen';
 import TabPositionScreen from '../view/TabPositionScreen';
 import TabMeScreen from '../view/TabMeScreen'; 
-
 import ViewKeys from "../ViewKeys";
 
+var ColorConstants = require("../ColorConstants"); 
+var LS = require("../LS");
+var CustomTabBar = require('./CustomTabBar'); 
 var mainTabNavigatorConfiguration = {}
+
 mainTabNavigatorConfiguration[ViewKeys.TAB_MAIN] = {
     screen: TabMainScreen,
     navigationOptions: {

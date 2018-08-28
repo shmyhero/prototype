@@ -5,7 +5,7 @@ var NetConstants = require("../../NetConstants");
 export default (nickName) => {
     return new Promise((resolve, reject) => {
         var userData = LogicData.getUserData();
-        var value = encodeURIComponent(nickName);
+        // var value = encodeURIComponent(nickName);
         var url = NetConstants.CFD_API.SET_NICKNAME;//.replace("<name>", value);
         NetworkModule.fetchTHUrl(
             url,

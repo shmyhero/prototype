@@ -37,7 +37,9 @@ export function getBalanceFailure(errorMessage) {
 export function fetchBalanceData() {
     //fetchBalance catch', { [TypeError: undefined is not an object (evaluating 'action.payload.data')]
     return (dispatch) => {
+
         dispatch(getBalance())
+
         fetchBalanceRequest()
             .then((data) => {
                 console.log("fetchBalance then", data);
@@ -47,6 +49,7 @@ export function fetchBalanceData() {
                 console.log("fetchBalance catch", err);
                 dispatch(getBalanceFailure(err));
             });
+            
         fetchTradeStyleRequest()
             .then((data)=>{
                 console.log("fetchTradeStyleRequest", data)
