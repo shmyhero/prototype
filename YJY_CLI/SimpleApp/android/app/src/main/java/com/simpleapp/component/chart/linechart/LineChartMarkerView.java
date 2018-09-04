@@ -80,6 +80,7 @@ public class LineChartMarkerView extends MarkerView {
         }
     }
 
+    //画十字 横竖线
     protected void drawHighlightLines(Canvas c,
                                       float x, float y,
                                       float horizontalLineStart, float horizontalLineEnd,

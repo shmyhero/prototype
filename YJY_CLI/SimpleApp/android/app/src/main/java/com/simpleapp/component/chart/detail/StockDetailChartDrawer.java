@@ -76,7 +76,7 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
 
     @Override
     public void calculateZoom(CombinedChart chart, JSONArray chartDataList) {
-        //Make sure this function only be called once.
+        //Make sure this function only be called once.只触发一次，在初始化第一次显示的时候
 
         if(isScaleSet){
             return;
@@ -105,6 +105,8 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
 //        chart.moveViewToAnimated(totalSize, 0, YAxis.AxisDependency.LEFT,500);
     }
 
+
+    //getPriceKey 和 getDateTimeKey 由于在不同接口的数据未做
     @Override
     public String getPriceKey(){
         return "p";
@@ -118,6 +120,7 @@ public class StockDetailChartDrawer extends LineStickChartDrawer {
     @Override
     protected CombinedData generateData(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
 
+        //generateData过程中创建Market
         LineChartMarkerView marker = new LineChartMarkerView(chart.getContext(), R.layout.view_line_chart_marker, chartDataList, getDateTimeKey());
         chart.setMarker(marker);
 

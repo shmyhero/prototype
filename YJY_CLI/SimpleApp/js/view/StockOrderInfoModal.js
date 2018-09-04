@@ -22,6 +22,8 @@ const BODY_HORIZON_MARGIN = Platform.OS === 'ios' ? 15 : 20;
 const BODY_BOTTOM_MARGIN = 30;
 const CONTENT_WIDTH = width - BODY_HORIZON_MARGIN * 2 - 2 - BODY_BOTTOM_MARGIN * 2;
 
+
+/*下单完成后弹出的 下单详情框*/ 
 // create a component
 class StockOrderInfoModal extends Component {
     constructor(props){

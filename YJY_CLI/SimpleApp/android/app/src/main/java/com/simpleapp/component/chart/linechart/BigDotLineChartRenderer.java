@@ -89,7 +89,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 //    /**
 //     * Bitmap object used for drawing last price array
 //     */
-//    protected WeakReference<Bitmap> mArrowBitmap;a
+//    protected WeakReference<Bitmap> mArrowBitmap;
 
     /**
      * Bitmap object used for drawing shadowed circle
@@ -114,6 +114,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
     private Animator mCurrentAnimator;
 
+    //bigdot左边的值框框里的内容及线
     private int valueRectWidth = (int)Utils.convertDpToPixel(70);
     private int valueRectHeight = (int)Utils.convertDpToPixel(31);
     private int valueLineWidth = (int)Utils.convertDpToPixel(31);
@@ -134,7 +135,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
         imageView = new ImageView(context);
         imageView.setLayoutParams(new LinearLayout.LayoutParams((int)Utils.convertDpToPixel(10), (int)Utils.convertDpToPixel(10)));
-        imageView.setImageResource(R.mipmap.chart_end_point);
+        imageView.setImageResource(R.mipmap.chart_end_point);//bigDot图片
 
         mCirclePaintInner = new Paint(Paint.ANTI_ALIAS_FLAG);
         mCirclePaintInner.setStyle(Paint.Style.FILL);
@@ -191,8 +192,8 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
         LineData lineData = mChart.getLineData();
 
+        //有多少组dataSet则画多少组
         for (ILineDataSet set : lineData.getDataSets()) {
-
             if (set.isVisible())
                 drawDataSet(c, set);
         }
@@ -200,6 +201,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         c.drawBitmap(mDrawBitmap.get(), 0, 0, mRenderPaint);
     }
 
+    //画所有的数据集合
     protected void drawDataSet(Canvas c, ILineDataSet dataSet) {
 
         if (dataSet.getEntryCount() < 1)
@@ -677,7 +679,6 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
 
     @Override
     public void drawValues(Canvas c) {
-
         if (isDrawingValuesAllowed(mChart)) {
 
             List<ILineDataSet> dataSets = mChart.getLineData().getDataSets();
@@ -921,6 +922,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
         mCurrentAnimator = scaleDown;
     }
 
+
     @Override
     public void drawHighlighted(Canvas c, Highlight[] indices) {
 
@@ -946,6 +948,7 @@ public class BigDotLineChartRenderer extends LineRadarRenderer {
             //Let's draw the customized highlight in marker view.
 //            // draw the lines
 //            drawHighlightLines(c, (float) pix.x, (float) pix.y, set);
+
         }
     }
 

@@ -86,13 +86,19 @@ class TabMarketScreen extends Component {
         });
     }
 
+    //深拷贝的写法有多种
     deepCopy(obj) {
         if (Object.prototype.toString.call(obj) === '[object Array]') {
-            var out = [], i = 0, len = obj.length;
-            for ( ; i < len; i++ ) {
-                out[i] = arguments.callee(obj[i]);
-            }
-            return out;
+            
+            /*
+            // var out = [], i = 0, len = obj.length;
+            // for ( ; i < len; i++ ) {
+            //     out[i] = arguments.callee(obj[i]);
+            // }
+            // return out;
+            */
+
+            return obj.slice(0); 
         }
         if (typeof obj === 'object') {
             var out = {}, i;
@@ -109,8 +115,8 @@ class TabMarketScreen extends Component {
 		for (var i = 0; i < this.state.listDataOrder.length; i++) {
 			result += ( this.state.listDataOrder[i] + ',')
 		};
-
-        result = result.substring(0, result.length - 1);
+        console.log('webSocketRegisterInsterestedStocks result:'+result);
+        result = result.substring(0, result.length - 1);//去掉一个逗号
         WebSocketModule.registerInterestedStocks(result)
         WebSocketModule.registerInterestedStocksCallbacks(
 			(realtimeStockInfo) => {
@@ -122,7 +128,6 @@ class TabMarketScreen extends Component {
                         updated = true;
 					}
                 }
-             
                 if(updated){
                     this.setState({
                         //only a new object will trigger the list view update.
@@ -199,7 +204,7 @@ class TabMarketScreen extends Component {
                 <NetworkErrorIndicator onRefresh={()=>this.loadStockList()} refreshing={this.state.isLoading}/>
             </View>)
         }
-        else{
+        else{ 
             return (
                 <SortableListView 
                     ref="sortableListView"
@@ -215,7 +220,7 @@ class TabMarketScreen extends Component {
                             this.forceUpdate()
                         })
                     }}
-                    sortRowStyle={{opacity:1}}
+                    sortRowStyle={{opacity:0.8}}
                     renderRow={row => {
                         return <StockRowComponent data={row}
                             onPress={(row)=>{

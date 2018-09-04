@@ -30,8 +30,7 @@ public abstract class BaseChartDrawer implements IChartDrawer {
     protected float minVal = Float.MAX_VALUE;
     protected float maxVal = Float.MIN_VALUE;
     protected JSONArray mChartDataList;
-    protected float preClose;
-
+    protected float preClose;//以前赢交易版本是要在昨收线上画一条横线的
     protected int borderColor = 0;
     protected int preCloseColor = 0;
     protected int textColor = 0;
@@ -85,13 +84,15 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         }catch (Exception e){
 
         }
-
+        //设置一些chart可操作项，比如是否支持拖动，点击等手势。
         resetChart(chart);
 
         CombinedData data = generateData(chart, stockInfoObject, chartDataList);
+
         calculateAxis(chart, chartDataList, data);
 
         chart.setData(data);
+
         drawLimitLine(chart, stockInfoObject, chartDataList);
 
         if(((PriceChart)chart).getNeedReset()) {
@@ -376,64 +377,67 @@ public abstract class BaseChartDrawer implements IChartDrawer {
         chart.getAxisLeft().setAxisMaxValue(maxVal);
     }
 
-    protected interface OnLimitLinesPositionCalculatedHandler {
-        void OnLimitLinesPositionCalculated();
-    }
+//    protected interface OnLimitLinesPositionCalculatedHandler {
+//        void OnLimitLinesPositionCalculated();
+//    }
 
     protected void drawLimitLine(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {
-        if (needDrawPreCloseLine()) {
-            drawPreCloseLine(chart, stockInfoObject);
-        }
-
-        if (needDrawLastPriceLine()) {
-            drawLastPriceLine(chart, stockInfoObject, chartDataList);
-        }
-
-        if (needXDrawDataLimitLines()){
-            // Set the yAxis lines with 1 hour in between.
-            Calendar startUpLine = getStartUpTimeLine(stockInfoObject, chartDataList);
-
-            if (chartDataList.length() > 0) {
-                LimitLineInfo limitLineInfo = calculateLimitLinesPosition(startUpLine, stockInfoObject, chartDataList);
-
-                boolean needSkipLabel = false;
-                if (limitLineInfo.limitLineAt.size() >= 7) {
-                    needSkipLabel = getLabelsToSkip() > 0 ? true : false;
-                }
-
-                for (int i = 0; i < limitLineInfo.limitLineAt.size(); i++) {
-                    int index = limitLineInfo.limitLineAt.get(i);
-                    Calendar calendar = limitLineInfo.limitLineCalender.get(i);
-
-                    LimitLine gapLine = new LimitLine(index);
-                    gapLine.setLineColor(borderColor);
-                    gapLine.setLineWidth(ChartDrawerConstants.LINE_WIDTH);
-                    gapLine.enableDashedLine(10f, 0f, 0f);
-                    //gapLine.setTextSize(8);
-                    gapLine.setTextSize(Utils.convertPixelsToDp(chart.getXAxis().getTextSize())); //BUGBUG: Change the text size will cause the text not center align... Fix the bug later...
-                    //gapLine.setTextSize(chart.getXAxis().getTextSize());
-                    gapLine.setTextColor(textColor);
-                    gapLine.setXOffset(0);
-                    gapLine.setYOffset(Math.max((Utils.convertPixelsToDp(chart.getXAxis().getYOffset())), 0));
-                    //gapLine.setYOffset(Math.max((Utils.convertPixelsToDp(chart.getXAxis().getYOffset()-gapLine.getTextSize())), 0));
-//                if (needSkipLabel && i < limitLineInfo.limitLineAt.size() - 1 && i % 2 == 1) {
-                    if(needSkipLabel && isNeedHide(i,limitLineInfo.limitLineAt.size())){
-                        gapLine.setLabel("");
-                    } else {
-                        String label = formatXAxisLabelText(calendar.getTime());
-                        if (i == 0) {
-                            label = getLableBlank() + label;
-                        } else if (i == limitLineInfo.limitLineAt.size() - 1) {
-                            label = label + getLableBlank();
-                        }
-                        gapLine.setLabel(label);
-                    }
-                    gapLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
-
-                    chart.getXAxis().addLimitLine(gapLine);
-                }
-            }
-        }
+//        //是否需要画昨收线 否
+//        if (needDrawPreCloseLine()) {
+//            drawPreCloseLine(chart, stockInfoObject);
+//        }
+//
+//        //是否需要画当前价格线 否
+//        if (needDrawLastPriceLine()) {
+//            drawLastPriceLine(chart, stockInfoObject, chartDataList);
+//        }
+//
+//        //是否画X轴上一些Limit线 否
+//        if (needXDrawDataLimitLines()){
+//            // Set the yAxis lines with 1 hour in between.
+//            Calendar startUpLine = getStartUpTimeLine(stockInfoObject, chartDataList);
+//
+//            if (chartDataList.length() > 0) {
+//                LimitLineInfo limitLineInfo = calculateLimitLinesPosition(startUpLine, stockInfoObject, chartDataList);
+//
+//                boolean needSkipLabel = false;
+//                if (limitLineInfo.limitLineAt.size() >= 7) {
+//                    needSkipLabel = getLabelsToSkip() > 0 ? true : false;
+//                }
+//
+//                for (int i = 0; i < limitLineInfo.limitLineAt.size(); i++) {
+//                    int index = limitLineInfo.limitLineAt.get(i);
+//                    Calendar calendar = limitLineInfo.limitLineCalender.get(i);
+//
+//                    LimitLine gapLine = new LimitLine(index);
+//                    gapLine.setLineColor(borderColor);
+//                    gapLine.setLineWidth(ChartDrawerConstants.LINE_WIDTH);
+//                    gapLine.enableDashedLine(10f, 0f, 0f);
+//                    //gapLine.setTextSize(8);
+//                    gapLine.setTextSize(Utils.convertPixelsToDp(chart.getXAxis().getTextSize())); //BUGBUG: Change the text size will cause the text not center align... Fix the bug later...
+//                    //gapLine.setTextSize(chart.getXAxis().getTextSize());
+//                    gapLine.setTextColor(textColor);
+//                    gapLine.setXOffset(0);
+//                    gapLine.setYOffset(Math.max((Utils.convertPixelsToDp(chart.getXAxis().getYOffset())), 0));
+//                    //gapLine.setYOffset(Math.max((Utils.convertPixelsToDp(chart.getXAxis().getYOffset()-gapLine.getTextSize())), 0));
+////                if (needSkipLabel && i < limitLineInfo.limitLineAt.size() - 1 && i % 2 == 1) {
+//                    if(needSkipLabel && isNeedHide(i,limitLineInfo.limitLineAt.size())){
+//                        gapLine.setLabel("");
+//                    } else {
+//                        String label = formatXAxisLabelText(calendar.getTime());
+//                        if (i == 0) {
+//                            label = getLableBlank() + label;
+//                        } else if (i == limitLineInfo.limitLineAt.size() - 1) {
+//                            label = label + getLableBlank();
+//                        }
+//                        gapLine.setLabel(label);
+//                    }
+//                    gapLine.setLabelPosition(LimitLine.LimitLabelPosition.RIGHT_BOTTOM);
+//
+//                    chart.getXAxis().addLimitLine(gapLine);
+//                }
+//            }
+//        }
     }
 
     protected String formatXAxisLabelText(Date date){

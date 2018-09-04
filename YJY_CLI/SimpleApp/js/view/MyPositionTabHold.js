@@ -18,26 +18,26 @@ import {
 	Alert,
 } from 'react-native';
 
-import NinePatchView from 'react-native-9patch-image';
-var UIConstants = require('../UIConstants');
-var ColorConstants = require('../ColorConstants');
-import CustomStyleText from './component/CustomStyleText';
-var PositionBlock = require('./component/personalPages/PositionBlock') 
-var {height, width} = Dimensions.get('window');
-var NetworkModule = require('../module/NetworkModule');
-var NetConstants = require('../NetConstants');
-var WebSocketModule = require('../module/WebSocketModule');
-var LS = require("../LS");
+
 import ViewKeys from '../ViewKeys';
+import NinePatchView from 'react-native-9patch-image';
+import CustomStyleText from './component/CustomStyleText';
 import StockOrderInfoModal from "./StockOrderInfoModal";
 import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";
 import SubmitButton from "./component/SubmitButton";
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
 
+var UIConstants = require('../UIConstants');
+var ColorConstants = require('../ColorConstants');
+var PositionBlock = require('./component/personalPages/PositionBlock') 
+var {height, width} = Dimensions.get('window');
+var NetworkModule = require('../module/NetworkModule');
+var NetConstants = require('../NetConstants');
+var WebSocketModule = require('../module/WebSocketModule');
+var LS = require("../LS");
 var DEFAULT_PERCENT = -1
 var MAX_LOSS_PERCENT = -90
-
 var stockPriceFontSize = 15
 
 const ROW_PADDING = UIConstants.ITEM_ROW_MARGIN_VERTICAL;
@@ -95,6 +95,7 @@ export default class  MyPositionTabHold extends React.Component {
 		WebSocketModule.registerMessageCallback((closePositions)=>this.closePositionList(closePositions))
 	}
 
+	//通过WebSocket通知到客户端有仓位被强行平仓了
 	closePositionList(closePositions){
 		var changed = false;
 		for(i in this.state.stockInfoRowData){

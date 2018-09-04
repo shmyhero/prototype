@@ -3,16 +3,12 @@ package com.simpleapp.component.chart;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Matrix;
-import android.view.MotionEvent;
 import android.view.View;
 
 import com.github.mikephil.charting.charts.CombinedChart;
-import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.highlight.Highlight;
 import com.github.mikephil.charting.interfaces.datasets.IDataSet;
-import com.github.mikephil.charting.listener.ChartTouchListener;
-import com.github.mikephil.charting.listener.OnChartGestureListener;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.simpleapp.component.chart.base.CustomCombinedChartRenderer;
 import com.simpleapp.component.chart.base.CustomXAxisRenderer;
@@ -23,18 +19,17 @@ import com.simpleapp.component.chart.linechart.LongTouchHighlightLineChartTouchL
  * Created by Neko on 2018/1/29.
  */
 public class PriceChart extends CombinedChart {
-//    public boolean isAcutal = false;
-
 
     boolean needReset = true;
     boolean drawDataUnderYAxis = false;
+
     public PriceChart(Context context) {
         super(context);
     }
 
     //Fix the flash issue when ChartView zooms in and move to right border.
-    static class CustomViewPortHandler extends ViewPortHandler{
-        public Matrix noLimitRefresh(Matrix newMatrix, View chart, boolean invalidate)     {
+    static class CustomViewPortHandler extends ViewPortHandler {
+        public Matrix noLimitRefresh(Matrix newMatrix, View chart, boolean invalidate) {
 
             mMatrixTouch.set(newMatrix);
 
@@ -56,7 +51,7 @@ public class PriceChart extends CombinedChart {
         mViewPortHandler = new CustomViewPortHandler() {
             @Override
             public boolean isInBoundsRight(float x) {
-                if(drawDataUnderYAxis) {
+                if (drawDataUnderYAxis) {
                     x = (float) ((int) (x * 100.f)) / 100.f;
                     return getWidth() >= x - 1;
                 } else {
@@ -75,9 +70,9 @@ public class PriceChart extends CombinedChart {
         //((ReactXAxisRenderer)mXAxisRenderer).setBackgroundColor(Color.rgb(240, 240, 240)); // light
     }
 
-    public void setDrawDataUnderYAxis(boolean value){
+    public void setDrawDataUnderYAxis(boolean value) {
         this.drawDataUnderYAxis = value;
-        ((CustomCombinedChartRenderer)mRenderer).setDrawDataUnderYAxis(value);
+        ((CustomCombinedChartRenderer) mRenderer).setDrawDataUnderYAxis(value);
     }
 
     @Override
@@ -122,7 +117,7 @@ public class PriceChart extends CombinedChart {
             mAxisRendererRight.renderLimitLines(canvas);
 
         int clipRestoreCount = 0;
-        if(!drawDataUnderYAxis){
+        if (!drawDataUnderYAxis) {
             // make sure the data cannot be drawn outside the content-rect
             clipRestoreCount = canvas.save();
             canvas.clipRect(mViewPortHandler.getContentRect());
@@ -134,7 +129,7 @@ public class PriceChart extends CombinedChart {
         if (valuesToHighlight())
             mRenderer.drawHighlighted(canvas, mIndicesToHighlight);
 
-        if(!drawDataUnderYAxis) {
+        if (!drawDataUnderYAxis) {
             // Removes clipping rectangle
             canvas.restoreToCount(clipRestoreCount);
         }
@@ -154,15 +149,15 @@ public class PriceChart extends CombinedChart {
         mAxisRendererRight.renderAxisLabels(canvas);
 
         if (isClipValuesToContentEnabled()) {
-            if(!drawDataUnderYAxis){
+            if (!drawDataUnderYAxis) {
                 clipRestoreCount = canvas.save();
-                canvas.clipRect(mViewPortHandler.getContentRect());
+                canvas.clipRect(mViewPortHandler.getContentRect());//剪裁画布，只显示被剪裁的区域
             }
 
             mRenderer.drawValues(canvas);
 
-            if(!drawDataUnderYAxis) {
-                canvas.restoreToCount(clipRestoreCount);
+            if (!drawDataUnderYAxis) {
+                canvas.restoreToCount(clipRestoreCount);//恢复之前store编号为clipRestoreCount的状态
             }
         } else {
             mRenderer.drawValues(canvas);
@@ -178,34 +173,35 @@ public class PriceChart extends CombinedChart {
     }
 
     int[] gradientColors;
-    public void setGradientColors(int[] colors){
+
+    public void setGradientColors(int[] colors) {
         gradientColors = colors;
     }
 
-    public int[] getGradientColors(){
+    public int[] getGradientColors() {
         return gradientColors;
     }
 
     int dataSetColor;
 
-    public void setDataSetColor(int color){
+    public void setDataSetColor(int color) {
         dataSetColor = color;
     }
 
-    public int getDataSetColor(){
+    public int getDataSetColor() {
         return dataSetColor;
     }
 
-    public void setxAxisBackground(int color){
-        ((CustomXAxisRenderer)mXAxisRenderer).setBackgroundColor(color);
+    public void setxAxisBackground(int color) {
+        ((CustomXAxisRenderer) mXAxisRenderer).setBackgroundColor(color);
     }
 
-    public void setXAxisPaddingTop(int value){
-        ((CustomXAxisRenderer)mXAxisRenderer).setPaddingTop(value);
+    public void setXAxisPaddingTop(int value) {
+        ((CustomXAxisRenderer) mXAxisRenderer).setPaddingTop(value);
     }
 
-    public void setXAxisPaddingBottom(int value){
-        ((CustomXAxisRenderer)mXAxisRenderer).setPaddingBottom(value);
+    public void setXAxisPaddingBottom(int value) {
+        ((CustomXAxisRenderer) mXAxisRenderer).setPaddingBottom(value);
     }
 //
 //
@@ -218,7 +214,7 @@ public class PriceChart extends CombinedChart {
 ////        ((ReactXAxisRenderer)mXAxisRenderer).setHorizontalPaddingRight(value);
 ////    }
 
-//    protected int preCloseColor = 0;
+    //    protected int preCloseColor = 0;
 //    public void setPreCloseColor(int value){
 //        preCloseColor = value;
 //        invalidate();
@@ -229,25 +225,32 @@ public class PriceChart extends CombinedChart {
 //    }
 //
     boolean isLandspace = false;
-    public boolean isLandspace(){
+
+    public boolean isLandspace() {
         return isLandspace;
     }
-    public void setOritentation(boolean isLandspace){
+
+    public void setOritentation(boolean isLandspace) {
         this.isLandspace = isLandspace;
     }
 
     private boolean isPrivate = false;
-    public boolean isPrivate(){return isPrivate;}
-    public void setIsPrivate(boolean isPrivate){
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public void setIsPrivate(boolean isPrivate) {
         this.isPrivate = isPrivate;
     }
 
     /**
      * draws all MarkerViews on the highlighted positions
+     * 长按以后的十字标签
      */
     protected void drawMarkers(Canvas canvas) {
 
-        // if there is no marker view or drawing marker is disabled
+//        // if there is no marker view or drawing marker is disabled
         if (mMarker == null || !isDrawMarkersEnabled() || !valuesToHighlight())
             return;
 
@@ -281,20 +284,21 @@ public class PriceChart extends CombinedChart {
         }
     }
 
-    public boolean getNeedReset(){
+    public boolean getNeedReset() {
         return needReset;
     }
 
-    public void setNeedReset(boolean needReset){
+    public void setNeedReset(boolean needReset) {
         this.needReset = needReset;
     }
 
     int lineWidth = 0;
-    public void setLineWidth(int width){
+
+    public void setLineWidth(int width) {
         this.lineWidth = width;
     }
 
-    public int getLineWidth(){
+    public int getLineWidth() {
         return lineWidth;
     }
 
@@ -310,7 +314,7 @@ public class PriceChart extends CombinedChart {
 
         mViewPortHandler.zoom(scaleX, scaleY, x, -y, mZoomMatrixBuffer);
         //Use updated noLimitRefresh instead of original refresh with border check to fix the flass issue.
-        ((CustomViewPortHandler)mViewPortHandler).noLimitRefresh(mZoomMatrixBuffer, this, true);
+        ((CustomViewPortHandler) mViewPortHandler).noLimitRefresh(mZoomMatrixBuffer, this, true);
 
         // Range might have changed, which means that Y-axis labels
         // could have changed in size, affecting Y-axis size.

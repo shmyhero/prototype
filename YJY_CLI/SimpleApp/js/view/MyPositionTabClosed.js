@@ -18,13 +18,13 @@ import {
 import NinePatchView from 'react-native-9patch-image';
 //import ImageCapInset from 'react-native-image-capinsets';
 import LogicData from "../LogicData";
-import CustomStyleText from './component/CustomStyleText';
+import CustomStyleText from './component/CustomStyleText'; 
+import NetworkErrorIndicator from "./component/NetworkErrorIndicator";
+
 //import RefreshableFlatList from 'react-native-refreshable-flatlist';
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
 var {height, width} = Dimensions.get('window');
-import NetworkErrorIndicator from "./component/NetworkErrorIndicator";
-
 var UIConstants = require('../UIConstants');
 var NetConstants = require('../NetConstants');
 var NetworkModule = require('../module/NetworkModule');

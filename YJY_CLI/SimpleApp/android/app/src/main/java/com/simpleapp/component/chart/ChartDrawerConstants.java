@@ -18,7 +18,7 @@ public class ChartDrawerConstants {
     public static float LINE_WIDTH = 0.5f; //竖线 分割 ｜分时｜10分钟｜2小时｜5日｜1月｜
     public static float LINE_WIDTH_PRICE = 4f; //行情走势曲线线粗
 
-    public static float CIRCLE_RADIUS = 8f; //最新价格标示点的半径
+    public static float CIRCLE_RADIUS = 8; //最新价格标示点的半径
     public static float CIRCLE_RADIUS_SHADOW = 18f; //最新价格标示点的背景半径
 
     public static int CANDEL_NEUTRAL = 0xff30c296;//平绿

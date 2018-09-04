@@ -88,11 +88,13 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
             Vals.add(new Entry(xVal, yVal));
         }
 
+        //如果需要画昨收线，则最大最小值需要包含昨收值进去。
         if(needDrawPreCloseLine()) {
             minVal = Math.min(minVal, (float) stockInfoObject.getDouble("preClose"));
             maxVal = Math.max(maxVal, (float) stockInfoObject.getDouble("preClose"));
         }
 
+        //上下各留20% 顶值
         minVal -= (maxVal - minVal) / 5;
         maxVal += (maxVal - minVal) / 5;
 
@@ -192,8 +194,9 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
     }
 
 
-    public boolean needDrawDescription(CombinedChart chart){
-        if(((PriceChart)chart).isLandspace())return false;
-        return true;
-    }
+//    public boolean needDrawDescription(CombinedChart chart){
+//        if(((PriceChart)chart).isLandspace())return false;
+//        return true;
+//    }
+
 }

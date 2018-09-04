@@ -17,21 +17,19 @@ import CustomStyleText from './component/CustomStyleText';
 import PriceChartView from './component/PriceChartView';
 import NavBar from './component/NavBar';
 import ViewKeys from '../ViewKeys';
-
 import LogicData from "../LogicData";
 import deepCopyUtil from '../utils/deepCopyUtil';
-
 import { fetchBalanceData } from '../redux/actions'
 import { connect } from 'react-redux';
+import { NavigationActions } from 'react-navigation';
+import StockOrderInfoModal from "./StockOrderInfoModal";
+
+
 var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 var ColorConstants = require("../ColorConstants");
 var WebSocketModule = require("../module/WebSocketModule");
-var LS = require('../LS');
-
-import { NavigationActions } from 'react-navigation';
-import StockOrderInfoModal from "./StockOrderInfoModal";
-
+var LS = require('../LS'); 
 var {height, width} = Dimensions.get('window')
 
 var containerHorizontalPadding = 15;
@@ -280,8 +278,7 @@ class StockDetailScreen extends Component {
     }
     
     goToPositionPage(){
-        this.refs["orderFinishedModal"].hide();
-        
+        this.refs["orderFinishedModal"].hide(); 
         //!!!!!!!!!!!!!!!!
         //BackKey should be the key of the view which is the second one in the view stack, since the 
         //key should be the key to goBack FROM.

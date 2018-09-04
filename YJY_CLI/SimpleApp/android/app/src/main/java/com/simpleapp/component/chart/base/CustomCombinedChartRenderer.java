@@ -14,6 +14,7 @@ import com.github.mikephil.charting.renderer.CandleStickChartRenderer;
 import com.github.mikephil.charting.renderer.CombinedChartRenderer;
 import com.github.mikephil.charting.renderer.DataRenderer;
 import com.github.mikephil.charting.renderer.LineChartRenderer;
+import com.github.mikephil.charting.renderer.LineRadarRenderer;
 import com.github.mikephil.charting.renderer.ScatterChartRenderer;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 import com.simpleapp.component.chart.linechart.BigDotLineChartRenderer;
@@ -55,6 +56,8 @@ public class CustomCombinedChartRenderer extends CombinedChartRenderer {
                     if (chart.getLineData() != null) {
                         BigDotLineChartRenderer renderer = new BigDotLineChartRenderer(chart.getContext(), chart, mAnimator, mViewPortHandler);
                         renderer.setDrawDataUnderYAxis(drawDataUnderYAxis);
+
+//                        LineChartRenderer renderer = new LineChartRenderer(chart, mAnimator, mViewPortHandler);
                         mRenderers.add(renderer);
                     }
                     break;
