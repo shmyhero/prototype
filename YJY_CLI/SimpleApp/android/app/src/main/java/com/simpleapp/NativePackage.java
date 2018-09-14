@@ -5,6 +5,7 @@ import com.facebook.react.bridge.NativeModule;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.uimanager.ViewManager;
 import com.simpleapp.RNNativeModules.NativeDataModule;
+import com.simpleapp.RNNativeModules.NativeWebViewModule;
 import com.simpleapp.RNNativeModules.SplashScreenModule;
 import com.simpleapp.component.chart.PriceChartModule;
 import com.simpleapp.component.customTextInput.CustomTextInputManager;
@@ -33,6 +34,7 @@ public class NativePackage implements ReactPackage {
         return Arrays.<ViewManager>asList(
                 new PriceChartModule(),
                 new CustomTextInputManager(),
+                new NativeWebViewModule(),
                 new ReactWheelPickerManager()
         );
     }

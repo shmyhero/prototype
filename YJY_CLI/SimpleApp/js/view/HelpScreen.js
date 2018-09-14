@@ -5,7 +5,15 @@ import { View,
     StyleSheet,
     Dimensions,
     Image,
-    ScrollView
+    ScrollView,
+    Slider,
+    StatusBar,
+    Switch,
+    Keyboard,
+    TextInput,
+    TouchableHighlight,
+    LayoutAnimation,
+    
 } from 'react-native';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
@@ -13,11 +21,28 @@ var {height, width} = Dimensions.get('window');
 
 // create a component
 export default class HelpScreen extends Component {
+
+    constructor(props){
+        super(props)
+        this.state = {
+            value : false,
+        }
+    } 
+
+    renderTest(){
+        return( 
+            <View> 
+                 
+            </View> 
+        )
+    }
+
     render() {
         return (
             <View style={styles.container}>
                 <NavBar title={LS.str("SETTINGS_CENTER_TITLE")} showBackButton={true} navigation={this.props.navigation}/>
                 <ScrollView style={{flex:1}}>
+                    {this.renderTest()}
                     <Image style={{width:width, height: width / 750 * 9456}} resizeMode="contain" source={require('../../images/instruction.png')}/>
                 </ScrollView>
             </View>

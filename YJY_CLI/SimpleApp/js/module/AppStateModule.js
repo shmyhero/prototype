@@ -10,6 +10,7 @@ var appState = STATE_ACTIVE
 var turnToActiveListeners = []
 var turnToInactiveListeners = []
 var turnToBackgroundListeners = []
+
 AppState.addListener(
 	'appStateDidChange',
 	(stateData) => {

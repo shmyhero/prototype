@@ -58,8 +58,7 @@ var colors = {
 		}
 	},
 
-	title_blue:function(){
-		// return LogicData.getAccountState()?'#425a85':'#1962dd'
+	title_blue:function(){ 
 		return colorScheme === this.COLOR_THEME_LIVE ? '#425a85':'#1962dd'
 	},
 

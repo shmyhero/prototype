@@ -12,16 +12,18 @@ import {
 	ScrollView,
 	Linking,
 	Platform, 
+	Text,
 	Switch,
 } from 'react-native' 
 import CustomStyleText from './component/CustomStyleText';
 import LogicData from "../LogicData";
 import NavBar from './component/NavBar';
+var WebViewPage = require('./WebViewPage');
+
 var ColorConstants = require('../ColorConstants') 
 var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule')
-var LS = require("../LS");
-
+var LS = require("../LS"); 
 const FOCUS_FOLLOW = 0
 const FOCUS_TRADE_FOLLOW = 1
 const FOCUS_SYSTEM = 2
@@ -41,10 +43,17 @@ var MyPie = require('./component/Pie/MyPie')
 	// 	showHeadline: true 平台资讯
  
 export default class DynamicStatusConfig extends Component {
- 
+
+	static defaultProps = {
+
+	}
+
+	static propTypes = {
+
+	} 
 
 	constructor(props){
-		super(props);
+		super(props); 
 		this.state = { 
 			showFollowing:false,
 			showTradeFollowing:false,
@@ -179,17 +188,52 @@ export default class DynamicStatusConfig extends Component {
 		// } 
 	}
 
+	renderWebView(){
+		var url = NetConstants.CFD_API.HELP_CENTER_URL_ACTUAL
+		Alert.alert(url)
+		return(
+			<View style = {{width:width,height:800,backgroundColor:'yellow'}}>
+				<WebViewPage url={url}
+					// onNavigationStateChange={route.onNavigationStateChange}
+					// onWebPageLoaded={route.onWebPageLoaded}
+					// showTabbar={showTabbar}
+					// title={route.title} navigator={navigationOperations}
+					// backFunction={()=>{
+					// 	if (route.backFunction) {
+					// 		this.showTabbar()
+					// 		route.backFunction()
+					// 	}
+					// }}
+					showShareButton={true}
+					// shareID={route.shareID}
+					// shareUrl={route.shareUrl}
+					// shareTitle={route.shareTitle}
+					// shareDescription={route.shareDescription}
+					// shareFunction={this._doShare}
+					// shareTrackingEvent={route.shareTrackingEvent}
+					// themeColor={route.themeColor}
+					isShowNav={true}
+					// isLoadingColorSameAsTheme={route.isLoadingColorSameAsTheme}
+					// logTimedelta={route.logTimedelta}
+					/>
+			</View>	
+		)
+	}
+
 	render(){
 		return(
 			<View style={{backgroundColor:'#FFFFFF',flex:1,width:width}}>
 				<NavBar title={LS.str('DYNAMIC_SETTING')} showBackButton={true} 
 				rightPartOnClick={()=>this.onCompleted()}
 				navigation={this.props.navigation} textOnRight={LS.str('FINISH')}/>
-			 	<ListView 
+				 <ListView  
 					style={styles.list}
 					dataSource={this.state.dataSource}
 					renderRow={this.renderRow.bind(this)}
 					renderSeparator={this.renderSeparator} /> 
+				{/* <View>
+					{this.renderWebView()}
+				</View>	 */}
 			</View>
 		 ) 
 	}
@@ -199,7 +243,7 @@ export default class DynamicStatusConfig extends Component {
 
 var styles = StyleSheet.create({
 	list:{
-
+		// backgroundColor:'yellow', 
 	},
 	viewWapper:{
 		height:60,
