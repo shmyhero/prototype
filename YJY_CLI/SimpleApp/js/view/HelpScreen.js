@@ -13,11 +13,13 @@ import { View,
     TextInput,
     TouchableHighlight,
     LayoutAnimation,
-    
+    TouchableOpacity
 } from 'react-native';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window');
+import * as Animatable from 'react-native-animatable';
+//https://github.com/oblador/react-native-animatable
 
 // create a component
 export default class HelpScreen extends Component {
@@ -32,7 +34,12 @@ export default class HelpScreen extends Component {
     renderTest(){
         return( 
             <View> 
-                 
+                 <Animatable.Text animation="rubberBand">Zoom me up, Scotty</Animatable.Text>
+                 {/* <Animatable.Text animation="slideInDown" iterationCount={7} direction="alternate">Up and down you go</Animatable.Text>
+                 <Animatable.Text animation="pulse" easing="ease-out" iterationCount="infinite" style={{ textAlign: 'center' }}>❤️</Animatable.Text>
+                 <TouchableOpacity onPress={() => this.setState({fontSize: (this.state.fontSize || 10) + 5 })}>
+                    <Animatable.Text transition="fontSize" style={{fontSize: this.state.fontSize || 10}}>Size me up, Scotty</Animatable.Text>
+                 </TouchableOpacity> */}
             </View> 
         )
     }

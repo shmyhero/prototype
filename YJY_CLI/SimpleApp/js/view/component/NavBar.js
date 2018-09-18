@@ -16,6 +16,7 @@ import {
 import CustomStyleText from './CustomStyleText'
 var ColorConstants = require('../../ColorConstants');
 var UIConstants = require('../../UIConstants');
+import * as Animatable from 'react-native-animatable';
 
 // create a component
 class NavBar extends Component {
@@ -201,7 +202,7 @@ class NavBar extends Component {
 			return (
 				<TouchableOpacity
 					onPress={()=> this.props.leftPartOnClick && this.props.leftPartOnClick()}>
-					<Image
+					<Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite" 
 						style={imageStyles}
 						source={this.props.imageOnLeft}/>
 				</TouchableOpacity>);
@@ -319,9 +320,10 @@ class NavBar extends Component {
 					// underlayColor={ColorConstants.title_blue()}
 					>
 
-					<Image
+					<Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite" 
 						style={imageStyles}
 						source={this.props.imageOnRight}/>
+				     
 
 				</TouchableOpacity>
 			);

@@ -26,7 +26,7 @@ var ProfitTrendCharts = require('./component/personalPages/ProfitTrendCharts')
 var TradeStyleBlock = require('./component/personalPages/TradeStyleBlock')
 var TradeStyleCircleBlock = require('./component/personalPages/TradeStyleCircleBlock')
 import LoginScreen from './LoginScreen';
-
+import * as Animatable from 'react-native-animatable';
 import { fetchMeData, updateUnread } from '../redux/actions'
 import { connect } from 'react-redux';
 import SubmitButton from './component/SubmitButton';
@@ -249,7 +249,7 @@ class  TabMeScreen extends React.Component {
     return (
       <View style={{alignItems:'center', justifyContent:'center', flex:1}}>
         <View>
-          <Image style={styles.messageImage} source={require('../../images/me_messages.png')}/>
+          <Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite" style={styles.messageImage} source={require('../../images/me_messages.png')}/>
           {view}
         </View>
     </View>);
