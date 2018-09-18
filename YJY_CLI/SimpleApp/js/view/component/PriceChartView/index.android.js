@@ -14,6 +14,7 @@ var PriceChartPropTypes = {
     drawBackground: PropTypes.bool,
     backgroundColor: ColorPropType,
     lineChartGradient: PropTypes.array,
+    rainbowColor: PropTypes.array,
     xAxisBackground: ColorPropType,
     xAxisDrawLabel: PropTypes.bool,
     leftAxisEnabled: PropTypes.bool,

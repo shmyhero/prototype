@@ -452,18 +452,18 @@ class StockDetailScreen extends Component {
         )
     }
 
-    renderSectionTitle(title){
-        return (
-            <View style={{position:'absolute', left:0, right: 0, top:0, height:30, 
-                        justifyContent:'center',
-                        alignItems:'center'}}>
-                <CustomStyleText style={{backgroundColor:'white', paddingLeft:20, paddingRight:20, textAlign:'center',
-                                color:'#cccccc'}}>
-                    {title}
-                </CustomStyleText>
-            </View>
-        )
-    }
+    // renderSectionTitle(title){
+    //     return (
+    //         <View style={{position:'absolute', left:0, right: 0, top:0, height:30, 
+    //                     justifyContent:'center',
+    //                     alignItems:'center'}}>
+    //             <CustomStyleText style={{backgroundColor:'white', paddingLeft:20, paddingRight:20, textAlign:'center',
+    //                             color:'#cccccc'}}>
+    //                 {title}
+    //             </CustomStyleText>
+    //         </View>
+    //     )
+    // }
 
     renderAmountButton(value, index, isLogin){
         return this.renderButtonInGroup({
@@ -574,6 +574,7 @@ class StockDetailScreen extends Component {
             <PriceChartView style={{flex:1}}
                 lineChartGradient={['#346aa2', '#1f4a77']}
                 xAxisBackground={"#1c4570"}
+                rainbowColor={['#000000', '#ffffff']}
                 dataSetColor={"#577fa2"}
                 textColor={"#6c86a0"}
                 xAxisPosition="BOTTOM"
@@ -587,7 +588,7 @@ class StockDetailScreen extends Component {
                 drawDataUnderYAxis={true}
                 xAxisPaddingBottom={20}
                 xAxisPaddingTop={20}
-                lineWidth={6}
+                lineWidth={10}
                 />
         )
     }

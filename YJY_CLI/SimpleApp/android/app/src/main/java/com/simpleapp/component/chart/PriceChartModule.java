@@ -184,6 +184,18 @@ public class PriceChartModule extends SimpleViewManager<PriceChart> {
         }
     }
 
+    @ReactProp(name = "rainbowColor")
+    public void setRainbowColor(PriceChart chart,ReadableArray input){
+        if (chart != null && input.size() > 1) {
+            int[] colors = new int[input.size()];
+            for (int i=0; i < colors.length; i++) {
+                String colorStr = input.getString(i);
+                colors[i] = getColor(colorStr);
+            }
+            chart.setRainbowColor(colors);
+        }
+    }
+
     @ReactProp(name = "drawDataUnderYAxis")
     public void setDrawDataUnderYAxis(PriceChart chart, boolean value){
         if (chart != null){

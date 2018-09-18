@@ -1,5 +1,6 @@
 package com.simpleapp.component.chart.base;
 
+import android.animation.ArgbEvaluator;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.GradientDrawable;
@@ -112,6 +113,19 @@ public abstract class LineStickChartDrawer extends BaseChartDrawer {
 
         set1.setAxisDependency(YAxis.AxisDependency.RIGHT);
         set1.setColor(((PriceChart)chart).getDataSetColor());
+
+        float SIZE = (float) chartDataList.length();
+        ArgbEvaluator argbEvaluator = new ArgbEvaluator();//渐变色计算类
+        int[] colors = new int[(int)SIZE];
+        float positionOffset = 0.0f;
+        for(int j=0;j<SIZE;j++){
+//            colors[j] =  (int)argbEvaluator.evaluate(positionOffset,Color.YELLOW,Color.RED);
+            colors[j] =  (int)argbEvaluator.evaluate(positionOffset,((PriceChart) chart).getRainbowColor()[0],((PriceChart) chart).getRainbowColor()[1]);
+            positionOffset += 1/SIZE;
+        }
+        set1.setColors(colors);
+
+
         set1.setMode(getDataSetMode());
 
         int lineWidth = (int)Utils.convertPixelsToDp(((PriceChart)chart).getLineWidth());

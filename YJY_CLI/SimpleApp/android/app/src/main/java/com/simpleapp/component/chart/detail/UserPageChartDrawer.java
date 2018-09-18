@@ -47,10 +47,10 @@ public class UserPageChartDrawer extends LineStickChartDrawer {
         return false;
     }
 
-    @Override
-    protected LineDataSet.Mode getDataSetMode(){
-        return LineDataSet.Mode.CUBIC_BEZIER;
-    }
+//    @Override
+//    protected LineDataSet.Mode getDataSetMode(){
+//        return LineDataSet.Mode.CUBIC_BEZIER;
+//    }
 
     @Override
     protected void drawLimitLine(CombinedChart chart, JSONObject stockInfoObject, JSONArray chartDataList) throws JSONException {

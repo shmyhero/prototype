@@ -188,6 +188,15 @@ public class PriceChart extends CombinedChart {
         dataSetColor = color;
     }
 
+    int[] rainbowColor;
+    public void setRainbowColor(int[] colors){
+        rainbowColor = colors;
+    }
+
+    public int[] getRainbowColor(){
+        return rainbowColor;
+    }
+
     public int getDataSetColor() {
         return dataSetColor;
     }
