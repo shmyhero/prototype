@@ -32,6 +32,7 @@ var LANGUAGE = '@TH_CFD:Language'
 var BALANCE_TYPE = '@TH_CFD:BalanceType'
 var REMOVED_DYNAMICROW = '@TH_CFD:removed_dynamicrow'
 var COUNTRY_CODE = '@TH_CFD:country_code'
+var GUIDEVIEW = '@TH_CFD:guideview'
 
 export async function loadUserData() {
 	try {
@@ -513,6 +514,23 @@ export async function loadRemovedDynamicRows(){
 		} catch (error) {
 			console.log('AsyncStorage error: ' + error.message);
 		}
+}
+
+export async function setGuideView(value){
+	try {
+		await AsyncStorage.setItem(GUIDEVIEW, value);
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
+}
+
+export async function loadGuideView(){
+	try {
+		var value = await AsyncStorage.getItem(GUIDEVIEW);
+		return value;
+	} catch (error) {
+		console.log('AsyncStorage error: ' + error.message);
+	}
 }
 
 export async function setCountryCoda(value){

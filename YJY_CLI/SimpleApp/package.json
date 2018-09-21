@@ -24,6 +24,7 @@
     "react-native-sound": "0.10.9",
     "react-native-splash-screen": "3.0.7",
     "react-native-swipeout": "2.3.3",
+    "react-native-swiper": "^1.5.13",
     "react-native-wheel-picker": "1.2.0",
     "react-navigation": "1.5.12",
     "react-navigation-redux-helpers": "1.0.5",

@@ -16,6 +16,7 @@ import {
     ActivityIndicatorIOS,
     TouchableHighlight,
     PanResponder,
+    Text
 } from 'react-native';
 
 import CustomStyleText from './component/CustomStyleText';
@@ -34,8 +35,7 @@ var NetConstants = require('../NetConstants')
 var NetworkModule = require('../module/NetworkModule');
 
 var childHeights=[];
-var listViewOffY = 0;
-
+var listViewOffY = 0; 
 import PullToRefreshListView from 'react-native-smart-pull-to-refresh-listview'
 import LogicData from '../LogicData';
 
@@ -91,6 +91,7 @@ class TabMainScreen extends React.Component {
             isContentLoaded:false,
             currentOperatedRow: -1,
             isAllowScroll: true,
+            guideShow:true,
         } 
 
     }
@@ -102,7 +103,8 @@ class TabMainScreen extends React.Component {
         this.timer && clearTimeout(this.timer);
     }
  
-    componentDidMount () {
+    componentDidMount () { 
+
         this.startUpInitializeFinishedSubscription = EventCenter.getEventEmitter().addListener(EventConst.START_UP_INITIALIZE_FINISHED, () => {
             this.loadData()
             this.startUpInitializeFinishedSubscription && this.startUpInitializeFinishedSubscription.remove();
@@ -291,13 +293,10 @@ class TabMainScreen extends React.Component {
         
     }
 
-    render() {
-        //if(this.state.isLoading){
+   
+
+    render() { 
         if(!this.state.isContentLoaded){
-            // return (
-            // <View style={[styles.mainContainer,{ flex: 1, justifyContent:'center'}]}>
-            //     <Text style={{textAlign:'center', color: ColorConstants.BLUE2, fontSize:20}}>{LS.str("DATA_LOADING")}</Text>
-            // </View>);
             return (
                 <View style = {styles.mainContainer}>
                     <NetworkErrorIndicator 

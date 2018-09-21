@@ -12,6 +12,7 @@ class LogicData {
 	static meData = {};
 	static language = "en-us" // "zh-cn";
 	static balanceType = "";
+	 
 	
 	static isLoggedIn(){
 		console.log("isLoggedIn", this.userData)

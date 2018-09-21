@@ -17,6 +17,7 @@ import LogicData from './js/LogicData';
 import Orientation from 'react-native-orientation';
 import ViewKeys from './js/ViewKeys';
 import SimpleAppNavigator from './js/navigation/SimpleAppNavigator';
+import GuideView from './js/view/component/GuideView';
 
 YellowBox.ignoreWarnings(['Class RCTCxxModule']);
 YellowBox.ignoreWarnings(['Warning: isMounted(...) is deprecated', 'Module RCTImageLoader']);
@@ -35,6 +36,10 @@ var Locale = require('react-native-locale');
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
 
+WAITING = 0
+SHOWGUIDE = 1 
+NORMAL = 2
+
 function getCurrentRouteName(navigationState) {
   if (!navigationState) {
     return null;
@@ -51,11 +56,16 @@ function getCurrentRouteName(navigationState) {
   return route.routeName;
 }
 
+ 
+
 class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
     Orientation.lockToPortrait();
-    this.startupJobs()
+    this.startupJobs() 
+    this.setState({
+      showGuide:WAITING
+    })
   }
 
   async startupJobs(){
@@ -127,6 +137,25 @@ class App extends React.Component {
         this.appNavigator.dispatch(navigateAction)
       });
     });
+
+
+    try{
+      var data = await StorageModule.loadGuideView()
+      console.log("data = "+ data)
+      if(data!=undefined){ 
+        this.setState({
+          showGuide:NORMAL
+        })
+      }else{
+        this.setState({
+          showGuide:SHOWGUIDE
+        })
+        await StorageModule.setGuideView('true')
+      }
+    } catch(error){      
+      console.log("loadGuide", error);
+    } 
+
   }
 
   render() {
@@ -134,7 +163,9 @@ class App extends React.Component {
       StatusBar.setBarStyle("light-content");
       StatusBar.setTranslucent(true);
     }
-    return <SimpleAppNavigator 
+
+    // if(this.state.showGuide == NORMAL){
+      return <SimpleAppNavigator
       style={{height: height, width: width}}
       ref={(ref)=>this.appNavigator = ref}
       uriPrefix={prefix}
@@ -170,6 +201,13 @@ class App extends React.Component {
         }     
       }}
     />;
+    // }else if(this.state.showGuide == SHOWGUIDE){
+    //   return(
+    //     <GuideView callback={()=>{this.setState({showGuide:false})}}></GuideView>
+    //   )
+    // }else if(this.state.showGuide == WAITING){
+    //   return <View></View>
+    // }
   }
 } 
 
