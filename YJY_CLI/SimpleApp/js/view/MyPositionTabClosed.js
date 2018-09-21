@@ -487,6 +487,7 @@ export default class  MyPositionTabClosed extends React.Component {
 		}
 
 		var color = ColorConstants.stock_color(rowData.pl);
+		var color2 = '#8181A2';//ColorConstants.stock_color(rowData.pl);
 		return (
 			<View style={[styles.outerRowContainer, additionalOuterStyle]}>
 
@@ -495,10 +496,11 @@ export default class  MyPositionTabClosed extends React.Component {
 					source={require('../../images/row_background.png')}
 					capInsets={{ top: 15, left: 12, bottom: 28, right: 13}}
 					style={{position:'absolute', top:0, left:0, bottom:0, right:0, height: rowHeight, width:rowWidth}}/> */}
-				<NinePatchView
+				{/* <NinePatchView
 					style={{height: rowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
                     source={Platform.OS === 'android' ? {uri: 'row_background'} : require('../../images/row_background.png')}
-                    capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>
+					capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/> */}
+				 
 				<View style={[styles.rowContainer, additionalStyle]}>
 					<TouchableOpacity style={{height:UIConstants.ITEM_ROW_HEIGHT/* - 2*/, justifyContent:'center'}} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>				
 						<View style={[styles.rowWrapper]} key={rowData.key}>
@@ -516,7 +518,7 @@ export default class  MyPositionTabClosed extends React.Component {
 							</View>
 
 							<View style={styles.rowCenterPart}>
-								{this.renderProfit(rowData.pl, color)}
+								{this.renderProfit(rowData.pl, color2)}
 							</View>
 
 							<View style={styles.rowRightPart}>
@@ -632,7 +634,7 @@ var styles = StyleSheet.create({
         // borderWidth:1,
         // borderColor:"#cccccc",
 		borderRadius:10,
-		//backgroundColor:"red",
+		backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
 		marginLeft: SHADOW_LEFT,
 		marginRight: SHADOW_RIGHT,
 		marginTop: SHADOW_TOP,
@@ -651,7 +653,7 @@ var styles = StyleSheet.create({
 	},
 
 	stockCountryFlagContainer: {
-		backgroundColor: '#00b2fe',
+		backgroundColor: ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
 		borderRadius: 2,
 		paddingLeft: 3,
 		paddingRight: 3,
@@ -691,19 +693,19 @@ var styles = StyleSheet.create({
 		textAlign: 'center',
 		fontWeight: 'bold',
 		lineHeight: 22,
-		color: '#505050',
+		color: '#ffffff',
 	},
 
 	stockSymbolText: {
 		fontSize: 12,
 		textAlign: 'center',
-		color: '#5f5f5f',
+		color: '#ffffff',
 		lineHeight: 14,
 	},
 
 	stockPercentText: {
 		fontSize: 18,
-		color: '#ffffff',
+		color: '#8181A2',
 		fontWeight: 'normal',
 	},
 

@@ -207,32 +207,33 @@ export default class TradeStyleCircleBlock extends Component {
 
     var leftRes = tradeTypePercent==0?require('../../../../images/blue_line2.png'):require('../../../../images/blue_line.png')
     var rightRes = totalWinRate==0?require('../../../../images/green_line2.png'):require('../../../../images/green_line.png')
-
+    var colorLeft = '#F9C028';
+    var colorRight = '#00FA6E';
     return ( 
 
       <View style={[styles.container]}> 
             
-            <View style={{backgroundColor:'white'}}>
+            <View style={{backgroundColor:'#1F1F2B'}}>
               <MyPie  
               radius={radius}
               innerRadius={innerRadius} 
-              colors={['#3dcc24','#d0f5c7',]} 
+              colors={[colorRight,'#2c2c3d',]} 
               series={[totalWinRate,100-totalWinRate]}
-              colors2={[ColorConstants.BGBLUE,'#c8e2f4',]} 
+              colors2={[colorLeft,'#2c2c3d',]} 
               series2={[tradeTypePercent, 100-tradeTypePercent]}
               innerText={''+totalTradeCount}
               innerText2={LS.str('TRADES')}/>  
             </View>  
             <View style={{width:100,alignItems:'center', position:'absolute',top:this.props.viewHeight/2-40,left:width/2-radius-92}}>
               <View style={{alignItems:'center',width:70,marginRight:40}}>
-              <CustomStyleText style={{fontSize:18,color:ColorConstants.BGBLUE,fontWeight:'bold'}}>{tradeTypePercent}%</CustomStyleText>
-              <CustomStyleText numberOfLines={1} ellipsizeMode={'tail'} style={{fontSize:12,color:ColorConstants.BGBLUE}}>{tradeType}</CustomStyleText>
+              <CustomStyleText style={{fontSize:18,color:colorLeft,fontWeight:'bold'}}>{tradeTypePercent}%</CustomStyleText>
+              <CustomStyleText numberOfLines={1} ellipsizeMode={'tail'} style={{fontSize:12,color:colorLeft}}>{tradeType}</CustomStyleText>
               </View>
               <Image style={{width:70,height:12,alignSelf:'flex-end'}} source={leftRes}></Image>
             </View> 
             <View style={{width:60,alignItems:'center', position:'absolute',top:this.props.viewHeight/2-40,left:width/2+radius-17}}>
-              <CustomStyleText style={{marginLeft:10, fontSize:18,color:'#3dcc24',fontWeight:'bold'}}>{totalWinRate}%</CustomStyleText>
-              <CustomStyleText style={{marginLeft:10,fontSize:12,color:'#3dcc24'}}>{LS.str('WINRATE_')}</CustomStyleText>
+              <CustomStyleText style={{marginLeft:10, fontSize:18,color:colorRight,fontWeight:'bold'}}>{totalWinRate}%</CustomStyleText>
+              <CustomStyleText style={{marginLeft:10,fontSize:12,color:colorRight}}>{LS.str('WINRATE_')}</CustomStyleText>
               <Image  style={{width:40,height:22,marginRight:22}} source={rightRes}></Image>
             </View>  
 

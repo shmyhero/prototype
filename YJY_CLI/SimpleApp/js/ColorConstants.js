@@ -17,8 +17,10 @@ var colors = {
 	BACKGROUND_GREY: '#f0f0f0',
 	STOCK_RISE_GREEN: '#428e1b',
 	STOCK_RISE_RED: '#cc3333',
-	STOCK_RISE: '#20bd90',
-	STOCK_DOWN: '#f36767',
+	STOCK_RISE: '#B03030',
+	STOCK_DOWN: '#269888',
+	STOCK_RISE_LIGHT:'#FA3F3F',
+	STOCK_DOWN_LIGHT:'#00FA6E',
 	STOCK_UNCHANGED_GRAY: '#999999',
 	LIST_BACKGROUND_GREY: '#f0eff5',
 	SEPARATOR_GRAY: '#ececec',
@@ -33,8 +35,9 @@ var colors = {
 	COLOR_BORDER:'#184692',
 	COLOR_STATIC_TEXT1:'#85b1fb',
 	COLOR_CUSTOM_BLUE:'#629af3',
-	COLOR_MAIN_THEME_BLUE: '#1f4a77',
-	BORDER_LIGHT_BLUE: '#658ab0',
+	COLOR_MAIN_THEME_BLUE: '#13141b',
+	COLOR_LIST_VIEW_ITEM_BG:'#1c1c26',
+	BORDER_LIGHT_BLUE: '#2e303e',
 
 	COLOR_GRADIENT_YELLOW: ["#f0bd0a", "#fcdc45"],
 	IMPORTANT_TEXT_COLOR_ENABLE: '#917202',
@@ -47,6 +50,18 @@ var colors = {
 	NAVBAR_TEXT_COLOR: "white",
 	
 	stock_color: function(change) {
+		if (change > 0) {
+			return this.STOCK_RISE_LIGHT
+		}
+		else if (change < 0) {
+			return this.STOCK_DOWN_LIGHT
+		}
+		else {
+			return this.STOCK_UNCHANGED_GRAY
+		}
+	},
+
+	stock_color_bg: function(change) {
 		if (change > 0) {
 			return this.STOCK_RISE
 		}

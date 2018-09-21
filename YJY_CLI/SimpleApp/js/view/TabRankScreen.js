@@ -69,7 +69,7 @@ class  TabRankScreen extends React.Component {
     if(this.state.isLoggedIn){
       this.refs['page' + 0].tabPressed();
       this.refs['page' + 1].tabPressed();
-      this.refs['page' + 2].tabPressed();
+      // this.refs['page' + 2].tabPressed();
     } 
   }
 
@@ -213,10 +213,10 @@ class  TabRankScreen extends React.Component {
     var tabPages = [
       <RankHeroList navigation={this.props.navigation} ref={'page0'}  showMeBlock={this.state.isLoggedIn}  />,
       <RankFollowList navigation={this.props.navigation} ref={'page1'}  />,
-      <RankTradeFollowList navigation={this.props.navigation} ref={'page2'} /> 
+      // <RankTradeFollowList navigation={this.props.navigation} ref={'page2'} /> 
     ]
 
-    var tabNameShow = [LS.str("EXPERT"),LS.str("CONCERN"),LS.str("COPY_TRADE")]
+    var tabNameShow = ['2周榜',LS.str("CONCERN")]
 
     var viewPages = tabNameShow.map(
       (tabNameShow, i) =>
@@ -226,7 +226,7 @@ class  TabRankScreen extends React.Component {
     ) 
 
     return ( 
-      <View style={{flex: 1, backgroundColor:'transparent'}}>
+      <View style={{flex: 1, backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
         <ScrollTabView 
           ref={"tabPages"} 
           tabNames={tabNameShow} 

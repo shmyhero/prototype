@@ -144,7 +144,7 @@ class TabPositionScreen extends Component {
 const styles = StyleSheet.create({
     mainContainer:{
         flex:1,
-        backgroundColor:ColorConstants.WHITE
+        backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE
     },
     icon: {
       width: 26,

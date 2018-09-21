@@ -94,11 +94,12 @@ const styles = StyleSheet.create({
         flex:1,
         textAlign:'right',
         alignSelf: 'center',
+        color:'#8181A2',
         fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
     },
     stockTouchableContainerStyle:{
         borderRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
-        backgroundColor: "white",
+        backgroundColor: ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
         marginRight: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
         marginLeft: UIConstants.ITEM_ROW_MARGIN_HORIZONTAL,
         marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL,
@@ -134,7 +135,7 @@ const styles = StyleSheet.create({
         color: ColorConstants.STOCK_UNCHANGED_GRAY,
     },
     titleStyle:{
-        color:'#000000',
+        color:'#ffffff',
         fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE,
         fontWeight: 'bold'
     },

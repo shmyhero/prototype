@@ -158,7 +158,7 @@ export default class TradeStyleBlock extends Component {
             <CustomStyleText style={styles.contentValueBlock}>{this.state.averageOpenTime}</CustomStyleText>
           </View>
 
-          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
+          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#272736'}}></View>
 
            <View style={styles.contentBlock}>
             <CustomStyleText style={styles.contentTitleBlock}>{strPJMBHL}</CustomStyleText>
@@ -171,7 +171,7 @@ export default class TradeStyleBlock extends Component {
             </View> */}
         </View>
 
-        <View style={{ marginLeft:20,marginRight:20,height:0.5,backgroundColor:'#ececec'}}></View>
+        <View style={{ marginLeft:20,marginRight:20,height:0.5,backgroundColor:'#272736'}}></View>
          
         <View style={styles.contentRow}>
           {/* <View style={styles.contentBlock}>
@@ -183,7 +183,7 @@ export default class TradeStyleBlock extends Component {
             <CustomStyleText style={styles.contentTitleBlock}>{strPJGG}</CustomStyleText> 
             <CustomStyleText style={styles.contentValueBlock}>{this.state.averageLeverage}</CustomStyleText>
           </View>
-          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#ececec'}}></View>
+          <View style={{ marginTop:10,marginBottom:10,width:0.5,backgroundColor:'#272736'}}></View>
           
           <View style={styles.contentBlock}>
             <CustomStyleText style={styles.contentTitleBlock}>{strPJBJ}</CustomStyleText>
@@ -231,11 +231,11 @@ const styles = StyleSheet.create({
   },
   contentTitleBlock: {
     fontSize: 11,
-    color: '#9c9b9b',
+    color: '#FFFFFF',
   },
   contentValueBlock:{
     fontSize: 19,
-    color: '#595959',
+    color: '#FFFFFF',
     marginTop: 8,
   },
 });

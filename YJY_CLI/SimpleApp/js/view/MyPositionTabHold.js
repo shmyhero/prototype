@@ -1277,7 +1277,7 @@ export default class  MyPositionTabHold extends React.Component {
 		var touchableStyle={height:rowHeaderHeight,
 			//borderWidth:0,
 			//borderColor: ColorConstants.stock_color(profitAmount),
-			backgroundColor:ColorConstants.stock_color(profitAmount),
+			backgroundColor:ColorConstants.stock_color_bg(profitAmount),
 			justifyContent:'center'}
 		if(this.state.selectedRow == rowID){
 			//touchableStyle.borderBottomWidth = 0;

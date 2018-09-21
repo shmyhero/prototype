@@ -146,7 +146,7 @@ const styles = StyleSheet.create({
         flex: 1,
         width:width,
         height:height,
-        backgroundColor: ColorConstants.BACKGROUND_GREY
+        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE
     },
     list: {
         alignSelf: 'stretch',
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
         marginTop: 15,
         marginBottom: 0,
         borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
-        backgroundColor: ColorConstants.WHITE
+        backgroundColor: ColorConstants.COLOR_LIST_VIEW_ITEM_BG
     },
     messageWrapper:{
         flex:1,
@@ -222,12 +222,12 @@ const styles = StyleSheet.create({
     },
     title: {
         fontSize: 17,
-        color: '#303030',
+        color: '#ffffff',
     },
     message: {
         fontSize: 14,
         marginTop: 10,
-        color: '#44444d',
+        color: '#8D8DAB',
     },
     datetime: {
         marginTop: 15,
@@ -236,11 +236,11 @@ const styles = StyleSheet.create({
     },
     date: {
         fontSize: 10,
-        color: '#7a7987',
+        color: '#616177',
     },
     time: {
         fontSize: 10,
-        color: '#4d88be',
+        color: '#616177',
     },
     emptyContent: {
         position: 'absolute',

@@ -259,12 +259,12 @@ class  TabMeScreen extends React.Component {
     if(this.state.userLoggedin){
       return (
         <ScrollView style={styles.mainContainer}>         
-          <View style={styles.backgroundContainer}>
+          {/* <View style={styles.backgroundContainer}>
             <Image
               style={styles.backgroundImage}
               source={require("../../images/me_top_background.jpg")}
               resizeMode={'contain'}/>
-          </View>
+          </View> */}
           <NavBar 
             backgroundColor="transparent"
             title=""
@@ -273,7 +273,7 @@ class  TabMeScreen extends React.Component {
             imageOnRight={require('../../images/me_settings.png')}
             rightPartOnClick={()=>this.goToSettings()}/>
           {this.renderPortrait()}
-          {this.renderBalance()} 
+          {/* {this.renderBalance()}  */}
           {this.renderChart()}
           {this.renderTradeStyleCicleBlock()}
           {this.renderTradeStyleBlock()}
@@ -321,7 +321,7 @@ const styles = StyleSheet.create({
       marginRight:20,
     },
     radiusBackground:{
-      backgroundColor:'white',
+      backgroundColor:'#1F1F2B',
       borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
     },
     bigButtonContainer:{
@@ -390,7 +390,7 @@ const styles = StyleSheet.create({
       marginTop:10,
       height:30, 
       fontSize: 19,
-      color: ColorConstants.BORDER_LIGHT_BLUE
+      color: ColorConstants.WHITE
     },
     balanceRow:{
       flexDirection:'row',

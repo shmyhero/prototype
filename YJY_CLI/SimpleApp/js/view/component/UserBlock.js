@@ -37,11 +37,11 @@ class UserBlock extends Component {
             <TouchableOpacity 
                 activeOpacity={0.9} 
                 onPress={()=>this.props.onPressItem(this.props.rowData)} 
-                style={[{height:70,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:'white'}, this.props.style]}>
+                style={[{height:70,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG}, this.props.style]}>
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
                     <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23 }} source={{uri:this.props.rowData.picUrl}}></Image>
                     <View style={{marginLeft:10}}>
-                        <CustomStyleText style={{fontSize:15,color:'#454545'}}>{this.props.rowData.nickname}</CustomStyleText>
+                        <CustomStyleText style={{fontSize:15,color:'#8181A2'}}>{this.props.rowData.nickname}</CustomStyleText>
                         {/* <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
                             <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
                             <CustomStyleText style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</CustomStyleText>

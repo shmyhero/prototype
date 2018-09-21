@@ -120,7 +120,7 @@ export default class  ScrollTabView extends React.Component {
 			</TouchableHighlight>
 		)
 
-		var bgcolor = this.props.tabBgStyle ==0?'transparent':ColorConstants.BGBLUE;
+		var bgcolor = ColorConstants.COLOR_MAIN_THEME_BLUE;
 		return (
 			<View>
 				<ScrollView horizontal={true} style={[styles.tabs, {paddingTop:10,backgroundColor: bgcolor}]}>
@@ -134,8 +134,8 @@ export default class  ScrollTabView extends React.Component {
 	renderSeperate () { 
 		var half = (width / this.props.tabNames.length)/2 - 10
 		var offsetX = (width / this.props.tabNames.length * this.state.currentSelectedTab)+half
-		var imageSource = this.props.tabBgStyle == 0?require('../../../images/icon_control.png'):require('../../../images/icon_control_white.png')
-		var lineColor = this.props.tabBgStyle == 0? '#26598e':'white'
+		var imageSource = this.props.tabBgStyle == 0?require('../../../images/icon_control.png'):require('../../../images/icon_control.png')
+		var lineColor = '#43B0BF'
 		return (
 			<View style={styles.lineContainer}>
 				<Image style={{width:11.5,height:6.0,marginLeft: offsetX,marginBottom:-0.5,}} source={imageSource}/>
@@ -203,7 +203,7 @@ var styles = StyleSheet.create({
 
 	tabItemTextSelected: {
 		textAlign: 'center',
-		color: 'white',
+		color: '#5DC5D2',
 		fontSize: 15,
 		// fontWeight: 'bold',
 		marginBottom:2
@@ -219,14 +219,14 @@ var styles = StyleSheet.create({
 
 	lineContainer: {
 		justifyContent:'center', 
-		backgroundColor:ColorConstants.BGBLUE
+		backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE
 	},
 
 	line: {
 		alignSelf: 'stretch',
 		height: 1,
 		borderWidth: 0.5,
-		borderColor: '#0f4fba'
+		borderColor: '#43B0BF'
 	},
 
 	indicator: {

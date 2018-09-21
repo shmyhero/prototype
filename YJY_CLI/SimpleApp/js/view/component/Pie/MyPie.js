@@ -68,7 +68,7 @@ export default class  MyPie extends React.Component {
             series2[j] = series2[j]/sum2*100;
         }
 
-        var topFontSize = 24;
+        var topFontSize = 36;
         var topOffSet = radius - topFontSize;
          
         console.log("series:"+series);
@@ -85,8 +85,8 @@ export default class  MyPie extends React.Component {
                             colors2={colors2}   
                         />  
                     </View> 
-                    <CustomStyleText style={{color:'black',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</CustomStyleText>
-                    <CustomStyleText style={{color:'#9c9c9c', fontSize:topFontSize-4, position:'absolute',top:radius}}>{this.props.innerText2}</CustomStyleText>
+                    <CustomStyleText style={{color:'white',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</CustomStyleText>
+                    <CustomStyleText style={{color:'#FFFFFF', fontSize:15,position:'absolute',top:radius}}>{this.props.innerText2}</CustomStyleText>
             </View>
         );
     }

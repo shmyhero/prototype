@@ -108,7 +108,7 @@ export default class  RankFollowList extends React.Component {
     _renderRow = (rowData, sectionID, rowID) => {
         if(rowID>=0){
             return (<UserBlock 
-                style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:'white',alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}
+                style={{borderRadius:10, height:UIConstants.ITEM_ROW_HEIGHT,width:width-30,marginLeft:15,marginBottom:15,backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,alignItems:'center',justifyContent:'space-between',flexDirection:'row'}}
                 rowData={rowData} 
                 key={rowID}
                 onPressItem={(v)=>this.onPressItem(v)}/>);
