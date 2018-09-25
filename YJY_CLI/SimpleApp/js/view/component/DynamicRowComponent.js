@@ -178,7 +178,7 @@ class DynamicRowComponentContent extends Component {
                 </View>
                 <Swipeout
                     ref={(ref)=>{this.swipeoutComponent = ref}}
-                    right={swipeoutBtns}
+                    // right={swipeoutBtns}
                     autoClose={true}   
                     sensitivity={50}                        
                     close={this.props.close}
@@ -193,7 +193,7 @@ class DynamicRowComponentContent extends Component {
                         this.props.onClose && this.props.onClose();
                         //console.log("onClose()");
                     }}
-                    style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:'white',flex:1}}> 
+                    style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,flex:1}}> 
                     <View style={{margin:5,borderRadius:8,width:width-60,/*backgroundColor:'white',*/flex:1}}>
                         <View style={{flexDirection:'row',margin:5}}>
                             <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>

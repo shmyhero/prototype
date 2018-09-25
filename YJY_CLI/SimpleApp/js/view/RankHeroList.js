@@ -225,24 +225,23 @@ export default class RankHeroList extends React.Component {
         var bgHeight = bgWidth;
         var bgHeightLR = bgHeight*204/230;
 
-        var picUri = require('../../images/rank_bg_ag.png')
-        if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
-        if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
+        // var picUri = require('../../images/rank_bg_ag.png')
+        // if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
+        // if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
 
-        var viewOff = (index == 1)?0:-7
+        var viewOff = (index == 1)?0:0;
          
         if(data!==null){
             return(
                 <TouchableOpacity onPress={()=>this.gotoUserProfile(data.id,data.nickname)} activeOpacity={0.9} style={{flex:1}}>
                     <Image style={styles.headPortrait} source={{uri:data.picUrl}}></Image>
                     <CustomStyleText style={styles.textTopUserName}>{data.nickname}</CustomStyleText>
-                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <CustomStyleText style={styles.textWinRate}>{LS.str("WINRATE")}</CustomStyleText>
-                        <CustomStyleText style={styles.textTopUserScore}>{(data.winRate*100).toFixed(0)}%</CustomStyleText>
+                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}> 
+                        <CustomStyleText style={[styles.textTopUserScore,{color:ColorConstants.stock_color(data.roi)}]}>{(data.roi*100).toFixed(2)}%</CustomStyleText>
                     </View>  
-                    <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
-                        <CustomStyleText style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</CustomStyleText>
-                    </ImageBackground>
+                    {/* <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}> */}
+                        {/* <CustomStyleText style={styles.textProfit}>{(data.roi*100).toFixed(0)}%</CustomStyleText> */}
+                    {/* </ImageBackground> */}
                 </TouchableOpacity>
             ) 
         }else{
@@ -250,13 +249,12 @@ export default class RankHeroList extends React.Component {
                 <TouchableOpacity  activeOpacity={0.9} style={{flex:1}}>
                     <Image style={styles.headPortrait} source={require('../../images/head_portrait.png')}></Image>
                     <CustomStyleText style={styles.textTopUserName}>--</CustomStyleText>
-                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}>
-                        <CustomStyleText style={styles.textWinRate}>{LS.str("WINRATE")}</CustomStyleText>
+                    <View style={{marginBottom:viewOff, flexDirection:'row',justifyContent:'center',alignItems:'center'}}> 
                         <CustomStyleText style={styles.textTopUserScore}>--</CustomStyleText>
                     </View>  
-                    <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}>
-                        <CustomStyleText style={styles.textProfit}>--</CustomStyleText>
-                    </ImageBackground>
+                    {/* <ImageBackground style={{marginBottom:0,width:bgWidth,height:bgHeightLR,justifyContent:'center',alignItems:'center'}} source={picUri}> */}
+                        {/* <CustomStyleText style={styles.textProfit}>--</CustomStyleText> */}
+                    {/* </ImageBackground> */}
                 </TouchableOpacity>
             ) 
         }
@@ -289,45 +287,24 @@ export default class RankHeroList extends React.Component {
     }
 
     renderUserRow(rowData, id){
-        return (
-            <UserBlock 
-                style={{width:width}}
-                rowData={rowData} 
-                key={id}
-                onPressItem={(v)=>this.onPressItem(v)}/>
-         );
+            if(id>0){
+                return (
+                    <UserBlock 
+                        style={{width:width-30}}
+                        rowData={rowData} 
+                        key={id}
+                        onPressItem={(v)=>this.onPressItem(v)}/>
+                 );
+            }else{
+                return null;
+            }
+        
     }
 
     _renderRow = (data) => {
         var rowData = data.item;
 		var rowID = data.index;
-
-        var offset = this.props.showMeBlock?1:0;
-        if(rowID == 0 && this.props.showMeBlock){
-            return this.renderMe(rowData, rowID);
-        }else if(rowID>=offset && rowData.id != this.state.rankListData[0].id){
-            return this.renderUserRow(rowData, rowID);
-        //     // var colorRoi = rowData.roi > 0?'#ca3538':'green'
-        //     return( 
-        //         <TouchableOpacity  activeOpacity={0.9} onPress={()=>this.onPressItem(rowData)} style={{height:70,width:width,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:'white'}}>
-        //             <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
-        //                 <Image style={{height:46,width:46,marginLeft:28,marginBottom:5,borderRadius:23 }} source={{uri:rowData.picUrl}}></Image>
-        //                 <View style={{marginLeft:10}}>
-        //                     <CustomStyleText style={{fontSize:15,color:'#454545'}}>{rowData.nickname}</CustomStyleText>
-        //                     <View style={{flexDirection:'row',marginBottom:5,alignItems:'center',justifyContent:'center'}}>
-        //                         <CustomStyleText style={{fontSize:12, color:'#999999'}}>{LS.str("WINRATE")}</CustomStyleText>
-        //                         <CustomStyleText style={{fontSize:14, color:'#454545'}}>{(rowData.winRate*100).toFixed(0)}%</CustomStyleText>
-        //                     </View>
-        //                 </View>
-        //             </View>
-        //             <View style={{marginRight:30}}>
-        //                 <CustomStyleText style={{fontSize:17, fontWeight: 'bold', color:ColorConstants.stock_color(profit)}}>{profit}%</CustomStyleText>
-        //             </View> 
-        //         </TouchableOpacity>
-        //     )
-        }else{
-            return null
-        }
+        return this.renderUserRow(rowData, rowID); 
     }
 
     renderFooter(){
@@ -335,15 +312,18 @@ export default class RankHeroList extends React.Component {
     }
 
     renderSeparator(data) {
-        var rowData = data.item;
-		var rowID = data.index;
-        return (
-            <View style={styles.line}>
-                <View style={styles.separator}>
-                    {/* <View style={styles.separatorShort}/> */}
-                </View>
-            </View>
-        );
+        // var rowData = data.item;
+		// var rowID = data.index;
+        // return (
+        //     <View style={styles.line}>
+        //         <View style={styles.separator}>
+        //             {/* <View style={styles.separatorShort}/> */}
+        //         </View>
+        //     </View>
+        // );
+        return(
+            <View style={{width:width,height:10}}></View>
+        )
     }
     
     showMarket(){
@@ -409,10 +389,10 @@ export default class RankHeroList extends React.Component {
 
     renderHeader(){
         return(
-            <View style={{backgroundColor:ColorConstants.BGBLUE}}> 
-                {this.renderHeaderImage()}
-                {/* <View style={{height:10}}></View>
-                {this.renderThreeHero()} */}
+            <View> 
+                {/* {this.renderHeaderImage()} */}
+                {/* { <View style={{height:10}}></View> */}
+                {this.renderThreeHero()}
             </View>  
         )
     }
@@ -423,15 +403,15 @@ export default class RankHeroList extends React.Component {
         console.log("this.state.dataSource")
         return(
             <View style={{flex:1,width:width,marginTop:5}}>
-                {this.renderHeader()}
+                {/* {this.renderHeader()} */}
                 <FlatList
-                    style={{backgroundColor:'white'}}
+                    style={{backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}
                     enableEmptySections={true}
                     data={this.state.dataSource}
                     renderItem={(data)=>this._renderRow(data)}
                     ItemSeparatorComponent={(data)=>this.renderSeparator(data)}
                     removeClippedSubviews={false}
-                    //ListHeaderComponent={()=>this.renderHeader()}
+                    ListHeaderComponent={()=>this.renderHeader()}
                     keyExtractor={(item, index) => index.toString()}
                 />
             </View>
@@ -456,15 +436,15 @@ const styles = StyleSheet.create({
         flexDirection:'row',
         justifyContent:'center',
         alignItems:'flex-end', 
-        height:198,
+        height:120,
         width:width,
         paddingLeft:20,
         paddingRight:20,
     },
     headPortrait:{
-        width:46,
-        height:46,
-        borderRadius:23,
+        width:60,
+        height:60,
+        borderRadius:30,
         alignSelf:'center',
         marginBottom:10,
         borderWidth:1,
@@ -473,14 +453,14 @@ const styles = StyleSheet.create({
     textTopUserName:{
         alignSelf:'center',
         marginTop:2,
-        color:ColorConstants.BLUETEXT,
+        color:'#8181A2',
         fontSize:12,
         marginBottom:0,
     },
     textTopUserScore:{
         alignSelf:'center',
         marginBottom:2,
-        color:'#d8effc',
+        color:'#FA3F3F',
         fontSize:14,
         fontWeight:'bold'
     },

@@ -8,6 +8,7 @@ import { View, StyleSheet,
 	ViewPropTypes,
 } from 'react-native';
 import CustomStyleText from './CustomStyleText';
+var UIConstants = require('../../UIConstants');
 var {height,width} = Dimensions.get("screen");
 var ColorConstants = require("../../ColorConstants.js");
 // create a component
@@ -37,7 +38,8 @@ class UserBlock extends Component {
             <TouchableOpacity 
                 activeOpacity={0.9} 
                 onPress={()=>this.props.onPressItem(this.props.rowData)} 
-                style={[{height:70,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG}, this.props.style]}>
+                style={[{height:UIConstants.ITEM_ROW_HEIGHT,alignItems:'center',justifyContent:'space-between',flexDirection:'row',backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
+                marginLeft:15,marginRight:15,borderRadius:15}, this.props.style]}>
                 <View style={{flexDirection:'row',justifyContent:'center',alignItems:'center',marginTop:2}}>
                     <Image style={{height:46,width:46,marginLeft:15,marginBottom:5,borderRadius:23 }} source={{uri:this.props.rowData.picUrl}}></Image>
                     <View style={{marginLeft:10}}>

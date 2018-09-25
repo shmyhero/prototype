@@ -210,7 +210,7 @@ export default class PositionBlock extends Component {
     if(this.props.type == 'close'){
         profitAmount = rowData.pl
     }
-    var bgcolor = 'white'
+    var bgcolor = ColorConstants.COLOR_LIST_VIEW_ITEM_BG
     
     var additionalStyle = {};
     if(rowID == 0){
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     paddingRight: 15,
     paddingBottom: 10,
     paddingTop: 10,
-    backgroundColor: '#ffffff',
+    backgroundColor: '#eeeeee',
     borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS,
     //borderWidth:1,
     //borderColor:'#EEEEEE',
@@ -344,7 +344,8 @@ const styles = StyleSheet.create({
   },
 	stockNameText: {
 		textAlign: 'center',
-		fontWeight: 'bold',
+    fontWeight: 'bold',
+    color:'white',
     lineHeight: 22,
     fontSize: UIConstants.STOCK_ROW_NAME_FONT_SIZE
 	},
@@ -447,7 +448,7 @@ const styles = StyleSheet.create({
 	},
 	extendTextBottom: {
 		fontSize:13,
-		color: 'black',
+		color: 'white',
 		marginTop: 5,
 	},
 });

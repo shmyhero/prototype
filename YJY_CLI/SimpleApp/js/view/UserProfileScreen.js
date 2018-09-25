@@ -116,7 +116,7 @@ export default class  UserProfileScreen extends React.Component {
         ) 
     
         return ( 
-          <View style={{flex: 1, marginTop:24,backgroundColor:'transparent'}}>
+          <View style={{flex: 1, marginTop:24}}>
             <ScrollTabView 
               ref={"tabPages"} 
               tabNames={tabNameShow} 
@@ -234,7 +234,7 @@ export default class  UserProfileScreen extends React.Component {
 const styles = StyleSheet.create({
   mainContainer:{
       flex:1,
-      backgroundColor:ColorConstants.BGBLUE
+      // backgroundColor:ColorConstants.BGBLUE
   },
   textNum:{
     fontSize:32,

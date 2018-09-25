@@ -63,10 +63,10 @@ export default class  UserProfileTabMain extends React.Component {
       <View style={styles.container}>
         <View style={styles.topHead}/>
         <ScrollView showsVerticalScrollIndicator={false} style={styles.content}>  
-          <View style={{height:240,width:bgWidth,padding:5, paddingTop:0, marginTop:5, backgroundColor:'white',borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch'  >  
+          <View style={{height:240,width:bgWidth,padding:5, paddingTop:0, marginTop:5, backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch'  >  
             <ProfitTrendCharts ref={'profitTrendCharts'} userId={this.props.userId}/>
           </View>
-          <View style={{marginTop:UIConstants.ITEM_ROW_MARGIN_VERTICAL, height:280,width:bgWidth,justifyContent:'center',alignContent:'center',backgroundColor:'white',borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch' >  
+          <View style={{marginTop:UIConstants.ITEM_ROW_MARGIN_VERTICAL, height:280,width:bgWidth,justifyContent:'center',alignContent:'center',backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS}} resizeMode='stretch' >  
             {/* <ProfitBlock userId={this.props.userId} isPrivate={false}/> */}
              <TradeStyleCircleBlock userId={this.props.userId}  viewHeight={180} isPrivate={false}/>
           </View>
@@ -75,7 +75,7 @@ export default class  UserProfileTabMain extends React.Component {
                 flex:1,
                 //width:"100%", 
                 justifyContent:'center',
-                backgroundColor:'white',
+                backgroundColor:UIConstants.COLOR_LIST_VIEW_ITEM_BG,
                 borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS
               }} resizeMode='stretch' > 
               <TradeStyleBlock userId={this.props.userId} isPrivate={false} />
@@ -83,10 +83,10 @@ export default class  UserProfileTabMain extends React.Component {
           </View>
           <View style={{height:UIConstants.ITEM_ROW_MARGIN_VERTICAL}}></View> 
         </ScrollView>
-        <FollowBlock 
+        {/* <FollowBlock 
           currentFollowTrade={this.props.followTrade}
-          currentUserId={this.props.userId}/>
-        {this.renderFollowModal()}
+          currentUserId={this.props.userId}/> */}
+        {/* {this.renderFollowModal()} */}
       </View> 
     );
   }
@@ -95,11 +95,11 @@ export default class  UserProfileTabMain extends React.Component {
 const styles = StyleSheet.create({
    container:{
       flex:1,
-      backgroundColor:ColorConstants.BGBLUE,
+      backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE,
       marginTop:10,
    },
    topHead:{
-     backgroundColor:ColorConstants.BGBLUE,
+     backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE,
      height:40,
    },
    content:{
