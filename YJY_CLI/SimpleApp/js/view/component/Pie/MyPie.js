@@ -86,7 +86,7 @@ export default class  MyPie extends React.Component {
                         />  
                     </View> 
                     <CustomStyleText style={{color:'white',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</CustomStyleText>
-                    <CustomStyleText style={{color:'#FFFFFF', fontSize:15,position:'absolute',top:radius}}>{this.props.innerText2}</CustomStyleText>
+                    <CustomStyleText style={{color:'#ffffff', fontSize:12,position:'absolute',top:radius+5}}>{this.props.innerText2}</CustomStyleText>
             </View>
         );
     }

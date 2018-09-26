@@ -100,10 +100,10 @@ export default class ProfitTrendCharts extends Component {
         console.log("JSON.stringify(this.state.stockInfo)", JSON.stringify(this.state.stockInfo))
         var view = (<PriceChartView style={[styles.chartStyle, this.props.chartStyle]}
           chartType={"userHomePage"}
-          lineChartGradient={['#b8c6d4', '#fbfcfd']}
+          lineChartGradient={['#1a272f', '#13131b']}
           dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE} 
           textColor={"#9e9e9e"}
-          lineWidth={10}
+          lineWidth={10} 
           borderColor={ColorConstants.SEPARATOR_GRAY}
           xAxisPosition="BOTTOM"
           leftAxisEnabled={false}
@@ -119,7 +119,7 @@ export default class ProfitTrendCharts extends Component {
           data={JSON.stringify(this.state.stockInfo)}
           drawDataUnderYAxis={false}
           xAxisTextSize={10}
-          rainbowColor={['#ff00ff', '#00ffff']}
+          rainbowColor={['#B367F4', '#50E0E6']}
       />)
       }catch(e){
 

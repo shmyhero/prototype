@@ -572,9 +572,9 @@ class StockDetailScreen extends Component {
         }
         return  (
             <PriceChartView style={{flex:1}}
-                lineChartGradient={['#346aa2', '#1f4a77']}
-                xAxisBackground={"#1c4570"}
-                rainbowColor={['#000000', '#ffffff']}
+                lineChartGradient={['#1a272f', '#13131b']}
+                xAxisBackground={"#0b0b0f"}
+                rainbowColor={['#B367F4', '#50E0E6']}
                 dataSetColor={"#577fa2"}
                 textColor={"#6c86a0"}
                 xAxisPosition="BOTTOM"
