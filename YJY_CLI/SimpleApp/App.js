@@ -84,13 +84,14 @@ class App extends React.Component {
     try{
       var locale = await StorageModule.loadLanguage()
       if(locale==undefined){
-        var localConstants = Locale.constants();
-        locale = localConstants.localeIdentifier;
-        if(Platform.OS == "ios"){
-          if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
-            locale = localConstants.preferredLanguages[0];
-          }
-        }
+        // var localConstants = Locale.constants();
+        // locale = localConstants.localeIdentifier;
+        // if(Platform.OS == "ios"){
+        //   if(localConstants.preferredLanguages && localConstants.preferredLanguages.length){
+        //     locale = localConstants.preferredLanguages[0];
+        //   }
+        // }
+        locale = 'zh-cn'
         await StorageModule.setLanguage(locale);
       }      
       LogicData.setLanguage(locale);

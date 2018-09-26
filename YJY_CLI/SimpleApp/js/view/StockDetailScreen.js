@@ -531,10 +531,10 @@ class StockDetailScreen extends Component {
         }
 
 
-        var buttonTextStyle = {color:'white', fontSize:22}
+        var buttonTextStyle = {color:'white', fontSize:24}
         if(this.isSubmitButtonEnabled()){
             source = require("../../images/stock_detail_button_enabled.png");
-            buttonTextStyle.color = "#917202"
+            buttonTextStyle.color = "white"
         }else{
             source = require("../../images/stock_detail_button_disabled.png");
         }
@@ -641,8 +641,8 @@ class StockDetailScreen extends Component {
                     </View>
                 </View>
                 <View style={styles.actionsContainer}>
-                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require("../../images/stock_detail_amount_container.png")}
+                    <View style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
+                        // source={require("../../images/stock_detail_amount_container.png")}
                         >
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
@@ -651,12 +651,12 @@ class StockDetailScreen extends Component {
                             style={styles.buttonsScroller}>                            
                             {amountViews}
                         </ScrollView>
-                        <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
+                        <CustomStyleText style={{position:'absolute', top:-5, left:0, right:0,
                         // {LS.getBalanceTypeDisplayText()}
                             textAlign:'center', color:'#cccccc'}}>Coin</CustomStyleText>
-                    </ImageBackground>
-                    <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
-                        source={require("../../images/stock_detail_amount_container.png")}
+                    </View>
+                    <View style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
+                        // source={require("../../images/stock_detail_amount_container.png")}
                         >
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
@@ -665,10 +665,10 @@ class StockDetailScreen extends Component {
                             style={styles.buttonsScroller}>    
                             {leverageViews}
                         </ScrollView>
-                        <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
+                        <CustomStyleText style={{position:'absolute', top:-5, left:0, right:0,
                         // {LS.str('ORDER_MULTIPLE')}
                             textAlign:'center', color:'#cccccc'}}>倍数</CustomStyleText>
-                    </ImageBackground>
+                    </View>
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
                         <ImageBackground style={{flex:1, marginRight: containerHorizontalPadding/2}}
@@ -678,7 +678,7 @@ class StockDetailScreen extends Component {
                                 {this.renderOperationButton(1)}
                                 {this.renderOperationButton(0)}
                             </View>
-                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,
+                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,fontSize:12,
                                 textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TYPE')}</CustomStyleText>
                         </ImageBackground>
                         <ImageBackground style={{flex:1, marginLeft: containerHorizontalPadding/2}}
@@ -687,7 +687,7 @@ class StockDetailScreen extends Component {
                                 {justifyContent:'center', alignItems:'center'}]}>                               
                                 {this.renderSubmitButton()}                            
                             </View>
-                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,
+                            <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,fontSize:12,
                                 textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TRADING')}</CustomStyleText>
                         </ImageBackground>
                     </View>
@@ -790,15 +790,15 @@ const styles = StyleSheet.create({
     },
 
     SelectedAmountButton:{
-        color:'#1f4a77',
+        color:'white',
     },
 
     SelectedMultiplierButton:{
-        color:'#2ab848',
+        color:'white',
     },
 
     SelectedOperationButton:{
-        color:'#1f4a77',
+        color:'white',
         fontSize:18,
         textAlign:'center',
         marginRight:10
@@ -807,7 +807,7 @@ const styles = StyleSheet.create({
     centerTextContainer: {
         alignItems:'center',
         justifyContent:'center',
-        flexDirection:'row', 
+        flexDirection:'row',
         flex:1,
     },
 
