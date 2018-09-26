@@ -200,7 +200,7 @@ class  TabRankScreen extends React.Component {
 
   renderUnLoginedContent(){ 
       return(  
-        <View style={{flex:1}}>
+        <View style={{flex:1,backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
             <View style={{width:width,height:36,justifyContent:'center',alignItems:'center'}}>
               <CustomStyleText style={{fontSize:18,color:'white'}}>达人</CustomStyleText>
             </View>

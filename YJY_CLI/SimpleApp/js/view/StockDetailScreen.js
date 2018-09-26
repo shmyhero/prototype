@@ -642,7 +642,8 @@ class StockDetailScreen extends Component {
                 </View>
                 <View style={styles.actionsContainer}>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper]}
-                        source={require("../../images/stock_detail_amount_container.png")}>
+                        source={require("../../images/stock_detail_amount_container.png")}
+                        >
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
@@ -651,10 +652,12 @@ class StockDetailScreen extends Component {
                             {amountViews}
                         </ScrollView>
                         <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
-                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
+                        // {LS.getBalanceTypeDisplayText()}
+                            textAlign:'center', color:'#cccccc'}}>Coin</CustomStyleText>
                     </ImageBackground>
                     <ImageBackground style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
-                        source={require("../../images/stock_detail_amount_container.png")}>
+                        source={require("../../images/stock_detail_amount_container.png")}
+                        >
                         <ScrollView
                             showsHorizontalScrollIndicator={false}
                             horizontal={true}
@@ -663,7 +666,8 @@ class StockDetailScreen extends Component {
                             {leverageViews}
                         </ScrollView>
                         <CustomStyleText style={{position:'absolute', top:0, left:0, right:0,
-                            textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_MULTIPLE')}</CustomStyleText>
+                        // {LS.str('ORDER_MULTIPLE')}
+                            textAlign:'center', color:'#cccccc'}}>倍数</CustomStyleText>
                     </ImageBackground>
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
@@ -716,7 +720,7 @@ const styles = StyleSheet.create({
         justifyContent:'flex-start', 
         alignSelf:'stretch',
         paddingTop:10,
-        backgroundColor:'white',
+        backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
 
     buttonsContainer:{

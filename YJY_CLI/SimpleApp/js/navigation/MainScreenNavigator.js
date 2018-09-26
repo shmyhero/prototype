@@ -93,7 +93,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
         activeTintColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
         inactiveTintColor:'grey',
         style:{
-            backgroundColor: 'white',
+            backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
             height:Platform.OS == "android"?58:50, 
         },
         labelStyle: {
@@ -108,6 +108,7 @@ const MainScreenNavigator = TabNavigator(mainTabNavigatorConfiguration, {
             marginBottom:-5
         },
         showIcon:true, 
+        showLabel:false,
         indicatorStyle:{height:0},//for android ,remove line on tab
     }, 
     navigationOptions: (navigation) => ({     

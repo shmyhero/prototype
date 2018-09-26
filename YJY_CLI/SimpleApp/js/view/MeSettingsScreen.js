@@ -24,8 +24,8 @@ import ViewKeys from '../ViewKeys';
 var configListData = [
     {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
     {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
-    {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
-    {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
+    // {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
+    // {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
     {'type':'normal','title':'SETTINGS_VERSION', 'subtype': 'version'},
     {'type':'normal','title':'SETTINGS_LOG_OUT', 'subtype': 'logOut'},
 ];
@@ -220,7 +220,7 @@ class MeSettingsScreen extends Component {
                         </View>
                         {this.renderRightPart(rowData)}
                     </View>
-                    {this.renderSeparator()}
+                    {/* {this.renderSeparator()} */}
                 </View>
             </TouchableOpacity>);
     }
@@ -235,7 +235,7 @@ class MeSettingsScreen extends Component {
                     style={{flex:1, width:width}}
                     data={configListData}
                     keyExtractor={(item, index) => index}
-                    renderItem={(data)=>this.renderItem(data)}
+                    renderItem={(data)=>this.renderItem(data)} 
                     />
                 {this.renderPicker()}
             </View>
@@ -248,15 +248,22 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: height,
-        backgroundColor: 'white',
+        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
     },
     rowContainer: {
-        height: 64,
-        width: width,
+        height: 74,
+        width: width-30,
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
         alignSelf:'stretch',
+        marginLeft:15,
+        // marginRight:15,
+        backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
+        borderRadius:15,
+        marginTop:5,
+        marginBottom:5,
+
     },
     rowLeftTextContainer:{
         flexDirection:'row',
@@ -264,11 +271,12 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:15,
-        color:'black'
+        color:'white'
     },
     separator: {
-        height: 1,
+        height: 20,
         backgroundColor: '#f0f0f0',
+        marginTop:10, 
     },
     arrowIcon:{
         height:15,
@@ -278,6 +286,7 @@ const styles = StyleSheet.create({
     },
     value:{       
         marginRight:20,
+        color:'white'
     },
     balanceTypeValue: {
         color: ColorConstants.COLOR_MAIN_THEME_BLUE

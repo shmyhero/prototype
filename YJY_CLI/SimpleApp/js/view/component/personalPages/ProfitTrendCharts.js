@@ -140,11 +140,11 @@ export default class ProfitTrendCharts extends Component {
     var leftStyle = {};
     var rightStyle = {}
     if(this.state.chartType == TYPE_MONTH){
-      leftStyle.backgroundColor = ColorConstants.BGBLUE
-      leftStyle.borderColor = ColorConstants.BGBLUE
+      leftStyle.backgroundColor = '#55cad3'
+      leftStyle.borderColor = '#55cad3'
     }else{
-      rightStyle.backgroundColor = ColorConstants.BGBLUE
-      rightStyle.borderColor = ColorConstants.BGBLUE
+      rightStyle.backgroundColor = '#55cad3'
+      rightStyle.borderColor = '#55cad3'
     }
     
     var textColorLeft = this.state.chartType == TYPE_MONTH ? 'white':'grey'
@@ -193,7 +193,7 @@ const styles = StyleSheet.create({
     width:72,
     borderTopLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
     borderBottomLeftRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
-    borderColor:'#EEEEEE'
+    borderColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG
   },
   selectorRight:{
     alignItems:'center',
@@ -203,7 +203,7 @@ const styles = StyleSheet.create({
     width:72,
     borderTopRightRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
     borderBottomRightRadius:UIConstants.ITEM_ROW_BORDER_RADIUS - 5,
-    borderColor:'#EEEEEE'
+    borderColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG
   } ,
   textChartSelector:{
     fontSize:12,
