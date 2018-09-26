@@ -7,7 +7,10 @@ import {
   Platform,
   StatusBar,
   Dimensions,
-  YellowBox
+  YellowBox,
+  TouchableOpacity,
+  Text,
+  TouchableWithoutFeedback
 } from 'react-native';
 
 import { getBalanceType, getBalanceTypeSetting } from './js/redux/actions';
@@ -35,10 +38,7 @@ var Locale = require('react-native-locale');
 
 // on Android, the URI prefix typically contains a host in addition to scheme
 const prefix = Platform.OS == 'android' ? 'mychat://mychat/' : 'mychat://';
-
-WAITING = 0
-SHOWGUIDE = 1 
-NORMAL = 2
+import BottomDialog from './js/view/component/Dialog/BottomDialog';
 
 function getCurrentRouteName(navigationState) {
   if (!navigationState) {
@@ -62,13 +62,25 @@ class App extends React.Component {
   logOutOutsideAppSubscription = null;
   componentWillMount(){
     Orientation.lockToPortrait();
-    this.startupJobs() 
-    this.setState({
-      showGuide:WAITING
-    })
+    this.startupJobs()  
   }
 
   async startupJobs(){
+
+    try{
+      var data = await StorageModule.loadGuideView()
+      console.log("data = "+ data)
+      if(data!==null){
+      }else{  
+        await StorageModule.setGuideView('true')
+        console.log('bottomDialog.show()');
+        this.refs['bottomDialog'].show()
+      }
+    } catch(error){      
+      console.log("loadGuide", error);
+    } 
+
+
     try{
       var locale = await StorageModule.loadLanguage()
       if(locale==undefined){
@@ -137,24 +149,7 @@ class App extends React.Component {
         this.appNavigator.dispatch(navigateAction)
       });
     });
-
-
-    try{
-      var data = await StorageModule.loadGuideView()
-      console.log("data = "+ data)
-      if(data!=undefined){ 
-        this.setState({
-          showGuide:NORMAL
-        })
-      }else{
-        this.setState({
-          showGuide:SHOWGUIDE
-        })
-        await StorageModule.setGuideView('true')
-      }
-    } catch(error){      
-      console.log("loadGuide", error);
-    } 
+ 
 
   }
 
@@ -162,52 +157,67 @@ class App extends React.Component {
     if(Platform.OS == "android"){
       StatusBar.setBarStyle("light-content");
       StatusBar.setTranslucent(true);
-    }
+    } 
 
-    // if(this.state.showGuide == NORMAL){
-      return <SimpleAppNavigator
-      style={{height: height, width: width}}
-      ref={(ref)=>this.appNavigator = ref}
-      uriPrefix={prefix}
-      onNavigationStateChange={(prevState, currentState) => {        
-        StatusBar.setBarStyle("light-content");
-        var routeName = getCurrentRouteName(currentState);
-        console.log("routeName ", routeName)
-        var lastRouteName = getCurrentRouteName(prevState);
 
-        //TODO: Find a better way for all routes...
-        if(lastRouteName == ViewKeys.TAB_RANK && routeName != ViewKeys.TAB_RANK){
-          EventCenter.emitOutSideRankingTabEvent();
-        }
+    var contentHeight = height
+    var contentView = 
+    <View style={{width:width,height:contentHeight}}>
+        <GuideView callback={()=>{this.refs['bottomDialog'].closeModal()}}/> 
+    </View>
+   
+   
+    return (
+      <View style={{width:width,height:height}}>
 
-        switch(routeName){
-          case ViewKeys.TAB_MAIN:
-            EventCenter.emitHomeTabPressEvent();
-            break;
-          case ViewKeys.TAB_MARKET:
-            EventCenter.emitStockTabPressEvent();
-            break;
-          case ViewKeys.TAB_RANK:
-            EventCenter.emitRankingTabPressEvent();
-            break;
-          case ViewKeys.TAB_POSITION:
-            EventCenter.emitPositionTabPressEvent();
-            break;
-          case ViewKeys.TAB_ME:
-            EventCenter.emitMeTabPressEvent();
-            break;
-          default:
-            break;
-        }     
-      }}
-    />;
-    // }else if(this.state.showGuide == SHOWGUIDE){
-    //   return(
-    //     <GuideView callback={()=>{this.setState({showGuide:false})}}></GuideView>
-    //   )
-    // }else if(this.state.showGuide == WAITING){
-    //   return <View></View>
-    // }
+          <View>
+            <BottomDialog  
+            ref='bottomDialog'
+            content={contentView}
+            contentHeight={contentHeight}
+            contentWidth={width}
+            closeModal={()=>{
+            }}/>
+          </View>  
+
+          <SimpleAppNavigator
+          style={{height: height, width: width}}
+          ref={(ref)=>this.appNavigator = ref}
+          uriPrefix={prefix}
+          onNavigationStateChange={(prevState, currentState) => {        
+            StatusBar.setBarStyle("light-content");
+            var routeName = getCurrentRouteName(currentState);
+            console.log("routeName ", routeName)
+            var lastRouteName = getCurrentRouteName(prevState);
+
+            //TODO: Find a better way for all routes...
+            if(lastRouteName == ViewKeys.TAB_RANK && routeName != ViewKeys.TAB_RANK){
+              EventCenter.emitOutSideRankingTabEvent();
+            }
+
+            switch(routeName){
+              case ViewKeys.TAB_MAIN:
+                EventCenter.emitHomeTabPressEvent();
+                break;
+              case ViewKeys.TAB_MARKET:
+                EventCenter.emitStockTabPressEvent();
+                break;
+              case ViewKeys.TAB_RANK:
+                EventCenter.emitRankingTabPressEvent();
+                break;
+              case ViewKeys.TAB_POSITION:
+                EventCenter.emitPositionTabPressEvent();
+                break;
+              case ViewKeys.TAB_ME:
+                EventCenter.emitMeTabPressEvent();
+                break;
+              default:
+                break;
+            }
+          }}
+          /> 
+      </View>  
+    ); 
   }
 } 
 

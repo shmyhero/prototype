@@ -55,7 +55,7 @@ class GuideView extends Component {
                                 style={imageStyle} 
                                 source={require('./../../../images/Guide-page04.png')}/>
                                 <TouchableOpacity style={styles.enterArea} onPress={()=>{this.closeGuide()}}>
-                                    <Text>进入</Text>
+                                    <Text style={{color:'yellow'}}>进入</Text>
                                 </TouchableOpacity> 
                         </View>
                     </Swiper>

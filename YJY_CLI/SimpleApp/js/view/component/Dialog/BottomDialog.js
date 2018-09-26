@@ -21,11 +21,12 @@ const {height, width} = Dimensions.get("window");
 class BottomDialog extends Component {
 
     static propTypes = {
-         
+        transparent: PropTypes.bool,
+       
     };
 
     static defaultProps = {
-         
+        transparent:true, 
     }
 
     constructor(props){
@@ -43,8 +44,7 @@ class BottomDialog extends Component {
         })
     }
 
-    closeModal(){
-        console.log('closeModal')
+    closeModal(){ 
         this.setState({
             isVisible:false
         }); 
@@ -64,18 +64,18 @@ class BottomDialog extends Component {
         return ( 
             <View style={{flex:1}}>
                 <Modal
-                    transparent={true}
+                    transparent={this.props.transparent}
                     visible={this.state.isVisible}
                     animationType={'fade'}
                     onRequestClose={()=>this.closeModal()}>
-                    <TouchableOpacity style={styles.container} activeOpacity={1} onPress={()=>this.closeModal()}>
+                    <View style={styles.container} activeOpacity={1} >
                         {this.renderDialog()}
-                    </TouchableOpacity>
+                    </View>
                 </Modal>
             </View>
         );
     }
-}   
+} 
  
 const styles = StyleSheet.create({
     container: {
