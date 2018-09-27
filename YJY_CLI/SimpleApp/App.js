@@ -71,6 +71,7 @@ class App extends React.Component {
       var data = await StorageModule.loadGuideView()
       console.log("data = "+ data)
       if(data!==null){
+        // this.refs['bottomDialog'].show()
       }else{  
         await StorageModule.setGuideView('true')
         console.log('bottomDialog.show()');
@@ -164,7 +165,7 @@ class App extends React.Component {
     var contentHeight = height
     var contentView = 
     <View style={{width:width,height:contentHeight}}>
-        <GuideView callback={()=>{this.refs['bottomDialog'].closeModal()}}/> 
+        <GuideView callback={()=>{this.refs['bottomDialog'].closeModal()}}/>
     </View>
    
    

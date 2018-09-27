@@ -289,7 +289,7 @@ export default class LoginScreen extends Component {
 
     renderContent(){
         
-        var textLogin = this.isLoginable()?'white':'#6281a6'
+        var textLogin = this.isLoginable()?'white':'white'
         var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b'  
         var HeightSub = 50;
         if (!this.state.hideBackButton){
@@ -304,8 +304,8 @@ export default class LoginScreen extends Component {
                     </View>
                     <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                         
-                        <CustomStyleText style={{marginBottom:5,color:'#6699cc',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</CustomStyleText>
-                        <View style={{backgroundColor:'#3d6c9d',height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <CustomStyleText style={{marginBottom:5,color:'white',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</CustomStyleText>
+                        <View style={{backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                             <TouchableOpacity  onPress={()=>this.getCountryCode()} style={{flexDirection:'row'}}>
                                 <CustomStyleText style={{marginLeft:10,color:'white'}}>+</CustomStyleText>
                                 <CustomStyleText style={{marginLeft:2,color:'white'}}>{this.state.countryCode}</CustomStyleText>
@@ -327,7 +327,7 @@ export default class LoginScreen extends Component {
                             {this.renderGetValidationCodeButton()}
                         </View>
 
-                        <View style={{backgroundColor:'#3d6c9d',marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
+                        <View style={{backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,marginTop:1,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
                             <TextInput 
                                 underlineColorAndroid='transparent'
                                 maxLength={4} 
@@ -386,7 +386,7 @@ export default class LoginScreen extends Component {
 
     renderGetValidationCodeButton(){
 
-        var textLogin = this.isPhoneNumberChecked()?'white':'#6281a6'
+        var textLogin = this.isPhoneNumberChecked()?'white':'white'
         
         if(this.state.isRequesting){
             return(
@@ -422,21 +422,17 @@ export default class LoginScreen extends Component {
     render() {
         if(Platform.OS == "ios"){
             return (            
-                <KeyboardAvoidingView style={{width:width,
-                    flex:1}}
-                    behavior={"padding"}>
-                    <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
-                    </ImageBackground>
+                <KeyboardAvoidingView style={{width:width,flex:1}} behavior={"padding"}>
+                    {/* <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
+                    </ImageBackground> */}
                     {this.renderContent()}
                 </KeyboardAvoidingView>
             );
         } else {
             return (            
-                <KeyboardAvoidingView style={{width:width,
-                    flex:1}}
-                    >
-                    <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
-                    </ImageBackground>
+                <KeyboardAvoidingView style={{width:width,flex:1}}>
+                    {/* <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
+                    </ImageBackground> */}
                     {this.renderContent()}
                 </KeyboardAvoidingView>
             );

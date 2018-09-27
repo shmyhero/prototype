@@ -9,6 +9,7 @@ import {
   Alert,
   ViewPropTypes,
   Platform,
+  Image
 } from 'react-native';
 import CustomStyleText from '../CustomStyleText';
 var UIConstants = require("../../../UIConstants");
@@ -161,10 +162,11 @@ export default class ProfitTrendCharts extends Component {
             </TouchableOpacity>
             <TouchableOpacity onPress={()=>this.selectorPressed(TYPE_ALL)} style={[styles.selectorRight,rightStyle]}>
               <CustomStyleText style = {[styles.textChartSelector,{color:textColorRight}]}>{LS.str("ALL")}</CustomStyleText>
-            </TouchableOpacity> 
+            </TouchableOpacity>
           </View>
           <View style={{flexDirection:'row',alignItems:'center'}}>
-            <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/>
+            {/* <View style={{width:20,height:4,marginRight:5,backgroundColor:ColorConstants.BGBLUE}}/> */}
+            <Image style={{width:20,height:4,marginRight:5}} source={require('../../../../images/icon_line.png')}></Image>
             <CustomStyleText style={{fontSize:12,color:'#666666'}}>{LS.str('INVESTMENT_TREND')}</CustomStyleText>
           </View>
         </View> 
