@@ -103,7 +103,7 @@ android {
     buildToolsVersion '25.4.0'
 
     defaultConfig {
-        applicationId "com.simpleapp"
+        applicationId "com.tradegame"
 
         minSdkVersion 16
         targetSdkVersion 25
