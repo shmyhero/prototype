@@ -100,7 +100,7 @@ def propFile
 android {
 
     compileSdkVersion 26
-    buildToolsVersion '25.4.0'
+    buildToolsVersion '26.0.3'//25.4.0
 
     defaultConfig {
         applicationId "com.tradegame"

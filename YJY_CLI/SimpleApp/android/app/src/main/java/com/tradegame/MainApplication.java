@@ -6,6 +6,7 @@ import android.util.Log;
 import com.BV.LinearGradient.LinearGradientPackage;
 import com.facebook.react.ReactApplication;
 import com.airbnb.android.react.lottie.LottiePackage;
+import com.tradegame.android_upgrade.UpgradePackage;
 import com.tradegame.talkingdata.TalkingDataPackage;
 import com.zmxv.RNSound.RNSoundPackage;
 import su.rusfearuth.reactnative.native9patch.RCTImageCapInsetPackage;
@@ -20,7 +21,7 @@ import java.util.Arrays;
 import io.fixd.rctlocale.RCTLocalePackage;
 import com.imagepicker.ImagePickerPackage;
 import com.learnium.RNDeviceInfo.RNDeviceInfo;
-
+import com.tradegame.android_upgrade.UpgradePackage;
 import java.util.List;
 
 import io.realm.react.RealmReactPackage;
@@ -51,7 +52,8 @@ public class MainApplication extends Application implements ReactApplication {
           new RCTLocalePackage(), // add package
           new ImagePickerPackage(),
           new RNDeviceInfo(),
-          new TalkingDataPackage()
+          new TalkingDataPackage(),
+              new UpgradePackage()
       );
     }
 

@@ -14,6 +14,10 @@
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"  />
     <uses-permission android:name="android.permission.GET_TASKS"  />
 
+    <!--8.0安装需要的权限-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
     <uses-sdk
         android:minSdkVersion="16"
         android:targetSdkVersion="22" />
@@ -77,6 +81,23 @@
         <meta-data
             android:name="TD_CHANNEL_ID"
             android:value="${TD_CHANNEL_ID}" />
+
+
+        // 添加fileProvider配置代码
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.updateFileProvider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/update_file_provider" />
+        </provider>
+
+        // 添加Service代码
+        <service
+            android:name=".android_upgrade.DownloadService"
+            android:exported="true" />
 
     </application>
 

@@ -14,14 +14,14 @@ import { View,
     TouchableHighlight,
     LayoutAnimation,
     TouchableOpacity,
-    Alert
+    Alert,
+    NativeModules
 } from 'react-native';
 import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window');
 import * as Animatable from 'react-native-animatable';//https://github.com/oblador/react-native-animatable
 import BottomDialog from './component/Dialog/BottomDialog';
-
 
 // create a component
 export default class HelpScreen extends Component {
@@ -37,6 +37,25 @@ export default class HelpScreen extends Component {
         Alert.alert('helloworldPressed');
     }
 
+    testClick(){
+        console.log('testClick')
+         
+
+        // IOS Update APK
+        // NativeModules.upgrade.upgrade('Apple ID',(msg) =>{  
+        //     if('YES' == msg) {  
+        //        //跳转到APP Stroe  
+        //        NativeModules.upgrade.openAPPStore('Apple ID');  
+        //     } else {  
+        //         Toast.show('当前为最新版本');  
+        //     }  
+        // })
+
+
+        //Android app update operation
+        // NativeModules.upgrade.upgrade('http://www.yingjiaoyi.mobi/android_apk/yingjiaoyi.apk');
+    }
+
     renderTest(){
         var contentHeight = 300
         var contentView = <View style={{width:width,height:contentHeight,backgroundColor:'yellow'}}>
@@ -48,7 +67,7 @@ export default class HelpScreen extends Component {
         return( 
             <View style={{flexDirection:'row'}}>
                 <TouchableOpacity onPress={()=>{
-                    this.refs['bottomDialog'].show()
+                   this.testClick();
                 }}> 
                     <Animatable.Text animation="rubberBand">Zoom me up, Scotty</Animatable.Text> 
                 </TouchableOpacity> 
