@@ -43,8 +43,8 @@ class GuideView extends Component {
                     autoplay={false}
                     pageInfo={false}
                     bullets={true} 
-                    bulletStyle={{backgroundColor:'black'}}
-                    chosenBulletStyle={{backgroundColor:'white'}}
+                    bulletStyle={{backgroundColor:'grey',width:5,height:5,borderRadius:2.5}}
+                    chosenBulletStyle={{backgroundColor:'white',width:5,height:5,borderRadius:2.5}}
                     bulletsContainerStyle={{marginBottom:20}}
                     isLooped={false} 
                     onAnimateNextPage={(p) => console.log(p)}
@@ -69,7 +69,7 @@ class GuideView extends Component {
                                     style={imageStyle} 
                                     source={require('./../../../images/Guide-page04.png')}/>
                                     <TouchableOpacity style={styles.enterArea} onPress={()=>{this.closeGuide()}}>
-                                        <Text style={{color:'yellow'}}>进入</Text>
+                                         
                                     </TouchableOpacity>   
                             </View>
                 </Carousel>
@@ -131,7 +131,10 @@ const styles = StyleSheet.create({
     enterArea:{
         position:'absolute',
         top:height-100, 
-        left:width/2-15, 
+        left:0, 
+        backgroundColor:'transparent',
+        width:width,
+        height:200,
     }, 
 });
  

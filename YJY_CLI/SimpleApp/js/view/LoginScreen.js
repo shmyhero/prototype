@@ -430,7 +430,7 @@ export default class LoginScreen extends Component {
             );
         } else {
             return (            
-                <KeyboardAvoidingView style={{width:width,flex:1}}>
+                <KeyboardAvoidingView style={{width:width,flex:1}} behavior='padding'>
                     {/* <ImageBackground style={{position:"absolute", width:width, height:height}} source={require('../../images/bg_login.jpg')} >                
                     </ImageBackground> */}
                     {this.renderContent()}

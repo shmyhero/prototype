@@ -221,7 +221,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 							value={rowData.text}
 							onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
 					  
-					<View style = {styles.itemOperator}>
+					{/* <View style = {styles.itemOperator}>
 						<View style={styles.separator}></View>
 							<View style={{flexDirection:'row'}}>
 								<TouchableOpacity style={styles.operatorItem} onPress={()=>this.onPressedPraise(rowData)}>
@@ -236,7 +236,7 @@ export default class  UserProfileTabDynamicState extends React.Component {
 								</TouchableOpacity>
 							</View>
 						<View style={styles.separator}></View>
-					</View>
+					</View> */}
 				</View> 
 			</View>
 	 	);

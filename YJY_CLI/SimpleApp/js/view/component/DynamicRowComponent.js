@@ -204,7 +204,7 @@ class DynamicRowComponentContent extends Component {
                             <View style={styles.textContainer}>
                                 <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
                                     <CustomStyleText style={[styles.textUserName,titleStyle]}>{title}</CustomStyleText>
-                                    {viewHero}
+                                    {/* {viewHero} */}
                                 </View>
                                  
                                 {this.renderNewsText(this.props.rowData)}
@@ -326,7 +326,7 @@ const styles = StyleSheet.create({
     textUserName:{
         fontSize:12,
         alignSelf:'flex-start', 
-        color:'#999999',
+        color:ColorConstants.SUB_MAIN_COLOR,
         marginRight:2
     },
     thumbnailAll: {

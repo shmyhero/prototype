@@ -66,11 +66,11 @@ export default class HelpScreen extends Component {
 
         return( 
             <View style={{flexDirection:'row'}}>
-                <TouchableOpacity onPress={()=>{
+                {/* <TouchableOpacity onPress={()=>{
                    this.testClick();
                 }}> 
                     <Animatable.Text animation="rubberBand">Zoom me up, Scotty</Animatable.Text> 
-                </TouchableOpacity> 
+                </TouchableOpacity>  */}
                 <BottomDialog  
                     ref='bottomDialog'
                     content={contentView}

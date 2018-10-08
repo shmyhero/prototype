@@ -175,13 +175,13 @@ class  TabMeScreen extends React.Component {
                 </CustomStyleText>
               </View>
             </View>     
-            {this.renderSeparator()}        
+            {/* {this.renderSeparator()}        
             <View style={{flex:1, justifyContent:'center'}}>
               <SubmitButton
                 style={{height:43, width:235, marginTop: 15, marginBottom: 15,}}
                 text={LS.str("ME_DEPOSIT_WITHDRAW")} 
                 onPress={()=>this.onBalancePressed()}/>
-            </View>
+            </View> */}
           </View>
         {/* </ImageBackground> */}
         <View>
@@ -273,7 +273,7 @@ class  TabMeScreen extends React.Component {
             imageOnRight={require('../../images/me_settings.png')}
             rightPartOnClick={()=>this.goToSettings()}/>
           {this.renderPortrait()}
-          {/* {this.renderBalance()}  */}
+          {this.renderBalance()} 
           {this.renderChart()}
           {this.renderTradeStyleCicleBlock()}
           {this.renderTradeStyleBlock()}
@@ -406,7 +406,7 @@ const styles = StyleSheet.create({
     },
     balanceValueText:{
       fontSize:20, 
-      color:'black', 
+      color:'white', 
       marginTop:15
     },
     balanceLabelText:{

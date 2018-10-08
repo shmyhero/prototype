@@ -73,8 +73,7 @@ class App extends React.Component {
       if(data!==null){
         // this.refs['bottomDialog'].show()
       }else{  
-        await StorageModule.setGuideView('true')
-        console.log('bottomDialog.show()');
+        await StorageModule.setGuideView('true') 
         this.refs['bottomDialog'].show()
       }
     } catch(error){      
@@ -107,13 +106,13 @@ class App extends React.Component {
     }
 
     //First read the balanceType in local storage
-    var balanceType = await StorageModule.loadBalanceType();
-    if(balanceType != undefined){
-      LogicData.setBalanceType(balanceType);
-    }else{
+    // var balanceType = await StorageModule.loadBalanceType();
+    // if(balanceType != undefined){
+    //   LogicData.setBalanceType(balanceType);
+    // }else{
       var defaultBalanceType = LogicData.getDefaultBalanceType();
       LogicData.setBalanceType(defaultBalanceType);
-    }
+    // }
     
     try{
       var data = await StorageModule.loadUserData()
