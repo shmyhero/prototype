@@ -274,8 +274,8 @@ class TabMainScreen extends React.Component {
 		return(
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
-				<CustomStyleText style={{color:ColorConstants.BLUE2}}>{dataTime}</CustomStyleText> 
-				{this.renderConfigEnter()}
+				<CustomStyleText style={{color:ColorConstants.TIMER_COLOR}}>{dataTime}</CustomStyleText> 
+				{/* {this.renderConfigEnter()} */}
 			</View>	
 		)
     }
@@ -678,20 +678,20 @@ class TabMainScreen extends React.Component {
             <ActivityIndicator
                 style={{marginRight: 10,}}
                 animating={true}
-                color={ColorConstants.BLUE2}
+                color={ColorConstants.SUB_MAIN_COLOR}
                 size={'small'}/>
         ) : Platform.OS == 'android' ?
             (
                 <ProgressBarAndroid
                     style={{marginRight: 10,}}
-                    color={ColorConstants.BLUE2}
+                    color={ColorConstants.SUB_MAIN_COLOR}
                     styleAttr={'Small'}/>
 
             ) :  (
             <ActivityIndicatorIOS
                 style={{marginRight: 10,}}
                 animating={true}
-                color={ColorConstants.BLUE2}
+                color={ColorConstants.SUB_MAIN_COLOR}
                 size={'small'}/>
         )
     } 
@@ -733,7 +733,7 @@ const styles = StyleSheet.create({
         paddingTop: 20 + 44,
     },
     loadText:{
-        color:ColorConstants.BLUE2
+        color:ColorConstants.SUB_MAIN_COLOR
     }
     
 

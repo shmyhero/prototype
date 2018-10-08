@@ -753,7 +753,7 @@ var styles = StyleSheet.create({
 	},
 	extendTextBottom: {
 		fontSize:13,
-		color: 'black',
+		color: 'white',
 		marginTop: 5,
 	},
 	extendImageBottom: {

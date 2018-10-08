@@ -102,14 +102,14 @@ class DynamicRowComponentContent extends Component {
             text = rowData.status
             return (
                 <TweetBlock
-                style={{fontSize:15,color:'#666666',lineHeight:20}}
+                style={{fontSize:15,color:'white',lineHeight:20}}
                 value={text} 
                 onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}}/>
             )
         }else if(rowData.type == 'open'){ 
             text = rowData.position.invest +" "+ LS.str("MOUNT_X").replace("{1}", LS.getBalanceTypeDisplayText())+" "+rowData.position.leverage
             return (
-                <CustomStyleText style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                <CustomStyleText style={{fontSize:15,color:'white',lineHeight:20}}>
                     {text}
                 </CustomStyleText>
             )
@@ -121,7 +121,7 @@ class DynamicRowComponentContent extends Component {
             text = LS.str("CLOSE_POSITION")+" "+winOrLoss;
 
             return (
-                <CustomStyleText style={{fontSize:15,color:'#666666',lineHeight:20}}>
+                <CustomStyleText style={{fontSize:15,color:'white',lineHeight:20}}>
                     {text+' '}
                     <CustomStyleText style={{color: valueColor}}>
                          {value}
@@ -138,7 +138,7 @@ class DynamicRowComponentContent extends Component {
             }else{
                 return (
                     <TweetBlock  
-                        style={{marginTop:8,marginBottom:5, fontSize:13,color:'#999999',lineHeight:16}}
+                        style={{marginTop:8,marginBottom:5, fontSize:13,color:ColorConstants.SUB_MAIN_COLOR,lineHeight:16}}
                         value={text}
                         onBlockPressed={(name, id)=>{this.jump2Detail(name, id)}} 
                         onPressed={()=>{
@@ -163,18 +163,18 @@ class DynamicRowComponentContent extends Component {
         var titleStyle = null
         if(this.props.rowData.type == 'system'){
             title = this.props.rowData.title
-            titleStyle = {fontSize:15,color:'#666666'}
+            titleStyle = {fontSize:15,color:'white'}
         }
 
         return (
             <View style={styles.thumbnailAll}> 
                 <View> 
-                    <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:'#255180'}}></View>
+                    <View style={{marginLeft:20,width:0.5,flex:1,backgroundColor:ColorConstants.TIMER_COLOR}}></View>
                     <View style={{width:40,flexDirection:'row'}}>
-                        <CustomStyleText style={{width:30,color:'#336ca1',marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</CustomStyleText>
+                        <CustomStyleText style={{width:30,color:ColorConstants.TIMER_COLOR,marginLeft:7,fontSize:10,alignSelf:'center'}}>{timeText}</CustomStyleText>
                         <Image style={{marginTop:2,marginLeft:4, width:7,height:7.5}} source={require('../../../images/triangle.png')}></Image>
                     </View>
-                    <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:'#255180'}}></View>
+                    <View style={{marginLeft:20,width:0.5,flex:2,backgroundColor:ColorConstants.TIMER_COLOR}}></View>
                 </View>
                 <Swipeout
                     ref={(ref)=>{this.swipeoutComponent = ref}}

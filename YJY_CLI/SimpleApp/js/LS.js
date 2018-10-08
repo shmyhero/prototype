@@ -274,7 +274,8 @@ var LS = {
   },
 
 	getBalanceTypeDisplayText(){
-		return LogicData.getBalanceType();
+    // return LogicData.getBalanceType();
+    return '贝壳'
 	}
 }
 
