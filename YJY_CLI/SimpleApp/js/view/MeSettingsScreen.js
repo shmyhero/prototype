@@ -20,6 +20,8 @@ var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
 var ColorConstants = require('../ColorConstants')
 import ViewKeys from '../ViewKeys';
+var NetConstants = require("../NetConstants");
+var NetworkModule = require("../module/NetworkModule");
 
 var configListData = [
     {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
@@ -46,6 +48,10 @@ class MeSettingsScreen extends Component {
             displayBalanceTypePicker: false,
             groupNumber:''
         }
+    }
+
+    componentDidMount(){
+        this.loadWechatGroup();
     }
 
     componentWillMount(){
@@ -145,6 +151,29 @@ class MeSettingsScreen extends Component {
                 </View>    
             )
         }
+    }
+
+    loadWechatGroup(){ 
+        var url = NetConstants.CFD_API.GET_WECHAT_GROUP;
+        NetworkModule.fetchTHUrl(
+            url,
+            {
+                method: 'GET',
+                headers: { 
+                    'Content-Type': 'application/json; charset=utf-8',
+                },  
+            }, (responseJson) => { 
+
+                console.log(responseJson);
+
+                this.setState({
+                    groupNumber:responseJson
+                })
+
+            },
+            (exception) => { 
+                    
+            }) 
     }
 
     // renderPicker(){
