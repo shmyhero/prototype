@@ -23,7 +23,7 @@ var LS = {
     FINISH: ["完成", "Done", "完成"],
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
     SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
-    SUGAR_AVAILABLE: ["可出{1}数", "Available {1}", "残高({1})"],
+    SUGAR_AVAILABLE: ["剩余{1}数", "Available {1}", "残高({1})"],
     LONG_OPERATION: ["做多", "BULLISH", "上昇"],
     SHORT_OPERATION: ["做空", "BEARISH", "下落"],
 
@@ -182,7 +182,7 @@ var LS = {
     WITHDRAW_AMOUNT: ["出金金额", "Withdraw Limit", "Withdraw Limit"],
     WITHDRAW_BTH: ["{1}", "{1}", "{1}"],
     WITHDRAW_ALL: ['全部出金', 'Withdraw all', "Withdraw all"],
-    WITHDRAW_AVAILABLE_AMOUNT: ['可出资金：{1}{2}，', 'Withdraw Limit :{1} {2},', "Withdraw Limit :{1} {2},"],
+    WITHDRAW_AVAILABLE_AMOUNT: ['剩余资金：{1}{2}，', 'Withdraw Limit :{1} {2},', "Withdraw Limit :{1} {2},"],
     WITHDRAW_WITHDRAW: ["确认出金", "withdraw", "withdraw"],
     WITHDRAW_REQUEST_SUBMITED: ["出金提交成功", "Submitted", "Submitted"],
     WITHDRAW_ETA_MESSAGE: ["预计资金到账时间为1小时，具体以钱包余额为准！", "Funds may arrive within one hour.", "Funds may arrive within one hour."],

@@ -5,8 +5,8 @@
     <color name="line_chart_marker_border_blue">#664b769b</color>
     <color name="line_chart_marker_background_blue">#66275586</color>
     <color name="line_chart_last_price_blue">#66e3f3fe</color>
-    <color name="splash_screen_gradient_top">#ff3f6ea0</color>
-    <color name="splash_screen_gradient_bottom">#ff1f4a77</color>
+    <color name="splash_screen_gradient_top">#13131b</color>
+    <color name="splash_screen_gradient_bottom">#13131b</color>
     <color name="splash_screen_text">#ffffffff</color>
 
 </resources>
