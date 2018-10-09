@@ -121,13 +121,12 @@ class LogicData {
 		this.balanceType = type;
 	}
 
-	static getBalanceType(){
-		// return '贝壳'
+	static getBalanceType(){ 
 		return this.balanceType;
 	}
 
 	static getDefaultBalanceType(){
-		return "BTH";
+		return "Demo";
 	}
 }
 

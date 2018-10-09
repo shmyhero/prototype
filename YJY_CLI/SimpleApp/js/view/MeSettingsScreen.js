@@ -26,6 +26,7 @@ var configListData = [
     {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
     // {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
     // {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
+    {'type':'normal','title':'SETTINGS_GROUP_NUMBER', 'subtype': 'group'},
     {'type':'normal','title':'SETTINGS_VERSION', 'subtype': 'version'},
     {'type':'normal','title':'SETTINGS_LOG_OUT', 'subtype': 'logOut'},
 ];
@@ -43,7 +44,7 @@ class MeSettingsScreen extends Component {
 
         this.state = {
             displayBalanceTypePicker: false,
-            
+            groupNumber:''
         }
     }
 
@@ -190,6 +191,10 @@ class MeSettingsScreen extends Component {
         if(rowData.item.subtype == "version"){
             return (
                 <CustomStyleText style={styles.value}>{this.props.version}</CustomStyleText>
+            )
+        }else if(rowData.item.subtype=='group'){
+            return (
+                <CustomStyleText style={styles.value}>{this.state.groupNumber}</CustomStyleText>
             )
         }else if(rowData.item.subtype == "balanceType"){
             return (

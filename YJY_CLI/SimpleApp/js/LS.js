@@ -2,6 +2,9 @@
 
 import LogicData from './LogicData';
 
+const COIN_DEMO = '贝壳'
+const COIN_LIVE = '钻石'
+
 var LS = {
   Str:{
     APP_NAME: ["BTH", "BTH", "BTH"],
@@ -209,6 +212,7 @@ var LS = {
     SETTINGS_USER_CONFIG: ["个人信息", "Personal Information", "Personal Information"],
     SETTINGS_CENTER_TITLE: ["帮助中心", "Help Center", "Help Center"],
     SETTINGS_ABOUT_TITLE: ["关于我们", "About Us", "About Us"],
+    SETTINGS_GROUP_NUMBER: ["微信群号", "Wechat Group", "Wechat Group"],
     SETTINGS_SWITCH_LANGUAGE: ["切换成英文", "Switch to Chinese", "Switch to Chinese"],
     SETTINGS_VERSION: ["当前版本", "Version", "Version"],
     SETTINGS_LOG_OUT: ["退出登录", "Log out", "Log out"],
@@ -274,8 +278,12 @@ var LS = {
   },
 
 	getBalanceTypeDisplayText(){
+    if(LogicData.getBalanceType() == 'Live'){
+      return COIN_LIVE;
+    }else{
+      return COIN_DEMO;
+    } 
     // return LogicData.getBalanceType();
-    return '贝壳'
 	}
 }
 

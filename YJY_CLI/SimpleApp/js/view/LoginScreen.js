@@ -290,7 +290,7 @@ export default class LoginScreen extends Component {
     renderContent(){
         
         var textLogin = this.isLoginable()?'white':'white'
-        var bgbtn = this.isLoginable()?'#3d6c9d':'#2f5b8b'  
+        var bgbtn = this.isLoginable()?'#3994aa':'#3994aa'
         var HeightSub = 50;
         if (!this.state.hideBackButton){
             HeightSub = 0;

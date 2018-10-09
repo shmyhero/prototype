@@ -94,6 +94,33 @@ export default class  UserProfileScreen extends React.Component {
               }
           );
       })			
+  }else{
+      this.setState({
+        isDataLoading: true,
+      }, ()=>{
+        NetworkModule.fetchTHUrl(
+            api,
+            {
+                method: 'GET',
+                headers: {
+                    // 'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                    'Content-Type': 'application/json; charset=utf-8',
+                },
+                showLoading: true,
+            }, (responseJson) => {
+              console.log("loadUserInfo responseJson.followTrade,", responseJson.followTrade)
+                this.setState({
+                  isFollowing: responseJson.isFollowing,
+                  followTrade: responseJson.followTrade,
+                  picUrl:responseJson.picUrl, 
+                  followerCount:responseJson.followerCount,
+                  followTraderCount:responseJson.followTraderCount
+                });  
+            },
+            (exception) => { 
+            }
+        );
+  })	
   }
 }  
 

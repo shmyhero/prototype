@@ -63,8 +63,8 @@ class StockDetailScreen extends Component {
             dataStatus: DATA_STATUS_LOADING,
             chartStatus: CHART_STATUS_LOADING,
             stockInfo: {},
-            amountValueList: [50, 100, 200, 400, 700, 1000],
-            leverageValueList: [10, 30, 50, 100, 150, 200],
+            amountValueList: [10,50,100,150,200,300],
+            leverageValueList: [10, 30, 50, 100],
         }
         
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
@@ -82,9 +82,9 @@ class StockDetailScreen extends Component {
 
     refresh(){
         this.props.fetchBalanceData();
-        if(this.props.balanceTypeSettings){
-            this.updateAmountValueList(this.props.balanceType, this.props.balanceTypeSettings)
-        }
+        // if(this.props.balanceTypeSettings){
+        //     this.updateAmountValueList(this.props.balanceType, this.props.balanceTypeSettings)
+        // }
     }
 
     loadStockInfo() {
@@ -373,21 +373,21 @@ class StockDetailScreen extends Component {
             this.setState({
                 Amount: undefined,
             })
-        }
-        
-        if(newProps.balanceType != this.props.balanceType){
-            this.updateAmountValueList(newProps.balanceType, this.props.balanceTypeSettings)
-        }
+        } 
+
+        // if(newProps.balanceType != this.props.balanceType){
+        //     this.updateAmountValueList(newProps.balanceType, this.props.balanceTypeSettings)
+        // }
     }
 
-    updateAmountValueList(balanceType, balanceTypeSettings){
-        if(balanceTypeSettings && balanceTypeSettings[balanceType]){
-            this.setState({
-                Amount: undefined,
-                amountValueList: balanceTypeSettings[balanceType]
-            })
-        }
-    }
+    // updateAmountValueList(balanceType, balanceTypeSettings){
+    //     if(balanceTypeSettings && balanceTypeSettings[balanceType]){
+    //         this.setState({
+    //             Amount: undefined,
+    //             amountValueList: balanceTypeSettings[balanceType]
+    //         })
+    //     }
+    // }
 
     renderButtonInGroup(parameters){
         var value = parameters.value;
