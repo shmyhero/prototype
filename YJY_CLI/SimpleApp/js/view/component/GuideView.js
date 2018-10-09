@@ -34,7 +34,7 @@ class GuideView extends Component {
     }
  
     render() { 
-        imageStyle = {width:width,height:890/750*width}
+        imageStyle = {width:width,height:1334/750*width}
         return (  
             <View style={styles.guideWapper}>
                 <Carousel
@@ -52,22 +52,22 @@ class GuideView extends Component {
                             <View style={styles.slide}>  
                             <Image  
                                     style={imageStyle} 
-                                    source={require('./../../../images/Guide-page01.png')}/>
+                                    source={require('./../../../images/Guide-page01.jpg')}/>
                             </View>
                             <View style={styles.slide}> 
                                 <Image 
                                     style={imageStyle} 
-                                    source={require('./../../../images/Guide-page02.png')}/>
+                                    source={require('./../../../images/Guide-page02.jpg')}/>
                             </View>
                             <View style={styles.slide}> 
                                 <Image 
                                     style={imageStyle} 
-                                    source={require('./../../../images/Guide-page03.png')}/>
+                                    source={require('./../../../images/Guide-page03.jpg')}/>
                             </View>
                             <View style={styles.slide}> 
                                 <Image 
                                     style={imageStyle} 
-                                    source={require('./../../../images/Guide-page04.png')}/>
+                                    source={require('./../../../images/Guide-page04.jpg')}/>
                                     <TouchableOpacity style={styles.enterArea} onPress={()=>{this.closeGuide()}}>
                                          
                                     </TouchableOpacity>   
@@ -130,11 +130,11 @@ const styles = StyleSheet.create({
     },
     enterArea:{
         position:'absolute',
-        top:height-100, 
+        top:height-200, 
         left:0, 
         backgroundColor:'transparent',
         width:width,
-        height:200,
+        height:150,
     }, 
 });
  

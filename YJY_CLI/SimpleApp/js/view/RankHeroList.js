@@ -229,7 +229,7 @@ export default class RankHeroList extends React.Component {
         // if(index == 1){picUri = require('../../images/rank_bg_gd.png')} 
         // if(index == 2){picUri = require('../../images/rank_bg_cu.png')} 
 
-        var viewOff = (index == 1)?0:0;
+        var viewOff = (index == 1)?15:0;
          
         if(data!==null){
             return(
@@ -272,7 +272,7 @@ export default class RankHeroList extends React.Component {
         var item1 = (0+offset<=length-1)?this.state.rankListData[0+offset]:null
         var item2 = (2+offset<=length-1)?this.state.rankListData[2+offset]:null
         return(
-            <View style={{marginTop:0}}>
+            <View style={{marginTop:10}}>
                 <ImageBackground style={styles.containerAll}>
                     {this.renderThreeOfOneItem(0,item0)}
                     {this.renderThreeOfOneItem(1,item1)}
