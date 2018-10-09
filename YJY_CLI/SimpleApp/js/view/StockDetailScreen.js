@@ -63,8 +63,8 @@ class StockDetailScreen extends Component {
             dataStatus: DATA_STATUS_LOADING,
             chartStatus: CHART_STATUS_LOADING,
             stockInfo: {},
-            amountValueList: [10,50,100,150,200,300],
-            leverageValueList: [10, 30, 50, 100],
+            amountValueList: [10,50,100,150,200,250,300],
+            leverageValueList: [10, 25, 50, 100],
         }
         
         if(this.props.navigation && this.props.navigation.state && this.props.navigation.state.params){
@@ -85,6 +85,39 @@ class StockDetailScreen extends Component {
         // if(this.props.balanceTypeSettings){
         //     this.updateAmountValueList(this.props.balanceType, this.props.balanceTypeSettings)
         // }
+
+        this.loadStockFundInvestSettings();//获取本金和杠杆参数
+    }
+
+    loadStockFundInvestSettings(){ 
+        var userData = LogicData.getUserData();  
+        var _headers = { 
+            'Content-Type': 'application/json; charset=utf-8',
+        }
+        if(LogicData.isLoggedIn()){
+            _headers = {
+                'Authorization': 'Basic ' + userData.userId + '_' + userData.token,
+                'Content-Type': 'application/json; charset=utf-8',
+            }
+        }  
+       
+        var url = NetConstants.CFD_API.GET_FUND_INVEST_SETTINGS + '?securityId='+this.state.stockCode;
+        NetworkModule.fetchTHUrl(
+            url,
+            {
+                method: 'GET',
+                headers: _headers,  
+            }, (responseJson) => {
+                    //{"PriceSetting":[10,50,150,200,250,300],"LeverageSetting":[10,20,50,100]}
+                    this.setState({
+                    Amount: undefined,
+                    amountValueList: responseJson.PriceSetting,
+                    leverageValueList:responseJson.LeverageSetting
+                    }) 
+            },
+            (exception) => { 
+                    
+            }) 
     }
 
     loadStockInfo() {
@@ -653,7 +686,7 @@ class StockDetailScreen extends Component {
                         </ScrollView>
                         <CustomStyleText style={{position:'absolute', top:-5, left:0, right:0,
                         // {LS.getBalanceTypeDisplayText()}
-                            textAlign:'center', color:'#cccccc'}}>Coin</CustomStyleText>
+                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
                     </View>
                     <View style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         // source={require("../../images/stock_detail_amount_container.png")}

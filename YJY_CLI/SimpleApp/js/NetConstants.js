@@ -54,7 +54,7 @@ export let CFD_API = {
   TIMESTAMP_LOCAL:CFD_API_SERVER + '/api/util/timestampNonce',//Local ok
   BALANCE_TYPE: CFD_API_SERVER + '/api/user/balanceType',
   BALANCE_TYPE_SETTINGS: CFD_API_SERVER + '/api/fund/balance/type',
-
+  GET_FUND_INVEST_SETTINGS: CFD_API_SERVER + '/api/fund/invest/setting',////获取本金和杠杆参数
 
   HELP_CENTER_URL_ACTUAL: 'https://cn.tradehero.mobi' + '/' + 'TH_CFD_SP' + '/HelpCenter.html',
 }
