@@ -27,7 +27,7 @@ import LogicData from "../LogicData";
 import CustomKeyboard from "./CustomKeyboard";
 import SubmitButton from "./component/SubmitButton";
 import NetworkErrorIndicator from './component/NetworkErrorIndicator';
-
+import LinearGradient from 'react-native-linear-gradient'
 var UIConstants = require('../UIConstants');
 var ColorConstants = require('../ColorConstants');
 var PositionBlock = require('./component/personalPages/PositionBlock') 
@@ -683,11 +683,12 @@ export default class  MyPositionTabHold extends React.Component {
 					ref={component => this.bindSliderRef(type, component, type)}
 					style={styles.slider}
 					minimumTrackTintColor={ColorConstants.SUB_MAIN_COLOR}
+					maximumTrackTintColor={'white'}
 					minimumValue={startPercent}
 					value={percent}
 					maximumValue={endPercent}
                     step={0.01}
-                    thumbTintColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
+                    thumbTintColor={ColorConstants.SUB_MAIN_COLOR}
 					disabled={disabled}
 					onSlidingComplete={(value) => this.setState({profitLossUpdated: true})}
 					onValueChange={(value) => this.setSliderValue(type, value, rowData)} />
@@ -1275,15 +1276,24 @@ export default class  MyPositionTabHold extends React.Component {
 		var rowHeaderHeight = UIConstants.ITEM_ROW_HEIGHT;
 
 		var touchableStyle={height:rowHeaderHeight, 
-			backgroundColor:ColorConstants.stock_color_bg(profitAmount), 
+			// backgroundColor:ColorConstants.stock_color_bg(profitAmount), //Rambo
 			justifyContent:'center'}
-		if(this.state.selectedRow == rowID){
-			//touchableStyle.borderBottomWidth = 0;
+
+		
+		if(Platform.OS == "android"&&this.state.selectedRow == rowID){
 			touchableStyle.borderTopLeftRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 			touchableStyle.borderTopRightRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
 		}else{
-			touchableStyle.borderRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
+			touchableStyle.borderRadius = UIConstants.ITEM_ROW_BORDER_RADIUS; 
 		}
+		// if(this.state.selectedRow == rowID){
+		// 	//touchableStyle.borderBottomWidth = 0;
+		// 	touchableStyle.borderTopLeftRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
+		// 	touchableStyle.borderTopRightRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
+		// 	// touchableStyle.borderRadius = UIConstants.ITEM_ROW_BORDER_RADIUS;
+		// }else{
+		// 	touchableStyle.borderRadius = UIConstants.ITEM_ROW_BORDER_RADIUS; 
+		// }
 
 		// var rowBackgroundColor = profitAmount > 0 ? "green" : profitAmount < 0 ? "red" : "gray";
 
@@ -1311,12 +1321,15 @@ export default class  MyPositionTabHold extends React.Component {
 						capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>  */}
 
 						{/* <View style={{backgroundColor:'yellow', height: displayRowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
-						></View> */}
+						></View> */} 
 				  	
 				<View style={[styles.rowContainer, additionalStyle]}>
-					<TouchableOpacity style={[styles.rowTouchable,
-							touchableStyle
-						]} activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
+						<TouchableOpacity activeOpacity={1} onPress={() => this.stockPressed(rowData, rowID)}>
+					<LinearGradient style={[styles.rowTouchable,touchableStyle]} 
+							start={{x:0.0, y:0}}
+							end={{x:1.0, y:0.0}} 
+							colors={ColorConstants.stock_color_bg_gradient(profitAmount)}
+						    >
 						<View style={[styles.rowWrapper, {height: UNSELECTED_ROW_HEIGHT}]} key={rowData.key}>
 							<View style={styles.rowLeftPart}>							
 								<CustomStyleText style={styles.stockNameText} allowFontScaling={false} numberOfLines={1}>
@@ -1340,7 +1353,8 @@ export default class  MyPositionTabHold extends React.Component {
 								{this.renderProfit(profitPercentage * 100, "%")}
 							</View>
 						</View>
-					</TouchableOpacity>
+					</LinearGradient>
+					 </TouchableOpacity>
 					{this.state.selectedRow == rowID ? this.renderDetailInfo(rowData, rowID): null}
 				</View>
 			</View>

@@ -244,7 +244,7 @@ class MeSettingsScreen extends Component {
     renderItem(rowData){
         return (
             <TouchableOpacity
-                style={styles.rowContainer}
+                // style={styles.rowContainer}
                 activeOpacity={0.5}
                 onPress={()=>this.onSelectNormalRow(rowData)}>
                 <View>
@@ -280,20 +280,22 @@ class MeSettingsScreen extends Component {
 // define your styles
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        height: height,
-        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE,
+        width: width,
+        height: height, 
+        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE, 
     },
     rowContainer: {
         height: 74,
         width: width-30,
+        marginLeft:15,
         flexDirection:'row',
         alignItems:'center',
         justifyContent:'space-between',
         alignSelf:'stretch',
-        marginLeft:15,
+        // marginLeft:15,
         // marginRight:15,
         backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
+        // backgroundColor:'yellow',
         borderRadius:15,
         marginTop:5,
         marginBottom:5,
