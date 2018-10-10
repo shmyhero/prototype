@@ -24,8 +24,8 @@ var LS = {
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
     SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
     SUGAR_AVAILABLE: ["剩余{1}数", "Available {1}", "残高({1})"],
-    LONG_OPERATION: ["做多", "BULLISH", "上昇"],
-    SHORT_OPERATION: ["做空", "BEARISH", "下落"],
+    LONG_OPERATION: ["上升", "BULLISH", "上昇"],
+    SHORT_OPERATION: ["下降", "BEARISH", "下落"],
 
     NETWORK_ERROR: ["溜走的不是网络，是真金白银呀！", "Something went wrong...", "エラーが発生しました"],
     CANCLE: ["取消", "Cancle", "キャンセル"],
@@ -159,7 +159,7 @@ var LS = {
     POSITION_CLOSED_NO_ITEMS: ["暂无平仓记录", "There are no closed positions", "データがありません"],
     BUY_LONG: ["上升","LONG", "上昇"],
     BUY_SHORT: ["下降","SHORT", "下落"],
-    BUY: ["交易", "Trade", "スタート"],
+    BUY: ["开始", "Trade", "スタート"],
     SELECT_PRODUCT: ["选择产品", "Choose Products", "商品を選択"],
      
     DEPOSIT_WITHDRAW_ENTRY_HEADER:['存取资金','Wallet', "Wallet"],
@@ -192,7 +192,7 @@ var LS = {
     COPY_COUNT: ["跟随笔数", "Times", "Times"],
 
     ORDER_TYPE:['类型','Type', "Type"],
-    ORDER_TRADING:['开始','Start', "Start"],
+    ORDER_TRADING:['交易','Start', "Start"],
     ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
     ORDER_MULTIPLE: ["杠杆", "Leverage", "Leverage"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],

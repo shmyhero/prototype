@@ -226,7 +226,7 @@ class  TabRankScreen extends React.Component {
     ) 
 
     return ( 
-      <View style={{flex: 1, backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
+      <View style={{flex: 1,marginTop:-5, backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
         <ScrollTabView 
           ref={"tabPages"} 
           tabNames={tabNameShow} 

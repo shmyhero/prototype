@@ -75,7 +75,7 @@ export default class  UserProfileTabMain extends React.Component {
                 flex:1,
                 //width:"100%", 
                 justifyContent:'center',
-                backgroundColor:UIConstants.COLOR_LIST_VIEW_ITEM_BG,
+                backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,
                 borderRadius:UIConstants.ITEM_ROW_BORDER_RADIUS
               }} resizeMode='stretch' > 
               <TradeStyleBlock userId={this.props.userId} isPrivate={false} />

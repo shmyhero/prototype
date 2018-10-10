@@ -126,10 +126,10 @@ const styles = StyleSheet.create({
         fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
     },
     UpPLStyle:{
-        color: ColorConstants.STOCK_RISE,
+        color: ColorConstants.STOCK_RISE_LIGHT,
     },
     DownPLStyle: {
-        color: ColorConstants.STOCK_DOWN,
+        color: ColorConstants.STOCK_DOWN_LIGHT,
     },
     SamePLStyle: {
         color: ColorConstants.STOCK_UNCHANGED_GRAY,

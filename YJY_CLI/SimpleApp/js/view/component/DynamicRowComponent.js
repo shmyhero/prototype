@@ -116,7 +116,7 @@ class DynamicRowComponentContent extends Component {
         }else if(rowData.type == 'close'){
             var winOrLoss = rowData.position.roi>=0 ? LS.str("PROFIT"):LS.str("LOSS")
             var value = (rowData.position.roi>=0 ? '+':'') + (rowData.position.roi*100).toFixed(2)+'%'
-            var valueColor = rowData.position.roi>=0 ? ColorConstants.STOCK_RISE:ColorConstants.STOCK_DOWN;
+            var valueColor = rowData.position.roi>=0 ? ColorConstants.STOCK_RISE_LIGHT:ColorConstants.STOCK_DOWN_LIGHT;
            
             text = LS.str("CLOSE_POSITION")+" "+winOrLoss;
 

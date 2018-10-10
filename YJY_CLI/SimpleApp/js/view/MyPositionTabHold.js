@@ -682,7 +682,7 @@ export default class  MyPositionTabHold extends React.Component {
 				<Slider
 					ref={component => this.bindSliderRef(type, component, type)}
 					style={styles.slider}
-					minimumTrackTintColor={ColorConstants.COLOR_MAIN_THEME_BLUE}
+					minimumTrackTintColor={ColorConstants.SUB_MAIN_COLOR}
 					minimumValue={startPercent}
 					value={percent}
 					maximumValue={endPercent}
@@ -789,7 +789,7 @@ export default class  MyPositionTabHold extends React.Component {
 			}
 		};
 
-		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE : ColorConstants.STOCK_DOWN);
+		var color = ( percent >= 0 ? ColorConstants.STOCK_RISE_LIGHT : ColorConstants.STOCK_DOWN_LIGHT);
 
 		var disabled = false
 		if (type === TYPE_STOP_LOSS) {
@@ -809,7 +809,7 @@ export default class  MyPositionTabHold extends React.Component {
 		return (
 			<View>
 				<View style={[styles.subDetailRowWrapper, {height:50}]}>
-					<CustomStyleText style={[styles.extendLeft, {minWidth:10}]}>{titleText}</CustomStyleText>
+					<CustomStyleText style={[styles.extendLeft, {minWidth:10,color:'white'}]}>{titleText}</CustomStyleText>
 					{
 						switchIsOn ?
 						<View style={[styles.extendMiddle,
@@ -1205,7 +1205,7 @@ export default class  MyPositionTabHold extends React.Component {
 				</View>
                 <View style={styles.darkSeparator} />
 				{this.renderStopProfitLossRow(rowData)}
-				{this.renderFollowRow(rowData)}
+				{/* {this.renderFollowRow(rowData)} */}
 				{this.renderOKView(rowData)}
 
 				<CustomKeyboard ref={(ref)=>this.keyboardRef = ref}/>
@@ -1274,10 +1274,8 @@ export default class  MyPositionTabHold extends React.Component {
 
 		var rowHeaderHeight = UIConstants.ITEM_ROW_HEIGHT;
 
-		var touchableStyle={height:rowHeaderHeight,
-			//borderWidth:0,
-			//borderColor: ColorConstants.stock_color(profitAmount),
-			backgroundColor:ColorConstants.stock_color_bg(profitAmount),
+		var touchableStyle={height:rowHeaderHeight, 
+			backgroundColor:ColorConstants.stock_color_bg(profitAmount), 
 			justifyContent:'center'}
 		if(this.state.selectedRow == rowID){
 			//touchableStyle.borderBottomWidth = 0;
@@ -1307,10 +1305,14 @@ export default class  MyPositionTabHold extends React.Component {
 
 		return (
 			<View style={[styles.outerRowContainer, additionalOuterStyle]}>
-				<NinePatchView
+				{/* <NinePatchView
 						style={{height: displayRowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
 						source={Platform.OS === 'android' ? {uri: 'row_background'} : require('../../images/row_background.png')}
-						capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>
+						capInsets={{top: 30, left: 40, bottom: 55, right: 26}}/>  */}
+
+						{/* <View style={{backgroundColor:'yellow', height: displayRowHeight, width:rowWidth, position:'absolute', top:0, left:0, bottom:0, right:0,}}
+						></View> */}
+				  	
 				<View style={[styles.rowContainer, additionalStyle]}>
 					<TouchableOpacity style={[styles.rowTouchable,
 							touchableStyle
@@ -1441,7 +1443,8 @@ const styles = StyleSheet.create({
 		marginLeft:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_LEFT,
 		marginRight:UIConstants.ITEM_ROW_MARGIN_HORIZONTAL - SHADOW_RIGHT,
 		marginTop: OUTER_ROW_MARGIN_TOP - SHADOW_TOP,
-        marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL - OUTER_ROW_MARGIN_TOP - SHADOW_BOTTOM,
+		marginBottom: UIConstants.ITEM_ROW_MARGIN_VERTICAL - OUTER_ROW_MARGIN_TOP - SHADOW_BOTTOM,
+	  
 	},
 
     rowContainer: {    
@@ -1518,7 +1521,9 @@ const styles = StyleSheet.create({
 		marginLeft: ROW_PADDING,
 		marginRight: ROW_PADDING,
 		height: 0.5,
-		backgroundColor: '#dfdfdf',
+		marginTop:1,
+		marginBottom:1,
+		backgroundColor: 'black',
 	},
 
 	extendWrapper: {
@@ -1529,13 +1534,14 @@ const styles = StyleSheet.create({
 		borderBottomRightRadius: UIConstants.ITEM_ROW_BORDER_RADIUS,
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
+		backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG
 	},
 
 	extendRowWrapper: {
 		flexDirection: 'row',
 		alignItems: 'stretch',
 		justifyContent: 'space-around',
-		height: ROW_HEIGHT,
+		height: ROW_HEIGHT, 
 	},
 
 	extendLeft: {
@@ -1543,6 +1549,7 @@ const styles = StyleSheet.create({
 		//minWidth:50,
 		alignItems: 'flex-start',
 		marginLeft: ROW_PADDING,
+		
 		paddingTop: 8,
 		paddingBottom: 8,
 	},
@@ -1566,7 +1573,7 @@ const styles = StyleSheet.create({
 	},
 	extendTextBottom: {
 		fontSize:13,
-		color: 'black',
+		color: 'white',
 		marginTop: 5,
 	},
 	extendImageBottom: {
@@ -1644,7 +1651,7 @@ const styles = StyleSheet.create({
 	},
 	sliderLeftText: {
 		fontSize: 12,
-		color: '#909090',
+		color: 'white',
 		textAlign: 'left',
 		flex: 1,
 		marginTop: -4,
@@ -1652,7 +1659,7 @@ const styles = StyleSheet.create({
 	},
 	sliderRightText: {
 		fontSize: 12,
-		color: '#909090',
+		color: 'white',
 		textAlign: 'right',
 		flex: 1,
 		marginTop: -4,
@@ -1745,7 +1752,7 @@ const styles = StyleSheet.create({
 	},
 	stopProfitLossInputBoxText: {
 		flex: 1,
-		color: "#000000",
+		color: "white",
 		textAlign:'center',
 		padding: 0,
 	},

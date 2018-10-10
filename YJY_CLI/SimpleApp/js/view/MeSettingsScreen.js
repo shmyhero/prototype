@@ -24,8 +24,8 @@ var NetConstants = require("../NetConstants");
 var NetworkModule = require("../module/NetworkModule");
 
 var configListData = [
-    {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
-    {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
+    // {'type':'normal','title':'SETTINGS_CENTER_TITLE', 'subtype': 'helpCenter'},
+    // {'type':'normal','title':'SETTINGS_ABOUT_TITLE', 'subtype': 'aboutUs'},
     // {'type':'normal','title':'SETTINGS_SWITCH_LANGUAGE', 'subtype': 'language'},
     // {'type':'normal','title':'SETTINGS_BALANCE_TYPE', 'subtype': 'balanceType'},
     {'type':'normal','title':'SETTINGS_GROUP_NUMBER', 'subtype': 'group'},
