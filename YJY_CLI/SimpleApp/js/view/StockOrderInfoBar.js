@@ -153,7 +153,7 @@ export default class StockOrderInfoBar extends Component {
                             {LS.str("ORDER_TRADE_PRICE")}
                         </CustomStyleText>
                         <CustomStyleText style={[styles.itemValueText, itemValueTextStyle]}>
-                        {this.state.settlePrice}
+                        {this.state.settlePrice.maxDecimal(5)}
                         </CustomStyleText>
                     </View>
                     <View style={{flex: 2, alignItems: 'center'}}>
