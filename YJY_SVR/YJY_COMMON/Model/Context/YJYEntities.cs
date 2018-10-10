@@ -21,8 +21,10 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Headline> Headlines { get; set; }
         public virtual DbSet<InvestSetting> InvestSettings { get; set; }
         public virtual DbSet<Message> Messages { get; set; }
+        public virtual DbSet<Misc> Miscs { get; set; }
         public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<SecurityLeverage> SecurityLeverages { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StatusLike> StatusLikes { get; set; }
         public virtual DbSet<THTDeposit> THTDeposits { get; set; }
@@ -31,6 +33,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<User> Users { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }
+        public virtual DbSet<UserLeverage> UserLeverages { get; set; }
         public virtual DbSet<UserTradeFollow> UserTradeFollows { get; set; }
         public virtual DbSet<VerifyCode> VerifyCodes { get; set; }
 

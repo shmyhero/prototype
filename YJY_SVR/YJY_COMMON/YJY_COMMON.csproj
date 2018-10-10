@@ -127,9 +127,11 @@
     <Compile Include="Model\Entity\Headline.cs" />
     <Compile Include="Model\Entity\InvestSetting.cs" />
     <Compile Include="Model\Entity\Message.cs" />
+    <Compile Include="Model\Entity\Misc.cs" />
     <Compile Include="Model\Entity\Model1.cs" />
     <Compile Include="Model\Entity\PhoneSignupHistory.cs" />
     <Compile Include="Model\Entity\Position.cs" />
+    <Compile Include="Model\Entity\SecurityLeverage.cs" />
     <Compile Include="Model\Entity\Status.cs" />
     <Compile Include="Model\Entity\StatusLike.cs" />
     <Compile Include="Model\Entity\THTDeposit.cs" />
@@ -138,6 +140,7 @@
     <Compile Include="Model\Entity\Transfer.cs" />
     <Compile Include="Model\Entity\User.cs" />
     <Compile Include="Model\Entity\UserFollow.cs" />
+    <Compile Include="Model\Entity\UserLeverage.cs" />
     <Compile Include="Model\Entity\UserTradeFollow.cs" />
     <Compile Include="Model\Entity\VerifyCode.cs" />
     <Compile Include="Model\Queue\PosToClose.cs" />

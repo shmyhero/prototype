@@ -40,5 +40,21 @@ namespace YJY_API.Controllers
         {
             throw new NullReferenceException();
         }
+
+        [HttpGet]
+        [Route("weichat/group")]
+        public HttpResponseMessage GetWeiChatGroup()
+        {
+            var wechatGroup = db.Miscs.FirstOrDefault(m => m.Key == "wechatgroup");
+
+            if(wechatGroup == null)
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, "tradehero");
+            }
+            else
+            {
+                return Request.CreateResponse(HttpStatusCode.OK, wechatGroup.Value);
+            }
+        }
     }
 }

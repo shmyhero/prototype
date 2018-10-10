@@ -18,6 +18,7 @@ using YJY_API.Caching;
 using YJY_API.Controllers.Attributes;
 using YJY_API.DTO;
 using YJY_API.DTO.FormDTO;
+using Newtonsoft.Json;
 
 namespace YJY_API.Controllers
 {
@@ -238,6 +239,186 @@ namespace YJY_API.Controllers
                 result.Add(d);
             });
             return result;
+        }
+
+        /// <summary>
+        /// 根据用户情况、标的，获取杠杆、可投入金额
+        /// 如果用户未登录，则只与标的有关
+        /// </summary>
+        /// <param name="securityId"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("invest/setting")]
+        public object GetInvestSetting(int securityId)
+        {
+            var authorization = this.ActionContext.Request.Headers.Authorization;
+
+            int userId = 0;
+            string token = null;
+
+            if(authorization != null) //如果用户已登录
+            {
+                var split = authorization.Parameter.Split('_');
+                userId = Convert.ToInt32(split[0]);
+                token = split[1];
+
+                var user = db.Users.FirstOrDefault(o => o.Id == userId && o.AuthToken == token);
+
+                if (user == null) //unauthorize
+                    this.ActionContext.Response = this.ActionContext.Request.CreateResponse(HttpStatusCode.Unauthorized);
+            }
+
+            object result = null;
+
+            result = new
+            {
+                PriceSetting = GetPriceSetting(userId),
+                LeverageSetting = GetLeverageSetting(userId, securityId),
+            };
+
+            return result;
+        }
+
+        /// <summary>
+        /// 计算杠杆。优先级如下：
+        /// 1、用户自定义杠杆
+        /// 2、产品自定义杠杆
+        /// 3、默认杠杆
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="securityId"></param>
+        /// <returns></returns>
+        private int[] GetLeverageSetting(int userId, int securityId)
+        {
+            var defaultDemoLeverage = new int[] { 10, 20, 50, 100 };
+            var defaultLiveLeverage = new int[] { 10, 20, 50, 100 };
+
+            int balanceTypeId = 0; //用户账号类型。 0 未登录，1 模拟盘，2 实盘
+                                   //用户的账号类型，Demo/Live
+            if(userId != 0)
+            {
+                balanceTypeId = (from u in db.Users
+                       join b in db.Balances on u.ActiveBalanceId equals b.Id
+                       where u.Id == userId
+                       select b.TypeId).FirstOrDefault();
+            }
+
+            int[] defaultLeverage = null;
+            if (userId == 0 || balanceTypeId == 0 || balanceTypeId == 1)
+            {
+                defaultLeverage = defaultDemoLeverage;
+            }
+            else
+            {
+                defaultLeverage = defaultLiveLeverage;
+            }
+
+
+            #region 用户配置
+            int[] userLeverage = null;
+            if(userId != 0) //用户已登录，根据用户的账号类型(Demo/Live)选择配置
+            {                
+                if (balanceTypeId == 0 || balanceTypeId == 1)//Demo用户
+                {
+                    var userDemoLeverage = db.UserLeverages.FirstOrDefault(u => u.UserId == userId && u.BalanceType == 1);
+                    if(userDemoLeverage != null)
+                    {
+                        userLeverage = userDemoLeverage.Leverage.Split(';').Select(u => int.Parse(u)).ToList().ToArray();
+                    }
+                }
+                else
+                {
+                    var userLiveLeverage = db.UserLeverages.FirstOrDefault(u => u.UserId == userId && u.BalanceType == 2);
+                    if (userLiveLeverage != null)
+                    {
+                        userLeverage = userLiveLeverage.Leverage.Split(';').Select(u => int.Parse(u)).ToList().ToArray();
+                    }
+                }
+            }
+            #endregion
+
+            #region 产品配置
+            int[] securityLeverage = null;
+            if (userId == 0 || balanceTypeId == 0 || balanceTypeId == 1)//Demo用户
+            {
+                var securityDemoLeverage = db.SecurityLeverages.FirstOrDefault(s => s.SecurityId == securityId && s.BalanceType == 1);
+                if (securityDemoLeverage != null)
+                {
+                    securityLeverage = securityDemoLeverage.Leverage.Split(';').Select(s => int.Parse(s)).ToList().ToArray();
+                }
+            }
+            else //实盘
+            {
+                var securityLiveLeverage = db.SecurityLeverages.FirstOrDefault(s => s.SecurityId == securityId && s.BalanceType == 2);
+                if (securityLiveLeverage != null)
+                {
+                    securityLeverage = securityLiveLeverage.Leverage.Split(';').Select(s => int.Parse(s)).ToList().ToArray();
+                }
+            }
+            #endregion
+
+            #region 通用配置, 使用userleverage表中userId=0的配置
+            int[] generalLeverage = null;
+            if (userId == 0 || balanceTypeId == 0 || balanceTypeId == 1)//Demo用户
+            {
+                var generalDemoLeverage = db.UserLeverages.FirstOrDefault(u => u.UserId == 0 && u.BalanceType == 1);
+                if (generalDemoLeverage != null)
+                {
+                    generalLeverage = generalDemoLeverage.Leverage.Split(';').Select(s => int.Parse(s)).ToList().ToArray();
+                }
+            }
+            else //实盘
+            {
+                var generalLiveLeverage = db.UserLeverages.FirstOrDefault(u => u.UserId == 0 && u.BalanceType == 2);
+                if (generalLiveLeverage != null)
+                {
+                    generalLeverage = generalLiveLeverage.Leverage.Split(';').Select(s => int.Parse(s)).ToList().ToArray();
+                }
+            }
+            #endregion
+
+            //按照优先级，用户配置>产品配置>通用配置
+            if(userLeverage != null)
+            {
+                return userLeverage;
+            }
+            else if(securityLeverage != null)
+            {
+                return securityLeverage;
+            }
+            else if(generalLeverage != null)
+            {
+                return generalLeverage;
+            }
+
+            return defaultLeverage;
+        }
+
+        /// <summary>
+        /// 根据用户类型返回价格设置
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns></returns>
+        private int[] GetPriceSetting(int userId)
+        {
+            int balanceTypeId = 0; //用户账号类型。 0 未登录，1 模拟盘，2 实盘
+                                   //用户的账号类型，Demo/Live
+            if (userId != 0)
+            {
+                balanceTypeId = (from u in db.Users
+                                 join b in db.Balances on u.ActiveBalanceId equals b.Id
+                                 where u.Id == userId
+                                 select b.TypeId).FirstOrDefault();
+            }
+
+            if (balanceTypeId == 0 || balanceTypeId == 1)//Demo用户
+            {
+                return db.InvestSettings.Where(o => o.BalanceTypeId == 1).OrderBy(o => o.DisplayOrder).Select(b => (int)b.Amount).ToArray();
+            }
+            else
+            {
+                return db.InvestSettings.Where(o => o.BalanceTypeId == 2).OrderBy(o => o.DisplayOrder).Select(b => (int)b.Amount).ToArray();
+            }
         }
     }
 }

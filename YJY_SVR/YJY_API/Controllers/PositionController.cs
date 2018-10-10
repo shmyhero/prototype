@@ -51,6 +51,14 @@ namespace YJY_API.Controllers
 
             var cache = WebCache.Instance;
 
+            decimal spread = 0.0005M; //点差，默认万分之五
+            var spreadMisc = db.Miscs.FirstOrDefault(m => m.Key == "spread");
+
+            if(spreadMisc != null)
+            {
+                decimal.TryParse(spreadMisc.Value, out spread);
+            }
+
             var prodDef = cache.ProdDefs.FirstOrDefault(o => o.Id == form.securityId);
             if (prodDef.QuoteType == enmQuoteType.Closed || prodDef.QuoteType == enmQuoteType.Inactive)
                 throw new HttpResponseException(Request.CreateErrorResponse(HttpStatusCode.BadRequest,
@@ -64,8 +72,20 @@ namespace YJY_API.Controllers
             var quote = cache.Quotes.FirstOrDefault(o => o.Id == form.securityId);
 
             var positionService = new PositionService();
+
+            var price = Quotes.GetLastPrice(quote);
+
+            if(form.isLong) //买多，买入价 = 买入价 + 加点差
+            {
+                price = (1 + spread) * price;
+            }
+            else //买空， 买入价 = 买入价 - 加点差
+            {
+                price = (1 - spread) * price;
+            }
+
             var newPosition = positionService.CreateNewPosition(UserId, form.securityId, form.invest, form.isLong,
-                form.leverage, Quotes.GetLastPrice(quote));
+                form.leverage, price);
 
             var posIdToFollow = newPosition.Id;
             Task.Run(() =>
