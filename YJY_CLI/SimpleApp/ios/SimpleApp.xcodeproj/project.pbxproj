@@ -25,6 +25,7 @@
 		23E327F620BBE793002B8F88 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E327C820BBE750002B8F88 /* libART.a */; };
 		23FF911A215E1D2900BFD7EB /* upgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FF9118215E1D2900BFD7EB /* upgrade.m */; };
 		2D419C5C10D54993A8032BA8 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F847B06B8F9424DAEEB9650 /* libRNSound.a */; };
+		3D089735216DD105000B54F3 /* libfishhook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF51F9877A60016C95F /* libfishhook.a */; };
 		3D1E3AD4211CB14500C5445A /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1E3A4C211CA2ED00C5445A /* Lottie.framework */; };
 		3D1E3AD5211CB1B800C5445A /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1E3A52211CA2ED00C5445A /* libLottie.a */; };
 		3D2157F6209C113F008C8CDE /* StockChartViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F5209C113F008C8CDE /* StockChartViewManager.m */; };
@@ -517,6 +518,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D089735216DD105000B54F3 /* libfishhook.a in Frameworks */,
 				3D1E3AD5211CB1B800C5445A /* libLottie.a in Frameworks */,
 				3D1E3AD4211CB14500C5445A /* Lottie.framework in Frameworks */,
 				3D4045CE20CA678A004C8984 /* libSplashScreen.a in Frameworks */,
