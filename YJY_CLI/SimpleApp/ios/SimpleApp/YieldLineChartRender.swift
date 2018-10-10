@@ -182,7 +182,7 @@ class YieldLineChartRender: BaseRender {
             // render from bottom to top
             var price: Double = (maxPrice-minPrice) / Double(segmentNumber) * Double(i) + minPrice
             let text: NSString = "\(price.roundTo(n))" as NSString
-            let textX = chartWidth()
+            let textX = chartWidth()+3
             let textHeight:CGFloat = 14
             let textY = round(height - (height - _bottomMargin - _topMargin - textHeight) / CGFloat(segmentNumber) * CGFloat(i)) - _bottomMargin - textHeight
             text.draw(in: CGRect(x: textX, y: textY, width: textWidth, height: textHeight), withAttributes: attributes)
@@ -190,26 +190,27 @@ class YieldLineChartRender: BaseRender {
     }
     
     override func drawHorizontalLines(_ context: CGContext) -> Void {
-        let width = chartWidth()
-        let height = chartHeight()
-        //Draw horizontal graph lines on the top of everything
-        let linePath = UIBezierPath()
-        context.saveGState()
-        
-        // horizontal lines
-        let hnum = _segment
-        for i in 1..<hnum {
-            let lineY = round(_topMargin + (height - _bottomMargin - _topMargin) / CGFloat(hnum) * CGFloat(i))
-            //            print("lineY:",lineY)
-            linePath.move(to: CGPoint(x:_margin, y: lineY + 0.5))
-            linePath.addLine(to: CGPoint(x: width - _margin, y:lineY + 0.5))
-        }
-        
-        _colorSet.bgLineColor.setStroke()
-        linePath.lineWidth = 1
-        linePath.stroke()
-        
-        context.restoreGState()
+        return
+//        let width = chartWidth()
+//        let height = chartHeight()
+//        //Draw horizontal graph lines on the top of everything
+//        let linePath = UIBezierPath()
+//        context.saveGState()
+//
+//        // horizontal lines
+//        let hnum = _segment
+//        for i in 1..<hnum {
+//            let lineY = round(_topMargin + (height - _bottomMargin - _topMargin) / CGFloat(hnum) * CGFloat(i))
+//            //            print("lineY:",lineY)
+//            linePath.move(to: CGPoint(x:_margin, y: lineY + 0.5))
+//            linePath.addLine(to: CGPoint(x: width - _margin, y:lineY + 0.5))
+//        }
+//
+//        _colorSet.bgLineColor.setStroke()
+//        linePath.lineWidth = 1
+//        linePath.stroke()
+//
+//        context.restoreGState()
     }
 }
 

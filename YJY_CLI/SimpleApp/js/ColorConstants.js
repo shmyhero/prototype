@@ -74,6 +74,18 @@ var colors = {
 		}
 	},
 
+	stock_color_bg_gradient: function(change) {
+		if (change > 0) {
+			return ['#f84646','#f46767']
+		}
+		else if (change < 0) {
+			return ['#1fbd90','#43e0c2']
+		}
+		else {
+			return ['#989696','#bbb8b8']
+		}
+	},
+
 	title_blue:function(){ 
 		return colorScheme === this.COLOR_THEME_LIVE ? '#425a85':'#1962dd'
 	},

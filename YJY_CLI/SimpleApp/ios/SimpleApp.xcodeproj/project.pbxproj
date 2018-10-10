@@ -24,10 +24,19 @@
 		23987F301FA07BAA0016C95F /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
 		23E327F620BBE793002B8F88 /* libART.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23E327C820BBE750002B8F88 /* libART.a */; };
 		23FF911A215E1D2900BFD7EB /* upgrade.m in Sources */ = {isa = PBXBuildFile; fileRef = 23FF9118215E1D2900BFD7EB /* upgrade.m */; };
-		2D419C5C10D54993A8032BA8 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 6F847B06B8F9424DAEEB9650 /* libRNSound.a */; };
 		3D089735216DD105000B54F3 /* libfishhook.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987EF51F9877A60016C95F /* libfishhook.a */; };
-		3D1E3AD4211CB14500C5445A /* Lottie.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1E3A4C211CA2ED00C5445A /* Lottie.framework */; };
-		3D1E3AD5211CB1B800C5445A /* libLottie.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1E3A52211CA2ED00C5445A /* libLottie.a */; };
+		3D0897BA216DE6A7000B54F3 /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D5929B204FCB35005DBDA8 /* libRealmReact.a */; };
+		3D0897BB216DE71F000B54F3 /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D592D4204FF01B005DBDA8 /* libRCTOrientation.a */; };
+		3D0897BC216DE73E000B54F3 /* libRNSound.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 410EFDEB20FC46EA00D7814F /* libRNSound.a */; };
+		3D0897BE216DE797000B54F3 /* libcxxreact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA91DF850E9000B6D8A /* libcxxreact.a */; };
+		3D0897C3216DE910000B54F3 /* libdouble-conversion.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F571FA07BAA0016C95F /* libdouble-conversion.a */; };
+		3D0897C4216DE91C000B54F3 /* libjschelpers.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EAD1DF850E9000B6D8A /* libjschelpers.a */; };
+		3D0897C6216DE942000B54F3 /* libRealmJS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D0897C5216DE942000B54F3 /* libRealmJS.a */; };
+		3D0897C7216DE95E000B54F3 /* libthird-party.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 23987F531FA07BAA0016C95F /* libthird-party.a */; };
+		3D0897C8216DE96E000B54F3 /* libyoga.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA51DF850E9000B6D8A /* libyoga.a */; };
+		3D0897C9216DE9C1000B54F3 /* libjsinspector.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D59290204FCB34005DBDA8 /* libjsinspector.a */; };
+		3D0897CA216DE9C8000B54F3 /* libprivatedata.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41D59294204FCB34005DBDA8 /* libprivatedata.a */; };
+		3D0897CC216DEA84000B54F3 /* Lottie.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 3D1E3A4C211CA2ED00C5445A /* Lottie.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		3D2157F6209C113F008C8CDE /* StockChartViewManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F5209C113F008C8CDE /* StockChartViewManager.m */; };
 		3D2157F9209C12D2008C8CDE /* StockChartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157F8209C12D2008C8CDE /* StockChartView.swift */; };
 		3D2157FC209C13CD008C8CDE /* BaseRender.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3D2157FA209C13CC008C8CDE /* BaseRender.swift */; };
@@ -52,12 +61,9 @@
 		41C6B4C720FC473B004A3400 /* coin.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 41C6B49420FC473A004A3400 /* coin.mp3 */; };
 		41E1AE4D211965060038569E /* Abolition.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 41E1AE15211965060038569E /* Abolition.ttf */; };
 		41F878792092E61E005D04CF /* libBVLinearGradient.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 41F8784F2092E60B005D04CF /* libBVLinearGradient.a */; };
-		6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 85DF5F01582F4C4895C6F695 /* libRCTOrientation.a */; };
-		82957684C79A42F3B32AF98C /* libRealmReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 48DC94D2363F4E46AED99507 /* libRealmReact.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		AF25D94A63664A3E8DB5AC93 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 4637A3510A384E83BAD572A4 /* libz.tbd */; };
-		FA6B1D051E8948E99674F7C5 /* libLottieReactNative.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C8A31F015EC541F79A9C684E /* libLottieReactNative.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,6 +185,13 @@
 			proxyType = 2;
 			remoteGlobalIDString = 323A12871E5F266B004975B8;
 			remoteInfo = "ART-tvOS";
+		};
+		3D0897CD216DEA84000B54F3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DCE59D79958C4FC192933758 /* Lottie.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 62CA59B71E3C173B002D7188;
+			remoteInfo = Lottie_iOS;
 		};
 		3D1E3A4B211CA2ED00C5445A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -448,6 +461,20 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		3D0897CF216DEA84000B54F3 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				3D0897CC216DEA84000B54F3 /* Lottie.framework in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
 		008F07F21AC5B25A0029DE68 /* main.jsbundle */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = main.jsbundle; sourceTree = "<group>"; };
 		00C302A71ABCB8CE00DB3ED1 /* RCTActionSheet.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTActionSheet.xcodeproj; path = "../node_modules/react-native/Libraries/ActionSheetIOS/RCTActionSheet.xcodeproj"; sourceTree = "<group>"; };
@@ -471,6 +498,8 @@
 		23FF9118215E1D2900BFD7EB /* upgrade.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = upgrade.m; path = SimpleApp/ios_upgrade/upgrade.m; sourceTree = "<group>"; };
 		23FF9119215E1D2900BFD7EB /* upgrade.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = upgrade.h; path = SimpleApp/ios_upgrade/upgrade.h; sourceTree = "<group>"; };
 		3A38591D8D124532B27B7B62 /* RNSound.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSound.xcodeproj; path = "../node_modules/react-native-sound/RNSound.xcodeproj"; sourceTree = "<group>"; };
+		3D0897BF216DE79F000B54F3 /* libGCDWebServers.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libGCDWebServers.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		3D0897C5216DE942000B54F3 /* libRealmJS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libRealmJS.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		3D2157F4209C113F008C8CDE /* StockChartViewManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = StockChartViewManager.h; path = SimpleApp/StockChartViewManager.h; sourceTree = "<group>"; };
 		3D2157F5209C113F008C8CDE /* StockChartViewManager.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; name = StockChartViewManager.m; path = SimpleApp/StockChartViewManager.m; sourceTree = "<group>"; };
 		3D2157F7209C12D1008C8CDE /* SimpleApp-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "SimpleApp-Bridging-Header.h"; sourceTree = "<group>"; };
@@ -518,9 +547,18 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3D0897CA216DE9C8000B54F3 /* libprivatedata.a in Frameworks */,
+				3D0897C9216DE9C1000B54F3 /* libjsinspector.a in Frameworks */,
+				3D0897C8216DE96E000B54F3 /* libyoga.a in Frameworks */,
+				3D0897C7216DE95E000B54F3 /* libthird-party.a in Frameworks */,
+				3D0897C6216DE942000B54F3 /* libRealmJS.a in Frameworks */,
+				3D0897C4216DE91C000B54F3 /* libjschelpers.a in Frameworks */,
+				3D0897C3216DE910000B54F3 /* libdouble-conversion.a in Frameworks */,
+				3D0897BE216DE797000B54F3 /* libcxxreact.a in Frameworks */,
+				3D0897BC216DE73E000B54F3 /* libRNSound.a in Frameworks */,
+				3D0897BB216DE71F000B54F3 /* libRCTOrientation.a in Frameworks */,
+				3D0897BA216DE6A7000B54F3 /* libRealmReact.a in Frameworks */,
 				3D089735216DD105000B54F3 /* libfishhook.a in Frameworks */,
-				3D1E3AD5211CB1B800C5445A /* libLottie.a in Frameworks */,
-				3D1E3AD4211CB14500C5445A /* Lottie.framework in Frameworks */,
 				3D4045CE20CA678A004C8984 /* libSplashScreen.a in Frameworks */,
 				41B1E85320C66B360006F889 /* libRNDeviceInfo.a in Frameworks */,
 				418E693A20BD4F8D005EC789 /* libRNImagePicker.a in Frameworks */,
@@ -540,12 +578,8 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				82957684C79A42F3B32AF98C /* libRealmReact.a in Frameworks */,
 				16944A88429D421D8BE9A993 /* libc++.tbd in Frameworks */,
 				AF25D94A63664A3E8DB5AC93 /* libz.tbd in Frameworks */,
-				6E075CCF7E074A638180BE7F /* libRCTOrientation.a in Frameworks */,
-				2D419C5C10D54993A8032BA8 /* libRNSound.a in Frameworks */,
-				FA6B1D051E8948E99674F7C5 /* libLottieReactNative.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -806,6 +840,8 @@
 		76F017EE781740BFB6E7FF82 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				3D0897C5216DE942000B54F3 /* libRealmJS.a */,
+				3D0897BF216DE79F000B54F3 /* libGCDWebServers.a */,
 				1EF178894B564C6884768377 /* libc++.tbd */,
 				4637A3510A384E83BAD572A4 /* libz.tbd */,
 			);
@@ -913,10 +949,12 @@
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
+				3D0897CF216DEA84000B54F3 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				3D0897CE216DEA84000B54F3 /* PBXTargetDependency */,
 			);
 			name = SimpleApp;
 			productName = "Hello World";
@@ -1502,6 +1540,14 @@
 		};
 /* End PBXSourcesBuildPhase section */
 
+/* Begin PBXTargetDependency section */
+		3D0897CE216DEA84000B54F3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Lottie_iOS;
+			targetProxy = 3D0897CD216DEA84000B54F3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
 /* Begin PBXVariantGroup section */
 		13B07FB11A68108700A75B9A /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
@@ -1535,6 +1581,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 				);
 				INFOPLIST_FILE = SimpleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1569,6 +1616,7 @@
 					"$(SRCROOT)/../node_modules/lottie-react-native/src/ios/LottieReactNative",
 				);
 				INFOPLIST_FILE = SimpleApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = (
 					"$(inherited)",
@@ -1621,7 +1669,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1659,7 +1707,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;

@@ -27,8 +27,8 @@ class ColorSet: NSObject {
     var yieldLineColor: UIColor = UIColor(hexInt: 0x1f4a77)
     var yieldBgLineColor: UIColor = UIColor(hexInt: 0xacabab)
     var yieldDateTextColor: UIColor = UIColor(hexInt: 0xacabab)
-    var yieldStartColor: UIColor = UIColor(hexInt: 0xb8c6d4)
-    var yieldEndColor: UIColor = UIColor(hexInt: 0xfbfcfd)
+    var yieldStartColor: UIColor = UIColor(hexInt: 0x1a272f)
+    var yieldEndColor: UIColor = UIColor(hexInt: 0x13131b)
     
     // candle chart
     var upColor: UIColor = UIColor(hexInt: 0xe34b4f)
@@ -43,11 +43,11 @@ class ColorSet: NSObject {
         // type 0 is detail view.
         // type 1 is open position view
         //渐变背景色
-        startColor = UIColor(hexInt: 0x346aa2)
-        endColor = UIColor(hexInt: 0x1f4a77)
+        startColor = UIColor(hexInt: 0x1a272f)
+        endColor = UIColor(hexInt: 0x13131b)
         // 下面的时间
         dateTextColor = UIColor(hexInt: 0x62a5e0)
-        dateTextBgColor = UIColor(hexInt: 0x1c4570)
+        dateTextBgColor = UIColor(hexInt: 0x0b0b0f)
         //线框
         bgLineColor = UIColor(hexInt: 0xffffff, alpha: 1)
         //k线的颜色
