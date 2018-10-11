@@ -287,7 +287,7 @@ export default class RankHeroList extends React.Component {
     }
 
     renderUserRow(rowData, id){
-            if(id>0){
+            if(id>3){
                 return (
                     <UserBlock 
                         style={{width:width-30}}

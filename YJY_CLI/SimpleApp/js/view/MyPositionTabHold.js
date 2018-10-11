@@ -1393,7 +1393,7 @@ export default class  MyPositionTabHold extends React.Component {
 			)
 		}else{
 			return(
-				<View style={{flex:1}}>
+				<View style={{flex:1,backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
 					{this.renderLoadingText()}
 					{/* <RefreshableFlatList */}
 					<FlatList

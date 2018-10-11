@@ -22,8 +22,8 @@ var LS = {
     VERIFING: ["信息检查中...", "Verifying...", "検証中..."],    
     FINISH: ["完成", "Done", "完成"],
     SUGAR_PROFIT: ["盈利", "Profit", "獲得"],
-    SUGAR_AMOUNT: ["总{1}数", "Total {1}", "総資産({1})"],
-    SUGAR_AVAILABLE: ["剩余{1}数", "Available {1}", "残高({1})"],
+    SUGAR_AMOUNT: ["总{1}", "Total {1}", "総資産({1})"],
+    SUGAR_AVAILABLE: ["剩余{1}", "Available {1}", "残高({1})"],
     LONG_OPERATION: ["上升", "BULLISH", "上昇"],
     SHORT_OPERATION: ["下降", "BEARISH", "下落"],
 
@@ -45,7 +45,7 @@ var LS = {
     NO_MORE:["没有更多","no more data", "データはこれ以上ありません"],
     DEL:["删除","Remove", "削除"],
     MOUNT_X:["{1} x","{1} x", "{1} x"],
-    MULTIPLE:["杠杆","Leverage", "乗数"],//テコ入れ
+    MULTIPLE:["倍数","Leverage", "乗数"],//テコ入れ
     PROFIT:["盈利","Profit", "獲得"],
     LOSS:["亏损","Loss", "損失"],    
     CLOSE_POSITION:["平仓","Position", "クローズポジション"],
@@ -88,9 +88,9 @@ var LS = {
     ZWJYJL:["暂无交易记录","no data", "データがありません"],
     MONTHLY:["近一个月","Monthly", "1ヶ月"],
     ALL:["全部","ALL", "すべて"],
-    INVESTMENT_TREND:["TA的收益走势","Investment Trend", "獲得"],
+    INVESTMENT_TREND:["收益走势","Investment Trend", "獲得"],
     JYFG:["交易风格","Trade Style", "トレードスタイル"],
-    PJGG:["平均杠杆","AVG.Leverage", "平均乗数"],
+    PJGG:["平均倍数","AVG.Leverage", "平均乗数"],
     LJXD:["累积下单(次)","Total trades", "トレード数"],
   
     PJBJ:["平均{1}","AVG.{1}", "平均{1}"],  
@@ -103,7 +103,7 @@ var LS = {
     PHONE_NUM:["手机号","Phone Number", "携帯番号"],
     VCODE:["验证码","VCode", "確認コード"],
     GET_VCODE:["获取验证码","Get VCode", "確認コードを発送"],
-    YOU_ARE_LOGIN:["您正在登录盈交易市场","You are login YinJiaoYi market", "ログイン"],
+    YOU_ARE_LOGIN:["您正在登录盈交易无限版","You are login YinJiaoYi market", "ログイン"],
     FAST_LOGIN:["快速登录","Fast Login", "簡単ログイン"],
     
     WARNING:["温馨提示","TIPS", "温馨提示"],
@@ -194,7 +194,7 @@ var LS = {
     ORDER_TYPE:['类型','Type', "Type"],
     ORDER_TRADING:['交易','Start', "Start"],
     ORDER_SUGAR_AMOUNT: ["{1}", "{1}", "{1}"],
-    ORDER_MULTIPLE: ["杠杆", "Leverage", "Leverage"],
+    ORDER_MULTIPLE: ["倍数", "Leverage", "Leverage"],
     ORDER_TRADE_PRICE: ["开仓价格", "Trade Price", "Trade Price"],
     ORDER_MAX_RISK: ["最大风险（{1}）", "Maximum Risk", "Maximum Risk"],
     ORDER_PROFIT_AND_LOSS: ["盈亏（{1}）", "Profit / loss ({1})", "Profit / loss ({1})"],

@@ -7,7 +7,7 @@ import {
 } from 'react-native';
 import Pie from './Pie';
 import CustomStyleText from '../CustomStyleText';
-
+var ColorConstants = require('../../../ColorConstants');  
 export default class  MyPie extends React.Component {
 
     static propTypes={
@@ -86,7 +86,7 @@ export default class  MyPie extends React.Component {
                         />  
                     </View> 
                     <CustomStyleText style={{color:'white',fontSize:topFontSize, position:'absolute',top:topOffSet,fontWeight:'bold'}}>{this.props.innerText}</CustomStyleText>
-                    <CustomStyleText style={{color:'#ffffff', fontSize:12,position:'absolute',top:radius+5}}>{this.props.innerText2}</CustomStyleText>
+                    <CustomStyleText style={{color:ColorConstants.TEXT_GREY, fontSize:12,position:'absolute',top:radius+5}}>{this.props.innerText2}</CustomStyleText>
             </View>
         );
     }

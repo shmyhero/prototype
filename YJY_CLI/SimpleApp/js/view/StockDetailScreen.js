@@ -456,7 +456,7 @@ class StockDetailScreen extends Component {
             textViewStyleList.push(additionalTextStyle)
         }
         if (!enable){
-            textViewStyleList.push({color:'#cccccc'});
+            textViewStyleList.push({color:'#666666'});
         }
 
         return (

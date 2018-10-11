@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
     },
 
     linkedPart:{
-        color:ColorConstants.COLOR_MAIN_THEME_BLUE,
+        color:'#5DC5D2',
         fontSize: 30,
     }
 });

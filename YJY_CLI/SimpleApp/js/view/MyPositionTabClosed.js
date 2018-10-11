@@ -322,7 +322,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	renderProfit(pl, color) {
 		var {height, width} = Dimensions.get('window');
-		var textSize = Math.round(18*width/375.0)
+		var textSize = UIConstants.STOCK_ROW_PRICE_FONT_SIZE//Math.round(18*width/375.0)
 		pl = pl.toFixed(2)
 		var add = (pl > 0)?'+':'';
 
@@ -335,7 +335,7 @@ export default class  MyPositionTabClosed extends React.Component {
 
 	renderProfitPercentage(percentChange, color) {
 		var {height, width} = Dimensions.get('window');
-		var textSize = Math.round(18*width/375.0)
+		var textSize = UIConstants.STOCK_ROW_PRICE_FONT_SIZE// Math.round(18*width/375.0)
 		percentChange = percentChange.toFixed(2)
 		var add = (percentChange > 0)?'+':'';
 		return (
@@ -563,7 +563,7 @@ export default class  MyPositionTabClosed extends React.Component {
 			var pullUpDistance = 35;
 			var pullUpStayDistance = 35;
 
-			return (<View style={{flex:1}}>
+			return (<View style={{flex:1,backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
 				{this.renderLoadingText()}
 				{/* <RefreshableFlatList */}
 				<FlatList
@@ -704,7 +704,7 @@ var styles = StyleSheet.create({
 	},
 
 	stockPercentText: {
-		fontSize: 18,
+		fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
 		color: '#8181A2',
 		fontWeight: 'normal',
 	},

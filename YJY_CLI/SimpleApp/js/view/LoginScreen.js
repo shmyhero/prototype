@@ -300,7 +300,7 @@ export default class LoginScreen extends Component {
             <TouchableOpacity activeOpacity={1.0} onPress={()=>this.onCancel()} style={[styles.container, {height:height-HeightSub}]}>
                     <NavBar  backgroundColor='transparent' title="" navigation={this.props.navigation} showBackButton={!this.state.hideBackButton}/>
                     <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-                        <Image style={{width:128,height:128}} source={require('../../images/logo_login.png')}/>
+                        <Image style={{width:96,height:96}} source={require('../../images/logo_login.png')}/>
                     </View>
                     <View style={{flex:2,justifyContent:'center',alignItems:'center'}}>
                         
@@ -391,7 +391,7 @@ export default class LoginScreen extends Component {
         if(this.state.isRequesting){
             return(
                 <View style={{flexDirection:'row',justifyContent:'center',width:100}}>
-                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
+                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#3289a0'}}></View>
                     <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
                     {this._renderActivityIndicator()}
                     </View>
@@ -400,7 +400,7 @@ export default class LoginScreen extends Component {
         }else if(this.state.getValidationCodeButtonEnabled||this.state.validationCodeCountdown<0){
             return(
                 <TouchableOpacity onPress={()=>this.getValidationCode()} style={{flexDirection:'row',width:100}}>
-                                    <View style={{width:1,height:40,backgroundColor:'#4e85bf' }}></View>
+                                    <View style={{width:1,height:40,backgroundColor:'#3289a0' }}></View>
                                     <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
                                         <CustomStyleText style={{color:textLogin,alignSelf:'center'}}>{LS.str("GET_VCODE")}</CustomStyleText>
                                     </View> 
@@ -409,7 +409,7 @@ export default class LoginScreen extends Component {
         }else{
             return(
                 <TouchableOpacity style={{flexDirection:'row',justifyContent:'center',width:100}}>
-                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#4e85bf'}}></View>
+                    <View style={{marginRight:10,width:1,height:40,backgroundColor:'#3289a0'}}></View>
                     <View style={{alignContent:'center',justifyContent:'center',flex:1}}>
                         <CustomStyleText style={{marginRight:10,color:'white',alignSelf:'center' }}>{this.state.validationCodeCountdown}</CustomStyleText>
                     </View> 
@@ -443,6 +443,7 @@ export default class LoginScreen extends Component {
 const styles = StyleSheet.create({
     container:{
        flex:1, 
+       backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE
     }
 })
 
