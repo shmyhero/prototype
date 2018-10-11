@@ -17,6 +17,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<AdminUser> AdminUsers { get; set; }
         public virtual DbSet<Balance> Balances { get; set; }
         public virtual DbSet<BalanceType> BalanceTypes { get; set; }
+        public virtual DbSet<Deposit> Deposits { get; set; }
         public virtual DbSet<ETHDeposit> ETHDeposits { get; set; }
         public virtual DbSet<Headline> Headlines { get; set; }
         public virtual DbSet<InvestSetting> InvestSettings { get; set; }

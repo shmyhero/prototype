@@ -177,6 +177,53 @@ namespace YJY_API.Controllers
             return userDto;
         }
 
+        /// <summary>
+        /// 模拟盘用户返回0，实盘用户返回账户余额
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("refund/balance")]
+        [BasicAuth]
+        public decimal GetRefundableBalance()
+        {
+            var balance = (from u in db.Users
+                             join b in db.Balances on u.ActiveBalanceId equals b.Id
+                             where u.Id == this.UserId
+                             select b).FirstOrDefault();
+
+            if(balance == null || balance.TypeId == 1) //模拟盘
+            {
+                return 0;
+            }
+
+            return balance.Amount.Value;
+        }
+
+        [HttpGet]
+        [Route("deposit")]
+        [BasicAuth]
+        public ResultDTO Deposit(decimal amount)
+        {
+            string orderNum = (new Random()).Next(0, 999).ToString().PadLeft(3, '0');
+
+            db.Deposits.Add(new Deposit()
+            {
+                OrderNum = orderNum,
+                Amount = amount,
+                CreatedAt = DateTime.Now,
+                Status = (int)DepositStatus.Unpaid,
+                 UserId = this.UserId
+            });
+
+            db.SaveChanges();
+
+            ResultDTO result = new ResultDTO();
+            result.success = true;
+            result.message = orderNum;
+
+            return result;
+        }
+
         [HttpPut]
         [Route("nickname")]
         [BasicAuth]

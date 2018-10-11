@@ -123,6 +123,7 @@
     <Compile Include="Model\Entity\ApiHit.cs" />
     <Compile Include="Model\Entity\Balance.cs" />
     <Compile Include="Model\Entity\BalanceType.cs" />
+    <Compile Include="Model\Entity\Deposit.cs" />
     <Compile Include="Model\Entity\ETHDeposit.cs" />
     <Compile Include="Model\Entity\Headline.cs" />
     <Compile Include="Model\Entity\InvestSetting.cs" />
