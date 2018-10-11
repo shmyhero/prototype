@@ -76,28 +76,41 @@ namespace YJY_SVR.Controllers
             code = r.Next(10000).ToString("0000");
 
 
-            string failMsg;
-            var sendSuccess = TwilioSMS.SendSMS(phone, Resources.Resource.VerificationCode.FormatWith(code), out failMsg);
+            //string failMsg;
+            //var sendSuccess = TwilioSMS.SendSMS(phone, Resources.Resource.VerificationCode.FormatWith(code), out failMsg);
 
-            if (sendSuccess)
-            {
-                db.VerifyCodes.Add(new VerifyCode
-                {
-                    Code = code,
-                    SentAt = DateTime.UtcNow,
-                    Phone = phone
-                });
-                db.SaveChanges();
+            //if (sendSuccess)
+            //{
+            //    db.VerifyCodes.Add(new VerifyCode
+            //    {
+            //        Code = code,
+            //        SentAt = DateTime.UtcNow,
+            //        Phone = phone
+            //    });
+            //    db.SaveChanges();
 
-                result.success = true;
-                return result;
-            }
-            else
+            //    result.success = true;
+            //    return result;
+            //}
+            //else
+            //{
+            //    result.success = false;
+            //    result.message = failMsg;
+            //    return result;
+            //}
+
+            YunPianSMS.TplSendCodeSms(string.Format("#code#={0}", code), phone);
+
+            db.VerifyCodes.Add(new VerifyCode
             {
-                result.success = false;
-                result.message = failMsg;
-                return result;
-            }
+                Code = code,
+                SentAt = DateTime.UtcNow,
+                Phone = phone
+            });
+            db.SaveChanges();
+
+            result.success = true;
+            return result;
         }
     }
 }

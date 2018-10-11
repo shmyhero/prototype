@@ -151,6 +151,7 @@
     <Compile Include="Service\FundService.cs" />
     <Compile Include="Service\UserService.cs" />
     <Compile Include="SMS\TwilioSMS.cs" />
+    <Compile Include="SMS\YunPianSMS.cs" />
     <Compile Include="Util\DateTimes.cs" />
     <Compile Include="Util\Extension\StringExtension.cs" />
     <Compile Include="Util\KLines.cs" />
