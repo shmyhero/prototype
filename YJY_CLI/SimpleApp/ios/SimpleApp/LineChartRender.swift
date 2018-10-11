@@ -14,6 +14,31 @@ class LineChartRender: BaseRender {
 		lineDataProvider = dataProvider as? LineChartDataProvider
 	}
 	
+    func drawLinearGradient(_ context:(CGContext), path:(CGPath), startColor:(CGColor), endColor:(CGColor))
+    {
+        let colorSpace:CGColorSpace = CGColorSpaceCreateDeviceRGB()
+        let locations:[CGFloat] = [0.0, 1.0]
+        
+        let colors = [startColor, endColor]
+
+        let gradient:CGGradient = CGGradient(colorsSpace: colorSpace,
+                                             colors: colors as CFArray,
+                                             locations: locations)!
+
+        let pathRect:CGRect = path.boundingBox
+        //具体方向可根据需求修改
+        let startPoint:CGPoint = CGPoint(x: pathRect.minX, y: pathRect.midY)
+        let endPoint:CGPoint = CGPoint(x: pathRect.maxX, y:pathRect.midY)
+
+        context.saveGState()
+        context.addPath(path)
+        context.clip()
+        context.drawLinearGradient(gradient, start: startPoint, end: endPoint, options: [])
+        context.restoreGState()
+    }
+    
+    
+    
 	override func render(_ context: CGContext) {
 		if (lineDataProvider == nil) {
 			return
@@ -95,7 +120,8 @@ class LineChartRender: BaseRender {
 		
 		//draw the line on top of the clipped gradient
 		graphPath.lineWidth = 3
-		graphPath.stroke()
+        graphPath.stroke()
+//        drawLinearGradient(context, path:graphPath.cgPath, startColor:UIColor.white.cgColor, endColor:UIColor.red.cgColor)
 		
 		context.restoreGState()
 		if lineDataProvider!.pannedX() < 5 {
