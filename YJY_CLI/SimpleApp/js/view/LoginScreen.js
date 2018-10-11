@@ -130,7 +130,8 @@ export default class LoginScreen extends Component {
     getValidationCode(){
         if(this.state.isRequesting || this.state.validationCodeCountdown!==-1){return}
 
-        var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
+        // var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
+        var sendPhone = this.state.phoneNumber
 
         if(this.isPhoneNumberChecked()){ 
             this.setState({
@@ -216,7 +217,8 @@ export default class LoginScreen extends Component {
             return
         }
 
-        var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
+        // var sendPhone = "+"+this.state.countryCode + this.state.phoneNumber
+        var sendPhone = this.state.phoneNumber
 
         if(NetConstants.CFD_API.POST_USER_SIGNUP_BY_PHONE == undefined){
             Alert.alert(
@@ -306,11 +308,11 @@ export default class LoginScreen extends Component {
                         
                         <CustomStyleText style={{marginBottom:5,color:'white',fontSize:11}}>{LS.str("YOU_ARE_LOGIN")}</CustomStyleText>
                         <View style={{backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,height:48,width:width,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
-                            <TouchableOpacity  onPress={()=>this.getCountryCode()} style={{flexDirection:'row'}}>
+                            {/* <TouchableOpacity  onPress={()=>this.getCountryCode()} style={{flexDirection:'row'}}>
                                 <CustomStyleText style={{marginLeft:10,color:'white'}}>+</CustomStyleText>
                                 <CustomStyleText style={{marginLeft:2,color:'white'}}>{this.state.countryCode}</CustomStyleText>
                                 <CustomStyleText style={{fontSize:10,marginTop:2, marginLeft:5,color:'white'}}>v</CustomStyleText> 
-                            </TouchableOpacity>
+                            </TouchableOpacity> */}
                             
                             <TextInput 
                             underlineColorAndroid='transparent'

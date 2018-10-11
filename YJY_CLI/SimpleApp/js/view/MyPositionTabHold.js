@@ -843,7 +843,9 @@ export default class  MyPositionTabHold extends React.Component {
 		          onValueChange={(value) => this.onSwitchPressed(type, value)}
 		          value={switchIsOn}
 							disabled={disabled}
-						  onTintColor={ColorConstants.COLOR_MAIN_THEME_BLUE} />
+							tintColor={'white'} 
+							thumbTintColor={'white'}
+						  onTintColor={ColorConstants.SUB_MAIN_COLOR} />
 			        </View>
 				</View>
 				{ switchIsOn ? this.renderSlider(rowData, type, startPercent, endPercent, percent) : null}
