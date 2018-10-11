@@ -135,7 +135,7 @@ export default class  ScrollTabView extends React.Component {
 		var half = (width / this.props.tabNames.length)/2 - 10
 		var offsetX = (width / this.props.tabNames.length * this.state.currentSelectedTab)+half
 		var imageSource = this.props.tabBgStyle == 0?require('../../../images/icon_control.png'):require('../../../images/icon_control.png')
-		var lineColor = '#43B0BF'
+		var lineColor = '#26525c'
 		return (
 			<View style={styles.lineContainer}>
 				<Image style={{width:11.5,height:6.0,marginLeft: offsetX,marginBottom:-0.5,}} source={imageSource}/>
