@@ -707,6 +707,8 @@ var styles = StyleSheet.create({
 		fontSize: UIConstants.STOCK_ROW_PRICE_FONT_SIZE,
 		color: '#8181A2',
 		fontWeight: 'normal',
+		fontWeight: 'bold',
+		
 	},
 
 	darkSeparator: {
