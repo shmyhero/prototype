@@ -101,11 +101,11 @@ export default class ProfitTrendCharts extends Component {
         console.log("JSON.stringify(this.state.stockInfo)", JSON.stringify(this.state.stockInfo))
         var view = (<PriceChartView style={[styles.chartStyle, this.props.chartStyle]}
           chartType={"userHomePage"}
-          lineChartGradient={['#1a272f', '#13131b']}
+          
           dataSetColor={ColorConstants.COLOR_MAIN_THEME_BLUE} 
           textColor={"#9e9e9e"}
-          lineWidth={10} 
-          borderColor={ColorConstants.SEPARATOR_GRAY}
+          lineWidth={8} 
+          borderColor={'#272737'}
           xAxisPosition="BOTTOM"
           leftAxisEnabled={false}
           rightAxisEnabled={true}
@@ -120,6 +120,7 @@ export default class ProfitTrendCharts extends Component {
           data={JSON.stringify(this.state.stockInfo)}
           drawDataUnderYAxis={false}
           xAxisTextSize={10}
+          lineChartGradient={['#23313d', '#1f1f2b']}
           rainbowColor={['#B367F4', '#50E0E6']}
       />)
       }catch(e){
@@ -142,10 +143,12 @@ export default class ProfitTrendCharts extends Component {
     var rightStyle = {}
     if(this.state.chartType == TYPE_MONTH){
       leftStyle.backgroundColor = '#55cad3'
-      leftStyle.borderColor = '#55cad3'
+      leftStyle.borderColor = '#272737'
+      rightStyle.borderColor = '#272737'
     }else{
       rightStyle.backgroundColor = '#55cad3'
-      rightStyle.borderColor = '#55cad3'
+      rightStyle.borderColor = '#272737'
+      leftStyle.borderColor = '#272737'
     }
     
     var textColorLeft = this.state.chartType == TYPE_MONTH ? 'white':'grey'
@@ -181,7 +184,7 @@ export default class ProfitTrendCharts extends Component {
 const styles = StyleSheet.create({
   container: {
     flex:1, 
-    marginBottom:5,
+    marginBottom:5, 
   },
   separator: {
     height: 1,
@@ -209,8 +212,7 @@ const styles = StyleSheet.create({
   } ,
   textChartSelector:{
     fontSize:12,
-    color:'#999999',
-     
+    color:'#999999', 
   },
   chartContainer:{
     flex:1, 

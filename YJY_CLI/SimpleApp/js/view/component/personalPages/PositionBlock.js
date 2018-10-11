@@ -436,7 +436,7 @@ const styles = StyleSheet.create({
   extendRowWrapper: {
     marginTop:10,
     borderTopWidth:1,
-    borderColor: ColorConstants.SEPARATOR_GRAY,
+    borderColor: ColorConstants.SEPARATOR_DARK,
 		flexDirection: 'row',
 		alignItems: 'stretch',
 		justifyContent: 'space-around',

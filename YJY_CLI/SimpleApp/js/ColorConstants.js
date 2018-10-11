@@ -51,6 +51,7 @@ var colors = {
     COLOR_GRADIENT_DISABLE: ["#999999", "#AAAAAA"],
 	TEXT_COLOR_DISABLE: "white",
 	NAVBAR_TEXT_COLOR: "white",
+	SEPARATOR_DARK:'black',
 	
 	stock_color: function(change) {
 		if (change > 0) {

@@ -713,7 +713,7 @@ var styles = StyleSheet.create({
 
 	darkSeparator: {
 		height: 0.5,
-		backgroundColor: '#dfdfdf',
+		backgroundColor: ColorConstants.SEPARATOR_DARK,
 	},
 
 	extendWrapper: {
