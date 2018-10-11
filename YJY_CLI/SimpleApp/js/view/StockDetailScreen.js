@@ -686,7 +686,7 @@ class StockDetailScreen extends Component {
                         </ScrollView>
                         <CustomStyleText style={{position:'absolute', top:-5, left:0, right:0,
                         // {LS.getBalanceTypeDisplayText()}
-                            textAlign:'center', color:'#cccccc'}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
+                            textAlign:'center', color:ColorConstants.TEXT_DARK}}>{LS.getBalanceTypeDisplayText()}</CustomStyleText>
                     </View>
                     <View style={[styles.buttonsContainer, styles.buttonsRowWrapper, {marginTop:10}]}
                         // source={require("../../images/stock_detail_amount_container.png")}
@@ -700,7 +700,7 @@ class StockDetailScreen extends Component {
                         </ScrollView>
                         <CustomStyleText style={{position:'absolute', top:-5, left:0, right:0,
                         // {LS.str('ORDER_MULTIPLE')}
-                            textAlign:'center', color:'#cccccc'}}>倍数</CustomStyleText>
+                            textAlign:'center', color:ColorConstants.TEXT_DARK}}>倍数</CustomStyleText>
                     </View>
 
                     <View style={[styles.buttonsContainer, styles.bigButtonsRowWrapper]}>
@@ -712,7 +712,7 @@ class StockDetailScreen extends Component {
                                 {this.renderOperationButton(0)}
                             </View>
                             <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,fontSize:12,
-                                textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TYPE')}</CustomStyleText>
+                                textAlign:'center', color:ColorConstants.TEXT_DARK}}>{LS.str('ORDER_TYPE')}</CustomStyleText>
                         </ImageBackground>
                         <ImageBackground style={{flex:1, marginLeft: containerHorizontalPadding/2}}
                             source={require("../../images/stock_detail_trading_container.png")}>
@@ -721,7 +721,7 @@ class StockDetailScreen extends Component {
                                 {this.renderSubmitButton()}                            
                             </View>
                             <CustomStyleText style={{position:'absolute', bottom:2, left:0, right:0,fontSize:12,
-                                textAlign:'center', color:'#cccccc'}}>{LS.str('ORDER_TRADING')}</CustomStyleText>
+                                textAlign:'center', color:ColorConstants.TEXT_DARK}}>{LS.str('ORDER_TRADING')}</CustomStyleText>
                         </ImageBackground>
                     </View>
                 </View>
