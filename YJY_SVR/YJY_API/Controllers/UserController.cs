@@ -182,7 +182,7 @@ namespace YJY_API.Controllers
         /// </summary>
         /// <returns></returns>
         [HttpGet]
-        [Route("refund/balance")]
+        [Route("refund/availBalance")]
         [BasicAuth]
         public decimal GetRefundableBalance()
         {

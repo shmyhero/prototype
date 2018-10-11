@@ -30,9 +30,10 @@ namespace YJY_API.Controllers
 
             if (tryGetAuthUser == null)
             {
+                //不再区分中英文
                 //get system feed
-                var language = Thread.CurrentThread.CurrentUICulture.Name;
-                var systemFeedsWhereClause =db.Headlines.Where(o =>o.Language==null || language.ToLower().StartsWith(o.Language.ToLower()));
+                //var language = Thread.CurrentThread.CurrentUICulture.Name;
+                var systemFeedsWhereClause =db.Headlines.AsQueryable();
                 if (olderThan != null)
                     systemFeedsWhereClause = systemFeedsWhereClause.Where(o => o.CreateAt < olderThan);
                 if (newerThan != null)
@@ -133,9 +134,8 @@ namespace YJY_API.Controllers
             //get system feed
             if (tryGetAuthUser.ShowHeadlineFeed ?? true)
             {
-                //get system feed
-                var language = Thread.CurrentThread.CurrentUICulture.Name;
-                var systemFeedsWhereClause = db.Headlines.Where(o => o.Language == null || language.ToLower().StartsWith(o.Language.ToLower()));
+                //get system feed              
+                var systemFeedsWhereClause = db.Headlines.AsQueryable();
                 if (olderThan != null)
                     systemFeedsWhereClause = systemFeedsWhereClause.Where(o => o.CreateAt < olderThan);
                 if (newerThan != null)
