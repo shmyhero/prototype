@@ -182,7 +182,7 @@ class LineChartRender: BaseRender {
             ]
         let textY = height-_bottomMargin+2
 		
-		var lastX:CGFloat = textWidth/2	//center x of last text
+//        var lastX:CGFloat = textWidth/2    //center x of last text
 		let verticalLinesX = lineDataProvider!.xVerticalLines()
 		let verticalTimes = lineDataProvider!.timesOnBottom()
 		for i in 0..<verticalTimes.count {
@@ -190,9 +190,16 @@ class LineChartRender: BaseRender {
 //                continue
 //            }
 			let text:NSString = dateFormatter.string(from: verticalTimes[i] as Date) as NSString
-			let rect = CGRect(x: verticalLinesX[i]-textWidth/2, y: textY, width: textWidth, height: 10)
+            var x:CGFloat = verticalLinesX[i]-textWidth/2
+            if x <= 0 {
+                x = 1
+            }
+            if x >= lineDataProvider!.chartWidth()-textWidth {
+                x = lineDataProvider!.chartWidth()-textWidth-1
+            }
+			let rect = CGRect(x: x, y: textY, width: textWidth, height: 10)
 			text.draw(in: rect, withAttributes: attributes)
-			lastX = verticalLinesX[i]
+//            lastX = verticalLinesX[i]
 		}
 		
         
