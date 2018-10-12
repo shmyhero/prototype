@@ -10,6 +10,7 @@ import {
   ImageBackground,
   ListView,
   Alert,
+  Text
 } from 'react-native'; 
 import LogicData from '../LogicData';
 import UserBlock from './component/UserBlock';
@@ -175,7 +176,8 @@ export default class  RankFollowList extends React.Component {
                 if(this.state.rankListData.length==0){
                     return(
                         <View style={{width:width,height:height-120,alignItems:'center', justifyContent:'center'}}>
-                            <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image>
+                            {/* <Image style={{width:290,height:244,}}source={require('../../images/no_attention.png')}></Image> */}
+                            <Text style={{color:'white'}}>没有关注的人</Text>
                         </View>
                     )
                 }else{
