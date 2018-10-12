@@ -259,12 +259,12 @@ class  TabMeScreen extends React.Component {
     if(this.state.userLoggedin){
       return (
         <ScrollView style={styles.mainContainer}>         
-          {/* <View style={styles.backgroundContainer}>
+          <View style={styles.backgroundContainer}>
             <Image
               style={styles.backgroundImage}
-              source={require("../../images/me_top_background.jpg")}
+              source={require("../../images/me_top_background.png")}
               resizeMode={'contain'}/>
-          </View> */}
+          </View>
           <NavBar 
             backgroundColor="transparent"
             title=""

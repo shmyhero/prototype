@@ -30,7 +30,7 @@ const FOCUS_SYSTEM = 2
 
 var listRawData = [ 
 	{type:FOCUS_FOLLOW,"title":'WATCHLIST',"desciption":'关注用户的交易动态'},
-	{type:FOCUS_TRADE_FOLLOW,"title":'COPIERS',"desciption":'自己的交易动态'},
+	// {type:FOCUS_TRADE_FOLLOW,"title":'COPIERS',"desciption":'自己的交易动态'},
 	{type:FOCUS_SYSTEM,"title":'NEWS',"desciption":'系统推送的每日资讯'},
 ] 
 var {height, width} = Dimensions.get('window')
@@ -65,7 +65,7 @@ export default class DynamicStatusConfig extends Component {
 	renderSeparator(sectionID, rowID, adjacentRowHighlighted) {
 		return (
 		  <View style={styles.line} key={rowID}>
-			<View style = {styles.separator}></View>
+			{/* <View style = {styles.separator}></View> */}
 		  </View>
 		);
 	}
@@ -115,7 +115,10 @@ export default class DynamicStatusConfig extends Component {
 				<Switch
 					onValueChange={(value) => this.onSwitchPressed(value, rowData)}
 					value={switchIsOn}
-					onTintColor={ColorConstants.BGBLUE} />
+					tintColor={'white'} 
+					thumbTintColor={'white'}
+					onTintColor={ColorConstants.STOCK_DOWN}
+				 />
 			</View>
 			
 		) 
@@ -222,7 +225,7 @@ export default class DynamicStatusConfig extends Component {
 
 	render(){
 		return(
-			<View style={{backgroundColor:'#FFFFFF',flex:1,width:width}}>
+			<View style={{backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE,flex:1,width:width}}>
 				<NavBar title={LS.str('DYNAMIC_SETTING')} showBackButton={true} 
 				rightPartOnClick={()=>this.onCompleted()}
 				navigation={this.props.navigation} textOnRight={LS.str('FINISH')}/>
@@ -260,7 +263,7 @@ var styles = StyleSheet.create({
 	titleText:{
 		fontSize:15, 
 		marginBottom:2.5,
-		color:'black'
+		color:'white'
 	},
 	desciptionText:{
 		fontSize:13,
@@ -268,12 +271,12 @@ var styles = StyleSheet.create({
 	},
 	separator: {
 		height: 0.5,
-		backgroundColor: '#eeeeee',
+		backgroundColor: ColorConstants.SEPARATOR_DARK,
     	marginLeft:15,
 	  },
 	line: {
 		height: 0.5,
-		backgroundColor: 'white',
+		backgroundColor: ColorConstants.SEPARATOR_DARK,
    		marginLeft:0,
 	},
 });

@@ -213,7 +213,7 @@ export default class TradeStyleCircleBlock extends Component {
 
       <View style={[styles.container]}> 
             
-            <View style={{backgroundColor:'#1F1F2B'}}>
+            <View style={{backgroundColor:'transparent'}}>
               <MyPie  
               radius={radius}
               innerRadius={innerRadius} 

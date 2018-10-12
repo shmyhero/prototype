@@ -161,10 +161,20 @@ class DynamicRowComponentContent extends Component {
 
         var title = this.props.rowData.user.nickname;
         var titleStyle = null
+        var headView = null
         if(this.props.rowData.type == 'system'){
             title = this.props.rowData.title
-            titleStyle = {fontSize:15,color:'white'}
+            titleStyle = {fontSize:15,color:'white'} 
+        } 
+
+        if(this.props.rowData.type !=='system'){
+            headView = <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
+                                <Image source={{uri:this.props.rowData.user.picUrl}}
+                                    style={{height:34,width:34,marginTop:10,marginBottom:10,marginRight:10,borderRadius:17}} >
+                                </Image>
+                       </TouchableOpacity> 
         }
+       
 
         return (
             <View style={styles.thumbnailAll}> 
@@ -178,7 +188,7 @@ class DynamicRowComponentContent extends Component {
                 </View>
                 <Swipeout
                     ref={(ref)=>{this.swipeoutComponent = ref}}
-                    // right={swipeoutBtns}
+                    right={swipeoutBtns}
                     autoClose={true}   
                     sensitivity={50}                        
                     close={this.props.close}
@@ -194,13 +204,12 @@ class DynamicRowComponentContent extends Component {
                         //console.log("onClose()");
                     }}
                     style={{margin:5,borderRadius:8,marginRight:10, width:width-60,backgroundColor:ColorConstants.COLOR_LIST_VIEW_ITEM_BG,flex:1}}> 
+                    
+                   
+                    
                     <View style={{margin:5,borderRadius:8,width:width-60,/*backgroundColor:'white',*/flex:1}}>
                         <View style={{flexDirection:'row',margin:5}}>
-                            <TouchableOpacity onPress={()=>this._onPressToUser(this.props.rowData)}>
-                                <Image source={{uri:this.props.rowData.user.picUrl}}
-                                    style={{height:34,width:34,marginTop:10,marginBottom:10,marginRight:10,borderRadius:17}} >
-                                </Image>
-                            </TouchableOpacity> 
+                             {headView}
                             <View style={styles.textContainer}>
                                 <View style={{flexDirection:'row',marginTop:0,justifyContent:'center',alignItems:'center'}}>
                                     <CustomStyleText style={[styles.textUserName,titleStyle]}>{title}</CustomStyleText>

@@ -275,7 +275,7 @@ class TabMainScreen extends React.Component {
 			<View style = {{height:36,paddingLeft:10,paddingRight:12,flexDirection:'row',alignItems:'center',justifyContent:'space-between'}}>
 				 
 				<CustomStyleText style={{color:ColorConstants.TIMER_COLOR}}>{dataTime}</CustomStyleText> 
-				{/* {this.renderConfigEnter()} */}
+				{this.renderConfigEnter()}
 			</View>	
 		)
     }
