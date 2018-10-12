@@ -88,7 +88,7 @@ class MeSettingNicknameScreen extends Component {
 		console.log("this.props.isShowError", this.props.isShowError);
 		console.log("this.props.error", this.props.error);
 		return (
-			<View style={{flex:1,backgroundColor:'white'}}>
+			<View style={{flex:1,backgroundColor:ColorConstants.COLOR_MAIN_THEME_BLUE}}>
 
 				{this.renderHeader()}
 				
@@ -101,7 +101,7 @@ class MeSettingNicknameScreen extends Component {
 					value={this.state.nickName}/>
 
 				<View style={styles.line}>
-					<View style={[styles.separator, {marginLeft: 15, marginRight: 15}]}/>
+					{/* <View style={[styles.separator, {marginLeft: 15, marginRight: 15}]}/> */}
 				</View>
 
 				<ErrorMsg
@@ -129,7 +129,7 @@ class MeSettingNicknameScreen extends Component {
 // define your styles
 const styles = StyleSheet.create({
 	nickNameInputView:{
-		color:'#303030',
+		color:'white',
 		height:64,
 		width:width,
 		backgroundColor:'transparent',
@@ -138,12 +138,12 @@ const styles = StyleSheet.create({
 
 	line: {
 		height: 0.5,
-		backgroundColor: 'white',
+		backgroundColor: ColorConstants.SEPARATOR_DARK,
 	},
 
 	separator: {
 		height: 0.5,
-		backgroundColor: ColorConstants.SEPARATOR_GRAY,
+		backgroundColor: ColorConstants.SEPARATOR_DARK,
 	},
 
 	errorDot: {

@@ -15,7 +15,7 @@ import NavBar from './component/NavBar';
 var LS = require("../LS");
 var {height, width} = Dimensions.get('window')
 import ViewKeys from '../ViewKeys';
-
+var ColorConstants = require('../ColorConstants');
 import LibraryImporter from '../LibraryImporter';
 
 var configListData = [
@@ -149,7 +149,7 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         height: height,
-        backgroundColor: 'white',
+        backgroundColor: ColorConstants.COLOR_MAIN_THEME_BLUE
     },
     rowContainer: {
         height: 64,
@@ -165,11 +165,11 @@ const styles = StyleSheet.create({
     },
     title:{
         fontSize:15,
-        color:'black'
+        color:'white'
     },
     separator: {
         height: 1,
-        backgroundColor: '#f0f0f0',
+        backgroundColor: ColorConstants.SEPARATOR_DARK,
     },
     arrowIcon:{
         height:15,
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     },
     value:{
         fontSize:15,
+        color:'white'
     }
 });
 
