@@ -32,6 +32,9 @@ namespace YJY_COMMON.Model.Entity
         /// </summary>
         public int Status { get; set; }
 
+        /// <summary>
+        /// 账户充值时间
+        /// </summary>
         public DateTime? PayAt { get; set; }
 
         public DateTime CreatedAt { get; set; }

@@ -18,6 +18,7 @@ using YJY_COMMON.Util.Extension;
 using YJY_API.Controllers.Attributes;
 using YJY_API.DTO;
 using YJY_API.DTO.FormDTO;
+using YJY_COMMON.SMS;
 
 namespace YJY_API.Controllers
 {
@@ -184,19 +185,36 @@ namespace YJY_API.Controllers
         [HttpGet]
         [Route("refund/availBalance")]
         [BasicAuth]
-        public decimal GetRefundableBalance()
+        public object GetRefundableBalance()
         {
             var balance = (from u in db.Users
                              join b in db.Balances on u.ActiveBalanceId equals b.Id
                              where u.Id == this.UserId
                              select b).FirstOrDefault();
 
+            var userQRCode = db.UserQRCodes.OrderByDescending(u => u.CreatedAt).FirstOrDefault(u => u.UserID == this.UserId);
+
+            decimal balanceAmount = 0;
+
             if(balance == null || balance.TypeId == 1) //模拟盘
             {
-                return 0;
+                balanceAmount = 0;
+            }
+            else
+            {
+                balanceAmount = balance.Amount.Value;
             }
 
-            return balance.Amount.Value;
+            string QRCodeStr = string.Empty;
+            if(userQRCode != null)
+            {
+                QRCodeStr = userQRCode.QRCode;
+            }
+
+            return new {
+                Amount = balanceAmount,
+                QRCode = QRCodeStr
+            };
         }
 
         [HttpGet]
@@ -210,7 +228,7 @@ namespace YJY_API.Controllers
             {
                 OrderNum = orderNum,
                 Amount = amount,
-                CreatedAt = DateTime.Now,
+                CreatedAt = DateTime.UtcNow.AddHours(8),
                 Status = (int)DepositStatus.Unpaid,
                  UserId = this.UserId
             });
@@ -220,6 +238,73 @@ namespace YJY_API.Controllers
             ResultDTO result = new ResultDTO();
             result.success = true;
             result.message = orderNum;
+
+            return result;
+        }
+
+        [HttpPost]
+        [Route("refund")]
+        [BasicAuth]
+        public ResultDTO Refund(Refund refund)
+        {
+            ResultDTO result = new ResultDTO();
+            result.success = true;
+
+            var user = db.Users.FirstOrDefault(u => u.Id == this.UserId);
+            if (user != null)
+            {
+                var balance = db.Balances.FirstOrDefault(b => b.Id == (user.ActiveBalanceId ?? 0));
+
+                if(balance.TypeId != 2)
+                {
+                    result.success = false;
+                    result.message = "不是实盘账户，无法出金";
+                    return result;
+                }
+
+                if (balance != null && balance.Amount >= refund.Amount)
+                {
+                    balance.Amount -= refund.Amount;
+                }
+                else
+                {
+                    result.success = false;
+                    result.message = "账户余额不足，无法出金";
+                    return result;
+                }
+            }
+
+            db.Refunds.Add(new YJY_COMMON.Model.Entity.Refund() {
+                 Amount = refund.Amount,
+                  CreatedAt = DateTime.UtcNow.AddHours(8),
+                UserId = this.UserId,                   
+            });
+
+            string adminPhone = db.Miscs.FirstOrDefault(m => m.Key == "refundAdmin").Value;
+            YunPianSMS.SendSms("收到一笔提现申请，请在后台查看", adminPhone);
+            
+            db.SaveChanges();
+
+            result.success = true;
+
+            return result;
+        }
+
+        [HttpPost]
+        [Route("refund/uploadQRCode")]
+        [BasicAuth]
+        public ResultDTO UploadQRCode(Refund refund)
+        {
+            db.UserQRCodes.Add(new UserQRCode() {
+                 UserID = this.UserId,
+                  QRCode = refund.QRCode,
+                   CreatedAt = DateTime.UtcNow.AddHours(8),
+            });
+
+            db.SaveChanges();
+
+            ResultDTO result = new ResultDTO();
+            result.success = true;
 
             return result;
         }

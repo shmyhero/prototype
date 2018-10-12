@@ -25,6 +25,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<Misc> Miscs { get; set; }
         public virtual DbSet<PhoneSignupHistory> PhoneSignupHistories { get; set; }
         public virtual DbSet<Position> Positions { get; set; }
+        public virtual DbSet<Refund> Refunds { get; set; }
         public virtual DbSet<SecurityLeverage> SecurityLeverages { get; set; }
         public virtual DbSet<Status> Status { get; set; }
         public virtual DbSet<StatusLike> StatusLikes { get; set; }
@@ -33,6 +34,7 @@ namespace YJY_COMMON.Model.Context
         public virtual DbSet<TimeStampNonce> TimeStampNonces { get; set; }
         public virtual DbSet<Transfer> Transfers { get; set; }
         public virtual DbSet<User> Users { get; set; }
+        public virtual DbSet<UserQRCode> UserQRCodes { get; set; }
         public virtual DbSet<UserFollow> UserFollows { get; set; }
         public virtual DbSet<UserLeverage> UserLeverages { get; set; }
         public virtual DbSet<UserTradeFollow> UserTradeFollows { get; set; }

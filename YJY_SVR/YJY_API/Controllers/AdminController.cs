@@ -59,6 +59,8 @@ namespace YJY_API.Controllers
                 depositQuery = depositQuery.Where(d => d.Status == status.Value);
             }
 
+            int total = depositQuery.Count();
+
             var result = (from d in depositQuery
                           join u in db.Users on d.UserId equals u.Id
                           select new
@@ -80,7 +82,10 @@ namespace YJY_API.Controllers
                 StatusStr = getStatusStr(r.Deposit.Status),
             }).ToList();
 
-            return data;
+            return new {
+                total = total,
+                data = data
+            };
         }
 
         private string getStatusStr(int status)
@@ -107,7 +112,50 @@ namespace YJY_API.Controllers
             {
                 depositEdit.Status = deposit.Status;
                 depositEdit.ReceivedAmount = deposit.ReceivedAmount;
-                depositEdit.PayAt = DateTime.Now;
+                if (deposit.Status == 2)
+                {
+                    depositEdit.PayAt = DateTime.UtcNow.AddHours(8);
+
+                    var user = db.Users.FirstOrDefault(u => u.Id == depositEdit.UserId);
+                    if(user != null)
+                    {
+                        var balance = db.Balances.FirstOrDefault(b => b.Id == (user.ActiveBalanceId ?? 0));
+                        if(balance != null) //已经存在Balance
+                        {
+                            if(balance.TypeId == 1) //模拟盘的Balance
+                            {
+                                var newBalance = new Balance()
+                                {
+                                    Amount = deposit.ReceivedAmount,
+                                    TypeId = 2,
+                                    UserId = depositEdit.UserId
+                                };
+                                db.Balances.Add(newBalance);
+                                db.SaveChanges();
+
+                                user.ActiveBalanceId = newBalance.Id;
+                            }
+                            else //实盘的Balance
+                            {
+                                balance.Amount += deposit.ReceivedAmount;
+                            }
+                        }
+                        else
+                        {
+                            var newBalance = new Balance() {
+                                Amount = deposit.ReceivedAmount,
+                                 TypeId = 2,
+                                  UserId = depositEdit.UserId
+                            };
+                            db.Balances.Add(newBalance);
+                            db.SaveChanges();
+
+                            user.ActiveBalanceId = newBalance.Id;
+
+                        }
+                    }
+
+                }
                 db.SaveChanges();
             }
 
@@ -115,6 +163,95 @@ namespace YJY_API.Controllers
             dto.success = true;
 
             return dto;
+        }
+
+        [HttpPut]
+        [Route("refund")]
+        [AdminAuth]
+        public ResultDTO EditRefund(Refund refund)
+        {
+            var refundEdit = db.Refunds.FirstOrDefault(r => r.Id == refund.Id);
+            if (refundEdit != null)
+            {
+                refundEdit.Status = refund.Status;
+                if(refund.Status == 1)//出金支付时间
+                {
+                    refundEdit.PayAmount = refund.PayAmount;
+                    refundEdit.PayAt = DateTime.UtcNow.AddHours(8);
+                }
+                
+                db.SaveChanges();
+            }
+
+            ResultDTO dto = new ResultDTO();
+            dto.success = true;
+
+            return dto;
+        }
+
+        [HttpGet]
+        [Route("refund/{id}")]
+        [AdminAuth]
+        public object GetRefund(int id)
+        {
+            var refund = db.Refunds.FirstOrDefault(r => r.Id == id);
+
+            if(refund != null)
+            {
+                var user = db.Users.FirstOrDefault(u => u.Id == refund.UserId);
+                if(user != null)
+                {
+                    var qrCode = db.UserQRCodes.OrderByDescending(u => u.CreatedAt).FirstOrDefault();
+
+                    string qrCodeStr = string.Empty;
+
+                    if(qrCode != null)
+                    {
+                        qrCodeStr = qrCode.QRCode;
+                    }
+
+                    return new
+                    {
+                        Id = refund.Id,
+                        QRCode = qrCodeStr,
+                        NickName = user.Nickname,
+                        Phone = user.Phone,
+                        Amount = refund.Amount,
+                        CreatedAt = refund.CreatedAt.ToString("yyyy-MM-dd HH:mm:ss")
+                    };
+                }
+                
+            }
+
+            return null;
+        }
+
+        [HttpGet]
+        [Route("refund/all")]
+        [AdminAuth]
+        public object GetAllRefund(int page = 1, int pageSize = 10)
+        {
+            int total = db.Refunds.Count();
+
+            var result = (from r in db.Refunds
+                          join u in db.Users on r.UserId equals u.Id
+                          orderby r.CreatedAt descending
+                          select new {
+                              Id = r.Id,
+                              NickName = u.Nickname,
+                              Phone = u.Phone,
+                              Amount = r.Amount,
+                              CreatedAt = r.CreatedAt,
+                              Status = r.Status,
+                              StatusStr = r.Status == 0? "未支付" : "已支付"
+                          }).Skip((page - 1) * pageSize).Take(pageSize).ToList();
+
+
+
+            return new {
+                total = total,
+                data = result
+        };
         }
     }
 }
