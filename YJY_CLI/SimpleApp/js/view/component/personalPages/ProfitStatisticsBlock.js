@@ -14,6 +14,7 @@ import {
 
 import CustomStyleText from '../CustomStyleText'
 import LogicData from '../../../LogicData';
+var StorageModule = require('../../../module/StorageModule');
 var NetworkModule = require('../../../module/NetworkModule');
 var NetConstants = require('../../../NetConstants');
 var ColorConstants = require('../../../ColorConstants');  
@@ -67,7 +68,9 @@ export default class ProfitStatisticsBlock extends Component {
                    this.setState({
                      balance:responseJson.balance,
                      total:responseJson.total,
-                   })
+                   })  
+                  //  LogicData.setBalanceType(responseJson.balanceType);
+                  //  StorageModule.setBalanceType(responseJson.balanceType);   
               },
               (exception) => {
                   //alert(exception.errorMessage)
