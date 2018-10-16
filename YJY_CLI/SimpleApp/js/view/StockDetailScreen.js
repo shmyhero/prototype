@@ -173,100 +173,100 @@ class StockDetailScreen extends Component {
         })
     }
 
-    loadStockPriceToday(showLoading, chartType, stockInfo) {  
+    // loadStockPriceToday(showLoading, chartType, stockInfo) {  
         
-        //TODO: Replace with real url
-        var CFD_API_SERVER = 'https://api.typhoontechnology.hk';
-		var url = CFD_API_SERVER + '/api/quote/<stockCode>/tick/<chartType>',		
+    //     //TODO: Replace with real url
+    //     var CFD_API_SERVER = 'https://api.typhoontechnology.hk';
+	// 	var url = CFD_API_SERVER + '/api/quote/<stockCode>/tick/<chartType>',		
 
-		url = url.replace(/<chartType>/, chartType)
-		url = url.replace(/<stockCode>/, this.state.stockCode)
+	// 	url = url.replace(/<chartType>/, chartType)
+	// 	url = url.replace(/<stockCode>/, this.state.stockCode)
 
 
-		NetworkModule.fetchTHUrl(
-			url,
-			{
-				method: 'GET',
-				showLoading: showLoading,
-			},
-			(responseJson) => {
-                console.log("stockInfo: ")
-                console.log(stockInfo)
-                var tempStockInfo = stockInfo
+	// 	NetworkModule.fetchTHUrl(
+	// 		url,
+	// 		{
+	// 			method: 'GET',
+	// 			showLoading: showLoading,
+	// 		},
+	// 		(responseJson) => {
+    //             console.log("stockInfo: ")
+    //             console.log(stockInfo)
+    //             var tempStockInfo = stockInfo
                 
-				tempStockInfo.priceData = responseJson
+	// 			tempStockInfo.priceData = responseJson
 
-				var maxPrice = undefined
-				var minPrice = undefined
-				var maxPercentage = undefined
-				var minPercentage = undefined
+	// 			var maxPrice = undefined
+	// 			var minPrice = undefined
+	// 			var maxPercentage = undefined
+	// 			var minPercentage = undefined
 
-				if (tempStockInfo.priceData != undefined && tempStockInfo.priceData.length > 0) {
-					var lastClose = tempStockInfo.preClose
+	// 			if (tempStockInfo.priceData != undefined && tempStockInfo.priceData.length > 0) {
+	// 				var lastClose = tempStockInfo.preClose
 
-					maxPrice = Number.MIN_VALUE
-					minPrice = Number.MAX_VALUE
+	// 				maxPrice = Number.MIN_VALUE
+	// 				minPrice = Number.MAX_VALUE
 
-					for (var i = 0; i < tempStockInfo.priceData.length; i ++) {
-						var price = 0;
-						if(chartType == NetConstants.PARAMETER_CHARTTYPE_5_MINUTE||
-							chartType == NetConstants.PARAMETER_CHARTTYPE_DAY){
-							price = tempStockInfo.priceData[i].close
-						}else{
-							price = tempStockInfo.priceData[i].p
-						}
-						if (price > maxPrice) {
-							maxPrice = price
-						}
-						if (price < minPrice) {
-							minPrice = price
-						}
-					}
-					var maxPercentage = (maxPrice - lastClose) / lastClose * 100
-					var minPercentage = (minPrice - lastClose) / lastClose * 100
-					if(maxPercentage){
-						maxPercentage = maxPercentage.toFixed(2)
-					}
-					if(minPercentage){
-						minPercentage = minPercentage.toFixed(2)
-					}
-                }
+	// 				for (var i = 0; i < tempStockInfo.priceData.length; i ++) {
+	// 					var price = 0;
+	// 					if(chartType == NetConstants.PARAMETER_CHARTTYPE_5_MINUTE||
+	// 						chartType == NetConstants.PARAMETER_CHARTTYPE_DAY){
+	// 						price = tempStockInfo.priceData[i].close
+	// 					}else{
+	// 						price = tempStockInfo.priceData[i].p
+	// 					}
+	// 					if (price > maxPrice) {
+	// 						maxPrice = price
+	// 					}
+	// 					if (price < minPrice) {
+	// 						minPrice = price
+	// 					}
+	// 				}
+	// 				var maxPercentage = (maxPrice - lastClose) / lastClose * 100
+	// 				var minPercentage = (minPrice - lastClose) / lastClose * 100
+	// 				if(maxPercentage){
+	// 					maxPercentage = maxPercentage.toFixed(2)
+	// 				}
+	// 				if(minPercentage){
+	// 					minPercentage = minPercentage.toFixed(2)
+	// 				}
+    //             }
                 
-				this.setState({
-					stockInfo: tempStockInfo,
-					maxPrice: maxPrice,
-					minPrice: minPrice,
-					maxPercentage: maxPercentage,
-					minPercentage: minPercentage,
-                    dataStatus : DATA_STATUS_LOADED,
-				})
+	// 			this.setState({
+	// 				stockInfo: tempStockInfo,
+	// 				maxPrice: maxPrice,
+	// 				minPrice: minPrice,
+	// 				maxPercentage: maxPercentage,
+	// 				minPercentage: minPercentage,
+    //                 dataStatus : DATA_STATUS_LOADED,
+	// 			})
 
-				var previousInterestedStocks = WebSocketModule.getPreviousInterestedStocks()
-				var lastInterestedStocks = previousInterestedStocks;
-				if(previousInterestedStocks
-					&& previousInterestedStocks.includes //The method may be empty???
-					&&tempStockInfo.id){
-					if(!previousInterestedStocks.includes(tempStockInfo.id)){
-						previousInterestedStocks += ',' + tempStockInfo.id;
-					}
-				}else{
-					previousInterestedStocks = '' + tempStockInfo.id;
-				}
+	// 			var previousInterestedStocks = WebSocketModule.getPreviousInterestedStocks()
+	// 			var lastInterestedStocks = previousInterestedStocks;
+	// 			if(previousInterestedStocks
+	// 				&& previousInterestedStocks.includes //The method may be empty???
+	// 				&&tempStockInfo.id){
+	// 				if(!previousInterestedStocks.includes(tempStockInfo.id)){
+	// 					previousInterestedStocks += ',' + tempStockInfo.id;
+	// 				}
+	// 			}else{
+	// 				previousInterestedStocks = '' + tempStockInfo.id;
+	// 			}
 
-                console.log("previousInterestedStocks", previousInterestedStocks)
-				if(previousInterestedStocks != lastInterestedStocks){
-					WebSocketModule.registerInterestedStocks(previousInterestedStocks)
-				}
-				this.connectWebSocket();
-			},
-			(result) => {
-				this.setState({
-					dataStatus: DATA_STATUS_FAILED,
-				})
-			},
-			true
-		)
-    }
+    //             console.log("previousInterestedStocks", previousInterestedStocks)
+	// 			if(previousInterestedStocks != lastInterestedStocks){
+	// 				WebSocketModule.registerInterestedStocks(previousInterestedStocks)
+	// 			}
+	// 			this.connectWebSocket();
+	// 		},
+	// 		(result) => {
+	// 			this.setState({
+	// 				dataStatus: DATA_STATUS_FAILED,
+	// 			})
+	// 		},
+	// 		true
+	// 	)
+    // }
     
     connectWebSocket() {
 		WebSocketModule.registerInterestedStocksCallbacks(
