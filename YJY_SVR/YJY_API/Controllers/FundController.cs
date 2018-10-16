@@ -48,6 +48,7 @@ namespace YJY_API.Controllers
             {
                 balance = balance.Amount.Value,
                 total = balance.Amount.Value + sumOfPositionValue,
+                balanceType = balance.TypeId == 1 ? "Demo" : "Live"
             };
         }
 

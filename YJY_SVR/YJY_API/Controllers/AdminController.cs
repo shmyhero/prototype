@@ -60,6 +60,7 @@ namespace YJY_API.Controllers
             }
 
             int total = depositQuery.Count();
+            int pending = depositQuery.Where(d => d.Status == 0).Count();
 
             var result = (from d in depositQuery
                           join u in db.Users on d.UserId equals u.Id
@@ -84,6 +85,7 @@ namespace YJY_API.Controllers
 
             return new {
                 total = total,
+                pending = pending,
                 data = data
             };
         }
@@ -232,6 +234,7 @@ namespace YJY_API.Controllers
         public object GetAllRefund(int page = 1, int pageSize = 10)
         {
             int total = db.Refunds.Count();
+            int pending = db.Refunds.Where(r => r.Status == 0).Count();
 
             var result = (from r in db.Refunds
                           join u in db.Users on r.UserId equals u.Id
@@ -250,6 +253,7 @@ namespace YJY_API.Controllers
 
             return new {
                 total = total,
+                pending = pending,
                 data = result
         };
         }

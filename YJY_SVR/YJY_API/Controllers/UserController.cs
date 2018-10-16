@@ -106,7 +106,16 @@ namespace YJY_API.Controllers
                 else //phone exists
                 {
                     //generate a new token
-                    user.AuthToken = UserService.NewToken();
+                    if(form.source != "Web")
+                    {
+                        user.AuthToken = UserService.NewToken();
+                    }
+
+                    if(string.IsNullOrEmpty(user.AuthToken))
+                    {
+                        user.AuthToken = UserService.NewToken();
+                    }
+
                     db.SaveChanges();
 
                     if (user.ActiveBalanceId == null) //do this for existing users' data in the db (after the multi-balance update)
@@ -281,7 +290,7 @@ namespace YJY_API.Controllers
             });
 
             string adminPhone = db.Miscs.FirstOrDefault(m => m.Key == "refundAdmin").Value;
-            YunPianSMS.SendSms("收到一笔提现申请，请在后台查看", adminPhone);
+            string sendResult = YunPianSMS.SendSms("【盈交易】有一笔新的申请，请在后台查看", adminPhone);
             
             db.SaveChanges();
 

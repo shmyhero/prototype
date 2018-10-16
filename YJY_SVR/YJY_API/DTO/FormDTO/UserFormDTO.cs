@@ -9,6 +9,11 @@ namespace YJY_API.DTO.FormDTO
     {
         public string phone { get; set; }
         public string verifyCode { get; set; }
+
+        /// <summary>
+        /// Web代表网站登录
+        /// </summary>
+        public string source { get; set; }
     }
 
     public class SetNicknameFormDTO

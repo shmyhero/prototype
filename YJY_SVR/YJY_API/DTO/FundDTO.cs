@@ -13,6 +13,8 @@ namespace YJY_API.DTO
 
         public int? id { get; set; }
         public BalanceTypeDTO type { get; set; }
+
+        public string balanceType { get; set; }
     }
     public class BalanceTypeDTO
     {
