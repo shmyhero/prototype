@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   ImageBackground,
   Dimensions,
+  Text,
   ScrollView,
 } from 'react-native';
 import CustomStyleText from './component/CustomStyleText';
@@ -238,6 +239,20 @@ class  TabMeScreen extends React.Component {
     );
   }
 
+  postDynamic(){
+    this.props.navigation.navigate(ViewKeys.SCREEN_TWEET, {
+        // onPopOut:()=>this.refresh()
+      });
+  }
+
+  rightCustomContent(){
+    return(
+      <TouchableOpacity onPress={()=>{this.postDynamic()}}>
+        <Animatable.Image animation="pulse" easing="ease-out" iterationCount="infinite"  style = {styles.ImageBarRight} source={require('../../images/icon_edite.png')}/>
+      </TouchableOpacity>
+    )
+  }
+
   renderMessageView(){
     var view = null;
     if(this.props.unread > 0){
@@ -271,7 +286,9 @@ class  TabMeScreen extends React.Component {
             viewOnLeft={this.renderMessageView()}
             leftPartOnClick={()=>this.goToMessage()}
             imageOnRight={require('../../images/me_settings.png')}
-            rightPartOnClick={()=>this.goToSettings()}/>
+            rightPartOnClick={()=>this.goToSettings()}
+            rightCustomContent={this.rightCustomContent.bind(this)}
+            />
           {this.renderPortrait()}
           {this.renderBalance()} 
           {this.renderChart()}
@@ -373,6 +390,11 @@ const styles = StyleSheet.create({
       justifyContent:'space-between',
       alignSelf:'stretch',
       flex:1,
+    },
+    ImageBarRight:{
+      width:21,
+      height:21,
+      marginRight:10
     },
     rowLeftTextContainer:{
       flexDirection:'row',

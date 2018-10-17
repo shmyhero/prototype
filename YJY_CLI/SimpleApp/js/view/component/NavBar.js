@@ -222,9 +222,9 @@ class NavBar extends Component {
 			return (
 				<View style={styles.rightContainer}>
 					{this.renderSearchButton()}
-					{this.renderRightText()}
-					{this.renderRightImage()}
+					{this.renderRightText()} 
 					{this.renderRightCustomContent()}
+					{this.renderRightImage()}
 				</View>
 			);
 		}
@@ -292,7 +292,6 @@ class NavBar extends Component {
 						<CustomStyleText style={[styles.textOnRight, textOnRightStyle]}>
 							{this.props.textOnRight}
 						</CustomStyleText>
-
 					</TouchableOpacity>
 				);
 			}
