@@ -574,6 +574,7 @@ namespace YJY_API.Controllers
                             }).OrderByDescending(s=>s.BindAt).ToList();
 
             dto.Students = allStudents.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            dto.Total = allStudents.Count;
             dto.Profit = allStudents.Sum(s => s.TradeVolume) * 1 / 10000;
             dto.InvitationCode = teacher.InvitationCode;
 

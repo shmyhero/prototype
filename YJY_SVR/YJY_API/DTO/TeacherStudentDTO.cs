@@ -17,6 +17,8 @@ namespace YJY_API.DTO
         /// </summary>
         public string InvitationCode { get; set; }
 
+        public int Total { get; set; }
+
         /// <summary>
         /// 徒弟列表
         /// </summary>

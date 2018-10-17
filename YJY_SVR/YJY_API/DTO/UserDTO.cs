@@ -31,12 +31,12 @@ namespace YJY_API.DTO
         /// <summary>
         /// 邀请码(给别人看的)，用来确定师徒关系
         /// </summary>
-        public string InvitationCode { get; set; }
+        public string invitationCode { get; set; }
 
         /// <summary>
         /// 注册码(别人的邀请码)，用来确定师徒关系
         /// </summary>
-        public string RegisterCode { get; set; }
+        public string registerCode { get; set; }
     }
 
     public class UserRankDTO : UserBaseDTO
