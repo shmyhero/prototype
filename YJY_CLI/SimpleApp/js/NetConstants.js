@@ -56,6 +56,7 @@ export let CFD_API = {
   BALANCE_TYPE_SETTINGS: CFD_API_SERVER + '/api/fund/balance/type',
   GET_FUND_INVEST_SETTINGS: CFD_API_SERVER + '/api/fund/invest/setting',////获取本金和杠杆参数
   GET_WECHAT_GROUP:CFD_API_SERVER + '/api/misc/weichat/group',
+  PUT_USER_CODE:CFD_API_SERVER+'/api/user/code',//设置拜师码
   HELP_CENTER_URL_ACTUAL: 'https://cn.tradehero.mobi' + '/' + 'TH_CFD_SP' + '/HelpCenter.html',
 }
     

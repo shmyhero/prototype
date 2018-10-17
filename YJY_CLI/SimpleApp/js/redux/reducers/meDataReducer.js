@@ -9,6 +9,7 @@ import {
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE,
     SET_NICKNAME_SUCCESS,
+    SET_REGISTERCODE_SUCCESS,
     SET_BALANCE_TYPE,
     GET_BALANCE_TYPE
 } from "../constants/actionTypes";
@@ -54,6 +55,11 @@ export default function meDataReducer(state = initializeState, action) {
                 nickname: action.payload.nickName
             }
             return state;
+        case SET_REGISTERCODE_SUCCESS:
+            state = { ...state,
+                registerCode: action.payload.registerCode
+            }
+            return state;
         case UPLOAD_PORTRAIT_FAILURE:
             return state;
         case BIND_WALLET_ADDRESS:
@@ -81,6 +87,8 @@ export default function meDataReducer(state = initializeState, action) {
                 avatarSource: {uri: action.payload.data.picUrl},
                 thtAddress: action.payload.data.thtAddress,
                 phone: action.payload.data.phone,
+                registerCode:action.payload.data.registerCode,
+                invitationCode:action.payload.data.invitationCode,
                 isLoading: false,
             };
         case GET_ME_DATA_FAIL:

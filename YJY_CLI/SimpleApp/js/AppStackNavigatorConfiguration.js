@@ -28,6 +28,7 @@ AppStackNavigatorConfiguration[ViewKeys.SCREEN_FOLLOW] = {getScreen: ()=> requir
 AppStackNavigatorConfiguration[ViewKeys.SCREEN_SETTINGS] = {getScreen: ()=> require('./view/MeSettingsScreen')}
 AppStackNavigatorConfiguration[ViewKeys.SCREEN_USER_CONFIG] = {getScreen: ()=> require('./view/MeUserConfigScreen')}
 AppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_NICKNAME] = {getScreen: ()=> require("./view/MeSettingNicknameScreen")}
+AppStackNavigatorConfiguration[ViewKeys.SCREEN_SET_BAISHI] = {getScreen: ()=> require("./view/MeSettingBaiShiScreen")}
 AppStackNavigatorConfiguration[ViewKeys.SCREEN_GET_COUNTRY_CODE] = {getScreen: ()=> require("./view/GetCountryCodeScreen")}
 
 

@@ -3,6 +3,9 @@ import {
     SET_NICKNAME,
     SET_NICKNAME_SUCCESS,
     SET_NICKNAME_FAIL,
+    SET_REGISTERCODE,
+    SET_REGISTERCODE_SUCCESS,
+    SET_REGISTERCODE_FAIL,
     GET_VERSION,
     RESET_SETTINGS,
     SET_LOACL_NICKNAME,
@@ -52,7 +55,7 @@ export default function settingsReducer(state = initializeState, action) {
                 error: action.payload.error,
             }
             return state;
-        case SET_NICKNAME:
+            case SET_NICKNAME:
             state = { ...state,
                 isSettingNickName: true,
             }
@@ -69,6 +72,25 @@ export default function settingsReducer(state = initializeState, action) {
                 error: action.payload.error,
             }
             return state;
+
+        case SET_REGISTERCODE:
+            state = { ...state,
+                isSettingRegisterCode: true,
+            }
+            return state;
+        case SET_REGISTERCODE_SUCCESS:
+            state = { ...state,
+                isSettingRegisterCode: false,
+            }
+            return state;
+        case SET_REGISTERCODE_FAIL:
+            state = { ...state,
+                isSettingRegisterCode: false,
+                isShowError: true,
+                error: action.payload.error,
+            }
+            return state;
+
         case SWITCH_LANGUAGE:
             state = { ...state,
                 language: action.payload.language,

@@ -22,6 +22,8 @@ var configListData = [
     {'type':'normal','title':'SETTINGS_PORTRAIT', 'subtype': 'portrait'},
     {'type':'normal','title':'SETTINGS_NICKNAME', 'subtype': 'nickname'},
     {'type':'normal','title':'SETTINGS_MOBILE', 'subtype': 'mobile'},
+    {'type':'normal','title':'SETTINGS_SHOUTU', 'subtype': 'shoutu'},
+    {'type':'normal','title':'SETTINGS_BAISHI', 'subtype': 'baishi'},
 ];
 // create a component
 class MeUserConfigScreen extends Component {
@@ -30,7 +32,7 @@ class MeUserConfigScreen extends Component {
         if(!props.userLoggedin){
             this.props.navigation.goBack(null)
         }
-    }
+    } 
 
     onSelectNormalRow(rowData){
         switch(rowData.item.subtype){
@@ -39,10 +41,19 @@ class MeUserConfigScreen extends Component {
                 break
             case "nickname":
                 this.props.navigation.navigate(ViewKeys.SCREEN_SET_NICKNAME);
-                break
+            break
+            case "baishi":
+                if(this.isEnableRegisterCodeModify()){
+                    this.props.navigation.navigate(ViewKeys.SCREEN_SET_BAISHI); 
+                } 
+            break
             case "mobile":
                 break
         }
+    } 
+
+    isEnableRegisterCodeModify(){
+        return !(this.props.registerCode&&this.props.registerCode.length>=4);
     }
 
     selectPortrait(){
@@ -100,6 +111,12 @@ class MeUserConfigScreen extends Component {
         }else if(rowData.item.subtype == "mobile"){
             view = (<CustomStyleText style={styles.value}>{this.props.phone}</CustomStyleText>);
             showArrow = false;
+        }else if(rowData.item.subtype == "shoutu"){
+            view = (<CustomStyleText style={styles.value}>{this.props.invitationCode}</CustomStyleText>);
+            showArrow = false;
+        }else if(rowData.item.subtype == "baishi"){ 
+            showArrow = this.isEnableRegisterCodeModify();
+            view = (<CustomStyleText style={[styles.value, {marginRight:showArrow?10:0}]}>{this.props.registerCode}</CustomStyleText>);     
         }
 
         return (

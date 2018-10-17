@@ -238,7 +238,10 @@ var LS = {
 
     RISK_WARNING: ["风险提示！", "Warning!","Warning!"],
     LOGIN_OUTSIDE: ["盈交易账号已登录其他设备", "Your account is logged in on another device.", "Your account is logged in on another device."],
-    I_SEE: ["我知道了", "I see", "I see"]
+    I_SEE: ["我知道了", "I see", "I see"], 
+    SETTINGS_SHOUTU: ["收徒码", "Apprentice Code", "Apprentice Code"],
+    SETTINGS_BAISHI: ["拜师码", "Master Code", "Master Code"],
+
 
   },
   str(key){

@@ -7,6 +7,9 @@ import {
     SET_NICKNAME,
     SET_NICKNAME_FAIL,
     SET_NICKNAME_SUCCESS,
+    SET_REGISTERCODE,
+    SET_REGISTERCODE_FAIL,
+    SET_REGISTERCODE_SUCCESS,
     SET_PORTRAIT,
     UPLOAD_PORTRAIT_SUCCESS,
     UPLOAD_PORTRAIT_FAILURE,
@@ -25,6 +28,7 @@ import {
 var {EventCenter} = require("../../EventCenter");
 var DeviceInfo = require('react-native-device-info');
 import setNickNameRequest from "../api/setNickNameRequest";
+import setRegisterCodeRequest from "../api/setRegisterCodeRequest";
 import setPortraitRequest from "../api/setPortraitRequest";
 import fetchBalanceTypeRequest from "../api/fetchBalanceTypeRequest";
 import setBalanceTypeRequest from "../api/setBalanceTypeRequest";
@@ -173,6 +177,42 @@ export function getMaxNickNameLength(){
                 maxLength: MAX_NICKNAME_LENGTH,
             }
         });
+    }
+}
+
+export function setRegisterCode(registerCode){
+    return (dispatch) => {
+        dispatch({
+            type: SET_REGISTERCODE,
+        });
+
+        if(!registerCode || registerCode.length==0 ){
+            dispatch({
+                type: SET_REGISTERCODE_FAIL,
+                payload: {
+                    error: '不能为空',
+                }
+            });
+			return;
+        } 
+
+        setRegisterCodeRequest(registerCode)
+        .then(()=>{
+            dispatch({
+                type: SET_REGISTERCODE_SUCCESS,
+                payload: {
+                    registerCode,
+                }
+            });
+        }).catch((error)=>{
+            dispatch({
+                type: SET_REGISTERCODE_FAIL,
+                payload: {
+                    error: error,
+                }
+            });
+            
+        })      
     }
 }
 

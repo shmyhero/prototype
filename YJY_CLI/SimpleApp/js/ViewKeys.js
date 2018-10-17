@@ -26,6 +26,7 @@ const ViewKeys = {
     SCREEN_SETTINGS: "MeSettingsScreen",
     SCREEN_USER_CONFIG: "MeUserConfigScreen",
     SCREEN_SET_NICKNAME: "MeSettingNicknameScreen",
+    SCREEN_SET_BAISHI:"MeSettingBaiShiScreen",
     SCREEN_GET_COUNTRY_CODE: "GetCountryCodeScreen",
 }
 
