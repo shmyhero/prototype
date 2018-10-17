@@ -19,6 +19,7 @@ using YJY_API.Controllers.Attributes;
 using YJY_API.DTO;
 using YJY_API.DTO.FormDTO;
 using YJY_COMMON.SMS;
+using System.Collections.Generic;
 
 namespace YJY_API.Controllers
 {
@@ -541,6 +542,92 @@ namespace YJY_API.Controllers
             db.SaveChanges();
 
             return new ResultDTO(true);
+        }
+
+        /// <summary>
+        /// 师徒关系
+        /// </summary>
+        [HttpGet]
+        [Route("students")]
+        [BasicAuth]
+        public TeacherStudentDTO GetStudents(int page=0, int pageSize = 10)
+        {
+            TeacherStudentDTO dto = new TeacherStudentDTO();
+
+            var teacher = GetUser();
+
+            //计算分红数，按照所有学生交易量的1/10000
+            //交易的时间要在注册师徒关系时间之后
+            var allStudents = (from p in (from u in db.Users
+                            join p in db.Positions on u.Id equals p.UserId
+                            where u.RegisterCode == teacher.InvitationCode && p.CreateTime >= u.RegisteredAt
+                            select new { User = u, Position = p })
+                            group p by p.User.Id into g
+                            select new Student
+                            {
+                                Id = g.Key,
+                                NickName = g.FirstOrDefault(u => u.User.Id == g.Key).User.Nickname,
+                                PicUrl = g.FirstOrDefault(u => u.User.Id == g.Key).User.PicUrl,
+                                Phone = g.FirstOrDefault(u => u.User.Id == g.Key).User.Phone,
+                                BindAt = g.FirstOrDefault(u => u.User.Id == g.Key).User.CreatedAt,
+                                TradeVolume = g.Sum(p => p.Position.Leverage * p.Position.Invest) ?? 0
+                            }).OrderByDescending(s=>s.BindAt).ToList();
+
+            dto.Students = allStudents.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            dto.Profit = allStudents.Sum(s => s.TradeVolume) * 1 / 10000;
+            dto.InvitationCode = teacher.InvitationCode;
+
+            return dto;
+        }
+
+        /// <summary>
+        /// 徒弟每个月的交易量
+        /// </summary>
+        /// <param name="sid"></param>
+        /// <returns></returns>
+        [HttpGet]
+        [Route("students/{sid}")]
+        [BasicAuth]
+        public List<StudentMonthProfit> GetStudentMonthProfit(int sid)
+        {            
+            var student = db.Users.FirstOrDefault(u => u.Id == sid);
+            var oneYearAgo = DateTime.UtcNow.AddYears(-1);
+            //交易的时间要在注册师徒关系时间之后,统计一年以内
+            var studentMonthProfit = (from p in db.Positions 
+                               where p.UserId == sid && p.CreateTime >= student.RegisteredAt 
+                               && p.CreateTime >= oneYearAgo
+                                      orderby p.CreateTime descending
+                               group p by p.CreateTime.Value.Month into g
+                               select new StudentMonthProfit
+                               {
+                                   Month = g.Key,
+                                   TradeVolume = g.Sum(c=>c.Leverage * c.Invest)?? 0
+                               }).ToList();
+
+            return studentMonthProfit;
+        }
+
+        [HttpPut]
+        [Route("code")]
+        [BasicAuth]
+        public ResultDTO SetRegisterCode(SetCodeFormDTO form)
+        {
+            if (string.IsNullOrWhiteSpace(form.code))
+                return new ResultDTO { success = false };
+
+            form.code = form.code.Trim();
+         
+            var user = GetUser();
+            if(!string.IsNullOrEmpty(user.RegisterCode))
+            {
+                return new ResultDTO { success = false };
+            }
+
+            user.RegisterCode = form.code;
+            user.RegisteredAt = DateTime.UtcNow.AddHours(8);
+            db.SaveChanges();
+
+            return new ResultDTO { success = true };
         }
     }
 }

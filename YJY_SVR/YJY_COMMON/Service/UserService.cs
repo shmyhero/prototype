@@ -38,14 +38,16 @@ namespace YJY_COMMON.Service
                     var userIsolated = dbIsolated.Users.FirstOrDefault(o => o.Phone == phone);
                     if (userIsolated == null)
                     {
+                        string token = NewToken();
                         userIsolated = new User
                         {
                             CreatedAt = DateTime.UtcNow,
                             Phone = phone,
-                            AuthToken = NewToken(),
+                            AuthToken = token,
 
                             //Balance = YJYGlobal.NEW_USER_INIT_BALANCE,
                             //BalanceEth = YJYGlobal.NEW_USER_INIT_BALANCE_ETH,
+                            InvitationCode = token.Substring(0, 4)
                         };
                         dbIsolated.Users.Add(userIsolated);
 

@@ -27,6 +27,16 @@ namespace YJY_API.DTO
     {
        public string thtAddress { get; set; }
         public string phone { get; set; }
+
+        /// <summary>
+        /// 邀请码(给别人看的)，用来确定师徒关系
+        /// </summary>
+        public string InvitationCode { get; set; }
+
+        /// <summary>
+        /// 注册码(别人的邀请码)，用来确定师徒关系
+        /// </summary>
+        public string RegisterCode { get; set; }
     }
 
     public class UserRankDTO : UserBaseDTO

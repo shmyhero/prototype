@@ -53,5 +53,20 @@ namespace YJY_COMMON.Model.Entity
         //public string BalanceType { get; set; }
 
         public int? ActiveBalanceId { get; set; }
+
+        /// <summary>
+        /// 邀请码(给别人看的)，用来确定师徒关系
+        /// </summary>
+        public string InvitationCode { get; set; }
+
+        /// <summary>
+        /// 注册师徒关系的时间
+        /// </summary>
+        public DateTime? RegisteredAt { get; set; }
+
+        /// <summary>
+        /// 注册码(别人的邀请码)，用来确定师徒关系
+        /// </summary>
+        public string RegisterCode { get; set; }
     }
 }

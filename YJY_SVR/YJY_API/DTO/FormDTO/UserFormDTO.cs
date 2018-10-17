@@ -21,6 +21,11 @@ namespace YJY_API.DTO.FormDTO
         public string nickname { get; set; }
     }
 
+    public class SetCodeFormDTO
+    {
+        public string code { get; set; }
+    }
+
     public class NewStatusFormDTO
     {
         public string text { get; set; }
