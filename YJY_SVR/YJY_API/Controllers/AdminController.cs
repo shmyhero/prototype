@@ -10,6 +10,7 @@ using YJY_API.DTO;
 using YJY_API.Controllers.Attributes;
 using YJY_COMMON.Model.Entity;
 using System;
+using YJY_COMMON.Util;
 
 namespace YJY_API.Controllers
 {
@@ -116,7 +117,7 @@ namespace YJY_API.Controllers
                 depositEdit.ReceivedAmount = deposit.ReceivedAmount;
                 if (deposit.Status == 2)
                 {
-                    depositEdit.PayAt = DateTime.UtcNow.AddHours(8);
+                    depositEdit.PayAt = DateTimes.UtcToChinaTime(DateTime.UtcNow);
 
                     var user = db.Users.FirstOrDefault(u => u.Id == depositEdit.UserId);
                     if(user != null)
@@ -179,7 +180,7 @@ namespace YJY_API.Controllers
                 if(refund.Status == 1)//出金支付时间
                 {
                     refundEdit.PayAmount = refund.PayAmount;
-                    refundEdit.PayAt = DateTime.UtcNow.AddHours(8);
+                    refundEdit.PayAt = DateTimes.UtcToChinaTime(DateTime.UtcNow);
                 }
                 
                 db.SaveChanges();

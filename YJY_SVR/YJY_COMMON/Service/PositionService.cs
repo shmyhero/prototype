@@ -43,7 +43,7 @@ namespace YJY_COMMON.Service
 
                             position = new Position()
                             {
-                                CreateTime = DateTime.UtcNow,
+                                CreateTime = DateTimes.UtcToChinaTime(DateTime.UtcNow),
                                 Invest = invest,
                                 Leverage = leverage,
                                 UserId = userId,
@@ -240,7 +240,7 @@ namespace YJY_COMMON.Service
 
                                                 var p = new Position()
                                                 {
-                                                    CreateTime = DateTime.UtcNow,
+                                                    CreateTime = DateTimes.UtcToChinaTime(DateTime.UtcNow),
                                                     Invest = tFollow.InvestFixed,
                                                     Leverage = basePosition.Leverage,
                                                     UserId = u.Id,

@@ -238,7 +238,7 @@ namespace YJY_API.Controllers
             {
                 OrderNum = orderNum,
                 Amount = amount,
-                CreatedAt = DateTime.UtcNow.AddHours(8),
+                CreatedAt = DateTimes.UtcToChinaTime(DateTime.UtcNow),
                 Status = (int)DepositStatus.Unpaid,
                  UserId = this.UserId
             });
@@ -286,7 +286,7 @@ namespace YJY_API.Controllers
 
             db.Refunds.Add(new YJY_COMMON.Model.Entity.Refund() {
                  Amount = refund.Amount,
-                  CreatedAt = DateTime.UtcNow.AddHours(8),
+                  CreatedAt = DateTimes.UtcToChinaTime(DateTime.UtcNow),
                 UserId = this.UserId,                   
             });
 
@@ -306,9 +306,9 @@ namespace YJY_API.Controllers
         public ResultDTO UploadQRCode(Refund refund)
         {
             db.UserQRCodes.Add(new UserQRCode() {
-                 UserID = this.UserId,
-                  QRCode = refund.QRCode,
-                   CreatedAt = DateTime.UtcNow.AddHours(8),
+                UserID = this.UserId,
+                QRCode = refund.QRCode,
+                CreatedAt = DateTimes.UtcToChinaTime(DateTime.UtcNow)
             });
 
             db.SaveChanges();
@@ -626,7 +626,7 @@ namespace YJY_API.Controllers
             //}
 
             user.RegisterCode = form.code;
-            user.RegisteredAt = DateTime.UtcNow.AddHours(8);
+            user.RegisteredAt = DateTimes.UtcToChinaTime(DateTime.UtcNow);
             db.SaveChanges();
 
             return new ResultDTO { success = true };
