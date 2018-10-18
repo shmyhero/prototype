@@ -619,10 +619,10 @@ namespace YJY_API.Controllers
             form.code = form.code.Trim();
          
             var user = GetUser();
-            if(!string.IsNullOrEmpty(user.RegisterCode))
-            {
-                return new ResultDTO { success = false };
-            }
+            //if(!string.IsNullOrEmpty(user.RegisterCode))
+            //{
+            //    return new ResultDTO { success = false };
+            //}
 
             user.RegisterCode = form.code;
             user.RegisteredAt = DateTime.UtcNow.AddHours(8);
