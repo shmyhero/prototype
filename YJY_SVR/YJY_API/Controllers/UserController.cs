@@ -560,7 +560,7 @@ namespace YJY_API.Controllers
             //交易的时间要在注册师徒关系时间之后
             var allStudents = (from p in (from u in db.Users
                             join p in db.Positions on u.Id equals p.UserId
-                            where u.RegisterCode == teacher.InvitationCode && p.CreateTime >= u.RegisteredAt
+                            where u.RegisterCode == teacher.InvitationCode
                             select new { User = u, Position = p })
                             group p by p.User.Id into g
                             select new Student
@@ -570,7 +570,8 @@ namespace YJY_API.Controllers
                                 PicUrl = g.FirstOrDefault(u => u.User.Id == g.Key).User.PicUrl,
                                 Phone = g.FirstOrDefault(u => u.User.Id == g.Key).User.Phone,
                                 BindAt = g.FirstOrDefault(u => u.User.Id == g.Key).User.CreatedAt,
-                                TradeVolume = g.Sum(p => p.Position.Leverage * p.Position.Invest) ?? 0
+                                //只统计交易时间晚于拜师时间的交易金额
+                                TradeVolume = g.Where(p=>p.Position.CreateTime >= p.User.RegisteredAt).Sum(p => p.Position.Leverage * p.Position.Invest) ?? 0
                             }).OrderByDescending(s=>s.BindAt).ToList();
 
             dto.Students = allStudents.Skip((page - 1) * pageSize).Take(pageSize).ToList();
