@@ -34,7 +34,7 @@ class GuideView extends Component {
     }
  
     render() { 
-        imageStyle = {width:width,height:1334/750*width}
+        imageStyle = {width:width,height:height}
         return (  
             <View style={styles.guideWapper}>
                 <Carousel
