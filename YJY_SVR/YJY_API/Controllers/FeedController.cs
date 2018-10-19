@@ -60,6 +60,8 @@ namespace YJY_API.Controllers
 
             var feedUserIds = new List<int>();
 
+            feedUserIds.Add(tryGetAuthUser.Id);
+
             if (tryGetAuthUser.ShowFollowingFeed ?? true)
             {
                 //following user ids
