@@ -7,7 +7,7 @@ const COIN_LIVE = '钻石'
 
 var LS = {
   Str:{
-    APP_NAME: ["盈交易无限版", "盈交易无限版", "盈交易无限版"],
+    APP_NAME: ["无限盈", "无限盈", "无限盈"],
     LANGUAGE: ["语言", "Language", "言語"],
 
     DATA_LOADING: ["数据读取中...", "Loading...", "読み込み中..."],
@@ -103,7 +103,7 @@ var LS = {
     PHONE_NUM:["手机号","Phone Number", "携帯番号"],
     VCODE:["验证码","VCode", "確認コード"],
     GET_VCODE:["获取验证码","Get VCode", "確認コードを発送"],
-    YOU_ARE_LOGIN:["您正在登录盈交易无限版","You are login YinJiaoYi market", "ログイン"],
+    YOU_ARE_LOGIN:["您正在登录无限盈","You are login wuxianying market", "ログイン"],
     FAST_LOGIN:["快速登录","Fast Login", "簡単ログイン"],
     
     WARNING:["温馨提示","TIPS", "温馨提示"],
