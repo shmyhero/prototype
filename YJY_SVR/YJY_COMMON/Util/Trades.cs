@@ -17,15 +17,15 @@ namespace YJY_COMMON.Util
 
         public static decimal CalculatePL(Position p, decimal quotePrice, bool capPlByInvest = true)
         {
-            decimal spread = 0.0005M; //点差，默认万分之五
-            if (p.Side.Value) //做多，quotePrice降低万分之五
-            {
-                quotePrice = (1 - spread) * quotePrice;
-            }
-            else //做空，quotePrice上升万分之五
-            {
-                quotePrice = (1 + spread) * quotePrice;
-            }
+            //decimal spread = 0.0005M; //点差，默认万分之五
+            //if (p.Side.Value) //做多，quotePrice降低万分之五
+            //{
+            //    quotePrice = (1 - spread) * quotePrice;
+            //}
+            //else //做空，quotePrice上升万分之五
+            //{
+            //    quotePrice = (1 + spread) * quotePrice;
+            //}
 
             decimal upl = p.Side.Value
                 ? p.Invest.Value*(quotePrice/p.SettlePrice.Value - 1)
