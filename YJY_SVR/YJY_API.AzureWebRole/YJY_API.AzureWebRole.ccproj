@@ -54,7 +54,7 @@
     <DiagnosticsConfiguration Include="YJY_APIContent\diagnostics.wadcfgx" />
   </ItemGroup>
   <ItemGroup>
-    <PublishProfile Include="Profiles\Production.azurePubxml" />
+    <PublishProfile Include="Profiles\yjy-sh-webapiProduction.azurePubxml" />
   </ItemGroup>
   <!-- Import the target files for this project template -->
   <PropertyGroup>
