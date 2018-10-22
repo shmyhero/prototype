@@ -9,7 +9,7 @@
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountEncryptedPassword" value="MIIBnQYJKoZIhvcNAQcDoIIBjjCCAYoCAQAxggFOMIIBSgIBADAyMB4xHDAaBgNVBAMME1dpbmRvd3MgQXp1cmUgVG9vbHMCEEjs1v5RDDypQIay+5bIUyYwDQYJKoZIhvcNAQEBBQAEggEAviqLxvaOPNXh3nprbgyR5Gsi5hrnqRzGl/+MXaOR1UZdzHbm16dmKYR8oN/u3reUckOerAqkPjoeOL3S8Bzrd7jr0cCBM+XVfr5eRGwSShSUUbXsBBgIrspypeg1NDZTeBQ5X3og5Sr6z6nVYU8/RBaU5plwxIjkPcSFk1xmudug+yd0/jhVBsKANiIYkxcXEJQ+6Av+2H7Qxeq+fhpvVcO+de3f/4eVksbVQWywRmVHpYd3yypZW9AqFUNc1/H6TNMobCMHZTDo3SmY/6qrRYORIFkb6EbWEVysLj29XPYB3CFrTTJdJS6oXaoJ9s20HZpt2CNcHSQjc5kSputq7TAzBgkqhkiG9w0BBwEwFAYIKoZIhvcNAwcECIb9vtnALML1gBD49YdMNbNmv0LrKsp8AsPZ" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteAccess.AccountExpiration" value="2019-01-29T23:59:59.0000000+08:00" />
       <Setting name="Microsoft.WindowsAzure.Plugins.RemoteForwarder.Enabled" value="true" />
-      <Setting name="redisConnectionString" value="Password77__@139.219.234.113:6379" />
+      <Setting name="redisConnectionString" value="Password77__@40.73.112.105:6379" />
     </ConfigurationSettings>
     <Certificates>
       <Certificate name="Microsoft.WindowsAzure.Plugins.RemoteAccess.PasswordEncryption" thumbprint="57C4BA24CC494401290250816028395A10A5FA67" thumbprintAlgorithm="sha1" />
