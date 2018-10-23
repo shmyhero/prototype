@@ -56,7 +56,7 @@ class LineChartDataSource: BaseDataSource, LineChartDataProvider {
                         _lineData.append(lineData)
                     }
                 }
-                if _jsonString.range(of: "preClose") != nil {
+                if _jsonString.range(of: "last") != nil {
                     self.stockData = StockData()
                     self.stockData?.initWithDictionay(jsonDict)
                 }
